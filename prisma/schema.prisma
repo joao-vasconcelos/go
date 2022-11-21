@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Agency {
+  agency_id       String @id @default("tml_cmet")
+  agency_name     String @default("Carris Metropolitana")
+  agency_url      String @default("https://carrismetropolitana.pt")
+  agency_timezone String @default("Europe/Lisbon")
+  agency_lang     String @default("pt_PT")
+  agency_phone    String @default("00351210418800")
+  agency_fare_url String @default("https://carrismetropolitana.pt/viagens-ocasionais/")
+  agency_email    String @default("info@carrismetropolitana.pt")
+  routes          Route[]
+}
+
+model Stop {
+  stop_id             String @id @default(cuid())
+  stop_code           String @unique
+  stop_name           String
+  stop_desc           String?
+  stop_lat            Decimal
+  stop_lon            Decimal
+  zone_id             String?
+  location_type       Int @default(0)
+  wheelchair_boarding Int @default(0)
+}
+
+model Route {
+  route_id         String @id @default(cuid())
+  agency           Agency? @relation(fields: [agency_id], references: [agency_id])
+  agency_id        String
+  route_short_name String
+  route_long_name  String
+  route_desc       String?
+  route_type       Int @default(3)
+  route_url        String?
+  route_color      String?
+  route_text_color String?
+  trips            Trip[]
+}
+
+model Trip {
+  trip_id               String @id @default(cuid())
+  route                 Route @relation(fields: [route_id], references: [route_id])
+  route_id              String
+  trip_headsign         String?
+  trip_short_name       String?
+  direction_id          Int?
+  shape_id              String?
+  wheelchair_accessible Int @default(0)
+  bikes_allowed         Int @default(0)
+  stoptimes             StopTime[]
+}
+
+model StopTime {
+  stoptime_id         String @id @default(cuid())
+  trip                Trip @relation(fields: [trip_id], references: [trip_id])
+  trip_id             String
+  arrival_time        String
+  departure_time      String
+  stop_id             String
+  stop_sequence       Int
+  shape_dist_traveled Decimal?
+  timepoint           Int @default(0)
+}
+
+model Calendar {
+  service_id String @id @default(cuid())
+  monday     Boolean @default(false)
+  tuesday    Boolean @default(false)
+  wednesday  Boolean @default(false)
+  thursday   Boolean @default(false)
+  friday     Boolean @default(false)
+  saturday   Boolean @default(false)
+  sunday     Boolean @default(false)
+  start_date DateTime
+  end_date   DateTime
+}
+
+model CalendarDate {
+  service_id     String @id @default(cuid())
+  date           DateTime
+  exception_type Int
+}
