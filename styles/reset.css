@@ -1,0 +1,29 @@
+html,
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  font-family: work-sans, sans-serif;
+}
+
+input,
+textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}

@@ -20,21 +20,26 @@
     "@mantine/next": "^5.8.2",
     "@mantine/notifications": "^5.8.2",
     "@prisma/client": "^4.6.1",
+    "@stitches/react": "^1.2.8",
     "@tabler/icons": "^1.112.0",
+    "csv": "^6.2.2",
     "dayjs": "^1.11.6",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.4",
+    "formidable": "^2.0.1",
     "gtfs": "^3.7.0",
     "next": "13.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "swr": "^1.3.0"
+    "react-icons": "^4.6.0",
+    "swr": "^1.3.0",
+    "unzipper": "^0.10.11"
   },
   "devDependencies": {
-    "@svgr/webpack": "^6.3.1",
-    "eslint": "8.21.0",
-    "eslint-config-next": "^12.2.4",
+    "@svgr/webpack": "^6.5.1",
+    "eslint": "8.28.0",
+    "eslint-config-next": "^13.0.4",
     "prisma": "^4.6.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.9.3"
   }
 }

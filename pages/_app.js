@@ -1,27 +1,33 @@
-import { AppProps } from 'next/app';
-import Head from 'next/head';
+import { SWRConfig } from 'swr';
 import { MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
+import BrowserConfig from '../components/BrowserConfig';
+import Navigation from '../components/Navigation';
 
-import '../styles/globals.css';
+// Styles
+import '../styles/reset.css';
 
 export default function App({ Component, pageProps }) {
-  return (
-    <>
-      <Head>
-        <title>Page title</title>
-        <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width' />
-      </Head>
+  //
 
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          /** Put your mantine theme override here */
-          colorScheme: 'light',
-        }}
-      >
-        <Component {...pageProps} />
+  return (
+    <SWRConfig
+      value={{
+        fetcher: async (...args) => {
+          const res = await fetch(...args);
+          return res.json();
+        },
+        refreshInterval: 5000,
+      }}
+    >
+      <BrowserConfig />
+      <MantineProvider theme={'light'} withGlobalStyles withNormalizeCSS>
+        <NotificationsProvider>
+          <Navigation>
+            <Component {...pageProps} />
+          </Navigation>
+        </NotificationsProvider>
       </MantineProvider>
-    </>
+    </SWRConfig>
   );
 }
