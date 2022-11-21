@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "label": "Start Project Locally",
+      "detail": "Start local development server with 'next dev'"
+    },
+    {
+      "type": "npm",
+      "script": "install",
+      "problemMatcher": [],
+      "label": "Initialize Repository",
+      "detail": "Install project dependencies."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+name: bump
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: tool3/bump@master
+        with:
+          branch: production
+          github_token: ${{ secrets.GITHUB_TOKEN }}

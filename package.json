@@ -1,6 +1,6 @@
 {
-  "name": "nextjs",
-  "version": "0.1.0",
+  "name": "@chefpoint/dashboard",
+  "version": "2022.11.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
