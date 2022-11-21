@@ -6,7 +6,7 @@
       "script": "dev",
       "problemMatcher": [],
       "label": "Start Project Locally",
-      "detail": "Start local development server with 'next dev'"
+      "detail": "Start local development server with 'npm run dev'"
     },
     {
       "type": "npm",
