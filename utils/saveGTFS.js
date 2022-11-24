@@ -9,32 +9,32 @@ import { PrismaClient } from '@prisma/client';
 
 async function agency(fileEntry) {
   //
-  // Initialize a common
+  // Initialize a variable to save the parsed file contents
+  const fileContents = [];
 
   fileEntry
+    // Pipe the file into CSV Parser
     .pipe(parse({ columns: true, delimiter: ',', from_line: 1 }))
+    // On each parsed row of data,
     .on('data', function (row) {
-      rowsOfData.push(row);
-      console.log(row);
+      // save the row contents to the variable
+      fileContents.push(row);
     })
+    // When reaching the end of the file,
     .on('end', async function () {
-      console.log('finished');
+      // initialize a new connection to the database
       const prisma = new PrismaClient();
       try {
-        const agency = await prisma.agency.createMany({
-          data: rowsOfData,
+        await prisma.agency.createMany({
+          data: fileContents,
         });
-        console.log(agency);
-        res.status(200).json({ data: { url: '/uploaded-file-url' }, error: null });
       } catch (error) {
         console.error(error);
         await prisma.$disconnect();
-        res.status(500).json({ data: null, error: error.message });
       }
     })
     .on('error', function (error) {
       console.error(error);
-      res.status(error.httpCode || 400).json({ data: null, error: error.message });
     });
 }
 
