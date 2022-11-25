@@ -26,32 +26,32 @@ module.exports =
         type: String,
         maxlength: 2,
       },
-      stop_desc: {
-        type: String,
-        maxlength: 9,
-      },
-      stop_lat: {
-        type: String,
-        maxlength: 50,
-      },
-      stop_lon: {
-        type: Boolean,
-        default: true,
-      },
-      features: {
-        bench: {
-          type: Boolean,
-          default: true,
-        },
-        signage: {
-          type: Boolean,
-          default: true,
-        },
-        light: {
-          type: Boolean,
-          default: true,
-        },
-      },
+      // stop_desc: {
+      //   type: String,
+      //   maxlength: 9,
+      // },
+      // stop_lat: {
+      //   type: String,
+      //   maxlength: 50,
+      // },
+      // stop_lon: {
+      //   type: Boolean,
+      //   default: true,
+      // },
+      // features: {
+      //   bench: {
+      //     type: Boolean,
+      //     default: true,
+      //   },
+      //   signage: {
+      //     type: Boolean,
+      //     default: true,
+      //   },
+      //   light: {
+      //     type: Boolean,
+      //     default: true,
+      //   },
+      // },
     })
   );
 

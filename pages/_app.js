@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }) {
       }}
     >
       <BrowserConfig />
-      <MantineProvider theme={'light'} withGlobalStyles withNormalizeCSS>
+      <MantineProvider withGlobalStyles withNormalizeCSS>
         <NotificationsProvider>
           <Navigation>
             <Component {...pageProps} />
