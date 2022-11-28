@@ -1,6 +1,4 @@
 import { styled } from '../stitches.config';
-import { useContext } from 'react';
-import { Appstate } from '../context/Appstate';
 
 const Container = styled('div', {
   //
@@ -11,7 +9,7 @@ const Container = styled('div', {
   gap: '$sm',
   //
   // width: '100%',
-  padding: '$sm $md',
+  padding: '$xs $md',
   borderWidth: '2px',
   borderStyle: 'solid',
   borderRadius: '$md',
@@ -120,7 +118,6 @@ const Container = styled('div', {
 
 const IconWrapper = styled('div', {
   display: 'flex',
-  marginTop: '-2px',
   fontSize: '17px',
 });
 
@@ -129,15 +126,8 @@ const LabelWrapper = styled('div', {});
 export default function Button({ icon, label, children, onClick, type, alert, ...props }) {
   //
 
-  const appstate = useContext(Appstate);
-
-  function handleClick() {
-    if (alert) appstate.setOverlay(alert);
-    else if (onClick) onClick();
-  }
-
   return (
-    <Container as={type == 'submit' ? 'button' : 'div'} onClick={handleClick} {...props}>
+    <Container as={type == 'submit' ? 'button' : 'div'} onClick={onClick} {...props}>
       {icon && <IconWrapper>{icon}</IconWrapper>}
       {label && <LabelWrapper>{label}</LabelWrapper>}
       {children && <LabelWrapper>{children}</LabelWrapper>}
