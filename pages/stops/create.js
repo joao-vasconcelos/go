@@ -6,14 +6,15 @@ import Group from '../../components/Group';
 import { Grid, GridCell } from '../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
 import { IoSave, IoClose } from 'react-icons/io5';
-import { TextInput, LoadingOverlay, Switch } from '@mantine/core';
+import { TextInput, NumberInput, Textarea, LoadingOverlay, Switch } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
-import Schema from '../../schemas/Customer';
+import Schema from '../../schemas/Stop';
 import { useState } from 'react';
 import API from '../../services/API';
 import notify from '../../services/notify';
+import { CheckboxCard } from '../../components/CheckboxCard';
 
-export default function CreateCustomer() {
+export default function CreateStop() {
   //
 
   const router = useRouter();
@@ -21,29 +22,34 @@ export default function CreateCustomer() {
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
-    schema: yupResolver(Schema),
+    validate: yupResolver(Schema),
+    validateInputOnBlur: true,
     initialValues: {
-      first_name: '',
-      last_name: '',
-      tax_region: '',
-      tax_number: '',
-      contact_email: '',
-      send_invoices: false,
-      reference: '',
-      birthday: '',
+      unique_code: '',
+      name: '',
+      short_name: '',
+      description: '',
+      latitude: '',
+      longitude: '',
+      features: {
+        has_bench: false,
+        has_crossing: false,
+        has_flag: false,
+        has_abusive_parking: false,
+      },
     },
   });
 
   function handleCancel() {
-    router.push('/customers/');
+    router.push('/stops/');
   }
 
   async function handleSave(values) {
     try {
       setIsLoading(true);
       notify('new', 'loading', 'Saving changes...');
-      const response = await API({ service: 'customers', operation: 'create', method: 'POST', body: values });
-      router.push(`/customers/${response._id}`);
+      const response = await API({ service: 'stops', operation: 'create', method: 'POST', body: values });
+      router.push(`/stops/${response._id}`);
       notify('new', 'success', 'Changes saved!');
     } catch (err) {
       console.log(err);
@@ -54,53 +60,65 @@ export default function CreateCustomer() {
 
   return (
     <form onSubmit={form.onSubmit(handleSave)}>
-      <PageContainer
-        title={
-          'Customers › ' +
-          (form.values.first_name || form.values.last_name
-            ? `${form.values.first_name} ${form.values.last_name}`
-            : 'New Customer')
-        }
-      >
+      <PageContainer title={`Stops › New Stop ${form.values.unique_code && `(${form.values.unique_code})`}`}>
         <LoadingOverlay visible={isLoading} />
         <Toolbar>
           <Button type={'submit'} icon={<IoSave />} label={'Save'} color={'primary'} />
           <Button icon={<IoClose />} label={'Cancel'} onClick={handleCancel} />
         </Toolbar>
 
-        <Group title={'Customer Details'}>
+        <Group title={'General Details'}>
           <Grid>
-            <TextInput label={'First Name'} placeholder={'Alberta'} {...form.getInputProps('first_name')} />
-            <TextInput label={'Last Name'} placeholder={'Soares'} {...form.getInputProps('last_name')} />
-            <DatePicker label={'Birthday'} placeholder={'Pick a date'} {...form.getInputProps('birthday')} />
-            <TextInput label={'Reference'} placeholder={'PT'} {...form.getInputProps('reference')} />
+            <TextInput label={'Stop Code'} placeholder={'000000'} {...form.getInputProps('unique_code')} />
+            <div />
+          </Grid>
+          <Grid>
+            <TextInput label={'Name'} placeholder={'Soares'} {...form.getInputProps('name')} />
+            <TextInput label={'Short Name'} placeholder={'Soares'} {...form.getInputProps('short_name')} />
+          </Grid>
+          <Grid>
+            <Textarea
+              label={'Description'}
+              placeholder={'Soares'}
+              autosize
+              minRows={2}
+              {...form.getInputProps('description')}
+            />
           </Grid>
         </Group>
 
-        <Group title={'Invoicing'}>
+        <Group title={'Location'}>
           <Grid>
-            <GridCell>
-              <Switch
-                label='Send Invoices'
-                checked={form.values.send_invoices}
-                onChange={({ currentTarget }) => form.setFieldValue('send_invoices', currentTarget.checked)}
-              />
-            </GridCell>
+            <NumberInput label={'Latitude'} defaultValue={0} precision={5} {...form.getInputProps('latitude')} />
+            <NumberInput label={'Longitude'} defaultValue={0} precision={5} {...form.getInputProps('longitude')} />
           </Grid>
+        </Group>
+
+        <Group title={'Features'}>
           <Grid>
-            <TextInput label={'Tax Region'} placeholder={'PT'} maxLength={2} {...form.getInputProps('tax_region')} />
-            <TextInput
-              label={'Tax Number'}
-              placeholder={'500 100 200'}
-              maxLength={11}
-              {...form.getInputProps('tax_number')}
+            <CheckboxCard
+              title={'Has Bench?'}
+              description={'If this stop has a bench'}
+              checked={form.values.features.has_bench}
+              onChange={(checked) => form.setFieldValue('features.has_bench', checked)}
             />
-          </Grid>
-          <Grid>
-            <TextInput
-              label={'Contact Email'}
-              placeholder={'email@icloud.com'}
-              {...form.getInputProps('contact_email')}
+            <CheckboxCard
+              title={'Has Crossing?'}
+              description={'If this stop has a crossing'}
+              checked={form.values.features.has_crossing}
+              onChange={(checked) => form.setFieldValue('features.has_crossing', checked)}
+            />
+            <CheckboxCard
+              title={'Has Flag?'}
+              description={'If this stop has a flag'}
+              checked={form.values.features.has_flag}
+              onChange={(checked) => form.setFieldValue('features.has_flag', checked)}
+            />
+            <CheckboxCard
+              title={'Has Abusive Parking?'}
+              description={'If this stop has abusive parking'}
+              checked={form.values.features.has_abusive_parking}
+              onChange={(checked) => form.setFieldValue('features.has_abusive_parking', checked)}
             />
           </Grid>
         </Group>

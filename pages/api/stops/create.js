@@ -1,6 +1,6 @@
-import database from '../../../services/database';
-import Model from '../../../models/Customer';
-import Schema from '../../../schemas/Customer';
+import mongodb from '../../../services/mongodb';
+import Model from '../../../models/Stop';
+import Schema from '../../../schemas/Stop';
 
 /* * */
 /* CREATE STOP */
@@ -34,7 +34,7 @@ export default async function createStop(req, res) {
 
   // 3. Try to connect to the database
   try {
-    await database.connect();
+    await mongodb.connect();
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Database connection error.' });
@@ -42,15 +42,10 @@ export default async function createStop(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The only value that needs to, and can be, unique is 'reference'.
-    // Reasons: For 'contact_email', there can be two customers with different name but same email,
-    // like a company that has several employees and needs to receive the invoices
-    // in the same accounting email. For NIF, the same happens: there can be two people
-    // that want to share the same NIF, but receive invoices in different emails.
-    // This might be expanded in the future, if emails are necessary for account creation.
+    // The only value that needs to, and can be, unique is 'unique_code'.
     if (req.body.reference) {
-      const existsReference = await Model.exists({ reference: req.body.reference });
-      if (existsReference) throw new Error('A customer with the same reference already exists');
+      const existsUniqueCode = await Model.exists({ unique_code: req.body.unique_code });
+      if (existsUniqueCode) throw new Error('A Stop with the same unique code already exists.');
     }
   } catch (err) {
     console.log(err);
@@ -59,10 +54,10 @@ export default async function createStop(req, res) {
 
   // 5. Try to save a new document with req.body
   try {
-    const newCustomer = await Model(req.body).save();
-    return await res.status(201).json(newCustomer);
+    const newStop = await Model(req.body).save();
+    return await res.status(201).json(newStop);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot create this Customer.' });
+    return await res.status(500).json({ message: 'Cannot create this Stop.' });
   }
 }

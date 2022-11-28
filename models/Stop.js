@@ -13,56 +13,60 @@ module.exports =
   mongoose.model(
     'Stop',
     new mongoose.Schema({
-      stop_id: {
-        type: String,
-        minlength: 2,
-        maxlength: 30,
-      },
-      stop_code: {
+      unique_code: {
         type: String,
         maxlength: 30,
       },
-      stop_name: {
+      name: {
         type: String,
         maxlength: 2,
       },
-      // stop_desc: {
-      //   type: String,
-      //   maxlength: 9,
-      // },
-      // stop_lat: {
-      //   type: String,
-      //   maxlength: 50,
-      // },
-      // stop_lon: {
-      //   type: Boolean,
-      //   default: true,
-      // },
-      // features: {
-      //   bench: {
-      //     type: Boolean,
-      //     default: true,
-      //   },
-      //   signage: {
-      //     type: Boolean,
-      //     default: true,
-      //   },
-      //   light: {
-      //     type: Boolean,
-      //     default: true,
-      //   },
-      // },
+      short_name: {
+        type: String,
+        maxlength: 2,
+      },
+      description: {
+        type: String,
+        maxlength: 9,
+      },
+      latitude: {
+        type: Number,
+      },
+      longitude: {
+        type: Number,
+      },
+      features: {
+        has_bench: {
+          type: Boolean,
+          default: true,
+        },
+        has_crossing: {
+          type: Boolean,
+          default: true,
+        },
+        has_flag: {
+          type: Boolean,
+          default: true,
+        },
+        has_abusive_parking: {
+          type: Boolean,
+          default: true,
+        },
+        has_accessibility: {
+          type: Boolean,
+          default: true,
+        },
+        has_schedules: {
+          type: Boolean,
+          default: true,
+        },
+      },
     })
   );
 
 // INTERMODAL
 // door: null;
 // external_id: '11_2943';
-// has_abusive_parking: null;
-// has_accessibility: null;
-// has_bench: null;
-// has_crossing: null;
-// has_flag: null;
 // has_illuminated_path: null;
 // has_outdated_info: null;
 // has_schedules: null;

@@ -19,7 +19,7 @@ const Container = styled('div', {
 });
 
 const Header = styled('div', {
-  padding: '$sm',
+  padding: '$xs $sm',
   position: 'relative',
   backgroundColor: '$gray2',
   borderBottomWidth: '$md',

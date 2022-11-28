@@ -1,6 +1,7 @@
 import { styled } from '@stitches/react';
 import NavigationButton from './NavigationButton';
 import Image from 'next/image';
+import carrisMetropolitanaLogo from '../public/carris-metropolitana.svg';
 
 import { IoStorefront, IoMap, IoRocket, IoRibbon } from 'react-icons/io5';
 
@@ -35,6 +36,12 @@ const Sidebar = styled('div', {
   overflowY: 'scroll',
 });
 
+const AppLogo = styled(Image, {
+  display: 'flex',
+  width: '100%',
+  height: 'auto',
+});
+
 const NavContainer = styled('div', {
   display: 'grid',
   gap: '$md',
@@ -52,9 +59,7 @@ export default function Navigation({ children }) {
   return (
     <Container>
       <Sidebar>
-        <div style={{ width: '100%', height: '100px', position: 'relative' }}>
-          <Image src={'/carris-metropolitana.svg'} alt={'Carris Metropolitana'} layout='fill' objectFit='contain' />
-        </div>
+        <AppLogo priority src={carrisMetropolitanaLogo} alt={'Carris Metropolitana'} />
         <NavContainer>
           <NavigationButton icon={<IoStorefront />} label={'Home'} destination={'/'} />
           <NavigationButton icon={<IoMap />} label={'Stops'} destination={'/stops'} />
