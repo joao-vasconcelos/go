@@ -3,7 +3,7 @@ import PageContainer from '../../components/PageContainer';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Toolbar from '../../components/Toolbar';
-import TableSort from '../../components/tableSort';
+import TableSort from '../../components/TableSort';
 import { IoAdd } from 'react-icons/io5';
 import Button from '../../components/Button';
 

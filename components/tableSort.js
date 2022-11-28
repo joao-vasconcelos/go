@@ -122,7 +122,7 @@ export default function TableSort({ data }) {
           {sortedData.length ? (
             sortedData.map((row) => {
               return (
-                <tr key={row.stop_id}>
+                <tr key={row._id}>
                   <td>{row.stop_code}</td>
                   <td>{row.stop_name}</td>
                 </tr>
