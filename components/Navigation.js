@@ -1,5 +1,6 @@
 import { styled } from '@stitches/react';
 import NavigationButton from './NavigationButton';
+import Image from 'next/image';
 
 import { IoStorefront, IoMap, IoRocket, IoRibbon } from 'react-icons/io5';
 
@@ -51,6 +52,9 @@ export default function Navigation({ children }) {
   return (
     <Container>
       <Sidebar>
+        <div style={{ width: '100%', height: '100px', position: 'relative' }}>
+          <Image src={'/carris-metropolitana.svg'} alt={'Carris Metropolitana'} layout='fill' objectFit='contain' />
+        </div>
         <NavContainer>
           <NavigationButton icon={<IoStorefront />} label={'Home'} destination={'/'} />
           <NavigationButton icon={<IoMap />} label={'Stops'} destination={'/stops'} />
