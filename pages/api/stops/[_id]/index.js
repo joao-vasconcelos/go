@@ -1,13 +1,12 @@
-import { requireAuth } from '@clerk/nextjs/api';
-import database from '../../../../services/database';
-import Model from '../../../../models/Customer';
+import mongodb from '../../../../services/mongodb';
+import Model from '../../../../models/Stop';
 
 /* * */
 /* GET CUSTOMER BY ID */
 /* Explanation needed. */
 /* * */
 
-export default requireAuth(async (req, res) => {
+export default async function getStop(req, res) {
   //
 
   // 0. Refuse request if not GET
@@ -19,21 +18,20 @@ export default requireAuth(async (req, res) => {
 
   // 1. Try to connect to the database
   try {
-    await database.connect();
+    await mongodb.connect();
   } catch (err) {
     console.log(err);
     await res.status(500).json({ message: 'Database connection error.' });
     return;
   }
 
-  // 2. Try to fetch the correct Customer from the database
+  // 2. Try to fetch the correct Object from the database
   try {
-    const foundCustomer = await Model.findOne({ _id: req.query._id });
-    if (!foundCustomer)
-      return await res.status(404).json({ message: `Customer with _id: ${req.query._id} not found.` });
-    return await res.status(200).json(foundCustomer);
+    const foundStop = await Model.findOne({ _id: req.query._id });
+    if (!foundStop) return await res.status(404).json({ message: `Stop with _id: ${req.query._id} not found.` });
+    return await res.status(200).json(foundStop);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot fetch this Customer.' });
+    return await res.status(500).json({ message: 'Cannot fetch this Stop.' });
   }
-});
+}

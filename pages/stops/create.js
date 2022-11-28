@@ -1,18 +1,18 @@
 import { useRouter } from 'next/router';
-import Button from '../../components/Button';
 import PageContainer from '../../components/PageContainer';
 import Toolbar from '../../components/Toolbar';
 import Group from '../../components/Group';
-import { Grid, GridCell } from '../../components/Grid';
+import { Grid } from '../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
 import { IoSave, IoClose } from 'react-icons/io5';
-import { TextInput, NumberInput, Textarea, LoadingOverlay, Switch } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
+import { TextInput, NumberInput, Textarea, LoadingOverlay } from '@mantine/core';
+import { Button, Text } from '@mantine/core';
 import Schema from '../../schemas/Stop';
 import { useState } from 'react';
 import API from '../../services/API';
 import notify from '../../services/notify';
 import { CheckboxCard } from '../../components/CheckboxCard';
+import { openConfirmModal } from '@mantine/modals';
 
 export default function CreateStop() {
   //
@@ -29,8 +29,8 @@ export default function CreateStop() {
       name: '',
       short_name: '',
       description: '',
-      latitude: '',
-      longitude: '',
+      latitude: 0,
+      longitude: 0,
       features: {
         has_bench: false,
         has_crossing: false,
@@ -40,9 +40,20 @@ export default function CreateStop() {
     },
   });
 
-  function handleCancel() {
-    router.push('/stops/');
-  }
+  const handleCancel = () =>
+    openConfirmModal({
+      title: 'Discard changes',
+      centered: true,
+      children: (
+        <Text size='sm'>
+          Are you sure you want to delete your profile? This action is destructive and you will have to contact support
+          to restore your data.
+        </Text>
+      ),
+      labels: { confirm: 'Discard changes and go back', cancel: 'Keep Editing' },
+      confirmProps: { color: 'red' },
+      onConfirm: () => router.push('/stops/'),
+    });
 
   async function handleSave(values) {
     try {
@@ -50,11 +61,11 @@ export default function CreateStop() {
       notify('new', 'loading', 'Saving changes...');
       const response = await API({ service: 'stops', operation: 'create', method: 'POST', body: values });
       router.push(`/stops/${response._id}`);
-      notify('new', 'success', 'Changes saved!');
+      notify('new', 'success', 'Stop created successfully!');
     } catch (err) {
       console.log(err);
       setIsLoading(false);
-      notify('new', 'error', 'An error occurred.');
+      notify('new', 'error', err.message);
     }
   }
 
@@ -63,8 +74,12 @@ export default function CreateStop() {
       <PageContainer title={`Stops › New Stop ${form.values.unique_code && `(${form.values.unique_code})`}`}>
         <LoadingOverlay visible={isLoading} />
         <Toolbar>
-          <Button type={'submit'} icon={<IoSave />} label={'Save'} color={'primary'} />
-          <Button icon={<IoClose />} label={'Cancel'} onClick={handleCancel} />
+          <Button type={'submit'} leftIcon={<IoSave />} loading={isLoading}>
+            Save
+          </Button>
+          <Button leftIcon={<IoClose />} onClick={handleCancel}>
+            Cancel
+          </Button>
         </Toolbar>
 
         <Group title={'General Details'}>
@@ -73,17 +88,15 @@ export default function CreateStop() {
             <div />
           </Grid>
           <Grid>
-            <TextInput label={'Name'} placeholder={'Soares'} {...form.getInputProps('name')} />
-            <TextInput label={'Short Name'} placeholder={'Soares'} {...form.getInputProps('short_name')} />
+            <TextInput label={'Name'} placeholder={'Avenida da República (ICNF)'} {...form.getInputProps('name')} />
+            <TextInput
+              label={'Short Name'}
+              placeholder={'Av. República (ICNF)'}
+              {...form.getInputProps('short_name')}
+            />
           </Grid>
           <Grid>
-            <Textarea
-              label={'Description'}
-              placeholder={'Soares'}
-              autosize
-              minRows={2}
-              {...form.getInputProps('description')}
-            />
+            <Textarea label={'Description'} autosize minRows={2} {...form.getInputProps('description')} />
           </Grid>
         </Group>
 

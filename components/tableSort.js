@@ -98,8 +98,12 @@ export default function TableSort({ data }) {
     setSortedData(sortData(data, { sortBy, reversed: reverseSortDirection, search: value }));
   };
 
+  const handleRowClick = (row) => {
+    console.log(row);
+  };
+
   return (
-    <ScrollArea>
+    <>
       <TextInput
         placeholder='Search by any field'
         mb='md'
@@ -107,7 +111,7 @@ export default function TableSort({ data }) {
         value={search}
         onChange={handleSearchChange}
       />
-      <Table horizontalSpacing='md' verticalSpacing='xs' sx={{ tableLayout: 'fixed', minWidth: 700 }}>
+      <Table highlightOnHover>
         <thead>
           <tr>
             <Th sorted={sortBy === 'stop_code'} reversed={reverseSortDirection} onSort={() => setSorting('stop_code')}>
@@ -122,9 +126,9 @@ export default function TableSort({ data }) {
           {sortedData.length ? (
             sortedData.map((row) => {
               return (
-                <tr key={row._id}>
-                  <td>{row.stop_code}</td>
-                  <td>{row.stop_name}</td>
+                <tr key={row._id} onClick={handleRowClick}>
+                  <td>{row._id}</td>
+                  <td>{row.name}</td>
                 </tr>
               );
             })
@@ -139,6 +143,6 @@ export default function TableSort({ data }) {
           )}
         </tbody>
       </Table>
-    </ScrollArea>
+    </>
   );
 }

@@ -27,11 +27,13 @@ export default async function notify(identifier, type, title, message) {
     case 'success':
       defaultOptions.autoClose = 3000;
       defaultOptions.icon = <TbCheck />;
+      defaultOptions.color = 'green';
       updateNotification(defaultOptions);
       break;
 
     case 'error':
       defaultOptions.autoClose = 7000;
+      defaultOptions.color = 'red';
       updateNotification(defaultOptions);
       break;
 

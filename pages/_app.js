@@ -1,8 +1,10 @@
 import { SWRConfig } from 'swr';
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, AppShell } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+import { ModalsProvider } from '@mantine/modals';
 import BrowserConfig from '../components/BrowserConfig';
-import Navigation from '../components/Navigation';
+import NavigationBar from '../components/NavigationBar';
+import { TbHome, TbFlag3, TbClick, TbClipboardCheck } from 'react-icons/tb';
 
 // Styles
 import '../styles/reset.css';
@@ -10,22 +12,33 @@ import '../styles/reset.css';
 export default function App({ Component, pageProps }) {
   //
 
+  // SIDEBAR NAVIGATION LINKS
+  const navbarLinks = [
+    { href: '/', label: 'Home', icon: TbHome },
+    { href: '/stops', label: 'Stops', icon: TbFlag3 },
+    { href: '/gtfs', label: 'GTFS Publisher', icon: TbClick },
+    { href: '/audits', label: 'Audits', icon: TbClipboardCheck },
+  ];
+
+  // SWR CONFIGURATION
+  const swrOptions = {
+    refreshInterval: 5000,
+    fetcher: async (...args) => {
+      const res = await fetch(...args);
+      return res.json();
+    },
+  };
+
   return (
-    <SWRConfig
-      value={{
-        fetcher: async (...args) => {
-          const res = await fetch(...args);
-          return res.json();
-        },
-        refreshInterval: 5000,
-      }}
-    >
+    <SWRConfig value={swrOptions}>
       <BrowserConfig />
       <MantineProvider withGlobalStyles withNormalizeCSS>
         <NotificationsProvider>
-          <Navigation>
-            <Component {...pageProps} />
-          </Navigation>
+          <ModalsProvider>
+            <AppShell navbar={<NavigationBar links={navbarLinks} />}>
+              <Component {...pageProps} />
+            </AppShell>
+          </ModalsProvider>
         </NotificationsProvider>
       </MantineProvider>
     </SWRConfig>

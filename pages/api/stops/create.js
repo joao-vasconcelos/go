@@ -43,9 +43,11 @@ export default async function createStop(req, res) {
   // 4. Check for uniqueness
   try {
     // The only value that needs to, and can be, unique is 'unique_code'.
-    if (req.body.reference) {
+    if (req.body.unique_code) {
       const existsUniqueCode = await Model.exists({ unique_code: req.body.unique_code });
       if (existsUniqueCode) throw new Error('A Stop with the same unique code already exists.');
+    } else {
+      throw new Error('Unique Code for this stop is missing.');
     }
   } catch (err) {
     console.log(err);

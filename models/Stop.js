@@ -15,19 +15,20 @@ module.exports =
     new mongoose.Schema({
       unique_code: {
         type: String,
-        maxlength: 30,
+        minlength: 6,
+        maxlength: 6,
       },
       name: {
         type: String,
-        maxlength: 2,
+        maxlength: 50,
       },
       short_name: {
         type: String,
-        maxlength: 2,
+        maxlength: 15,
       },
       description: {
         type: String,
-        maxlength: 9,
+        maxlength: 300,
       },
       latitude: {
         type: Number,
