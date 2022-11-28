@@ -3,7 +3,7 @@ import { createStitches } from '@stitches/react';
 export const { styled, getCssText } = createStitches({
   theme: {
     colors: {
-      // TML ACCENT
+      // ACCENT
       primary1: '#FFFBCC',
       primary2: '#FFF599',
       primary3: '#FFEE66',
