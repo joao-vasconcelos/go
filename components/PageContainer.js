@@ -9,6 +9,7 @@ const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '$md',
+  position: 'relative',
 });
 
 const Title = styled('p', {

@@ -1,6 +1,5 @@
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
-import Button from '../../../components/Button';
 import PageContainer from '../../../components/PageContainer';
 import Toolbar from '../../../components/Toolbar';
 import Group from '../../../components/Group';
@@ -8,7 +7,7 @@ import { Grid, GridCell, Label, Value } from '../../../components/Grid';
 import API from '../../../services/API';
 import notify from '../../../services/notify';
 import { IoPencil, IoTrash, IoDuplicate } from 'react-icons/io5';
-import { LoadingOverlay } from '@mantine/core';
+import { LoadingOverlay, Button } from '@mantine/core';
 
 export default function Customer() {
   //

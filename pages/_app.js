@@ -35,7 +35,10 @@ export default function App({ Component, pageProps }) {
       <MantineProvider withGlobalStyles withNormalizeCSS>
         <NotificationsProvider>
           <ModalsProvider>
-            <AppShell navbar={<NavigationBar links={navbarLinks} />}>
+            <AppShell
+              navbar={<NavigationBar links={navbarLinks} />}
+              style={{ padding: '15px', backgroundColor: '#fdfcfd' }}
+            >
               <Component {...pageProps} />
             </AppShell>
           </ModalsProvider>

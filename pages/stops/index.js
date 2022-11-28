@@ -1,22 +1,36 @@
 import useSWR from 'swr';
-import { Button, TextInput, Table } from '@mantine/core';
+import { styled } from '../../stitches.config';
+import { Button, TextInput, Table, LoadingOverlay } from '@mantine/core';
 import PageContainer from '../../components/PageContainer';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Toolbar from '../../components/Toolbar';
 import TableSort from '../../components/TableSort';
-
 import { TbPlus, TbSearch } from 'react-icons/tb';
+
+const TableRow = styled('tr', {
+  backgroundColor: '$gray1',
+});
+
+const TableRowColumn = styled('td', {
+  backgroundColor: '0',
+});
 
 export default function StopsList() {
   //
+
   const router = useRouter();
   const { data: stops } = useSWR('/api/stops/');
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [formattedTableData, setFormattedTableData] = useState(stops);
 
-  function handleCreateCustomer() {
+  function handleCreateStop() {
     router.push('/stops/create');
+  }
+
+  function handleRowClick(row) {
+    router.push(`/stops/${row._id}`);
   }
 
   function handleSearchQueryChange({ currentTarget }) {
@@ -38,10 +52,28 @@ export default function StopsList() {
     }
   }
 
+  const ths = (
+    <tr>
+      <th>Element position</th>
+      <th>Element name</th>
+      <th>Symbol</th>
+      <th>Atomic mass</th>
+    </tr>
+  );
+
+  // const rows = elements.map((element) => (
+  //   <tr key={element.name}>
+  //     <td>{element.position}</td>
+  //     <td>{element.name}</td>
+  //     <td>{element.symbol}</td>
+  //     <td>{element.mass}</td>
+  //   </tr>
+  // ));
+
   return (
     <PageContainer title={'Stops'}>
       <Toolbar>
-        <Button leftIcon={<TbPlus />} onClick={handleCreateCustomer}>
+        <Button leftIcon={<TbPlus />} onClick={handleCreateStop}>
           Create New Stop
         </Button>
       </Toolbar>
@@ -51,17 +83,29 @@ export default function StopsList() {
         value={searchQuery}
         onChange={handleSearchQueryChange}
       />
-      <Table>
-        <thead>
-          <tr>
-            <th>Element position</th>
-            <th>Element name</th>
-            <th>Symbol</th>
-            <th>Atomic mass</th>
-          </tr>
-        </thead>
-        {/* <tbody>{rows}</tbody> */}
-      </Table>
+      {stops ? (
+        <Table>
+          <thead>{ths}</thead>
+          <tbody>
+            {stops.length ? (
+              stops.map((row) => {
+                return (
+                  <TableRow key={row._id} onClick={() => handleRowClick(row)}>
+                    <TableRowColumn>{row._id}</TableRowColumn>
+                    <TableRowColumn>{row.name}</TableRowColumn>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={2}>Nothing found</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      ) : (
+        <LoadingOverlay visible overlayBlur={2} />
+      )}
       {/* {stops && <TableSort data={stops} />} */}
     </PageContainer>
   );

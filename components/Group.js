@@ -1,6 +1,6 @@
 import { styled } from '@stitches/react';
-import { GoX } from 'react-icons/go';
-import { useContext } from 'react';
+import { useState } from 'react';
+import { TbChevronDown, TbChevronLeft } from 'react-icons/tb';
 
 /* * */
 /* GROUP */
@@ -13,28 +13,40 @@ import { useContext } from 'react';
 const Container = styled('div', {
   backgroundColor: '$gray0',
   borderRadius: '$md',
-  borderWidth: '$md',
+  borderWidth: '$sm',
   borderStyle: 'solid',
   borderColor: '$gray5',
+  boxShadow: '$sm',
 });
 
 const Header = styled('div', {
-  padding: '$xs $sm',
-  position: 'relative',
-  backgroundColor: '$gray2',
-  borderBottomWidth: '$md',
-  borderBottomStyle: 'solid',
-  borderBottomColor: '$gray5',
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
+  borderBottomWidth: '$sm',
+  borderBottomStyle: 'solid',
+  borderBottomColor: '$gray7',
+  padding: '$md',
+  cursor: 'pointer',
+  '&:hover': {
+    backgroundColor: '$gray3',
+  },
+});
+
+const Title = styled('p', {
+  fontSize: '$lg',
   fontWeight: '$bold',
-  fontSize: '13px',
-  color: '$gray11',
-  textTransform: 'uppercase',
+  color: '$gray12',
+});
+
+const Description = styled('p', {
+  fontSize: '$md',
+  fontWeight: '$regular',
+  color: '$gray10',
 });
 
 const InnerWrapper = styled('div', {
-  padding: '$sm',
+  padding: '$md',
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -44,17 +56,22 @@ const InnerWrapper = styled('div', {
 /* */
 /* LOGIC */
 
-export default function Group({ title, children }) {
+export default function Group({ title, description, children }) {
   //
-
-  function handleClose() {
-    console.log();
-  }
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Container>
-      {title ? <Header>{title}</Header> : null}
-      <InnerWrapper>{children}</InnerWrapper>
+      {title && (
+        <Header onClick={() => setIsOpen(!isOpen)}>
+          <span>
+            <Title>{title}</Title>
+            <Description>{description}</Description>
+          </span>
+          {isOpen ? <TbChevronDown /> : <TbChevronLeft />}
+        </Header>
+      )}
+      {isOpen && <InnerWrapper>{children}</InnerWrapper>}
     </Container>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { createStyles, Table, ScrollArea, UnstyledButton, Group, Text, Center, TextInput } from '@mantine/core';
 import { keys } from '@mantine/utils';
 import { IconSelector, IconChevronDown, IconChevronUp, IconSearch } from '@tabler/icons';
@@ -104,13 +105,13 @@ export default function TableSort({ data }) {
 
   return (
     <>
-      <TextInput
+      {/* <TextInput
         placeholder='Search by any field'
         mb='md'
         icon={<IconSearch size={14} stroke={1.5} />}
         value={search}
         onChange={handleSearchChange}
-      />
+      /> */}
       <Table highlightOnHover>
         <thead>
           <tr>
