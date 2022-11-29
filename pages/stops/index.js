@@ -14,7 +14,7 @@ export default function StopsList() {
 
   const router = useRouter();
 
-  const { data: stops } = useSWR('/api/stops/');
+  const { data, error } = useSWR('/api/stops/');
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,23 +43,20 @@ export default function StopsList() {
           Create New Stop
         </Button>
       </Group>
-      {stops ? (
-        <Pannel title={'All Stops'}>
-          <TableSort
-            data={stops}
-            onRowClick={handleRowClick}
-            columns={[
-              { label: '_id', key: '_id' },
-              { label: 'Unique Code', key: 'unique_code' },
-              { label: 'Name', key: 'name' },
-              { label: 'Short Name', key: 'short_name' },
-            ]}
-            searchFieldPlaceholder={'Search by stop code, name, etc...'}
-          />
-        </Pannel>
-      ) : (
-        <LoadingOverlay visible overlayBlur={2} />
-      )}
+      <Pannel title={'All Stops'}>
+        <TableSort
+          data={data || []}
+          isLoading={!error && !data}
+          onRowClick={handleRowClick}
+          columns={[
+            { label: '_id', key: '_id' },
+            { label: 'Unique Code', key: 'unique_code' },
+            { label: 'Name', key: 'name' },
+            { label: 'Short Name', key: 'short_name' },
+          ]}
+          searchFieldPlaceholder={'Search by stop code, name, etc...'}
+        />
+      </Pannel>
     </PageContainer>
   );
 }
