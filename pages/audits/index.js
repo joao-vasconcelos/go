@@ -18,7 +18,7 @@ export default function AuditsList() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleCreateStop = async () => {
+  const handleCreateAudit = async () => {
     try {
       setIsLoading(true);
       notify('new', 'loading', 'Starting new Audit...');
@@ -39,7 +39,7 @@ export default function AuditsList() {
   return (
     <PageContainer title={'Audits'}>
       <Group>
-        <Button leftIcon={<TbPlus />} onClick={handleCreateStop} loading={isLoading}>
+        <Button leftIcon={<TbPlus />} onClick={handleCreateAudit} loading={isLoading}>
           Start New Audit
         </Button>
       </Group>

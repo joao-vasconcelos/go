@@ -46,7 +46,7 @@ export default async function auditsCreate(req, res) {
     // The values that need to be unique are ['unique_code'].
     let uniqueCodeIsNotUnique = true;
     while (uniqueCodeIsNotUnique) {
-      req.body.unique_code = generator(6); // Generate a new code with 6 characters
+      req.body.unique_code = generator(6, 'alphanumeric'); // Generate a new code with 6 characters
       uniqueCodeIsNotUnique = await Model.exists({ unique_code: req.body.unique_code });
     }
   } catch (err) {

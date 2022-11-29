@@ -1,6 +1,7 @@
 import mongodb from '../../../services/mongodb';
 import Model from '../../../models/Stop';
 import Schema from '../../../schemas/Stop';
+import generator from '../../../services/generator';
 
 /* * */
 /* CREATE STOP */
@@ -42,16 +43,16 @@ export default async function stopsCreate(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The only value that needs to, and can be, unique is 'unique_code'.
-    if (req.body.unique_code) {
-      const existsUniqueCode = await Model.exists({ unique_code: req.body.unique_code });
-      if (existsUniqueCode) throw new Error('A Stop with the same unique code already exists.');
-    } else {
-      throw new Error('Unique Code for this Stop is missing.');
+    // The values that need to be unique are ['unique_code'].
+    let uniqueCodeIsNotUnique = true;
+    while (uniqueCodeIsNotUnique) {
+      req.body.unique_code = generator(6, 'numeric'); // Generate a new code with 6 characters
+      uniqueCodeIsNotUnique = await Model.exists({ unique_code: req.body.unique_code });
     }
   } catch (err) {
     console.log(err);
-    return await res.status(409).json({ message: err.message });
+    await res.status(409).json({ message: err.message });
+    return;
   }
 
   // 5. Try to save a new document with req.body

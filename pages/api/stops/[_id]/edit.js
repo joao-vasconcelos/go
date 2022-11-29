@@ -1,6 +1,6 @@
 import mongodb from '../../../../services/mongodb';
-import Model from '../../../../models/Customer';
-import Schema from '../../../../schemas/Customer';
+import Model from '../../../../models/Stop';
+import Schema from '../../../../schemas/Stop';
 
 /* * */
 /* EDIT STOP */
