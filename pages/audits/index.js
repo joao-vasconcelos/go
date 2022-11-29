@@ -51,8 +51,7 @@ export default function AuditList() {
             columns={[
               { label: '_id', key: '_id' },
               { label: 'Unique Code', key: 'unique_code' },
-              { label: 'Name', key: 'name' },
-              { label: 'Short Name', key: 'short_name' },
+              { label: 'First Name', key: 'first_name' },
             ]}
             searchFieldPlaceholder={'Search by stop code, name, etc...'}
           />

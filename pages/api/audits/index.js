@@ -23,7 +23,7 @@ export default async function allAudits(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2. Try to fetch all objects from mongodb
+  // 2. Try to fetch all documents from mongodb
   try {
     const allAudits = await Model.find({}).limit(1000);
     return await res.status(200).send(allAudits);
