@@ -6,13 +6,13 @@ import Model from '../../../../models/Audit';
 /* Explanation needed. */
 /* * */
 
-export default async function auditDelete(req, res) {
+export default async function auditsDelete(req, res) {
   //
 
   // 0. Refuse request if not DELETE
   if (req.method != 'DELETE') {
     await res.setHeader('Allow', ['DELETE']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed` });
+    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
   // 1. Try to connect to mongodb
@@ -25,9 +25,9 @@ export default async function auditDelete(req, res) {
 
   // 2. Try to delete the correct document
   try {
-    const deletedAudit = await Model.findOneAndDelete({ _id: req.query._id });
-    if (!deletedAudit) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
-    return await res.status(200).send(deletedAudit);
+    const deletedDocument = await Model.findOneAndDelete({ _id: req.query._id });
+    if (!deletedDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
+    return await res.status(200).send(deletedDocument);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot delete this Audit.' });

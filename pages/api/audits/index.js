@@ -2,11 +2,11 @@ import mongodb from '../../../services/mongodb';
 import Model from '../../../models/Audit';
 
 /* * */
-/* GET ALL AUDITS */
+/* LIST ALL AUDITS */
 /* This endpoint return all bus stops from the mongodb. */
 /* * */
 
-export default async function allAudits(req, res) {
+export default async function auditsList(req, res) {
   //
 
   // 0. Refuse request if not GET
@@ -23,12 +23,12 @@ export default async function allAudits(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2. Try to fetch all documents from mongodb
+  // 2. Try to list all documents
   try {
-    const allAudits = await Model.find({}).limit(1000);
-    return await res.status(200).send(allAudits);
+    const allDocuments = await Model.find({}).limit(1000);
+    return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot fetch Audits.' });
+    return await res.status(500).json({ message: 'Cannot list Audits.' });
   }
 }

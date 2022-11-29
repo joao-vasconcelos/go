@@ -7,13 +7,13 @@ import Schema from '../../../schemas/Stop';
 /* Explanation needed. */
 /* * */
 
-export default async function createStop(req, res) {
+export default async function stopsCreate(req, res) {
   //
 
   // 0. Refuse request if not POST
   if (req.method != 'POST') {
     await res.setHeader('Allow', ['POST']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed` });
+    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
   // 1. Try to save a new document with req.body
@@ -32,12 +32,12 @@ export default async function createStop(req, res) {
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
-  // 3. Try to connect to the database
+  // 3. Try to connect to mongodb
   try {
     await mongodb.connect();
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Database connection error.' });
+    return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
   // 4. Check for uniqueness
@@ -47,7 +47,7 @@ export default async function createStop(req, res) {
       const existsUniqueCode = await Model.exists({ unique_code: req.body.unique_code });
       if (existsUniqueCode) throw new Error('A Stop with the same unique code already exists.');
     } else {
-      throw new Error('Unique Code for this stop is missing.');
+      throw new Error('Unique Code for this Stop is missing.');
     }
   } catch (err) {
     console.log(err);
@@ -56,8 +56,8 @@ export default async function createStop(req, res) {
 
   // 5. Try to save a new document with req.body
   try {
-    const newStop = await Model(req.body).save();
-    return await res.status(201).json(newStop);
+    const createdDocument = await Model(req.body).save();
+    return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot create this Stop.' });

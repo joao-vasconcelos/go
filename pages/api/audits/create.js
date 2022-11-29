@@ -8,13 +8,13 @@ import generator from '../../../services/generator';
 /* Explanation needed. */
 /* * */
 
-export default async function createAudit(req, res) {
+export default async function auditsCreate(req, res) {
   //
 
   // 0. Refuse request if not POST
   if (req.method != 'POST') {
     await res.setHeader('Allow', ['POST']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed` });
+    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
   // 1. Try to save a new document with req.body
@@ -44,10 +44,10 @@ export default async function createAudit(req, res) {
   // 4. Check for uniqueness
   try {
     // The values that need to be unique are ['unique_code'].
-    let auditUniqueCodeIsNotUnique = true;
-    while (auditUniqueCodeIsNotUnique) {
+    let uniqueCodeIsNotUnique = true;
+    while (uniqueCodeIsNotUnique) {
       req.body.unique_code = generator(6); // Generate a new code with 6 characters
-      auditUniqueCodeIsNotUnique = await Model.exists({ unique_code: req.body.unique_code });
+      uniqueCodeIsNotUnique = await Model.exists({ unique_code: req.body.unique_code });
     }
   } catch (err) {
     console.log(err);
@@ -57,8 +57,8 @@ export default async function createAudit(req, res) {
 
   // 5. Try to save a new document with req.body
   try {
-    const newAudit = await Model(req.body).save();
-    return await res.status(201).json(newAudit);
+    const createdDocument = await Model(req.body).save();
+    return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot create this Audit.' });

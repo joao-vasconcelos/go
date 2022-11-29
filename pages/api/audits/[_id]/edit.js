@@ -3,11 +3,11 @@ import Model from '../../../../models/Audit';
 import Schema from '../../../../schemas/Audit';
 
 /* * */
-/* UPDATE AUDIT */
+/* EDIT AUDIT */
 /* Explanation needed. */
 /* * */
 
-export default async function updateAudit(req, res) {
+export default async function auditsEdit(req, res) {
   //
 
   // 0. Refuse request if not PUT
@@ -54,13 +54,13 @@ export default async function updateAudit(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 2. Try to update the correct document
+  // 2. Try to edit the correct document
   try {
-    const updatedAudit = await Model.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
-    if (!updatedAudit) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
-    return await res.status(200).json(updatedAudit);
+    const editedDocument = await Model.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
+    if (!editedDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
+    return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot update this Audit.' });
+    return await res.status(500).json({ message: 'Cannot edit this Audit.' });
   }
 }

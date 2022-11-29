@@ -7,8 +7,7 @@ import pjson from '../../package.json';
 
 export default async function appVersion(req, res) {
   return new Promise((resolve, reject) => {
-    res.statusCode = 200;
-    res.send({ latest: pjson.version });
+    res.status(200).send({ latest: pjson.version });
     resolve();
   });
 }

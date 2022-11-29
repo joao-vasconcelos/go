@@ -23,9 +23,13 @@ export default function Customer() {
 
   const handleDeleteAudit = async () => {
     openConfirmModal({
-      title: 'Delete Audit',
+      title: (
+        <Text size={'lg'} fw={700}>
+          Delete Audit?
+        </Text>
+      ),
       centered: true,
-      children: <Text size='sm'>Deleting is irreversible. Are you sure you want to delete this audit forever?</Text>,
+      children: <Text>Deleting is irreversible. Are you sure you want to delete this audit forever?</Text>,
       labels: { confirm: 'Delete Audit', cancel: 'Do Not Delete' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
