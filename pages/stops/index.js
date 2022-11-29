@@ -6,7 +6,7 @@ import TableSort from '../../components/TableSort';
 import Pannel from '../../components/Pannel';
 import { TbPlus } from 'react-icons/tb';
 
-export default function StopList() {
+export default function StopsList() {
   //
 
   const router = useRouter();

@@ -12,7 +12,7 @@ import API from '../../services/API';
 import notify from '../../services/notify';
 import { TbDeviceFloppy, TbX } from 'react-icons/tb';
 
-export default function StopCreate() {
+export default function StopsCreate() {
   //
 
   const router = useRouter();

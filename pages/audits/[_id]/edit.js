@@ -12,7 +12,7 @@ import notify from '../../../services/notify';
 import useSWR from 'swr';
 import { TbArrowLeft, TbRotate, TbShieldCheck, TbAlertCircle } from 'react-icons/tb';
 
-export default function AuditEdit() {
+export default function AuditsEdit() {
   //
 
   const router = useRouter();

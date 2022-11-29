@@ -9,7 +9,7 @@ import notify from '../../../services/notify';
 import { TbPencil, TbTrash } from 'react-icons/tb';
 import { Group, Button, Text } from '@mantine/core';
 
-export default function Customer() {
+export default function StopsView() {
   //
 
   const router = useRouter();
@@ -47,7 +47,7 @@ export default function Customer() {
   };
 
   return stop ? (
-    <PageContainer title={'Stops › ' + 'sdyg'}>
+    <PageContainer title={`Stops › ${stop.name}`}>
       <Group>
         <Button leftIcon={<TbPencil />} onClick={handleEditStop}>
           Edit

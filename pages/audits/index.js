@@ -9,7 +9,7 @@ import { TbPlus } from 'react-icons/tb';
 import API from '../../services/API';
 import notify from '../../services/notify';
 
-export default function AuditList() {
+export default function AuditsList() {
   //
 
   const router = useRouter();

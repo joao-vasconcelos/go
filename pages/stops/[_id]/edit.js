@@ -14,7 +14,7 @@ import API from '../../../services/API';
 import notify from '../../../services/notify';
 import useSWR from 'swr';
 
-export default function CreateCustomer() {
+export default function StopsEdit() {
   //
 
   const router = useRouter();

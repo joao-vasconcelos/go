@@ -9,7 +9,7 @@ import { openConfirmModal } from '@mantine/modals';
 import { TbPencil, TbTrash } from 'react-icons/tb';
 import { Group, Button, Text } from '@mantine/core';
 
-export default function Customer() {
+export default function AuditsView() {
   //
 
   const router = useRouter();
