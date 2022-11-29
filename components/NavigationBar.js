@@ -26,8 +26,13 @@ const NavButton = styled(Link, {
   fontSize: '$lg',
   fontWeight: 700,
   gap: '$md',
+  transition: 'all 100ms ease-in-out',
   '&:hover': {
     backgroundColor: '$gray2',
+    color: '$gray12',
+  },
+  '&:active': {
+    backgroundColor: '$gray4',
     color: '$gray12',
   },
   variants: {
