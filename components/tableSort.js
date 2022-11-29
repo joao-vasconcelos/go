@@ -52,7 +52,7 @@ export default function TableSort(props) {
 
   // 2. Update state on props change
   useEffect(() => {
-    formatData(props.data, sortKey, reverseSortDirection, searchQuery);
+    setFormattedData(formatData(props.data, sortKey, reverseSortDirection, searchQuery));
   }, [props.data, reverseSortDirection, searchQuery, sortKey]);
 
   // 3. Format data on 'sortKey' and 'searchQuery' changes
