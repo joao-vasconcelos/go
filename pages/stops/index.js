@@ -1,12 +1,12 @@
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
-import { Button, LoadingOverlay, Group, Divider, Space } from '@mantine/core';
+import { Button, LoadingOverlay, Group } from '@mantine/core';
 import PageContainer from '../../components/PageContainer';
 import TableSort from '../../components/TableSort';
 import Pannel from '../../components/Pannel';
 import { TbPlus } from 'react-icons/tb';
 
-export default function StopsList() {
+export default function StopList() {
   //
 
   const router = useRouter();

@@ -1,20 +1,18 @@
-import { useRouter } from 'next/router';
-import PageContainer from '../../components/PageContainer';
-import Toolbar from '../../components/Toolbar';
-import Pannel from '../../components/Pannel';
-import { Grid } from '../../components/Grid';
-import { useForm, yupResolver } from '@mantine/form';
-import { IoSave, IoClose } from 'react-icons/io5';
-import { TextInput, NumberInput, Textarea, LoadingOverlay } from '@mantine/core';
-import { Button, Text } from '@mantine/core';
-import Schema from '../../schemas/Stop';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { TextInput, NumberInput, Textarea, LoadingOverlay, Button, Text, Group } from '@mantine/core';
+import { useForm, yupResolver } from '@mantine/form';
+import { openConfirmModal } from '@mantine/modals';
+import { Grid } from '../../components/Grid';
+import { CheckboxCard } from '../../components/CheckboxCard';
+import PageContainer from '../../components/PageContainer';
+import Pannel from '../../components/Pannel';
+import Schema from '../../schemas/Stop';
 import API from '../../services/API';
 import notify from '../../services/notify';
-import { CheckboxCard } from '../../components/CheckboxCard';
-import { openConfirmModal } from '@mantine/modals';
+import { TbDeviceFloppy, TbX } from 'react-icons/tb';
 
-export default function CreateStop() {
+export default function StopCreate() {
   //
 
   const router = useRouter();
@@ -73,14 +71,14 @@ export default function CreateStop() {
     <form onSubmit={form.onSubmit(handleSave)}>
       <PageContainer title={`Stops › New Stop ${form.values.unique_code && `(${form.values.unique_code})`}`}>
         <LoadingOverlay visible={isLoading} />
-        <Toolbar>
-          <Button type={'submit'} leftIcon={<IoSave />} loading={isLoading}>
+        <Group>
+          <Button type={'submit'} leftIcon={<TbDeviceFloppy />} loading={isLoading}>
             Save
           </Button>
-          <Button leftIcon={<IoClose />} onClick={handleCancel}>
+          <Button leftIcon={<TbX />} onClick={handleCancel}>
             Cancel
           </Button>
-        </Toolbar>
+        </Group>
 
         <Pannel title={'General Details'}>
           <Grid>
