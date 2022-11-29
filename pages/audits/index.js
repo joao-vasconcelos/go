@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button, LoadingOverlay, Group } from '@mantine/core';
 import PageContainer from '../../components/PageContainer';
-import TableSort from '../../components/TableSort';
+import DynamicTable from '../../components/DynamicTable';
 import Pannel from '../../components/Pannel';
 import { TbPlus } from 'react-icons/tb';
 import API from '../../services/API';
@@ -44,7 +44,7 @@ export default function AuditsList() {
         </Button>
       </Group>
       <Pannel title={'All Audits'}>
-        <TableSort
+        <DynamicTable
           data={data || []}
           isLoading={!error && !data}
           onRowClick={handleRowClick}

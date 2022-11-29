@@ -42,7 +42,7 @@ const NoData = styled('td', {
 
 //
 
-export default function TableSort(props) {
+export default function DynamicTable(props) {
   //
   // 1. Set up state variables
   const [searchQuery, setSearchQuery] = useState('');
