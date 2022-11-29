@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import PageContainer from '../../components/PageContainer';
 import Toolbar from '../../components/Toolbar';
-import Group from '../../components/Group';
+import Pannel from '../../components/Pannel';
 import { Grid } from '../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
 import { IoSave, IoClose } from 'react-icons/io5';
@@ -82,7 +82,7 @@ export default function CreateStop() {
           </Button>
         </Toolbar>
 
-        <Group title={'General Details'}>
+        <Pannel title={'General Details'}>
           <Grid>
             <TextInput label={'Stop Code'} placeholder={'000000'} {...form.getInputProps('unique_code')} />
             <div />
@@ -98,16 +98,16 @@ export default function CreateStop() {
           <Grid>
             <Textarea label={'Description'} autosize minRows={2} {...form.getInputProps('description')} />
           </Grid>
-        </Group>
+        </Pannel>
 
-        <Group title={'Location'}>
+        <Pannel title={'Location'}>
           <Grid>
             <NumberInput label={'Latitude'} defaultValue={0} precision={5} {...form.getInputProps('latitude')} />
             <NumberInput label={'Longitude'} defaultValue={0} precision={5} {...form.getInputProps('longitude')} />
           </Grid>
-        </Group>
+        </Pannel>
 
-        <Group title={'Features'}>
+        <Pannel title={'Features'}>
           <Grid>
             <CheckboxCard
               title={'Has Bench?'}
@@ -134,7 +134,7 @@ export default function CreateStop() {
               onChange={(checked) => form.setFieldValue('features.has_abusive_parking', checked)}
             />
           </Grid>
-        </Group>
+        </Pannel>
       </PageContainer>
     </form>
   );

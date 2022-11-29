@@ -2,7 +2,7 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import PageContainer from '../../../components/PageContainer';
 import Toolbar from '../../../components/Toolbar';
-import Group from '../../../components/Group';
+import Pannel from '../../../components/Pannel';
 import { Grid, GridCell, Label, Value } from '../../../components/Grid';
 import API from '../../../services/API';
 import notify from '../../../services/notify';
@@ -40,7 +40,7 @@ export default function Customer() {
         <Button icon={<IoTrash />} label={'Apagar'} color={'danger'} />
       </Toolbar>
 
-      <Group title={'Stop Details'}>
+      <Pannel title={'Stop Details'}>
         <Grid>
           <GridCell>
             <Label>Nome</Label>
@@ -57,7 +57,7 @@ export default function Customer() {
             <Value>sjdhsiud</Value>
           </GridCell>
         </Grid>
-      </Group>
+      </Pannel>
     </PageContainer>
   ) : (
     <div>sijdisd</div>

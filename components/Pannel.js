@@ -1,7 +1,6 @@
 import { styled } from '@stitches/react';
-import { GoX } from 'react-icons/go';
-import { useContext } from 'react';
-import { Appstate } from '../context/Appstate';
+import { useState } from 'react';
+import { TbChevronDown, TbChevronLeft } from 'react-icons/tb';
 
 /* * */
 /* PANNEL */
@@ -12,88 +11,72 @@ import { Appstate } from '../context/Appstate';
 /* STYLES */
 
 const Container = styled('div', {
-  backgroundColor: '$gray1',
+  backgroundColor: '$gray0',
   borderRadius: '$md',
-  overflow: 'hidden',
-  boxShadow: '$lg',
-  borderWidth: '$md',
+  borderWidth: '$sm',
   borderStyle: 'solid',
   borderColor: '$gray7',
-  maxHeight: '100vh',
 });
 
 const Header = styled('div', {
-  height: '50px',
-  position: 'relative',
-  backgroundColor: '$gray4',
-  borderBottomWidth: '$md',
-  borderBottomStyle: 'solid',
-  borderBottomColor: '$gray7',
-});
-
-const CloseIcon = styled('div', {
-  position: 'absolute',
-  float: 'left',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-  height: '100%',
-  aspectRatio: '9/8',
-  borderRightWidth: '$md',
-  borderRightStyle: 'solid',
-  borderRightColor: '$gray7',
-  fontSize: '30px',
-  color: '$gray9',
-  transition: '$default',
+  justifyContent: 'space-between',
+  padding: '$md',
   cursor: 'pointer',
-  '&:active': {
-    color: '$gray1',
-    backgroundColor: '$gray9',
+  '&:hover': {
+    backgroundColor: '$gray3',
+  },
+  variants: {
+    isOpen: {
+      true: {
+        borderBottomWidth: '$sm',
+        borderBottomStyle: 'solid',
+        borderBottomColor: '$gray7',
+      },
+    },
   },
 });
 
-const PannelTitle = styled('p', {
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+const Title = styled('p', {
   fontSize: '$lg',
   fontWeight: '$bold',
-  padding: '0 70px',
   color: '$gray12',
-  textTransform: 'uppercase',
+});
+
+const Description = styled('p', {
+  fontSize: '$md',
+  fontWeight: '$regular',
+  color: '$gray10',
 });
 
 const InnerWrapper = styled('div', {
   padding: '$md',
   width: '100%',
-  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$md',
 });
 
 /* */
 /* LOGIC */
 
-export default function Pannel({ title, children }) {
+export default function Pannel({ title, description, children }) {
   //
-
-  const appstate = useContext(Appstate);
-
-  function handleClose() {
-    appstate.setOverlay();
-  }
+  const [isOpen, setIsOpen] = useState(title ? true : true);
 
   return (
     <Container>
-      {title ? (
-        <Header>
-          <CloseIcon onClick={handleClose}>
-            <GoX />
-          </CloseIcon>
-          <PannelTitle>{title}</PannelTitle>
+      {title && (
+        <Header isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>
+          <span>
+            <Title>{title}</Title>
+            <Description>{description}</Description>
+          </span>
+          {isOpen ? <TbChevronDown /> : <TbChevronLeft />}
         </Header>
-      ) : null}
-      <InnerWrapper>{children}</InnerWrapper>
+      )}
+      {isOpen && <InnerWrapper>{children}</InnerWrapper>}
     </Container>
   );
 }

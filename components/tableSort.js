@@ -1,146 +1,120 @@
-import { useState } from 'react';
-
-import { createStyles, Table, ScrollArea, UnstyledButton, Group, Text, Center, TextInput } from '@mantine/core';
+import { useState, useEffect } from 'react';
+import { styled } from '@stitches/react';
+import { Table, Group, TextInput } from '@mantine/core';
 import { keys } from '@mantine/utils';
-import { IconSelector, IconChevronDown, IconChevronUp, IconSearch } from '@tabler/icons';
+import { TbSearch, TbSelector, TbChevronDown, TbChevronUp } from 'react-icons/tb';
 
-const useStyles = createStyles((theme) => ({
-  th: {
-    padding: '0 !important',
+const TableHeaderColumn = styled('th', {
+  cursor: 'pointer',
+  backgroundColor: '$gray1',
+  '&:hover': {
+    color: '$gray12',
+    backgroundColor: '$gray3',
   },
-
-  control: {
-    width: '100%',
-    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+  variants: {
+    isSorted: {
+      true: {
+        color: '$info5 !important',
+      },
     },
   },
+});
 
-  icon: {
-    width: 21,
-    height: 21,
-    borderRadius: 21,
+const TableBodyRow = styled('tr', {
+  cursor: 'pointer',
+  '&:hover': {
+    color: '$info5',
+    backgroundColor: '$info1',
   },
-}));
+  '& td': {
+    padding: '$md $sm !important',
+  },
+});
 
 //
 
-function Th({ children, reversed, sorted, onSort }) {
-  const { classes } = useStyles();
-  const Icon = sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector;
-  return (
-    <th className={classes.th}>
-      <UnstyledButton onClick={onSort} className={classes.control}>
-        <Group position='apart'>
-          <Text weight={500} size='sm'>
-            {children}
-          </Text>
-          <Center className={classes.icon}>
-            <Icon size={14} stroke={1.5} />
-          </Center>
-        </Group>
-      </UnstyledButton>
-    </th>
-  );
-}
+function formatData(data, sortKey, reversedSort, searchQuery) {
+  //
+  let filteredData = data;
 
-function filterData(data, search) {
-  const query = search.toLowerCase().trim();
+  // 1. Filter data based on search
+  const query = searchQuery.toLowerCase().trim();
   if (query.length > 0) {
-    return data.filter((item) => {
+    filteredData = data.filter((item) => {
       return keys(data[0]).some((key) => {
-        return item[key].toLowerCase().includes(query);
+        return String(item[key]).toLowerCase().includes(query);
       });
     });
-  } else {
-    return data;
-  }
-}
-
-function sortData(data, payload) {
-  const { sortBy } = payload;
-
-  if (!sortBy) {
-    return filterData(data, payload.search);
   }
 
-  return filterData(
-    [...data].sort((a, b) => {
-      if (payload.reversed) {
-        return b[sortBy].localeCompare(a[sortBy]);
-      }
+  // 2. Sort the data
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (reversedSort) {
+      return String(b[sortKey]).localeCompare(String(a[sortKey]));
+    } else {
+      return String(a[sortKey]).localeCompare(String(b[sortKey]));
+    }
+  });
 
-      return a[sortBy].localeCompare(b[sortBy]);
-    }),
-    payload.search
-  );
+  return sortedData;
 }
 
-export default function TableSort({ data }) {
+export default function TableSort(props) {
   //
-
-  const [search, setSearch] = useState('');
-  const [sortedData, setSortedData] = useState(data);
-  const [sortBy, setSortBy] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortKey, setSortKey] = useState(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
+  const [formattedData, setFormattedData] = useState(props.data);
 
-  const setSorting = (field) => {
-    const reversed = field === sortBy ? !reverseSortDirection : false;
+  useEffect(() => {
+    setFormattedData(props.data);
+  }, [props.data]);
+
+  const handleSortChange = (colKey) => {
+    const reversed = colKey === sortKey ? !reverseSortDirection : false;
     setReverseSortDirection(reversed);
-    setSortBy(field);
-    setSortedData(sortData(data, { sortBy: field, reversed, search }));
+    setSortKey(colKey);
+    setFormattedData(formatData(props.data, colKey, reversed, searchQuery));
   };
 
-  const handleSearchChange = (event) => {
+  const handleSearchQueryChange = (event) => {
     const { value } = event.currentTarget;
-    setSearch(value);
-    setSortedData(sortData(data, { sortBy, reversed: reverseSortDirection, search: value }));
-  };
-
-  const handleRowClick = (row) => {
-    console.log(row);
+    setSearchQuery(value);
+    setFormattedData(formatData(props.data, sortKey, reverseSortDirection, value));
   };
 
   return (
     <>
-      {/* <TextInput
-        placeholder='Search by any field'
-        mb='md'
-        icon={<IconSearch size={14} stroke={1.5} />}
-        value={search}
-        onChange={handleSearchChange}
-      /> */}
-      <Table highlightOnHover>
+      <TextInput
+        placeholder={props.searchFieldPlaceholder}
+        icon={<TbSearch />}
+        value={searchQuery}
+        onChange={handleSearchQueryChange}
+      />
+      <Table withBorder>
         <thead>
           <tr>
-            <Th sorted={sortBy === 'stop_code'} reversed={reverseSortDirection} onSort={() => setSorting('stop_code')}>
-              Stop Code
-            </Th>
-            <Th sorted={sortBy === 'stop_name'} reversed={reverseSortDirection} onSort={() => setSorting('stop_name')}>
-              Stop Name
-            </Th>
+            {props.columns.map((col, index) => (
+              <TableHeaderColumn key={index} isSorted={sortKey === col.key} onClick={() => handleSortChange(col.key)}>
+                <Group position='apart'>
+                  {col.label}
+                  {sortKey === col.key ? reverseSortDirection ? <TbChevronUp /> : <TbChevronDown /> : <TbSelector />}
+                </Group>
+              </TableHeaderColumn>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {sortedData.length ? (
-            sortedData.map((row) => {
-              return (
-                <tr key={row._id} onClick={handleRowClick}>
-                  <td>{row._id}</td>
-                  <td>{row.name}</td>
-                </tr>
-              );
-            })
+          {formattedData?.length ? (
+            formattedData.map((row, index) => (
+              <TableBodyRow key={index} onClick={() => props.onRowClick(row)}>
+                {props.columns.map((col, index) => (
+                  <td key={index}>{row[col.key] || '-'}</td>
+                ))}
+              </TableBodyRow>
+            ))
           ) : (
-            <tr>
-              <td colSpan={2}>
-                <Text weight={500} align='center'>
-                  Nothing found
-                </Text>
-              </td>
-            </tr>
+            <p>Nenhum dado disponível</p>
           )}
         </tbody>
       </Table>
