@@ -16,9 +16,9 @@ export default function App({ Component, pageProps }) {
   const navbarLinks = [
     { href: '/', label: 'Home', icon: TbHome },
     { href: '/stops', label: 'Stops', icon: TbFlag3 },
-    { href: '/gtfs', label: 'GTFS Publisher', icon: TbClick },
     { href: '/audits', label: 'Audits', icon: TbClipboardCheck },
     { href: '/surveys', label: 'Surveys', icon: TbLicense },
+    { href: '/gtfs', label: 'GTFS Publisher', icon: TbClick },
   ];
 
   // SWR CONFIGURATION
