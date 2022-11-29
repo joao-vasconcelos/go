@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { styled } from '@stitches/react';
-import { Table, Group, TextInput } from '@mantine/core';
+import { Table, Group, TextInput, Loader } from '@mantine/core';
 import { keys } from '@mantine/utils';
 import { TbSearch, TbSelector, TbChevronDown, TbChevronUp } from 'react-icons/tb';
 
@@ -119,7 +119,16 @@ export default function TableSort(props) {
           </tr>
         </thead>
         <tbody>
-          {formattedData?.length ? (
+          {props.isLoading ? (
+            <tr>
+              <NoData colSpan={props.columns.length}>
+                <Group position={'center'}>
+                  <Loader color='gray' size='xs' />
+                  Loading...
+                </Group>
+              </NoData>
+            </tr>
+          ) : formattedData?.length ? (
             formattedData.map((row, index) => (
               <TableBodyRow key={index} onClick={() => props.onRowClick(row)}>
                 {props.columns.map((col, index) => (
