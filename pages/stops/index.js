@@ -1,11 +1,11 @@
 import useSWR from 'swr';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, LoadingOverlay, Group } from '@mantine/core';
+import { Button, Alert, Group } from '@mantine/core';
 import PageContainer from '../../components/PageContainer';
 import DynamicTable from '../../components/DynamicTable';
 import Pannel from '../../components/Pannel';
-import { TbPlus } from 'react-icons/tb';
+import { TbPlus, TbAlertCircle } from 'react-icons/tb';
 import notify from '../../services/notify';
 import API from '../../services/API';
 
@@ -38,11 +38,18 @@ export default function StopsList() {
 
   return (
     <PageContainer title={'Stops'}>
+      {error && (
+        <Alert icon={<TbAlertCircle />} title={error.message} color='red'>
+          {error.description}
+        </Alert>
+      )}
+
       <Group>
         <Button leftIcon={<TbPlus />} onClick={handleCreateStop} loading={isLoading}>
           Create New Stop
         </Button>
       </Group>
+
       <Pannel title={'All Stops'}>
         <DynamicTable
           data={data || []}

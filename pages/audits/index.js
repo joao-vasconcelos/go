@@ -1,11 +1,11 @@
 import useSWR from 'swr';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, LoadingOverlay, Group } from '@mantine/core';
+import { Button, Alert, Group } from '@mantine/core';
 import PageContainer from '../../components/PageContainer';
 import DynamicTable from '../../components/DynamicTable';
 import Pannel from '../../components/Pannel';
-import { TbPlus } from 'react-icons/tb';
+import { TbPlus, TbAlertCircle } from 'react-icons/tb';
 import API from '../../services/API';
 import notify from '../../services/notify';
 
@@ -38,11 +38,18 @@ export default function AuditsList() {
 
   return (
     <PageContainer title={'Audits'}>
+      {error && (
+        <Alert icon={<TbAlertCircle />} title={error.message} color='red'>
+          {error.description}
+        </Alert>
+      )}
+
       <Group>
         <Button leftIcon={<TbPlus />} onClick={handleCreateAudit} loading={isLoading}>
           Start New Audit
         </Button>
       </Group>
+
       <Pannel title={'All Audits'}>
         <DynamicTable
           data={data || []}
