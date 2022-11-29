@@ -1,11 +1,10 @@
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
-import { Button, LoadingOverlay } from '@mantine/core';
+import { Button, LoadingOverlay, Group, Divider, Space } from '@mantine/core';
 import PageContainer from '../../components/PageContainer';
-import Toolbar from '../../components/Toolbar';
 import TableSort from '../../components/TableSort';
-import { TbPlus } from 'react-icons/tb';
 import Pannel from '../../components/Pannel';
+import { TbPlus } from 'react-icons/tb';
 
 export default function StopsList() {
   //
@@ -24,11 +23,11 @@ export default function StopsList() {
 
   return (
     <PageContainer title={'Stops'}>
-      <Toolbar>
+      <Group>
         <Button leftIcon={<TbPlus />} onClick={handleCreateStop}>
           Create New Stop
         </Button>
-      </Toolbar>
+      </Group>
       {stops ? (
         <Pannel title={'All Stops'}>
           <TableSort
