@@ -16,6 +16,8 @@ export default function AuditsList() {
 
   const { data, error } = useSWR('/api/audits/');
 
+  console.log(error);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateAudit = async () => {
