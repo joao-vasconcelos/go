@@ -1,15 +1,17 @@
 import { SWRConfig } from 'swr';
+import { SessionProvider } from 'next-auth/react';
 import { MantineProvider, AppShell } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import BrowserConfig from '../components/BrowserConfig';
 import NavigationBar from '../components/NavigationBar';
 import { TbHome, TbFlag3, TbClick, TbClipboardCheck, TbLicense } from 'react-icons/tb';
+import AuthChecker from '../components/AuthChecker';
 
 // Styles
 import '../styles/reset.css';
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
   //
 
   // SIDEBAR NAVIGATION LINKS
@@ -38,20 +40,28 @@ export default function App({ Component, pageProps }) {
   };
 
   return (
-    <SWRConfig value={swrOptions}>
-      <BrowserConfig />
-      <MantineProvider withGlobalStyles withNormalizeCSS>
-        <NotificationsProvider position='top-right'>
-          <ModalsProvider>
-            <AppShell
-              navbar={<NavigationBar links={navbarLinks} />}
-              style={{ padding: '15px', backgroundColor: '#fdfcfd' }}
-            >
-              <Component {...pageProps} />
-            </AppShell>
-          </ModalsProvider>
-        </NotificationsProvider>
-      </MantineProvider>
-    </SWRConfig>
+    <SessionProvider session={session}>
+      <SWRConfig value={swrOptions}>
+        <BrowserConfig />
+        <MantineProvider withGlobalStyles withNormalizeCSS>
+          <NotificationsProvider position='top-right'>
+            <ModalsProvider>
+              <AuthChecker
+                authenticated={
+                  <AppShell
+                    navbar={<NavigationBar links={navbarLinks} />}
+                    style={{ padding: '15px', backgroundColor: '#fdfcfd' }}
+                  >
+                    <Component {...pageProps} />
+                  </AppShell>
+                }
+                loading={<p>Loading...</p>}
+                unauthenticated={<Component {...pageProps} />}
+              />
+            </ModalsProvider>
+          </NotificationsProvider>
+        </MantineProvider>
+      </SWRConfig>
+    </SessionProvider>
   );
 }

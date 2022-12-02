@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import { styled } from '@stitches/react';
 import { Navbar, ScrollArea, Divider } from '@mantine/core';
 import carrisMetropolitanaLogo from '../public/carris-metropolitana.svg';
-import { TbLogout } from 'react-icons/tb';
 import AppVersion from './AppVersion';
+import LoginButton from './AuthButton';
 
 const AppLogo = styled(Image, {
   display: 'flex',
@@ -92,10 +92,7 @@ export default function NavigationBar({ links = [] }) {
 
       <Divider my='0' />
       <Navbar.Section>
-        <NavButton danger href={'/logout'}>
-          <TbLogout />
-          <span>Terminar Sessão</span>
-        </NavButton>
+        <LoginButton />
       </Navbar.Section>
       <Divider my='0' />
       <AppVersion />

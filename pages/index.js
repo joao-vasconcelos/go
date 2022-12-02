@@ -1,5 +1,10 @@
 import PageContainer from '../components/PageContainer';
+import { useSession } from 'next-auth/react';
 
 export default function Dashboard() {
-  return <PageContainer title={'Home'}></PageContainer>;
+  //
+
+  const { data: session, status } = useSession();
+
+  return <PageContainer title={`Welcome ${session.user.email}`}></PageContainer>;
 }
