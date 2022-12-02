@@ -6,7 +6,7 @@ import mongodb from '../../../services/mongodb';
 import Model from '../../../models/User';
 
 export default NextAuth({
-  debug: true,
+  debug: false,
   adapter: MongoDBAdapter(clientPromise),
   session: { strategy: 'jwt' },
   providers: [
@@ -24,24 +24,29 @@ export default NextAuth({
   ],
   pages: {
     signIn: '/auth/signin',
-    verifyRequest: '/auth/verify', // (used for check email message)
+    verifyRequest: '/auth/verify',
     signOut: '/auth/signout',
-    error: '/auth/error', // Error code passed in query string as ?error=
-    // newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
+    error: '/auth/error',
   },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ user }) {
       try {
-        // 1. Try to connect to mongodb
         await mongodb.connect();
-        // 2. Try to fetch the correct document
-        const foundDocument = await Model.findOne({ email: user.email });
-        if (!foundDocument) return false;
+        const foundUser = await Model.findOne({ email: user.email });
+        if (!foundUser) return false;
         else return true;
       } catch (err) {
         console.log(err);
         return false;
       }
+    },
+    async jwt({ token, user }) {
+      if (user) token.user = user;
+      return token;
+    },
+    async session({ session, token }) {
+      if (token.user) session.user = token.user;
+      return session;
     },
   },
 });

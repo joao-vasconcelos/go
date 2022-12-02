@@ -6,5 +6,5 @@ export default function Dashboard() {
 
   const { data: session, status } = useSession();
 
-  return <PageContainer title={`Welcome ${session.user.email}`}></PageContainer>;
+  return <PageContainer title={`Welcome ${(session && session.user.name) || '-'}`}></PageContainer>;
 }
