@@ -9,22 +9,22 @@ import { TbPlus, TbAlertCircle } from 'react-icons/tb';
 import notify from '../../services/notify';
 import API from '../../services/API';
 
-export default function SurveysList() {
+export default function UsersList() {
   //
 
   const router = useRouter();
 
-  const { data, error } = useSWR('/api/surveys/');
+  const { data, error } = useSWR('/api/users/');
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleCreateSurvey = async () => {
+  const handleCreateUser = async () => {
     try {
       setIsLoading(true);
-      notify('new', 'loading', 'Creating new Survey...');
-      const response = await API({ service: 'surveys', operation: 'create', method: 'POST', body: {} });
-      router.push(`/surveys/${response._id}/edit`);
-      notify('new', 'success', 'A new Survey has started.');
+      notify('new', 'loading', 'Creating new User...');
+      const response = await API({ service: 'users', operation: 'create', method: 'POST', body: {} });
+      router.push(`/users/${response._id}/edit`);
+      notify('new', 'success', 'A new User has been created.');
     } catch (err) {
       setIsLoading(false);
       console.log(err);
@@ -33,11 +33,11 @@ export default function SurveysList() {
   };
 
   function handleRowClick(row) {
-    router.push(`/surveys/${row._id}`);
+    router.push(`/users/${row._id}`);
   }
 
   return (
-    <PageContainer title={'Surveys'}>
+    <PageContainer title={'Users'}>
       {error && (
         <Alert icon={<TbAlertCircle />} title={error.message} color='red'>
           {error.description}
@@ -45,21 +45,20 @@ export default function SurveysList() {
       )}
 
       <Group>
-        <Button leftIcon={<TbPlus />} onClick={handleCreateSurvey} loading={isLoading}>
-          Start New Survey
+        <Button leftIcon={<TbPlus />} onClick={handleCreateUser} loading={isLoading}>
+          Create New User
         </Button>
       </Group>
 
-      <Pannel title={'All Surveys'}>
+      <Pannel title={'All Users'}>
         <DynamicTable
           data={data || []}
           isLoading={!error && !data}
           onRowClick={handleRowClick}
           columns={[
-            { label: '_id', key: '_id' },
-            { label: 'Unique Code', key: 'unique_code' },
             { label: 'Name', key: 'name' },
-            { label: 'Short Name', key: 'short_name' },
+            { label: 'email', key: 'email' },
+            { label: 'Role', key: 'role' },
           ]}
           searchFieldPlaceholder={'Search by stop code, name, etc...'}
         />

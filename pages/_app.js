@@ -21,6 +21,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     { href: '/audits', label: 'Audits', icon: TbClipboardCheck },
     { href: '/surveys', label: 'Surveys', icon: TbLicense },
     { href: '/gtfs', label: 'GTFS Publisher', icon: TbClick },
+    { href: '/users', label: 'Users', icon: TbClick },
   ];
 
   // SWR CONFIGURATION

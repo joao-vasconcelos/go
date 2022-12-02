@@ -13,12 +13,16 @@ module.exports =
   mongoose.model(
     'User',
     new mongoose.Schema({
-      _id: {
-        type: String,
-        minlength: 6,
-        maxlength: 6,
-      },
       email: {
+        type: String,
+        maxlength: 50,
+        unique: true,
+      },
+      name: {
+        type: String,
+        maxlength: 50,
+      },
+      role: {
         type: String,
         maxlength: 50,
       },
