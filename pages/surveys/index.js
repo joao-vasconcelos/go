@@ -1,13 +1,15 @@
 import useSWR from 'swr';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Alert, Group } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 import PageContainer from '../../components/PageContainer';
 import DynamicTable from '../../components/DynamicTable';
 import Pannel from '../../components/Pannel';
-import { TbPlus, TbAlertCircle } from 'react-icons/tb';
+import { TbPlus, TbSettings } from 'react-icons/tb';
 import notify from '../../services/notify';
 import API from '../../services/API';
+import { Spacer } from '../../components/LayoutUtils';
+import ErrorDisplay from '../../components/ErrorDisplay';
 
 export default function SurveysList() {
   //
@@ -16,17 +18,16 @@ export default function SurveysList() {
 
   const { data, error } = useSWR('/api/surveys/');
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
 
   const handleCreateSurvey = async () => {
     try {
-      setIsLoading(true);
-      notify('new', 'loading', 'Creating new Survey...');
+      setIsCreating(true);
       const response = await API({ service: 'surveys', operation: 'create', method: 'POST', body: {} });
       router.push(`/surveys/${response._id}/edit`);
       notify('new', 'success', 'A new Survey has started.');
     } catch (err) {
-      setIsLoading(false);
+      setIsCreating(false);
       console.log(err);
       notify('new', 'error', err.message);
     }
@@ -37,16 +38,16 @@ export default function SurveysList() {
   }
 
   return (
-    <PageContainer title={'Surveys'}>
-      {error && (
-        <Alert icon={<TbAlertCircle />} title={error.message} color='red'>
-          {error.description}
-        </Alert>
-      )}
+    <PageContainer title={['Surveys']}>
+      <ErrorDisplay error={error} />
 
       <Group>
-        <Button leftIcon={<TbPlus />} onClick={handleCreateSurvey} loading={isLoading}>
+        <Button leftIcon={<TbPlus />} onClick={handleCreateSurvey} loading={isCreating}>
           Start New Survey
+        </Button>
+        <Spacer width={'full'} />
+        <Button variant='light'>
+          <TbSettings />
         </Button>
       </Group>
 

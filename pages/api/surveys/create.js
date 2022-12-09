@@ -2,6 +2,7 @@ import mongodb from '../../../services/mongodb';
 import Model from '../../../models/Survey';
 import Schema from '../../../schemas/Survey';
 import generator from '../../../services/generator';
+import delay from '../../../utils/delay';
 
 /* * */
 /* CREATE SURVEY */
@@ -58,6 +59,7 @@ export default async function surveysCreate(req, res) {
   // 5. Try to save a new document with req.body
   try {
     const createdDocument = await Model(req.body).save();
+    await delay(5000);
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);

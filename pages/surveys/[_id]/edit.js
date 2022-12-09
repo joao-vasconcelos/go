@@ -9,21 +9,21 @@ import AutoSaveButton from '../../../components/AutoSaveButton';
 import Schema from '../../../schemas/Survey';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../services/API';
-import notify from '../../../services/notify';
 import useSWR from 'swr';
 import { TbArrowLeft, TbRotate, TbShieldCheck, TbAlertCircle } from 'react-icons/tb';
+import ErrorDisplay from '../../../components/ErrorDisplay';
 
-export default function StopsEdit() {
+export default function SurveysEdit() {
   //
 
   const router = useRouter();
   const { _id } = router.query;
 
-  const { data: survey, mutate } = useSWR(_id && `/api/surveys/${_id}`);
+  const { data, error, mutate } = useSWR(_id && `/api/surveys/${_id}`);
 
   const hasUpdatedFields = useRef(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState();
+  const [isSaving, setIsSaving] = useState(false);
+  const [hasErrorSaving, setHasErrorSaving] = useState();
 
   const form = useForm({
     validateInputOnBlur: true,
@@ -41,109 +41,92 @@ export default function StopsEdit() {
   });
 
   useEffect(() => {
-    if (!hasUpdatedFields.current && survey) {
-      form.setValues({
-        unique_code: survey.unique_code || '',
-        name: survey.name || '',
-        short_name: survey.short_name || '',
-        description: survey.description || '',
-        latitude: survey.latitude || 0,
-        longitude: survey.longitude || 0,
-      });
+    if (!hasUpdatedFields.current && data) {
+      form.setValues(data);
       form.resetDirty();
       hasUpdatedFields.current = true;
     }
-  }, [survey, form]);
+  }, [data, form]);
 
   const handleClose = async () => {
     if (form.isValid()) {
-      await handleSave(form.values);
-      router.push(`/surveys/${_id}`);
+      await handleSave(form.values, () => {
+        router.push(`/surveys/${_id}`);
+      });
     }
   };
 
   const handleSave = useCallback(
-    async (values) => {
+    async (values, callback) => {
       try {
-        setIsLoading(true);
-        notify('new', 'loading', 'Saving changes...');
-        await API({ service: 'surveys', resourceId: _id, operation: 'edit', method: 'PUT', body: values });
-        mutate({ ...survey, ...values });
-        notify('new', 'success', 'Changes saved!');
-        setIsLoading(false);
-        setIsError(false);
+        setIsSaving(true);
+        await API({ service: 'surveys', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
+        mutate({ ...data, ...form.values });
+        setIsSaving(false);
+        setHasErrorSaving(false);
+        hasUpdatedFields.current = false;
+        if (callback) callback();
       } catch (err) {
         console.log(err);
-        setIsLoading(false);
-        setIsError(err);
-        notify('new', 'error', err.message || 'An error occurred.');
+        setIsSaving(false);
+        setHasErrorSaving(err);
       }
     },
-    [_id, survey, mutate]
+    [_id, data, form.values, mutate]
   );
-
-  useEffect(() => {
-    const autoSaveInterval = setInterval(async () => {
-      if (form.isDirty() && form.isValid()) {
-        await handleSave(form.values);
-        hasUpdatedFields.current = false;
-      }
-    }, 1000);
-    return () => clearInterval(autoSaveInterval);
-  }, [form, handleSave]);
 
   return (
     <form onSubmit={form.onSubmit(handleSave)}>
-      <PageContainer title={`Surveys › ${form.values.unique_code}`}>
-        {isError ? (
-          <Alert icon={<TbAlertCircle />} title={`Error: ${isError.message}`} color='red'>
-            <Flex gap='md' align='flex-start' direction='column'>
-              <Text>{isError.description || 'No solutions found for this error.'}</Text>
-              <Button
-                type={'submit'}
-                variant='default'
-                color='red'
-                leftIcon={<TbRotate />}
-                disabled={!form.isValid()}
-                loading={isLoading}
-              >
-                Try saving again
-              </Button>
-            </Flex>
-          </Alert>
-        ) : (
-          <Group>
-            <Button leftIcon={<TbArrowLeft />} onClick={handleClose} disabled={!form.isValid()}>
-              Save & Close
-            </Button>
-            <AutoSaveButton type={'submit'} isLoading={isLoading} isDirty={form.isDirty()} isValid={form.isValid()} />
-          </Group>
+      <PageContainer title={['Surveys', form.values.unique_code]} loading={!error && !data}>
+        <ErrorDisplay error={error} />
+        <ErrorDisplay
+          error={hasErrorSaving}
+          loading={isSaving}
+          disabled={!form.isValid()}
+          onTryAgain={async () => await handleSave(form.values)}
+        />
+
+        <Group>
+          <Button leftIcon={<TbArrowLeft />} onClick={handleClose} disabled={!form.isValid() || isSaving}>
+            Save & Close
+          </Button>
+          <AutoSaveButton
+            type={'submit'}
+            isLoading={isSaving}
+            isDirty={form.isDirty()}
+            isValid={form.isValid()}
+            onSaveTrigger={async () => await handleSave(form.values)}
+          />
+        </Group>
+
+        {data && (
+          <>
+            <Pannel title={'General Details'}>
+              <Grid>
+                <TextInput label={'Stop Code'} placeholder={'000000'} {...form.getInputProps('unique_code')} />
+                <div />
+              </Grid>
+              <Grid>
+                <TextInput label={'Name'} placeholder={'Avenida da República (ICNF)'} {...form.getInputProps('name')} />
+                <TextInput
+                  label={'Short Name'}
+                  placeholder={'Av. República (ICNF)'}
+                  {...form.getInputProps('short_name')}
+                />
+              </Grid>
+              <Grid>
+                <Textarea label={'Description'} autosize minRows={2} {...form.getInputProps('description')} />
+              </Grid>
+            </Pannel>
+
+            <Pannel title={'Location'}>
+              <Grid>
+                <NumberInput label={'Latitude'} defaultValue={0} precision={5} {...form.getInputProps('latitude')} />
+                <NumberInput label={'Longitude'} defaultValue={0} precision={5} {...form.getInputProps('longitude')} />
+              </Grid>
+            </Pannel>
+          </>
         )}
-
-        <Pannel title={'General Details'}>
-          <Grid>
-            <TextInput label={'Stop Code'} placeholder={'000000'} {...form.getInputProps('unique_code')} />
-            <div />
-          </Grid>
-          <Grid>
-            <TextInput label={'Name'} placeholder={'Avenida da República (ICNF)'} {...form.getInputProps('name')} />
-            <TextInput
-              label={'Short Name'}
-              placeholder={'Av. República (ICNF)'}
-              {...form.getInputProps('short_name')}
-            />
-          </Grid>
-          <Grid>
-            <Textarea label={'Description'} autosize minRows={2} {...form.getInputProps('description')} />
-          </Grid>
-        </Pannel>
-
-        <Pannel title={'Location'}>
-          <Grid>
-            <NumberInput label={'Latitude'} defaultValue={0} precision={5} {...form.getInputProps('latitude')} />
-            <NumberInput label={'Longitude'} defaultValue={0} precision={5} {...form.getInputProps('longitude')} />
-          </Grid>
-        </Pannel>
       </PageContainer>
     </form>
   );

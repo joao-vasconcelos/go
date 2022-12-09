@@ -5,7 +5,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import BrowserConfig from '../components/BrowserConfig';
 import NavigationBar from '../components/NavigationBar';
-import { TbHome, TbFlag3, TbClick, TbClipboardCheck, TbLicense } from 'react-icons/tb';
+import { TbHome, TbFlag3, TbClick, TbClipboardCheck, TbLicense, TbUsers, TbSettings } from 'react-icons/tb';
 import AuthChecker from '../components/AuthChecker';
 
 // Styles
@@ -21,7 +21,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     { href: '/audits', label: 'Audits', icon: TbClipboardCheck },
     { href: '/surveys', label: 'Surveys', icon: TbLicense },
     { href: '/gtfs', label: 'GTFS Publisher', icon: TbClick },
-    { href: '/users', label: 'Users', icon: TbClick },
+    { href: '/users', label: 'Users', icon: TbUsers },
+    { href: '/settings', label: 'Settings', icon: TbSettings },
   ];
 
   // SWR CONFIGURATION
@@ -49,10 +50,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
             <ModalsProvider>
               <AuthChecker
                 authenticated={
-                  <AppShell
-                    navbar={<NavigationBar links={navbarLinks} />}
-                    style={{ padding: '15px', backgroundColor: '#fdfcfd' }}
-                  >
+                  <AppShell navbar={<NavigationBar links={navbarLinks} />} style={{ backgroundColor: '#fdfcfd' }}>
                     <Component {...pageProps} />
                   </AppShell>
                 }

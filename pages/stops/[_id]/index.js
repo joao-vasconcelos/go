@@ -47,7 +47,7 @@ export default function StopsView() {
   };
 
   return stop ? (
-    <PageContainer title={`Stops › ${stop.name}`}>
+    <PageContainer title={['Stops', stop.name]}>
       <Group>
         <Button leftIcon={<TbPencil />} onClick={handleEditStop}>
           Edit

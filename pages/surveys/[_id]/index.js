@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
@@ -8,6 +9,7 @@ import { openConfirmModal } from '@mantine/modals';
 import notify from '../../../services/notify';
 import { TbPencil, TbTrash } from 'react-icons/tb';
 import { Group, Button, Text } from '@mantine/core';
+import ErrorDisplay from '../../../components/ErrorDisplay';
 
 export default function SurveysView() {
   //
@@ -15,7 +17,9 @@ export default function SurveysView() {
   const router = useRouter();
   const { _id } = router.query;
 
-  const { data: survey } = useSWR(_id && `/api/surveys/${_id}`);
+  const { data, error } = useSWR(_id && `/api/surveys/${_id}`);
+
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleEditSurvey = () => {
     router.push(`/surveys/${_id}/edit`);
@@ -34,49 +38,49 @@ export default function SurveysView() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(_id, 'loading', 'Deleting Survey...');
+          setIsDeleting(true);
           await API({ service: 'surveys', resourceId: _id, operation: 'delete', method: 'DELETE' });
           router.push('/surveys');
           notify(_id, 'success', 'Survey was deleted!');
         } catch (err) {
           console.log(err);
+          setIsDeleting(false);
           notify(_id, 'error', err.message || 'An error ocurred.');
         }
       },
     });
   };
 
-  return survey ? (
-    <PageContainer title={`Surveys › ${survey.unique_code}`}>
+  return (
+    <PageContainer title={['Surveys', data.unique_code]} loading={!error && !data}>
+      <ErrorDisplay error={error} />
+
       <Group>
-        <Button leftIcon={<TbPencil />} onClick={handleEditSurvey}>
+        <Button leftIcon={<TbPencil />} onClick={handleEditSurvey} disabled={!data || isDeleting}>
           Edit
         </Button>
-        <Button variant={'light'} color={'red'} leftIcon={<TbTrash />} onClick={handleDeleteSurvey}>
-          Delete
+        <Button
+          variant={'light'}
+          color={'red'}
+          leftIcon={<TbTrash />}
+          onClick={handleDeleteSurvey}
+          disabled={!data}
+          loading={isDeleting}
+        >
+          {isDeleting ? 'Deleting Survey...' : 'Delete'}
         </Button>
       </Group>
 
-      <Pannel title={'Survey Details'}>
-        <Grid>
-          <GridCell>
-            <Label>Nome</Label>
-            <Value>{stop.name}</Value>
-          </GridCell>
-          <GridCell>
-            <Label>Birthday</Label>
-            <Value>osdnds</Value>
-          </GridCell>
-        </Grid>
-        <Grid>
-          <GridCell>
-            <Label>Reference</Label>
-            <Value>sjdhsiud</Value>
-          </GridCell>
-        </Grid>
-      </Pannel>
+      {data && (
+        <Pannel title={'Survey Details'}>
+          <Grid>
+            <GridCell>
+              <Label>Unique Code</Label>
+              <Value>{data.unique_code}</Value>
+            </GridCell>
+          </Grid>
+        </Pannel>
+      )}
     </PageContainer>
-  ) : (
-    <div>sijdisd</div>
   );
 }

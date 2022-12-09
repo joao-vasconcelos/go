@@ -1,5 +1,6 @@
 import mongodb from '../../../../services/mongodb';
 import Model from '../../../../models/Survey';
+import delay from '../../../../utils/delay';
 
 /* * */
 /* GET SURVET BY ID */
@@ -12,8 +13,7 @@ export default async function surveysGet(req, res) {
   // 0. Refuse request if not GET
   if (req.method != 'GET') {
     await res.setHeader('Allow', ['GET']);
-    await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-    return;
+    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
   // 1. Try to connect to mongodb

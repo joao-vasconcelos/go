@@ -37,7 +37,7 @@ export default function UsersList() {
   }
 
   return (
-    <PageContainer title={'Users'}>
+    <PageContainer title={['Users']}>
       {error && (
         <Alert icon={<TbAlertCircle />} title={error.message} color='red'>
           {error.description}
@@ -57,10 +57,9 @@ export default function UsersList() {
           onRowClick={handleRowClick}
           columns={[
             { label: 'Name', key: 'name' },
-            { label: 'email', key: 'email' },
-            { label: 'Role', key: 'role' },
+            { label: 'Email', key: 'email' },
           ]}
-          searchFieldPlaceholder={'Search by stop code, name, etc...'}
+          searchFieldPlaceholder={'Search by Name or Email...'}
         />
       </Pannel>
     </PageContainer>

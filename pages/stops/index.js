@@ -37,7 +37,7 @@ export default function StopsList() {
   }
 
   return (
-    <PageContainer title={'Stops'}>
+    <PageContainer title={['Stops']}>
       {error && (
         <Alert icon={<TbAlertCircle />} title={error.message} color='red'>
           {error.description}

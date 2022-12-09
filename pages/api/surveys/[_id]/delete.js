@@ -1,5 +1,6 @@
 import mongodb from '../../../../services/mongodb';
 import Model from '../../../../models/Survey';
+import delay from '../../../../utils/delay';
 
 /* * */
 /* DELETE SURVEY */
@@ -28,6 +29,7 @@ export default async function surveysDelete(req, res) {
     const deletedDocument = await Model.findOneAndDelete({ _id: req.query._id });
     if (!deletedDocument)
       return await res.status(404).json({ message: `Survey with _id: ${req.query._id} not found.` });
+    await delay(5000);
     return await res.status(200).send(deletedDocument);
   } catch (err) {
     console.log(err);

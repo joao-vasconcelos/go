@@ -4,7 +4,7 @@ import Pannel from '../../../components/Pannel';
 import { Grid, GridCell } from '../../../components/Grid';
 import { CheckboxCard } from '../../../components/CheckboxCard';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Switch, Button, Group, Alert, Flex, Text, NumberInput, Textarea } from '@mantine/core';
+import { TextInput, MultiSelect, Button, Group, Alert, Flex, Text, NumberInput, Textarea } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import Schema from '../../../schemas/User';
 import { useState, useRef, useEffect, useCallback } from 'react';
@@ -13,6 +13,28 @@ import notify from '../../../services/notify';
 import useSWR from 'swr';
 import AutoSaveButton from '../../../components/AutoSaveButton';
 import { TbArrowLeft, TbRotate, TbShieldCheck, TbAlertCircle } from 'react-icons/tb';
+
+const data = [
+  { value: 'stops_view', label: 'View Stops', group: 'Stops' },
+  { value: 'stops_create', label: 'Create Stops', group: 'Stops' },
+  { value: 'stops_edit', label: 'Edit Stops', group: 'Stops' },
+  { value: 'stops_delete', label: 'Delete Stops', group: 'Stops' },
+
+  { value: 'audits_view', label: 'View Audits', group: 'Audits' },
+  { value: 'audits_create', label: 'Create Audits', group: 'Audits' },
+  { value: 'audits_edit', label: 'Edit Audits', group: 'Audits' },
+  { value: 'audits_delete', label: 'Delete Audits', group: 'Audits' },
+
+  { value: 'surveys_view', label: 'View Surveys', group: 'Surveys' },
+  { value: 'surveys_create', label: 'Create Surveys', group: 'Surveys' },
+  { value: 'surveys_edit', label: 'Edit Surveys', group: 'Surveys' },
+  { value: 'surveys_delete', label: 'Delete Surveys', group: 'Surveys' },
+
+  { value: 'users_view', label: 'View Users', group: 'Users' },
+  { value: 'users_create', label: 'Create Users', group: 'Users' },
+  { value: 'users_edit', label: 'Edit Users', group: 'Users' },
+  { value: 'users_delete', label: 'Delete Users', group: 'Users' },
+];
 
 export default function UsersEdit() {
   //
@@ -34,6 +56,7 @@ export default function UsersEdit() {
     initialValues: {
       email: '',
       name: '',
+      permissions: [],
     },
   });
 
@@ -42,6 +65,7 @@ export default function UsersEdit() {
       form.setValues({
         email: user.email || '',
         name: user.name || '',
+        permissions: user.permissions || [],
       });
       form.resetDirty();
       hasUpdatedFields.current = true;
@@ -91,7 +115,7 @@ export default function UsersEdit() {
 
   return (
     <form onSubmit={form.onSubmit(handleSave)}>
-      <PageContainer title={`Users › ${form.values.name}`}>
+      <PageContainer title={['Users', form.values.name]}>
         {isError ? (
           <Alert icon={<TbAlertCircle />} title={`Error: ${isError.message}`} color='red'>
             <Flex gap='md' align='flex-start' direction='column'>
@@ -121,6 +145,16 @@ export default function UsersEdit() {
           <Grid>
             <TextInput label={'Name'} placeholder={'Paula Conceição'} {...form.getInputProps('name')} />
             <TextInput label={'Email'} placeholder={'email@tmlmobilidade.pt'} {...form.getInputProps('email')} />
+          </Grid>
+          <Grid>
+            <MultiSelect
+              clearable
+              searchable
+              data={data}
+              label='User permissions'
+              placeholder='Select from available permissions'
+              {...form.getInputProps('permissions')}
+            />
           </Grid>
         </Pannel>
       </PageContainer>

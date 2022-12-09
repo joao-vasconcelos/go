@@ -31,7 +31,7 @@ export default function BaseDemo(props) {
   //
 
   return (
-    <PageContainer title={'GTFS Publisher'}>
+    <PageContainer title={['GTFS Publisher']}>
       <div>
         <div>
           <h4>Select Image</h4>

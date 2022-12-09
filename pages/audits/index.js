@@ -16,8 +16,6 @@ export default function AuditsList() {
 
   const { data, error } = useSWR('/api/audits/');
 
-  console.log(error);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateAudit = async () => {
@@ -39,7 +37,7 @@ export default function AuditsList() {
   }
 
   return (
-    <PageContainer title={'Audits'}>
+    <PageContainer title={['Audits']}>
       {error && (
         <Alert icon={<TbAlertCircle />} title={error.message} color='red'>
           {error.description}

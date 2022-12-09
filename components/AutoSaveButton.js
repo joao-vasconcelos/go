@@ -1,8 +1,18 @@
 import { Button } from '@mantine/core';
 import { TbShieldCheck } from 'react-icons/tb';
+import { useEffect } from 'react';
 
-export default function AutoSaveButton({ isLoading, isValid, isDirty, ...props }) {
+export default function AutoSaveButton({ isLoading, isValid, isDirty, onSaveTrigger, interval = 1000, ...props }) {
   //
+
+  useEffect(() => {
+    const autoSaveInterval = setInterval(() => {
+      // If save is allowed and an action is set
+      if (isDirty && isValid && !isLoading && onSaveTrigger) onSaveTrigger();
+    }, interval);
+    // Clear the interval on unmount (React API)
+    return () => clearInterval(autoSaveInterval);
+  }, [isDirty, isLoading, isValid, onSaveTrigger, interval]);
 
   // If form is loading
   if (isLoading) {

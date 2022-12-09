@@ -85,7 +85,7 @@ export default function AuditsEdit() {
 
   return (
     <form onSubmit={form.onSubmit(handleSave)}>
-      <PageContainer title={`Audits › ${form.values.unique_code}`}>
+      <PageContainer title={['Audits', form.values.unique_code]}>
         {isError ? (
           <Alert icon={<TbAlertCircle />} title={`Error: ${isError.message}`} color='red'>
             <Flex gap='md' align='flex-start' direction='column'>

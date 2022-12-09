@@ -106,7 +106,7 @@ export default function StopsEdit() {
 
   return (
     <form onSubmit={form.onSubmit(handleSave)}>
-      <PageContainer title={`Stops › ${form.values.unique_code}`}>
+      <PageContainer title={['Stops', form.values.unique_code]}>
         {isError ? (
           <Alert icon={<TbAlertCircle />} title={`Error: ${isError.message}`} color='red'>
             <Flex gap='md' align='flex-start' direction='column'>

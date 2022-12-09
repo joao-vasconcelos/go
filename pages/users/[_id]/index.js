@@ -7,7 +7,7 @@ import API from '../../../services/API';
 import { openConfirmModal } from '@mantine/modals';
 import notify from '../../../services/notify';
 import { TbPencil, TbTrash } from 'react-icons/tb';
-import { Group, Button, Text } from '@mantine/core';
+import { Group, Button, Text, Badge } from '@mantine/core';
 
 export default function UsersView() {
   //
@@ -16,8 +16,6 @@ export default function UsersView() {
   const { _id } = router.query;
 
   const { data: user, error } = useSWR(_id && `/api/users/${_id}`);
-
-  console.log('user', user);
 
   const handleEditUser = () => {
     router.push(`/users/${_id}/edit`);
@@ -49,7 +47,7 @@ export default function UsersView() {
   };
 
   return user ? (
-    <PageContainer title={`Users › ${user.name || '-'}`}>
+    <PageContainer title={['Users', user.name]}>
       <Group>
         <Button leftIcon={<TbPencil />} onClick={handleEditUser}>
           Edit
@@ -62,7 +60,7 @@ export default function UsersView() {
       <Pannel title={'User Details'}>
         <Grid>
           <GridCell>
-            <Label>Nome</Label>
+            <Label>Name</Label>
             <Value>{user.name || '-'}</Value>
           </GridCell>
           <GridCell>
@@ -70,9 +68,21 @@ export default function UsersView() {
             <Value>{user.email || '-'}</Value>
           </GridCell>
         </Grid>
+        <Grid>
+          <GridCell>
+            <Label>Permissions</Label>
+            <Value>
+              <Group spacing={'sm'}>
+                {user.permissions.map((permission) => {
+                  return <Badge key={permission}>{permission}</Badge>;
+                }) || '-'}
+              </Group>
+            </Value>
+          </GridCell>
+        </Grid>
       </Pannel>
     </PageContainer>
   ) : (
-    <div>sijdisd</div>
+    <div>No user</div>
   );
 }

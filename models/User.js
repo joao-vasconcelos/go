@@ -22,10 +22,12 @@ module.exports =
         type: String,
         maxlength: 50,
       },
-      role: {
-        type: String,
-        maxlength: 50,
-      },
+      permissions: [
+        {
+          type: String,
+          maxlength: 50,
+        },
+      ],
       emailVerified: {
         type: String,
         maxlength: 15,

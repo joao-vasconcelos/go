@@ -47,7 +47,7 @@ export default function AuditsView() {
   };
 
   return audit ? (
-    <PageContainer title={`Audits › ${audit.unique_code}`}>
+    <PageContainer title={['Audits', audit.unique_code]}>
       <Group>
         <Button leftIcon={<TbPencil />} onClick={handleEditAudit}>
           Edit
