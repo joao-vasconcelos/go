@@ -11,15 +11,28 @@ import { TbPencil, TbTrash } from 'react-icons/tb';
 import { Group, Button, Text } from '@mantine/core';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 
+/* * */
+/* SURVEYS > VIEW */
+/* View survey by _id. */
+/* * */
+
 export default function SurveysView() {
   //
 
+  //
+  // A. Setup variables
+
   const router = useRouter();
   const { _id } = router.query;
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  //
+  // B. Fetch data
 
   const { data, error } = useSWR(_id && `/api/surveys/${_id}`);
 
-  const [isDeleting, setIsDeleting] = useState(false);
+  //
+  // C. Handle actions
 
   const handleEditSurvey = () => {
     router.push(`/surveys/${_id}/edit`);
@@ -50,6 +63,9 @@ export default function SurveysView() {
       },
     });
   };
+
+  //
+  // D. Render page
 
   return (
     <PageContainer title={['Surveys', data.unique_code]} loading={!error && !data}>

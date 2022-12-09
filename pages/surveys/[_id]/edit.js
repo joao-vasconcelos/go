@@ -13,17 +13,30 @@ import useSWR from 'swr';
 import { TbArrowLeft, TbRotate, TbShieldCheck, TbAlertCircle } from 'react-icons/tb';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 
+/* * */
+/* SURVEYS > EDIT */
+/* Edit survey by _id. */
+/* * */
+
 export default function SurveysEdit() {
   //
 
+  //
+  // A. Setup variables
+
   const router = useRouter();
   const { _id } = router.query;
-
-  const { data, error, mutate } = useSWR(_id && `/api/surveys/${_id}`);
-
   const hasUpdatedFields = useRef(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+
+  //
+  // B. Fetch data
+
+  const { data, error, mutate } = useSWR(_id && `/api/surveys/${_id}`);
+
+  //
+  // C. Setup form
 
   const form = useForm({
     validateInputOnBlur: true,
@@ -47,6 +60,9 @@ export default function SurveysEdit() {
       hasUpdatedFields.current = true;
     }
   }, [data, form]);
+
+  //
+  // D. Handle actions
 
   const handleClose = async () => {
     if (form.isValid()) {

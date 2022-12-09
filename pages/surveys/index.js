@@ -11,14 +11,27 @@ import API from '../../services/API';
 import { Spacer } from '../../components/LayoutUtils';
 import ErrorDisplay from '../../components/ErrorDisplay';
 
+/* * */
+/* SURVEYS > LIST */
+/* List all available surveys. */
+/* * */
+
 export default function SurveysList() {
   //
 
+  //
+  // A. Setup variables
+
   const router = useRouter();
+  const [isCreating, setIsCreating] = useState(false);
+
+  //
+  // B. Fetch data
 
   const { data, error } = useSWR('/api/surveys/');
 
-  const [isCreating, setIsCreating] = useState(false);
+  //
+  // C. Handle actions
 
   const handleCreateSurvey = async () => {
     try {
@@ -36,6 +49,9 @@ export default function SurveysList() {
   function handleRowClick(row) {
     router.push(`/surveys/${row._id}`);
   }
+
+  //
+  // D. Render page
 
   return (
     <PageContainer title={['Surveys']}>
