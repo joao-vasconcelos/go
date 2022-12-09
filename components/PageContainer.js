@@ -31,17 +31,15 @@ export default function PageContainer({ loading, title = [], children }) {
   return (
     <Container>
       <Group>
-        <Group spacing={'sm'}>
-          {title.length &&
-            title.map((segment, index) => {
-              return (
-                <>
-                  {index > 0 && <TbChevronRight />}
-                  <Title key={index}>{segment || '•••'}</Title>
-                </>
-              );
-            })}
-        </Group>
+        {title.length &&
+          title.map((segment, index) => {
+            return (
+              <Group key={index} spacing={'sm'}>
+                {index > 0 && <TbChevronRight />}
+                <Title>{segment || '•••'}</Title>
+              </Group>
+            );
+          })}
         <Spacer width={'full'} />
         {loading && <Loader color='gray' size='sm' />}
       </Group>
