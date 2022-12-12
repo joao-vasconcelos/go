@@ -1,13 +1,13 @@
-import mongodb from '../../../services/mongodb';
-import Model from '../../../models/Audit';
-import delay from '../../../utils/delay';
+import delay from '../../../../utils/delay';
+import mongodb from '../../../../services/mongodb';
+import { Model } from '../../../../schemas/audits/templates';
 
 /* * */
-/* LIST ALL AUDITS */
-/* This endpoint return all bus stops from the mongodb. */
+/* API > AUDITS > TEMPLATES > LIST */
+/* This endpoint returns all templates from MongoDB. */
 /* * */
 
-export default async function auditsList(req, res) {
+export default async function auditsTemplatesList(req, res) {
   //
   await delay();
 
@@ -31,6 +31,6 @@ export default async function auditsList(req, res) {
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list Audits.' });
+    return await res.status(500).json({ message: 'Cannot list Audit Templates.' });
   }
 }

@@ -1,6 +1,6 @@
-import mongodb from '../../../../services/mongodb';
-import Model from '../../../../models/Audit';
-import delay from '../../../../utils/delay';
+import delay from '../../../../../utils/delay';
+import mongodb from '../../../../../services/mongodb';
+import { Model } from '../../../../../schemas/audits/documents';
 
 /* * */
 /* GET AUDIT BY ID */

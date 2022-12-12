@@ -1,13 +1,13 @@
-import mongodb from '../../../services/mongodb';
-import Model from '../../../models/Setting';
-import delay from '../../../utils/delay';
+import delay from '../../../../utils/delay';
+import mongodb from '../../../../services/mongodb';
+import { Model } from '../../../../schemas/audits/documents';
 
 /* * */
-/* LIST ALL SETTINGS */
-/* This endpoint return all settings from mongodb. */
+/* LIST ALL AUDITS */
+/* This endpoint returns all Audits from MongoDB. */
 /* * */
 
-export default async function settingsList(req, res) {
+export default async function auditsList(req, res) {
   //
   await delay();
 
@@ -31,6 +31,6 @@ export default async function settingsList(req, res) {
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list Settings.' });
+    return await res.status(500).json({ message: 'Cannot list Audits.' });
   }
 }

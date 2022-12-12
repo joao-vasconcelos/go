@@ -1,14 +1,13 @@
-import mongodb from '../../../../services/mongodb';
-import Model from '../../../../models/Audit';
-import Schema from '../../../../schemas/Audit';
-import delay from '../../../../utils/delay';
+import delay from '../../../../../utils/delay';
+import mongodb from '../../../../../services/mongodb';
+import { Validation, Model } from '../../../../../schemas/audits/templates';
 
 /* * */
-/* EDIT AUDIT */
-/* Explanation needed. */
+/* API > AUDITS > TEMPLATES > EDIT */
+/* This endpoint returns all templates from MongoDB. */
 /* * */
 
-export default async function auditsEdit(req, res) {
+export default async function auditsTemplatesEdit(req, res) {
   //
   await delay();
 
@@ -29,7 +28,7 @@ export default async function auditsEdit(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = Schema.cast(req.body);
+    req.body = Validation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
@@ -49,7 +48,7 @@ export default async function auditsEdit(req, res) {
     if (req.body.unique_code) {
       const foundUniqueCode = await Model.findOne({ unique_code: req.body.unique_code });
       if (foundUniqueCode && foundUniqueCode._id != req.query._id)
-        throw new Error('An Audit with the same unique_code already exists.');
+        throw new Error('An Audit Template with the same unique_code already exists.');
     }
   } catch (err) {
     console.log(err);
@@ -59,8 +58,11 @@ export default async function auditsEdit(req, res) {
   // 2. Try to edit the correct document
   try {
     const editedDocument = await Model.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
-    if (!editedDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
-    return await res.status(200).json(editedDocument);
+    if (!editedDocument) {
+      return await res.status(404).json({ message: `Audit Template with _id: ${req.query._id} not found.` });
+    } else {
+      return await res.status(200).json(editedDocument);
+    }
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot edit this Audit.' });

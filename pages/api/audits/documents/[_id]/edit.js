@@ -1,14 +1,13 @@
-import mongodb from '../../../../services/mongodb';
-import Model from '../../../../models/Setting';
-import Schema from '../../../../schemas/Setting';
-import delay from '../../../../utils/delay';
+import delay from '../../../../../utils/delay';
+import mongodb from '../../../../../services/mongodb';
+import { Validation, Model } from '../../../../../schemas/audits/documents';
 
 /* * */
-/* EDIT SETTING */
+/* EDIT AUDIT */
 /* Explanation needed. */
 /* * */
 
-export default async function settingsEdit(req, res) {
+export default async function auditsEdit(req, res) {
   //
   await delay();
 
@@ -29,7 +28,7 @@ export default async function settingsEdit(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = Schema.cast(req.body);
+    req.body = Validation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
@@ -45,11 +44,11 @@ export default async function settingsEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The only value that needs to, and can be, unique is 'slug'.
-    if (req.body.slug) {
-      const foundUniqueCode = await Model.findOne({ slug: req.body.slug });
-      if (foundUniqueCode && foundUniqueCode.slug != req.query.slug)
-        throw new Error('A Setting with the same slug already exists.');
+    // The only value that needs to, and can be, unique is 'unique_code'.
+    if (req.body.unique_code) {
+      const foundUniqueCode = await Model.findOne({ unique_code: req.body.unique_code });
+      if (foundUniqueCode && foundUniqueCode._id != req.query._id)
+        throw new Error('An Audit with the same unique_code already exists.');
     }
   } catch (err) {
     console.log(err);
@@ -58,12 +57,11 @@ export default async function settingsEdit(req, res) {
 
   // 2. Try to edit the correct document
   try {
-    const editedDocument = await Model.findOneAndReplace({ slug: req.query.slug }, req.body, { new: true });
-    if (!editedDocument)
-      return await res.status(404).json({ message: `Setting with slug: ${req.query.slug} not found.` });
+    const editedDocument = await Model.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
+    if (!editedDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot edit this Setting.' });
+    return await res.status(500).json({ message: 'Cannot edit this Audit.' });
   }
 }

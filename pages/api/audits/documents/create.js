@@ -1,8 +1,7 @@
-import mongodb from '../../../services/mongodb';
-import Model from '../../../models/Audit';
-import Schema from '../../../schemas/Audit';
-import generator from '../../../services/generator';
-import delay from '../../../utils/delay';
+import delay from '../../../../utils/delay';
+import mongodb from '../../../../services/mongodb';
+import generator from '../../../../services/generator';
+import { Validation, Model } from '../../../../schemas/audits/documents';
 
 /* * */
 /* CREATE AUDIT */
@@ -29,7 +28,7 @@ export default async function auditsCreate(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = Schema.cast(req.body);
+    req.body = Validation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });

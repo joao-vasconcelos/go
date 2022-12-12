@@ -13,8 +13,8 @@ import ErrorDisplay from '../../../components/ErrorDisplay';
 import useSWR from 'swr';
 
 /* * */
-/* AUDITS > EDIT */
-/* Edit audit by _id. */
+/* AUDITS > TEMPLATES > EDIT */
+/* Edit audit template by _id. */
 /* * */
 
 export default function AuditsEdit() {
@@ -32,7 +32,7 @@ export default function AuditsEdit() {
   //
   // B. Fetch data
 
-  const { data: auditData, error: auditError, mutate: auditMutate } = useSWR(_id && `/api/audits/${_id}`);
+  const { data: auditData, error: auditError, mutate: auditMutate } = useSWR(_id && `/api/audits/templates/${_id}`);
 
   //
   // C. Setup form
@@ -60,13 +60,13 @@ export default function AuditsEdit() {
   // D. Handle actions
 
   const handleClose = async () => {
-    router.push(`/audits/${_id}`);
+    router.push(`/audits/templates/${_id}`);
   };
 
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      await API({ service: 'audits', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
+      await API({ service: 'audits/templates', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
       auditMutate({ ...auditData, ...form.values });
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -83,7 +83,7 @@ export default function AuditsEdit() {
 
   return (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
-      <PageContainer title={['Audits', form?.values?.unique_code]} loading={!auditError && !auditData}>
+      <PageContainer title={['Audits', 'Templates', form?.values?.unique_code]} loading={!auditError && !auditData}>
         <ErrorDisplay error={auditError} />
         <ErrorDisplay
           error={hasErrorSaving}

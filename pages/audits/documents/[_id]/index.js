@@ -1,10 +1,10 @@
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
-import PageContainer from '../../../components/PageContainer';
-import Pannel from '../../../components/Pannel';
-import { Grid, GridCell, Label, Value } from '../../../components/Grid';
-import API from '../../../services/API';
-import notify from '../../../services/notify';
+import PageContainer from '../../../../components/PageContainer';
+import Pannel from '../../../../components/Pannel';
+import { Grid, GridCell, Label, Value } from '../../../../components/Grid';
+import API from '../../../../services/API';
+import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { TbPencil, TbTrash } from 'react-icons/tb';
 import { Group, Button, Text } from '@mantine/core';
@@ -15,10 +15,10 @@ export default function AuditsView() {
   const router = useRouter();
   const { _id } = router.query;
 
-  const { data: audit } = useSWR(_id && `/api/audits/${_id}`);
+  const { data: audit } = useSWR(_id && `/api/audits/documents/${_id}`);
 
   const handleEditAudit = async () => {
-    router.push(`/audits/${_id}/edit`);
+    router.push(`/audits/documents/${_id}/edit`);
   };
 
   const handleDeleteAudit = async () => {
@@ -35,8 +35,8 @@ export default function AuditsView() {
       onConfirm: async () => {
         try {
           notify(_id, 'loading', 'Deleting Audit...');
-          await API({ service: 'audits', resourceId: _id, operation: 'delete', method: 'DELETE' });
-          router.push('/audits');
+          await API({ service: 'audits/documents', resourceId: _id, operation: 'delete', method: 'DELETE' });
+          router.push('/audits/documents');
           notify(_id, 'success', 'Audit was deleted!');
         } catch (err) {
           console.log(err);

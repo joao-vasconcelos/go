@@ -1,29 +1,30 @@
 import { useRouter } from 'next/router';
-import PageContainer from '../../components/PageContainer';
-import Pannel from '../../components/Pannel';
-import { Grid } from '../../components/Grid';
+import PageContainer from '../../../../components/PageContainer';
+import Pannel from '../../../../components/Pannel';
+import { Grid } from '../../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
 import { TextInput } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
-import Schema from '../../schemas/Setting';
+import { Validation } from '../../../../schemas/audits/documents';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import API from '../../services/API';
-import SaveButtons from '../../components/SaveButtons';
-import ErrorDisplay from '../../components/ErrorDisplay';
+import API from '../../../../services/API';
+import SaveButtons from '../../../../components/SaveButtons';
+import ErrorDisplay from '../../../../components/ErrorDisplay';
 import useSWR from 'swr';
 
 /* * */
-/* AUDITS > SETTINGS */
-/* Edit audit settings. */
+/* AUDITS > EDIT */
+/* Edit audit by _id. */
 /* * */
 
-export default function AuditsSettings() {
+export default function AuditsEdit() {
   //
 
   //
   // A. Setup variables
 
   const router = useRouter();
+  const { _id } = router.query;
   const hasUpdatedFields = useRef(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
@@ -31,7 +32,7 @@ export default function AuditsSettings() {
   //
   // B. Fetch data
 
-  const { data: settingsData, error: settingsError, mutate: settingsMutate } = useSWR('/api/settings/audits');
+  const { data: auditData, error: auditError, mutate: auditMutate } = useSWR(_id && `/api/audits/documents/${_id}`);
 
   //
   // C. Setup form
@@ -40,7 +41,7 @@ export default function AuditsSettings() {
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
-    validate: yupResolver(Schema),
+    validate: yupResolver(Validation),
     initialValues: {
       unique_code: '',
       first_name: '',
@@ -48,25 +49,25 @@ export default function AuditsSettings() {
   });
 
   useEffect(() => {
-    if (!hasUpdatedFields.current && settingsData) {
-      form.setValues(settingsData);
+    if (!hasUpdatedFields.current && auditData) {
+      form.setValues(auditData);
       form.resetDirty();
       hasUpdatedFields.current = true;
     }
-  }, [settingsData, form]);
+  }, [auditData, form]);
 
   //
   // D. Handle actions
 
   const handleClose = async () => {
-    router.push('/audits');
+    router.push(`/audits/documents/${_id}`);
   };
 
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      await API({ service: 'settings', resourceId: 'audits', operation: 'edit', method: 'PUT', body: form.values });
-      settingsMutate({ ...settingsData, ...form.values });
+      await API({ service: 'audits/documents', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
+      auditMutate({ ...auditData, ...form.values });
       setIsSaving(false);
       setHasErrorSaving(false);
       hasUpdatedFields.current = false;
@@ -75,15 +76,15 @@ export default function AuditsSettings() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [settingsData, form.values, settingsMutate]);
+  }, [_id, auditData, form.values, auditMutate]);
 
   //
   // E. Render components
 
   return (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
-      <PageContainer title={['Audits', 'Settings']} loading={!settingsError && !settingsData}>
-        <ErrorDisplay error={settingsError} />
+      <PageContainer title={['Audits', form?.values?.unique_code]} loading={!auditError && !auditData}>
+        <ErrorDisplay error={auditError} />
         <ErrorDisplay
           error={hasErrorSaving}
           loading={isSaving}

@@ -1,7 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+module.exports = {
   reactStrictMode: true,
   // experimental: { appDir: true },
+  async redirects() {
+    return [
+      {
+        source: '/audits',
+        destination: '/audits/documents',
+        permanent: true,
+      },
+    ];
+  },
 };
-
-module.exports = nextConfig;
