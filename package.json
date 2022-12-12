@@ -20,6 +20,7 @@
     "@mantine/notifications": "^5.9.4",
     "@next-auth/mongodb-adapter": "^1.1.1",
     "@stitches/react": "^1.2.8",
+    "@babel/core": "^7.0.0",
     "dayjs": "^1.11.7",
     "mongodb": "^4.12.1",
     "mongoose": "^6.8.0",
