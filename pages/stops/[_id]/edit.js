@@ -5,7 +5,7 @@ import API from '../../../services/API';
 import Schema from '../../../schemas/Survey';
 import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
-import CheckboxCard from '../../../components/CheckboxCard';
+import { CheckboxCard } from '../../../components/CheckboxCard';
 import { Grid } from '../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
 import { TextInput, NumberInput, Textarea } from '@mantine/core';
@@ -93,7 +93,7 @@ export default function StopsEdit() {
 
   return (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
-      <PageContainer title={['Surveys', form?.values?.unique_code]} loading={!stopError && !stopData}>
+      <PageContainer title={['Stops', form?.values?.unique_code]} loading={!stopError && !stopData}>
         <ErrorDisplay error={stopError} />
         <ErrorDisplay
           error={hasErrorSaving}
