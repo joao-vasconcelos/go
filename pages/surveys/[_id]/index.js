@@ -65,10 +65,10 @@ export default function SurveysView() {
   };
 
   //
-  // D. Render page
+  // D. Render components
 
   return (
-    <PageContainer title={['Surveys', data.unique_code]} loading={!error && !data}>
+    <PageContainer title={['Surveys', data?.unique_code]} loading={!error && !data}>
       <ErrorDisplay error={error} />
 
       <Group>
