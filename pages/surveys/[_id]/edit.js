@@ -1,16 +1,14 @@
 import { useRouter } from 'next/router';
 import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
-import { Grid, GridCell } from '../../../components/Grid';
-import { CheckboxCard } from '../../../components/CheckboxCard';
+import { Grid } from '../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Switch, Button, Group, Alert, Flex, Text, NumberInput, Textarea } from '@mantine/core';
-import AutoSaveButton from '../../../components/AutoSaveButton';
+import { TextInput, NumberInput, Textarea } from '@mantine/core';
+import SaveButtons from '../../../components/SaveButtons';
 import Schema from '../../../schemas/Survey';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../services/API';
 import useSWR from 'swr';
-import { TbArrowLeft, TbRotate, TbShieldCheck, TbAlertCircle } from 'react-icons/tb';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 
 /* * */
@@ -65,31 +63,26 @@ export default function SurveysEdit() {
   // D. Handle actions
 
   const handleClose = async () => {
-    if (form.isValid()) {
-      await handleSave(form.values, () => {
-        router.push(`/surveys/${_id}`);
-      });
-    }
+    router.push(`/surveys/${_id}`);
   };
 
-  const handleSave = useCallback(
-    async (values, callback) => {
-      try {
-        setIsSaving(true);
-        await API({ service: 'surveys', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
-        mutate({ ...data, ...form.values });
-        setIsSaving(false);
-        setHasErrorSaving(false);
-        hasUpdatedFields.current = false;
-        if (callback) callback();
-      } catch (err) {
-        console.log(err);
-        setIsSaving(false);
-        setHasErrorSaving(err);
-      }
-    },
-    [_id, data, form.values, mutate]
-  );
+  const handleSave = useCallback(async () => {
+    try {
+      setIsSaving(true);
+      await API({ service: 'surveys', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
+      mutate({ ...data, ...form.values });
+      setIsSaving(false);
+      setHasErrorSaving(false);
+      hasUpdatedFields.current = false;
+    } catch (err) {
+      console.log(err);
+      setIsSaving(false);
+      setHasErrorSaving(err);
+    }
+  }, [_id, data, form.values, mutate]);
+
+  //
+  // E. Render components
 
   return (
     <form onSubmit={form.onSubmit(handleSave)}>
@@ -99,21 +92,16 @@ export default function SurveysEdit() {
           error={hasErrorSaving}
           loading={isSaving}
           disabled={!form.isValid()}
-          onTryAgain={async () => await handleSave(form.values)}
+          onTryAgain={async () => await handleSave()}
         />
 
-        <Group>
-          <Button leftIcon={<TbArrowLeft />} onClick={handleClose} disabled={!form.isValid() || isSaving}>
-            Save & Close
-          </Button>
-          <AutoSaveButton
-            type={'submit'}
-            isLoading={isSaving}
-            isDirty={form.isDirty()}
-            isValid={form.isValid()}
-            onSaveTrigger={async () => await handleSave(form.values)}
-          />
-        </Group>
+        <SaveButtons
+          isLoading={isSaving}
+          isDirty={form.isDirty()}
+          isValid={form.isValid()}
+          onSave={async () => await handleSave()}
+          onClose={async () => await handleClose()}
+        />
 
         {data && (
           <>
