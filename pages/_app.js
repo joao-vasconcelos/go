@@ -21,7 +21,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     { href: '/surveys', label: 'Surveys', icon: TbLicense },
     { href: '/stops', label: 'Stops', icon: TbFlag3 },
     { href: '/users', label: 'Users', icon: TbUsers },
-    { href: '/settings', label: 'Settings', icon: TbSettings },
   ];
 
   // SWR CONFIGURATION
