@@ -28,7 +28,7 @@ export default function SurveysList() {
   //
   // B. Fetch data
 
-  const { data, error } = useSWR('/api/surveys/');
+  const { data: surveysData, error: surveysError } = useSWR('/api/surveys/');
 
   //
   // C. Handle actions
@@ -50,27 +50,31 @@ export default function SurveysList() {
     router.push(`/surveys/${row._id}`);
   }
 
+  function handleOpenSettings() {
+    router.push('/surveys/settings');
+  }
+
   //
   // D. Render page
 
   return (
     <PageContainer title={['Surveys']}>
-      <ErrorDisplay error={error} />
+      <ErrorDisplay error={surveysError} />
 
       <Group>
-        <Button leftIcon={<TbPlus />} onClick={handleCreateSurvey} loading={isCreating}>
+        <Button onClick={handleCreateSurvey} loading={isCreating} leftIcon={<TbPlus />}>
           Start New Survey
         </Button>
         <Spacer width={'full'} />
-        <Button variant='light'>
-          <TbSettings />
+        <Button onClick={handleOpenSettings} leftIcon={<TbSettings />} variant='light'>
+          Settings
         </Button>
       </Group>
 
       <Pannel title={'All Surveys'}>
         <DynamicTable
-          data={data || []}
-          isLoading={!error && !data}
+          data={surveysData || []}
+          isLoading={!surveysError && !surveysData}
           onRowClick={handleRowClick}
           columns={[
             { label: '_id', key: '_id' },

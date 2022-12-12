@@ -1,32 +1,46 @@
 import useSWR from 'swr';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Alert, Group } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 import PageContainer from '../../components/PageContainer';
 import DynamicTable from '../../components/DynamicTable';
 import Pannel from '../../components/Pannel';
-import { TbPlus, TbAlertCircle } from 'react-icons/tb';
+import { TbPlus, TbSettings } from 'react-icons/tb';
 import API from '../../services/API';
 import notify from '../../services/notify';
+import { Spacer } from '../../components/LayoutUtils';
+import ErrorDisplay from '../../components/ErrorDisplay';
+
+/* * */
+/* AUDITS > LIST */
+/* List all available audits. */
+/* * */
 
 export default function AuditsList() {
   //
 
+  //
+  // A. Setup variables
+
   const router = useRouter();
+  const [isCreating, setIsCreating] = useState(false);
 
-  const { data, error } = useSWR('/api/audits/');
+  //
+  // B. Fetch data
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { data: auditsData, error: auditsError } = useSWR('/api/audits/');
+
+  //
+  // C. Handle actions
 
   const handleCreateAudit = async () => {
     try {
-      setIsLoading(true);
-      notify('new', 'loading', 'Starting new Audit...');
+      setIsCreating(true);
       const response = await API({ service: 'audits', operation: 'create', method: 'POST', body: {} });
       router.push(`/audits/${response._id}/edit`);
       notify('new', 'success', 'A new Audit has started.');
     } catch (err) {
-      setIsLoading(false);
+      setIsCreating(false);
       console.log(err);
       notify('new', 'error', err.message);
     }
@@ -36,31 +50,38 @@ export default function AuditsList() {
     router.push(`/audits/${row._id}`);
   }
 
+  function handleOpenSettings() {
+    router.push('/audits/settings');
+  }
+
+  //
+  // D. Render components
+
   return (
     <PageContainer title={['Audits']}>
-      {error && (
-        <Alert icon={<TbAlertCircle />} title={error.message} color='red'>
-          {error.description}
-        </Alert>
-      )}
+      <ErrorDisplay error={auditsError} />
 
       <Group>
-        <Button leftIcon={<TbPlus />} onClick={handleCreateAudit} loading={isLoading}>
+        <Button onClick={handleCreateAudit} loading={isCreating} leftIcon={<TbPlus />}>
           Start New Audit
+        </Button>
+        <Spacer width={'full'} />
+        <Button onClick={handleOpenSettings} leftIcon={<TbSettings />} variant='light'>
+          Settings
         </Button>
       </Group>
 
       <Pannel title={'All Audits'}>
         <DynamicTable
-          data={data || []}
-          isLoading={!error && !data}
+          data={auditsData || []}
+          isLoading={!auditsError && !auditsData}
           onRowClick={handleRowClick}
           columns={[
             { label: '_id', key: '_id' },
             { label: 'Unique Code', key: 'unique_code' },
             { label: 'First Name', key: 'first_name' },
           ]}
-          searchFieldPlaceholder={'Search by stop code, name, etc...'}
+          searchFieldPlaceholder={'Search by audit code, supplier, etc...'}
         />
       </Pannel>
     </PageContainer>
