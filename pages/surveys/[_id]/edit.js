@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
+import useSWR from 'swr';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import API from '../../../services/API';
+import Schema from '../../../schemas/Survey';
 import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
 import { Grid } from '../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
 import { TextInput, NumberInput, Textarea } from '@mantine/core';
 import SaveButtons from '../../../components/SaveButtons';
-import Schema from '../../../schemas/Survey';
-import { useState, useRef, useEffect, useCallback } from 'react';
-import API from '../../../services/API';
-import useSWR from 'swr';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 
 /* * */
@@ -31,7 +31,7 @@ export default function SurveysEdit() {
   //
   // B. Fetch data
 
-  const { data, error, mutate } = useSWR(_id && `/api/surveys/${_id}`);
+  const { data: surveyData, error: surveyError, mutate: surveyMutate } = useSWR(_id && `/api/surveys/${_id}`);
 
   //
   // C. Setup form
@@ -52,12 +52,12 @@ export default function SurveysEdit() {
   });
 
   useEffect(() => {
-    if (!hasUpdatedFields.current && data) {
-      form.setValues(data);
+    if (!hasUpdatedFields.current && surveyData) {
+      form.setValues(surveyData);
       form.resetDirty();
       hasUpdatedFields.current = true;
     }
-  }, [data, form]);
+  }, [surveyData, form]);
 
   //
   // D. Handle actions
@@ -70,7 +70,7 @@ export default function SurveysEdit() {
     try {
       setIsSaving(true);
       await API({ service: 'surveys', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
-      mutate({ ...data, ...form.values });
+      surveyMutate({ ...surveyData, ...form.values });
       setIsSaving(false);
       setHasErrorSaving(false);
       hasUpdatedFields.current = false;
@@ -79,15 +79,15 @@ export default function SurveysEdit() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [_id, data, form.values, mutate]);
+  }, [_id, surveyData, form.values, surveyMutate]);
 
   //
   // E. Render components
 
   return (
-    <form onSubmit={form.onSubmit(handleSave)}>
-      <PageContainer title={['Surveys', form.values.unique_code]} loading={!error && !data}>
-        <ErrorDisplay error={error} />
+    <form onSubmit={form.onSubmit(async () => await handleSave())}>
+      <PageContainer title={['Surveys', form?.values?.unique_code]} loading={!surveyError && !surveyData}>
+        <ErrorDisplay error={surveyError} />
         <ErrorDisplay
           error={hasErrorSaving}
           loading={isSaving}
@@ -103,34 +103,30 @@ export default function SurveysEdit() {
           onClose={async () => await handleClose()}
         />
 
-        {data && (
-          <>
-            <Pannel title={'General Details'}>
-              <Grid>
-                <TextInput label={'Stop Code'} placeholder={'000000'} {...form.getInputProps('unique_code')} />
-                <div />
-              </Grid>
-              <Grid>
-                <TextInput label={'Name'} placeholder={'Avenida da República (ICNF)'} {...form.getInputProps('name')} />
-                <TextInput
-                  label={'Short Name'}
-                  placeholder={'Av. República (ICNF)'}
-                  {...form.getInputProps('short_name')}
-                />
-              </Grid>
-              <Grid>
-                <Textarea label={'Description'} autosize minRows={2} {...form.getInputProps('description')} />
-              </Grid>
-            </Pannel>
+        <Pannel title={'General Details'}>
+          <Grid>
+            <TextInput label={'Stop Code'} placeholder={'000000'} {...form.getInputProps('unique_code')} />
+            <div />
+          </Grid>
+          <Grid>
+            <TextInput label={'Name'} placeholder={'Avenida da República (ICNF)'} {...form.getInputProps('name')} />
+            <TextInput
+              label={'Short Name'}
+              placeholder={'Av. República (ICNF)'}
+              {...form.getInputProps('short_name')}
+            />
+          </Grid>
+          <Grid>
+            <Textarea label={'Description'} autosize minRows={2} {...form.getInputProps('description')} />
+          </Grid>
+        </Pannel>
 
-            <Pannel title={'Location'}>
-              <Grid>
-                <NumberInput label={'Latitude'} defaultValue={0} precision={5} {...form.getInputProps('latitude')} />
-                <NumberInput label={'Longitude'} defaultValue={0} precision={5} {...form.getInputProps('longitude')} />
-              </Grid>
-            </Pannel>
-          </>
-        )}
+        <Pannel title={'Location'}>
+          <Grid>
+            <NumberInput label={'Latitude'} defaultValue={0} precision={5} {...form.getInputProps('latitude')} />
+            <NumberInput label={'Longitude'} defaultValue={0} precision={5} {...form.getInputProps('longitude')} />
+          </Grid>
+        </Pannel>
       </PageContainer>
     </form>
   );

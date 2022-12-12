@@ -1,28 +1,41 @@
 import { useRouter } from 'next/router';
 import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
-import { Grid, GridCell } from '../../../components/Grid';
+import { Grid } from '../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Switch, Button, Group, Alert, Flex, Text } from '@mantine/core';
+import { TextInput } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import Schema from '../../../schemas/Audit';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../services/API';
-import notify from '../../../services/notify';
+import SaveButtons from '../../../components/SaveButtons';
+import ErrorDisplay from '../../../components/ErrorDisplay';
 import useSWR from 'swr';
-import { TbArrowLeft, TbRotate, TbShieldCheck, TbAlertCircle } from 'react-icons/tb';
+
+/* * */
+/* AUDITS > EDIT */
+/* Edit audit by _id. */
+/* * */
 
 export default function AuditsEdit() {
   //
 
+  //
+  // A. Setup variables
+
   const router = useRouter();
   const { _id } = router.query;
-
-  const { data: audit, mutate } = useSWR(_id && `/api/audits/${_id}`);
-
   const hasUpdatedFields = useRef(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState();
+  const [isSaving, setIsSaving] = useState(false);
+  const [hasErrorSaving, setHasErrorSaving] = useState();
+
+  //
+  // B. Fetch data
+
+  const { data: auditData, error: auditError, mutate: auditMutate } = useSWR(_id && `/api/audits/${_id}`);
+
+  //
+  // C. Setup form
 
   const form = useForm({
     validateInputOnBlur: true,
@@ -36,89 +49,56 @@ export default function AuditsEdit() {
   });
 
   useEffect(() => {
-    if (!hasUpdatedFields.current && audit) {
-      form.setValues({
-        unique_code: audit.unique_code || '',
-        first_name: audit.first_name || '',
-      });
+    if (!hasUpdatedFields.current && auditData) {
+      form.setValues(auditData);
       form.resetDirty();
       hasUpdatedFields.current = true;
     }
-  }, [audit, form]);
+  }, [auditData, form]);
+
+  //
+  // D. Handle actions
 
   const handleClose = async () => {
-    if (form.isValid()) {
-      await handleSave(form.values);
-      router.push(`/audits/${_id}`);
-    }
+    router.push(`/audits/${_id}`);
   };
 
-  const handleSave = useCallback(
-    async (values) => {
-      try {
-        setIsLoading(true);
-        notify('new', 'loading', 'Saving changes...');
-        await API({ service: 'audits', resourceId: _id, operation: 'edit', method: 'PUT', body: values });
-        mutate({ ...audit, ...values });
-        notify('new', 'success', 'Changes saved!');
-        setIsLoading(false);
-        setIsError(false);
-      } catch (err) {
-        console.log(err);
-        setIsLoading(false);
-        setIsError(err);
-        notify('new', 'error', err.message || 'An error occurred.');
-      }
-    },
-    [_id, audit, mutate]
-  );
+  const handleSave = useCallback(async () => {
+    try {
+      setIsSaving(true);
+      await API({ service: 'audits', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
+      auditMutate({ ...auditData, ...form.values });
+      setIsSaving(false);
+      setHasErrorSaving(false);
+      hasUpdatedFields.current = false;
+    } catch (err) {
+      console.log(err);
+      setIsSaving(false);
+      setHasErrorSaving(err);
+    }
+  }, [_id, auditData, form.values, auditMutate]);
 
-  useEffect(() => {
-    const autoSaveInterval = setInterval(async () => {
-      if (form.isDirty() && form.isValid()) {
-        await handleSave(form.values);
-        hasUpdatedFields.current = false;
-      }
-    }, 1000);
-    return () => clearInterval(autoSaveInterval);
-  }, [form, handleSave]);
+  //
+  // E. Render components
 
   return (
-    <form onSubmit={form.onSubmit(handleSave)}>
-      <PageContainer title={['Audits', form.values.unique_code]}>
-        {isError ? (
-          <Alert icon={<TbAlertCircle />} title={`Error: ${isError.message}`} color='red'>
-            <Flex gap='md' align='flex-start' direction='column'>
-              <Text>{isError.description || 'No solutions found for this error.'}</Text>
-              <Button
-                type={'submit'}
-                variant='default'
-                color='red'
-                leftIcon={<TbRotate />}
-                disabled={!form.isValid()}
-                loading={isLoading}
-              >
-                Try saving again
-              </Button>
-            </Flex>
-          </Alert>
-        ) : (
-          <Group>
-            <Button leftIcon={<TbArrowLeft />} onClick={handleClose} disabled={!form.isValid()}>
-              Save & Close
-            </Button>
-            <Button
-              type={'submit'}
-              leftIcon={<TbShieldCheck />}
-              variant='light'
-              color='green'
-              loading={isLoading}
-              disabled={!form.isValid()}
-            >
-              {isLoading ? 'Saving changes...' : 'Changes are saved'}
-            </Button>
-          </Group>
-        )}
+    <form onSubmit={form.onSubmit(async () => await handleSave())}>
+      <PageContainer title={['Audits', form?.values?.unique_code]} loading={!auditError && !auditData}>
+        <ErrorDisplay error={auditError} />
+        <ErrorDisplay
+          error={hasErrorSaving}
+          loading={isSaving}
+          disabled={!form.isValid()}
+          onTryAgain={async () => await handleSave()}
+        />
+
+        <SaveButtons
+          isLoading={isSaving}
+          isDirty={form.isDirty()}
+          isValid={form.isValid()}
+          onSave={async () => await handleSave()}
+          onClose={async () => await handleClose()}
+        />
 
         <Pannel title={'Customer Details'}>
           <Grid>
@@ -126,34 +106,6 @@ export default function AuditsEdit() {
             <TextInput label={'Last Name'} placeholder={'Soares'} {...form.getInputProps('last_name')} />
             <DatePicker label={'Birthday'} placeholder={'Pick a date'} {...form.getInputProps('birthday')} />
             <TextInput label={'Reference'} placeholder={'PT'} {...form.getInputProps('reference')} />
-          </Grid>
-        </Pannel>
-
-        <Pannel title={'Invoicing'}>
-          <Grid>
-            <GridCell>
-              <Switch
-                label='Send Invoices'
-                checked={form.values.send_invoices}
-                onChange={({ currentTarget }) => form.setFieldValue('send_invoices', currentTarget.checked)}
-              />
-            </GridCell>
-          </Grid>
-          <Grid>
-            <TextInput label={'Tax Region'} placeholder={'PT'} maxLength={2} {...form.getInputProps('tax_region')} />
-            <TextInput
-              label={'Tax Number'}
-              placeholder={'500 100 200'}
-              maxLength={11}
-              {...form.getInputProps('tax_number')}
-            />
-          </Grid>
-          <Grid>
-            <TextInput
-              label={'Contact Email'}
-              placeholder={'email@icloud.com'}
-              {...form.getInputProps('contact_email')}
-            />
           </Grid>
         </Pannel>
       </PageContainer>

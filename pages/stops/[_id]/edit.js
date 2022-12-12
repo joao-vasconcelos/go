@@ -1,29 +1,41 @@
 import { useRouter } from 'next/router';
-import PageContainer from '../../../components/PageContainer';
-import Pannel from '../../../components/Pannel';
-import { Grid, GridCell } from '../../../components/Grid';
-import { CheckboxCard } from '../../../components/CheckboxCard';
-import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Switch, Button, Group, Alert, Flex, Text, NumberInput, Textarea } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
-import Schema from '../../../schemas/Stop';
+import useSWR from 'swr';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../services/API';
-import notify from '../../../services/notify';
-import useSWR from 'swr';
-import { TbArrowLeft, TbRotate, TbShieldCheck, TbAlertCircle } from 'react-icons/tb';
+import Schema from '../../../schemas/Survey';
+import PageContainer from '../../../components/PageContainer';
+import Pannel from '../../../components/Pannel';
+import CheckboxCard from '../../../components/CheckboxCard';
+import { Grid } from '../../../components/Grid';
+import { useForm, yupResolver } from '@mantine/form';
+import { TextInput, NumberInput, Textarea } from '@mantine/core';
+import SaveButtons from '../../../components/SaveButtons';
+import ErrorDisplay from '../../../components/ErrorDisplay';
+
+/* * */
+/* STOPS > EDIT */
+/* Edit stop by _id. */
+/* * */
 
 export default function StopsEdit() {
   //
 
+  //
+  // A. Setup variables
+
   const router = useRouter();
   const { _id } = router.query;
-
-  const { data: stop, mutate } = useSWR(_id && `/api/stops/${_id}`);
-
   const hasUpdatedFields = useRef(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState();
+  const [isSaving, setIsSaving] = useState(false);
+  const [hasErrorSaving, setHasErrorSaving] = useState();
+
+  //
+  // B. Fetch data
+
+  const { data: stopData, error: stopError, mutate: stopMutate } = useSWR(_id && `/api/stops/${_id}`);
+
+  //
+  // C. Setup form
 
   const form = useForm({
     validateInputOnBlur: true,
@@ -47,99 +59,56 @@ export default function StopsEdit() {
   });
 
   useEffect(() => {
-    if (!hasUpdatedFields.current && stop) {
-      form.setValues({
-        unique_code: stop.unique_code || '',
-        name: stop.name || '',
-        short_name: stop.short_name || '',
-        description: stop.description || '',
-        latitude: stop.latitude || 0,
-        longitude: stop.longitude || 0,
-        features: {
-          has_bench: stop.has_bench || false,
-          has_crossing: stop.has_crossing || false,
-          has_flag: stop.has_flag || false,
-          has_abusive_parking: stop.has_abusive_parking || false,
-        },
-      });
+    if (!hasUpdatedFields.current && stopData) {
+      form.setValues(stopData);
       form.resetDirty();
       hasUpdatedFields.current = true;
     }
-  }, [stop, form]);
+  }, [stopData, form]);
+
+  //
+  // D. Handle actions
 
   const handleClose = async () => {
-    if (form.isValid()) {
-      await handleSave(form.values);
-      router.push(`/stops/${_id}`);
-    }
+    router.push(`/stops/${_id}`);
   };
 
-  const handleSave = useCallback(
-    async (values) => {
-      try {
-        setIsLoading(true);
-        notify('new', 'loading', 'Saving changes...');
-        await API({ service: 'stops', resourceId: _id, operation: 'edit', method: 'PUT', body: values });
-        mutate({ ...stop, ...values });
-        notify('new', 'success', 'Changes saved!');
-        setIsLoading(false);
-        setIsError(false);
-      } catch (err) {
-        console.log(err);
-        setIsLoading(false);
-        setIsError(err);
-        notify('new', 'error', err.message || 'An error occurred.');
-      }
-    },
-    [_id, stop, mutate]
-  );
+  const handleSave = useCallback(async () => {
+    try {
+      setIsSaving(true);
+      await API({ service: 'stops', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
+      stopMutate({ ...stopData, ...form.values });
+      setIsSaving(false);
+      setHasErrorSaving(false);
+      hasUpdatedFields.current = false;
+    } catch (err) {
+      console.log(err);
+      setIsSaving(false);
+      setHasErrorSaving(err);
+    }
+  }, [_id, stopData, form.values, stopMutate]);
 
-  useEffect(() => {
-    const autoSaveInterval = setInterval(async () => {
-      if (form.isDirty() && form.isValid()) {
-        await handleSave(form.values);
-        hasUpdatedFields.current = false;
-      }
-    }, 1000);
-    return () => clearInterval(autoSaveInterval);
-  }, [form, handleSave]);
+  //
+  // E. Render components
 
   return (
-    <form onSubmit={form.onSubmit(handleSave)}>
-      <PageContainer title={['Stops', form.values.unique_code]}>
-        {isError ? (
-          <Alert icon={<TbAlertCircle />} title={`Error: ${isError.message}`} color='red'>
-            <Flex gap='md' align='flex-start' direction='column'>
-              <Text>{isError.description || 'No solutions found for this error.'}</Text>
-              <Button
-                type={'submit'}
-                variant='default'
-                color='red'
-                leftIcon={<TbRotate />}
-                disabled={!form.isValid()}
-                loading={isLoading}
-              >
-                Try saving again
-              </Button>
-            </Flex>
-          </Alert>
-        ) : (
-          <Group>
-            <Button leftIcon={<TbArrowLeft />} onClick={handleClose} disabled={!form.isValid()}>
-              Save & Close
-            </Button>
-            <Button
-              type={'submit'}
-              leftIcon={<TbShieldCheck />}
-              variant='light'
-              color='green'
-              loading={isLoading}
-              disabled={!form.isValid()}
-            >
-              {isLoading ? 'Saving changes...' : 'Changes are saved'}
-            </Button>
-          </Group>
-        )}
+    <form onSubmit={form.onSubmit(async () => await handleSave())}>
+      <PageContainer title={['Surveys', form?.values?.unique_code]} loading={!stopError && !stopData}>
+        <ErrorDisplay error={stopError} />
+        <ErrorDisplay
+          error={hasErrorSaving}
+          loading={isSaving}
+          disabled={!form.isValid()}
+          onTryAgain={async () => await handleSave()}
+        />
+
+        <SaveButtons
+          isLoading={isSaving}
+          isDirty={form.isDirty()}
+          isValid={form.isValid()}
+          onSave={async () => await handleSave()}
+          onClose={async () => await handleClose()}
+        />
 
         <Pannel title={'General Details'}>
           <Grid>
