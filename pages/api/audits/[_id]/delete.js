@@ -1,5 +1,6 @@
 import mongodb from '../../../../services/mongodb';
 import Model from '../../../../models/Audit';
+import delay from '../../../../utils/delay';
 
 /* * */
 /* DELETE AUDIT */
@@ -8,6 +9,7 @@ import Model from '../../../../models/Audit';
 
 export default async function auditsDelete(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not DELETE
   if (req.method != 'DELETE') {

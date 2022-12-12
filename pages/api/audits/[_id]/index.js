@@ -1,5 +1,6 @@
 import mongodb from '../../../../services/mongodb';
 import Model from '../../../../models/Audit';
+import delay from '../../../../utils/delay';
 
 /* * */
 /* GET AUDIT BY ID */
@@ -8,6 +9,7 @@ import Model from '../../../../models/Audit';
 
 export default async function auditsGet(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not GET
   if (req.method != 'GET') {

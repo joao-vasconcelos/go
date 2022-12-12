@@ -1,5 +1,6 @@
 import mongodb from '../../../../services/mongodb';
 import Model from '../../../../models/Stop';
+import delay from '../../../../utils/delay';
 
 /* * */
 /* GET STOP BY ID */
@@ -8,6 +9,7 @@ import Model from '../../../../models/Stop';
 
 export default async function stopsGet(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not GET
   if (req.method != 'GET') {

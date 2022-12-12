@@ -1,6 +1,7 @@
 import mongodb from '../../../../services/mongodb';
 import Model from '../../../../models/Audit';
 import Schema from '../../../../schemas/Audit';
+import delay from '../../../../utils/delay';
 
 /* * */
 /* EDIT AUDIT */
@@ -9,6 +10,7 @@ import Schema from '../../../../schemas/Audit';
 
 export default async function auditsEdit(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not PUT
   if (req.method != 'PUT') {

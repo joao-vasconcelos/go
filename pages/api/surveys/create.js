@@ -11,6 +11,7 @@ import delay from '../../../utils/delay';
 
 export default async function surveysCreate(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not POST
   if (req.method != 'POST') {

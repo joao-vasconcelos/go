@@ -9,6 +9,7 @@ import delay from '../../../utils/delay';
 
 export default async function surveysList(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not GET
   if (req.method != 'GET') {

@@ -1,6 +1,7 @@
 import mongodb from '../../../../services/mongodb';
 import Model from '../../../../models/User';
 import Schema from '../../../../schemas/User';
+import delay from '../../../../utils/delay';
 
 /* * */
 /* EDIT USER */
@@ -9,6 +10,7 @@ import Schema from '../../../../schemas/User';
 
 export default async function usersEdit(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not PUT
   if (req.method != 'PUT') {

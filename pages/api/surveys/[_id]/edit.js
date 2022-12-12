@@ -10,11 +10,7 @@ import delay from '../../../../utils/delay';
 
 export default async function surveysEdit(req, res) {
   //
-  await delay(2000);
-  const random = Math.random();
-  if (random > 0.3) {
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
+  await delay();
 
   // 0. Refuse request if not PUT
   if (req.method != 'PUT') {

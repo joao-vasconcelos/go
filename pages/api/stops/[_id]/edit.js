@@ -1,6 +1,7 @@
 import mongodb from '../../../../services/mongodb';
 import Model from '../../../../models/Stop';
 import Schema from '../../../../schemas/Stop';
+import delay from '../../../../utils/delay';
 
 /* * */
 /* EDIT STOP */
@@ -9,6 +10,7 @@ import Schema from '../../../../schemas/Stop';
 
 export default async function stopsEdit(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not PUT
   if (req.method != 'PUT') {

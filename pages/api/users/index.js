@@ -1,5 +1,6 @@
 import mongodb from '../../../services/mongodb';
 import Model from '../../../models/User';
+import delay from '../../../utils/delay';
 
 /* * */
 /* LIST ALL USERS */
@@ -8,6 +9,7 @@ import Model from '../../../models/User';
 
 export default async function usersList(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not GET
   if (req.method != 'GET') {

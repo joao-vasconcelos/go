@@ -2,6 +2,7 @@ import mongodb from '../../../services/mongodb';
 import Model from '../../../models/Stop';
 import Schema from '../../../schemas/Stop';
 import generator from '../../../services/generator';
+import delay from '../../../utils/delay';
 
 /* * */
 /* CREATE STOP */
@@ -10,6 +11,7 @@ import generator from '../../../services/generator';
 
 export default async function stopsCreate(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not POST
   if (req.method != 'POST') {

@@ -2,6 +2,7 @@ import mongodb from '../../../services/mongodb';
 import Model from '../../../models/Audit';
 import Schema from '../../../schemas/Audit';
 import generator from '../../../services/generator';
+import delay from '../../../utils/delay';
 
 /* * */
 /* CREATE AUDIT */
@@ -10,6 +11,7 @@ import generator from '../../../services/generator';
 
 export default async function auditsCreate(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not POST
   if (req.method != 'POST') {

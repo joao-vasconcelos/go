@@ -9,6 +9,7 @@ import delay from '../../../../utils/delay';
 
 export default async function surveysDelete(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not DELETE
   if (req.method != 'DELETE') {

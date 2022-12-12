@@ -1,7 +1,7 @@
 import mongodb from '../../../services/mongodb';
 import Model from '../../../models/User';
 import Schema from '../../../schemas/User';
-import generator from '../../../services/generator';
+import delay from '../../../utils/delay';
 
 /* * */
 /* CREATE USER */
@@ -10,6 +10,7 @@ import generator from '../../../services/generator';
 
 export default async function usersCreate(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not POST
   if (req.method != 'POST') {

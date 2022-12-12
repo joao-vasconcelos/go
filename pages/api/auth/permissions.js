@@ -1,3 +1,5 @@
+import delay from '../../../utils/delay';
+
 /* * */
 /* LIST ALL PERMISSIONS */
 /* This endpoint return all bus stops from the mongodb. */
@@ -5,6 +7,7 @@
 
 export default async function permissionsList(req, res) {
   //
+  await delay();
 
   // 0. Refuse request if not GET
   if (req.method != 'GET') {
