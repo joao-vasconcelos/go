@@ -1,6 +1,8 @@
 import { styled } from '@stitches/react';
 import { useState } from 'react';
+import { Grid } from './Grid';
 import { TbChevronDown, TbChevronLeft } from 'react-icons/tb';
+import { Group } from '@mantine/core';
 
 /* * */
 /* PANNEL */
@@ -22,11 +24,8 @@ const Header = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+  gap: '$md',
   padding: '$md',
-  cursor: 'pointer',
-  '&:hover': {
-    backgroundColor: '$gray3',
-  },
   variants: {
     isOpen: {
       true: {
@@ -35,6 +34,17 @@ const Header = styled('div', {
         borderBottomColor: '$gray7',
       },
     },
+    canOpen: {
+      true: {
+        cursor: 'pointer',
+        '&:hover': {
+          backgroundColor: '$gray3',
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    canOpen: true,
   },
 });
 
@@ -61,22 +71,37 @@ const InnerWrapper = styled('div', {
 /* */
 /* LOGIC */
 
-export default function Pannel({ title, description, children }) {
+export default function Pannel({ title, description, children, editMode = false, deleteInput }) {
   //
   const [isOpen, setIsOpen] = useState(title ? true : true);
 
-  return (
-    <Container>
-      {title && (
-        <Header isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>
-          <span>
-            <Title>{title}</Title>
-            <Description>{description}</Description>
-          </span>
-          {isOpen ? <TbChevronDown /> : <TbChevronLeft />}
+  if (editMode) {
+    return (
+      <Container>
+        <Header isOpen={true} canOpen={false}>
+          <InnerWrapper css={{ padding: 0 }}>
+            {title}
+            {description}
+          </InnerWrapper>
+          {deleteInput}
         </Header>
-      )}
-      {isOpen && <InnerWrapper>{children}</InnerWrapper>}
-    </Container>
-  );
+        {isOpen && <InnerWrapper>{children}</InnerWrapper>}
+      </Container>
+    );
+  } else {
+    return (
+      <Container>
+        {title && (
+          <Header isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>
+            <span>
+              <Title>{title}</Title>
+              <Description>{description}</Description>
+            </span>
+            {isOpen ? <TbChevronDown /> : <TbChevronLeft />}
+          </Header>
+        )}
+        {isOpen && <InnerWrapper>{children}</InnerWrapper>}
+      </Container>
+    );
+  }
 }
