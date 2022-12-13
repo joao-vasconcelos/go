@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../services/API';
-import Schema from '../../../schemas/Survey';
+import { Validation } from '../../../schemas/stops/documents';
 import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
 import { CheckboxCard } from '../../../components/CheckboxCard';
@@ -41,7 +41,7 @@ export default function StopsEdit() {
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
-    validate: yupResolver(Schema),
+    validate: yupResolver(Validation),
     initialValues: {
       unique_code: '',
       name: '',

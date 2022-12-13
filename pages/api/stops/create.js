@@ -1,8 +1,7 @@
-import mongodb from '../../../services/mongodb';
-import Model from '../../../models/Stop';
-import Schema from '../../../schemas/Stop';
-import generator from '../../../services/generator';
 import delay from '../../../utils/delay';
+import generator from '../../../services/generator';
+import mongodb from '../../../services/mongodb';
+import { Validation, Model } from '../../../schemas/stops/documents';
 
 /* * */
 /* CREATE STOP */
@@ -29,7 +28,7 @@ export default async function stopsCreate(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = Schema.cast(req.body);
+    req.body = Validation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });

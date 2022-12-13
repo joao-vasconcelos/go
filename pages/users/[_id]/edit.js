@@ -4,7 +4,7 @@ import Pannel from '../../../components/Pannel';
 import { Grid } from '../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
 import { TextInput, MultiSelect } from '@mantine/core';
-import Schema from '../../../schemas/User';
+import { Validation } from '../../../schemas/users/documents';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../services/API';
 import useSWR from 'swr';
@@ -41,7 +41,7 @@ export default function UsersEdit() {
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
-    validate: yupResolver(Schema),
+    validate: yupResolver(Validation),
     initialValues: {
       email: '',
       name: '',

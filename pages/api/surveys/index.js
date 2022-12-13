@@ -1,6 +1,6 @@
-import mongodb from '../../../services/mongodb';
-import Model from '../../../models/Survey';
 import delay from '../../../utils/delay';
+import mongodb from '../../../services/mongodb';
+import { Model } from '../../../schemas/surveys/documents';
 
 /* * */
 /* LIST ALL SURVEYS */

@@ -1,13 +1,12 @@
-/* * * * * */
-/* SCHEMA: EMAIL */
-/* * */
-
-/* * */
-/* IMPORTS */
 import * as yup from 'yup';
 
 /* * */
-/* Schema for YUP ["Email"] Object */
-export default yup.object({
+/* SCHEMA: EMAIL */
+/* Explanation needed. */
+/* * */
+
+/* * */
+/* A. YUP Validation Schema */
+export const Validation = yup.object({
   email: yup.string().email('Please provide a valid email address.').required('Please enter your TML email.'),
 });

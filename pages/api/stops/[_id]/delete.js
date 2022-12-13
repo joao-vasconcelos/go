@@ -1,6 +1,6 @@
-import mongodb from '../../../../services/mongodb';
-import Model from '../../../../models/Stop';
 import delay from '../../../../utils/delay';
+import mongodb from '../../../../services/mongodb';
+import { Model } from '../../../../schemas/stops/documents';
 
 /* * */
 /* DELETE STOP */

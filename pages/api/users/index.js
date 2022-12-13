@@ -1,6 +1,6 @@
-import mongodb from '../../../services/mongodb';
-import Model from '../../../models/User';
 import delay from '../../../utils/delay';
+import mongodb from '../../../services/mongodb';
+import { Model } from '../../../schemas/users/documents';
 
 /* * */
 /* LIST ALL USERS */

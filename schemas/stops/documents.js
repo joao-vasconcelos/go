@@ -1,15 +1,30 @@
-/* * * * * */
-/* MODEL: STOP */
-/* * */
-
-/* * */
-/* IMPORTS */
+import * as yup from 'yup';
 import mongoose from 'mongoose';
 
 /* * */
-/* Schema for MongoDB ["Stop"] Object */
-module.exports =
-  mongoose.models.Stop ||
+/* SCHEMA: STOP DOCUMENT */
+/* Explanation needed. */
+/* * */
+
+/* * */
+/* A. YUP Validation Schema */
+export const Validation = yup.object({
+  unique_code: yup
+    .string()
+    .min(6, 'Unique Code must have exactly ${min} characters')
+    .max(6, 'Unique Code must have exactly ${max} characters')
+    .required('Unique Code is a required field'),
+  name: yup.string().max(50, 'Name must be no longer than ${max} characters'),
+  short_name: yup.string().max(15, 'Short Name must be no longer than ${max} characters'),
+  description: yup.string().max(300, 'Description must be no longer than ${max} characters'),
+  latitude: yup.number(),
+  longitude: yup.number(),
+});
+
+/* * */
+/* B. MongoDB Model Schema */
+export const Model =
+  mongoose?.models?.Stop ||
   mongoose.model(
     'Stop',
     new mongoose.Schema({

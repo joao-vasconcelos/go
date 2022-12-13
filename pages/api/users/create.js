@@ -1,7 +1,6 @@
-import mongodb from '../../../services/mongodb';
-import Model from '../../../models/User';
-import Schema from '../../../schemas/User';
 import delay from '../../../utils/delay';
+import mongodb from '../../../services/mongodb';
+import { Validation, Model } from '../../../schemas/users/documents';
 
 /* * */
 /* CREATE USER */
@@ -28,7 +27,7 @@ export default async function usersCreate(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = Schema.cast(req.body);
+    req.body = Validation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
