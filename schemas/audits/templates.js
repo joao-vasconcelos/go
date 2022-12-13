@@ -14,7 +14,22 @@ export const Validation = yup.object({
     .min(6, 'Unique Code must have exactly ${min} characters')
     .max(6, 'Unique Code must have exactly ${max} characters')
     .required('Unique Code is a required field'),
-  first_name: yup.string().max(10, 'Name must be no longer than ${max} characters'),
+  title: yup.string().max(50, 'Title must be no longer than ${max} characters'),
+  sections: yup.array(
+    yup.object({
+      key: yup.string(),
+      title: yup.string().max(50, 'Section Title must be no longer than ${max} characters'),
+      description: yup.string().max(50, 'Section Description must be no longer than ${max} characters'),
+      fields: yup.array(
+        yup.object({
+          key: yup.string(),
+          label: yup.string().max(50, 'Field Label must be no longer than ${max} characters'),
+          placeholder: yup.string().max(50, 'Field Placeholder must be no longer than ${max} characters'),
+          type: yup.string().max(50, 'Field Type must be no longer than ${max} characters'),
+        })
+      ),
+    })
+  ),
 });
 
 /* * */
@@ -30,10 +45,46 @@ export const Model =
           minlength: 6,
           maxlength: 6,
         },
-        first_name: {
+        title: {
           type: String,
           maxlength: 50,
         },
+        sections: [
+          {
+            key: {
+              type: String,
+              maxlength: 50,
+            },
+            title: {
+              type: String,
+              maxlength: 50,
+            },
+            description: {
+              type: String,
+              maxlength: 50,
+            },
+            fields: [
+              {
+                key: {
+                  type: String,
+                  maxlength: 50,
+                },
+                label: {
+                  type: String,
+                  maxlength: 50,
+                },
+                placeholder: {
+                  type: String,
+                  maxlength: 50,
+                },
+                type: {
+                  type: String,
+                  maxlength: 50,
+                },
+              },
+            ],
+          },
+        ],
       },
       { timestamps: true }
     )

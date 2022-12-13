@@ -42,10 +42,7 @@ export default function AuditsEdit() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(Validation),
-    initialValues: {
-      unique_code: '',
-      first_name: '',
-    },
+    initialValues: auditData,
   });
 
   useEffect(() => {

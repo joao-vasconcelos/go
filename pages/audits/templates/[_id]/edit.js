@@ -1,16 +1,17 @@
 import { useRouter } from 'next/router';
-import PageContainer from '../../../components/PageContainer';
-import Pannel from '../../../components/Pannel';
-import { Grid } from '../../../components/Grid';
+import PageContainer from '../../../../components/PageContainer';
+import Pannel from '../../../../components/Pannel';
+import { Grid } from '../../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
-import Schema from '../../../schemas/Audit';
+import { TextInput, Button, ActionIcon, Group, Switch } from '@mantine/core';
+import { Validation } from '../../../../schemas/audits/templates';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import API from '../../../services/API';
-import SaveButtons from '../../../components/SaveButtons';
-import ErrorDisplay from '../../../components/ErrorDisplay';
+import API from '../../../../services/API';
+import { randomId } from '@mantine/hooks';
+import SaveButtons from '../../../../components/SaveButtons';
+import ErrorDisplay from '../../../../components/ErrorDisplay';
 import useSWR from 'swr';
+import { TbTrash } from 'react-icons/tb';
 
 /* * */
 /* AUDITS > TEMPLATES > EDIT */
@@ -32,7 +33,11 @@ export default function AuditsEdit() {
   //
   // B. Fetch data
 
-  const { data: auditData, error: auditError, mutate: auditMutate } = useSWR(_id && `/api/audits/templates/${_id}`);
+  const {
+    data: auditTemplateData,
+    error: auditTemplateError,
+    mutate: auditTemplateMutate,
+  } = useSWR(_id && `/api/audits/templates/${_id}`);
 
   //
   // C. Setup form
@@ -41,20 +46,17 @@ export default function AuditsEdit() {
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
-    validate: yupResolver(Schema),
-    initialValues: {
-      unique_code: '',
-      first_name: '',
-    },
+    validate: yupResolver(Validation),
+    initialValues: auditTemplateData,
   });
 
   useEffect(() => {
-    if (!hasUpdatedFields.current && auditData) {
-      form.setValues(auditData);
+    if (!hasUpdatedFields.current && auditTemplateData) {
+      form.setValues(auditTemplateData);
       form.resetDirty();
       hasUpdatedFields.current = true;
     }
-  }, [auditData, form]);
+  }, [auditTemplateData, form]);
 
   //
   // D. Handle actions
@@ -67,7 +69,7 @@ export default function AuditsEdit() {
     try {
       setIsSaving(true);
       await API({ service: 'audits/templates', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
-      auditMutate({ ...auditData, ...form.values });
+      auditTemplateMutate({ ...auditTemplateData, ...form.values });
       setIsSaving(false);
       setHasErrorSaving(false);
       hasUpdatedFields.current = false;
@@ -76,15 +78,18 @@ export default function AuditsEdit() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [_id, auditData, form.values, auditMutate]);
+  }, [_id, auditTemplateData, form.values, auditTemplateMutate]);
 
   //
   // E. Render components
 
-  return (
+  return auditTemplateData ? (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
-      <PageContainer title={['Audits', 'Templates', form?.values?.unique_code]} loading={!auditError && !auditData}>
-        <ErrorDisplay error={auditError} />
+      <PageContainer
+        title={['Audits', 'Templates', form?.values?.unique_code]}
+        loading={!auditTemplateError && !auditTemplateData}
+      >
+        <ErrorDisplay error={auditTemplateError} />
         <ErrorDisplay
           error={hasErrorSaving}
           loading={isSaving}
@@ -100,15 +105,92 @@ export default function AuditsEdit() {
           onClose={async () => await handleClose()}
         />
 
-        <Pannel title={'Customer Details'}>
+        <Pannel title={'Template Details'}>
           <Grid>
-            <TextInput label={'First Name'} placeholder={'Alberta'} {...form.getInputProps('first_name')} />
-            <TextInput label={'Last Name'} placeholder={'Soares'} {...form.getInputProps('last_name')} />
-            <DatePicker label={'Birthday'} placeholder={'Pick a date'} {...form.getInputProps('birthday')} />
-            <TextInput label={'Reference'} placeholder={'PT'} {...form.getInputProps('reference')} />
+            <TextInput label={'Title'} placeholder={'Alberta'} {...form.getInputProps('title')} />
           </Grid>
         </Pannel>
+
+        {form.values.sections?.map((section, sectionIndex) => (
+          <Pannel
+            key={section.key}
+            editMode={true}
+            title={
+              <TextInput
+                label={'Section Title'}
+                placeholder={'Section Titlte'}
+                {...form.getInputProps(`sections.${sectionIndex}.title`)}
+              />
+            }
+            description={
+              <TextInput
+                label={'Section Description'}
+                placeholder={'Section Explanation'}
+                {...form.getInputProps(`sections.${sectionIndex}.description`)}
+              />
+            }
+            deleteInput={
+              <ActionIcon color='red' onClick={() => form.removeListItem('sections', sectionIndex)}>
+                <TbTrash />
+              </ActionIcon>
+            }
+          >
+            {section.fields?.map((field, fieldIndex) => (
+              <Group key={field.key}>
+                <TextInput
+                  label={'Field Label'}
+                  placeholder={'Field Label'}
+                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.label`)}
+                />
+                <TextInput
+                  label={'Field Placeholder'}
+                  placeholder={'Field Placeholder'}
+                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.placeholder`)}
+                />
+                <TextInput
+                  label={'Field Type'}
+                  placeholder={'Field Type'}
+                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.type`)}
+                />
+                <ActionIcon
+                  color='red'
+                  onClick={() => form.removeListItem(`sections.${sectionIndex}.fields`, fieldIndex)}
+                >
+                  <TbTrash />
+                </ActionIcon>
+              </Group>
+            ))}
+            <Button
+              variant='light'
+              onClick={() =>
+                form.insertListItem(`sections.${sectionIndex}.fields`, {
+                  key: randomId(),
+                  label: '',
+                  placeholder: '',
+                  type: '',
+                })
+              }
+            >
+              Add New Field
+            </Button>
+          </Pannel>
+        ))}
+
+        <Button
+          onClick={() =>
+            form.insertListItem('sections', {
+              key: randomId(),
+              title: '',
+              description: '',
+              fields: [],
+            })
+          }
+        >
+          Add New Section
+        </Button>
       </PageContainer>
     </form>
+  ) : (
+    <div>Loading...</div>
   );
 }

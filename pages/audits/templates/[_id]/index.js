@@ -1,10 +1,10 @@
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
-import PageContainer from '../../../components/PageContainer';
-import Pannel from '../../../components/Pannel';
-import { Grid, GridCell, Label, Value } from '../../../components/Grid';
-import API from '../../../services/API';
-import notify from '../../../services/notify';
+import PageContainer from '../../../../components/PageContainer';
+import Pannel from '../../../../components/Pannel';
+import { Grid, GridCell, Label, Value } from '../../../../components/Grid';
+import API from '../../../../services/API';
+import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { TbPencil, TbTrash } from 'react-icons/tb';
 import { Group, Button, Text } from '@mantine/core';
@@ -15,7 +15,7 @@ export default function AuditsTemplatesView() {
   const router = useRouter();
   const { _id } = router.query;
 
-  const { data: audit } = useSWR(_id && `/api/audits/templates/${_id}`);
+  const { data: auditTemplate } = useSWR(_id && `/api/audits/templates/${_id}`);
 
   const handleEditAudit = async () => {
     router.push(`/audits/templates/${_id}/edit`);
@@ -25,16 +25,16 @@ export default function AuditsTemplatesView() {
     openConfirmModal({
       title: (
         <Text size={'lg'} fw={700}>
-          Delete Audit?
+          Delete Audit Template?
         </Text>
       ),
       centered: true,
-      children: <Text>Deleting is irreversible. Are you sure you want to delete this audit forever?</Text>,
-      labels: { confirm: 'Delete Audit', cancel: 'Do Not Delete' },
+      children: <Text>Deleting is irreversible. Are you sure you want to delete this audit template forever?</Text>,
+      labels: { confirm: 'Delete Audit Template', cancel: 'Do Not Delete' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(_id, 'loading', 'Deleting Audit...');
+          notify(_id, 'loading', 'Deleting Audit Template...');
           await API({ service: 'audits/templates', resourceId: _id, operation: 'delete', method: 'DELETE' });
           router.push('/audits/templates');
           notify(_id, 'success', 'Audit Template was deleted!');
@@ -46,8 +46,8 @@ export default function AuditsTemplatesView() {
     });
   };
 
-  return audit ? (
-    <PageContainer title={['Audits', 'Templates', audit.unique_code]}>
+  return auditTemplate ? (
+    <PageContainer title={['Audits', 'Templates', auditTemplate.unique_code]}>
       <Group>
         <Button leftIcon={<TbPencil />} onClick={handleEditAudit}>
           Edit
@@ -60,23 +60,37 @@ export default function AuditsTemplatesView() {
       <Pannel title={'Audit Template Details'}>
         <Grid>
           <GridCell>
-            <Label>Nome</Label>
-            <Value>{audit.first_name}</Value>
+            <Label>Title</Label>
+            <Value>{auditTemplate.title}</Value>
           </GridCell>
           <GridCell>
-            <Label>Birthday</Label>
-            <Value>osdnds</Value>
-          </GridCell>
-        </Grid>
-        <Grid>
-          <GridCell>
-            <Label>Reference</Label>
-            <Value>sjdhsiud</Value>
+            <Label>Unique Code</Label>
+            <Value>{auditTemplate.unique_code}</Value>
           </GridCell>
         </Grid>
       </Pannel>
+
+      {auditTemplate.sections?.map((section, index) => (
+        <Pannel key={section.key} title={section.title} description={section.description}>
+          {/* <Grid>
+              <TextInput
+                label={'Section Title'}
+                placeholder={'Section Titlte'}
+                {...form.getInputProps(`sections.${index}.title`)}
+              />
+              <TextInput
+                label={'Section Description'}
+                placeholder={'Section Explanation'}
+                {...form.getInputProps(`sections.${index}.description`)}
+              />
+              <ActionIcon color='red' onClick={() => form.removeListItem('sections', index)}>
+                <TbTrash />
+              </ActionIcon>
+            </Grid> */}
+        </Pannel>
+      ))}
     </PageContainer>
   ) : (
-    <div>sijdisd</div>
+    <div>Loading...</div>
   );
 }

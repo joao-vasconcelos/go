@@ -65,6 +65,6 @@ export default async function auditsTemplatesEdit(req, res) {
     }
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot edit this Audit.' });
+    return await res.status(500).json({ message: 'Cannot edit this Audit Template.' });
   }
 }

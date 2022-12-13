@@ -70,9 +70,8 @@ export default function AuditsTemplatesList() {
           isLoading={!auditsTemplatesError && !auditsTemplatesData}
           onRowClick={handleRowClick}
           columns={[
-            { label: '_id', key: '_id' },
             { label: 'Unique Code', key: 'unique_code' },
-            { label: 'First Name', key: 'first_name' },
+            { label: 'Title', key: 'title' },
           ]}
           searchFieldPlaceholder={'Search by audit code, supplier, etc...'}
         />
