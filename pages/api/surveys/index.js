@@ -28,7 +28,6 @@ export default async function surveysList(req, res) {
   // 2. Try to list all documents
   try {
     const allDocuments = await Model.find({}).limit(1000);
-    await delay(5000);
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);

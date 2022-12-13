@@ -59,7 +59,6 @@ export default async function surveysEdit(req, res) {
   try {
     const editedDocument = await Model.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Survey with _id: ${req.query._id} not found.` });
-    await delay(5000);
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);
