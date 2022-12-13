@@ -7,7 +7,7 @@ import { TbShieldCheck, TbArrowLeft } from 'react-icons/tb';
 /* Pair of buttons that trigger an action on an interval and on click. */
 /* * */
 
-export default function SaveButtons({ isLoading, isValid, isDirty, onSave, onClose, interval = 1000 }) {
+export default function SaveButtons({ isLoading, isValid, isDirty, onSave, onClose, interval = 2000 }) {
   //
 
   //
@@ -40,7 +40,7 @@ export default function SaveButtons({ isLoading, isValid, isDirty, onSave, onClo
         <Button disabled={true} leftIcon={<TbArrowLeft />}>
           Close
         </Button>
-        <Button loading={true} leftIcon={<TbShieldCheck />} variant='light' color='green'>
+        <Button loading={true} leftIcon={<TbShieldCheck />} variant='light'>
           Saving changes...
         </Button>
       </Group>
@@ -58,7 +58,7 @@ export default function SaveButtons({ isLoading, isValid, isDirty, onSave, onClo
         <Button disabled={true} leftIcon={<TbArrowLeft />}>
           Close
         </Button>
-        <Button onClick={onSave} leftIcon={<TbShieldCheck />} variant='light' color='green'>
+        <Button onClick={onSave} leftIcon={<TbShieldCheck />} variant='light'>
           Save Changes
         </Button>
       </Group>
@@ -76,7 +76,7 @@ export default function SaveButtons({ isLoading, isValid, isDirty, onSave, onClo
         <Button disabled={true} leftIcon={<TbArrowLeft />}>
           Close
         </Button>
-        <Button disabled={true} leftIcon={<TbShieldCheck />} variant='light' color='green'>
+        <Button disabled={true} leftIcon={<TbShieldCheck />} variant='light'>
           Save Changes
         </Button>
       </Group>
