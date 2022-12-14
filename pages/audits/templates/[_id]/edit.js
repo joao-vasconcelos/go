@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { styled } from '@stitches/react';
 import PageContainer from '../../../../components/PageContainer';
 import Pannel from '../../../../components/Pannel';
 import { Grid } from '../../../../components/Grid';
@@ -17,6 +18,13 @@ import { TbTrash } from 'react-icons/tb';
 /* AUDITS > TEMPLATES > EDIT */
 /* Edit audit template by _id. */
 /* * */
+
+const NewFieldContainer = styled('div', {
+  display: 'flex',
+  padding: '$md',
+  backgroundColor: '$gray2',
+  gap: '$md',
+});
 
 export default function AuditsEdit() {
   //
@@ -136,7 +144,7 @@ export default function AuditsEdit() {
             }
           >
             {section.fields?.map((field, fieldIndex) => (
-              <Group key={field.key}>
+              <NewFieldContainer key={field.key}>
                 <TextInput
                   label={'Field Label'}
                   placeholder={'Field Label'}
@@ -151,7 +159,6 @@ export default function AuditsEdit() {
                   label='Field Type'
                   placeholder='Pick one'
                   clearable
-                  allowDeselect
                   data={[
                     { value: 'text_short', label: 'Text Input' },
                     { value: 'text_long', label: 'Text Area' },
@@ -167,7 +174,7 @@ export default function AuditsEdit() {
                 >
                   <TbTrash />
                 </ActionIcon>
-              </Group>
+              </NewFieldContainer>
             ))}
             <Button
               variant='light'

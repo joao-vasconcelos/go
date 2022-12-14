@@ -5,7 +5,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import BrowserConfig from '../components/BrowserConfig';
 import NavigationBar from '../components/NavigationBar';
-import { TbHome, TbFlag3, TbClipboardCheck, TbLicense, TbUsers, TbSettings } from 'react-icons/tb';
+import { TbHome, TbFlag3, TbClipboardCheck, TbLicense, TbUsers } from 'react-icons/tb';
 import AuthChecker from '../components/AuthChecker';
 
 // Styles

@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Group } from '@mantine/core';
+import { Button, Group, Text, Modal, Select } from '@mantine/core';
 import PageContainer from '../../../components/PageContainer';
 import DynamicTable from '../../../components/DynamicTable';
 import Pannel from '../../../components/Pannel';
@@ -24,11 +24,14 @@ export default function AuditsList() {
 
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
+  const [isCreatingModelOpen, setIsCreatingModelOpen] = useState(false);
+  const [selectedAuditTemplate, setSelectedAuditTemplate] = useState();
 
   //
   // B. Fetch data
 
   const { data: auditsData, error: auditsError } = useSWR('/api/audits/documents');
+  const { data: auditsTemplatesData, error: auditsTemplatesError } = useSWR('/api/audits/templates/forSelect');
 
   //
   // C. Handle actions
@@ -36,7 +39,12 @@ export default function AuditsList() {
   const handleCreateAudit = async () => {
     try {
       setIsCreating(true);
-      const response = await API({ service: 'audits/documents', operation: 'create', method: 'POST', body: {} });
+      const response = await API({
+        service: 'audits/documents',
+        operation: 'create',
+        method: 'POST',
+        body: { template_id: selectedAuditTemplate },
+      });
       router.push(`/audits/documents/${response._id}/edit`);
       notify('new', 'success', 'A new Audit has started.');
     } catch (err) {
@@ -59,10 +67,37 @@ export default function AuditsList() {
 
   return (
     <PageContainer title={['Audits']}>
+      <Modal
+        opened={isCreatingModelOpen}
+        onClose={() => setIsCreatingModelOpen(false)}
+        title={
+          <Text size={'lg'} fw={700}>
+            Select Audit Template
+          </Text>
+        }
+      >
+        <Select
+          label='Audit Template'
+          placeholder='Pick one'
+          clearable
+          data={auditsTemplatesData || []}
+          value={selectedAuditTemplate}
+          onChange={(value) => setSelectedAuditTemplate(value)}
+        />
+        <Button
+          onClick={handleCreateAudit}
+          loading={isCreating}
+          leftIcon={<TbPlus />}
+          disabled={!selectedAuditTemplate}
+        >
+          Start
+        </Button>
+      </Modal>
+
       <ErrorDisplay error={auditsError} />
 
       <Group>
-        <Button onClick={handleCreateAudit} loading={isCreating} leftIcon={<TbPlus />}>
+        <Button onClick={() => setIsCreatingModelOpen(true)} loading={isCreating} leftIcon={<TbPlus />}>
           Start New Audit
         </Button>
         <Spacer width={'full'} />

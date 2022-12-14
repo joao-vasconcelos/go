@@ -3,10 +3,10 @@ import PageContainer from '../../../../components/PageContainer';
 import Pannel from '../../../../components/Pannel';
 import { Grid } from '../../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput } from '@mantine/core';
+import { TextInput, Select, Group, Text } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { Validation } from '../../../../schemas/audits/documents';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, forwardRef } from 'react';
 import API from '../../../../services/API';
 import SaveButtons from '../../../../components/SaveButtons';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
@@ -99,10 +99,13 @@ export default function AuditsEdit() {
 
         <Pannel title={'Customer Details'}>
           <Grid>
-            <TextInput label={'First Name'} placeholder={'Alberta'} {...form.getInputProps('first_name')} />
-            <TextInput label={'Last Name'} placeholder={'Soares'} {...form.getInputProps('last_name')} />
-            <DatePicker label={'Birthday'} placeholder={'Pick a date'} {...form.getInputProps('birthday')} />
-            <TextInput label={'Reference'} placeholder={'PT'} {...form.getInputProps('reference')} />
+            {/* <Select
+              label='Field Type'
+              placeholder='Pick one'
+              clearable
+              data={auditTemplatesData || []}
+              {...form.getInputProps('template_id')}
+            /> */}
           </Grid>
         </Pannel>
       </PageContainer>

@@ -1,5 +1,5 @@
 import { Group, Loader, LoadingOverlay, Progress } from '@mantine/core';
-import { styled } from '../stitches.config';
+import { styled } from '@stitches/react';
 import { Spacer } from './LayoutUtils';
 import { TbChevronRight } from 'react-icons/tb';
 

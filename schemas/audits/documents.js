@@ -14,7 +14,7 @@ export const Validation = yup.object({
     .min(6, 'Unique Code must have exactly ${min} characters')
     .max(6, 'Unique Code must have exactly ${max} characters')
     .required('Unique Code is a required field'),
-  first_name: yup.string().max(10, 'Name must be no longer than ${max} characters'),
+  template_id: yup.string().max(50, 'Templade ID must be no longer than ${max} characters').nullable(),
 });
 
 /* * */
@@ -30,7 +30,7 @@ export const Model =
           minlength: 6,
           maxlength: 6,
         },
-        first_name: {
+        template_id: {
           type: String,
           maxlength: 50,
         },

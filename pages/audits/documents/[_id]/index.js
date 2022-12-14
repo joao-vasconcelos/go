@@ -61,7 +61,7 @@ export default function AuditsView() {
         <Grid>
           <GridCell>
             <Label>Nome</Label>
-            <Value>{audit.first_name}</Value>
+            <Value>{audit.template_id}</Value>
           </GridCell>
           <GridCell>
             <Label>Birthday</Label>
