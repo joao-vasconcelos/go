@@ -25,7 +25,7 @@ export const Validation = yup.object({
           key: yup.string(),
           label: yup.string().max(50, 'Field Label must be no longer than ${max} characters'),
           placeholder: yup.string().max(50, 'Field Placeholder must be no longer than ${max} characters'),
-          type: yup.string().max(50, 'Field Type must be no longer than ${max} characters'),
+          type: yup.string().max(50, 'Field Type must be no longer than ${max} characters').nullable(),
         })
       ),
     })

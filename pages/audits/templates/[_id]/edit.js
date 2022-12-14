@@ -3,7 +3,7 @@ import PageContainer from '../../../../components/PageContainer';
 import Pannel from '../../../../components/Pannel';
 import { Grid } from '../../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Button, ActionIcon, Group, Switch } from '@mantine/core';
+import { TextInput, Button, ActionIcon, Group, Switch, Select } from '@mantine/core';
 import { Validation } from '../../../../schemas/audits/templates';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../../services/API';
@@ -107,7 +107,7 @@ export default function AuditsEdit() {
 
         <Pannel title={'Template Details'}>
           <Grid>
-            <TextInput label={'Title'} placeholder={'Alberta'} {...form.getInputProps('title')} />
+            <TextInput label={'Title'} placeholder={'Template Title'} {...form.getInputProps('title')} />
           </Grid>
         </Pannel>
 
@@ -147,9 +147,18 @@ export default function AuditsEdit() {
                   placeholder={'Field Placeholder'}
                   {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.placeholder`)}
                 />
-                <TextInput
-                  label={'Field Type'}
-                  placeholder={'Field Type'}
+                <Select
+                  label='Field Type'
+                  placeholder='Pick one'
+                  clearable
+                  allowDeselect
+                  data={[
+                    { value: 'text_short', label: 'Text Input' },
+                    { value: 'text_long', label: 'Text Area' },
+                    { value: 'select', label: 'Select' },
+                    { value: 'file_image', label: 'Upload Image' },
+                    { value: 'file_document', label: 'Upload Document' },
+                  ]}
                   {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.type`)}
                 />
                 <ActionIcon
