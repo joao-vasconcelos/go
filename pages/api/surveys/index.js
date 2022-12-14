@@ -1,4 +1,4 @@
-import delay from '../../../../services/delay';
+import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
 import { Model } from '../../../schemas/surveys/documents';
 
