@@ -19,7 +19,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     { href: '/', label: 'Home', icon: TbHome },
     { href: '/audits', label: 'Audits', icon: TbClipboardCheck },
     { href: '/surveys', label: 'Surveys', icon: TbLicense },
-    { href: '/stops', label: 'Stops', icon: TbFlag3 },
     { href: '/users', label: 'Users', icon: TbUsers },
   ];
 
