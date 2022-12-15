@@ -5,7 +5,7 @@ import { styled } from '@stitches/react';
 import { signIn } from 'next-auth/react';
 import { TextInput, Button, Divider } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import Schema from '../../schemas/Email';
+import { Validation } from '../../schemas/Email';
 import Image from 'next/image';
 import appBackground from '../../public/background.jpg';
 import carrisMetropolitanaLogo from '../../public/carris-metropolitana.svg';
@@ -99,7 +99,7 @@ export function AuthSignIn() {
 
   const form = useForm({
     clearInputErrorOnChange: true,
-    validate: yupResolver(Schema),
+    validate: yupResolver({ Validation }),
     initialValues: {
       email: '',
     },
