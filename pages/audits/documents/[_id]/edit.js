@@ -125,7 +125,7 @@ export default function AuditsEdit() {
                         <TextInput
                           label={field.label}
                           placeholder={field.placeholder}
-                          {...form.getInputProps(`properties.${field.key}`)}
+                          {...form.getInputProps(`properties.${section.key}.${field.key}`)}
                         />
                       </div>
                     );
