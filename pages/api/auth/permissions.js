@@ -1,4 +1,4 @@
-import delay from '../../../../services/delay';
+import delay from '../../../services/delay';
 
 /* * */
 /* LIST ALL PERMISSIONS */
