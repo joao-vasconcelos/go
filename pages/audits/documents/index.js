@@ -43,7 +43,7 @@ export default function AuditsList() {
         service: 'audits/documents',
         operation: 'create',
         method: 'POST',
-        body: { template_id: selectedAuditTemplate },
+        body: { template_id: selectedAuditTemplate, properties: {} },
       });
       router.push(`/audits/documents/${response._id}/edit`);
       notify('new', 'success', 'A new Audit has started.');

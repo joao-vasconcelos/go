@@ -5,7 +5,7 @@ import Pannel from '../../../../components/Pannel';
 import { Grid } from '../../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
 import { TextInput, Button, ActionIcon, Group, Switch, Select } from '@mantine/core';
-import { Validation } from '../../../../schemas/audits/templates';
+import { TemplateValidation } from '../../../../schemas/audits/templates';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../../services/API';
 import { randomId } from '@mantine/hooks';
@@ -54,7 +54,7 @@ export default function AuditsEdit() {
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
-    validate: yupResolver(Validation),
+    validate: yupResolver(TemplateValidation),
     initialValues: auditTemplateData,
   });
 
@@ -91,7 +91,7 @@ export default function AuditsEdit() {
   //
   // E. Render components
 
-  return auditTemplateData ? (
+  return auditTemplateData && hasUpdatedFields.current ? (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
       <PageContainer
         title={['Audits', 'Templates', form?.values?.unique_code]}
@@ -121,8 +121,15 @@ export default function AuditsEdit() {
 
         {form.values.sections?.map((section, sectionIndex) => (
           <Pannel
-            key={section.key}
+            key={sectionIndex}
             editMode={true}
+            id={
+              <TextInput
+                label={'Section Title'}
+                placeholder={'Section Titlte'}
+                {...form.getInputProps(`sections.${sectionIndex}.key`)}
+              />
+            }
             title={
               <TextInput
                 label={'Section Title'}
@@ -144,7 +151,12 @@ export default function AuditsEdit() {
             }
           >
             {section.fields?.map((field, fieldIndex) => (
-              <NewFieldContainer key={field.key}>
+              <NewFieldContainer key={fieldIndex}>
+                <TextInput
+                  label={'Field ID'}
+                  placeholder={'Field ID'}
+                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.key`)}
+                />
                 <TextInput
                   label={'Field Label'}
                   placeholder={'Field Label'}
@@ -181,6 +193,7 @@ export default function AuditsEdit() {
               onClick={() =>
                 form.insertListItem(`sections.${sectionIndex}.fields`, {
                   key: randomId(),
+                  id: '',
                   label: '',
                   placeholder: '',
                   type: '',

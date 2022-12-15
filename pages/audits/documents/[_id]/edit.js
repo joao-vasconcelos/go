@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import PageContainer from '../../../../components/PageContainer';
 import Pannel from '../../../../components/Pannel';
-import { Grid } from '../../../../components/Grid';
+import { Grid, Title } from '../../../../components/LayoutUtils';
 import { useForm, yupResolver } from '@mantine/form';
 import { TextInput, Select, Group, Text } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
-import { Validation } from '../../../../schemas/audits/documents';
+import { DocumentValidation } from '../../../../schemas/audits/documents';
 import { useState, useRef, useEffect, useCallback, forwardRef } from 'react';
 import API from '../../../../services/API';
 import SaveButtons from '../../../../components/SaveButtons';
@@ -33,6 +33,11 @@ export default function AuditsEdit() {
   // B. Fetch data
 
   const { data: auditData, error: auditError, mutate: auditMutate } = useSWR(_id && `/api/audits/documents/${_id}`);
+  const { data: auditTemplateData, error: auditTemplateError } = useSWR(
+    auditData && `/api/audits/templates/${auditData.template_id}`
+  );
+
+  console.log(auditData);
 
   //
   // C. Setup form
@@ -41,7 +46,7 @@ export default function AuditsEdit() {
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
-    validate: yupResolver(Validation),
+    validate: yupResolver(DocumentValidation),
     initialValues: auditData,
   });
 
@@ -97,7 +102,7 @@ export default function AuditsEdit() {
           onClose={async () => await handleClose()}
         />
 
-        <Pannel title={'Customer Details'}>
+        <Pannel title={'General Details'}>
           <Grid>
             {/* <Select
               label='Field Type'
@@ -108,6 +113,29 @@ export default function AuditsEdit() {
             /> */}
           </Grid>
         </Pannel>
+
+        {auditTemplateData &&
+          auditTemplateData.sections.map((section) => (
+            <Pannel key={section.key} title={section.title} description={section.description}>
+              {section.fields.map((field) => {
+                switch (field.type) {
+                  case 'text_short':
+                    return (
+                      <div key={field.key}>
+                        <TextInput
+                          label={field.label}
+                          placeholder={field.placeholder}
+                          {...form.getInputProps(`properties.${field.key}`)}
+                        />
+                      </div>
+                    );
+                  default:
+                    return <div key={field.key}>{field.type}</div>;
+                    break;
+                }
+              })}
+            </Pannel>
+          ))}
       </PageContainer>
     </form>
   );

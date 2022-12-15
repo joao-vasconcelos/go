@@ -1,7 +1,8 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
 import generator from '../../../../services/generator';
-import { Validation, Model } from '../../../../schemas/audits/documents';
+import { DocumentValidation, DocumentModel } from '../../../../schemas/audits/documents';
+import { TemplateValidation, TemplateModel } from '../../../../schemas/audits/templates';
 
 /* * */
 /* CREATE AUDIT */
@@ -28,7 +29,7 @@ export default async function auditsCreate(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = Validation.cast(req.body);
+    req.body = DocumentValidation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
@@ -48,7 +49,7 @@ export default async function auditsCreate(req, res) {
     let uniqueCodeIsNotUnique = true;
     while (uniqueCodeIsNotUnique) {
       req.body.unique_code = generator(6, 'alphanumeric'); // Generate a new code with 6 characters
-      uniqueCodeIsNotUnique = await Model.exists({ unique_code: req.body.unique_code });
+      uniqueCodeIsNotUnique = await DocumentModel.exists({ unique_code: req.body.unique_code });
     }
   } catch (err) {
     console.log(err);
@@ -56,9 +57,25 @@ export default async function auditsCreate(req, res) {
     return;
   }
 
+  // 6. Pre-set properties based on the associated template schema
+  try {
+    const associatedTemplate = await TemplateModel.findById(req.body.template_id);
+    req.body.properties = {};
+    for (const section of associatedTemplate.sections) {
+      req.body.properties[section.key] = {};
+      for (const field of section.fields) {
+        req.body.properties[section.key][field.key] = null;
+      }
+    }
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot create this Audit.' });
+  }
+
   // 5. Try to save a new document with req.body
   try {
-    const createdDocument = await Model(req.body).save();
+    const createdDocument = await DocumentModel(req.body).save();
+    console.log(createdDocument);
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);

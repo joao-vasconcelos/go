@@ -14,7 +14,7 @@ import { Group } from '@mantine/core';
 
 const Container = styled('div', {
   backgroundColor: '$gray0',
-  borderRadius: '$md',
+  borderRadius: '$sm',
   borderWidth: '$sm',
   borderStyle: 'solid',
   borderColor: '$gray7',
@@ -71,7 +71,7 @@ const InnerWrapper = styled('div', {
 /* */
 /* LOGIC */
 
-export default function Pannel({ title, description, children, editMode = false, deleteInput }) {
+export default function Pannel({ title, description, children, editMode = false, id, deleteInput }) {
   //
   const [isOpen, setIsOpen] = useState(title ? true : true);
 
@@ -80,6 +80,7 @@ export default function Pannel({ title, description, children, editMode = false,
       <Container>
         <Header isOpen={true} canOpen={false}>
           <InnerWrapper css={{ padding: 0 }}>
+            {id}
             {title}
             {description}
           </InnerWrapper>

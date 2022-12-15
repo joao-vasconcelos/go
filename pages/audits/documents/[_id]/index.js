@@ -2,12 +2,14 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import PageContainer from '../../../../components/PageContainer';
 import Pannel from '../../../../components/Pannel';
-import { Grid, GridCell, Label, Value } from '../../../../components/Grid';
+import { GridCell, Label, Value } from '../../../../components/Grid';
+import { Grid } from '../../../../components/LayoutUtils';
 import API from '../../../../services/API';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { TbPencil, TbTrash } from 'react-icons/tb';
 import { Group, Button, Text } from '@mantine/core';
+import TextDisplay from '../../../../components/TextDisplay';
 
 export default function AuditsView() {
   //
@@ -15,7 +17,10 @@ export default function AuditsView() {
   const router = useRouter();
   const { _id } = router.query;
 
-  const { data: audit } = useSWR(_id && `/api/audits/documents/${_id}`);
+  const { data: auditData, error: auditError } = useSWR(_id && `/api/audits/documents/${_id}`);
+  const { data: auditTemplateData, error: auditTemplateError } = useSWR(
+    auditData && `/api/audits/templates/${auditData.template_id}`
+  );
 
   const handleEditAudit = async () => {
     router.push(`/audits/documents/${_id}/edit`);
@@ -46,8 +51,8 @@ export default function AuditsView() {
     });
   };
 
-  return audit ? (
-    <PageContainer title={['Audits', audit.unique_code]}>
+  return auditData && auditTemplateData ? (
+    <PageContainer title={['Audits', auditData.unique_code]}>
       <Group>
         <Button leftIcon={<TbPencil />} onClick={handleEditAudit}>
           Edit
@@ -59,24 +64,16 @@ export default function AuditsView() {
 
       <Pannel title={'Audit Details'}>
         <Grid>
-          <GridCell>
-            <Label>Nome</Label>
-            <Value>{audit.template_id}</Value>
-          </GridCell>
-          <GridCell>
-            <Label>Birthday</Label>
-            <Value>osdnds</Value>
-          </GridCell>
-        </Grid>
-        <Grid>
-          <GridCell>
-            <Label>Reference</Label>
-            <Value>sjdhsiud</Value>
-          </GridCell>
+          <TextDisplay
+            label={'Template'}
+            description={'The template used for this Audit'}
+            value={auditTemplateData.title}
+          />
+          <TextDisplay label={'User'} description={'The user performing the Audit'} value={'Andreia Soares'} />
         </Grid>
       </Pannel>
     </PageContainer>
   ) : (
-    <div>sijdisd</div>
+    <div>Loading...</div>
   );
 }

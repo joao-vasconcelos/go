@@ -1,6 +1,6 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model } from '../../../../schemas/audits/templates';
+import { TemplateModel } from '../../../../schemas/audits/templates';
 
 /* * */
 /* API > AUDITS > TEMPLATES > LIST */
@@ -27,7 +27,7 @@ export default async function auditsTemplatesList(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await Model.find({}).limit(1000);
+    const allDocuments = await TemplateModel.find({}).limit(1000);
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);

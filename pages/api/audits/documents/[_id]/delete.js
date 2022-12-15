@@ -1,6 +1,6 @@
 import delay from '../../../../../services/delay';
 import mongodb from '../../../../../services/mongodb';
-import { Model } from '../../../../../schemas/audits/documents';
+import { DocumentModel } from '../../../../../schemas/audits/documents';
 
 /* * */
 /* DELETE AUDIT */
@@ -27,7 +27,7 @@ export default async function auditsDelete(req, res) {
 
   // 2. Try to delete the correct document
   try {
-    const deletedDocument = await Model.findOneAndDelete({ _id: req.query._id });
+    const deletedDocument = await DocumentModel.findOneAndDelete({ _id: req.query._id });
     if (!deletedDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
     return await res.status(200).send(deletedDocument);
   } catch (err) {

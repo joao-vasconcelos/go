@@ -1,6 +1,6 @@
 import delay from '../../../../../services/delay';
 import mongodb from '../../../../../services/mongodb';
-import { Model } from '../../../../../schemas/audits/documents';
+import { DocumentModel } from '../../../../../schemas/audits/documents';
 
 /* * */
 /* GET AUDIT BY ID */
@@ -29,7 +29,7 @@ export default async function auditsGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await Model.findOne({ _id: req.query._id });
+    const foundDocument = await DocumentModel.findOne({ _id: req.query._id });
     if (!foundDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {

@@ -1,6 +1,6 @@
 import delay from '../../../../../services/delay';
 import mongodb from '../../../../../services/mongodb';
-import { Validation, Model } from '../../../../../schemas/audits/documents';
+import { DocumentValidation, DocumentModel } from '../../../../../schemas/audits/documents';
 
 /* * */
 /* EDIT AUDIT */
@@ -28,7 +28,7 @@ export default async function auditsEdit(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = Validation.cast(req.body);
+    req.body = DocumentValidation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
@@ -46,7 +46,7 @@ export default async function auditsEdit(req, res) {
   try {
     // The only value that needs to, and can be, unique is 'unique_code'.
     if (req.body.unique_code) {
-      const foundUniqueCode = await Model.findOne({ unique_code: req.body.unique_code });
+      const foundUniqueCode = await DocumentModel.findOne({ unique_code: req.body.unique_code });
       if (foundUniqueCode && foundUniqueCode._id != req.query._id)
         throw new Error('An Audit with the same unique_code already exists.');
     }
@@ -57,8 +57,10 @@ export default async function auditsEdit(req, res) {
 
   // 2. Try to edit the correct document
   try {
-    const editedDocument = await Model.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
+    const editedDocument = await DocumentModel.findOneAndReplace({ _id: req.query._id }, req.body);
     if (!editedDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
+    console.log(req.body);
+    console.log(editedDocument);
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);

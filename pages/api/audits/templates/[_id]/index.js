@@ -1,6 +1,6 @@
 import delay from '../../../../../services/delay';
 import mongodb from '../../../../../services/mongodb';
-import { Model } from '../../../../../schemas/audits/templates';
+import { TemplateModel } from '../../../../../schemas/audits/templates';
 
 /* * */
 /* API > AUDITS > TEMPLATES > GET */
@@ -29,7 +29,7 @@ export default async function auditsTemplatesGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await Model.findOne({ _id: req.query._id });
+    const foundDocument = await TemplateModel.findOne({ _id: req.query._id });
     if (!foundDocument) {
       return await res.status(404).json({ message: `Audit Template with _id: ${req.query._id} not found.` });
     } else {

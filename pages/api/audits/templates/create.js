@@ -1,7 +1,7 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
 import generator from '../../../../services/generator';
-import { Validation, Model } from '../../../../schemas/audits/templates';
+import { TemplateValidation, TemplateModel } from '../../../../schemas/audits/templates';
 
 /* * */
 /* API > AUDITS > TEMPLATES > CREATE */
@@ -28,7 +28,7 @@ export default async function auditsTemplatesCreate(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = Validation.cast(req.body);
+    req.body = TemplateValidation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
@@ -48,7 +48,7 @@ export default async function auditsTemplatesCreate(req, res) {
     let uniqueCodeIsNotUnique = true;
     while (uniqueCodeIsNotUnique) {
       req.body.unique_code = generator(6, 'alphanumeric'); // Generate a new code with 6 characters
-      uniqueCodeIsNotUnique = await Model.exists({ unique_code: req.body.unique_code });
+      uniqueCodeIsNotUnique = await TemplateModel.exists({ unique_code: req.body.unique_code });
     }
   } catch (err) {
     console.log(err);
@@ -58,7 +58,7 @@ export default async function auditsTemplatesCreate(req, res) {
 
   // 5. Try to save a new document with req.body
   try {
-    const createdDocument = await Model(req.body).save();
+    const createdDocument = await TemplateModel(req.body).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);

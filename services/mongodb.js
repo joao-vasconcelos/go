@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 
 async function connect() {
   await mongoose
-    .set('strictQuery', true)
+    .set('strictQuery', false)
     .connect(process.env.MONGODB_CONNECTION_STRING)
     // .then(() => console.log('Connected.'))
     .catch((error) => {

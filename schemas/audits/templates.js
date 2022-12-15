@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 
 /* * */
 /* A. YUP Validation Schema */
-export const Validation = yup.object({
+export const TemplateValidation = yup.object({
   unique_code: yup
     .string()
     .min(6, 'Unique Code must have exactly ${min} characters')
@@ -18,11 +18,13 @@ export const Validation = yup.object({
   sections: yup.array(
     yup.object({
       key: yup.string(),
+      id: yup.string().max(50, 'Section ID must be no longer than ${max} characters'),
       title: yup.string().max(50, 'Section Title must be no longer than ${max} characters'),
       description: yup.string().max(50, 'Section Description must be no longer than ${max} characters'),
       fields: yup.array(
         yup.object({
           key: yup.string(),
+          id: yup.string().max(50, 'Field ID must be no longer than ${max} characters'),
           label: yup.string().max(50, 'Field Label must be no longer than ${max} characters'),
           placeholder: yup.string().max(50, 'Field Placeholder must be no longer than ${max} characters'),
           type: yup.string().max(50, 'Field Type must be no longer than ${max} characters').nullable(),
@@ -34,7 +36,7 @@ export const Validation = yup.object({
 
 /* * */
 /* B. MongoDB Model Schema */
-export const Model =
+export const TemplateModel =
   mongoose?.models?.AuditTemplate ||
   mongoose.model(
     'AuditTemplate',
@@ -66,6 +68,10 @@ export const Model =
             fields: [
               {
                 key: {
+                  type: String,
+                  maxlength: 50,
+                },
+                id: {
                   type: String,
                   maxlength: 50,
                 },
