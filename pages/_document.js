@@ -13,9 +13,9 @@ export default class _Document extends Document {
     return (
       <Html>
         <Head>
-          <meta name='apple-mobile-web-app-title' content='Register' />
-          <meta name='application-name' content='Register' />
-          <meta name='description' content='CHEF POINT Register Terminal' />
+          <meta name='apple-mobile-web-app-title' content='TML Audits' />
+          <meta name='application-name' content='TML Audits' />
+          <meta name='description' content='TML Audits' />
           <meta name='msapplication-TileColor' content='#ffffff' />
           <meta name='theme-color' content='#ffffff' />
           <link rel='icon' href='/favicon.ico' />

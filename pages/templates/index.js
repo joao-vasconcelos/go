@@ -12,11 +12,11 @@ import { Spacer } from '../../components/LayoutUtils';
 import ErrorDisplay from '../../components/ErrorDisplay';
 
 /* * */
-/* AUDITS > TEMPLATES > LIST */
-/* List all available audit templates. */
+/* TEMPLATES > LIST */
+/* List all available templates. */
 /* * */
 
-export default function AuditsTemplatesList() {
+export default function TemplatesList() {
   //
 
   //
@@ -28,7 +28,7 @@ export default function AuditsTemplatesList() {
   //
   // B. Fetch data
 
-  const { data: auditsTemplatesData, error: auditsTemplatesError } = useSWR('/api/templates');
+  const { data: templatesData, error: templatesError } = useSWR('/api/templates');
 
   //
   // C. Handle actions
@@ -54,20 +54,20 @@ export default function AuditsTemplatesList() {
   // D. Render components
 
   return (
-    <PageContainer title={['Audits', 'Templates']}>
-      <ErrorDisplay error={auditsTemplatesError} />
+    <PageContainer title={['Templates']}>
+      <ErrorDisplay error={templatesError} />
 
       <Group>
         <Button onClick={handleCreateAuditTemplate} loading={isCreating} leftIcon={<TbPlus />}>
-          Create New Audit Template
+          Create New Template
         </Button>
         <Spacer width={'full'} />
       </Group>
 
-      <Pannel title={'All Audits Templates'}>
+      <Pannel title={'All Templates'}>
         <DynamicTable
-          data={auditsTemplatesData || []}
-          isLoading={!auditsTemplatesError && !auditsTemplatesData}
+          data={templatesData || []}
+          isLoading={!templatesError && !templatesData}
           onRowClick={handleRowClick}
           columns={[
             { label: 'Unique Code', key: 'unique_code' },

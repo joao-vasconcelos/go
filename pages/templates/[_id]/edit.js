@@ -15,8 +15,8 @@ import useSWR from 'swr';
 import { TbTrash } from 'react-icons/tb';
 
 /* * */
-/* AUDITS > TEMPLATES > EDIT */
-/* Edit audit template by _id. */
+/* TEMPLATES > EDIT */
+/* Edit template by _id. */
 /* * */
 
 const NewFieldContainer = styled('div', {
@@ -26,7 +26,7 @@ const NewFieldContainer = styled('div', {
   gap: '$md',
 });
 
-export default function AuditsEdit() {
+export default function TemplatesEdit() {
   //
 
   //

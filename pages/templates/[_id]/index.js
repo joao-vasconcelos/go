@@ -9,13 +9,13 @@ import { openConfirmModal } from '@mantine/modals';
 import { TbPencil, TbTrash } from 'react-icons/tb';
 import { Group, Button, Text } from '@mantine/core';
 
-export default function AuditsTemplatesView() {
+export default function TemplatesView() {
   //
 
   const router = useRouter();
   const { _id } = router.query;
 
-  const { data: auditTemplate } = useSWR(_id && `/api/templates/${_id}`);
+  const { data: templateData, error: templateError } = useSWR(_id && `/api/templates/${_id}`);
 
   const handleEditAudit = async () => {
     router.push(`/templates/${_id}/edit`);
@@ -25,19 +25,19 @@ export default function AuditsTemplatesView() {
     openConfirmModal({
       title: (
         <Text size={'lg'} fw={700}>
-          Delete Audit Template?
+          Delete Template?
         </Text>
       ),
       centered: true,
-      children: <Text>Deleting is irreversible. Are you sure you want to delete this audit template forever?</Text>,
-      labels: { confirm: 'Delete Audit Template', cancel: 'Do Not Delete' },
+      children: <Text>Deleting is irreversible. Are you sure you want to delete this template forever?</Text>,
+      labels: { confirm: 'Delete Template', cancel: 'Do Not Delete' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(_id, 'loading', 'Deleting Audit Template...');
+          notify(_id, 'loading', 'Deleting Template...');
           await API({ service: 'templates', resourceId: _id, operation: 'delete', method: 'DELETE' });
           router.push('/templates');
-          notify(_id, 'success', 'Audit Template was deleted!');
+          notify(_id, 'success', 'Template was deleted!');
         } catch (err) {
           console.log(err);
           notify(_id, 'error', err.message || 'An error ocurred.');
@@ -46,8 +46,8 @@ export default function AuditsTemplatesView() {
     });
   };
 
-  return auditTemplate ? (
-    <PageContainer title={['Audits', 'Templates', auditTemplate.unique_code]}>
+  return templateData ? (
+    <PageContainer title={['Templates', templateData.unique_code]}>
       <Group>
         <Button leftIcon={<TbPencil />} onClick={handleEditAudit}>
           Edit
@@ -57,20 +57,20 @@ export default function AuditsTemplatesView() {
         </Button>
       </Group>
 
-      <Pannel title={'Audit Template Details'}>
+      <Pannel title={'Template Details'}>
         <Grid>
           <GridCell>
             <Label>Title</Label>
-            <Value>{auditTemplate.title}</Value>
+            <Value>{templateData.title}</Value>
           </GridCell>
           <GridCell>
             <Label>Unique Code</Label>
-            <Value>{auditTemplate.unique_code}</Value>
+            <Value>{templateData.unique_code}</Value>
           </GridCell>
         </Grid>
       </Pannel>
 
-      {auditTemplate.sections?.map((section, index) => (
+      {templateData.sections?.map((section, index) => (
         <Pannel key={section.key} title={section.title} description={section.description}>
           {/* <Grid>
               <TextInput

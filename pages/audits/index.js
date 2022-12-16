@@ -25,13 +25,13 @@ export default function AuditsList() {
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
   const [isCreatingModelOpen, setIsCreatingModelOpen] = useState(false);
-  const [selectedAuditTemplate, setSelectedAuditTemplate] = useState();
+  const [selectedTemplate, setSelectedAuditTemplate] = useState();
 
   //
   // B. Fetch data
 
   const { data: auditsData, error: auditsError } = useSWR('/api/audits');
-  const { data: auditsTemplatesData, error: auditsTemplatesError } = useSWR('/api/templates/forSelect');
+  const { data: templatesData, error: templatesError } = useSWR('/api/templates/forSelect');
 
   //
   // C. Handle actions
@@ -43,7 +43,7 @@ export default function AuditsList() {
         service: 'audits',
         operation: 'create',
         method: 'POST',
-        body: { template_id: selectedAuditTemplate, properties: {} },
+        body: { template_id: selectedTemplate, properties: {} },
       });
       router.push(`/audits/${response._id}/edit`);
       notify('new', 'success', 'A new Audit has started.');
@@ -68,7 +68,7 @@ export default function AuditsList() {
         onClose={() => setIsCreatingModelOpen(false)}
         title={
           <Text size={'lg'} fw={700}>
-            Select Audit Template
+            Select Template
           </Text>
         }
       >
@@ -76,16 +76,11 @@ export default function AuditsList() {
           label='Audit Template'
           placeholder='Pick one'
           clearable
-          data={auditsTemplatesData || []}
-          value={selectedAuditTemplate}
+          data={templatesData || []}
+          value={selectedTemplate}
           onChange={(value) => setSelectedAuditTemplate(value)}
         />
-        <Button
-          onClick={handleCreateAudit}
-          loading={isCreating}
-          leftIcon={<TbPlus />}
-          disabled={!selectedAuditTemplate}
-        >
+        <Button onClick={handleCreateAudit} loading={isCreating} leftIcon={<TbPlus />} disabled={!selectedTemplate}>
           Start
         </Button>
       </Modal>

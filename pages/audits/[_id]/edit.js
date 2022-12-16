@@ -33,9 +33,7 @@ export default function AuditsEdit() {
   // B. Fetch data
 
   const { data: auditData, error: auditError, mutate: auditMutate } = useSWR(_id && `/api/audits/${_id}`);
-  const { data: auditTemplateData, error: auditTemplateError } = useSWR(
-    auditData && `/api/templates/${auditData.template_id}`
-  );
+  const { data: templateData, error: templateError } = useSWR(auditData && `/api/templates/${auditData.template_id}`);
 
   console.log(auditData);
 
@@ -108,14 +106,14 @@ export default function AuditsEdit() {
               label='Field Type'
               placeholder='Pick one'
               clearable
-              data={auditTemplatesData || []}
+              data={templatesData || []}
               {...form.getInputProps('template_id')}
             /> */}
           </Grid>
         </Pannel>
 
-        {auditTemplateData &&
-          auditTemplateData.sections.map((section) => (
+        {templateData &&
+          templateData.sections.map((section) => (
             <Pannel key={section.key} title={section.title} description={section.description}>
               {section.fields.map((field) => {
                 switch (field.type) {
