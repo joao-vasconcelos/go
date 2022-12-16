@@ -1,6 +1,6 @@
 {
-    "name": "Register",
-    "short_name": "Register",
+    "name": "Dashboard",
+    "short_name": "Dashboard",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

@@ -2,10 +2,22 @@
 /* CODE GENERATOR */
 /* * */
 
-export default function generateRandomString(length) {
+const numericSet = '0123456789';
+const alphanumericSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+export default function generateRandomString(length, type = null) {
   //
 
-  const allowedCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let allowedCharacters;
+
+  switch (type) {
+    case 'numeric':
+      allowedCharacters = numericSet;
+      break;
+    default:
+      allowedCharacters = alphanumericSet;
+      break;
+  }
 
   let result = '';
 

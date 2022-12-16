@@ -55,7 +55,7 @@ export const GridCell = styled('div', {
 export const Grid = styled('div', {
   display: 'grid',
   borderRadius: '$md',
-  gap: '$md',
+  gap: '$sm',
   variants: {
     clickable: {
       true: {
