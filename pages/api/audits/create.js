@@ -69,7 +69,7 @@ export default async function auditsCreate(req, res) {
     }
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot create this Audit.' });
+    return await res.status(500).json({ message: 'Cannot configure this Audit with Template schema.' });
   }
 
   // 5. Try to save a new document with req.body

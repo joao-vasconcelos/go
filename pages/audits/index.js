@@ -5,10 +5,9 @@ import { Button, Group, Text, Modal, Select } from '@mantine/core';
 import PageContainer from '../../components/PageContainer';
 import DynamicTable from '../../components/DynamicTable';
 import Pannel from '../../components/Pannel';
-import { TbPlus, TbSettings } from 'react-icons/tb';
+import { TbPlus } from 'react-icons/tb';
 import API from '../../services/API';
 import notify from '../../services/notify';
-import { Spacer } from '../../components/LayoutUtils';
 import ErrorDisplay from '../../components/ErrorDisplay';
 
 /* * */
@@ -43,7 +42,7 @@ export default function AuditsList() {
         service: 'audits',
         operation: 'create',
         method: 'POST',
-        body: { template_id: selectedTemplate, properties: {} },
+        body: { template_id: selectedTemplate },
       });
       router.push(`/audits/${response._id}/edit`);
       notify('new', 'success', 'A new Audit has started.');
