@@ -3,11 +3,11 @@ import mongodb from '../../../../services/mongodb';
 import { Model } from '../../../../schemas/Template';
 
 /* * */
-/* API > AUDITS > TEMPLATES > GET */
+/* API > TEMPLATES > GET */
 /* This endpoint returns all templates from MongoDB. */
 /* * */
 
-export default async function auditsTemplatesGet(req, res) {
+export default async function templatesGet(req, res) {
   //
   await delay();
 
@@ -31,12 +31,12 @@ export default async function auditsTemplatesGet(req, res) {
   try {
     const foundDocument = await Model.findOne({ _id: req.query._id });
     if (!foundDocument) {
-      return await res.status(404).json({ message: `Audit Template with _id: ${req.query._id} not found.` });
+      return await res.status(404).json({ message: `Template with _id: ${req.query._id} not found.` });
     } else {
       return await res.status(200).json(foundDocument);
     }
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot fetch this Audit Template.' });
+    return await res.status(500).json({ message: 'Cannot fetch this Template.' });
   }
 }

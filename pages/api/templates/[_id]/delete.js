@@ -3,11 +3,11 @@ import mongodb from '../../../../services/mongodb';
 import { Model } from '../../../../schemas/Template';
 
 /* * */
-/* API > AUDITS > TEMPLATES > DELETE */
+/* API > TEMPLATES > DELETE */
 /* This endpoint returns all templates from MongoDB. */
 /* * */
 
-export default async function auditsTemplatesDelete(req, res) {
+export default async function templatesDelete(req, res) {
   //
   await delay();
 
@@ -29,12 +29,12 @@ export default async function auditsTemplatesDelete(req, res) {
   try {
     const deletedDocument = await Model.findOneAndDelete({ _id: req.query._id });
     if (!deletedDocument) {
-      return await res.status(404).json({ message: `Audit Template with _id: ${req.query._id} not found.` });
+      return await res.status(404).json({ message: `Template with _id: ${req.query._id} not found.` });
     } else {
       return await res.status(200).send(deletedDocument);
     }
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot delete this Audit Template.' });
+    return await res.status(500).json({ message: 'Cannot delete this Template.' });
   }
 }

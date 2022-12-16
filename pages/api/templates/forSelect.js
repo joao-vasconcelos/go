@@ -3,7 +3,7 @@ import mongodb from '../../../services/mongodb';
 import { Model } from '../../../schemas/Template';
 
 /* * */
-/* API > AUDITS > TEMPLATES > LIST */
+/* API > TEMPLATES > LIST */
 /* This endpoint returns all templates from MongoDB. */
 /* * */
 

@@ -3,11 +3,11 @@ import mongodb from '../../../../services/mongodb';
 import { Validation, Model } from '../../../../schemas/Template';
 
 /* * */
-/* API > AUDITS > TEMPLATES > EDIT */
+/* API > TEMPLATES > EDIT */
 /* This endpoint returns all templates from MongoDB. */
 /* * */
 
-export default async function auditsTemplatesEdit(req, res) {
+export default async function templatesEdit(req, res) {
   //
   await delay();
 
@@ -48,7 +48,7 @@ export default async function auditsTemplatesEdit(req, res) {
     if (req.body.unique_code) {
       const foundUniqueCode = await Model.findOne({ unique_code: req.body.unique_code });
       if (foundUniqueCode && foundUniqueCode._id != req.query._id)
-        throw new Error('An Audit Template with the same unique_code already exists.');
+        throw new Error('A Template with the same unique_code already exists.');
     }
   } catch (err) {
     console.log(err);
@@ -59,12 +59,12 @@ export default async function auditsTemplatesEdit(req, res) {
   try {
     const editedDocument = await Model.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
     if (!editedDocument) {
-      return await res.status(404).json({ message: `Audit Template with _id: ${req.query._id} not found.` });
+      return await res.status(404).json({ message: `Template with _id: ${req.query._id} not found.` });
     } else {
       return await res.status(200).json(editedDocument);
     }
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot edit this Audit Template.' });
+    return await res.status(500).json({ message: 'Cannot edit this Template.' });
   }
 }
