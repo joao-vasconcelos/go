@@ -63,7 +63,7 @@ export default function NavigationBar({ links = [] }) {
 
   const router = useRouter();
 
-  function isActivePage(href) {
+  const isActivePage = (href) => {
     if (href === '' && router.asPath === '') {
       return false;
     } else if (href === '/' && router.asPath === '/') {
@@ -71,7 +71,7 @@ export default function NavigationBar({ links = [] }) {
     } else if (router.asPath != '/' && href != '/') {
       return router.asPath.includes(href);
     }
-  }
+  };
 
   return (
     <Navbar width={{ sm: 250 }}>

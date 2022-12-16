@@ -41,11 +41,7 @@ export default function TemplatesEdit() {
   //
   // B. Fetch data
 
-  const {
-    data: auditTemplateData,
-    error: auditTemplateError,
-    mutate: auditTemplateMutate,
-  } = useSWR(_id && `/api/templates/${_id}`);
+  const { data: templateData, error: templateError, mutate: templateMutate } = useSWR(_id && `/api/templates/${_id}`);
 
   //
   // C. Setup form
@@ -55,16 +51,16 @@ export default function TemplatesEdit() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(Validation),
-    initialValues: auditTemplateData,
+    initialValues: templateData,
   });
 
   useEffect(() => {
-    if (!hasUpdatedFields.current && auditTemplateData) {
-      form.setValues(auditTemplateData);
+    if (!hasUpdatedFields.current && templateData) {
+      form.setValues(templateData);
       form.resetDirty();
       hasUpdatedFields.current = true;
     }
-  }, [auditTemplateData, form]);
+  }, [templateData, form]);
 
   //
   // D. Handle actions
@@ -77,7 +73,7 @@ export default function TemplatesEdit() {
     try {
       setIsSaving(true);
       await API({ service: 'templates', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
-      auditTemplateMutate({ ...auditTemplateData, ...form.values });
+      templateMutate({ ...templateData, ...form.values });
       setIsSaving(false);
       setHasErrorSaving(false);
       hasUpdatedFields.current = false;
@@ -86,18 +82,18 @@ export default function TemplatesEdit() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [_id, auditTemplateData, form.values, auditTemplateMutate]);
+  }, [_id, templateData, form.values, templateMutate]);
 
   //
   // E. Render components
 
-  return auditTemplateData && hasUpdatedFields.current ? (
+  return templateData && hasUpdatedFields.current ? (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
       <PageContainer
         title={['Audits', 'Templates', form?.values?.unique_code]}
-        loading={!auditTemplateError && !auditTemplateData}
+        loading={!templateError && !templateData}
       >
-        <ErrorDisplay error={auditTemplateError} />
+        <ErrorDisplay error={templateError} />
         <ErrorDisplay
           error={hasErrorSaving}
           loading={isSaving}
