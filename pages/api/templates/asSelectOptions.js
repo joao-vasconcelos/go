@@ -3,7 +3,7 @@ import mongodb from '../../../services/mongodb';
 import { Model } from '../../../schemas/Template';
 
 /* * */
-/* API > TEMPLATES > LIST */
+/* API > TEMPLATES > LIST AS SELECT OPTIONS */
 /* This endpoint returns all templates from MongoDB. */
 /* * */
 
@@ -29,7 +29,7 @@ export default async function templatesListOptions(req, res) {
   try {
     const allDocuments = await Model.find({}).limit(1000);
     const allDocumentsFormatted = allDocuments.map((document) => {
-      return { label: document.title, value: document._id };
+      return { value: document._id, label: document.title, description: document.description };
     });
     return await res.status(200).send(allDocumentsFormatted);
   } catch (err) {

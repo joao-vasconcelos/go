@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Group, Text, Modal, Select } from '@mantine/core';
+import { Button, Group, Text, Modal, Select, Stack } from '@mantine/core';
 import PageContainer from '../../components/PageContainer';
 import DynamicTable from '../../components/DynamicTable';
 import Pannel from '../../components/Pannel';
@@ -30,7 +30,7 @@ export default function AuditsList() {
   // B. Fetch data
 
   const { data: auditsData, error: auditsError } = useSWR('/api/audits');
-  const { data: templatesData, error: templatesError } = useSWR('/api/templates/forSelect');
+  const { data: templatesData, error: templatesError } = useSWR('/api/templates/asSelectOptions');
 
   //
   // C. Handle actions
@@ -71,17 +71,24 @@ export default function AuditsList() {
           </Text>
         }
       >
-        <Select
-          label='Audit Template'
-          placeholder='Pick one'
-          clearable
-          data={templatesData || []}
-          value={selectedTemplateId}
-          onChange={(value) => setSelectedTemplateId(value)}
-        />
-        <Button onClick={handleCreateAudit} loading={isCreating} leftIcon={<TbPlus />} disabled={!selectedTemplateId}>
-          Start
-        </Button>
+        <Stack>
+          <Select
+            label='Audit Template'
+            placeholder='Pick one'
+            clearable
+            data={templatesData || []}
+            value={selectedTemplateId}
+            onChange={(value) => setSelectedTemplateId(value)}
+          />
+          <Button
+            onClick={handleCreateAudit}
+            loading={isCreating}
+            rightIcon={<TbPlus />}
+            disabled={!selectedTemplateId}
+          >
+            Start
+          </Button>
+        </Stack>
       </Modal>
 
       <ErrorDisplay error={auditsError} />
