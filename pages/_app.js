@@ -17,10 +17,10 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
   // SIDEBAR NAVIGATION LINKS
   const navbarLinks = [
     { href: '/', label: 'Home', icon: TbHome },
-    { href: '/audits', label: 'Audits', icon: TbClipboardCheck },
-    { href: '/reports', label: 'Reports', icon: TbChartPie },
+    { href: '/audits', label: 'Auditorias', icon: TbClipboardCheck },
+    { href: '/reports', label: 'Relatórios', icon: TbChartPie },
     { href: '/templates', label: 'Templates', icon: TbLicense },
-    { href: '/users', label: 'Users', icon: TbUsers },
+    { href: '/users', label: 'Utilizadores', icon: TbUsers },
   ];
 
   // SWR CONFIGURATION

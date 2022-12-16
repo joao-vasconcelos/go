@@ -2,7 +2,6 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
-import { GridCell, Label, Value } from '../../../components/Grid';
 import { Grid } from '../../../components/LayoutUtils';
 import API from '../../../services/API';
 import notify from '../../../services/notify';
@@ -74,6 +73,6 @@ export default function AuditsView() {
       </Pannel>
     </PageContainer>
   ) : (
-    <div>Loading...</div>
+    <div>Loading... 123</div>
   );
 }

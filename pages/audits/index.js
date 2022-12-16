@@ -54,13 +54,9 @@ export default function AuditsList() {
     }
   };
 
-  function handleRowClick(row) {
+  const handleRowClick = (row) => {
     router.push(`/audits/${row._id}`);
-  }
-
-  function handleOpenTemplates() {
-    router.push('/templates');
-  }
+  };
 
   //
   // D. Render components
@@ -99,10 +95,6 @@ export default function AuditsList() {
       <Group>
         <Button onClick={() => setIsCreatingModelOpen(true)} loading={isCreating} leftIcon={<TbPlus />}>
           Start New Audit
-        </Button>
-        <Spacer width={'full'} />
-        <Button onClick={handleOpenTemplates} leftIcon={<TbSettings />} variant='light'>
-          Templates
         </Button>
       </Group>
 

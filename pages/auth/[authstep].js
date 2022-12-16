@@ -99,7 +99,7 @@ export function AuthSignIn() {
 
   const form = useForm({
     clearInputErrorOnChange: true,
-    validate: yupResolver({ Validation }),
+    validate: yupResolver(Validation),
     initialValues: {
       email: '',
     },
