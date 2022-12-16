@@ -1,14 +1,13 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import generator from '../../../services/generator';
 import { Validation, Model } from '../../../schemas/Template';
 
 /* * */
-/* API > AUDITS > TEMPLATES > CREATE */
+/* API > TEMPLATES > CREATE */
 /* This endpoint returns all templates from MongoDB. */
 /* * */
 
-export default async function auditsTemplatesCreate(req, res) {
+export default async function templatesCreate(req, res) {
   //
   await delay();
 
@@ -42,26 +41,12 @@ export default async function auditsTemplatesCreate(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4. Check for uniqueness
-  try {
-    // The values that need to be unique are ['unique_code'].
-    let uniqueCodeIsNotUnique = true;
-    while (uniqueCodeIsNotUnique) {
-      req.body.unique_code = generator(6, 'alphanumeric'); // Generate a new code with 6 characters
-      uniqueCodeIsNotUnique = await Model.exists({ unique_code: req.body.unique_code });
-    }
-  } catch (err) {
-    console.log(err);
-    await res.status(409).json({ message: err.message });
-    return;
-  }
-
-  // 5. Try to save a new document with req.body
+  // 4. Try to save a new document with req.body
   try {
     const createdDocument = await Model(req.body).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot create Audit Template.' });
+    return await res.status(500).json({ message: 'Cannot create Template.' });
   }
 }

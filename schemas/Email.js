@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 /* * */
-/* SCHEMA: EMAIL */
+/* DOCUMENT TYPE: EMAIL */
 /* Explanation needed. */
 /* * */
 

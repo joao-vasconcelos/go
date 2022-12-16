@@ -7,7 +7,7 @@ import { Model } from '../../../schemas/Template';
 /* This endpoint returns all templates from MongoDB. */
 /* * */
 
-export default async function auditsTemplatesList(req, res) {
+export default async function templatesListOptions(req, res) {
   //
   await delay();
 
@@ -34,6 +34,6 @@ export default async function auditsTemplatesList(req, res) {
     return await res.status(200).send(allDocumentsFormatted);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list Audit Templates.' });
+    return await res.status(500).json({ message: 'Cannot list Templates.' });
   }
 }

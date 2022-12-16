@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import mongoose from 'mongoose';
 
 /* * */
-/* SCHEMA: USER DOCUMENT */
+/* DOCUMENT TYPE: USER */
 /* Explanation needed. */
 /* * */
 
@@ -15,30 +15,29 @@ export const Validation = yup.object({
 });
 
 /* * */
-/* B. MongoDB Model Schema */
-export const Model =
-  mongoose?.models?.User ||
-  mongoose.model(
-    'User',
-    new mongoose.Schema({
-      email: {
-        type: String,
-        maxlength: 50,
-        unique: true,
-      },
-      name: {
-        type: String,
-        maxlength: 50,
-      },
-      permissions: [
-        {
-          type: String,
-          maxlength: 50,
-        },
-      ],
-      emailVerified: {
-        type: String,
-        maxlength: 15,
-      },
-    })
-  );
+/* B. Mongoose Schema */
+export const Schema = new mongoose.Schema({
+  email: {
+    type: String,
+    maxlength: 50,
+    unique: true,
+  },
+  name: {
+    type: String,
+    maxlength: 50,
+  },
+  permissions: [
+    {
+      type: String,
+      maxlength: 50,
+    },
+  ],
+  emailVerified: {
+    type: String,
+    maxlength: 15,
+  },
+});
+
+/* * */
+/* C. Mongoose Model */
+export const Model = mongoose?.models?.User || mongoose.model('User', Schema);

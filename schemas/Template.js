@@ -2,19 +2,15 @@ import * as yup from 'yup';
 import mongoose from 'mongoose';
 
 /* * */
-/* SCHEMA: AUDIT TEMPLATE */
+/* DOCUMENT TYPE: TEMPLATE */
 /* Explanation needed. */
 /* * */
 
 /* * */
 /* A. YUP Validation Schema */
 export const Validation = yup.object({
-  unique_code: yup
-    .string()
-    .min(6, 'Unique Code must have exactly ${min} characters')
-    .max(6, 'Unique Code must have exactly ${max} characters')
-    .required('Unique Code is a required field'),
   title: yup.string().max(50, 'Title must be no longer than ${max} characters'),
+  description: yup.string().max(50, 'Description must be no longer than ${max} characters'),
   sections: yup.array(
     yup.object({
       key: yup.string(),
@@ -35,63 +31,57 @@ export const Validation = yup.object({
 });
 
 /* * */
-/* B. MongoDB Model Schema */
-export const Model =
-  mongoose?.models?.AuditTemplate ||
-  mongoose.model(
-    'AuditTemplate',
-    new mongoose.Schema(
+/* B. Mongoose Schema */
+export const Schema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      maxlength: 50,
+    },
+    description: {
+      type: String,
+      maxlength: 50,
+    },
+    sections: [
       {
-        unique_code: {
+        key: {
           type: String,
-          minlength: 6,
-          maxlength: 6,
+          maxlength: 50,
         },
         title: {
           type: String,
           maxlength: 50,
         },
-        sections: [
+        description: {
+          type: String,
+          maxlength: 50,
+        },
+        fields: [
           {
             key: {
               type: String,
               maxlength: 50,
             },
-            title: {
+            label: {
               type: String,
               maxlength: 50,
             },
-            description: {
+            placeholder: {
               type: String,
               maxlength: 50,
             },
-            fields: [
-              {
-                key: {
-                  type: String,
-                  maxlength: 50,
-                },
-                id: {
-                  type: String,
-                  maxlength: 50,
-                },
-                label: {
-                  type: String,
-                  maxlength: 50,
-                },
-                placeholder: {
-                  type: String,
-                  maxlength: 50,
-                },
-                type: {
-                  type: String,
-                  maxlength: 50,
-                },
-              },
-            ],
+            type: {
+              type: String,
+              maxlength: 50,
+            },
           },
         ],
       },
-      { timestamps: true }
-    )
-  );
+    ],
+  },
+  { timestamps: true }
+);
+
+/* * */
+/* C. Mongoose Model */
+export const Model = mongoose?.models?.Template || mongoose.model('Template', Schema);

@@ -3,11 +3,11 @@ import mongodb from '../../../services/mongodb';
 import { Model } from '../../../schemas/Template';
 
 /* * */
-/* API > AUDITS > TEMPLATES > LIST */
+/* API > TEMPLATES > LIST */
 /* This endpoint returns all templates from MongoDB. */
 /* * */
 
-export default async function auditsTemplatesList(req, res) {
+export default async function templatesList(req, res) {
   //
   await delay();
 
@@ -31,6 +31,6 @@ export default async function auditsTemplatesList(req, res) {
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list Audit Templates.' });
+    return await res.status(500).json({ message: 'Cannot list Templates.' });
   }
 }
