@@ -1,6 +1,6 @@
 {
   "name": "@tmlmobilidade/dashboard",
-  "version": "2022.12.5",
+  "version": "2022.12.6",
   "private": true,
   "scripts": {
     "dev": "next dev",
