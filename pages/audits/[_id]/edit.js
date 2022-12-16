@@ -33,7 +33,6 @@ export default function AuditsEdit() {
   // B. Fetch data
 
   const { data: auditData, error: auditError, mutate: auditMutate } = useSWR(_id && `/api/audits/${_id}`);
-  const { data: templateData, error: templateError } = useSWR(auditData && `/api/templates/${auditData.template_id}`);
 
   console.log(auditData);
 
@@ -112,8 +111,8 @@ export default function AuditsEdit() {
           </Grid>
         </Pannel>
 
-        {templateData &&
-          templateData.sections.map((section) => (
+        {auditData &&
+          auditData.template.sections.map((section) => (
             <Pannel key={section.key} title={section.title} description={section.description}>
               {section.fields.map((field) => {
                 switch (field.type) {

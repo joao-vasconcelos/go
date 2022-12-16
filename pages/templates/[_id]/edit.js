@@ -89,10 +89,7 @@ export default function TemplatesEdit() {
 
   return templateData && hasUpdatedFields.current ? (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
-      <PageContainer
-        title={['Audits', 'Templates', form?.values?.unique_code]}
-        loading={!templateError && !templateData}
-      >
+      <PageContainer title={['Templates', form?.values?.title]} loading={!templateError && !templateData}>
         <ErrorDisplay error={templateError} />
         <ErrorDisplay
           error={hasErrorSaving}

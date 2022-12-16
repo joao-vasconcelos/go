@@ -69,10 +69,7 @@ export default function TemplatesList() {
           data={templatesData || []}
           isLoading={!templatesError && !templatesData}
           onRowClick={handleRowClick}
-          columns={[
-            { label: 'Unique Code', key: 'unique_code' },
-            { label: 'Title', key: 'title' },
-          ]}
+          columns={[{ label: 'Title', key: 'title' }]}
           searchFieldPlaceholder={'Search by audit code, supplier, etc...'}
         />
       </Pannel>

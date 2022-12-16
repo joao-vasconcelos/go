@@ -47,7 +47,7 @@ export default function TemplatesView() {
   };
 
   return templateData ? (
-    <PageContainer title={['Templates', templateData.unique_code]}>
+    <PageContainer title={['Templates', templateData.title]}>
       <Group>
         <Button leftIcon={<TbPencil />} onClick={handleEditAudit}>
           Edit

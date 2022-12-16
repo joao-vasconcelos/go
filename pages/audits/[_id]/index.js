@@ -17,9 +17,6 @@ export default function AuditsView() {
   const { _id } = router.query;
 
   const { data: auditData, error: auditError } = useSWR(_id && `/api/audits/${_id}`);
-  const { data: auditTemplateData, error: auditTemplateError } = useSWR(
-    auditData && `/api/templates/${auditData.template_id}`
-  );
 
   const handleEditAudit = async () => {
     router.push(`/audits/${_id}/edit`);
@@ -33,7 +30,7 @@ export default function AuditsView() {
         </Text>
       ),
       centered: true,
-      children: <Text>Deleting is irreversible. Are you sure you want to delete this audit forever?</Text>,
+      children: <Text>Deleting is irreversible. Are you sure you want to delete this Audit forever?</Text>,
       labels: { confirm: 'Delete Audit', cancel: 'Do Not Delete' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -50,7 +47,7 @@ export default function AuditsView() {
     });
   };
 
-  return auditData && auditTemplateData ? (
+  return auditData ? (
     <PageContainer title={['Audits', auditData.unique_code]}>
       <Group>
         <Button leftIcon={<TbPencil />} onClick={handleEditAudit}>
@@ -66,7 +63,7 @@ export default function AuditsView() {
           <TextDisplay
             label={'Template'}
             description={'The template used for this Audit'}
-            value={auditTemplateData.title}
+            value={auditData.template.title}
           />
           <TextDisplay label={'User'} description={'The user performing the Audit'} value={'Andreia Soares'} />
         </Grid>

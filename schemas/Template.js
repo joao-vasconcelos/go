@@ -37,42 +37,51 @@ export const Schema = new mongoose.Schema(
     title: {
       type: String,
       maxlength: 50,
+      default: '',
     },
     description: {
       type: String,
       maxlength: 50,
+      default: '',
     },
     sections: [
       {
         key: {
           type: String,
           maxlength: 50,
+          default: '',
         },
         title: {
           type: String,
           maxlength: 50,
+          default: '',
         },
         description: {
           type: String,
           maxlength: 50,
+          default: '',
         },
         fields: [
           {
             key: {
               type: String,
               maxlength: 50,
+              default: '',
             },
             label: {
               type: String,
               maxlength: 50,
+              default: '',
             },
             placeholder: {
               type: String,
               maxlength: 50,
+              default: '',
             },
             type: {
               type: String,
               maxlength: 50,
+              default: '',
             },
           },
         ],

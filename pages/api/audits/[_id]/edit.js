@@ -59,8 +59,8 @@ export default async function auditsEdit(req, res) {
   try {
     const editedDocument = await Model.findOneAndReplace({ _id: req.query._id }, req.body);
     if (!editedDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
-    console.log(req.body);
-    console.log(editedDocument);
+    // console.log(req.body);
+    // console.log(editedDocument);
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);

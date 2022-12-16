@@ -21,7 +21,9 @@ export default async function auditsCreate(req, res) {
 
   // 1. Try to save a new document with req.body
   try {
+    console.log('pre-JSON', req.body);
     req.body = await JSON.parse(req.body);
+    console.log('after-JSON', req.body);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'JSON parse error.' });
@@ -59,24 +61,23 @@ export default async function auditsCreate(req, res) {
 
   // 6. Pre-set properties based on the associated template schema
   try {
-    const associatedTemplate = await TemplateModel.findById(req.body.template_id);
+    const associatedTemplate = await TemplateModel.findById(req.body.template._id);
     req.body.template = associatedTemplate;
     req.body.properties = {};
     for (const section of associatedTemplate.sections) {
       req.body.properties[section.key] = {};
       for (const field of section.fields) {
-        req.body.properties[section.key][field.key] = null;
+        req.body.properties[section.key][field.key] = '';
       }
     }
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot configure this Audit with Template schema.' });
+    return await res.status(500).json({ message: 'Cannot configure this Audit with selected Template.' });
   }
 
   // 5. Try to save a new document with req.body
   try {
     const createdDocument = await DocumentModel(req.body).save();
-    console.log(createdDocument);
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);

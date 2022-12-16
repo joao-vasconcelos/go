@@ -24,7 +24,7 @@ export default function AuditsList() {
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
   const [isCreatingModelOpen, setIsCreatingModelOpen] = useState(false);
-  const [selectedTemplate, setSelectedAuditTemplate] = useState();
+  const [selectedTemplateId, setSelectedTemplateId] = useState();
 
   //
   // B. Fetch data
@@ -42,7 +42,7 @@ export default function AuditsList() {
         service: 'audits',
         operation: 'create',
         method: 'POST',
-        body: { template_id: selectedTemplate },
+        body: { template: { _id: selectedTemplateId } },
       });
       router.push(`/audits/${response._id}/edit`);
       notify('new', 'success', 'A new Audit has started.');
@@ -76,10 +76,10 @@ export default function AuditsList() {
           placeholder='Pick one'
           clearable
           data={templatesData || []}
-          value={selectedTemplate}
-          onChange={(value) => setSelectedAuditTemplate(value)}
+          value={selectedTemplateId}
+          onChange={(value) => setSelectedTemplateId(value)}
         />
-        <Button onClick={handleCreateAudit} loading={isCreating} leftIcon={<TbPlus />} disabled={!selectedTemplate}>
+        <Button onClick={handleCreateAudit} loading={isCreating} leftIcon={<TbPlus />} disabled={!selectedTemplateId}>
           Start
         </Button>
       </Modal>
