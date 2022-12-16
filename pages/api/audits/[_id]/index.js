@@ -1,13 +1,13 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model } from '../../../../schemas/User';
+import { Model } from '../../../../schemas/Audit';
 
 /* * */
-/* GET USER BY ID */
+/* GET AUDIT BY ID */
 /* Explanation needed. */
 /* * */
 
-export default async function usersGet(req, res) {
+export default async function auditsGet(req, res) {
   //
   await delay();
 
@@ -30,10 +30,10 @@ export default async function usersGet(req, res) {
   // 2. Try to fetch the correct document
   try {
     const foundDocument = await Model.findOne({ _id: req.query._id });
-    if (!foundDocument) return await res.status(404).json({ message: `User with _id: ${req.query._id} not found.` });
+    if (!foundDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot fetch this User.' });
+    return await res.status(500).json({ message: 'Cannot fetch this Audit.' });
   }
 }

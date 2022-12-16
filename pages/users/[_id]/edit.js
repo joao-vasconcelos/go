@@ -4,7 +4,7 @@ import Pannel from '../../../components/Pannel';
 import { Grid } from '../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
 import { TextInput, MultiSelect } from '@mantine/core';
-import { Validation } from '../../../schemas/users/documents';
+import { Validation } from '../../../schemas/User';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../services/API';
 import useSWR from 'swr';

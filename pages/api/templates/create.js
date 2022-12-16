@@ -1,13 +1,14 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { Validation, Model } from '../../../schemas/User';
+import generator from '../../../services/generator';
+import { Validation, Model } from '../../../schemas/Template';
 
 /* * */
-/* CREATE USER */
-/* Explanation needed. */
+/* API > AUDITS > TEMPLATES > CREATE */
+/* This endpoint returns all templates from MongoDB. */
 /* * */
 
-export default async function usersCreate(req, res) {
+export default async function auditsTemplatesCreate(req, res) {
   //
   await delay();
 
@@ -43,14 +44,11 @@ export default async function usersCreate(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['email'].
-    const foundDocumentWithEmail = await Model.exists({ email: req.body.email });
-    if (foundDocumentWithEmail && foundDocumentWithEmail._id != req.query._id) {
-      if (foundDocumentWithEmail.email) {
-        throw new Error('A User with the same email already exists.');
-      } else {
-        await Model.findOneAndDelete({ _id: foundDocumentWithEmail._id });
-      }
+    // The values that need to be unique are ['unique_code'].
+    let uniqueCodeIsNotUnique = true;
+    while (uniqueCodeIsNotUnique) {
+      req.body.unique_code = generator(6, 'alphanumeric'); // Generate a new code with 6 characters
+      uniqueCodeIsNotUnique = await Model.exists({ unique_code: req.body.unique_code });
     }
   } catch (err) {
     console.log(err);
@@ -64,6 +62,6 @@ export default async function usersCreate(req, res) {
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot create this User.' });
+    return await res.status(500).json({ message: 'Cannot create Audit Template.' });
   }
 }

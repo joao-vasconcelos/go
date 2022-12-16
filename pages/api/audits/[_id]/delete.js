@@ -1,13 +1,13 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model } from '../../../../schemas/User';
+import { Model } from '../../../../schemas/Audit';
 
 /* * */
-/* DELETE USER */
+/* DELETE AUDIT */
 /* Explanation needed. */
 /* * */
 
-export default async function usersDelete(req, res) {
+export default async function auditsDelete(req, res) {
   //
   await delay();
 
@@ -25,13 +25,13 @@ export default async function usersDelete(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2. Try to update the correct document
+  // 2. Try to delete the correct document
   try {
     const deletedDocument = await Model.findOneAndDelete({ _id: req.query._id });
-    if (!deletedDocument) return await res.status(404).json({ message: `User with _id: ${req.query._id} not found.` });
+    if (!deletedDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
     return await res.status(200).send(deletedDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot delete this User.' });
+    return await res.status(500).json({ message: 'Cannot delete this Audit.' });
   }
 }

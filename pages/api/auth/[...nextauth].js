@@ -3,7 +3,7 @@ import EmailProvider from 'next-auth/providers/email';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import clientPromise from '../../../services/mongodb-adapter';
 import mongodb from '../../../services/mongodb';
-import { Model } from '../../../schemas/users/documents';
+import { Model } from '../../../schemas/User';
 
 export default NextAuth({
   debug: false,

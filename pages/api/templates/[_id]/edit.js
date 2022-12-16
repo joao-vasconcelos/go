@@ -1,20 +1,20 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Validation, Model } from '../../../../schemas/User';
+import { Validation, Model } from '../../../../schemas/Template';
 
 /* * */
-/* EDIT USER */
-/* Explanation needed. */
+/* API > AUDITS > TEMPLATES > EDIT */
+/* This endpoint returns all templates from MongoDB. */
 /* * */
 
-export default async function usersEdit(req, res) {
+export default async function auditsTemplatesEdit(req, res) {
   //
   await delay();
 
   // 0. Refuse request if not PUT
   if (req.method != 'PUT') {
     await res.setHeader('Allow', ['PUT']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
+    return await res.status(405).json({ message: `Method ${req.method} Not Allowed` });
   }
 
   // 1. Parse request body into JSON
@@ -44,23 +44,27 @@ export default async function usersEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['email'].
-    const foundDocumentWithEmail = await Model.exists({ email: req.body.email });
-    if (foundDocumentWithEmail && foundDocumentWithEmail._id != req.query._id) {
-      throw new Error('A User with the same email already exists.');
+    // The only value that needs to, and can be, unique is 'unique_code'.
+    if (req.body.unique_code) {
+      const foundUniqueCode = await Model.findOne({ unique_code: req.body.unique_code });
+      if (foundUniqueCode && foundUniqueCode._id != req.query._id)
+        throw new Error('An Audit Template with the same unique_code already exists.');
     }
   } catch (err) {
     console.log(err);
     return await res.status(409).json({ message: err.message });
   }
 
-  // 2. Try to update the correct document
+  // 2. Try to edit the correct document
   try {
     const editedDocument = await Model.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
-    if (!editedDocument) return await res.status(404).json({ message: `User with _id: ${req.query._id} not found.` });
-    return await res.status(200).json(editedDocument);
+    if (!editedDocument) {
+      return await res.status(404).json({ message: `Audit Template with _id: ${req.query._id} not found.` });
+    } else {
+      return await res.status(200).json(editedDocument);
+    }
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot update this User.' });
+    return await res.status(500).json({ message: 'Cannot edit this Audit Template.' });
   }
 }

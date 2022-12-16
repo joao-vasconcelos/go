@@ -5,7 +5,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import BrowserConfig from '../components/BrowserConfig';
 import NavigationBar from '../components/NavigationBar';
-import { TbHome, TbFlag3, TbClipboardCheck, TbLicense, TbUsers } from 'react-icons/tb';
+import { TbHome, TbClipboardCheck, TbLicense, TbChartPie, TbUsers } from 'react-icons/tb';
 import AuthChecker from '../components/AuthChecker';
 
 // Styles
@@ -18,7 +18,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
   const navbarLinks = [
     { href: '/', label: 'Home', icon: TbHome },
     { href: '/audits', label: 'Audits', icon: TbClipboardCheck },
-    { href: '/surveys', label: 'Surveys', icon: TbLicense },
+    { href: '/reports', label: 'Reports', icon: TbChartPie },
+    { href: '/templates', label: 'Templates', icon: TbLicense },
     { href: '/users', label: 'Users', icon: TbUsers },
   ];
 
