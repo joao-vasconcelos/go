@@ -10,6 +10,6 @@ export const config = {
      * - site.webmanifest (webmanifest file)
      * - favicon.ico (favicon file)
      */
-    '/((?!api|auth|_next/static|site.webmanifest|favicon.ico).*)',
+    '/((?!api|auth|.next/static|site.webmanifest|favicon.ico).*)',
   ],
 };
