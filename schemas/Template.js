@@ -10,7 +10,7 @@ import mongoose from 'mongoose';
 /* A. YUP Validation Schema */
 export const Validation = yup.object({
   title: yup.string().max(50, 'Title must be no longer than ${max} characters'),
-  description: yup.string().max(50, 'Description must be no longer than ${max} characters'),
+  description: yup.string().max(300, 'Description must be no longer than ${max} characters'),
   sections: yup.array(
     yup.object({
       key: yup.string(),

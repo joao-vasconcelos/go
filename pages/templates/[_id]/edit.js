@@ -4,7 +4,7 @@ import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
 import { Grid } from '../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Button, ActionIcon, Group, Switch, Select } from '@mantine/core';
+import { TextInput, Textarea, Button, ActionIcon, Group, Switch, Select } from '@mantine/core';
 import { Validation } from '../../../schemas/Template';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../services/API';
@@ -106,9 +106,16 @@ export default function TemplatesEdit() {
           onClose={async () => await handleClose()}
         />
 
-        <Pannel title={'Template Details'}>
+        <Pannel title={'Detalhes do Modelo'}>
           <Grid>
-            <TextInput label={'Title'} placeholder={'Template Title'} {...form.getInputProps('title')} />
+            <TextInput label={'Título'} placeholder={'Título do Modelo'} {...form.getInputProps('title')} />
+          </Grid>
+          <Grid>
+            <Textarea
+              label={'Descrição'}
+              placeholder={'Mais sobre a finalidade deste modelo.'}
+              {...form.getInputProps('description')}
+            />
           </Grid>
         </Pannel>
 
