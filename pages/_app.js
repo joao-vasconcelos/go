@@ -19,7 +19,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     { href: '/', label: 'Home', icon: TbHome },
     { href: '/audits', label: 'Auditorias', icon: TbClipboardCheck },
     { href: '/reports', label: 'Relatórios', icon: TbChartPie },
-    { href: '/templates', label: 'Templates', icon: TbLicense },
+    { href: '/templates', label: 'Modelos', icon: TbLicense },
     { href: '/users', label: 'Utilizadores', icon: TbUsers },
   ];
 

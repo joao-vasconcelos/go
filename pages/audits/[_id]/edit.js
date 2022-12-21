@@ -126,6 +126,18 @@ export default function AuditsEdit() {
                         />
                       </div>
                     );
+                  case 'select':
+                    return (
+                      <div key={field.key}>
+                        <Select
+                          label='Field Type'
+                          placeholder='Pick one'
+                          clearable
+                          data={field.options || []}
+                          {...form.getInputProps(`properties.${section.key}.${field.key}`)}
+                        />
+                      </div>
+                    );
                   default:
                     return <div key={field.key}>{field.type}</div>;
                     break;

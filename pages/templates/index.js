@@ -54,17 +54,17 @@ export default function TemplatesList() {
   // D. Render components
 
   return (
-    <PageContainer title={['Templates']}>
+    <PageContainer title={['Modelos']}>
       <ErrorDisplay error={templatesError} />
 
       <Group>
         <Button onClick={handleCreateAuditTemplate} loading={isCreating} leftIcon={<TbPlus />}>
-          Create New Template
+          Criar Novo Modelo
         </Button>
         <Spacer width={'full'} />
       </Group>
 
-      <Pannel title={'All Templates'}>
+      <Pannel title={'Todos os Modelos'}>
         <DynamicTable
           data={templatesData || []}
           isLoading={!templatesError && !templatesData}

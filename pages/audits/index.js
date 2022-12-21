@@ -91,6 +91,7 @@ export default function AuditsList() {
             data={templatesData || []}
             value={selectedTemplateId}
             itemComponent={SelectItem}
+            nothingFound='Nenhum modelo disponível'
             onChange={(value) => setSelectedTemplateId(value)}
           />
           <Button
@@ -111,11 +112,11 @@ export default function AuditsList() {
 
       <Group>
         <Button onClick={() => setIsCreatingModelOpen(true)} loading={isCreating} leftIcon={<TbPlus />}>
-          Start New Audit
+          Iniciar Nova Auditoria
         </Button>
       </Group>
 
-      <Pannel title={'All Audits'}>
+      <Pannel title={'Todas as Auditorias'}>
         <DynamicTable
           data={auditsData || []}
           isLoading={!auditsError && !auditsData}
@@ -125,7 +126,7 @@ export default function AuditsList() {
             { label: 'Unique Code', key: 'unique_code' },
             { label: 'First Name', key: 'first_name' },
           ]}
-          searchFieldPlaceholder={'Search by audit code, supplier, etc...'}
+          searchFieldPlaceholder={'Procurar por código, intervenintes, etc...'}
         />
       </Pannel>
     </PageContainer>

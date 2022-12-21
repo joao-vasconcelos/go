@@ -65,6 +65,66 @@ export default function TemplatesEdit() {
   //
   // D. Handle actions
 
+  const getCorrectFieldType = (sectionIndex, fieldIndex) => {
+    switch (form.values?.sections[sectionIndex]?.fields[fieldIndex].type) {
+      case 'text_short':
+      case 'text_long':
+        return <div>text_short</div>;
+      case 'select':
+        return (
+          <div>
+            {form.values?.sections[sectionIndex]?.fields[fieldIndex].options?.map((option, optionIndex) => (
+              <NewFieldContainer key={optionIndex}>
+                <TextInput
+                  label={'Option Value'}
+                  placeholder={'Option Value'}
+                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.options.${optionIndex}.value`)}
+                />
+                <TextInput
+                  label={'Option Label'}
+                  placeholder={'Option Label'}
+                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.options.${optionIndex}.label`)}
+                />
+                <ActionIcon
+                  color='red'
+                  onClick={() =>
+                    form.removeListItem(`sections.${sectionIndex}.fields.${fieldIndex}.options`, optionIndex)
+                  }
+                >
+                  <TbTrash />
+                </ActionIcon>
+              </NewFieldContainer>
+            ))}
+            <Button
+              variant='light'
+              onClick={() => {
+                console.log(form.values);
+                if (!form.values.sections[sectionIndex].fields[fieldIndex].options) {
+                  form.values.sections[sectionIndex].fields[fieldIndex].options = [];
+                }
+                form.insertListItem(`sections.${sectionIndex}.fields.${fieldIndex}.options`, {
+                  key: randomId(),
+                  value: '',
+                  label: '',
+                });
+              }}
+            >
+              Add New Option
+            </Button>
+          </div>
+        );
+      case 'file_document':
+        return <div>file_document</div>;
+      case 'file_image':
+        return <div>file_image</div>;
+      default:
+        break;
+    }
+  };
+
+  //
+  // D. Handle actions
+
   const handleClose = async () => {
     router.push(`/templates/${_id}`);
   };
@@ -89,7 +149,7 @@ export default function TemplatesEdit() {
 
   return templateData && hasUpdatedFields.current ? (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
-      <PageContainer title={['Templates', form?.values?.title]} loading={!templateError && !templateData}>
+      <PageContainer title={['Modelos', form?.values?.title]} loading={!templateError && !templateData}>
         <ErrorDisplay error={templateError} />
         <ErrorDisplay
           error={hasErrorSaving}
@@ -180,6 +240,7 @@ export default function TemplatesEdit() {
                   ]}
                   {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.type`)}
                 />
+                {getCorrectFieldType(sectionIndex, fieldIndex)}
                 <ActionIcon
                   color='red'
                   onClick={() => form.removeListItem(`sections.${sectionIndex}.fields`, fieldIndex)}
@@ -215,7 +276,7 @@ export default function TemplatesEdit() {
             })
           }
         >
-          Add New Section
+          Adicionar Secção
         </Button>
       </PageContainer>
     </form>

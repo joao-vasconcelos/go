@@ -24,6 +24,13 @@ export const Validation = yup.object({
           label: yup.string().max(50, 'Field Label must be no longer than ${max} characters'),
           placeholder: yup.string().max(50, 'Field Placeholder must be no longer than ${max} characters'),
           type: yup.string().max(50, 'Field Type must be no longer than ${max} characters').nullable(),
+          options: yup.array(
+            yup.object({
+              id: yup.string().max(50, 'Field ID must be no longer than ${max} characters'),
+              label: yup.string().max(50, 'Field Label must be no longer than ${max} characters'),
+              value: yup.string().max(50, 'Field Label must be no longer than ${max} characters'),
+            })
+          ),
         })
       ),
     })
@@ -83,6 +90,20 @@ export const Schema = new mongoose.Schema(
               maxlength: 50,
               default: '',
             },
+            options: [
+              {
+                value: {
+                  type: String,
+                  maxlength: 50,
+                  default: '',
+                },
+                label: {
+                  type: String,
+                  maxlength: 50,
+                  default: '',
+                },
+              },
+            ],
           },
         ],
       },
