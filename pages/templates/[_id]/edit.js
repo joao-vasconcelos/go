@@ -82,7 +82,7 @@ export default function TemplatesEdit() {
   //
   // E. Render components
 
-  return templateData && hasUpdatedFields.current ? (
+  return templateData ? (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
       <PageContainer title={['Modelos', form?.values?.title]} loading={!templateError && !templateData}>
         <ErrorDisplay error={templateError} />
