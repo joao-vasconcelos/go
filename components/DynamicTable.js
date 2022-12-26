@@ -22,12 +22,16 @@ const TableHeaderColumn = styled('th', {
 
 const TableBodyRow = styled('tr', {
   cursor: 'pointer',
+  backgroundColor: '$gray0',
   '&:hover': {
     color: '$info5',
     backgroundColor: '$info1',
   },
   '& td': {
     padding: '$md $sm !important',
+  },
+  '& td:first-child': {
+    fontWeight: '$bold',
   },
 });
 

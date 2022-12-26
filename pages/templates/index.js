@@ -64,15 +64,13 @@ export default function TemplatesList() {
         <Spacer width={'full'} />
       </Group>
 
-      <Pannel title={'Todos os Modelos'}>
-        <DynamicTable
-          data={templatesData || []}
-          isLoading={!templatesError && !templatesData}
-          onRowClick={handleRowClick}
-          columns={[{ label: 'Title', key: 'title' }]}
-          searchFieldPlaceholder={'Search by audit code, supplier, etc...'}
-        />
-      </Pannel>
+      <DynamicTable
+        data={templatesData || []}
+        isLoading={!templatesError && !templatesData}
+        onRowClick={handleRowClick}
+        columns={[{ label: 'Title', key: 'title' }]}
+        searchFieldPlaceholder={'Search by audit code, supplier, etc...'}
+      />
     </PageContainer>
   );
 }
