@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false, // required for ReactDnD
   // experimental: { appDir: true },
 };
