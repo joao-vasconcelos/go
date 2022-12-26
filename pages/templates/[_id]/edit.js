@@ -16,6 +16,8 @@ import useSWR from 'swr';
 import { TbTrash, TbPlus } from 'react-icons/tb';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { CheckboxCard } from '../../../components/CheckboxCard';
+import { Spacer } from '../../../components/LayoutUtils';
+import NewSectionContainer from '../../../components/NewSectionContainer';
 
 /* * */
 /* TEMPLATES > EDIT */
@@ -125,108 +127,98 @@ export default function TemplatesEdit() {
           />
         </Pannel>
 
-        {form.values.sections?.map((section, sectionIndex) => (
-          <Pannel
-            key={sectionIndex}
-            editMode={true}
-            id={
-              <TextInput
-                label={'ID da Secção'}
-                placeholder={'detalhes_veiculo'}
-                description={
-                  'Neste campo deve colocar o ID da secção. Coloque em minúsculas, sem acentos e sem espaços. Pode separar várias palavras por _ (underscores).  É sobre este ID que a informação ficará guardada na base de dados.'
-                }
-                {...form.getInputProps(`sections.${sectionIndex}.key`)}
-              />
-            }
-            title={
-              <TextInput
-                label={'Título da Secção'}
-                placeholder={'Detalhes do Veículo'}
-                description={'Introduza o título da secção que será visível aos utilizadores.'}
-                {...form.getInputProps(`sections.${sectionIndex}.title`)}
-              />
-            }
-            description={
-              <TextInput
-                label={'Descrição'}
-                placeholder={'Nesta secção deve colocar os detalhes...'}
-                description={'Opcionalmente introduza uma descrição que explicita o conteúdo desta secção.'}
-                {...form.getInputProps(`sections.${sectionIndex}.description`)}
-              />
-            }
-            toolbar={
-              <Group>
-                <Button
-                  color='red'
-                  variant='light'
-                  leftIcon={<TbTrash />}
-                  onClick={() => form.removeListItem('sections', sectionIndex)}
-                >
-                  Eliminar Secção
-                </Button>
-                <Button
-                  variant='light'
-                  leftIcon={<TbPlus />}
-                  onClick={() =>
-                    form.insertListItem(`sections.${sectionIndex}.fields`, {
-                      key: randomId(),
-                      id: '',
-                      label: '',
-                      placeholder: '',
-                      type: '',
-                      isOpen: true,
-                    })
-                  }
-                >
-                  Adicionar Novo Campo
-                </Button>
-              </Group>
-            }
-          >
-            <DragDropContext
-              onDragEnd={({ destination, source }) =>
-                form.reorderListItem(`sections.${sectionIndex}.fields`, { from: source.index, to: destination.index })
-              }
-            >
-              <Droppable droppableId='dnd-list' direction='vertical'>
-                {(providedContext) => (
-                  <Stack {...providedContext.droppableProps} ref={providedContext.innerRef}>
-                    {section.fields?.map((field, fieldIndex) => (
-                      <Draggable key={fieldIndex} index={fieldIndex} draggableId={fieldIndex.toString()}>
-                        {(providedDraggable) => (
-                          <NewFieldContainer
-                            form={form}
-                            field={field}
-                            sectionIndex={sectionIndex}
-                            fieldIndex={fieldIndex}
-                            formPathForSection={`sections.${sectionIndex}`}
-                            formPathForField={`sections.${sectionIndex}.fields.${fieldIndex}`}
-                            providedDraggable={providedDraggable}
-                          />
-                        )}
-                      </Draggable>
-                    ))}
-                    {providedContext.placeholder}
-                  </Stack>
-                )}
-              </Droppable>
-            </DragDropContext>
-          </Pannel>
-        ))}
-
-        <Button
-          onClick={() =>
-            form.insertListItem('sections', {
-              key: randomId(),
-              title: '',
-              description: '',
-              fields: [],
-            })
+        <DragDropContext
+          onDragEnd={({ destination, source }) =>
+            form.reorderListItem('sections', { from: source.index, to: destination.index })
           }
         >
-          Adicionar Secção
-        </Button>
+          <Droppable droppableId='dnd-list' direction='vertical'>
+            {(sectionDragAndDropContext) => (
+              <Stack {...sectionDragAndDropContext.droppableProps} ref={sectionDragAndDropContext.innerRef}>
+                {form.values.sections?.map((section, sectionIndex) => (
+                  <Draggable key={sectionIndex} index={sectionIndex} draggableId={sectionIndex.toString()}>
+                    {(sectionDragAndDropProps) => (
+                      <NewSectionContainer
+                        form={form}
+                        section={section}
+                        sectionIndex={sectionIndex}
+                        formPathForSection={`sections.${sectionIndex}`}
+                        sectionDragAndDropProps={sectionDragAndDropProps}
+                      >
+                        <DragDropContext
+                          onDragEnd={({ destination, source }) =>
+                            form.reorderListItem(`sections.${sectionIndex}.fields`, {
+                              from: source.index,
+                              to: destination.index,
+                            })
+                          }
+                        >
+                          <Droppable droppableId='dnd-list' direction='vertical'>
+                            {(fieldDragAndDropContext) => (
+                              <Stack {...fieldDragAndDropContext.droppableProps} ref={fieldDragAndDropContext.innerRef}>
+                                {section.fields?.map((field, fieldIndex) => (
+                                  <Draggable key={fieldIndex} index={fieldIndex} draggableId={fieldIndex.toString()}>
+                                    {(fieldDragAndDropProps) => (
+                                      <NewFieldContainer
+                                        form={form}
+                                        field={field}
+                                        sectionIndex={sectionIndex}
+                                        fieldIndex={fieldIndex}
+                                        formPathForSection={`sections.${sectionIndex}`}
+                                        formPathForField={`sections.${sectionIndex}.fields.${fieldIndex}`}
+                                        fieldDragAndDropProps={fieldDragAndDropProps}
+                                      />
+                                    )}
+                                  </Draggable>
+                                ))}
+                                {fieldDragAndDropContext.placeholder}
+                                <Group>
+                                  <Button
+                                    variant='light'
+                                    leftIcon={<TbPlus />}
+                                    onClick={() =>
+                                      form.insertListItem(`sections.${sectionIndex}.fields`, {
+                                        key: randomId(),
+                                        id: '',
+                                        label: '',
+                                        placeholder: '',
+                                        type: '',
+                                        isOpen: true,
+                                      })
+                                    }
+                                  >
+                                    Adicionar Novo Campo
+                                  </Button>
+                                </Group>
+                              </Stack>
+                            )}
+                          </Droppable>
+                        </DragDropContext>
+                      </NewSectionContainer>
+                    )}
+                  </Draggable>
+                ))}
+                {sectionDragAndDropContext.placeholder}
+              </Stack>
+            )}
+          </Droppable>
+        </DragDropContext>
+
+        <Group>
+          <Button
+            onClick={() =>
+              form.insertListItem('sections', {
+                key: randomId(),
+                title: '',
+                description: '',
+                isOpen: 'true',
+                fields: [],
+              })
+            }
+          >
+            Adicionar Secção
+          </Button>
+        </Group>
 
         <SaveButtons
           isLoading={isSaving}

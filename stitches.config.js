@@ -63,11 +63,11 @@ export const { styled, getCssText } = createStitches({
       danger9: '#6E0008',
 
       // STATUS-INFO
-      info1: '#FCFEFF',
+      info1: '#E7F5FF',
       info2: '#A6E2FC',
       info3: '#79CAF7',
       info4: '#57B0F0',
-      info5: '#004B8E',
+      info5: '#228BE6',
       info6: '#196CC5',
       info7: '#1150A5',
       info8: '#0B3885',

@@ -18,6 +18,7 @@ export const Validation = yup.object({
       id: yup.string().max(50, 'Section ID must be no longer than ${max} characters'),
       title: yup.string().max(50, 'Section Title must be no longer than ${max} characters'),
       description: yup.string().max(50, 'Section Description must be no longer than ${max} characters'),
+      isOpen: yup.boolean().default(true),
       fields: yup.array(
         yup.object({
           key: yup.string(),
@@ -74,6 +75,10 @@ export const Schema = new mongoose.Schema(
           type: String,
           maxlength: 50,
           default: '',
+        },
+        isOpen: {
+          type: Boolean,
+          default: true,
         },
         fields: [
           {

@@ -1,6 +1,5 @@
 import { styled } from '@stitches/react';
-import { useState } from 'react';
-import { TextInput, Button, Select, Divider, Center, Group, ActionIcon, Text, Stack, Switch } from '@mantine/core';
+import { TextInput, Button, Select, Divider, Group, ActionIcon, Text, Stack } from '@mantine/core';
 import { TbTrash, TbPlaylistAdd, TbChevronDown, TbChevronRight } from 'react-icons/tb';
 import { Spacer } from './LayoutUtils';
 import { randomId } from '@mantine/hooks';
@@ -42,7 +41,7 @@ export default function NewFieldContainer({
   fieldIndex,
   formPathForSection,
   formPathForField,
-  providedDraggable,
+  fieldDragAndDropProps,
 }) {
   //
 
@@ -104,8 +103,8 @@ export default function NewFieldContainer({
   };
 
   return (
-    <Container ref={providedDraggable.innerRef} {...providedDraggable.draggableProps}>
-      <FieldHeader {...providedDraggable.dragHandleProps}>
+    <Container ref={fieldDragAndDropProps.innerRef} {...fieldDragAndDropProps.draggableProps}>
+      <FieldHeader {...fieldDragAndDropProps.dragHandleProps}>
         <Group>
           {field.isOpen ? (
             <ActionIcon variant='default' onClick={() => form.setFieldValue(`${formPathForField}.isOpen`, false)}>

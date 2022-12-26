@@ -1,8 +1,8 @@
 import { styled } from '@stitches/react';
 import { useState } from 'react';
-import { Grid } from './Grid';
-import { TbChevronDown, TbChevronLeft } from 'react-icons/tb';
-import { Divider, Group } from '@mantine/core';
+import { TbChevronDown, TbChevronLeft, TbChevronRight, TbTrash } from 'react-icons/tb';
+import { Divider, Group, ActionIcon, Stack, Text, Button } from '@mantine/core';
+import { Spacer } from './LayoutUtils';
 
 /* * */
 /* PANNEL */
@@ -27,13 +27,6 @@ const Header = styled('div', {
   gap: '$md',
   padding: '$md',
   variants: {
-    isOpen: {
-      true: {
-        borderBottomWidth: '$sm',
-        borderBottomStyle: 'solid',
-        borderBottomColor: '$gray7',
-      },
-    },
     canOpen: {
       true: {
         cursor: 'pointer',
@@ -78,18 +71,50 @@ export default function Pannel({ title, description, children, editMode = false,
   if (editMode) {
     return (
       <Container>
-        <Header isOpen={true} canOpen={false}>
-          <InnerWrapper css={{ padding: 0 }}>
-            {id}
-            {title}
-            {description}
-          </InnerWrapper>
-        </Header>
-        <InnerWrapper>{children}</InnerWrapper>
-        <Divider />
-        <Header isOpen={true} canOpen={false}>
-          {toolbar}
-        </Header>
+        <InnerWrapper>
+          {isOpen ? (
+            <ActionIcon variant='default' onClick={() => form.setFieldValue(`${formPathForField}.isOpen`, false)}>
+              <TbChevronDown />
+            </ActionIcon>
+          ) : (
+            <ActionIcon variant='default' onClick={() => form.setFieldValue(`${formPathForField}.isOpen`, true)}>
+              <TbChevronRight />
+            </ActionIcon>
+          )}
+          <Stack spacing={0}>
+            {title ? (
+              <Text>{title}</Text>
+            ) : (
+              <Text fs='italic' c='dimmed'>
+                Campo sem título
+              </Text>
+            )}
+            <Text fz='xs' c='dimmed'>
+              {title}
+            </Text>
+          </Stack>
+          <Spacer width={'full'} />
+          <Button
+            variant='default'
+            leftIcon={<TbTrash />}
+            onClick={() => form.removeListItem(`${formPathForSection}.fields`, fieldIndex)}
+          >
+            Eliminar Campo
+          </Button>
+        </InnerWrapper>
+        {isOpen && (
+          <>
+            <Divider />
+            <InnerWrapper>
+              {id}
+              {title}
+              {description}
+            </InnerWrapper>
+            <InnerWrapper>{toolbar}</InnerWrapper>
+            <Divider />
+            <InnerWrapper>{children}</InnerWrapper>
+          </>
+        )}
       </Container>
     );
   } else {
