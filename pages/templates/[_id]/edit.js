@@ -2,9 +2,10 @@ import { useRouter } from 'next/router';
 import { styled } from '@stitches/react';
 import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
+import NewFieldContainer from '../../../components/NewFieldContainer';
 import { Grid } from '../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Textarea, Button, ActionIcon, Group, Switch, Select } from '@mantine/core';
+import { TextInput, Textarea, Button, ActionIcon, Group, Switch, Select, Center, Stack } from '@mantine/core';
 import { Validation } from '../../../schemas/Template';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../services/API';
@@ -13,18 +14,12 @@ import SaveButtons from '../../../components/SaveButtons';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 import useSWR from 'swr';
 import { TbTrash } from 'react-icons/tb';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 /* * */
 /* TEMPLATES > EDIT */
 /* Edit template by _id. */
 /* * */
-
-const NewFieldContainer = styled('div', {
-  display: 'flex',
-  padding: '$md',
-  backgroundColor: '$gray2',
-  gap: '$md',
-});
 
 export default function TemplatesEdit() {
   //
@@ -61,66 +56,6 @@ export default function TemplatesEdit() {
       hasUpdatedFields.current = true;
     }
   }, [templateData, form]);
-
-  //
-  // D. Handle actions
-
-  const getCorrectFieldType = (sectionIndex, fieldIndex) => {
-    switch (form.values?.sections[sectionIndex]?.fields[fieldIndex].type) {
-      case 'text_short':
-      case 'text_long':
-        return <div>text_short</div>;
-      case 'select':
-        return (
-          <div>
-            {form.values?.sections[sectionIndex]?.fields[fieldIndex].options?.map((option, optionIndex) => (
-              <NewFieldContainer key={optionIndex}>
-                <TextInput
-                  label={'Option Value'}
-                  placeholder={'Option Value'}
-                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.options.${optionIndex}.value`)}
-                />
-                <TextInput
-                  label={'Option Label'}
-                  placeholder={'Option Label'}
-                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.options.${optionIndex}.label`)}
-                />
-                <ActionIcon
-                  color='red'
-                  onClick={() =>
-                    form.removeListItem(`sections.${sectionIndex}.fields.${fieldIndex}.options`, optionIndex)
-                  }
-                >
-                  <TbTrash />
-                </ActionIcon>
-              </NewFieldContainer>
-            ))}
-            <Button
-              variant='light'
-              onClick={() => {
-                console.log(form.values);
-                if (!form.values.sections[sectionIndex].fields[fieldIndex].options) {
-                  form.values.sections[sectionIndex].fields[fieldIndex].options = [];
-                }
-                form.insertListItem(`sections.${sectionIndex}.fields.${fieldIndex}.options`, {
-                  key: randomId(),
-                  value: '',
-                  label: '',
-                });
-              }}
-            >
-              Add New Option
-            </Button>
-          </div>
-        );
-      case 'file_document':
-        return <div>file_document</div>;
-      case 'file_image':
-        return <div>file_image</div>;
-      default:
-        break;
-    }
-  };
 
   //
   // D. Handle actions
@@ -185,70 +120,69 @@ export default function TemplatesEdit() {
             editMode={true}
             id={
               <TextInput
-                label={'Section Title'}
-                placeholder={'Section Titlte'}
+                label={'ID da Secção'}
+                placeholder={'detalhes_veiculo'}
+                description={
+                  'Neste campo deve colocar o ID da secção. Coloque em minúsculas, sem acentos e sem espaços. Pode separar várias palavras por _ (underscores).  É sobre este ID que a informação ficará guardada na base de dados.'
+                }
                 {...form.getInputProps(`sections.${sectionIndex}.key`)}
               />
             }
             title={
               <TextInput
-                label={'Section Title'}
-                placeholder={'Section Titlte'}
+                label={'Título da Secção'}
+                placeholder={'Detalhes do Veículo'}
+                description={'Introduza o título da secção que será visível aos utilizadores.'}
                 {...form.getInputProps(`sections.${sectionIndex}.title`)}
               />
             }
             description={
               <TextInput
-                label={'Section Description'}
-                placeholder={'Section Explanation'}
+                label={'Descrição'}
+                placeholder={'Nesta secção deve colocar os detalhes...'}
+                description={'Opcionalmente introduza uma descrição que explicita o conteúdo desta secção.'}
                 {...form.getInputProps(`sections.${sectionIndex}.description`)}
               />
             }
             deleteInput={
-              <ActionIcon color='red' onClick={() => form.removeListItem('sections', sectionIndex)}>
-                <TbTrash />
-              </ActionIcon>
+              <Button
+                color='red'
+                variant='light'
+                leftIcon={<TbTrash />}
+                onClick={() => form.removeListItem('sections', sectionIndex)}
+              >
+                Eliminar Secção
+              </Button>
             }
           >
-            {section.fields?.map((field, fieldIndex) => (
-              <NewFieldContainer key={fieldIndex}>
-                <TextInput
-                  label={'Field ID'}
-                  placeholder={'Field ID'}
-                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.key`)}
-                />
-                <TextInput
-                  label={'Field Label'}
-                  placeholder={'Field Label'}
-                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.label`)}
-                />
-                <TextInput
-                  label={'Field Placeholder'}
-                  placeholder={'Field Placeholder'}
-                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.placeholder`)}
-                />
-                <Select
-                  label='Field Type'
-                  placeholder='Pick one'
-                  clearable
-                  data={[
-                    { value: 'text_short', label: 'Text Input' },
-                    { value: 'text_long', label: 'Text Area' },
-                    { value: 'select', label: 'Select' },
-                    { value: 'file_image', label: 'Upload Image' },
-                    { value: 'file_document', label: 'Upload Document' },
-                  ]}
-                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.type`)}
-                />
-                {getCorrectFieldType(sectionIndex, fieldIndex)}
-                <ActionIcon
-                  color='red'
-                  onClick={() => form.removeListItem(`sections.${sectionIndex}.fields`, fieldIndex)}
-                >
-                  <TbTrash />
-                </ActionIcon>
-              </NewFieldContainer>
-            ))}
+            <DragDropContext
+              onDragEnd={({ destination, source }) =>
+                form.reorderListItem(`sections.${sectionIndex}.fields`, { from: source.index, to: destination.index })
+              }
+            >
+              <Droppable droppableId='dnd-list' direction='vertical'>
+                {(providedContext) => (
+                  <Stack {...providedContext.droppableProps} ref={providedContext.innerRef}>
+                    {section.fields?.map((field, fieldIndex) => (
+                      <Draggable key={fieldIndex} index={fieldIndex} draggableId={fieldIndex.toString()}>
+                        {(providedDraggable) => (
+                          <NewFieldContainer
+                            form={form}
+                            field={field}
+                            sectionIndex={sectionIndex}
+                            fieldIndex={fieldIndex}
+                            formPathForSection={`sections.${sectionIndex}`}
+                            formPathForField={`sections.${sectionIndex}.fields.${fieldIndex}`}
+                            providedDraggable={providedDraggable}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+                    {providedContext.placeholder}
+                  </Stack>
+                )}
+              </Droppable>
+            </DragDropContext>
             <Button
               variant='light'
               onClick={() =>
@@ -258,6 +192,7 @@ export default function TemplatesEdit() {
                   label: '',
                   placeholder: '',
                   type: '',
+                  isOpen: true,
                 })
               }
             >

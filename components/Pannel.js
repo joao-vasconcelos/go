@@ -83,8 +83,8 @@ export default function Pannel({ title, description, children, editMode = false,
             {id}
             {title}
             {description}
+            <Group>{deleteInput}</Group>
           </InnerWrapper>
-          {deleteInput}
         </Header>
         {isOpen && <InnerWrapper>{children}</InnerWrapper>}
       </Container>
