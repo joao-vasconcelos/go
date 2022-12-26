@@ -103,12 +103,18 @@ export default function TemplatesEdit() {
 
         <Pannel title={'Detalhes do Modelo'}>
           <Grid>
-            <TextInput label={'Título'} placeholder={'Título do Modelo'} {...form.getInputProps('title')} />
+            <TextInput
+              label={'Título'}
+              placeholder={'Título do Modelo'}
+              description={'Será este o título selecionado pelos utilizadores.'}
+              {...form.getInputProps('title')}
+            />
           </Grid>
           <Grid>
             <Textarea
               label={'Descrição'}
               placeholder={'Mais sobre a finalidade deste modelo.'}
+              description={'Mais sobre a finalidade deste modelo.'}
               {...form.getInputProps('description')}
             />
           </Grid>

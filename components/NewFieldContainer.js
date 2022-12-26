@@ -32,12 +32,6 @@ const FieldHeader = styled(InnerWrapper, {
   backgroundColor: '$gray1',
 });
 
-const SelectOptionContainer = styled('div', {
-  display: 'flex',
-  flexDirection: 'row',
-  gap: '$sm',
-});
-
 /* */
 /* LOGIC */
 
