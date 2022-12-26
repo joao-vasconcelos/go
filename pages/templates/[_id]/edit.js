@@ -15,6 +15,7 @@ import ErrorDisplay from '../../../components/ErrorDisplay';
 import useSWR from 'swr';
 import { TbTrash, TbPlus } from 'react-icons/tb';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { CheckboxCard } from '../../../components/CheckboxCard';
 
 /* * */
 /* TEMPLATES > EDIT */
@@ -101,23 +102,27 @@ export default function TemplatesEdit() {
           onClose={async () => await handleClose()}
         />
 
-        <Pannel title={'Detalhes do Modelo'}>
-          <Grid>
-            <TextInput
-              label={'Título'}
-              placeholder={'Título do Modelo'}
-              description={'Será este o título selecionado pelos utilizadores.'}
-              {...form.getInputProps('title')}
-            />
-          </Grid>
-          <Grid>
-            <Textarea
-              label={'Descrição'}
-              placeholder={'Mais sobre a finalidade deste modelo.'}
-              description={'Mais sobre a finalidade deste modelo.'}
-              {...form.getInputProps('description')}
-            />
-          </Grid>
+        <Pannel>
+          <TextInput
+            label={'Título'}
+            placeholder={'Título do Modelo'}
+            description={'Será este o título selecionado pelos utilizadores.'}
+            {...form.getInputProps('title')}
+          />
+          <Textarea
+            label={'Descrição'}
+            placeholder={'Mais sobre a finalidade deste modelo.'}
+            description={'Mais sobre a finalidade deste modelo.'}
+            {...form.getInputProps('description')}
+          />
+          <Switch
+            label={form.values.isActive ? 'Modelo Ativo' : 'Modelo Inativo'}
+            placeholder={'Título do Modelo'}
+            description={
+              'Quando terminar de editar este modelo ative-o para que apareça como opção ao inicar uma nova Auditoria.'
+            }
+            {...form.getInputProps('isActive', { type: 'checkbox' })}
+          />
         </Pannel>
 
         {form.values.sections?.map((section, sectionIndex) => (

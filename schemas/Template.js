@@ -11,6 +11,7 @@ import mongoose from 'mongoose';
 export const Validation = yup.object({
   title: yup.string().max(50, 'Title must be no longer than ${max} characters'),
   description: yup.string().max(300, 'Description must be no longer than ${max} characters'),
+  isActive: yup.boolean().default(false),
   sections: yup.array(
     yup.object({
       key: yup.string(),
@@ -52,6 +53,10 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 50,
       default: '',
+    },
+    isActive: {
+      type: Boolean,
+      default: false,
     },
     sections: [
       {

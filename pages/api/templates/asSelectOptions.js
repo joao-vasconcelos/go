@@ -27,7 +27,7 @@ export default async function templatesListOptions(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await Model.find({}).limit(1000);
+    const allDocuments = await Model.find({ isActive: true }).limit(1000);
     const allDocumentsFormatted = allDocuments.map((document) => {
       return { value: document._id, label: document.title, description: document.description };
     });
