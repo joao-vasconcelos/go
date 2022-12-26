@@ -2,7 +2,7 @@ import { styled } from '@stitches/react';
 import { useState } from 'react';
 import { Grid } from './Grid';
 import { TbChevronDown, TbChevronLeft } from 'react-icons/tb';
-import { Group } from '@mantine/core';
+import { Divider, Group } from '@mantine/core';
 
 /* * */
 /* PANNEL */
@@ -71,7 +71,7 @@ const InnerWrapper = styled('div', {
 /* */
 /* LOGIC */
 
-export default function Pannel({ title, description, children, editMode = false, id, deleteInput }) {
+export default function Pannel({ title, description, children, editMode = false, id, toolbar }) {
   //
   const [isOpen, setIsOpen] = useState(title ? true : true);
 
@@ -83,10 +83,13 @@ export default function Pannel({ title, description, children, editMode = false,
             {id}
             {title}
             {description}
-            <Group>{deleteInput}</Group>
           </InnerWrapper>
         </Header>
-        {isOpen && <InnerWrapper>{children}</InnerWrapper>}
+        <InnerWrapper>{children}</InnerWrapper>
+        <Divider />
+        <Header isOpen={true} canOpen={false}>
+          {toolbar}
+        </Header>
       </Container>
     );
   } else {

@@ -68,12 +68,12 @@ export default function NewFieldContainer({
                     <TextInput
                       size='xs'
                       placeholder={'Título da Opção'}
-                      {...form.getInputProps(`${formPathForField}.options.${optionIndex}.value`)}
+                      {...form.getInputProps(`${formPathForField}.options.${optionIndex}.label`)}
                     />
                     <TextInput
                       size='xs'
                       placeholder={'ID da Opção'}
-                      {...form.getInputProps(`${formPathForField}.options.${optionIndex}.label`)}
+                      {...form.getInputProps(`${formPathForField}.options.${optionIndex}.value`)}
                     />
                     <ActionIcon
                       color='red'

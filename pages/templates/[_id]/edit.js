@@ -13,7 +13,7 @@ import { randomId } from '@mantine/hooks';
 import SaveButtons from '../../../components/SaveButtons';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 import useSWR from 'swr';
-import { TbTrash } from 'react-icons/tb';
+import { TbTrash, TbPlus } from 'react-icons/tb';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 /* * */
@@ -144,15 +144,33 @@ export default function TemplatesEdit() {
                 {...form.getInputProps(`sections.${sectionIndex}.description`)}
               />
             }
-            deleteInput={
-              <Button
-                color='red'
-                variant='light'
-                leftIcon={<TbTrash />}
-                onClick={() => form.removeListItem('sections', sectionIndex)}
-              >
-                Eliminar Secção
-              </Button>
+            toolbar={
+              <Group>
+                <Button
+                  color='red'
+                  variant='light'
+                  leftIcon={<TbTrash />}
+                  onClick={() => form.removeListItem('sections', sectionIndex)}
+                >
+                  Eliminar Secção
+                </Button>
+                <Button
+                  variant='light'
+                  leftIcon={<TbPlus />}
+                  onClick={() =>
+                    form.insertListItem(`sections.${sectionIndex}.fields`, {
+                      key: randomId(),
+                      id: '',
+                      label: '',
+                      placeholder: '',
+                      type: '',
+                      isOpen: true,
+                    })
+                  }
+                >
+                  Adicionar Novo Campo
+                </Button>
+              </Group>
             }
           >
             <DragDropContext
@@ -183,21 +201,6 @@ export default function TemplatesEdit() {
                 )}
               </Droppable>
             </DragDropContext>
-            <Button
-              variant='light'
-              onClick={() =>
-                form.insertListItem(`sections.${sectionIndex}.fields`, {
-                  key: randomId(),
-                  id: '',
-                  label: '',
-                  placeholder: '',
-                  type: '',
-                  isOpen: true,
-                })
-              }
-            >
-              Add New Field
-            </Button>
           </Pannel>
         ))}
 
@@ -213,6 +216,14 @@ export default function TemplatesEdit() {
         >
           Adicionar Secção
         </Button>
+
+        <SaveButtons
+          isLoading={isSaving}
+          isDirty={form.isDirty()}
+          isValid={form.isValid()}
+          onSave={async () => await handleSave()}
+          onClose={async () => await handleClose()}
+        />
       </PageContainer>
     </form>
   ) : (
