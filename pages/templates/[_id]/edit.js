@@ -14,7 +14,7 @@ import SaveButtons from '../../../components/SaveButtons';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 import useSWR from 'swr';
 import { TbTrash, TbPlus } from 'react-icons/tb';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { CheckboxCard } from '../../../components/CheckboxCard';
 import { Spacer } from '../../../components/LayoutUtils';
 import NewSectionContainer from '../../../components/NewSectionContainer';
