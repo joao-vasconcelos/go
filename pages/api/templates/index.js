@@ -1,6 +1,6 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { TemplateModel } from '../../../schemas/Template';
+import { Model as TemplateModel } from '../../../schemas/Template';
 
 /* * */
 /* API > TEMPLATES > LIST */

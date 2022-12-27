@@ -51,16 +51,16 @@ const SectionTitle = styled('p', {
 
 const SectionId = styled('p', {
   color: '$gray12',
-  opacity: 0.5,
+  opacity: 0.6,
   fontFamily: 'monospace',
   fontSize: '13px',
   lineHeight: 1.4,
   variants: {
     untitled: {
       true: {
-        opacity: 1,
+        opacity: 0.3,
         fontStyle: 'italic',
-        fontWeight: '$bold',
+        fontWeight: '$regular',
       },
     },
   },
