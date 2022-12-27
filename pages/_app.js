@@ -16,11 +16,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 
   // SIDEBAR NAVIGATION LINKS
   const navbarLinks = [
-    { href: '/', label: 'Home', icon: TbHome },
-    { href: '/audits', label: 'Auditorias', icon: TbClipboardCheck },
-    { href: '/reports', label: 'Relatórios', icon: TbChartPie },
-    { href: '/templates', label: 'Modelos', icon: TbLicense },
-    { href: '/users', label: 'Utilizadores', icon: TbUsers },
+    { href: '/', label: 'Home', icon: <TbHome /> },
+    { href: '/audits', label: 'Auditorias', icon: <TbClipboardCheck /> },
+    // { href: '/reports', label: 'Relatórios', icon: <TbChartPie /> },
+    { href: '/templates', label: 'Modelos', icon: <TbLicense /> },
+    { href: '/users', label: 'Utilizadores', icon: <TbUsers /> },
   ];
 
   // SWR CONFIGURATION
