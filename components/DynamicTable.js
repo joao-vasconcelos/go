@@ -42,6 +42,7 @@ const NoData = styled('td', {
   color: '$gray5',
   textAlign: 'center',
   padding: '$lg !important',
+  backgroundColor: '$gray0',
 });
 
 //
