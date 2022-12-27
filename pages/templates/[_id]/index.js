@@ -17,50 +17,50 @@ export default function TemplatesView() {
 
   const { data: templateData, error: templateError } = useSWR(_id && `/api/templates/${_id}`);
 
-  const handleEditAudit = async () => {
+  const handleEditTemplate = async () => {
     router.push(`/templates/${_id}/edit`);
   };
 
-  const handleDeleteAudit = async () => {
+  const handleDeleteTemplate = async () => {
     openConfirmModal({
       title: (
         <Text size={'lg'} fw={700}>
-          Delete Template?
+          Eliminar Modelo?
         </Text>
       ),
       centered: true,
-      children: <Text>Deleting is irreversible. Are you sure you want to delete this template forever?</Text>,
-      labels: { confirm: 'Delete Template', cancel: 'Do Not Delete' },
+      children: <Text>Esta acção é irreversível. Tem a certeza que quer eliminar este modelo para sempre?</Text>,
+      labels: { confirm: 'Eliminar Modelo', cancel: 'Cancelar' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
           notify(_id, 'loading', 'Deleting Template...');
           await API({ service: 'templates', resourceId: _id, operation: 'delete', method: 'DELETE' });
           router.push('/templates');
-          notify(_id, 'success', 'Template was deleted!');
+          notify(_id, 'success', 'Modelo eliminado!');
         } catch (err) {
           console.log(err);
-          notify(_id, 'error', err.message || 'An error ocurred.');
+          notify(_id, 'error', err.message || 'Ocorreu um erro desconhecido.');
         }
       },
     });
   };
 
   return templateData ? (
-    <PageContainer title={['Templates', templateData.title]}>
+    <PageContainer title={['Modelos', templateData.title]}>
       <Group>
-        <Button leftIcon={<TbPencil />} onClick={handleEditAudit}>
-          Edit
+        <Button leftIcon={<TbPencil />} onClick={handleEditTemplate}>
+          Editar
         </Button>
-        <Button variant={'light'} color={'red'} leftIcon={<TbTrash />} onClick={handleDeleteAudit}>
-          Delete
+        <Button variant={'light'} color={'red'} leftIcon={<TbTrash />} onClick={handleDeleteTemplate}>
+          Eliminar
         </Button>
       </Group>
 
-      <Pannel title={'Template Details'}>
+      <Pannel title={'Detalhes do Modelo'}>
         <Grid>
           <GridCell>
-            <Label>Title</Label>
+            <Label>Título</Label>
             <Value>{templateData.title}</Value>
           </GridCell>
           <GridCell>

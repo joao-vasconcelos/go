@@ -3,11 +3,11 @@ import mongodb from '../../../services/mongodb';
 import { Model as AuditModel } from '../../../schemas/Audit';
 
 /* * */
-/* LIST ALL AUDITS */
-/* This endpoint returns all Audits from MongoDB. */
+/* API > AUDITS > LIST AS SELECT OPTIONS */
+/* This endpoint returns all audits from MongoDB. */
 /* * */
 
-export default async function auditsList(req, res) {
+export default async function auditsListOptions(req, res) {
   //
   await delay();
 
@@ -28,7 +28,10 @@ export default async function auditsList(req, res) {
   // 2. Try to list all documents
   try {
     const allDocuments = await AuditModel.find({}).limit(1000);
-    return await res.status(200).send(allDocuments);
+    const allDocumentsFormatted = allDocuments.map((document) => {
+      return { value: document._id, label: document.unique_code, description: document.template.title };
+    });
+    return await res.status(200).send(allDocumentsFormatted);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot list Audits.' });
