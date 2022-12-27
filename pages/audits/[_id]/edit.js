@@ -3,7 +3,7 @@ import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
 import { Grid, Title } from '../../../components/LayoutUtils';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Select, Group, Text, Switch, Textarea } from '@mantine/core';
+import { TextInput, Select, Group, Text, Switch, Textarea, FileInput } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { Validation } from '../../../schemas/Audit';
 import { useState, useRef, useEffect, useCallback, forwardRef } from 'react';
@@ -11,6 +11,7 @@ import API from '../../../services/API';
 import SaveButtons from '../../../components/SaveButtons';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 import useSWR from 'swr';
+import { TbCameraPlus, TbFileUpload } from 'react-icons/tb';
 
 /* * */
 /* AUDITS > EDIT */
@@ -162,9 +163,32 @@ export default function AuditsEdit() {
                         />
                       </div>
                     );
+                  case 'file_image':
+                    return (
+                      <div key={field.key}>
+                        <FileInput
+                          label={field.label}
+                          placeholder={field.placeholder}
+                          description={field.description}
+                          icon={<TbCameraPlus />}
+                          {...form.getInputProps(`properties.${section.key}.${field.key}`)}
+                        />
+                      </div>
+                    );
+                  case 'file_document':
+                    return (
+                      <div key={field.key}>
+                        <FileInput
+                          label={field.label}
+                          placeholder={field.placeholder}
+                          description={field.description}
+                          icon={<TbFileUpload />}
+                          {...form.getInputProps(`properties.${section.key}.${field.key}`)}
+                        />
+                      </div>
+                    );
                   default:
                     return <div key={field.key}>{field.type}</div>;
-                    break;
                 }
               })}
             </Pannel>
