@@ -54,7 +54,7 @@ export default function TemplatesList() {
   // D. Render components
 
   return (
-    <PageContainer title={['Modelos']}>
+    <PageContainer title={['Todos os Modelos']}>
       <ErrorDisplay error={templatesError} />
 
       <Group>

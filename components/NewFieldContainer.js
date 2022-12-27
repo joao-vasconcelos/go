@@ -17,7 +17,8 @@ const Container = styled('div', {
   flexDirection: 'column',
   backgroundColor: '$gray0',
   border: '1px solid $gray7',
-  borderRadius: '$sm',
+  borderRadius: '$md',
+  overflow: 'hidden',
 });
 
 const InnerWrapper = styled('div', {

@@ -219,14 +219,6 @@ export default function TemplatesEdit() {
             Adicionar Secção
           </Button>
         </Group>
-
-        <SaveButtons
-          isLoading={isSaving}
-          isDirty={form.isDirty()}
-          isValid={form.isValid()}
-          onSave={async () => await handleSave()}
-          onClose={async () => await handleClose()}
-        />
       </PageContainer>
     </form>
   ) : (

@@ -14,10 +14,11 @@ import { Spacer } from './LayoutUtils';
 
 const Container = styled('div', {
   backgroundColor: '$gray0',
-  borderRadius: '$sm',
+  borderRadius: '$md',
   borderWidth: '$sm',
   borderStyle: 'solid',
   borderColor: '$gray7',
+  overflow: 'hidden',
 });
 
 const Header = styled('div', {
@@ -64,73 +65,27 @@ const InnerWrapper = styled('div', {
 /* */
 /* LOGIC */
 
-export default function Pannel({ title, description, children, editMode = false, id, toolbar }) {
+export default function Pannel({ title, description, children }) {
   //
-  const [isOpen, setIsOpen] = useState(title ? true : true);
+  const [isOpen, setIsOpen] = useState(true);
 
-  if (editMode) {
-    return (
-      <Container>
-        <InnerWrapper>
-          {isOpen ? (
-            <ActionIcon variant='default' onClick={() => form.setFieldValue(`${formPathForField}.isOpen`, false)}>
-              <TbChevronDown />
-            </ActionIcon>
-          ) : (
-            <ActionIcon variant='default' onClick={() => form.setFieldValue(`${formPathForField}.isOpen`, true)}>
-              <TbChevronRight />
-            </ActionIcon>
-          )}
-          <Stack spacing={0}>
-            {title ? (
-              <Text>{title}</Text>
-            ) : (
-              <Text fs='italic' c='dimmed'>
-                Campo sem título
-              </Text>
-            )}
-            <Text fz='xs' c='dimmed'>
-              {title}
-            </Text>
-          </Stack>
-          <Spacer width={'full'} />
-          <Button
-            variant='default'
-            leftIcon={<TbTrash />}
-            onClick={() => form.removeListItem(`${formPathForSection}.fields`, fieldIndex)}
-          >
-            Eliminar Campo
-          </Button>
-        </InnerWrapper>
-        {isOpen && (
-          <>
-            <Divider />
-            <InnerWrapper>
-              {id}
-              {title}
-              {description}
-            </InnerWrapper>
-            <InnerWrapper>{toolbar}</InnerWrapper>
-            <Divider />
-            <InnerWrapper>{children}</InnerWrapper>
-          </>
-        )}
-      </Container>
-    );
-  } else {
-    return (
-      <Container>
-        {title && (
-          <Header isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>
-            <span>
-              <Title>{title}</Title>
-              <Description>{description}</Description>
-            </span>
-            {isOpen ? <TbChevronDown /> : <TbChevronLeft />}
-          </Header>
-        )}
-        {isOpen && <InnerWrapper>{children}</InnerWrapper>}
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      {title && (
+        <Header isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>
+          <span>
+            <Title>{title}</Title>
+            <Description>{description}</Description>
+          </span>
+          {isOpen ? <TbChevronDown /> : <TbChevronLeft />}
+        </Header>
+      )}
+      {isOpen && (
+        <>
+          {title && <Divider />}
+          <InnerWrapper>{children}</InnerWrapper>
+        </>
+      )}
+    </Container>
+  );
 }

@@ -16,8 +16,9 @@ const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: '$gray0',
-  border: '1px solid $info5',
-  borderRadius: '$sm',
+  border: '1px solid $primary7',
+  borderRadius: '$md',
+  overflow: 'hidden',
 });
 
 const InnerWrapper = styled('div', {
@@ -28,7 +29,41 @@ const InnerWrapper = styled('div', {
 
 const SectionHeader = styled(InnerWrapper, {
   padding: '$sm $md',
-  backgroundColor: '$info1',
+  backgroundColor: '$primary5',
+});
+
+const SectionTitle = styled('p', {
+  color: '$gray12',
+  opacity: 1,
+  fontSize: '18px',
+  fontWeight: '$bold',
+  lineHeight: 1.3,
+  variants: {
+    untitled: {
+      true: {
+        opacity: 0.3,
+        fontStyle: 'italic',
+        fontWeight: '$regular',
+      },
+    },
+  },
+});
+
+const SectionId = styled('p', {
+  color: '$gray12',
+  opacity: 0.5,
+  fontFamily: 'monospace',
+  fontSize: '13px',
+  lineHeight: 1.4,
+  variants: {
+    untitled: {
+      true: {
+        opacity: 1,
+        fontStyle: 'italic',
+        fontWeight: '$bold',
+      },
+    },
+  },
 });
 
 /* */
@@ -59,15 +94,11 @@ export default function NewSectionContainer({
           )}
           <Stack spacing={0}>
             {section.title ? (
-              <Text>{section.title}</Text>
+              <SectionTitle>{section.title}</SectionTitle>
             ) : (
-              <Text fs='italic' c='dimmed'>
-                Secção sem título
-              </Text>
+              <SectionTitle untitled>Secção sem título</SectionTitle>
             )}
-            <Text fz='xs' c='dimmed'>
-              {section.key}
-            </Text>
+            {section.key ? <SectionId>{section.key}</SectionId> : <SectionId untitled>Secção sem ID</SectionId>}
           </Stack>
           <Spacer width={'full'} />
           <Button

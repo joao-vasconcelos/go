@@ -72,7 +72,7 @@ export default function AuditsList() {
   // D. Render components
 
   return (
-    <PageContainer title={['Audits']}>
+    <PageContainer title={['Todas as Auditorias']}>
       <Modal
         opened={isCreatingModelOpen}
         onClose={() => setIsCreatingModelOpen(false)}
@@ -116,19 +116,17 @@ export default function AuditsList() {
         </Button>
       </Group>
 
-      <Pannel title={'Todas as Auditorias'}>
-        <DynamicTable
-          data={auditsData || []}
-          isLoading={!auditsError && !auditsData}
-          onRowClick={handleRowClick}
-          columns={[
-            { label: '_id', key: '_id' },
-            { label: 'Unique Code', key: 'unique_code' },
-            { label: 'First Name', key: 'first_name' },
-          ]}
-          searchFieldPlaceholder={'Procurar por código, intervenintes, etc...'}
-        />
-      </Pannel>
+      <DynamicTable
+        data={auditsData || []}
+        isLoading={!auditsError && !auditsData}
+        onRowClick={handleRowClick}
+        columns={[
+          { label: '_id', key: '_id' },
+          { label: 'Data de Início', key: 'created_at' },
+          { label: 'Unique Code', key: 'unique_code' },
+        ]}
+        searchFieldPlaceholder={'Procurar por código, intervenintes, etc...'}
+      />
     </PageContainer>
   );
 }
