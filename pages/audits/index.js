@@ -122,7 +122,7 @@ export default function AuditsList() {
         onRowClick={handleRowClick}
         columns={[
           { label: '_id', key: '_id' },
-          { label: 'Data de Início', key: 'created_at' },
+          { label: 'Data de Início', key: 'createdAt' },
           { label: 'Unique Code', key: 'unique_code' },
         ]}
         searchFieldPlaceholder={'Procurar por código, intervenintes, etc...'}
