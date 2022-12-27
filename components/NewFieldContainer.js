@@ -32,12 +32,47 @@ const FieldHeader = styled(InnerWrapper, {
   backgroundColor: '$gray1',
 });
 
+const FieldTitle = styled('p', {
+  color: '$gray12',
+  opacity: 1,
+  fontSize: '18px',
+  fontWeight: '$bold',
+  lineHeight: 1.3,
+  variants: {
+    untitled: {
+      true: {
+        opacity: 0.3,
+        fontStyle: 'italic',
+        fontWeight: '$regular',
+      },
+    },
+  },
+});
+
+const FieldId = styled('p', {
+  color: '$gray12',
+  opacity: 0.6,
+  fontFamily: 'monospace',
+  fontSize: '13px',
+  lineHeight: 1.4,
+  variants: {
+    untitled: {
+      true: {
+        opacity: 0.3,
+        fontStyle: 'italic',
+        fontWeight: '$regular',
+      },
+    },
+  },
+});
+
 /* */
 /* LOGIC */
 
 export default function NewFieldContainer({
   form,
   field,
+  section,
   sectionIndex,
   fieldIndex,
   formPathForSection,
@@ -117,16 +152,8 @@ export default function NewFieldContainer({
             </ActionIcon>
           )}
           <Stack spacing={0}>
-            {field.label ? (
-              <Text>{field.label}</Text>
-            ) : (
-              <Text fs='italic' c='dimmed'>
-                Campo sem título
-              </Text>
-            )}
-            <Text fz='xs' c='dimmed'>
-              {field.key}
-            </Text>
+            {field.label ? <FieldTitle>{field.label}</FieldTitle> : <FieldTitle untitled>Secção sem título</FieldTitle>}
+            {field.key ? <FieldId>{`${section.key}.${field.key}`}</FieldId> : <FieldId untitled>Secção sem ID</FieldId>}
           </Stack>
           <Spacer width={'full'} />
           <Button
@@ -144,6 +171,23 @@ export default function NewFieldContainer({
           <Divider />
           <InnerWrapper>
             <Group grow>
+              <TextInput
+                label={'Título do Campo'}
+                placeholder={'Número de Chapa'}
+                description={'Introduza o título do campo visível aos utilizadores.'}
+                {...form.getInputProps(`${formPathForField}.label`)}
+              />
+              <TextInput
+                label={'ID do Campo'}
+                placeholder={'nr_chapa'}
+                description={'Introduza o ID que irá guardar o valor na base de dados.'}
+                {...form.getInputProps(`${formPathForField}.key`)}
+              />
+            </Group>
+          </InnerWrapper>
+          <Divider />
+          <InnerWrapper>
+            <Group grow>
               <Select
                 label={'Tipo de Campo'}
                 placeholder={'Selecione um tipo de campo'}
@@ -158,23 +202,6 @@ export default function NewFieldContainer({
                   { value: 'file_document', label: 'Enviar Documento' },
                 ]}
                 {...form.getInputProps(`${formPathForField}.type`)}
-              />
-              <TextInput
-                label={'ID do Campo'}
-                placeholder={'nr_chapa'}
-                description={'Introduza o ID que irá guardar o valor na base de dados.'}
-                {...form.getInputProps(`${formPathForField}.key`)}
-              />
-            </Group>
-          </InnerWrapper>
-          <Divider />
-          <InnerWrapper>
-            <Group grow>
-              <TextInput
-                label={'Nome do Campo'}
-                placeholder={'Número de Chapa'}
-                description={'Introduza o título do campo visível aos utilizadores.'}
-                {...form.getInputProps(`${formPathForField}.label`)}
               />
               <TextInput
                 label={'Exemplo de Preenchimento'}

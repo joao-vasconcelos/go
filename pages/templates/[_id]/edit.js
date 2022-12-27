@@ -162,6 +162,7 @@ export default function TemplatesEdit() {
                                       <NewFieldContainer
                                         form={form}
                                         field={field}
+                                        section={section}
                                         sectionIndex={sectionIndex}
                                         fieldIndex={fieldIndex}
                                         formPathForSection={`sections.${sectionIndex}`}
