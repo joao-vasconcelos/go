@@ -1,6 +1,6 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { Model } from '../../../schemas/Template';
+import { Model as TemplateModel } from '../../../schemas/Template';
 
 /* * */
 /* API > TEMPLATES > LIST AS SELECT OPTIONS */
@@ -27,7 +27,7 @@ export default async function templatesListOptions(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await Model.find({ isActive: true }).limit(1000);
+    const allDocuments = await TemplateModel.find({ isActive: true }).limit(1000);
     const allDocumentsFormatted = allDocuments.map((document) => {
       return { value: document._id, label: document.title, description: document.description };
     });
