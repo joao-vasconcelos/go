@@ -3,7 +3,7 @@ import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
 import { Grid, Title } from '../../../components/LayoutUtils';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Select, Group, Text } from '@mantine/core';
+import { TextInput, Select, Group, Text, Switch, Textarea } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { Validation } from '../../../schemas/Audit';
 import { useState, useRef, useEffect, useCallback, forwardRef } from 'react';
@@ -122,6 +122,7 @@ export default function AuditsEdit() {
                         <TextInput
                           label={field.label}
                           placeholder={field.placeholder}
+                          description={field.description}
                           {...form.getInputProps(`properties.${section.key}.${field.key}`)}
                         />
                       </div>
@@ -130,10 +131,33 @@ export default function AuditsEdit() {
                     return (
                       <div key={field.key}>
                         <Select
-                          label='Field Type'
-                          placeholder='Pick one'
                           clearable
+                          label={field.label}
+                          placeholder={field.placeholder}
+                          description={field.description}
                           data={field.options || []}
+                          {...form.getInputProps(`properties.${section.key}.${field.key}`)}
+                        />
+                      </div>
+                    );
+                  case 'truefalse':
+                    return (
+                      <div key={field.key}>
+                        <Switch
+                          label={field.label}
+                          placeholder={field.placeholder}
+                          description={field.description}
+                          {...form.getInputProps(`properties.${section.key}.${field.key}`, { type: 'checkbox' })}
+                        />
+                      </div>
+                    );
+                  case 'text_long':
+                    return (
+                      <div key={field.key}>
+                        <Textarea
+                          label={field.label}
+                          placeholder={field.placeholder}
+                          description={field.description}
                           {...form.getInputProps(`properties.${section.key}.${field.key}`)}
                         />
                       </div>
