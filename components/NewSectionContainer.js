@@ -1,7 +1,7 @@
 import { styled } from '@stitches/react';
 import { useState } from 'react';
 import { TbChevronDown, TbChevronLeft, TbChevronRight, TbTrash } from 'react-icons/tb';
-import { Divider, Group, ActionIcon, Stack, Text, Button, TextInput, Textarea } from '@mantine/core';
+import { Divider, Group, ActionIcon, Stack, Text, Button, TextInput, Textarea, Switch } from '@mantine/core';
 import { Spacer } from './LayoutUtils';
 
 /* * */
@@ -135,6 +135,13 @@ export default function NewSectionContainer({
                 placeholder={'Nesta secção deve colocar os detalhes...'}
                 description={'Opcionalmente introduza uma descrição que explicita o conteúdo desta secção.'}
                 {...form.getInputProps(`${formPathForSection}.description`)}
+              />
+              <Switch
+                label={'Permitir Cópias'}
+                description={
+                  'Ative esta opção se pretende que o auditor crie várias cópias desta secção com informações diferentes.'
+                }
+                {...form.getInputProps(`${formPathForSection}.isRepeater`)}
               />
             </Stack>
           </InnerWrapper>

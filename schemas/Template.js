@@ -18,6 +18,7 @@ export const Validation = yup.object({
       id: yup.string().max(50, 'Section ID must be no longer than ${max} characters'),
       title: yup.string().max(50, 'Section Title must be no longer than ${max} characters'),
       description: yup.string().max(50, 'Section Description must be no longer than ${max} characters'),
+      isRepeater: yup.boolean().default(false),
       isOpen: yup.boolean().default(true),
       fields: yup.array(
         yup.object({
@@ -27,6 +28,7 @@ export const Validation = yup.object({
           placeholder: yup.string().max(50, 'Field Placeholder must be no longer than ${max} characters'),
           description: yup.string().max(50, 'Field Description must be no longer than ${max} characters'),
           type: yup.string().max(50, 'Field Type must be no longer than ${max} characters').nullable(),
+          isRepeater: yup.boolean().default(false),
           isOpen: yup.boolean().default(true),
           options: yup.array(
             yup.object({
@@ -76,6 +78,10 @@ export const Schema = new mongoose.Schema(
           maxlength: 50,
           default: '',
         },
+        isRepeater: {
+          type: Boolean,
+          default: false,
+        },
         isOpen: {
           type: Boolean,
           default: true,
@@ -106,6 +112,10 @@ export const Schema = new mongoose.Schema(
               type: String,
               maxlength: 50,
               default: '',
+            },
+            isRepeater: {
+              type: Boolean,
+              default: false,
             },
             isOpen: {
               type: Boolean,

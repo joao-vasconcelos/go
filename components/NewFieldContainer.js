@@ -1,5 +1,5 @@
 import { styled } from '@stitches/react';
-import { TextInput, Button, Select, Divider, Group, ActionIcon, Text, Stack } from '@mantine/core';
+import { TextInput, Button, Select, Divider, Group, ActionIcon, Text, Stack, Switch } from '@mantine/core';
 import { TbTrash, TbPlaylistAdd, TbChevronDown, TbChevronRight } from 'react-icons/tb';
 import { Spacer } from './LayoutUtils';
 import { randomId } from '@mantine/hooks';
@@ -171,23 +171,6 @@ export default function NewFieldContainer({
           <Divider />
           <InnerWrapper>
             <Group grow>
-              <TextInput
-                label={'Título do Campo'}
-                placeholder={'Número de Chapa'}
-                description={'Introduza o título do campo visível aos utilizadores.'}
-                {...form.getInputProps(`${formPathForField}.label`)}
-              />
-              <TextInput
-                label={'ID do Campo'}
-                placeholder={'nr_chapa'}
-                description={'Introduza o ID que irá guardar o valor na base de dados.'}
-                {...form.getInputProps(`${formPathForField}.key`)}
-              />
-            </Group>
-          </InnerWrapper>
-          <Divider />
-          <InnerWrapper>
-            <Group grow>
               <Select
                 label={'Tipo de Campo'}
                 placeholder={'Selecione um tipo de campo'}
@@ -204,6 +187,22 @@ export default function NewFieldContainer({
                 {...form.getInputProps(`${formPathForField}.type`)}
               />
               <TextInput
+                label={'Título do Campo'}
+                placeholder={'Número de Chapa'}
+                description={'Introduza o título do campo visível aos utilizadores.'}
+                {...form.getInputProps(`${formPathForField}.label`)}
+              />
+              <TextInput
+                label={'ID do Campo'}
+                placeholder={'nr_chapa'}
+                description={'Introduza o ID que irá guardar o valor na base de dados.'}
+                {...form.getInputProps(`${formPathForField}.key`)}
+              />
+            </Group>
+          </InnerWrapper>
+          <InnerWrapper>
+            <Group grow>
+              <TextInput
                 label={'Exemplo de Preenchimento'}
                 placeholder={'Ex: 28281'}
                 description={'Introduza um exemplo de preenchimento para ajudar ao preenchimento.'}
@@ -214,6 +213,13 @@ export default function NewFieldContainer({
                 placeholder={'Introduza o número de chapa visível junto à...'}
                 description={'Introduza um exemplo de preenchimento para ajudar ao preenchimento.'}
                 {...form.getInputProps(`${formPathForField}.description`)}
+              />
+              <Switch
+                label={'Permitir Cópias'}
+                description={
+                  'Ative esta opção se pretende que o auditor crie várias cópias deste campo com informações diferentes.'
+                }
+                {...form.getInputProps(`${formPathForField}.isRepeater`)}
               />
             </Group>
           </InnerWrapper>
