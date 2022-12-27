@@ -166,11 +166,8 @@ export default function TemplatesList() {
       <ErrorDisplay error={templatesError} />
 
       <Group>
-        <Button onClick={handleCreateTemplate} loading={isCreating} leftIcon={<TbPlus />}>
-          Criar Novo Modelo
-        </Button>
         <Button onClick={() => setIsCreatingModelOpen(true)} loading={isCreating} leftIcon={<TbPlus />}>
-          Abrir Modal
+          Criar Novo Modelo
         </Button>
       </Group>
 
