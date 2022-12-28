@@ -118,7 +118,6 @@ export default function TemplatesEdit() {
           />
           <Switch
             label={form.values.isActive ? 'Modelo Ativo' : 'Modelo Inativo'}
-            placeholder={'Título do Modelo'}
             description={
               'Quando terminar de editar este modelo ative-o para que apareça como opção ao inicar uma nova Auditoria.'
             }

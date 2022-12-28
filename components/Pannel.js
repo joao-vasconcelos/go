@@ -65,19 +65,26 @@ const InnerWrapper = styled('div', {
 /* */
 /* LOGIC */
 
-export default function Pannel({ title, description, children }) {
+export default function Pannel({ title, description, onDelete, children }) {
   //
   const [isOpen, setIsOpen] = useState(true);
 
   return (
     <Container>
       {title && (
-        <Header isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>
+        <Header canOpen={true} onClick={() => setIsOpen(!isOpen)}>
           <span>
             <Title>{title}</Title>
             <Description>{description}</Description>
           </span>
-          {isOpen ? <TbChevronDown /> : <TbChevronLeft />}
+          <Group>
+            {onDelete && (
+              <Button variant='default' leftIcon={<TbTrash />} onClick={onDelete}>
+                Eliminar Secção
+              </Button>
+            )}
+            {isOpen ? <TbChevronDown /> : <TbChevronLeft />}
+          </Group>
         </Header>
       )}
       {isOpen && (
