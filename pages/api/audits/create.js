@@ -51,13 +51,17 @@ export default async function auditsCreate(req, res) {
 
   // 4. Pre-set properties based on the associated template schema
   try {
-    const associatedTemplate = await TemplateModel.findById(req.body.template._id);
+    const associatedTemplate = await TemplateModel.findById(req.body.template_id);
     req.body.template = associatedTemplate;
     req.body.properties = {};
     for (const section of associatedTemplate.sections) {
-      req.body.properties[section.key] = {};
-      for (const field of section.fields) {
-        req.body.properties[section.key][field.key] = '';
+      if (section.isRepeater) {
+        req.body.properties[section.key] = [];
+      } else {
+        req.body.properties[section.key] = {};
+        for (const field of section.fields) {
+          req.body.properties[section.key][field.key] = '';
+        }
       }
     }
   } catch (err) {

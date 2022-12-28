@@ -3,11 +3,12 @@ import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
 import { Grid, Title } from '../../../components/LayoutUtils';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Select, Group, Text, Switch, Textarea, FileInput } from '@mantine/core';
+import { TextInput, Select, Group, Text, Switch, Textarea, FileInput, Button } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { Validation } from '../../../schemas/Audit';
 import { useState, useRef, useEffect, useCallback, forwardRef } from 'react';
 import API from '../../../services/API';
+import { randomId } from '@mantine/hooks';
 import SaveButtons from '../../../components/SaveButtons';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 import useSWR from 'swr';
@@ -81,6 +82,14 @@ export default function AuditsEdit() {
   //
   // E. Render components
 
+  const getFields = () => {
+    router.push(`/audits/${_id}`);
+  };
+
+  const getSections = () => {
+    router.push(`/audits/${_id}`);
+  };
+
   return (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
       <PageContainer title={['Audits', form?.values?.unique_code]} loading={!auditError && !auditData}>
@@ -100,99 +109,89 @@ export default function AuditsEdit() {
           onClose={async () => await handleClose()}
         />
 
-        <Pannel title={'General Details'}>
-          <Grid>
-            {/* <Select
-              label='Field Type'
-              placeholder='Pick one'
-              clearable
-              data={templatesData || []}
-              {...form.getInputProps('template_id')}
-            /> */}
-          </Grid>
-        </Pannel>
-
         {auditData &&
-          auditData.template.sections.map((section) => (
-            <Pannel key={section.key} title={section.title} description={section.description}>
-              {section.fields.map((field) => {
-                switch (field.type) {
-                  case 'text_short':
-                    return (
-                      <div key={field.key}>
-                        <TextInput
-                          label={field.label}
-                          placeholder={field.placeholder}
-                          description={field.description}
-                          {...form.getInputProps(`properties.${section.key}.${field.key}`)}
-                        />
-                      </div>
-                    );
-                  case 'select':
-                    return (
-                      <div key={field.key}>
-                        <Select
-                          clearable
-                          label={field.label}
-                          placeholder={field.placeholder}
-                          description={field.description}
-                          data={field.options || []}
-                          {...form.getInputProps(`properties.${section.key}.${field.key}`)}
-                        />
-                      </div>
-                    );
-                  case 'truefalse':
-                    return (
-                      <div key={field.key}>
-                        <Switch
-                          label={field.label}
-                          placeholder={field.placeholder}
-                          description={field.description}
-                          {...form.getInputProps(`properties.${section.key}.${field.key}`, { type: 'checkbox' })}
-                        />
-                      </div>
-                    );
-                  case 'text_long':
-                    return (
-                      <div key={field.key}>
-                        <Textarea
-                          label={field.label}
-                          placeholder={field.placeholder}
-                          description={field.description}
-                          {...form.getInputProps(`properties.${section.key}.${field.key}`)}
-                        />
-                      </div>
-                    );
-                  case 'file_image':
-                    return (
-                      <div key={field.key}>
-                        <FileInput
-                          label={field.label}
-                          placeholder={field.placeholder}
-                          description={field.description}
-                          icon={<TbCameraPlus />}
-                          {...form.getInputProps(`properties.${section.key}.${field.key}`)}
-                        />
-                      </div>
-                    );
-                  case 'file_document':
-                    return (
-                      <div key={field.key}>
-                        <FileInput
-                          label={field.label}
-                          placeholder={field.placeholder}
-                          description={field.description}
-                          icon={<TbFileUpload />}
-                          {...form.getInputProps(`properties.${section.key}.${field.key}`)}
-                        />
-                      </div>
-                    );
-                  default:
-                    return <div key={field.key}>{field.type}</div>;
-                }
-              })}
-            </Pannel>
-          ))}
+          auditData.template.sections.map((section) => {
+            return (
+              <Pannel key={section.key} title={section.title} description={section.description}>
+                {section.fields.map((field) => {
+                  switch (field.type) {
+                    case 'text_short':
+                      return (
+                        <div key={field.key}>
+                          <TextInput
+                            label={field.label}
+                            placeholder={field.placeholder}
+                            description={field.description}
+                            {...form.getInputProps(`properties.${section.key}.${field.key}`)}
+                          />
+                        </div>
+                      );
+                    case 'select':
+                      return (
+                        <div key={field.key}>
+                          <Select
+                            clearable
+                            label={field.label}
+                            placeholder={field.placeholder}
+                            description={field.description}
+                            data={field.options || []}
+                            {...form.getInputProps(`properties.${section.key}.${field.key}`)}
+                          />
+                        </div>
+                      );
+                    case 'truefalse':
+                      return (
+                        <div key={field.key}>
+                          <Switch
+                            label={field.label}
+                            placeholder={field.placeholder}
+                            description={field.description}
+                            {...form.getInputProps(`properties.${section.key}.${field.key}`, { type: 'checkbox' })}
+                          />
+                        </div>
+                      );
+                    case 'text_long':
+                      return (
+                        <div key={field.key}>
+                          <Textarea
+                            label={field.label}
+                            placeholder={field.placeholder}
+                            description={field.description}
+                            {...form.getInputProps(`properties.${section.key}.${field.key}`)}
+                          />
+                        </div>
+                      );
+                    case 'file_image':
+                      return (
+                        <div key={field.key}>
+                          <FileInput
+                            label={field.label}
+                            placeholder={field.placeholder}
+                            description={field.description}
+                            icon={<TbCameraPlus />}
+                            {...form.getInputProps(`properties.${section.key}.${field.key}`)}
+                          />
+                        </div>
+                      );
+                    case 'file_document':
+                      return (
+                        <div key={field.key}>
+                          <FileInput
+                            label={field.label}
+                            placeholder={field.placeholder}
+                            description={field.description}
+                            icon={<TbFileUpload />}
+                            {...form.getInputProps(`properties.${section.key}.${field.key}`)}
+                          />
+                        </div>
+                      );
+                    default:
+                      return <div key={field.key}>{field.type}</div>;
+                  }
+                })}
+              </Pannel>
+            );
+          })}
       </PageContainer>
     </form>
   );

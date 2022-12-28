@@ -3,7 +3,6 @@ import { styled } from '@stitches/react';
 import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
 import NewFieldContainer from '../../../components/NewFieldContainer';
-import { Grid } from '../../../components/Grid';
 import { useForm, yupResolver } from '@mantine/form';
 import { TextInput, Textarea, Button, ActionIcon, Group, Switch, Select, Center, Stack } from '@mantine/core';
 import { Validation } from '../../../schemas/Template';
