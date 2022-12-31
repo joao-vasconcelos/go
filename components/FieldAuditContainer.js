@@ -81,17 +81,7 @@ const FieldId = styled('p', {
 /* */
 /* LOGIC */
 
-export default function FieldAuditContainer({
-  form,
-  fieldTemplate,
-  section,
-  formInputProps,
-  sectionIndex,
-  fieldIndex,
-  formPathForSection,
-  formPathForField,
-  fieldDragAndDropProps,
-}) {
+export default function FieldAuditContainer({ form, fieldTemplate, formPathForField }) {
   //
 
   const renderField = () => {
