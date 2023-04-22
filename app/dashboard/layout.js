@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { styled } from '@stitches/react';
-import carrisMetropolitanaLogo from '../../public/carris-metropolitana.svg';
+import carrisMetropolitanaIcon from '../../public/appicon.svg';
 import AppVersion from '../../components/AppVersion';
 import LoginButton from '../../components/AuthButton';
 import { TbHome, TbCalendarDue, TbArrowLoopRight, TbMap, TbUsers } from 'react-icons/tb';
@@ -13,12 +13,8 @@ import { SessionProvider } from 'next-auth/react';
 
 const AppLogo = styled(Image, {
   display: 'flex',
-  width: '100%',
-  maxWidth: '200px',
-  height: 'auto',
-  padding: '$md',
-  paddingBottom: '$xs',
-  paddingTop: '$lg',
+  width: '85px',
+  height: '50px',
 });
 
 const NavButton = styled(Link, {
@@ -89,11 +85,11 @@ export default function DashboardLayout({ children, session }) {
   return (
     <SessionProvider session={session}>
       <AppShell
-        padding='md'
+        padding='xs'
         navbar={
           <Navbar width={{ sm: 250 }}>
-            <Navbar.Section>
-              <AppLogo priority src={carrisMetropolitanaLogo} alt={'Carris Metropolitana'} />
+            <Navbar.Section p={'md'} mt={'md'}>
+              project title
             </Navbar.Section>
             <Divider my='md' />
             <Navbar.Section grow>
@@ -115,11 +111,11 @@ export default function DashboardLayout({ children, session }) {
             <AppVersion />
           </Navbar>
         }
-        //   header={
-        //     <Header height={60} p='xs'>
-        //       {/* Header content */}
-        //     </Header>
-        //   }
+        header={
+          <Header height={50} p='0'>
+            <AppLogo priority src={carrisMetropolitanaIcon} alt={'Carris Metropolitana'} />
+          </Header>
+        }
         styles={(theme) => ({
           main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
         })}
