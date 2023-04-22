@@ -7,6 +7,7 @@ import BrowserConfig from '../components/BrowserConfig';
 import NavigationBar from '../components/NavigationBar';
 import { TbHome, TbClipboardCheck, TbLicense, TbChartPie, TbUsers } from 'react-icons/tb';
 import AuthChecker from '../components/AuthChecker';
+import { Analytics } from '@vercel/analytics/react';
 
 // Styles
 import '../styles/reset.css';
@@ -58,6 +59,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
             </ModalsProvider>
           </NotificationsProvider>
         </MantineProvider>
+        <Analytics />
       </SWRConfig>
     </SessionProvider>
   );
