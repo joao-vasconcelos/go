@@ -1,7 +1,7 @@
 import { SWRConfig } from 'swr';
 import { SessionProvider } from 'next-auth/react';
 import { MantineProvider, AppShell } from '@mantine/core';
-import { NotificationsProvider } from '@mantine/notifications';
+import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import BrowserConfig from '../components/BrowserConfig';
 import NavigationBar from '../components/NavigationBar';
@@ -45,19 +45,18 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
       <SWRConfig value={swrOptions}>
         <BrowserConfig />
         <MantineProvider withGlobalStyles withNormalizeCSS>
-          <NotificationsProvider position='top-right'>
-            <ModalsProvider>
-              <AuthChecker
-                authenticated={
-                  <AppShell navbar={<NavigationBar links={navbarLinks} />} style={{ backgroundColor: '#fdfcfd' }}>
-                    <Component {...pageProps} />
-                  </AppShell>
-                }
-                loading={<p>Loading...</p>}
-                unauthenticated={<Component {...pageProps} />}
-              />
-            </ModalsProvider>
-          </NotificationsProvider>
+          <Notifications />
+          <ModalsProvider>
+            <AuthChecker
+              authenticated={
+                <AppShell navbar={<NavigationBar links={navbarLinks} />} style={{ backgroundColor: '#fdfcfd' }}>
+                  <Component {...pageProps} />
+                </AppShell>
+              }
+              loading={<p>Loading...</p>}
+              unauthenticated={<Component {...pageProps} />}
+            />
+          </ModalsProvider>
         </MantineProvider>
         <Analytics />
       </SWRConfig>
