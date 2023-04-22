@@ -83,7 +83,7 @@ export default function NavigationBar({ links = [] }) {
         <ScrollArea>
           {links.map((item) => (
             <NavButton active={isActivePage(item.href)} href={item.href} key={item.label}>
-              <item.icon />
+              {item.icon}
               <span>{item.label}</span>
             </NavButton>
           ))}

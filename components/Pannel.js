@@ -1,8 +1,8 @@
 import { styled } from '@stitches/react';
 import { useState } from 'react';
-import { Grid } from './Grid';
-import { TbChevronDown, TbChevronLeft } from 'react-icons/tb';
-import { Group } from '@mantine/core';
+import { TbChevronDown, TbChevronLeft, TbChevronRight, TbTrash } from 'react-icons/tb';
+import { Divider, Group, ActionIcon, Stack, Text, Button } from '@mantine/core';
+import { Spacer } from './LayoutUtils';
 
 /* * */
 /* PANNEL */
@@ -14,10 +14,11 @@ import { Group } from '@mantine/core';
 
 const Container = styled('div', {
   backgroundColor: '$gray0',
-  borderRadius: '$sm',
+  borderRadius: '$md',
   borderWidth: '$sm',
   borderStyle: 'solid',
   borderColor: '$gray7',
+  overflow: 'hidden',
 });
 
 const Header = styled('div', {
@@ -27,13 +28,6 @@ const Header = styled('div', {
   gap: '$md',
   padding: '$md',
   variants: {
-    isOpen: {
-      true: {
-        borderBottomWidth: '$sm',
-        borderBottomStyle: 'solid',
-        borderBottomColor: '$gray7',
-      },
-    },
     canOpen: {
       true: {
         cursor: 'pointer',
@@ -71,38 +65,34 @@ const InnerWrapper = styled('div', {
 /* */
 /* LOGIC */
 
-export default function Pannel({ title, description, children, editMode = false, id, deleteInput }) {
+export default function Pannel({ title, description, onDelete, children }) {
   //
-  const [isOpen, setIsOpen] = useState(title ? true : true);
+  const [isOpen, setIsOpen] = useState(true);
 
-  if (editMode) {
-    return (
-      <Container>
-        <Header isOpen={true} canOpen={false}>
-          <InnerWrapper css={{ padding: 0 }}>
-            {id}
-            {title}
-            {description}
-          </InnerWrapper>
-          {deleteInput}
-        </Header>
-        {isOpen && <InnerWrapper>{children}</InnerWrapper>}
-      </Container>
-    );
-  } else {
-    return (
-      <Container>
-        {title && (
-          <Header isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>
-            <span>
-              <Title>{title}</Title>
-              <Description>{description}</Description>
-            </span>
+  return (
+    <Container>
+      {title && (
+        <Header canOpen={true} onClick={() => setIsOpen(!isOpen)}>
+          <span>
+            <Title>{title}</Title>
+            <Description>{description}</Description>
+          </span>
+          <Group>
+            {onDelete && (
+              <Button variant='default' leftIcon={<TbTrash />} onClick={onDelete}>
+                Eliminar Secção
+              </Button>
+            )}
             {isOpen ? <TbChevronDown /> : <TbChevronLeft />}
-          </Header>
-        )}
-        {isOpen && <InnerWrapper>{children}</InnerWrapper>}
-      </Container>
-    );
-  }
+          </Group>
+        </Header>
+      )}
+      {isOpen && (
+        <>
+          {title && <Divider />}
+          <InnerWrapper>{children}</InnerWrapper>
+        </>
+      )}
+    </Container>
+  );
 }

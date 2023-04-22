@@ -2,9 +2,9 @@ import { useRouter } from 'next/router';
 import { styled } from '@stitches/react';
 import PageContainer from '../../../components/PageContainer';
 import Pannel from '../../../components/Pannel';
-import { Grid } from '../../../components/Grid';
+import NewFieldContainer from '../../../components/NewFieldContainer';
 import { useForm, yupResolver } from '@mantine/form';
-import { TextInput, Textarea, Button, ActionIcon, Group, Switch, Select } from '@mantine/core';
+import { TextInput, Textarea, Button, ActionIcon, Group, Switch, Select, Center, Stack } from '@mantine/core';
 import { Validation } from '../../../schemas/Template';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import API from '../../../services/API';
@@ -12,19 +12,16 @@ import { randomId } from '@mantine/hooks';
 import SaveButtons from '../../../components/SaveButtons';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 import useSWR from 'swr';
-import { TbTrash } from 'react-icons/tb';
+import { TbTrash, TbPlus } from 'react-icons/tb';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { CheckboxCard } from '../../../components/CheckboxCard';
+import { Spacer } from '../../../components/LayoutUtils';
+import NewSectionContainer from '../../../components/NewSectionContainer';
 
 /* * */
 /* TEMPLATES > EDIT */
 /* Edit template by _id. */
 /* * */
-
-const NewFieldContainer = styled('div', {
-  display: 'flex',
-  padding: '$md',
-  backgroundColor: '$gray2',
-  gap: '$md',
-});
 
 export default function TemplatesEdit() {
   //
@@ -87,9 +84,9 @@ export default function TemplatesEdit() {
   //
   // E. Render components
 
-  return templateData && hasUpdatedFields.current ? (
+  return templateData ? (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
-      <PageContainer title={['Templates', form?.values?.title]} loading={!templateError && !templateData}>
+      <PageContainer title={['Modelos', form?.values?.title]} loading={!templateError && !templateData}>
         <ErrorDisplay error={templateError} />
         <ErrorDisplay
           error={hasErrorSaving}
@@ -106,117 +103,121 @@ export default function TemplatesEdit() {
           onClose={async () => await handleClose()}
         />
 
-        <Pannel title={'Detalhes do Modelo'}>
-          <Grid>
-            <TextInput label={'Título'} placeholder={'Título do Modelo'} {...form.getInputProps('title')} />
-          </Grid>
-          <Grid>
-            <Textarea
-              label={'Descrição'}
-              placeholder={'Mais sobre a finalidade deste modelo.'}
-              {...form.getInputProps('description')}
-            />
-          </Grid>
+        <Pannel>
+          <TextInput
+            label={'Título'}
+            placeholder={'Título do Modelo'}
+            description={'Será este o título selecionado pelos utilizadores.'}
+            {...form.getInputProps('title')}
+          />
+          <Textarea
+            label={'Descrição'}
+            placeholder={'Mais sobre a finalidade deste modelo.'}
+            description={'Mais sobre a finalidade deste modelo.'}
+            {...form.getInputProps('description')}
+          />
+          <Switch
+            label={form.values.isActive ? 'Modelo Ativo' : 'Modelo Inativo'}
+            description={
+              'Quando terminar de editar este modelo ative-o para que apareça como opção ao inicar uma nova Auditoria.'
+            }
+            {...form.getInputProps('isActive', { type: 'checkbox' })}
+          />
         </Pannel>
 
-        {form.values.sections?.map((section, sectionIndex) => (
-          <Pannel
-            key={sectionIndex}
-            editMode={true}
-            id={
-              <TextInput
-                label={'Section Title'}
-                placeholder={'Section Titlte'}
-                {...form.getInputProps(`sections.${sectionIndex}.key`)}
-              />
-            }
-            title={
-              <TextInput
-                label={'Section Title'}
-                placeholder={'Section Titlte'}
-                {...form.getInputProps(`sections.${sectionIndex}.title`)}
-              />
-            }
-            description={
-              <TextInput
-                label={'Section Description'}
-                placeholder={'Section Explanation'}
-                {...form.getInputProps(`sections.${sectionIndex}.description`)}
-              />
-            }
-            deleteInput={
-              <ActionIcon color='red' onClick={() => form.removeListItem('sections', sectionIndex)}>
-                <TbTrash />
-              </ActionIcon>
-            }
-          >
-            {section.fields?.map((field, fieldIndex) => (
-              <NewFieldContainer key={fieldIndex}>
-                <TextInput
-                  label={'Field ID'}
-                  placeholder={'Field ID'}
-                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.key`)}
-                />
-                <TextInput
-                  label={'Field Label'}
-                  placeholder={'Field Label'}
-                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.label`)}
-                />
-                <TextInput
-                  label={'Field Placeholder'}
-                  placeholder={'Field Placeholder'}
-                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.placeholder`)}
-                />
-                <Select
-                  label='Field Type'
-                  placeholder='Pick one'
-                  clearable
-                  data={[
-                    { value: 'text_short', label: 'Text Input' },
-                    { value: 'text_long', label: 'Text Area' },
-                    { value: 'select', label: 'Select' },
-                    { value: 'file_image', label: 'Upload Image' },
-                    { value: 'file_document', label: 'Upload Document' },
-                  ]}
-                  {...form.getInputProps(`sections.${sectionIndex}.fields.${fieldIndex}.type`)}
-                />
-                <ActionIcon
-                  color='red'
-                  onClick={() => form.removeListItem(`sections.${sectionIndex}.fields`, fieldIndex)}
-                >
-                  <TbTrash />
-                </ActionIcon>
-              </NewFieldContainer>
-            ))}
-            <Button
-              variant='light'
-              onClick={() =>
-                form.insertListItem(`sections.${sectionIndex}.fields`, {
-                  key: randomId(),
-                  id: '',
-                  label: '',
-                  placeholder: '',
-                  type: '',
-                })
-              }
-            >
-              Add New Field
-            </Button>
-          </Pannel>
-        ))}
-
-        <Button
-          onClick={() =>
-            form.insertListItem('sections', {
-              key: randomId(),
-              title: '',
-              description: '',
-              fields: [],
-            })
+        <DragDropContext
+          onDragEnd={({ destination, source }) =>
+            form.reorderListItem('sections', { from: source.index, to: destination.index })
           }
         >
-          Add New Section
-        </Button>
+          <Droppable droppableId='dnd-list' direction='vertical'>
+            {(sectionDragAndDropContext) => (
+              <Stack {...sectionDragAndDropContext.droppableProps} ref={sectionDragAndDropContext.innerRef}>
+                {form.values.sections?.map((section, sectionIndex) => (
+                  <Draggable key={sectionIndex} index={sectionIndex} draggableId={sectionIndex.toString()}>
+                    {(sectionDragAndDropProps) => (
+                      <NewSectionContainer
+                        form={form}
+                        section={section}
+                        sectionIndex={sectionIndex}
+                        formPathForSection={`sections.${sectionIndex}`}
+                        sectionDragAndDropProps={sectionDragAndDropProps}
+                      >
+                        <DragDropContext
+                          onDragEnd={({ destination, source }) =>
+                            form.reorderListItem(`sections.${sectionIndex}.fields`, {
+                              from: source.index,
+                              to: destination.index,
+                            })
+                          }
+                        >
+                          <Droppable droppableId='dnd-list' direction='vertical'>
+                            {(fieldDragAndDropContext) => (
+                              <Stack {...fieldDragAndDropContext.droppableProps} ref={fieldDragAndDropContext.innerRef}>
+                                {section.fields?.map((field, fieldIndex) => (
+                                  <Draggable key={fieldIndex} index={fieldIndex} draggableId={fieldIndex.toString()}>
+                                    {(fieldDragAndDropProps) => (
+                                      <NewFieldContainer
+                                        form={form}
+                                        field={field}
+                                        section={section}
+                                        sectionIndex={sectionIndex}
+                                        fieldIndex={fieldIndex}
+                                        formPathForSection={`sections.${sectionIndex}`}
+                                        formPathForField={`sections.${sectionIndex}.fields.${fieldIndex}`}
+                                        fieldDragAndDropProps={fieldDragAndDropProps}
+                                      />
+                                    )}
+                                  </Draggable>
+                                ))}
+                                {fieldDragAndDropContext.placeholder}
+                                <Group>
+                                  <Button
+                                    variant='light'
+                                    leftIcon={<TbPlus />}
+                                    onClick={() =>
+                                      form.insertListItem(`sections.${sectionIndex}.fields`, {
+                                        key: randomId(),
+                                        id: '',
+                                        label: '',
+                                        placeholder: '',
+                                        type: '',
+                                        isOpen: true,
+                                      })
+                                    }
+                                  >
+                                    Adicionar Novo Campo
+                                  </Button>
+                                </Group>
+                              </Stack>
+                            )}
+                          </Droppable>
+                        </DragDropContext>
+                      </NewSectionContainer>
+                    )}
+                  </Draggable>
+                ))}
+                {sectionDragAndDropContext.placeholder}
+              </Stack>
+            )}
+          </Droppable>
+        </DragDropContext>
+
+        <Group>
+          <Button
+            onClick={() =>
+              form.insertListItem('sections', {
+                key: randomId(),
+                title: '',
+                description: '',
+                isOpen: 'true',
+                fields: [],
+              })
+            }
+          >
+            Adicionar Secção
+          </Button>
+        </Group>
       </PageContainer>
     </form>
   ) : (

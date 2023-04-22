@@ -4,15 +4,15 @@ export const { styled, getCssText } = createStitches({
   theme: {
     colors: {
       // ACCENT
-      primary1: '#FFFEF4',
-      primary2: '#FFF599',
-      primary3: '#FFEE66',
-      primary4: '#FFE840',
-      primary5: '#FFDD01',
-      primary6: '#DBBA00',
-      primary7: '#B79900',
-      primary8: '#937900',
-      primary9: '#7A6300',
+      primary1: '#FFFFC8',
+      primary2: '#FFFF8C',
+      primary3: '#FFF050',
+      primary4: '#FFE632',
+      primary5: '#FFDD00',
+      primary6: '#FFCD00',
+      primary7: '#FFB900',
+      primary8: '#F5A000',
+      primary9: '#E68C00',
 
       // GRAYS
       gray0: '#ffffff',
@@ -63,11 +63,11 @@ export const { styled, getCssText } = createStitches({
       danger9: '#6E0008',
 
       // STATUS-INFO
-      info1: '#FCFEFF',
+      info1: '#E7F5FF',
       info2: '#A6E2FC',
       info3: '#79CAF7',
       info4: '#57B0F0',
-      info5: '#004B8E',
+      info5: '#228BE6',
       info6: '#196CC5',
       info7: '#1150A5',
       info8: '#0B3885',

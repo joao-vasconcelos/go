@@ -84,7 +84,7 @@ export default function UsersEdit() {
 
   return (
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
-      <PageContainer title={['Surveys', form?.values?.unique_code]} loading={!userError && !userData}>
+      <PageContainer title={['Utilizadores', form?.values?.name]} loading={!userError && !userData}>
         <ErrorDisplay error={userError} />
         <ErrorDisplay
           error={hasErrorSaving}

@@ -53,7 +53,7 @@ export default function AuditsList() {
         service: 'audits',
         operation: 'create',
         method: 'POST',
-        body: { template: { _id: selectedTemplateId } },
+        body: { template_id: selectedTemplateId },
       });
       router.push(`/audits/${response._id}/edit`);
       notify('new', 'success', 'A new Audit has started.');
@@ -72,7 +72,7 @@ export default function AuditsList() {
   // D. Render components
 
   return (
-    <PageContainer title={['Audits']}>
+    <PageContainer title={['Todas as Auditorias']}>
       <Modal
         opened={isCreatingModelOpen}
         onClose={() => setIsCreatingModelOpen(false)}
@@ -91,6 +91,7 @@ export default function AuditsList() {
             data={templatesData || []}
             value={selectedTemplateId}
             itemComponent={SelectItem}
+            nothingFound='Nenhum modelo disponível'
             onChange={(value) => setSelectedTemplateId(value)}
           />
           <Button
@@ -111,23 +112,21 @@ export default function AuditsList() {
 
       <Group>
         <Button onClick={() => setIsCreatingModelOpen(true)} loading={isCreating} leftIcon={<TbPlus />}>
-          Start New Audit
+          Iniciar Nova Auditoria
         </Button>
       </Group>
 
-      <Pannel title={'All Audits'}>
-        <DynamicTable
-          data={auditsData || []}
-          isLoading={!auditsError && !auditsData}
-          onRowClick={handleRowClick}
-          columns={[
-            { label: '_id', key: '_id' },
-            { label: 'Unique Code', key: 'unique_code' },
-            { label: 'First Name', key: 'first_name' },
-          ]}
-          searchFieldPlaceholder={'Search by audit code, supplier, etc...'}
-        />
-      </Pannel>
+      <DynamicTable
+        data={auditsData || []}
+        isLoading={!auditsError && !auditsData}
+        onRowClick={handleRowClick}
+        columns={[
+          { label: '_id', key: '_id' },
+          { label: 'Data de Início', key: 'createdAt' },
+          { label: 'Unique Code', key: 'unique_code' },
+        ]}
+        searchFieldPlaceholder={'Procurar por código, intervenintes, etc...'}
+      />
     </PageContainer>
   );
 }

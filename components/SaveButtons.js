@@ -7,7 +7,7 @@ import { TbShieldCheck, TbArrowLeft } from 'react-icons/tb';
 /* Pair of buttons that trigger an action on an interval and on click. */
 /* * */
 
-export default function SaveButtons({ isLoading, isValid, isDirty, onSave, onClose, interval = 2000 }) {
+export default function SaveButtons({ isLoading, isValid, isDirty, onSave, onClose, interval = 500 }) {
   //
 
   //

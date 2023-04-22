@@ -1,13 +1,13 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { Model as TemplateModel } from '../../../schemas/Template';
+import { Model as AuditModel } from '../../../schemas/Audit';
 
 /* * */
-/* API > TEMPLATES > LIST AS SELECT OPTIONS */
-/* This endpoint returns all templates from MongoDB. */
+/* API > AUDITS > LIST AS SELECT OPTIONS */
+/* This endpoint returns all audits from MongoDB. */
 /* * */
 
-export default async function templatesListOptions(req, res) {
+export default async function auditsListOptions(req, res) {
   //
   await delay();
 
@@ -27,13 +27,13 @@ export default async function templatesListOptions(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await TemplateModel.find({ isActive: true }).limit(1000);
+    const allDocuments = await AuditModel.find({}).limit(1000);
     const allDocumentsFormatted = allDocuments.map((document) => {
-      return { value: document._id, label: document.title, description: document.description };
+      return { value: document._id, label: document.unique_code, description: document.template.title };
     });
     return await res.status(200).send(allDocumentsFormatted);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list Templates.' });
+    return await res.status(500).json({ message: 'Cannot list Audits.' });
   }
 }

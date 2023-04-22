@@ -1,6 +1,6 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model } from '../../../../schemas/Template';
+import { Model as TemplateModel } from '../../../../schemas/Template';
 
 /* * */
 /* API > TEMPLATES > DELETE */
@@ -27,7 +27,7 @@ export default async function templatesDelete(req, res) {
 
   // 2. Try to delete the correct document
   try {
-    const deletedDocument = await Model.findOneAndDelete({ _id: req.query._id });
+    const deletedDocument = await TemplateModel.findOneAndDelete({ _id: req.query._id });
     if (!deletedDocument) {
       return await res.status(404).json({ message: `Template with _id: ${req.query._id} not found.` });
     } else {

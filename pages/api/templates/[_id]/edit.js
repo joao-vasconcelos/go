@@ -1,6 +1,6 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Validation, Model } from '../../../../schemas/Template';
+import { Validation as TemplateValidation, Model as TemplateModel } from '../../../../schemas/Template';
 
 /* * */
 /* API > TEMPLATES > EDIT */
@@ -28,7 +28,7 @@ export default async function templatesEdit(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = Validation.cast(req.body);
+    req.body = TemplateValidation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
@@ -46,7 +46,7 @@ export default async function templatesEdit(req, res) {
   try {
     // The only value that needs to, and can be, unique is 'unique_code'.
     if (req.body.unique_code) {
-      const foundUniqueCode = await Model.findOne({ unique_code: req.body.unique_code });
+      const foundUniqueCode = await TemplateModel.findOne({ unique_code: req.body.unique_code });
       if (foundUniqueCode && foundUniqueCode._id != req.query._id)
         throw new Error('A Template with the same unique_code already exists.');
     }
@@ -57,7 +57,7 @@ export default async function templatesEdit(req, res) {
 
   // 2. Try to edit the correct document
   try {
-    const editedDocument = await Model.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
+    const editedDocument = await TemplateModel.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
     if (!editedDocument) {
       return await res.status(404).json({ message: `Template with _id: ${req.query._id} not found.` });
     } else {

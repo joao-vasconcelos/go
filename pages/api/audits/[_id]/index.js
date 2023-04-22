@@ -29,7 +29,7 @@ export default async function auditsGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await Model.findOne({ _id: req.query._id });
+    const foundDocument = await Model.findById(req.query._id);
     if (!foundDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {
