@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { styled } from '@stitches/react';
 import { IoCloudSharp } from 'react-icons/io5';
 import pjson from '../package.json';
