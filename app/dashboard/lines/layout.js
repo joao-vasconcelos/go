@@ -14,7 +14,7 @@ const Wrapper = styled('div', {
 export default function Layout({ children }) {
   return (
     <Wrapper>
-      <ScrollList />
+      <ScrollList data={[]} />
       {children}
     </Wrapper>
   );

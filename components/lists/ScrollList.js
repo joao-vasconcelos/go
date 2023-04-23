@@ -40,7 +40,7 @@ export default function ScrollList({}) {
           <TbCirclePlus size='20px' />
         </ActionIcon>
       </Header>
-      dklfmdom
+      Lista de linhas
     </Container>
   );
 }
