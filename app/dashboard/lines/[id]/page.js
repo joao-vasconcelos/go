@@ -8,11 +8,13 @@ const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
+  maxHeight: '100%',
   width: '100%',
   backgroundColor: '#ffffff',
   border: '1px solid rgba(0,0,0,0.1)',
   borderRadius: '3px',
   boxShadow: 'md',
+  overflow: 'hidden',
 });
 
 const Header = styled('div', {
@@ -47,7 +49,7 @@ const Body = styled('div', {
   padding: '$lg',
   gap: '$md',
   width: '100%',
-  //   height: '100%',
+  maxHeight: '100%',
 });
 
 export default function Page() {

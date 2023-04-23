@@ -1,26 +1,20 @@
 import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
 import { styled } from '@stitches/react';
-import { IoCloudSharp } from 'react-icons/io5';
-import pjson from '../package.json';
+import { TbCloudFilled } from 'react-icons/tb';
+import pjson from '../../package.json';
 
-const ReloadButton = styled('div', {
+const Container = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '$sm',
-  padding: '$sm $md',
-  color: '$gray8',
+  color: '$success5',
   fontSize: '$sm',
   fontWeight: 700,
   lineHeight: 1,
-  cursor: 'pointer',
-  '&:hover': {
-    backgroundColor: '$success1',
-    color: '$success8',
-  },
 });
 
-export default function AppVersion() {
+export default function Component() {
   const router = useRouter();
   const { data: version } = useSWR('/api/version');
 
@@ -29,9 +23,9 @@ export default function AppVersion() {
   }
 
   return (
-    <ReloadButton>
-      <IoCloudSharp />
-      <span>Version {pjson.version}</span>
-    </ReloadButton>
+    <Container>
+      <TbCloudFilled size={'14px'} />
+      <span>{pjson.version}</span>
+    </Container>
   );
 }

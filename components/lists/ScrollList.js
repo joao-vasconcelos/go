@@ -7,12 +7,12 @@ import { TbCirclePlus } from 'react-icons/tb';
 const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  height: '100%',
+  //   height: '100%',
   width: '100%',
   backgroundColor: '#ffffff',
-  border: '1px solid rgba(0,0,0,0.1)',
-  borderRadius: '3px',
-  boxShadow: 'md',
+  border: '1px solid $gray4',
+  borderRadius: '$md',
+  //   boxShadow: '$xs',
 });
 
 const Header = styled('div', {

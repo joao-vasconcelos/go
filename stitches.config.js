@@ -103,6 +103,7 @@ export const { styled, getCssText } = createStitches({
       md: '2px',
     },
     shadows: {
+      xs: '0 0 10px 0 rgba(0, 0, 0, 0.05)',
       sm: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
       md: '0 0 5px 0 rgba(0, 0, 0, 0.1)',
       lg: '0 0 10px 0 rgba(0, 0, 0, 0.2)',
