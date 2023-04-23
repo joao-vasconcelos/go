@@ -1,20 +1,24 @@
 'use client';
 
 import { styled } from '@stitches/react';
-import { ScrollArea, Select, MultiSelect, TextInput, ActionIcon, Chip, Divider } from '@mantine/core';
-import { TbSquaresFilled, TbTrash } from 'react-icons/tb';
+import { Tooltip, Select, MultiSelect, TextInput, ActionIcon, Chip, Divider } from '@mantine/core';
+import { TbExternalLink, TbSquaresFilled, TbTrash } from 'react-icons/tb';
 
 const Container = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-  maxHeight: '100%',
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  gridTemplateRows: '50px 1fr',
   width: '100%',
   backgroundColor: '#ffffff',
   border: '1px solid rgba(0,0,0,0.1)',
   borderRadius: '3px',
   boxShadow: 'md',
-  overflow: 'hidden',
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  overflow: 'auto',
 });
 
 const Header = styled('div', {
@@ -26,6 +30,13 @@ const Header = styled('div', {
   padding: '$md',
   width: '100%',
   borderBottom: '1px solid rgba(0,0,0,0.1)',
+});
+
+const Body = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  overflow: 'scroll',
 });
 
 const SectionTitle = styled('p', {
@@ -43,7 +54,7 @@ const Flex = styled('div', {
   gap: '$md',
 });
 
-const Body = styled('div', {
+const Section = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   padding: '$lg',
@@ -58,16 +69,25 @@ export default function Page() {
       <Header>
         <div>(1234) São Pedro Sintra (Chão Meninos) - Mira Sintra (Junta Freguesia)</div>
         <Flex>
-          <ActionIcon color='blue' variant='light' size='lg'>
-            <TbSquaresFilled size='20px' />
-          </ActionIcon>
-          <ActionIcon color='red' variant='light' size='lg'>
-            <TbTrash size='20px' />
-          </ActionIcon>
+          <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
+            <ActionIcon color='blue' variant='light' size='lg'>
+              <TbExternalLink size='20px' />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label='Duplicar linha' color='blue' position='bottom' withArrow>
+            <ActionIcon color='blue' variant='light' size='lg'>
+              <TbSquaresFilled size='20px' />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label='Eliminar Linha' color='red' position='bottom' withArrow>
+            <ActionIcon color='red' variant='light' size='lg'>
+              <TbTrash size='20px' />
+            </ActionIcon>
+          </Tooltip>
         </Flex>
       </Header>
-      <ScrollArea h={'100%'} offsetScrollbars>
-        <Body>
+      <Body>
+        <Section>
           <SectionTitle>Detalhes da Linha</SectionTitle>
           <Flex>
             <TextInput placeholder='1234' label='Número da Linha' miw={'200px'} />
@@ -79,9 +99,9 @@ export default function Page() {
           <Flex>
             <Select label='Tarifário' placeholder='Tipo de Linha' searchable nothingFound='Sem opções' w={'100%'} data={['Rápida', 'Longa', 'Próxima', 'Mar', 'Inter-regional']} />
           </Flex>
-        </Body>
+        </Section>
         <Divider />
-        <Body>
+        <Section>
           <SectionTitle>Atributos</SectionTitle>
           <Flex>
             <Chip variant='filled'>Linha Circular</Chip>
@@ -92,8 +112,9 @@ export default function Page() {
             <Select label='Propulsão' placeholder='Tipo de veículo' searchable nothingFound='Sem opções' data={['Elétrico', 'Gás Natural', 'Diesel']} />
             <Select label='Propulsão' placeholder='Tipo de veículo' searchable nothingFound='Sem opções' data={['Elétrico', 'Gás Natural', 'Diesel']} />
           </Flex>
-        </Body>
-        <Body>
+        </Section>
+        <Divider />
+        <Section>
           <SectionTitle>Rotas</SectionTitle>
           <Flex>
             <Chip variant='filled'>Linha Circular</Chip>
@@ -104,8 +125,8 @@ export default function Page() {
             <Select label='Propulsão' placeholder='Tipo de veículo' searchable nothingFound='Sem opções' data={['Elétrico', 'Gás Natural', 'Diesel']} />
             <Select label='Propulsão' placeholder='Tipo de veículo' searchable nothingFound='Sem opções' data={['Elétrico', 'Gás Natural', 'Diesel']} />
           </Flex>
-        </Body>
-      </ScrollArea>
+        </Section>
+      </Body>
     </Container>
   );
 }

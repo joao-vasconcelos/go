@@ -21,6 +21,7 @@ const Body = styled('div', {
 });
 
 const Content = styled('div', {
+  height: '100%',
   padding: '$md',
   background: '$gray1',
 });
