@@ -3,6 +3,7 @@
 import { styled } from '@stitches/react';
 import { TextInput, ActionIcon } from '@mantine/core';
 import { TbCirclePlus } from 'react-icons/tb';
+import LineListItem from '../../app/dashboard/lines/lineListItem';
 
 const Container = styled('div', {
   display: 'flex',
@@ -34,16 +35,31 @@ const SearchField = styled(TextInput, {
 });
 
 const Body = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
+  display: 'grid',
+  gridTemplateColumns: '1fr',
   width: '100%',
   overflow: 'scroll',
-  background: '$gray3',
-  padding: '$md',
+  background: '$gray4',
+  gap: '1px',
+  //   padding: '$md',
 });
 
 export default function ScrollList({}) {
   //
+
+  const lines = [
+    { short_name: 'CP', long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
+  ];
 
   return (
     <Container>
@@ -54,15 +70,9 @@ export default function ScrollList({}) {
         </ActionIcon>
       </Header>
       <Body>
-        Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas
-        Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas
-        Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas
-        Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas
-        Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas
-        Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas
-        Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas
-        Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas Lista de linhas
-        Lista de linhas Lista de linhas
+        {lines.map((item) => (
+          <LineListItem key={item.short_name} short_name={item.short_name} long_name={item.long_name} />
+        ))}
       </Body>
     </Container>
   );

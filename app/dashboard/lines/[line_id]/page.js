@@ -1,6 +1,7 @@
 'use client';
 
 import { styled } from '@stitches/react';
+import Line from '../../../../components/line/Line';
 import { Tooltip, Select, MultiSelect, TextInput, ActionIcon, Chip, Divider } from '@mantine/core';
 import { TbExternalLink, TbSquaresFilled, TbTrash } from 'react-icons/tb';
 
@@ -67,7 +68,7 @@ export default function Page() {
   return (
     <Container>
       <Header>
-        <div>(1234) São Pedro Sintra (Chão Meninos) - Mira Sintra (Junta Freguesia)</div>
+        <Line short_name={'1822'} long_name={'Monte Abraão (Estação) | Circular'} />
         <Flex>
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>

@@ -16,5 +16,5 @@ const Text = styled('div', {
 });
 
 export default function Page() {
-  return <Text>Escolha uma linha</Text>;
+  return <Text>Nenhuma Linha Selecionada</Text>;
 }
