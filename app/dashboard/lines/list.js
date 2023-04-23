@@ -3,7 +3,7 @@
 import { styled } from '@stitches/react';
 import { TextInput, ActionIcon } from '@mantine/core';
 import { TbCirclePlus } from 'react-icons/tb';
-import LineListItem from '../../app/dashboard/lines/lineListItem';
+import LineListItem from '../../app/dashboard/lines/listItem';
 
 const Container = styled('div', {
   display: 'flex',

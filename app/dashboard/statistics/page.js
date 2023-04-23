@@ -16,5 +16,5 @@ const Text = styled('div', {
 });
 
 export default function Page() {
-  return <Text>Nenhum Utilizador Selecionado</Text>;
+  return <Text>Em Breve</Text>;
 }

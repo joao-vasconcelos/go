@@ -21,7 +21,7 @@ const Container = styled('div', {
   },
 });
 
-export default function LineListItem({ short_name, long_name }) {
+export default function ListItem({ short_name, long_name }) {
   //
 
   return (
