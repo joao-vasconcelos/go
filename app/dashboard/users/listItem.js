@@ -1,33 +1,40 @@
 'use client';
 
 import { styled } from '@stitches/react';
-import { TbChevronRight } from 'react-icons/tb';
+import BaseListItem from '../../../layouts/BaseListItem';
 
-const Container = styled('div', {
+const Wrapper = styled('div', {
   display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  gap: '$md',
-  width: '100%',
-  backgroundColor: '#ffffff',
-  padding: '$md',
-  cursor: 'pointer',
-  '&:hover': {
-    backgroundColor: '$gray2',
-  },
-  '&:active': {
-    backgroundColor: '$gray3',
-  },
+  flexDirection: 'column',
+  alignItems: 'start',
+  gap: '$sm',
 });
 
-export default function ListItem({ stop_id, stop_name }) {
-  //
+const Title = styled('div', {
+  fontSize: '16px',
+  color: '$gray12',
+  fontWeight: 'bold',
+});
 
+const Badge = styled('div', {
+  fontFamily: 'monospace',
+  fontSize: '10px',
+  letterSpacing: '1px',
+  color: '$gray9',
+  border: '1px solid $gray6',
+  padding: '2px 6px',
+  borderRadius: '$md',
+});
+
+export default function ListItem({ user_id, first_name, last_name, email }) {
   return (
-    <Container>
-      <p>{stop_id}</p>
-      <p>{stop_name}</p>
-      <TbChevronRight size={'20px'} opacity={0.25} />
-    </Container>
+    <BaseListItem withChevron>
+      <Wrapper>
+        <Title>
+          {first_name} {last_name}
+        </Title>
+        <Badge>{email}</Badge>
+      </Wrapper>
+    </BaseListItem>
   );
 }

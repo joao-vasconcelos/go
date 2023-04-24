@@ -1,33 +1,42 @@
 'use client';
 
 import { styled } from '@stitches/react';
-import { TbChevronRight } from 'react-icons/tb';
+import BaseListItem from '../../../layouts/BaseListItem';
+import { Flex } from '@mantine/core';
 
-const Container = styled('div', {
+const Wrapper = styled('div', {
   display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  gap: '$md',
-  width: '100%',
-  backgroundColor: '#ffffff',
-  padding: '$md',
-  cursor: 'pointer',
-  '&:hover': {
-    backgroundColor: '$gray2',
-  },
-  '&:active': {
-    backgroundColor: '$gray3',
-  },
+  flexDirection: 'column',
+  alignItems: 'start',
+  gap: '$sm',
 });
 
-export default function ListItem({ fare_id, fare_name }) {
-  //
+const Title = styled('div', {
+  fontSize: '16px',
+  color: '$gray12',
+  fontWeight: 'bold',
+});
 
+const Badge = styled('div', {
+  fontFamily: 'monospace',
+  fontSize: '10px',
+  letterSpacing: '1px',
+  color: '$gray9',
+  border: '1px solid $gray6',
+  padding: '2px 6px',
+  borderRadius: '$md',
+});
+
+export default function ListItem({ fare_id, fare_name, fare_price }) {
   return (
-    <Container>
-      <p>{fare_id}</p>
-      <p>{fare_name}</p>
-      <TbChevronRight size={'20px'} opacity={0.25} />
-    </Container>
+    <BaseListItem withChevron>
+      <Wrapper>
+        <Title>{fare_name}</Title>
+        <Flex gap='xs'>
+          <Badge>{fare_id}</Badge>
+          <Badge>{fare_price}€</Badge>
+        </Flex>
+      </Wrapper>
+    </BaseListItem>
   );
 }

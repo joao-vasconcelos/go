@@ -4,8 +4,8 @@ import { styled } from '@stitches/react';
 import TwoUnevenColumns from '../../../layouts/TwoUnevenColumns';
 import Pannel from '../../../layouts/Pannel';
 import ListItem from './listItem';
-import { TextInput, ActionIcon, Tooltip } from '@mantine/core';
-import { TbCirclePlus } from 'react-icons/tb';
+import { TextInput, ActionIcon, Menu } from '@mantine/core';
+import { TbCirclePlus, TbArrowBarToUp, TbArrowBarToDown, TbDots } from 'react-icons/tb';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -37,11 +37,23 @@ export default function Layout({ children }) {
           header={
             <>
               <SearchField placeholder='Procurar...' width={'100%'} />
-              <Tooltip label='Criar Linha' color='blue' withArrow>
-                <ActionIcon variant='light' size='lg'>
-                  <TbCirclePlus size='20px' />
-                </ActionIcon>
-              </Tooltip>
+              <Menu shadow='md' position='bottom-end'>
+                <Menu.Target>
+                  <ActionIcon variant='light' size='lg'>
+                    <TbDots size='20px' />
+                  </ActionIcon>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Label>Importar</Menu.Label>
+                  <Menu.Item icon={<TbCirclePlus size='20px' />}>Nova Linha</Menu.Item>
+                  <Menu.Item icon={<TbArrowBarToUp size='20px' />}>Importação em Lote</Menu.Item>
+                  <Menu.Label>Exportar</Menu.Label>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download routes.txt</Menu.Item>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download trips.txt</Menu.Item>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download stop_times.txt</Menu.Item>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download resources.txt</Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             </>
           }
         >

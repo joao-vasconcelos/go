@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { styled } from '@stitches/react';
 import { Tooltip, ActionIcon } from '@mantine/core';
-import { TbChartPie, TbBusStop, TbBuildingCommunity, TbShape2, TbCoins, TbCalendarDue, TbLiveView, TbLogin, TbArrowLoopRight, TbUsers } from 'react-icons/tb';
+import { TbChartPie, TbFileZip, TbBusStop, TbBuildingCommunity, TbShape2, TbCoins, TbCalendarDue, TbLiveView, TbLogin, TbArrowLoopRight, TbUsers } from 'react-icons/tb';
 
 const Container = styled('div', {
   width: '100%',
@@ -81,13 +81,14 @@ export default function Component() {
   //
 
   const links = [
-    { href: '/statistics', label: 'Estatísticas', icon: <TbChartPie /> },
+    { href: 'statistics', label: 'Estatísticas', icon: <TbChartPie /> },
     { href: 'stops', label: 'Paragens', icon: <TbBusStop /> },
     { href: 'lines', label: 'Linhas', icon: <TbArrowLoopRight /> },
     { href: 'calendars', label: 'Calendários', icon: <TbCalendarDue /> },
     { href: 'shapes', label: 'Shapes', icon: <TbShape2 /> },
     { href: 'fares', label: 'Tarifários', icon: <TbCoins /> },
     { href: 'agencies', label: 'Agências', icon: <TbBuildingCommunity /> },
+    { href: 'export', label: 'Exportar GTFS', icon: <TbFileZip /> },
     { href: 'realtime', label: 'Tempo Real', icon: <TbLiveView />, disabled: true },
     { href: 'users', label: 'Utilizadores', icon: <TbUsers /> },
   ];

@@ -31,7 +31,6 @@ const Body = styled('div', {
   gridTemplateColumns: '1fr',
   width: '100%',
   overflow: 'scroll',
-  gap: '1px',
 });
 
 const Footer = styled('div', {
