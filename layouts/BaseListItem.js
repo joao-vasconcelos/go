@@ -38,9 +38,9 @@ const Wrapper = styled('div', {
   width: '100%',
 });
 
-export default function BaseListItem({ children, withChevron }) {
+export default function BaseListItem({ children, onClick, withChevron }) {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <Wrapper>{children}</Wrapper>
       {withChevron && <TbChevronRight size={'20px'} opacity={0.25} />}
     </Container>
