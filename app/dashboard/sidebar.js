@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { styled } from '@stitches/react';
 import { Tooltip, ActionIcon } from '@mantine/core';
@@ -72,6 +73,9 @@ const NavButton = styled(ActionIcon, {
           backgroundColor: '$danger5',
           color: '$gray0',
         },
+        '&:active': {
+          backgroundColor: '$danger6',
+        },
       },
     },
   },
@@ -105,6 +109,10 @@ export default function Component() {
     }
   };
 
+  const handleLogout = () => {
+    signOut();
+  };
+
   return (
     <Container>
       <NavWrapper grow>
@@ -132,11 +140,9 @@ export default function Component() {
       </NavWrapper>
       <NavWrapper>
         <Tooltip label='Logout' color='gray' position='right'>
-          <Link href={'/auth/logout'}>
-            <NavButton danger size='xl'>
-              <TbLogin />
-            </NavButton>
-          </Link>
+          <NavButton danger size='xl' onClick={handleLogout}>
+            <TbLogin />
+          </NavButton>
         </Tooltip>
       </NavWrapper>
     </Container>

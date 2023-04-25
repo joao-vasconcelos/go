@@ -34,7 +34,7 @@ const LoginForm = styled('div', {
 
 const FlexWrapper = styled('div', {
   width: '100%',
-  padding: '$lg',
+  padding: '30px 40px',
   display: 'flex',
   flexDirection: 'column',
   gap: '$md',
