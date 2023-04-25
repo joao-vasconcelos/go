@@ -9,7 +9,7 @@ jobs:
   bump:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v3
       - uses: tool3/bump@master
         with:
           branch: production
