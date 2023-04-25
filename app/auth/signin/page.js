@@ -31,7 +31,7 @@ export default function AuthSignIn() {
     clearInputErrorOnChange: true,
     validate: yupResolver(Validation),
     initialValues: {
-      email: 'joao.vasconcelos@tmlmobilidade.pt',
+      email: '',
     },
   });
 
