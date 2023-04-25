@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/puppy",
-    "version": "2023.1.4",
+    "version": "2023.1.5",
     "private": true,
     "scripts": {
         "dev": "next dev",
