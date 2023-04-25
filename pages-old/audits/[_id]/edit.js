@@ -89,21 +89,9 @@ export default function AuditsEdit() {
         <Pannel key={sectionIndex} title={`Cópias de ${sectionTemplate.title}`}>
           {form.values.properties[sectionTemplate.key].map((sectionItem, sectionItemIndex) => {
             return (
-              <Pannel
-                key={sectionItemIndex}
-                title={`${sectionTemplate.title} - ${sectionItem.key}`}
-                description={sectionTemplate.description}
-                onDelete={() => form.removeListItem(`properties.${sectionTemplate.key}`, sectionItemIndex)}
-              >
+              <Pannel key={sectionItemIndex} title={`${sectionTemplate.title} - ${sectionItem.key}`} description={sectionTemplate.description} onDelete={() => form.removeListItem(`properties.${sectionTemplate.key}`, sectionItemIndex)}>
                 {sectionTemplate.fields.map((fieldTemplate, fieldIndex) => {
-                  return (
-                    <FieldAuditContainer
-                      key={fieldIndex}
-                      fieldTemplate={fieldTemplate}
-                      form={form}
-                      formPathForField={`properties.${sectionTemplate.key}.${sectionItemIndex}.${fieldTemplate.key}`}
-                    />
-                  );
+                  return <FieldAuditContainer key={fieldIndex} fieldTemplate={fieldTemplate} form={form} formPathForField={`properties.${sectionTemplate.key}.${sectionItemIndex}.${fieldTemplate.key}`} />;
                 })}
               </Pannel>
             );
@@ -136,20 +124,9 @@ export default function AuditsEdit() {
     <form onSubmit={form.onSubmit(async () => await handleSave())}>
       <PageContainer title={['Audits', form?.values?.unique_code]} loading={!auditError && !auditData}>
         <ErrorDisplay error={auditError} />
-        <ErrorDisplay
-          error={hasErrorSaving}
-          loading={isSaving}
-          disabled={!form.isValid()}
-          onTryAgain={async () => await handleSave()}
-        />
+        <ErrorDisplay error={hasErrorSaving} loading={isSaving} disabled={!form.isValid()} onTryAgain={async () => await handleSave()} />
 
-        <SaveButtons
-          isLoading={isSaving}
-          isDirty={form.isDirty()}
-          isValid={form.isValid()}
-          onSave={async () => await handleSave()}
-          onClose={async () => await handleClose()}
-        />
+        <SaveButtons isLoading={isSaving} isDirty={form.isDirty()} isValid={form.isValid()} onSave={async () => await handleSave()} onClose={async () => await handleClose()} />
 
         {auditData &&
           form.values.properties &&

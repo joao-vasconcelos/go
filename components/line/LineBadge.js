@@ -19,9 +19,5 @@ const Container = styled('div', {
 });
 
 export default function LineBadge({ short_name, color, textColor }) {
-  return (
-    <Container backgroundColor={color} color={textColor}>
-      {short_name}
-    </Container>
-  );
+  return <Container>{short_name}</Container>;
 }

@@ -3,7 +3,7 @@ import EmailProvider from 'next-auth/providers/email';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import clientPromise from '../../../services/mongodb-adapter';
 import mongodb from '../../../services/mongodb';
-import { Model } from '../../../schemas/User';
+import { Model as UserModel } from '../../../schemas/User/model';
 
 export default NextAuth({
   debug: false,
@@ -32,7 +32,7 @@ export default NextAuth({
     async signIn({ user }) {
       try {
         await mongodb.connect();
-        const foundUser = await Model.findOne({ email: user.email });
+        const foundUser = await UserModel.findOne({ user_email: user.user_email });
         if (!foundUser) return false;
         else return true;
       } catch (err) {

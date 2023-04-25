@@ -1,15 +1,17 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Validation, Model } from '../../../../schemas/User';
+import { Validation as AgencyValidation } from '../../../../schemas/Agency/validation';
+import { Model as AgencyModel } from '../../../../schemas/Agency/model';
 
 /* * */
-/* EDIT USER */
+/* EDIT AGENCY */
 /* Explanation needed. */
 /* * */
 
-export default async function usersEdit(req, res) {
+export default async function agenciesEdit(req, res) {
   //
   await delay();
+  //   return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
 
   // 0. Refuse request if not PUT
   if (req.method != 'PUT') {
@@ -28,7 +30,7 @@ export default async function usersEdit(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = Validation.cast(req.body);
+    req.body = AgencyValidation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
@@ -44,10 +46,10 @@ export default async function usersEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['email'].
-    const foundDocumentWithEmail = await Model.exists({ email: req.body.email });
-    if (foundDocumentWithEmail && foundDocumentWithEmail._id != req.query._id) {
-      throw new Error('A User with the same email already exists.');
+    // The values that need to be unique are ['agency_id'].
+    const foundDocumentWithAgencyId = await AgencyModel.exists({ agency_id: req.body.agency_id });
+    if (foundDocumentWithAgencyId && foundDocumentWithAgencyId._id != req.body._id) {
+      throw new Error('Uma Agência com o mesmo ID já existe.');
     }
   } catch (err) {
     console.log(err);
@@ -56,11 +58,11 @@ export default async function usersEdit(req, res) {
 
   // 2. Try to update the correct document
   try {
-    const editedDocument = await Model.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
-    if (!editedDocument) return await res.status(404).json({ message: `User with _id: ${req.query._id} not found.` });
+    const editedDocument = await AgencyModel.findOneAndReplace({ agency_id: req.query.agency_id }, req.body, { new: true });
+    if (!editedDocument) return await res.status(404).json({ message: `Agency with agency_id: ${req.query.agency_id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot update this User.' });
+    return await res.status(500).json({ message: 'Cannot update this Agency.' });
   }
 }

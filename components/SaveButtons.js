@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { Group, Button } from '@mantine/core';
-import { TbShieldCheck, TbArrowLeft } from 'react-icons/tb';
+import { Tooltip, ActionIcon, Button } from '@mantine/core';
+import { TbX, TbDeviceFloppy, TbAlertTriangleFilled } from 'react-icons/tb';
 
 /* * */
 /* SAVE BUTTONS */
 /* Pair of buttons that trigger an action on an interval and on click. */
 /* * */
 
-export default function SaveButtons({ isLoading, isValid, isDirty, onSave, onClose, interval = 500 }) {
+export default function SaveButtons({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, interval = 1500 }) {
   //
 
   //
@@ -19,82 +19,113 @@ export default function SaveButtons({ isLoading, isValid, isDirty, onSave, onClo
   useEffect(() => {
     // Trigger the onSave action on a set interval
     const autoSaveInterval = setInterval(() => {
-      // If form has changed, is valid, is not currently loading
-      // and has a valid action to perform.
-      if (isDirty && isValid && !isLoading && onSave) {
+      // If form is valid, has changed, is not currently saving,
+      // did not have an error saving and has a valid action to perform.
+      if (isValid && isDirty && !isSaving && !isErrorSaving && onSave) {
         onSave();
       }
     }, interval);
     // Clear the interval on unmount (from React API)
     return () => clearInterval(autoSaveInterval);
-  }, [isDirty, isLoading, isValid, onSave, interval]);
+  }, [isValid, isDirty, isSaving, isErrorSaving, onSave, interval]);
 
   //
-  // B. LOADING
-  // If form is loading, the close button is disabled
-  // and the save button is loading.
+  // B. IS SAVING AFTER ERROR
+  // If form had an error saving, and the user clicked try again
+  // then show the save button with a loading spinner.
 
-  if (isLoading) {
+  if (isErrorSaving && isSaving) {
     return (
-      <Group>
-        <Button disabled={true} leftIcon={<TbArrowLeft />}>
-          Close
-        </Button>
-        <Button loading={true} leftIcon={<TbShieldCheck />} variant='light'>
-          Saving changes...
-        </Button>
-      </Group>
+      <Button size='xs' leftIcon={<TbAlertTriangleFilled size='20px' />} variant='light' color='red' loading>
+        A Tentar Novamente...
+      </Button>
     );
   }
 
   //
-  // C. IS DIRTY AND iS VALID
-  // If the form has changes and is valid, the close button is disabled
-  // and the save button is clickable, waiting the autosave interval trigger.
+  // C. IS ERROR SAVING
+  // If form had an error saving, the button expands
+  // to make the error clearer. Autosave is disabled.
 
-  if (isDirty && isValid) {
+  if (isErrorSaving) {
     return (
-      <Group>
-        <Button disabled={true} leftIcon={<TbArrowLeft />}>
-          Close
+      <Tooltip label={`Ocorreu um erro ao salvar as alterações: ${isErrorSaving.message}`} color='red' position='bottom' width={300} multiline withArrow>
+        <Button size='xs' leftIcon={<TbAlertTriangleFilled size='20px' />} variant='light' color='red' onClick={onSave}>
+          Salvar Alterações
         </Button>
-        <Button onClick={onSave} leftIcon={<TbShieldCheck />} variant='light'>
-          Save Changes
-        </Button>
-      </Group>
+      </Tooltip>
     );
   }
 
   //
-  // D. IS DIRTY AND iS INVALID
+  // D. IS LOADING OR IS SAVING
+  // If form is empty and loading the data,
+  // or if the form is saving display a loading spinner.
+  // Read more about the distinction between isLoading and isValidating:
+  // https://swr.vercel.app/docs/advanced/understanding#combining-with-isloading-and-isvalidating-for-better-ux
+
+  if (isLoading || isSaving) {
+    return (
+      <ActionIcon size='lg' loading={true}>
+        <TbX size='20px' />
+      </ActionIcon>
+    );
+  }
+
+  //
+  // E. IS ERROR VALIDATING
+  // If form had an error loading or updating the data,
+  // the button changes to the alert icon but does not expand.
+
+  if (isErrorValidating) {
+    return (
+      <Tooltip label={`Ocorreu um erro ao atualizar: ${isErrorValidating.message}`} color='red' position='bottom' width={300} multiline withArrow>
+        <ActionIcon size='lg' variant='light' color='red'>
+          <TbAlertTriangleFilled size='20px' />
+        </ActionIcon>
+      </Tooltip>
+    );
+  }
+
+  //
+  // F. IS DIRTY AND iS INVALID
   // If the form has changes but is in an invalid state,
   // both the close and save buttons are disabled.
 
   if (isDirty && !isValid) {
     return (
-      <Group>
-        <Button disabled={true} leftIcon={<TbArrowLeft />}>
-          Close
-        </Button>
-        <Button disabled={true} leftIcon={<TbShieldCheck />} variant='light'>
-          Save Changes
-        </Button>
-      </Group>
+      <Tooltip label='Erro de Preenchimento' color='gray' position='bottom' withArrow>
+        <ActionIcon size='lg' onClick={onValidate}>
+          <TbDeviceFloppy size='20px' />
+        </ActionIcon>
+      </Tooltip>
     );
   }
 
   //
-  // E. IDLE
+  // G. IS DIRTY AND iS VALID
+  // If the form has changes and is valid, the close button is disabled
+  // and the save button is clickable, waiting the autosave interval trigger.
+
+  if (isDirty && isValid) {
+    return (
+      <Tooltip label='Guardar Alterações' color='green' position='bottom' withArrow>
+        <ActionIcon size='lg' color='green' variant='light' onClick={onSave}>
+          <TbDeviceFloppy size='20px' />
+        </ActionIcon>
+      </Tooltip>
+    );
+  }
+
+  //
+  // H. IDLE
   // If the form has no unsaved changes, is valid and is not loading,
   // then the close button is enabled and the save button shows a reassuring icon and message.
   return (
-    <Group>
-      <Button onClick={onClose} leftIcon={<TbArrowLeft />}>
-        Close
-      </Button>
-      <Button onClick={onSave} leftIcon={<TbShieldCheck />} variant='light' color='green'>
-        Changes are saved
-      </Button>
-    </Group>
+    <Tooltip label='Fechar' color='gray' position='bottom' withArrow>
+      <ActionIcon size='lg' onClick={onClose}>
+        <TbX size='20px' />
+      </ActionIcon>
+    </Tooltip>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { styled } from '@stitches/react';
+import { useRouter } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
 
 const Wrapper = styled('div', {
@@ -13,7 +14,17 @@ const Wrapper = styled('div', {
 const Title = styled('div', {
   fontSize: '16px',
   color: '$gray12',
-  fontWeight: 'bold',
+  fontWeight: '$bold',
+  variants: {
+    isUntitled: {
+      true: {
+        fontSize: '16px',
+        color: '$gray10',
+        fontWeight: '$regular',
+        fontStyle: 'italic',
+      },
+    },
+  },
 });
 
 const Badge = styled('div', {
@@ -26,14 +37,20 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ user_id, first_name, last_name, email }) {
+export default function ListItem({ _id, user_name, user_email }) {
+  //
+
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/dashboard/users/${_id}`);
+  };
+
   return (
-    <BaseListItem withChevron>
+    <BaseListItem onClick={handleClick} withChevron>
       <Wrapper>
-        <Title>
-          {first_name} {last_name}
-        </Title>
-        <Badge>{email}</Badge>
+        <Title isUntitled={!user_name}>{user_name || 'Utilizador Sem Nome'}</Title>
+        <Badge>{user_email}</Badge>
       </Wrapper>
     </BaseListItem>
   );

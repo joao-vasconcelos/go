@@ -1,13 +1,13 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model } from '../../../../schemas/User';
+import { Model as AgencyModel } from '../../../../schemas/Agency/model';
 
 /* * */
 /* DELETE USER */
 /* Explanation needed. */
 /* * */
 
-export default async function usersDelete(req, res) {
+export default async function agenciesDelete(req, res) {
   //
   await delay();
 
@@ -27,11 +27,11 @@ export default async function usersDelete(req, res) {
 
   // 2. Try to update the correct document
   try {
-    const deletedDocument = await Model.findOneAndDelete({ _id: req.query._id });
-    if (!deletedDocument) return await res.status(404).json({ message: `User with _id: ${req.query._id} not found.` });
+    const deletedDocument = await AgencyModel.findOneAndDelete({ agency_id: req.query.agency_id });
+    if (!deletedDocument) return await res.status(404).json({ message: `Agency with agency_id: ${req.query.agency_id} not found.` });
     return await res.status(200).send(deletedDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot delete this User.' });
+    return await res.status(500).json({ message: 'Cannot delete this Agency.' });
   }
 }

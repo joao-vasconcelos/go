@@ -20,7 +20,7 @@ export default async function notify(identifier, type, title, message) {
     case 'loading':
       defaultOptions.loading = true;
       defaultOptions.autoClose = false;
-      defaultOptions.disallowClose = true;
+      defaultOptions.withCloseButton = false;
       showNotification(defaultOptions);
       break;
 

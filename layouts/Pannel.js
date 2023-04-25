@@ -27,9 +27,10 @@ const Header = styled('div', {
 });
 
 const Body = styled('div', {
-  display: 'grid',
-  gridTemplateColumns: '1fr',
+  display: 'flex',
+  flexDirection: 'column',
   width: '100%',
+  height: '100%',
   overflow: 'scroll',
 });
 
