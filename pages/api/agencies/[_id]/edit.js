@@ -11,7 +11,6 @@ import { Model as AgencyModel } from '../../../../schemas/Agency/model';
 export default async function agenciesEdit(req, res) {
   //
   await delay();
-  //   return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
 
   // 0. Refuse request if not PUT
   if (req.method != 'PUT') {

@@ -3,6 +3,7 @@
 import { styled } from '@stitches/react';
 import { useRouter } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
+import Flex from '../../../layouts/Flex';
 
 const Wrapper = styled('div', {
   display: 'flex',
@@ -37,20 +38,24 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ _id, fare_id, fare_name }) {
+export default function ListItem({ _id, fare_id, fare_short_name, fare_long_name, price, currency_type }) {
   //
 
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/dashboard/agencies/${_id}`);
+    router.push(`/dashboard/fares/${_id}`);
   };
 
   return (
     <BaseListItem onClick={handleClick} withChevron>
       <Wrapper>
-        <Title isUntitled={!agency_name}>{agency_name || 'Agência Sem Nome'}</Title>
-        <Badge>{agency_id}</Badge>
+        <Title isUntitled={!fare_long_name}>{fare_long_name || 'Tarifário Sem Nome'}</Title>
+        <Flex>
+          <Badge>{fare_id}</Badge>
+          <Badge>{fare_short_name}</Badge>
+          <Badge>{`${price} ${currency_type}`}</Badge>
+        </Flex>
       </Wrapper>
     </BaseListItem>
   );

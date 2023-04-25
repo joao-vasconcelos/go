@@ -1,13 +1,13 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model as AgencyModel } from '../../../../schemas/Agency/model';
+import { Model as FareModel } from '../../../../schemas/Fare/model';
 
 /* * */
 /* GET AGENCY BY ID */
 /* Explanation needed. */
 /* * */
 
-export default async function agenciesGet(req, res) {
+export default async function faresGet(req, res) {
   //
   await delay();
 
@@ -29,11 +29,11 @@ export default async function agenciesGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await AgencyModel.findOne({ _id: req.query._id });
-    if (!foundDocument) return await res.status(404).json({ message: `Agency with _id: ${req.query._id} not found.` });
+    const foundDocument = await FareModel.findOne({ _id: req.query._id });
+    if (!foundDocument) return await res.status(404).json({ message: `Fare with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot fetch this Agency.' });
+    return await res.status(500).json({ message: 'Cannot fetch this Fare.' });
   }
 }

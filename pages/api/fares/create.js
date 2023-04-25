@@ -1,14 +1,14 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { Default as AgencyDefault } from '../../../schemas/Agency/default';
-import { Model as AgencyModel } from '../../../schemas/Agency/model';
+import { Default as FareDefault } from '../../../schemas/Fare/default';
+import { Model as FareModel } from '../../../schemas/Fare/model';
 
 /* * */
-/* CREATE AGENCY */
+/* CREATE FARE */
 /* Explanation needed. */
 /* * */
 
-export default async function agenciesCreate(req, res) {
+export default async function faresCreate(req, res) {
   //
   await delay();
 
@@ -28,10 +28,10 @@ export default async function agenciesCreate(req, res) {
 
   // 2. Try to save a new document with req.body
   try {
-    const createdDocument = await AgencyModel(AgencyDefault).save();
+    const createdDocument = await FareModel(FareDefault).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot create this Agency.' });
+    return await res.status(500).json({ message: 'Cannot create this Fare.' });
   }
 }

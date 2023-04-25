@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: AGENCY */
+/* DOCUMENT TYPE: FARE */
 /* Explanation needed. */
 /* * */
 
@@ -23,7 +23,7 @@ export const Schema = new mongoose.Schema(
       maxlength: 50,
     },
     price: {
-      type: String,
+      type: Number,
       maxlength: 50,
     },
     currency_type: {
@@ -38,14 +38,16 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
-    agency_id: {
-      type: String,
-      maxlength: 50,
-    },
+    agencies: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Agency',
+      },
+    ],
   },
   { timestamps: true }
 );
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.Agency || mongoose.model('Agency', Schema);
+export const Model = mongoose?.models?.Fare || mongoose.model('Fare', Schema);

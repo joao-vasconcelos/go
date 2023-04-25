@@ -32,21 +32,21 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating } = useSWR('/api/agencies/');
+  const { data: faresData, error: faresError, isLoading: faresLoading, isValidating: faresValidating } = useSWR('/api/fares/');
 
   //
   // C. Handle actions
 
-  const handleCreateAgency = async () => {
+  const handleCreateFare = async () => {
     try {
       setIsCreating(true);
       const response = await API({
-        service: 'agencies',
+        service: 'fares',
         operation: 'create',
         method: 'GET',
       });
-      router.push(`/dashboard/agencies/${response._id}`);
-      notify('new', 'success', 'Agência criada com sucesso.');
+      router.push(`/dashboard/fares/${response._id}`);
+      notify('new', 'success', 'Tarifário criado com sucesso.');
       setIsCreating(false);
     } catch (err) {
       setIsCreating(false);
@@ -67,25 +67,30 @@ export default function Layout({ children }) {
               <SearchField placeholder='Procurar...' width={'100%'} />
               <Menu shadow='md' position='bottom-end'>
                 <Menu.Target>
-                  <ActionIcon variant='light' size='lg' loading={agenciesLoading || isCreating}>
+                  <ActionIcon variant='light' size='lg' loading={faresLoading || isCreating}>
                     <TbDots size='20px' />
                   </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateAgency}>
-                    Nova Agência
+                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateFare}>
+                    Novo Tarifário
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download fare_attributes.txt</Menu.Item>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download fare_rules.txt</Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>
           }
-          footer={agenciesData && (agenciesData.length === 1 ? <FooterText text={`Encontrada 1 Agência`} /> : <FooterText text={`Encontradas ${agenciesData.length} Agências`} />)}
+          footer={faresData && (faresData.length === 1 ? <FooterText text={`Encontrado 1 Tarifário`} /> : <FooterText text={`Encontrados ${faresData.length} Tarifários`} />)}
         >
-          <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
-          {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_id={item.agency_id} agency_name={item.agency_name} />) : <NoDataLabel />}
+          <ErrorDisplay error={faresError} loading={faresValidating} />
+          {faresData && faresData.length > 0 ? (
+            faresData.map((item) => <ListItem key={item._id} _id={item._id} fare_id={item.fare_id} fare_short_name={item.fare_short_name} fare_long_name={item.fare_long_name} price={item.price} currency_type={item.currency_type} />)
+          ) : (
+            <NoDataLabel />
+          )}
         </Pannel>
       }
       second={children}

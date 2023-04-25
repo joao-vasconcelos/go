@@ -1,5 +1,5 @@
 /* * */
-/* DOCUMENT TYPE: AGENCY */
+/* DOCUMENT TYPE: FARE */
 /* Explanation needed. */
 /* * */
 
@@ -9,9 +9,9 @@ export const Default = {
   fare_id: '',
   fare_short_name: '',
   fare_long_name: '',
-  price: '',
-  currency_type: '',
-  payment_method: '',
-  transfers: '',
-  agency_id: '',
+  price: 0,
+  currency_type: 'EUR',
+  payment_method: '0',
+  transfers: '0',
+  agencies: [],
 };

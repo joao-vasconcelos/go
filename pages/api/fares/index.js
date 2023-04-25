@@ -1,13 +1,13 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { Model as AgencyModel } from '../../../schemas/Agency/model';
+import { Model as FareModel } from '../../../schemas/Fare/model';
 
 /* * */
-/* LIST ALL AGENCIES */
-/* This endpoint returns all agencies. */
+/* LIST ALL FARES */
+/* This endpoint returns all fares. */
 /* * */
 
-export default async function agenciesList(req, res) {
+export default async function faresList(req, res) {
   //
   await delay();
 
@@ -27,10 +27,10 @@ export default async function agenciesList(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await AgencyModel.find({}).limit(1000);
+    const allDocuments = await FareModel.find({}).limit(1000);
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list Agencies.' });
+    return await res.status(500).json({ message: 'Cannot list Fares.' });
   }
 }

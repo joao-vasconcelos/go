@@ -3,7 +3,7 @@ import mongodb from '../../../../services/mongodb';
 import { Model as AgencyModel } from '../../../../schemas/Agency/model';
 
 /* * */
-/* DELETE USER */
+/* DELETE AGENCY */
 /* Explanation needed. */
 /* * */
 
