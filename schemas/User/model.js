@@ -8,16 +8,16 @@ import mongoose from 'mongoose';
 /* * */
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema({
-  user_name: {
+  name: {
     type: String,
     maxlength: 50,
   },
-  user_email: {
+  email: {
     type: String,
     maxlength: 50,
     unique: true,
   },
-  user_phone: {
+  phone: {
     type: String,
     maxlength: 50,
   },

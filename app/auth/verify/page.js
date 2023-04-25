@@ -1,6 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { styled } from '@stitches/react';
 import { Button } from '@mantine/core';
 
@@ -27,6 +28,13 @@ const Text = styled('p', {
 export default function AuthVerify() {
   //
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { status } = useSession();
+
+  if (status === 'authenticated') {
+    if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
+    else router.push('/dashboard/statistics');
+  }
 
   const handleSignInRetry = () => {
     router.push('/auth/signin');

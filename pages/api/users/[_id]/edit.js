@@ -46,7 +46,7 @@ export default async function usersEdit(req, res) {
   // 4. Check for uniqueness
   try {
     // The values that need to be unique are ['user_email'].
-    const foundDocumentWithEmail = await UserModel.exists({ user_email: req.body.user_email });
+    const foundDocumentWithEmail = await UserModel.exists({ email: req.body.email });
     if (foundDocumentWithEmail && foundDocumentWithEmail._id != req.query._id) {
       throw new Error('A User with the same user_email already exists.');
     }

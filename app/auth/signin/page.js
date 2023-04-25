@@ -6,7 +6,8 @@ import { styled } from '@stitches/react';
 import { signIn } from 'next-auth/react';
 import { TextInput, Button } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import { Validation } from '../../../schemas/Email';
+import { Default as EmailDefault } from '../../../schemas/Email/default';
+import { Validation as EmailValidation } from '../../../schemas/Email/validation';
 import { useSession } from 'next-auth/react';
 
 const FlexWrapper = styled('div', {
@@ -21,28 +22,25 @@ export default function AuthSignIn() {
   //
 
   const router = useRouter();
-
+  const searchParams = useSearchParams();
   const { status } = useSession();
-  const { callbackUrl } = useSearchParams();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     clearInputErrorOnChange: true,
-    validate: yupResolver(Validation),
-    initialValues: {
-      email: '',
-    },
+    validate: yupResolver(EmailValidation),
+    initialValues: EmailDefault,
   });
 
   const handleSignIn = async () => {
     setIsLoading(true);
-    signIn('email', { email: form.values.email });
+    signIn('email', { email: form.values.email, callbackUrl: '/dashboard/statistics' });
   };
 
   if (status === 'authenticated') {
-    if (callbackUrl) router.push(callbackUrl);
-    else router.push('/dashboard');
+    if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
+    else router.push('/dashboard/statistics');
   } else {
     return (
       <form onSubmit={form.onSubmit(handleSignIn)}>

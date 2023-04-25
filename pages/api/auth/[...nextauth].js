@@ -32,7 +32,7 @@ export default NextAuth({
     async signIn({ user }) {
       try {
         await mongodb.connect();
-        const foundUser = await UserModel.findOne({ user_email: user.user_email });
+        const foundUser = await UserModel.findOne({ email: user.email });
         if (!foundUser) return false;
         else return true;
       } catch (err) {

@@ -37,7 +37,7 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ _id, user_name, user_email }) {
+export default function ListItem({ _id, name, email }) {
   //
 
   const router = useRouter();
@@ -49,8 +49,8 @@ export default function ListItem({ _id, user_name, user_email }) {
   return (
     <BaseListItem onClick={handleClick} withChevron>
       <Wrapper>
-        <Title isUntitled={!user_name}>{user_name || 'Utilizador Sem Nome'}</Title>
-        <Badge>{user_email}</Badge>
+        <Title isUntitled={!name}>{name || 'Utilizador Sem Nome'}</Title>
+        <Badge>{email}</Badge>
       </Wrapper>
     </BaseListItem>
   );

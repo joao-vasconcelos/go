@@ -85,7 +85,7 @@ export default function Layout({ children }) {
           footer={usersData && (usersData.length === 1 ? <FooterText text={`Encontrado 1 Utilizador`} /> : <FooterText text={`Encontrados ${usersData.length} Utilizadores`} />)}
         >
           <ErrorDisplay error={usersError} loading={usersValidating} />
-          {usersData && usersData.length > 0 ? usersData.map((item) => <ListItem key={item._id} _id={item._id} user_name={item.user_name} user_email={item.user_email} />) : <NoDataLabel />}
+          {usersData && usersData.length > 0 ? usersData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} email={item.email} />) : <NoDataLabel />}
         </Pannel>
       }
       second={children}

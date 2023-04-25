@@ -140,7 +140,7 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <HeaderTitle text={form.values.user_name || 'Utilizador Sem Nome'} />
+          <HeaderTitle text={form.values.name || 'Utilizador Sem Nome'} />
           <Tooltip label='Eliminar Utilizador' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
               <TbTrash size='20px' />
@@ -153,11 +153,11 @@ export default function Page() {
         <Section>
           <SectionTitle>Configuração do Utilizador</SectionTitle>
           <SimpleGrid cols={1}>
-            <TextInput placeholder='Nome Apelido' label='Nome do Utilizador' {...form.getInputProps('user_name')} />
+            <TextInput placeholder='Nome Apelido' label='Nome do Utilizador' {...form.getInputProps('name')} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput placeholder='email@tmlmobilidade.pt' label='Email do Utilizador' {...form.getInputProps('user_email')} />
-            <TextInput placeholder='+351 912 345 678' label='Contacto Telefónico' {...form.getInputProps('user_phone')} />
+            <TextInput placeholder='email@tmlmobilidade.pt' label='Email do Utilizador' {...form.getInputProps('email')} />
+            <TextInput placeholder='+351 912 345 678' label='Contacto Telefónico' {...form.getInputProps('phone')} />
           </SimpleGrid>
           <SimpleGrid cols={1}>
             <TextInput placeholder='Sem Informação' label='Último Login' {...form.getInputProps('emailVerified')} readOnly />

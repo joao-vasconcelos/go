@@ -27,10 +27,10 @@ const Text = styled('p', {
 export default function AuthError() {
   //
   const router = useRouter();
-  const { error } = useSearchParams();
+  const searchParams = useSearchParams();
 
   const getErrorMessage = () => {
-    switch (error) {
+    switch (searchParams.get('error')) {
       case 'Configuration':
         return 'There is a problem with the server configuration.';
       case 'AccessDenied':
