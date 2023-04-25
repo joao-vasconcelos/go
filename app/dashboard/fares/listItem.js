@@ -1,8 +1,8 @@
 'use client';
 
 import { styled } from '@stitches/react';
+import { useRouter } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
-import { Flex } from '@mantine/core';
 
 const Wrapper = styled('div', {
   display: 'flex',
@@ -14,7 +14,17 @@ const Wrapper = styled('div', {
 const Title = styled('div', {
   fontSize: '16px',
   color: '$gray12',
-  fontWeight: 'bold',
+  fontWeight: '$bold',
+  variants: {
+    isUntitled: {
+      true: {
+        fontSize: '16px',
+        color: '$gray10',
+        fontWeight: '$regular',
+        fontStyle: 'italic',
+      },
+    },
+  },
 });
 
 const Badge = styled('div', {
@@ -27,15 +37,20 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ fare_id, fare_name, fare_price }) {
+export default function ListItem({ _id, fare_id, fare_name }) {
+  //
+
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/dashboard/agencies/${_id}`);
+  };
+
   return (
-    <BaseListItem withChevron>
+    <BaseListItem onClick={handleClick} withChevron>
       <Wrapper>
-        <Title>{fare_name}</Title>
-        <Flex gap='xs'>
-          <Badge>{fare_id}</Badge>
-          <Badge>{fare_price}€</Badge>
-        </Flex>
+        <Title isUntitled={!agency_name}>{agency_name || 'Agência Sem Nome'}</Title>
+        <Badge>{agency_id}</Badge>
       </Wrapper>
     </BaseListItem>
   );

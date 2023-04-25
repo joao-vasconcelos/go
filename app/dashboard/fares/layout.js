@@ -1,11 +1,19 @@
 'use client';
 
 import { styled } from '@stitches/react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import useSWR from 'swr';
+import API from '../../../services/API';
 import TwoUnevenColumns from '../../../layouts/TwoUnevenColumns';
 import Pannel from '../../../layouts/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
 import { TbCirclePlus, TbArrowBarToDown, TbDots } from 'react-icons/tb';
+import notify from '../../../services/notify';
+import NoDataLabel from '../../../components/NoDataLabel';
+import ErrorDisplay from '../../../components/ErrorDisplay';
+import FooterText from '../../../components/lists/FooterText';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -14,11 +22,41 @@ const SearchField = styled(TextInput, {
 export default function Layout({ children }) {
   //
 
-  const fares = [
-    { fare_id: 'INTER-REGIONAL-A', fare_name: 'Inter-regional (A)', fare_price: 4.5 },
-    { fare_id: 'INTER-REGIONAL-B', fare_name: 'Inter-regional (B)', fare_price: 2.1 },
-    { fare_id: 'LONGA', fare_name: 'Linha Longa', fare_price: 1.8 },
-  ];
+  //
+  // A. Setup variables
+
+  const router = useRouter();
+
+  const [isCreating, setIsCreating] = useState(false);
+
+  //
+  // B. Fetch data
+
+  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating } = useSWR('/api/agencies/');
+
+  //
+  // C. Handle actions
+
+  const handleCreateAgency = async () => {
+    try {
+      setIsCreating(true);
+      const response = await API({
+        service: 'agencies',
+        operation: 'create',
+        method: 'GET',
+      });
+      router.push(`/dashboard/agencies/${response._id}`);
+      notify('new', 'success', 'Agência criada com sucesso.');
+      setIsCreating(false);
+    } catch (err) {
+      setIsCreating(false);
+      console.log(err);
+      notify('new', 'error', err.message);
+    }
+  };
+
+  //
+  // D. Render data
 
   return (
     <TwoUnevenColumns
@@ -29,24 +67,25 @@ export default function Layout({ children }) {
               <SearchField placeholder='Procurar...' width={'100%'} />
               <Menu shadow='md' position='bottom-end'>
                 <Menu.Target>
-                  <ActionIcon variant='light' size='lg'>
+                  <ActionIcon variant='light' size='lg' loading={agenciesLoading || isCreating}>
                     <TbDots size='20px' />
                   </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<TbCirclePlus size='20px' />}>Novo Tarifário</Menu.Item>
+                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateAgency}>
+                    Nova Agência
+                  </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download fare_attributes.txt</Menu.Item>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download fare_rules.txt</Menu.Item>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>
           }
+          footer={agenciesData && (agenciesData.length === 1 ? <FooterText text={`Encontrada 1 Agência`} /> : <FooterText text={`Encontradas ${agenciesData.length} Agências`} />)}
         >
-          {fares.map((item) => (
-            <ListItem key={item.fare_id} fare_id={item.fare_id} fare_name={item.fare_name} fare_price={item.fare_price} />
-          ))}
+          <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
+          {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_id={item.agency_id} agency_name={item.agency_name} />) : <NoDataLabel />}
         </Pannel>
       }
       second={children}

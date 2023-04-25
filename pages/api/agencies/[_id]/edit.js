@@ -46,9 +46,9 @@ export default async function agenciesEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['agency_id'].
-    const foundDocumentWithAgencyId = await AgencyModel.exists({ agency_id: req.body.agency_id });
-    if (foundDocumentWithAgencyId && foundDocumentWithAgencyId._id != req.body._id) {
+    // The values that need to be unique are ['_id'].
+    const foundDocumentWithAgencyId = await AgencyModel.exists({ _id: req.query._id });
+    if (foundDocumentWithAgencyId && foundDocumentWithAgencyId._id != req.query._id) {
       throw new Error('Uma Agência com o mesmo ID já existe.');
     }
   } catch (err) {
@@ -58,8 +58,8 @@ export default async function agenciesEdit(req, res) {
 
   // 2. Try to update the correct document
   try {
-    const editedDocument = await AgencyModel.findOneAndReplace({ agency_id: req.query.agency_id }, req.body, { new: true });
-    if (!editedDocument) return await res.status(404).json({ message: `Agency with agency_id: ${req.query.agency_id} not found.` });
+    const editedDocument = await AgencyModel.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
+    if (!editedDocument) return await res.status(404).json({ message: `Agency with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);

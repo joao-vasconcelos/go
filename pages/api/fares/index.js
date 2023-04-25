@@ -1,14 +1,13 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { Default as AgencyDefault } from '../../../schemas/Agency/default';
 import { Model as AgencyModel } from '../../../schemas/Agency/model';
 
 /* * */
-/* CREATE AGENCY */
-/* Explanation needed. */
+/* LIST ALL AGENCIES */
+/* This endpoint returns all agencies. */
 /* * */
 
-export default async function agenciesCreate(req, res) {
+export default async function agenciesList(req, res) {
   //
   await delay();
 
@@ -26,12 +25,12 @@ export default async function agenciesCreate(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2. Try to save a new document with req.body
+  // 2. Try to list all documents
   try {
-    const createdDocument = await AgencyModel(AgencyDefault).save();
-    return await res.status(201).json(createdDocument);
+    const allDocuments = await AgencyModel.find({}).limit(1000);
+    return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot create this Agency.' });
+    return await res.status(500).json({ message: 'Cannot list Agencies.' });
   }
 }

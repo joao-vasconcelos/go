@@ -9,36 +9,36 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
-    agency_id: {
+    fare_id: {
       type: String,
       maxlength: 10,
       unique: true,
     },
-    agency_name: {
+    fare_short_name: {
       type: String,
       maxlength: 50,
     },
-    agency_timezone: {
+    fare_long_name: {
       type: String,
       maxlength: 50,
     },
-    agency_lang: {
+    price: {
       type: String,
       maxlength: 50,
     },
-    agency_phone: {
+    currency_type: {
       type: String,
       maxlength: 50,
     },
-    agency_email: {
+    payment_method: {
       type: String,
       maxlength: 50,
     },
-    agency_url: {
+    transfers: {
       type: String,
       maxlength: 50,
     },
-    agency_fare_url: {
+    agency_id: {
       type: String,
       maxlength: 50,
     },

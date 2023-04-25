@@ -37,13 +37,13 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ agency_id, agency_name }) {
+export default function ListItem({ _id, agency_id, agency_name }) {
   //
 
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/dashboard/agencies/${agency_id}`);
+    router.push(`/dashboard/agencies/${_id}`);
   };
 
   return (

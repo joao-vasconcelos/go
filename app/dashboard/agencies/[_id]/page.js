@@ -42,12 +42,12 @@ export default function Page() {
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
-  const { agency_id } = useParams();
+  const { _id } = useParams();
 
   //
   // B. Fetch data
 
-  const { data: agencyData, error: agencyError, isLoading: agencyLoading, isValidating: agencyValidating, mutate: agencyMutate } = useSWR(agency_id && `/api/agencies/${agency_id}`);
+  const { data: agencyData, error: agencyError, isLoading: agencyLoading, isValidating: agencyValidating, mutate: agencyMutate } = useSWR(_id && `/api/agencies/${_id}`);
 
   //
   // C. Setup form
@@ -82,18 +82,18 @@ export default function Page() {
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      const res = await API({ service: 'agencies', resourceId: agency_id, operation: 'edit', method: 'PUT', body: form.values });
+      const res = await API({ service: 'agencies', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
       agencyMutate({ ...agencyData, ...form.values });
       setIsSaving(false);
       setHasErrorSaving(false);
       hasUpdatedFields.current = false;
-      router.push(`/dashboard/agencies/${res.agency_id}`);
+      router.push(`/dashboard/agencies/${res._id}`);
     } catch (err) {
       console.log(err);
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [agency_id, form.values, agencyMutate, agencyData, router]);
+  }, [_id, form.values, agencyMutate, agencyData, router]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -109,13 +109,13 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(agency_id, 'loading', 'A eliminar Agência...');
-          await API({ service: 'agencies', resourceId: agency_id, operation: 'delete', method: 'DELETE' });
+          notify(_id, 'loading', 'A eliminar Agência...');
+          await API({ service: 'agencies', resourceId: _id, operation: 'delete', method: 'DELETE' });
           router.push('/dashboard/agencies');
-          notify(agency_id, 'success', 'Agência eliminada!');
+          notify(_id, 'success', 'Agência eliminada!');
         } catch (err) {
           console.log(err);
-          notify(agency_id, 'error', err.message || 'Occoreu um erro.');
+          notify(_id, 'error', err.message || 'Occoreu um erro.');
         }
       },
     });

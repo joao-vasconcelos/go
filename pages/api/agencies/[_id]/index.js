@@ -29,8 +29,8 @@ export default async function agenciesGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await AgencyModel.findOne({ agency_id: req.query.agency_id });
-    if (!foundDocument) return await res.status(404).json({ message: `Agency with agency_id: ${req.query.agency_id} not found.` });
+    const foundDocument = await AgencyModel.findOne({ _id: req.query._id });
+    if (!foundDocument) return await res.status(404).json({ message: `Agency with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {
     console.log(err);

@@ -27,8 +27,8 @@ export default async function agenciesDelete(req, res) {
 
   // 2. Try to update the correct document
   try {
-    const deletedDocument = await AgencyModel.findOneAndDelete({ agency_id: req.query.agency_id });
-    if (!deletedDocument) return await res.status(404).json({ message: `Agency with agency_id: ${req.query.agency_id} not found.` });
+    const deletedDocument = await AgencyModel.findOneAndDelete({ _id: req.query._id });
+    if (!deletedDocument) return await res.status(404).json({ message: `Agency with _id: ${req.query._id} not found.` });
     return await res.status(200).send(deletedDocument);
   } catch (err) {
     console.log(err);
