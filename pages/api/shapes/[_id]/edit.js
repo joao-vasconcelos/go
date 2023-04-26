@@ -1,14 +1,14 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Validation as FareValidation } from '../../../../schemas/Fare/validation';
-import { Model as FareModel } from '../../../../schemas/Fare/model';
+import { Validation as ShapeValidation } from '../../../../schemas/Shape/validation';
+import { Model as ShapeModel } from '../../../../schemas/Shape/model';
 
 /* * */
-/* EDIT FARE */
+/* EDIT SHAPE */
 /* Explanation needed. */
 /* * */
 
-export default async function faresEdit(req, res) {
+export default async function shapesEdit(req, res) {
   //
   await delay();
 
@@ -29,7 +29,7 @@ export default async function faresEdit(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = FareValidation.cast(req.body);
+    req.body = ShapeValidation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
@@ -46,9 +46,9 @@ export default async function faresEdit(req, res) {
   // 4. Check for uniqueness
   try {
     // The values that need to be unique are ['_id'].
-    const foundDocumentWithFareId = await FareModel.exists({ _id: req.query._id });
-    if (foundDocumentWithFareId && foundDocumentWithFareId._id != req.query._id) {
-      throw new Error('Um Tarifário com o mesmo ID já existe.');
+    const foundDocumentWithShapeId = await ShapeModel.exists({ _id: req.query._id });
+    if (foundDocumentWithShapeId && foundDocumentWithShapeId._id != req.query._id) {
+      throw new Error('Uma Shape com o mesmo ID já existe.');
     }
   } catch (err) {
     console.log(err);
@@ -57,11 +57,11 @@ export default async function faresEdit(req, res) {
 
   // 2. Try to update the correct document
   try {
-    const editedDocument = await FareModel.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
-    if (!editedDocument) return await res.status(404).json({ message: `Fare with _id: ${req.query._id} not found.` });
+    const editedDocument = await ShapeModel.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
+    if (!editedDocument) return await res.status(404).json({ message: `Shape with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot update this Fare.' });
+    return await res.status(500).json({ message: 'Cannot update this Shape.' });
   }
 }

@@ -32,7 +32,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating } = useSWR('/api/agencies/');
+  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating } = useSWR('/api/agencies');
 
   //
   // C. Handle actions

@@ -32,7 +32,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: faresData, error: faresError, isLoading: faresLoading, isValidating: faresValidating } = useSWR('/api/fares/');
+  const { data: faresData, error: faresError, isLoading: faresLoading, isValidating: faresValidating } = useSWR('/api/fares');
 
   //
   // C. Handle actions

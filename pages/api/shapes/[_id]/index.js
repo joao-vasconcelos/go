@@ -1,13 +1,13 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model as FareModel } from '../../../../schemas/Fare/model';
+import { Model as ShapeModel } from '../../../../schemas/Shape/model';
 
 /* * */
-/* GET FARE BY ID */
+/* GET SHAPE BY ID */
 /* Explanation needed. */
 /* * */
 
-export default async function faresGet(req, res) {
+export default async function shapesGet(req, res) {
   //
   await delay();
 
@@ -29,11 +29,11 @@ export default async function faresGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await FareModel.findOne({ _id: req.query._id });
-    if (!foundDocument) return await res.status(404).json({ message: `Fare with _id: ${req.query._id} not found.` });
+    const foundDocument = await ShapeModel.findOne({ _id: req.query._id });
+    if (!foundDocument) return await res.status(404).json({ message: `Shape with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot fetch this Fare.' });
+    return await res.status(500).json({ message: 'Cannot fetch this Shape.' });
   }
 }
