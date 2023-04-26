@@ -45,8 +45,8 @@ export default async function shapesEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['_id'].
-    const foundDocumentWithShapeId = await ShapeModel.exists({ _id: req.query._id });
+    // The values that need to be unique are ['shape_id'].
+    const foundDocumentWithShapeId = await ShapeModel.exists({ shape_id: req.body.shape_id });
     if (foundDocumentWithShapeId && foundDocumentWithShapeId._id != req.query._id) {
       throw new Error('Uma Shape com o mesmo ID já existe.');
     }
