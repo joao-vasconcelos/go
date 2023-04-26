@@ -1,8 +1,11 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { styled } from '@stitches/react';
 import { Table, Group, TextInput, Loader } from '@mantine/core';
 import { keys } from '@mantine/utils';
 import { TbSearch, TbSelector, TbChevronDown, TbChevronUp } from 'react-icons/tb';
+import Flex from '../layouts/Flex';
 
 const TableHeaderColumn = styled('th', {
   cursor: 'pointer',
@@ -28,7 +31,7 @@ const TableBodyRow = styled('tr', {
     backgroundColor: '$info1',
   },
   '& td': {
-    padding: '$md $sm !important',
+    padding: '$sm !important',
   },
   '& td:first-child': {
     fontWeight: '$bold',
@@ -76,11 +79,14 @@ export default function DynamicTable(props) {
     }
 
     // 2. Sort the data
+    const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
     const sortedData = [...filteredData].sort((a, b) => {
       if (reversedSort) {
-        return String(b[sortKey]).localeCompare(String(a[sortKey]));
+        return collator.compare(b[sortKey], a[sortKey]);
+        // return String(b[sortKey]).localeCompare(String(a[sortKey]));
       } else {
-        return String(a[sortKey]).localeCompare(String(b[sortKey]));
+        return collator.compare(a[sortKey], b[sortKey]);
+        // return String(a[sortKey]).localeCompare(String(b[sortKey]));
       }
     });
 
@@ -104,12 +110,7 @@ export default function DynamicTable(props) {
 
   return (
     <>
-      <TextInput
-        placeholder={props.searchFieldPlaceholder}
-        icon={<TbSearch />}
-        value={searchQuery}
-        onChange={handleSearchQueryChange}
-      />
+      <TextInput placeholder={props.searchFieldPlaceholder} icon={<TbSearch />} value={searchQuery} onChange={handleSearchQueryChange} />
       <Table withBorder>
         <thead>
           <tr>
@@ -135,7 +136,12 @@ export default function DynamicTable(props) {
             </tr>
           ) : formattedData?.length ? (
             formattedData.map((row, index) => (
-              <TableBodyRow key={index} onClick={() => props.onRowClick(row)}>
+              <TableBodyRow
+                key={index}
+                onClick={() => {
+                  if (props.onRowClick) props.onRowClick(row);
+                }}
+              >
                 {props.columns.map((col, index) => (
                   <td key={index}>{row[col.key] || '-'}</td>
                 ))}
@@ -143,7 +149,7 @@ export default function DynamicTable(props) {
             ))
           ) : (
             <tr>
-              <NoData colSpan={props.columns.length}>Nothing found</NoData>
+              <NoData colSpan={props.columns.length}>Sem Informação</NoData>
             </tr>
           )}
         </tbody>

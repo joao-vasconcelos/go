@@ -15,6 +15,9 @@ import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import HeaderTitle from '../../../../components/lists/HeaderTitle';
+import ImportShapeFromText from '../../../../components/importShapes/ImportShapeFromText';
+import Flex from '../../../../layouts/Flex';
+import DynamicTable from '../../../../components/DynamicTable';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
@@ -121,6 +124,36 @@ export default function Page() {
     });
   };
 
+  const handleShapeDelete = async () => {
+    openConfirmModal({
+      title: (
+        <Text size={'lg'} fw={700}>
+          Eliminar Pontos Shape?
+        </Text>
+      ),
+      centered: true,
+      closeOnClickOutside: true,
+      children: (
+        <Text>
+          Eliminar os pontos da shapes é irreversível. Esta ação não irá eliminar a associação desta shape com determinados patterns, no entanto irá produzir um erro ao gerar o GTFS. Será necessário importar novamente os pontos da shape. Tem a
+          certeza que quer eliminar os pontos desta Shape para sempre?
+        </Text>
+      ),
+      labels: { confirm: 'Eliminar Pontos da Shape', cancel: 'Não Eliminar' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          notify('shape-points-delete', 'loading', 'A eliminar pontos da Shape...');
+          form.setFieldValue('points', []);
+          notify('shape-points-delete', 'success', 'Pontos eliminados!');
+        } catch (err) {
+          console.log(err);
+          notify('shape-points-delete', 'error', err.message || 'Occoreu um erro.');
+        }
+      },
+    });
+  };
+
   //
   // E. Render components
 
@@ -166,69 +199,27 @@ export default function Page() {
       <Divider />
       <Section>
         <SectionTitle>Importar / Atualizar Shape</SectionTitle>
-        <SimpleGrid cols={1}>
-          <Textarea label='Importar Shape' autosize minRows={8} maxRows={20} />
-        </SimpleGrid>
-        <SimpleGrid cols={2}>
-          <Button>Iniciar Importação</Button>
-          <Button variant='light' color='red'>
-            Limpar
-          </Button>
-        </SimpleGrid>
+        <ImportShapeFromText onImport={(result) => form.setFieldValue('points', result)} />
       </Section>
       <Divider />
       <Section>
         <SectionTitle>Pontos GTFS</SectionTitle>
-        <Table highlightOnHover>
-          <tr>
-            <th>shape_pt_sequence</th>
-            <th>shape_pt_lat</th>
-            <th>shape_pt_lon</th>
-            <th>shape_dist_traveled</th>
-          </tr>
-          {shapeData ? (
-            shapeData.points.map((point) => (
-              <tr key={point.shape_pt_sequence}>
-                <td>{point.shape_pt_sequence}</td>
-                <td>{point.shape_pt_lat}</td>
-                <td>{point.shape_pt_lon}</td>
-                <td>{point.shape_dist_traveled}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td>No Data</td>
-            </tr>
-          )}
-        </Table>
+        <Flex>
+          <Button variant='light' color='red' onClick={handleShapeDelete}>
+            Eliminar Pontos da Shape
+          </Button>
+        </Flex>
+        <DynamicTable
+          data={(shapeData && shapeData.points) || []}
+          isLoading={shapeLoading}
+          columns={[
+            { label: 'shape_pt_sequence', key: 'shape_pt_sequence' },
+            { label: 'shape_pt_lat', key: 'shape_pt_lat' },
+            { label: 'shape_pt_lon', key: 'shape_pt_lon' },
+            { label: 'shape_dist_traveled', key: 'shape_dist_traveled' },
+          ]}
+        />
       </Section>
-      <Divider />
-      <Section>
-        <SectionTitle>GeoJSON</SectionTitle>
-        <Table highlightOnHover>
-          <tr>
-            <th>shape_pt_sequence</th>
-            <th>shape_pt_lat</th>
-            <th>shape_pt_lon</th>
-            <th>shape_dist_traveled</th>
-          </tr>
-          {shapeData ? (
-            shapeData.points.map((point) => (
-              <tr key={point.shape_pt_sequence}>
-                <td>{point.shape_pt_sequence}</td>
-                <td>{point.shape_pt_lat}</td>
-                <td>{point.shape_pt_lon}</td>
-                <td>{point.shape_dist_traveled}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td>No Data</td>
-            </tr>
-          )}
-        </Table>
-      </Section>
-      <Divider />
     </Pannel>
   );
 }
