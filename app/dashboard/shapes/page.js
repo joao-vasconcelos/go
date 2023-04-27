@@ -1,32 +1,18 @@
 'use client';
 
-import useSWR from 'swr';
 import { styled } from '@stitches/react';
-import { useRef, useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm, yupResolver } from '@mantine/form';
+import { useRef, useState } from 'react';
 import API from '../../../services/API';
-import { Validation as ShapeValidation } from '../../../schemas/Shape/validation';
-import { Default as ShapeDefault } from '../../../schemas/Shape/default';
-import { Tooltip, Textarea, Table, SimpleGrid, Progress, TextInput, Code, ActionIcon, Divider, Group, Text, useMantineTheme, rem, Button, Alert, Loader, Stack } from '@mantine/core';
+import notify from '../../../services/notify';
+import { SimpleGrid, Progress, TextInput, Code, Group, Text, Button, Alert, Loader } from '@mantine/core';
 import { TbUpload, TbForbid2, TbDragDrop, TbAlertTriangleFilled, TbCheck } from 'react-icons/tb';
 import Pannel from '../../../layouts/Pannel';
-import SaveButtons from '../../../components/SaveButtons';
-import notify from '../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import HeaderTitle from '../../../components/lists/HeaderTitle';
-import ImportShapeFromText from '../../../components/importShapes/ImportShapeFromText';
 import Flex from '../../../layouts/Flex';
 import DynamicTable from '../../../components/DynamicTable';
-import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Dropzone } from '@mantine/dropzone';
 import parseShapesCsv from '../../../services/parseShapesCsv';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
+import BulkImportTable from './bulkImport';
 
 const Section = styled('div', {
   display: 'flex',
@@ -37,20 +23,25 @@ const Section = styled('div', {
   maxHeight: '100%',
 });
 
-export default function Page(props) {
+export default function Page() {
   //
 
   //
   // A. Setup variables
 
-  const [isParsingFiles, setIsParsingFiles] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isImportError, setIsImportError] = useState();
-  const [shapesToImport, setShapesToImport] = useState([]);
-  const [shapesImportProgressAbsolute, setShapesImportProgressAbsolute] = useState(0);
-  const [shapesImportProgressPercentage, setShapesImportProgressPercentage] = useState(0);
+  const [isParsing, setIsParsing] = useState(false);
+  const [hasParsingError, setHasParsingError] = useState(false);
 
-  const shouldCancelUpload = useRef(false);
+  const [allParsedShapes, setAllParsedShapes] = useState([]);
+  const [allSelectedShapesToUpload, setAllSelectedShapesToUpload] = useState([]);
+
+  const [isUploading, setIsUploading] = useState(false);
+  const [hasUploadingError, setHasUploadingError] = useState(false);
+
+  const [uploadProgressAbsolute, setUploadProgressAbsolute] = useState(0);
+  const [uploadProgressPercentage, setUploadProgressPercentage] = useState(0.0);
+
+  const shouldStopUploading = useRef(false);
 
   //
   // B. Fetch data
@@ -64,9 +55,9 @@ export default function Page(props) {
   const handleFilesDrop = async (files) => {
     try {
       // Display loading UI
-      setIsParsingFiles(true);
+      setIsParsing(true);
       // Define a temporary variable to hold shapes
-      let shapesToImport_temp = [];
+      let allParsedShapes_temp = [];
       // For each file
       for (const currentFile of files) {
         // Parse the shapes in the file
@@ -74,20 +65,20 @@ export default function Page(props) {
         // For each parsed shape in the file
         for (const currentShape of shapesFromFile) {
           // For each parsed shape in the file
-          shapesToImport_temp.push({
+          allParsedShapes_temp.push({
             shape_was_imported_api: 'Aguarda início da importação',
             ...currentShape,
           });
         }
       }
       // Display the shapes in the UI
-      setIsImportError();
-      setShapesToImport(shapesToImport_temp);
-      setIsParsingFiles(false);
+      setHasParsingError();
+      setAllParsedShapes(allParsedShapes_temp);
+      setIsParsing(false);
       //
     } catch (err) {
-      setIsImportError(err.message);
-      setIsParsingFiles(false);
+      setHasParsingError(err.message);
+      setIsParsing(false);
     }
   };
 
@@ -107,21 +98,21 @@ export default function Page(props) {
       children: (
         <Flex direction='column'>
           <Text>Se uma shape com o mesmo ID já existir, será atualizada com os pontos desta nova importação. Se não existir, então será criada uma nova shape.</Text>
-          <Code style={{ fontSize: '14px' }}>Total de Shapes a importar: {shapesToImport.length}</Code>
+          <Code style={{ fontSize: '14px' }}>Total de Shapes a importar: {allParsedShapes.length}</Code>
         </Flex>
       ),
       labels: { confirm: 'Importar Todas as Shapes', cancel: 'Não Importar' },
       confirmProps: { color: 'blue' },
       onConfirm: async () => {
-        shouldCancelUpload.current = false;
+        shouldStopUploading.current = false;
         setIsUploading(true);
-        for (const [index, currentShape] of shapesToImport.entries()) {
+        for (const [index, currentShape] of allParsedShapes.entries()) {
           try {
-            if (shouldCancelUpload.current) break;
+            if (shouldStopUploading.current) break;
             notify(`shape-points-bulk-add-${currentShape.shape_id}`, 'loading', `A Importar Shape ${currentShape.shape_id}...`);
             await API({ service: 'shapes', operation: 'import', method: 'POST', body: [currentShape] });
-            setShapesImportProgressAbsolute(index);
-            setShapesImportProgressPercentage((index * 100) / shapesToImport.length);
+            setUploadProgressAbsolute(index);
+            setUploadProgressPercentage((index * 100) / allParsedShapes.length);
             notify(`shape-points-bulk-add-${currentShape.shape_id}`, 'success', `Shape ${currentShape.shape_id} Importada com Sucesso!`);
           } catch (err) {
             console.log(err);
@@ -135,9 +126,9 @@ export default function Page(props) {
   };
 
   const handleImportCancel = () => {
-    setIsImportError();
-    setShapesToImport([]);
-    shouldCancelUpload.current = true;
+    setHasParsingError();
+    setAllParsedShapes([]);
+    shouldStopUploading.current = true;
   };
 
   const handleUploadAbort = () => {
@@ -157,9 +148,9 @@ export default function Page(props) {
       labels: { confirm: 'Cancelar a Importação', cancel: 'Continuar a Importar' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
-        shouldCancelUpload.current = true;
-        setShapesImportProgressAbsolute(0);
-        setShapesImportProgressPercentage(0);
+        shouldStopUploading.current = true;
+        setUploadProgressAbsolute(0);
+        setUploadProgressPercentage(0);
       },
     });
   };
@@ -201,14 +192,15 @@ export default function Page(props) {
 
   return (
     <>
-      {!shapesToImport.length && (
+      <BulkImportTable />
+      {!allParsedShapes.length && (
         <Section style={{ padding: 0 }}>
-          {isImportError && (
+          {hasParsingError && (
             <Alert icon={<TbAlertTriangleFilled size='20px' />} title='Ocorreu um erro na importação' color='red'>
-              {isImportError}
+              {hasParsingError}
             </Alert>
           )}
-          <Dropzone onDrop={handleFilesDrop} onReject={handleFilesReject} accept={['text/plain', 'text/csv']} loading={isParsingFiles}>
+          <Dropzone onDrop={handleFilesDrop} onReject={handleFilesReject} accept={['text/plain', 'text/csv']} loading={isParsing}>
             <Group position='center' spacing='xl' style={{ minHeight: '300px', pointerEvents: 'none' }}>
               <Dropzone.Accept>
                 <Flex>
@@ -253,23 +245,23 @@ export default function Page(props) {
           </Dropzone>
         </Section>
       )}
-      {shapesToImport.length > 0 && (
+      {allParsedShapes.length > 0 && (
         <Pannel
           header={
-            shapesToImport.length > 0 && (
+            allParsedShapes.length > 0 && (
               <>
-                {shapesToImport.length > 0 && !isUploading && (
-                  <Alert icon={<TbCheck size='20px' />} title={`Encontradas ${shapesToImport.length} shapes`} color='green' w='100%'>
+                {allParsedShapes.length > 0 && !isUploading && (
+                  <Alert icon={<TbCheck size='20px' />} title={`Encontradas ${allParsedShapes.length} shapes`} color='green' w='100%'>
                     Os pontos das shapes com o mesmo ID serão atualizados com o conteúdo desta importação.
                   </Alert>
                 )}
-                {shapesToImport.length > 0 && isUploading && (
-                  <Alert icon={<Loader size='20px' />} title={`A Importar ${shapesToImport.length} Shapes...`} color='blue' w='100%'>
+                {allParsedShapes.length > 0 && isUploading && (
+                  <Alert icon={<Loader size='20px' />} title={`A Importar ${allParsedShapes.length} Shapes...`} color='blue' w='100%'>
                     <Flex direction='column'>
                       <Text>
-                        A importar Shape {shapesImportProgressAbsolute} de {shapesToImport.length}...
+                        A importar Shape {uploadProgressAbsolute} de {allParsedShapes.length}...
                       </Text>
-                      <Progress aria-label='Progresso da Importação' value={shapesImportProgressPercentage} w={'100%'} animate />
+                      <Progress aria-label='Progresso da Importação' value={uploadProgressPercentage} w={'100%'} animate />
                       <Button size='xs' color='gray' variant='light' onClick={handleUploadAbort}>
                         Cancelar Importação
                       </Button>
@@ -282,8 +274,8 @@ export default function Page(props) {
         >
           <Section>
             <DynamicTable
-              data={shapesToImport || []}
-              isLoading={isParsingFiles}
+              data={allParsedShapes || []}
+              isLoading={isParsing}
               columns={[
                 { label: 'ID da Shape', key: 'shape_id' },
                 { label: 'Extensão (km)', key: 'shape_distance' },
@@ -293,10 +285,10 @@ export default function Page(props) {
               onRowClick={!isUploading && handleRowClick}
             />
             <SimpleGrid cols={2} pb={'lg'}>
-              <Button onClick={handleImportInit} disabled={!shapesToImport.length || isUploading}>
-                {`Iniciar Importação (${shapesToImport.length} shapes)`}
+              <Button onClick={handleImportInit} disabled={!allParsedShapes.length || isUploading}>
+                {`Iniciar Importação (${allParsedShapes.length} shapes)`}
               </Button>
-              <Button color='red' onClick={handleImportCancel} disabled={!shapesToImport.length || isUploading}>
+              <Button color='red' onClick={handleImportCancel} disabled={!allParsedShapes.length || isUploading}>
                 Cancelar e Limpar Lista
               </Button>
             </SimpleGrid>

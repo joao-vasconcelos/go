@@ -37,24 +37,22 @@ export default async function shapesImport(req, res) {
 
   // Do for multiple shapes
 
-  for (const currentShape of req.body) {
-    // 3. Validate req.body against schema
-    // let currentShape_casted;
-    // try {
-    //   currentShape_casted = ShapeValidation.cast(req.body);
-    // } catch (err) {
-    //   console.log(err);
-    //   return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
-    // }
+  // 3. Validate req.body against schema
+  // let currentShape_casted;
+  // try {
+  //   currentShape_casted = ShapeValidation.cast(req.body);
+  // } catch (err) {
+  //   console.log(err);
+  //   return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
+  // }
 
-    // 2. Try to update the correct document. If it does not exist, create it
-    try {
-      const importedDocument = await ShapeModel.findOneAndReplace({ shape_id: currentShape.shape_id }, currentShape, { new: true, upsert: true });
-      if (!importedDocument) return await res.status(500).json({ message: `Shape with shape_id: ${req.query._id} was not imported.` });
-      return await res.status(200).json(importedDocument);
-    } catch (err) {
-      console.log(err);
-      return await res.status(500).json({ message: 'Cannot import this Shape.' });
-    }
+  // 2. Try to update the correct document. If it does not exist, create it
+  try {
+    const importedDocument = await ShapeModel.findOneAndReplace({ shape_id: req.body.shape_id }, req.body, { new: true, upsert: true });
+    if (!importedDocument) return await res.status(500).json({ message: `Shape with shape_id: ${req.query._id} was not imported.` });
+    return await res.status(200).json(importedDocument);
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot import this Shape.' });
   }
 }
