@@ -21,7 +21,7 @@ function parseCsvAsync(csvData) {
   });
 }
 
-export default async function parseShapesCsv(csvString) {
+async function parseShapesCsv(csvString) {
   try {
     //
     // Parse the CSV string into an array of objects using PapaParse
@@ -62,6 +62,24 @@ export default async function parseShapesCsv(csvString) {
 
     //
   } catch (err) {
-    console.log('eerror', err);
+    console.log('Error parsing shapes', err);
   }
+}
+
+export default async function shapesTxtParser(files) {
+  //
+  let allParsedShapes = [];
+  // For each file
+  for (const currentFile of files) {
+    // Parse the shapes in the file
+    const shapesFromFile = await parseShapesCsv(currentFile);
+    // For each parsed shape in the file
+    for (const currentShape of shapesFromFile) {
+      // For each parsed shape in the file
+      allParsedShapes.push(currentShape);
+      //
+    }
+  }
+
+  return allParsedShapes;
 }

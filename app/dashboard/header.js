@@ -11,7 +11,7 @@ const Container = styled('div', {
   width: '100%',
   minHeight: '50px',
   backgroundColor: '$gray0',
-  borderBottom: '1px solid $gray7',
+  borderBottom: '1px solid $gray5',
   boxShadow: '$xs',
   overflow: 'hidden',
 });

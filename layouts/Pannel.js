@@ -6,7 +6,7 @@ const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: '$gray0',
-  border: '1px solid $gray5',
+  border: '1px solid $gray4',
   borderRadius: '$md',
   position: 'absolute',
   left: 0,
@@ -23,7 +23,7 @@ const Header = styled('div', {
   gap: '$sm',
   padding: '$sm',
   width: '100%',
-  borderBottom: '1px solid $gray5',
+  borderBottom: '1px solid $gray4',
 });
 
 const Body = styled('div', {
@@ -41,7 +41,7 @@ const Footer = styled('div', {
   gap: '$sm',
   padding: '$sm',
   width: '100%',
-  borderTop: '1px solid $gray6',
+  borderTop: '1px solid $gray4',
 });
 
 export default function Pannel({ header, children, footer }) {
