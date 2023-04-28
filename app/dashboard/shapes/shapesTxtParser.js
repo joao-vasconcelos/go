@@ -21,7 +21,7 @@ function parseCsvAsync(csvData) {
   });
 }
 
-async function parseShapesCsv(csvString) {
+export async function parseShapesCsv(csvString) {
   try {
     //
     // Parse the CSV string into an array of objects using PapaParse
@@ -36,6 +36,13 @@ async function parseShapesCsv(csvString) {
         currentShape = {
           shape_id: row.shape_id,
           points: [],
+          geojson: {
+            type: 'Feature',
+            geometry: {
+              type: 'LineString',
+              coordinates: [],
+            },
+          },
         };
         accumulator.push(currentShape);
       }
@@ -55,6 +62,7 @@ async function parseShapesCsv(csvString) {
       currentShape.shape_points_count = currentShape.points.length;
       currentShape.shape_distance = currentShape.points[currentShape.points.length - 1].shape_dist_traveled;
       currentShape.points.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence);
+      currentShape.geojson.geometry.coordinates = currentShape.points.map((point) => [parseFloat(point.shape_pt_lat), parseFloat(point.shape_pt_lon)]);
     }
 
     // Return the shapes to the caller

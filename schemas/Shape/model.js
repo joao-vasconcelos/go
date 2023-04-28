@@ -42,26 +42,26 @@ export const Schema = new mongoose.Schema(
         },
       },
     ],
-    // geojson: {
-    //   type: {
-    //     type: String,
-    //     maxlength: 100,
-    //   },
-    //   geometry: {
-    //     type: {
-    //       type: String,
-    //       maxlength: 100,
-    //     },
-    //     coordinates: [
-    //       [
-    //         {
-    //           type: Number,
-    //           maxlength: 100,
-    //         },
-    //       ],
-    //     ],
-    //   },
-    // },
+    geojson: {
+      type: {
+        type: String,
+        maxlength: 100,
+      },
+      geometry: {
+        type: {
+          type: String,
+          maxlength: 100,
+        },
+        coordinates: [
+          [
+            {
+              type: Number,
+              maxlength: 100,
+            },
+          ],
+        ],
+      },
+    },
   },
   { timestamps: true }
 );

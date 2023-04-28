@@ -6,6 +6,7 @@ import { useRef, useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../services/API';
+import { MapContainer, TileLayer, Polyline } from 'react-leaflet';
 import { Validation as ShapeValidation } from '../../../../schemas/Shape/validation';
 import { Default as ShapeDefault } from '../../../../schemas/Shape/default';
 import { Tooltip, Textarea, Table, SimpleGrid, TextInput, ActionIcon, Divider, Text, Button } from '@mantine/core';
@@ -15,9 +16,10 @@ import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import HeaderTitle from '../../../../components/lists/HeaderTitle';
-import ImportShapeFromText from '../../../../components/importShapes/ImportShapeFromText';
+import ImportShapeFromText from './ImportShapeFromText';
 import Flex from '../../../../layouts/Flex';
 import DynamicTable from '../../../../components/DynamicTable';
+import OpenStreetMap from '../../../../components/OpenStreetMap';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
@@ -157,6 +159,8 @@ export default function Page() {
   //
   // E. Render components
 
+  console.log(shapeData);
+
   return (
     <Pannel
       header={
@@ -173,7 +177,7 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <HeaderTitle text={form.values.shape_long_name || 'Shape Sem Nome'} />
+          <HeaderTitle text={form.values.shape_name || 'Shape Sem Nome'} />
           <Tooltip label='Eliminar Shape' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
               <TbTrash size='20px' />
@@ -194,7 +198,15 @@ export default function Page() {
       <Divider />
       <Section>
         <SectionTitle>Mapa</SectionTitle>
-        <p>mapa</p>
+        <p>controlos do mapa</p>
+        <OpenStreetMap>
+          {shapeData && shapeData.geojson && shapeData.geojson.geometry && shapeData.geojson.geometry.coordinates && (
+            <>
+              <div>posdiusah</div>
+              <Polyline pathOptions={{ color: 'purple' }} positions={shapeData.geojson.geometry.coordinates} />
+            </>
+          )}
+        </OpenStreetMap>
       </Section>
       <Divider />
       <Section>

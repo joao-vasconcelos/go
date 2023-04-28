@@ -10,5 +10,11 @@ export const Default = {
   shape_name: '',
   shape_distance: 0,
   points: [],
-  // geojson: '',
+  geojson: {
+    type: 'Feature',
+    geometry: {
+      type: 'LineString',
+      coordinates: [],
+    },
+  },
 };
