@@ -1,13 +1,14 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { Model as ShapeModel } from '../../../schemas/Shape/model';
+import { Default as StopDefault } from '../../../schemas/Stop/default';
+import { Model as StopModel } from '../../../schemas/Stop/model';
 
 /* * */
-/* LIST ALL SHAPES */
-/* This endpoint returns all shapes. */
+/* CREATE STOP */
+/* Explanation needed. */
 /* * */
 
-export default async function shapesList(req, res) {
+export default async function stopsCreate(req, res) {
   //
   await delay();
 
@@ -25,12 +26,12 @@ export default async function shapesList(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2. Try to list all documents
+  // 2. Try to save a new document with req.body
   try {
-    const allDocuments = await ShapeModel.find({}, 'shape_id shape_name shape_distance');
-    return await res.status(200).send(allDocuments);
+    const createdDocument = await StopModel(StopDefault).save();
+    return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list Shapes.' });
+    return await res.status(500).json({ message: 'Cannot create this Stop.' });
   }
 }

@@ -1,8 +1,9 @@
 'use client';
 
 import { styled } from '@stitches/react';
+import { useRouter } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
-import { Flex } from '@mantine/core';
+import Flex from '../../../layouts/Flex';
 
 const Wrapper = styled('div', {
   display: 'flex',
@@ -14,7 +15,17 @@ const Wrapper = styled('div', {
 const Title = styled('div', {
   fontSize: '16px',
   color: '$gray12',
-  fontWeight: 'bold',
+  fontWeight: '$bold',
+  variants: {
+    isUntitled: {
+      true: {
+        fontSize: '16px',
+        color: '$gray10',
+        fontWeight: '$regular',
+        fontStyle: 'italic',
+      },
+    },
+  },
 });
 
 const Badge = styled('div', {
@@ -27,13 +38,21 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ stop_id, stop_name, stop_lat, stop_lon }) {
+export default function ListItem({ _id, stop_id, stop_name, stop_lat, stop_lon }) {
+  //
+
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/dashboard/stops/${_id}`);
+  };
+
   return (
-    <BaseListItem withChevron>
+    <BaseListItem onClick={handleClick} withChevron>
       <Wrapper>
-        <Title>{stop_name}</Title>
-        <Flex gap='xs'>
-          <Badge>{stop_id}</Badge>
+        <Title isUntitled={!stop_name}>{stop_name || 'Paragem Sem Nome'}</Title>
+        <Flex>
+          <Badge>{stop_id || '-'}</Badge>
           <Badge>
             {stop_lat}, {stop_lon}
           </Badge>

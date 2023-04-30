@@ -1,13 +1,13 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { Model as ShapeModel } from '../../../schemas/Shape/model';
+import { Model as StopModel } from '../../../schemas/Stop/model';
 
 /* * */
-/* LIST ALL SHAPES */
-/* This endpoint returns all shapes. */
+/* LIST ALL AGENCIES */
+/* This endpoint returns all stops. */
 /* * */
 
-export default async function shapesList(req, res) {
+export default async function stopsList(req, res) {
   //
   await delay();
 
@@ -27,10 +27,10 @@ export default async function shapesList(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await ShapeModel.find({}, 'shape_id shape_name shape_distance');
+    const allDocuments = await StopModel.find({}, 'stop_id stop_name stop_lat stop_lon');
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list Shapes.' });
+    return await res.status(500).json({ message: 'Cannot list Stops.' });
   }
 }

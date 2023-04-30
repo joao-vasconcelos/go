@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 /* * */
-/* DOCUMENT TYPE: FARE */
+/* DOCUMENT TYPE: AGENCY */
 /* Explanation needed. */
 /* * */
 

@@ -1,11 +1,19 @@
 'use client';
 
 import { styled } from '@stitches/react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import useSWR from 'swr';
+import API from '../../../services/API';
 import TwoUnevenColumns from '../../../layouts/TwoUnevenColumns';
 import Pannel from '../../../layouts/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { TbCirclePlus, TbArrowBarToUp, TbArrowBarToDown, TbDots } from 'react-icons/tb';
+import { TbCirclePlus, TbArrowBarToDown, TbDots } from 'react-icons/tb';
+import notify from '../../../services/notify';
+import NoDataLabel from '../../../components/NoDataLabel';
+import ErrorDisplay from '../../../components/ErrorDisplay';
+import FooterText from '../../../components/lists/FooterText';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -14,19 +22,41 @@ const SearchField = styled(TextInput, {
 export default function Layout({ children }) {
   //
 
-  const stops = [
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-    { stop_id: '123456', stop_name: 'Amadora (Estação Norte)', stop_lat: -9.128926, stop_lon: 38.267828 },
-  ];
+  //
+  // A. Setup variables
+
+  const router = useRouter();
+
+  const [isCreating, setIsCreating] = useState(false);
+
+  //
+  // B. Fetch data
+
+  const { data: stopsData, error: stopsError, isLoading: stopsLoading, isValidating: stopsValidating } = useSWR('/api/stops');
+
+  //
+  // C. Handle actions
+
+  const handleCreateAgency = async () => {
+    try {
+      setIsCreating(true);
+      const response = await API({
+        service: 'stops',
+        operation: 'create',
+        method: 'GET',
+      });
+      router.push(`/dashboard/stops/${response._id}`);
+      notify('new', 'success', 'Paragem criada com sucesso.');
+      setIsCreating(false);
+    } catch (err) {
+      setIsCreating(false);
+      console.log(err);
+      notify('new', 'error', err.message);
+    }
+  };
+
+  //
+  // D. Render data
 
   return (
     <TwoUnevenColumns
@@ -37,25 +67,25 @@ export default function Layout({ children }) {
               <SearchField placeholder='Procurar...' width={'100%'} />
               <Menu shadow='md' position='bottom-end'>
                 <Menu.Target>
-                  <ActionIcon variant='light' size='lg'>
+                  <ActionIcon variant='light' size='lg' loading={stopsLoading || isCreating}>
                     <TbDots size='20px' />
                   </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<TbCirclePlus size='20px' />}>Nova Paragem</Menu.Item>
-                  <Menu.Item icon={<TbArrowBarToUp size='20px' />}>Importação em Lote</Menu.Item>
+                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateAgency}>
+                    Nova Paragem
+                  </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download stops.txt</Menu.Item>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download GeoJSON</Menu.Item>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download stop.txt</Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>
           }
+          footer={stopsData && (stopsData.length === 1 ? <FooterText text={`Encontrada 1 Paragem`} /> : <FooterText text={`Encontradas ${stopsData.length} Paragems`} />)}
         >
-          {stops.map((item) => (
-            <ListItem key={item.stop_id} stop_id={item.stop_id} stop_name={item.stop_name} stop_lat={item.stop_lat} stop_lon={item.stop_lon} />
-          ))}
+          <ErrorDisplay error={stopsError} loading={stopsValidating} />
+          {stopsData && stopsData.length > 0 ? stopsData.map((item) => <ListItem key={item._id} _id={item._id} stop_id={item.stop_id} stop_name={item.stop_name} />) : <NoDataLabel />}
         </Pannel>
       }
       second={children}
