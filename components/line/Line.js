@@ -17,7 +17,7 @@ export default function Line({ short_name, long_name, color, text_color }) {
 
   return (
     <Container>
-      <LineBadge short_name={short_name} />
+      <LineBadge short_name={short_name} color={color} text_color={text_color} />
       <LineName long_name={long_name} />
     </Container>
   );

@@ -1,34 +1,62 @@
 'use client';
 
 import { styled } from '@stitches/react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import useSWR from 'swr';
+import API from '../../../services/API';
 import TwoUnevenColumns from '../../../layouts/TwoUnevenColumns';
 import Pannel from '../../../layouts/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { TbCirclePlus, TbArrowBarToUp, TbArrowBarToDown, TbDots } from 'react-icons/tb';
+import { TbCirclePlus, TbArrowBarToDown, TbDots } from 'react-icons/tb';
+import notify from '../../../services/notify';
+import NoDataLabel from '../../../components/NoDataLabel';
+import ErrorDisplay from '../../../components/ErrorDisplay';
+import FooterText from '../../../components/lists/FooterText';
 
 const SearchField = styled(TextInput, {
   width: '100%',
 });
 
-// Fetch data
-
 export default function Layout({ children }) {
   //
 
-  const lines = [
-    { short_name: 1234, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-    { short_name: 2783, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-    { short_name: 3298, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-    { short_name: 1379, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-    { short_name: 1356, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-    { short_name: 2830, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-    { short_name: 1740, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-    { short_name: 1930, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-    { short_name: 1973, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-    { short_name: 4729, long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-    { short_name: 'CP', long_name: 'Amadora (Estação Norte) via Moinhos da Funcheira | Circular evenbigger name' },
-  ];
+  //
+  // A. Setup variables
+
+  const router = useRouter();
+
+  const [isCreating, setIsCreating] = useState(false);
+
+  //
+  // B. Fetch data
+
+  const { data: linesData, error: linesError, isLoading: linesLoading, isValidating: linesValidating } = useSWR('/api/lines');
+
+  //
+  // C. Handle actions
+
+  const handleCreateAgency = async () => {
+    try {
+      setIsCreating(true);
+      const response = await API({
+        service: 'lines',
+        operation: 'create',
+        method: 'GET',
+      });
+      router.push(`/dashboard/lines/${response._id}`);
+      notify('new', 'success', 'Linha criada com sucesso.');
+      setIsCreating(false);
+    } catch (err) {
+      setIsCreating(false);
+      console.log(err);
+      notify('new', 'error', err.message);
+    }
+  };
+
+  //
+  // D. Render data
 
   return (
     <TwoUnevenColumns
@@ -39,27 +67,29 @@ export default function Layout({ children }) {
               <SearchField placeholder='Procurar...' width={'100%'} />
               <Menu shadow='md' position='bottom-end'>
                 <Menu.Target>
-                  <ActionIcon variant='light' size='lg'>
+                  <ActionIcon variant='light' size='lg' loading={linesLoading || isCreating}>
                     <TbDots size='20px' />
                   </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<TbCirclePlus size='20px' />}>Nova Linha</Menu.Item>
-                  <Menu.Item icon={<TbArrowBarToUp size='20px' />}>Importação em Lote</Menu.Item>
+                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateAgency}>
+                    Nova Linha
+                  </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download routes.txt</Menu.Item>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download trips.txt</Menu.Item>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download stop_times.txt</Menu.Item>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download resources.txt</Menu.Item>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download line.txt</Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>
           }
+          footer={linesData && (linesData.length === 1 ? <FooterText text={`Encontrada 1 Linha`} /> : <FooterText text={`Encontradas ${linesData.length} Linhas`} />)}
         >
-          {lines.map((item) => (
-            <ListItem key={item.short_name} short_name={item.short_name} long_name={item.long_name} />
-          ))}
+          <ErrorDisplay error={linesError} loading={linesValidating} />
+          {linesData && linesData.length > 0 ? (
+            linesData.map((item) => <ListItem key={item._id} _id={item._id} line_short_name={item.line_short_name} line_long_name={item.line_long_name} line_color={item.line_color} line_text_color={item.line_tex} />)
+          ) : (
+            <NoDataLabel />
+          )}
         </Pannel>
       }
       second={children}

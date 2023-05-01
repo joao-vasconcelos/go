@@ -87,7 +87,7 @@ export default function Layout({ children }) {
         >
           <ErrorDisplay error={faresError} loading={faresValidating} />
           {faresData && faresData.length > 0 ? (
-            faresData.map((item) => <ListItem key={item._id} _id={item._id} fare_id={item.fare_id} fare_short_name={item.fare_short_name} fare_long_name={item.fare_long_name} price={item.price} currency_type={item.currency_type} />)
+            faresData.map((item) => <ListItem key={item._id} _id={item._id} fare_code={item.fare_code} fare_short_name={item.fare_short_name} fare_long_name={item.fare_long_name} price={item.price} currency_type={item.currency_type} />)
           ) : (
             <NoDataLabel />
           )}

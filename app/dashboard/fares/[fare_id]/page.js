@@ -2,14 +2,14 @@
 
 import useSWR from 'swr';
 import { styled } from '@stitches/react';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../services/API';
 import { Validation as FareValidation } from '../../../../schemas/Fare/validation';
 import { Default as FareDefault } from '../../../../schemas/Fare/default';
-import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Divider, Text, MultiSelect } from '@mantine/core';
-import { TbSquaresFilled, TbTrash } from 'react-icons/tb';
+import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect } from '@mantine/core';
+import { TbTrash } from 'react-icons/tb';
 import Pannel from '../../../../layouts/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
@@ -38,17 +38,16 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
-  const hasUpdatedFields = useRef(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
-  const { _id } = useParams();
+  const { fare_id } = useParams();
 
   //
   // B. Fetch data
 
-  const { data: fareData, error: fareError, isLoading: fareLoading, isValidating: fareValidating, mutate: fareMutate } = useSWR(_id && `/api/fares/${_id}`);
-  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating, mutate: agenciesMutate } = useSWR(`/api/agencies`);
+  const { data: fareData, error: fareError, isLoading: fareLoading } = useSWR(fare_id && `/api/fares/${fare_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: agenciesData } = useSWR('/api/agencies');
 
   //
   // C. Setup form
@@ -58,16 +57,15 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(FareValidation),
-    initialValues: FareDefault,
+    initialValues: fareData || FareDefault,
   });
 
-  useEffect(() => {
-    if (!hasUpdatedFields.current && fareData) {
-      form.setValues(fareData);
-      form.resetDirty();
-      hasUpdatedFields.current = true;
+  const keepFormUpdated = (data) => {
+    if (!form.isDirty()) {
+      form.setValues(data);
+      form.resetDirty(data);
     }
-  }, [fareData, form]);
+  };
 
   //
   // D. Handle actions
@@ -83,18 +81,16 @@ export default function Page() {
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      const res = await API({ service: 'fares', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
-      fareMutate({ ...fareData, ...form.values });
+      await API({ service: 'fares', resourceId: fare_id, operation: 'edit', method: 'PUT', body: form.values });
+      form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
-      hasUpdatedFields.current = false;
-      router.push(`/dashboard/fares/${res._id}`);
     } catch (err) {
       console.log(err);
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [_id, form.values, fareMutate, fareData, router]);
+  }, [fare_id, form]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -110,13 +106,13 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(_id, 'loading', 'A eliminar Tarifário...');
-          await API({ service: 'fares', resourceId: _id, operation: 'delete', method: 'DELETE' });
+          notify(fare_id, 'loading', 'A eliminar Tarifário...');
+          await API({ service: 'fares', resourceId: fare_id, operation: 'delete', method: 'DELETE' });
           router.push('/dashboard/fares');
-          notify(_id, 'success', 'Tarifário eliminado!');
+          notify(fare_id, 'success', 'Tarifário eliminado!');
         } catch (err) {
           console.log(err);
-          notify(_id, 'error', err.message || 'Occoreu um erro.');
+          notify(fare_id, 'error', err.message || 'Occoreu um erro.');
         }
       },
     });
@@ -133,7 +129,6 @@ export default function Page() {
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={fareLoading}
-            isValidating={fareValidating}
             isErrorValidating={fareError}
             isSaving={isSaving}
             isErrorSaving={hasErrorSaving}
@@ -156,7 +151,7 @@ export default function Page() {
           <SimpleGrid cols={3}>
             <TextInput label='Nome do Tarifário' placeholder='Tarifa 1' {...form.getInputProps('fare_long_name')} />
             <TextInput label='Abreviatura' placeholder='1' {...form.getInputProps('fare_short_name')} />
-            <TextInput label='ID do Tarifário' placeholder='FARE_1' {...form.getInputProps('fare_id')} />
+            <TextInput label='Código do Tarifário' placeholder='FARE_1' {...form.getInputProps('fare_code')} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
             <NumberInput label='Preço' placeholder='3.50' precision={2} step={0.05} min={0.0} {...form.getInputProps('price')} />
@@ -204,7 +199,6 @@ export default function Page() {
             />
           </SimpleGrid>
         </Section>
-        <Divider />
       </form>
     </Pannel>
   );

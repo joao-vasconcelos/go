@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
-    fare_id: {
+    fare_code: {
       type: String,
       maxlength: 10,
       unique: true,

@@ -8,7 +8,7 @@
 export const Default = {
   //
   // General
-  stop_id: '',
+  stop_code: '',
   stop_name: '',
   stop_short_name: '',
   tts_stop_name: '',
@@ -17,7 +17,6 @@ export const Default = {
   location_type: '',
   platform_code: '',
   parent_station: '',
-  stop_code: '',
   stop_url: '',
   public_visible: false,
 

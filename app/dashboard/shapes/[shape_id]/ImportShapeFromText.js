@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { styled } from '@stitches/react';
+import { useState } from 'react';
 import { SimpleGrid, Textarea, Button, Alert } from '@mantine/core';
 import { parseShapesCsv } from '../shapesTxtParser';
 import { TbInfoCircleFilled } from 'react-icons/tb';

@@ -45,10 +45,10 @@ export default async function stopsEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['_id'].
-    const foundDocumentWithStopId = await StopModel.exists({ _id: req.query._id });
-    if (foundDocumentWithStopId && foundDocumentWithStopId._id != req.query._id) {
-      throw new Error('Uma Paragem com o mesmo ID já existe.');
+    // The values that need to be unique are ['stop_code'].
+    const foundDocumentWithStopCode = await StopModel.exists({ stop_code: req.body.stop_code });
+    if (foundDocumentWithStopCode && foundDocumentWithStopCode._id != req.query._id) {
+      throw new Error('Uma Paragem com o mesmo Código já existe.');
     }
   } catch (err) {
     console.log(err);

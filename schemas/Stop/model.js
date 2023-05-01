@@ -11,7 +11,7 @@ export const Schema = new mongoose.Schema(
   {
     //
     // General
-    stop_id: {
+    stop_code: {
       type: String,
       maxlength: 6,
       unique: true,

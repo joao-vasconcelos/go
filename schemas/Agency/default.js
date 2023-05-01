@@ -6,7 +6,7 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  agency_id: '',
+  agency_code: '',
   agency_name: '',
   agency_timezone: '',
   agency_lang: '',

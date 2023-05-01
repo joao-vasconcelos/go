@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@stitches/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
 import Flex from '../../../layouts/Flex';
 
@@ -38,21 +38,22 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ _id, shape_id, shape_name, shape_distance }) {
+export default function ListItem({ _id, shape_code, shape_name, shape_distance }) {
   //
 
   const router = useRouter();
+  const { shape_id } = useParams();
 
   const handleClick = () => {
     router.push(`/dashboard/shapes/${_id}`);
   };
 
   return (
-    <BaseListItem onClick={handleClick} withChevron>
+    <BaseListItem onClick={handleClick} isSelected={shape_id === _id} withChevron>
       <Wrapper>
         <Title isUntitled={!shape_name}>{shape_name || 'Shape Sem Nome'}</Title>
         <Flex>
-          <Badge>{shape_id || '-'}</Badge>
+          <Badge>{shape_code || '-'}</Badge>
           <Badge>{shape_distance || '0'} km</Badge>
         </Flex>
       </Wrapper>

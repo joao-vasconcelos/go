@@ -18,6 +18,6 @@ const Container = styled('div', {
   letterSpacing: '1px',
 });
 
-export default function LineBadge({ short_name, color, textColor }) {
-  return <Container>{short_name}</Container>;
+export default function LineBadge({ short_name, color, text_color }) {
+  return <Container style={{ backgroundColor: color, color: text_color }}>{short_name}</Container>;
 }

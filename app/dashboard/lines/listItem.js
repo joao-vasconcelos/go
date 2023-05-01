@@ -1,21 +1,22 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
 import Line from '../../../components/line/Line';
 
-export default function ListItem({ short_name, long_name }) {
+export default function ListItem({ _id, line_short_name, line_long_name, line_color, line_text_color }) {
   //
 
   const router = useRouter();
+  const { line_id } = useParams();
 
   const handleClick = () => {
-    router.push(`/dashboard/lines/${short_name}`);
+    router.push(`/dashboard/lines/${_id}`);
   };
 
   return (
-    <BaseListItem onClick={handleClick} withChevron>
-      <Line short_name={short_name} long_name={long_name} />
+    <BaseListItem onClick={handleClick} isSelected={line_id === _id} withChevron>
+      <Line short_name={line_short_name} long_name={line_long_name} color={line_color} text_color={line_text_color} />
     </BaseListItem>
   );
 }

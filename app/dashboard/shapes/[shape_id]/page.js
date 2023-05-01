@@ -2,15 +2,15 @@
 
 import useSWR from 'swr';
 import { styled } from '@stitches/react';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../services/API';
 import { MapContainer, TileLayer, Polyline } from 'react-leaflet';
 import { Validation as ShapeValidation } from '../../../../schemas/Shape/validation';
 import { Default as ShapeDefault } from '../../../../schemas/Shape/default';
-import { Tooltip, Textarea, Table, SimpleGrid, TextInput, ActionIcon, Divider, Text, Button } from '@mantine/core';
-import { TbSquaresFilled, TbTrash } from 'react-icons/tb';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Text, Button } from '@mantine/core';
+import { TbTrash } from 'react-icons/tb';
 import Pannel from '../../../../layouts/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
@@ -43,16 +43,14 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
-  const hasUpdatedFields = useRef(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
-  const { _id } = useParams();
+  const { shape_id } = useParams();
 
   //
   // B. Fetch data
-
-  const { data: shapeData, error: shapeError, isLoading: shapeLoading, isValidating: shapeValidating, mutate: shapeMutate } = useSWR(_id && `/api/shapes/${_id}`);
+  const { data: shapeData, error: shapeError, isLoading: shapeLoading } = useSWR(shape_id && `/api/shapes/${shape_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -62,16 +60,15 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(ShapeValidation),
-    initialValues: ShapeDefault,
+    initialValues: shapeData || ShapeDefault,
   });
 
-  useEffect(() => {
-    if (!hasUpdatedFields.current && shapeData) {
-      form.setValues(shapeData);
-      form.resetDirty();
-      hasUpdatedFields.current = true;
+  const keepFormUpdated = (data) => {
+    if (!form.isDirty()) {
+      form.setValues(data);
+      form.resetDirty(data);
     }
-  }, [shapeData, form]);
+  };
 
   //
   // D. Handle actions
@@ -87,18 +84,16 @@ export default function Page() {
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      const res = await API({ service: 'shapes', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
-      shapeMutate({ ...shapeData, ...form.values });
+      await API({ service: 'shapes', resourceId: shape_id, operation: 'edit', method: 'PUT', body: form.values });
+      form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
-      hasUpdatedFields.current = false;
-      router.push(`/dashboard/shapes/${res._id}`);
     } catch (err) {
       console.log(err);
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [_id, form.values, shapeMutate, shapeData, router]);
+  }, [shape_id, form]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -114,13 +109,13 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(_id, 'loading', 'A eliminar Shape...');
-          await API({ service: 'shapes', resourceId: _id, operation: 'delete', method: 'DELETE' });
+          notify(shape_id, 'loading', 'A eliminar Shape...');
+          await API({ service: 'shapes', resourceId: shape_id, operation: 'delete', method: 'DELETE' });
           router.push('/dashboard/shapes');
-          notify(_id, 'success', 'Shape eliminada!');
+          notify(shape_id, 'success', 'Shape eliminada!');
         } catch (err) {
           console.log(err);
-          notify(_id, 'error', err.message || 'Occoreu um erro.');
+          notify(shape_id, 'error', err.message || 'Occoreu um erro.');
         }
       },
     });
@@ -169,7 +164,6 @@ export default function Page() {
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={shapeLoading}
-            isValidating={shapeValidating}
             isErrorValidating={shapeError}
             isSaving={isSaving}
             isErrorSaving={hasErrorSaving}
@@ -191,7 +185,7 @@ export default function Page() {
           <SectionTitle>Detalhes da Shape</SectionTitle>
           <SimpleGrid cols={2}>
             <TextInput label='Nome da Shape' placeholder='Shape da Linha 1234' {...form.getInputProps('shape_name')} />
-            <TextInput label='ID da Shape' placeholder='1234_0_0001' {...form.getInputProps('shape_id')} />
+            <TextInput label='Código da Shape' placeholder='1234_0_0001' {...form.getInputProps('shape_code')} />
           </SimpleGrid>
         </Section>
       </form>

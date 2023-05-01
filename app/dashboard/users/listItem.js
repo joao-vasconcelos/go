@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@stitches/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
 
 const Wrapper = styled('div', {
@@ -41,13 +41,14 @@ export default function ListItem({ _id, name, email }) {
   //
 
   const router = useRouter();
+  const { user_id } = useParams();
 
   const handleClick = () => {
     router.push(`/dashboard/users/${_id}`);
   };
 
   return (
-    <BaseListItem onClick={handleClick} withChevron>
+    <BaseListItem onClick={handleClick} isSelected={user_id === _id} withChevron>
       <Wrapper>
         <Title isUntitled={!name}>{name || 'Utilizador Sem Nome'}</Title>
         <Badge>{email}</Badge>

@@ -10,7 +10,7 @@ import * as yup from 'yup';
 export const Validation = yup.object({
   //
   // General
-  stop_id: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
+  stop_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   stop_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   stop_short_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   tts_stop_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
@@ -19,7 +19,6 @@ export const Validation = yup.object({
   location_type: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   platform_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   parent_station: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  stop_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   stop_url: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   public_visible: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@stitches/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
 
 const Wrapper = styled('div', {
@@ -37,20 +37,21 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ _id, agency_id, agency_name }) {
+export default function ListItem({ _id, agency_code, agency_name }) {
   //
 
   const router = useRouter();
+  const { agency_id } = useParams();
 
   const handleClick = () => {
     router.push(`/dashboard/agencies/${_id}`);
   };
 
   return (
-    <BaseListItem onClick={handleClick} withChevron>
+    <BaseListItem onClick={handleClick} isSelected={agency_id === _id} withChevron>
       <Wrapper>
         <Title isUntitled={!agency_name}>{agency_name || 'Agência Sem Nome'}</Title>
-        <Badge>{agency_id}</Badge>
+        <Badge>{agency_code}</Badge>
       </Wrapper>
     </BaseListItem>
   );

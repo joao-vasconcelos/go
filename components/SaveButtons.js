@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { Tooltip, ActionIcon, Button } from '@mantine/core';
-import { TbX, TbDeviceFloppy, TbAlertTriangleFilled } from 'react-icons/tb';
+import { TbX, TbChevronLeft, TbDeviceFloppy, TbAlertTriangleFilled } from 'react-icons/tb';
 
 /* * */
 /* SAVE BUTTONS */
 /* Pair of buttons that trigger an action on an interval and on click. */
 /* * */
 
-export default function SaveButtons({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, interval = 1500 }) {
+export default function SaveButtons({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, interval = 10000 }) {
   //
 
   //
@@ -122,9 +122,9 @@ export default function SaveButtons({ isValid, isDirty, isLoading, isValidating,
   // If the form has no unsaved changes, is valid and is not loading,
   // then the close button is enabled and the save button shows a reassuring icon and message.
   return (
-    <Tooltip label='Fechar' color='gray' position='bottom' withArrow>
+    <Tooltip label='Voltar' color='gray' position='bottom' withArrow>
       <ActionIcon size='lg' onClick={onClose}>
-        <TbX size='20px' />
+        <TbChevronLeft size='20px' />
       </ActionIcon>
     </Tooltip>
   );

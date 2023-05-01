@@ -2,14 +2,14 @@
 
 import useSWR from 'swr';
 import { styled } from '@stitches/react';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../services/API';
 import { Validation as AgencyValidation } from '../../../../schemas/Agency/validation';
 import { Default as AgencyDefault } from '../../../../schemas/Agency/default';
-import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
-import { TbSquaresFilled, TbTrash } from 'react-icons/tb';
+import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon, Text } from '@mantine/core';
+import { TbTrash } from 'react-icons/tb';
 import Pannel from '../../../../layouts/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
@@ -38,16 +38,15 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
-  const hasUpdatedFields = useRef(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
-  const { _id } = useParams();
+  const { agency_id } = useParams();
 
   //
   // B. Fetch data
 
-  const { data: agencyData, error: agencyError, isLoading: agencyLoading, isValidating: agencyValidating, mutate: agencyMutate } = useSWR(_id && `/api/agencies/${_id}`);
+  const { data: agencyData, error: agencyError, isLoading: agencyLoading } = useSWR(agency_id && `/api/agencies/${agency_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -57,16 +56,15 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(AgencyValidation),
-    initialValues: AgencyDefault,
+    initialValues: agencyData || AgencyDefault,
   });
 
-  useEffect(() => {
-    if (!hasUpdatedFields.current && agencyData) {
-      form.setValues(agencyData);
-      form.resetDirty();
-      hasUpdatedFields.current = true;
+  const keepFormUpdated = (data) => {
+    if (!form.isDirty()) {
+      form.setValues(data);
+      form.resetDirty(data);
     }
-  }, [agencyData, form]);
+  };
 
   //
   // D. Handle actions
@@ -82,18 +80,16 @@ export default function Page() {
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      const res = await API({ service: 'agencies', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
-      agencyMutate({ ...agencyData, ...form.values });
+      await API({ service: 'agencies', resourceId: agency_id, operation: 'edit', method: 'PUT', body: form.values });
+      form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
-      hasUpdatedFields.current = false;
-      router.push(`/dashboard/agencies/${res._id}`);
     } catch (err) {
       console.log(err);
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [_id, form.values, agencyMutate, agencyData, router]);
+  }, [agency_id, form]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -109,13 +105,13 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(_id, 'loading', 'A eliminar Agência...');
-          await API({ service: 'agencies', resourceId: _id, operation: 'delete', method: 'DELETE' });
+          notify(agency_id, 'loading', 'A eliminar Agência...');
+          await API({ service: 'agencies', resourceId: agency_id, operation: 'delete', method: 'DELETE' });
           router.push('/dashboard/agencies');
-          notify(_id, 'success', 'Agência eliminada!');
+          notify(agency_id, 'success', 'Agência eliminada!');
         } catch (err) {
           console.log(err);
-          notify(_id, 'error', err.message || 'Occoreu um erro.');
+          notify(agency_id, 'error', err.message || 'Occoreu um erro.');
         }
       },
     });
@@ -132,7 +128,6 @@ export default function Page() {
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={agencyLoading}
-            isValidating={agencyValidating}
             isErrorValidating={agencyError}
             isSaving={isSaving}
             isErrorSaving={hasErrorSaving}
@@ -156,7 +151,7 @@ export default function Page() {
             <TextInput placeholder='Nome do Operador' label='Nome da Agência' {...form.getInputProps('agency_name')} />
           </SimpleGrid>
           <SimpleGrid cols={3}>
-            <TextInput placeholder='41' label='ID da Agência' {...form.getInputProps('agency_id')} />
+            <TextInput placeholder='41' label='Código da Agência' {...form.getInputProps('agency_code')} />
             <Select label='Idioma' placeholder='Idioma' searchable nothingFound='Sem opções' data={['Português (Portugal)']} {...form.getInputProps('agency_lang')} />
             <Select label='Timezone' placeholder='Lisboa, Portugal' searchable nothingFound='Sem opções' data={['GMT:0 - Lisboa, Portugal']} {...form.getInputProps('agency_timezone')} />
           </SimpleGrid>
@@ -169,7 +164,6 @@ export default function Page() {
             <TextInput placeholder='https://...' label='Website dos Tarifários' {...form.getInputProps('agency_fare_url')} />
           </SimpleGrid>
         </Section>
-        <Divider />
       </form>
     </Pannel>
   );

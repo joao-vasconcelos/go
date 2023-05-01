@@ -25,7 +25,14 @@ const Container = styled('div', {
   variants: {
     selected: {
       true: {
+        cursor: 'default',
         backgroundColor: '$gray3',
+        '&:hover': {
+          backgroundColor: '$gray3',
+        },
+        '&:active': {
+          backgroundColor: '$gray3',
+        },
       },
     },
   },
@@ -38,9 +45,9 @@ const Wrapper = styled('div', {
   width: '100%',
 });
 
-export default function BaseListItem({ children, onClick, withChevron }) {
+export default function BaseListItem({ children, onClick, isSelected, withChevron }) {
   return (
-    <Container onClick={onClick}>
+    <Container onClick={onClick} selected={isSelected}>
       <Wrapper>{children}</Wrapper>
       {withChevron && <TbChevronRight size={'20px'} opacity={0.25} />}
     </Container>

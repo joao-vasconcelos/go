@@ -6,7 +6,7 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  fare_id: '',
+  fare_code: '',
   fare_short_name: '',
   fare_long_name: '',
   price: 0,

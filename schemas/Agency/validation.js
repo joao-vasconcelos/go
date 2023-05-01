@@ -8,7 +8,7 @@ import * as yup from 'yup';
 /* * */
 /* A. YUP Validation Schema */
 export const Validation = yup.object({
-  agency_id: yup.string().max(2, 'ID da Agência deve ter apenas ${max} caracteres.'),
+  agency_code: yup.string().max(2, 'ID da Agência deve ter apenas ${max} caracteres.'),
   agency_name: yup.string().max(100, 'Nome da Agência não deve exceder os ${max} caracteres.'),
   agency_timezone: yup.string().required('Fuso Horário é um campo obrigatório.'),
   agency_lang: yup.string().required('Idioma é um campo obrigatório.'),

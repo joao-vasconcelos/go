@@ -2,14 +2,14 @@
 
 import useSWR from 'swr';
 import { styled } from '@stitches/react';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../services/API';
 import { Validation as UserValidation } from '../../../../schemas/User/validation';
 import { Default as UserDefault } from '../../../../schemas/User/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
-import { TbSquaresFilled, TbTrash } from 'react-icons/tb';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Text } from '@mantine/core';
+import { TbTrash } from 'react-icons/tb';
 import Pannel from '../../../../layouts/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
@@ -38,16 +38,15 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
-  const hasUpdatedFields = useRef(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
-  const { _id } = useParams();
+  const { user_id } = useParams();
 
   //
   // B. Fetch data
 
-  const { data: userData, error: userError, isLoading: userLoading, isValidating: userValidating, mutate: userMutate } = useSWR(_id && `/api/users/${_id}`);
+  const { data: userData, error: userError, isLoading: userLoading } = useSWR(user_id && `/api/users/${user_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -57,16 +56,15 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(UserValidation),
-    initialValues: UserDefault,
+    initialValues: userData || UserDefault,
   });
 
-  useEffect(() => {
-    if (!hasUpdatedFields.current && userData) {
-      form.setValues(userData);
-      form.resetDirty();
-      hasUpdatedFields.current = true;
+  const keepFormUpdated = (data) => {
+    if (!form.isDirty()) {
+      form.setValues(data);
+      form.resetDirty(data);
     }
-  }, [userData, form]);
+  };
 
   //
   // D. Handle actions
@@ -82,18 +80,16 @@ export default function Page() {
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      const res = await API({ service: 'users', resourceId: _id, operation: 'edit', method: 'PUT', body: form.values });
-      userMutate({ ...userData, ...form.values });
+      await API({ service: 'users', resourceId: user_id, operation: 'edit', method: 'PUT', body: form.values });
+      form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
-      hasUpdatedFields.current = false;
-      router.push(`/dashboard/users/${res._id}`);
     } catch (err) {
       console.log(err);
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [_id, form.values, userMutate, userData, router]);
+  }, [user_id, form]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -109,13 +105,13 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(_id, 'loading', 'A eliminar Utilizador...');
-          await API({ service: 'users', resourceId: _id, operation: 'delete', method: 'DELETE' });
+          notify(user_id, 'loading', 'A eliminar Utilizador...');
+          await API({ service: 'users', resourceId: user_id, operation: 'delete', method: 'DELETE' });
           router.push('/dashboard/users');
-          notify(_id, 'success', 'Utilizador eliminado!');
+          notify(user_id, 'success', 'Utilizador eliminado!');
         } catch (err) {
           console.log(err);
-          notify(_id, 'error', err.message || 'Occoreu um erro.');
+          notify(user_id, 'error', err.message || 'Occoreu um erro.');
         }
       },
     });
@@ -132,7 +128,6 @@ export default function Page() {
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={userLoading}
-            isValidating={userValidating}
             isErrorValidating={userError}
             isSaving={isSaving}
             isErrorSaving={hasErrorSaving}
@@ -163,7 +158,6 @@ export default function Page() {
             <TextInput placeholder='Sem Informação' label='Último Login' {...form.getInputProps('emailVerified')} readOnly />
           </SimpleGrid>
         </Section>
-        <Divider />
       </form>
     </Pannel>
   );

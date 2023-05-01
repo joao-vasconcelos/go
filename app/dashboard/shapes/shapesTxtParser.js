@@ -30,11 +30,11 @@ export async function parseShapesCsv(csvString) {
     // Get the array of objects from the parsedCsv data
     const allShapes = parsedCsv.data.reduce((accumulator, row) => {
       // Get the shape object matching this row 'shape_id'
-      let currentShape = accumulator.find((item) => item.shape_id === row.shape_id);
+      let currentShape = accumulator.find((item) => item.shape_code === row.shape_id);
       // If no shape object exists, then create it
       if (!currentShape) {
         currentShape = {
-          shape_id: row.shape_id,
+          shape_code: row.shape_id,
           points: [],
           geojson: {
             type: 'Feature',

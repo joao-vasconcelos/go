@@ -120,7 +120,7 @@ export default function BulkImportTable({ controller }) {
       children: (
         <Flex direction='column'>
           <Text>Se uma shape com o mesmo ID já existir, será atualizada com os pontos desta nova importação. Se não existir, então será criada uma nova shape.</Text>
-          <Code style={{ fontSize: '14px' }}>shape_id: {row.item.shape_id}</Code>
+          <Code style={{ fontSize: '14px' }}>shape_code: {row.item.shape_code}</Code>
           <Code style={{ fontSize: '14px' }}>shape_distance: {row.item.shape_distance}</Code>
           <Code style={{ fontSize: '14px' }}>shape_points_count: {row.item.shape_points_count}</Code>
         </Flex>
@@ -164,7 +164,7 @@ export default function BulkImportTable({ controller }) {
       closeOnClickOutside: true,
       children: (
         <Stack>
-          <Text>Se uma shape com o mesmo ID já existir, será atualizada com os pontos desta nova importação. Se não existir, então será criada uma nova shape.</Text>
+          <Text>Se uma shape com o mesmo Código já existir, será atualizada com os pontos desta nova importação. Se não existir, então será criada uma nova shape.</Text>
           <Code style={{ fontSize: '14px' }}>Total de Shapes a importar: {checkedRows.length}</Code>
         </Stack>
       ),
@@ -213,7 +213,7 @@ export default function BulkImportTable({ controller }) {
           <Checkbox aria-label='Selecionar linha' checked={isThisRowChecked} onChange={() => handleCheckSingleRow(row.row_id)} transitionDuration={0} />
         </TableCellBody>
         <TableCellBody onClick={() => handleCheckSingleRow(row.row_id)} style={{ cursor: 'pointer' }}>
-          {row.item.shape_id || '-'}
+          {row.item.shape_code || '-'}
         </TableCellBody>
         <TableCellBody>{row.item.shape_extension || 0} km</TableCellBody>
         <TableCellBody>{row.item.points.length}</TableCellBody>
@@ -237,7 +237,7 @@ export default function BulkImportTable({ controller }) {
         <TableCellBody>
           <ActionIcon size='lg' color='blue' loading />
         </TableCellBody>
-        <TableCellBody>{row.item.shape_id || '-'}</TableCellBody>
+        <TableCellBody>{row.item.shape_code || '-'}</TableCellBody>
         <TableCellBody>{row.item.shape_extension || 0} km</TableCellBody>
         <TableCellBody>{row.item.points.length}</TableCellBody>
         <TableCellBody />
@@ -253,7 +253,7 @@ export default function BulkImportTable({ controller }) {
             <TbCircleCheckFilled size='20px' />
           </ActionIcon>
         </TableCellBody>
-        <TableCellBody>{row.item.shape_id || '-'}</TableCellBody>
+        <TableCellBody>{row.item.shape_code || '-'}</TableCellBody>
         <TableCellBody>{row.item.shape_extension || 0} km</TableCellBody>
         <TableCellBody>{row.item.points.length}</TableCellBody>
         <TableCellBody />
@@ -269,7 +269,7 @@ export default function BulkImportTable({ controller }) {
             <TbAlertTriangleFilled size='20px' />
           </ActionIcon>
         </TableCellBody>
-        <TableCellBody>{row.item.shape_id || '-'}</TableCellBody>
+        <TableCellBody>{row.item.shape_code || '-'}</TableCellBody>
         <TableCellBody>{row.item.shape_extension || 0} km</TableCellBody>
         <TableCellBody>{row.item.points.length}</TableCellBody>
         <TableCellBody>
@@ -317,7 +317,7 @@ export default function BulkImportTable({ controller }) {
             transitionDuration={0}
           />
         </TableCellHeader>
-        <TableCellHeader>shape_id</TableCellHeader>
+        <TableCellHeader>shape_code</TableCellHeader>
         <TableCellHeader>Extensão</TableCellHeader>
         <TableCellHeader>Número de Pontos</TableCellHeader>
       </TableHeader>

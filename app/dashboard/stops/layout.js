@@ -85,7 +85,7 @@ export default function Layout({ children }) {
           footer={stopsData && (stopsData.length === 1 ? <FooterText text={`Encontrada 1 Paragem`} /> : <FooterText text={`Encontradas ${stopsData.length} Paragems`} />)}
         >
           <ErrorDisplay error={stopsError} loading={stopsValidating} />
-          {stopsData && stopsData.length > 0 ? stopsData.map((item) => <ListItem key={item._id} _id={item._id} stop_id={item.stop_id} stop_name={item.stop_name} />) : <NoDataLabel />}
+          {stopsData && stopsData.length > 0 ? stopsData.map((item) => <ListItem key={item._id} _id={item._id} stop_code={item.stop_code} stop_name={item.stop_name} />) : <NoDataLabel />}
         </Pannel>
       }
       second={children}

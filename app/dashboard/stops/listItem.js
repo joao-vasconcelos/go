@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@stitches/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
 import Flex from '../../../layouts/Flex';
 
@@ -38,23 +38,24 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ _id, stop_id, stop_name, stop_lat, stop_lon }) {
+export default function ListItem({ _id, stop_code, stop_name, stop_lat, stop_lon }) {
   //
 
   const router = useRouter();
+  const { stop_id } = useParams();
 
   const handleClick = () => {
     router.push(`/dashboard/stops/${_id}`);
   };
 
   return (
-    <BaseListItem onClick={handleClick} withChevron>
+    <BaseListItem onClick={handleClick} isSelected={stop_id === _id} withChevron>
       <Wrapper>
         <Title isUntitled={!stop_name}>{stop_name || 'Paragem Sem Nome'}</Title>
         <Flex>
-          <Badge>{stop_id || '-'}</Badge>
+          <Badge>{stop_code || '-'}</Badge>
           <Badge>
-            {stop_lat}, {stop_lon}
+            {stop_lat || '0.00'}, {stop_lon || '0.00'}
           </Badge>
         </Flex>
       </Wrapper>

@@ -13,12 +13,12 @@ export default function Page() {
 
   const handleUploadShapes = async (shapeData) => {
     try {
-      notify(`shape-upload-${shapeData.shape_id}`, 'loading', `A Importar Shape ${shapeData.shape_id}...`);
+      notify(`shape-upload-${shapeData.shape_code}`, 'loading', `A Importar Shape ${shapeData.shape_code}...`);
       await API({ service: 'shapes', operation: 'import', method: 'POST', body: shapeData });
-      notify(`shape-upload-${shapeData.shape_id}`, 'success', 'Shape Importada com sucesso!');
+      notify(`shape-upload-${shapeData.shape_code}`, 'success', 'Shape Importada com sucesso!');
     } catch (err) {
       console.log(err);
-      notify(`shape-upload-${shapeData.shape_id}`, 'error', err.message || 'Occoreu um erro.');
+      notify(`shape-upload-${shapeData.shape_code}`, 'error', err.message || 'Occoreu um erro.');
     }
   };
 
