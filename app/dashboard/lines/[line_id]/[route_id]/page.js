@@ -152,7 +152,6 @@ export default function Page() {
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={routeLoading}
-            isValidating={routeValidating}
             isErrorValidating={routeError}
             isSaving={isSaving}
             isErrorSaving={hasErrorSaving}
@@ -160,7 +159,12 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Line short_name={lineData.line_short_name} long_name={`${lineData.line_long_name} (${form.values.route_name})`} color={lineData.line_color} text_color={lineData.line_text_color} />
+          <Line
+            short_name={(lineData && lineData.line_short_name) || '•••'}
+            long_name={`${(lineData && lineData.line_long_name) || 'Loading...'} (${form.values.route_name || 'Rota sem nome'})`}
+            color={(lineData && lineData.line_color) || ''}
+            text_color={(lineData && lineData.line_text_color) || ''}
+          />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <TbExternalLink size='20px' />
