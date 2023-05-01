@@ -27,7 +27,7 @@ export default async function usersList(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await UserModel.find({}).limit(1000);
+    const allDocuments = await UserModel.find({});
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);

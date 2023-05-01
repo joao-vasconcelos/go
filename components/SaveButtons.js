@@ -7,7 +7,7 @@ import { TbX, TbChevronLeft, TbDeviceFloppy, TbAlertTriangleFilled } from 'react
 /* Pair of buttons that trigger an action on an interval and on click. */
 /* * */
 
-export default function SaveButtons({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, interval = 10000 }) {
+export default function SaveButtons({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, interval = 1000 }) {
   //
 
   //

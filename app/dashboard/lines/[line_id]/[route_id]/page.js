@@ -2,7 +2,7 @@
 
 import useSWR from 'swr';
 import { styled } from '@stitches/react';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../services/API';
@@ -40,7 +40,6 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
-  const hasUpdatedFields = useRef(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
@@ -50,7 +49,7 @@ export default function Page() {
   // B. Fetch data
 
   const { data: lineData, error: lineError, isLoading: lineLoading, isValidating: lineValidating, mutate: lineMutate } = useSWR(line_id && `/api/lines/${line_id}`);
-  const { data: routeData, error: routeError, isLoading: routeLoading, isValidating: routeValidating, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
+  const { data: routeData, error: routeError, isLoading: routeLoading } = useSWR(route_id && `/api/routes/${route_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -60,15 +59,15 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(RouteValidation),
-    initialValues: RouteDefault,
+    initialValues: routeData || RouteDefault,
   });
 
-  useEffect(() => {
-    if (!hasUpdatedFields.current && routeData) {
-      form.setValues(routeData);
-      hasUpdatedFields.current = true;
+  const keepFormUpdated = (data) => {
+    if (!form.isDirty()) {
+      form.setValues(data);
+      form.resetDirty(data);
     }
-  }, [routeData, form]);
+  };
 
   //
   // D. Handle actions
@@ -85,17 +84,15 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'routes', resourceId: route_id, operation: 'edit', method: 'PUT', body: form.values });
-      routeMutate({ ...routeData, ...form.values });
+      form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
-      form.resetDirty();
-      hasUpdatedFields.current = false;
     } catch (err) {
       console.log(err);
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [route_id, form, routeMutate, routeData]);
+  }, [route_id, form]);
 
   const handleDelete = async () => {
     openConfirmModal({

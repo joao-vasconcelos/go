@@ -85,7 +85,7 @@ export default function Layout({ children }) {
           footer={shapesData && (shapesData.length === 1 ? <FooterText text={`Encontrada 1 Shape`} /> : <FooterText text={`Encontradas ${shapesData.length} Shapes`} />)}
         >
           <ErrorDisplay error={shapesError} loading={shapesValidating} />
-          {shapesData && shapesData.length > 0 ? shapesData.map((item) => <ListItem key={item._id} _id={item._id} shape_id={item.shape_id} shape_name={item.shape_name} shape_distance={item.shape_distance} />) : <NoDataLabel />}
+          {shapesData && shapesData.length > 0 ? shapesData.map((item) => <ListItem key={item._id} _id={item._id} shape_code={item.shape_code} shape_name={item.shape_name} shape_distance={item.shape_distance} />) : <NoDataLabel />}
         </Pannel>
       }
       second={children}

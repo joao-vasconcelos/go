@@ -2,14 +2,14 @@
 
 import useSWR from 'swr';
 import { styled } from '@stitches/react';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../services/API';
 import { Validation as LineValidation } from '../../../../schemas/Line/validation';
 import { Default as LineDefault } from '../../../../schemas/Line/default';
 import { Tooltip, Select, MultiSelect, Button, ColorInput, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
-import { TbSquaresFilled, TbExternalLink, TbTrash } from 'react-icons/tb';
+import { TbExternalLink, TbTrash } from 'react-icons/tb';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import Pannel from '../../../../layouts/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
@@ -40,7 +40,6 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
-  const hasUpdatedFields = useRef(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
@@ -49,7 +48,7 @@ export default function Page() {
   //
   // B. Fetch data
 
-  const { data: lineData, error: lineError, isLoading: lineLoading, isValidating: lineValidating, mutate: lineMutate } = useSWR(line_id && `/api/lines/${line_id}`);
+  const { data: lineData, error: lineError, isLoading: lineLoading } = useSWR(line_id && `/api/lines/${line_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -59,15 +58,15 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(LineValidation),
-    initialValues: LineDefault,
+    initialValues: lineData || LineDefault,
   });
 
-  useEffect(() => {
-    if (!hasUpdatedFields.current && lineData) {
-      form.setValues(lineData);
-      hasUpdatedFields.current = true;
+  const keepFormUpdated = (data) => {
+    if (!form.isDirty()) {
+      form.setValues(data);
+      form.resetDirty(data);
     }
-  }, [lineData, form]);
+  };
 
   //
   // D. Handle actions
@@ -84,17 +83,15 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'lines', resourceId: line_id, operation: 'edit', method: 'PUT', body: form.values });
-      lineMutate({ ...lineData, ...form.values });
+      form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
-      form.resetDirty();
-      hasUpdatedFields.current = false;
     } catch (err) {
       console.log(err);
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [line_id, form, lineMutate, lineData]);
+  }, [line_id, form]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -172,7 +169,6 @@ export default function Page() {
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={lineLoading}
-            isValidating={lineValidating}
             isErrorValidating={lineError}
             isSaving={isSaving}
             isErrorSaving={hasErrorSaving}

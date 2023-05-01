@@ -22,10 +22,12 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
-    agency_id: {
-      type: String,
-      maxlength: 50,
-    },
+    agencies: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Agency',
+      },
+    ],
     line_color: {
       type: String,
       maxlength: 50,
@@ -41,28 +43,6 @@ export const Schema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Route',
-      },
-    ],
-    routes2: [
-      {
-        route_code: {
-          type: String,
-          maxlength: 50,
-        },
-        route_name: {
-          type: String,
-          maxlength: 50,
-        },
-        patterns: {
-          inbound: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Pattern',
-          },
-          outbound: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Pattern',
-          },
-        },
       },
     ],
   },

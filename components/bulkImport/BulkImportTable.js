@@ -328,11 +328,11 @@ export default function BulkImportTable({ controller }) {
             return <UploadingRow key={row.row_id} row={row} />;
           }
           // Is this row pending?
-          else if (controller.pendingRows.some((elem) => elem.row_id === row.row_id)) {
+          else if (controller.pendingRows.find((elem) => elem && elem.row_id === row.row_id)) {
             return <UploadingRow key={row.row_id} row={row} />;
           }
           // Is this row uploaded?
-          else if (controller.uploadedRows.some((elem) => elem.row_id === row.row_id)) {
+          else if (controller.uploadedRows.find((elem) => elem && elem.row_id === row.row_id)) {
             return <UploadedRow key={row.row_id} row={row} />;
           }
           // If not, put the idle row
