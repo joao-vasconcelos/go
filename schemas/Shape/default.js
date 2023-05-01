@@ -6,7 +6,7 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  shape_id: '',
+  shape_code: '',
   shape_name: '',
   shape_distance: 0,
   points: [],

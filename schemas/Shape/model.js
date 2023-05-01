@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
-    shape_id: {
+    shape_code: {
       type: String,
       maxlength: 100,
       unique: true,
