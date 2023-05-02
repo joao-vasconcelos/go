@@ -122,6 +122,7 @@ export default function Page() {
 
   return (
     <Pannel
+      loading={agencyLoading}
       header={
         <>
           <SaveButtons

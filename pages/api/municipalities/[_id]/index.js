@@ -1,13 +1,13 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model as TemplateModel } from '../../../../schemas/Template';
+import { Model as MunicipalityModel } from '../../../../schemas/Municipality/model';
 
 /* * */
-/* API > TEMPLATES > GET */
-/* This endpoint returns all templates from MongoDB. */
+/* GET MUNICIPALITY BY ID */
+/* Explanation needed. */
 /* * */
 
-export default async function templatesGet(req, res) {
+export default async function municipalitiesGet(req, res) {
   //
   await delay();
 
@@ -29,14 +29,11 @@ export default async function templatesGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await TemplateModel.findOne({ _id: req.query._id });
-    if (!foundDocument) {
-      return await res.status(404).json({ message: `Template with _id: ${req.query._id} not found.` });
-    } else {
-      return await res.status(200).json(foundDocument);
-    }
+    const foundDocument = await MunicipalityModel.findOne({ _id: req.query._id });
+    if (!foundDocument) return await res.status(404).json({ message: `Municipality with _id: ${req.query._id} not found.` });
+    return await res.status(200).json(foundDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot fetch this Template.' });
+    return await res.status(500).json({ message: 'Cannot fetch this Municipality.' });
   }
 }

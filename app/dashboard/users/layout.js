@@ -62,6 +62,7 @@ export default function Layout({ children }) {
     <TwoUnevenColumns
       first={
         <Pannel
+          loading={usersLoading}
           header={
             <>
               <SearchField placeholder='Procurar...' width={'100%'} />

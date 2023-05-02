@@ -1,13 +1,13 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model } from '../../../../schemas/Audit';
+import { Model as MunicipalityModel } from '../../../../schemas/Municipality/model';
 
 /* * */
-/* DELETE AUDIT */
+/* DELETE MUNICIPALITY */
 /* Explanation needed. */
 /* * */
 
-export default async function auditsDelete(req, res) {
+export default async function municipalitiesDelete(req, res) {
   //
   await delay();
 
@@ -25,13 +25,13 @@ export default async function auditsDelete(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2. Try to delete the correct document
+  // 2. Try to update the correct document
   try {
-    const deletedDocument = await Model.findOneAndDelete({ _id: req.query._id });
-    if (!deletedDocument) return await res.status(404).json({ message: `Audit with _id: ${req.query._id} not found.` });
+    const deletedDocument = await MunicipalityModel.findOneAndDelete({ _id: req.query._id });
+    if (!deletedDocument) return await res.status(404).json({ message: `Municipality with _id: ${req.query._id} not found.` });
     return await res.status(200).send(deletedDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot delete this Audit.' });
+    return await res.status(500).json({ message: 'Cannot delete this Municipality.' });
   }
 }

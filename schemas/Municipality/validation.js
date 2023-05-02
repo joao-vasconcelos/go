@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 /* * */
-/* DOCUMENT TYPE: PATTERN */
+/* DOCUMENT TYPE: MUNICIPALITY */
 /* Explanation needed. */
 /* * */
 

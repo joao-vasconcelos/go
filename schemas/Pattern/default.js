@@ -6,12 +6,8 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  agency_id: '',
-  agency_name: '',
-  agency_timezone: '',
-  agency_lang: '',
-  agency_phone: '',
-  agency_email: '',
-  agency_url: '',
-  agency_fare_url: '',
+  headsign: '',
+  shape: null,
+  path: [],
+  schedules: [],
 };

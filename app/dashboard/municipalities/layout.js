@@ -32,21 +32,21 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating } = useSWR('/api/agencies');
+  const { data: municipalitiesData, error: municipalitiesError, isLoading: municipalitiesLoading, isValidating: municipalitiesValidating } = useSWR('/api/municipalities');
 
   //
   // C. Handle actions
 
-  const handleCreateAgency = async () => {
+  const handleCreateFare = async () => {
     try {
       setIsCreating(true);
       const response = await API({
-        service: 'agencies',
+        service: 'municipalities',
         operation: 'create',
         method: 'GET',
       });
-      router.push(`/dashboard/agencies/${response._id}`);
-      notify('new', 'success', 'Agência criada com sucesso.');
+      router.push(`/dashboard/municipalities/${response._id}`);
+      notify('new', 'success', 'Município criado com sucesso.');
       setIsCreating(false);
     } catch (err) {
       setIsCreating(false);
@@ -62,31 +62,35 @@ export default function Layout({ children }) {
     <TwoUnevenColumns
       first={
         <Pannel
-          loading={agenciesLoading}
+          loading={municipalitiesLoading}
           header={
             <>
               <SearchField placeholder='Procurar...' width={'100%'} />
               <Menu shadow='md' position='bottom-end'>
                 <Menu.Target>
-                  <ActionIcon variant='light' size='lg' loading={agenciesLoading || isCreating}>
+                  <ActionIcon variant='light' size='lg' loading={municipalitiesLoading || isCreating}>
                     <TbDots size='20px' />
                   </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateAgency}>
-                    Nova Agência
+                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateFare}>
+                    Novo Município
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download municipalities.txt</Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>
           }
-          footer={agenciesData && (agenciesData.length === 1 ? <FooterText text={`Encontrada 1 Agência`} /> : <FooterText text={`Encontradas ${agenciesData.length} Agências`} />)}
+          footer={municipalitiesData && (municipalitiesData.length === 1 ? <FooterText text={`Encontrado 1 Município`} /> : <FooterText text={`Encontrados ${municipalitiesData.length} Municípios`} />)}
         >
-          <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
-          {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_code={item.agency_code} agency_name={item.agency_name} />) : <NoDataLabel />}
+          <ErrorDisplay error={municipalitiesError} loading={municipalitiesValidating} />
+          {municipalitiesData && municipalitiesData.length > 0 ? (
+            municipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} municipality_code={item.municipality_code} municipality_name={item.municipality_name} district={item.district} dico={item.dico} />)
+          ) : (
+            <NoDataLabel />
+          )}
         </Pannel>
       }
       second={children}

@@ -163,6 +163,7 @@ export default function Page() {
 
   return (
     <Pannel
+      loading={lineLoading}
       header={
         <>
           <SaveButtons

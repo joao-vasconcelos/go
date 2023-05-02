@@ -9,11 +9,6 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
-    pattern_id: {
-      type: String,
-      maxlength: 10,
-      unique: true,
-    },
     headsign: {
       type: String,
       maxlength: 50,

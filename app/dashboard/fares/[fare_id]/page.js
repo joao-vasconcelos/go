@@ -123,6 +123,7 @@ export default function Page() {
 
   return (
     <Pannel
+      loading={fareLoading}
       header={
         <>
           <SaveButtons

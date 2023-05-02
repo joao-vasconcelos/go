@@ -1,12 +1,10 @@
 'use client';
 
 import useSWR from 'swr';
-import { useEffect, useState } from 'react';
 import { styled } from '@stitches/react';
-import API from '../../../../services/API';
 import { Draggable } from '@hello-pangea/dnd';
 import { TbChevronUp, TbChevronDown, TbChevronRight, TbAlertTriangleFilled } from 'react-icons/tb';
-import { Skeleton, Loader } from '@mantine/core';
+import { Skeleton } from '@mantine/core';
 
 const Container = styled('div', {
   display: 'flex',
@@ -118,15 +116,19 @@ export default function RouteCard({ line_code, route_id, index, onOpen, route_co
   );
 
   const whenError = (
-    <Container>
-      <Toolbar>
-        <TbAlertTriangleFilled size='20px' />
-      </Toolbar>
-      <Wrapper>
-        <Title>Ocorreu um erro</Title>
-        <Subtitle>{routeError && routeError.message ? routeError.message : 'Não foi possível carregar esta rota.'}</Subtitle>
-      </Wrapper>
-    </Container>
+    <Draggable draggableId={index.toString()} index={index}>
+      {(provided) => (
+        <Container ref={provided.innerRef} {...provided.draggableProps}>
+          <Toolbar {...provided.dragHandleProps}>
+            <TbAlertTriangleFilled size='20px' />
+          </Toolbar>
+          <Wrapper>
+            <Title>Ocorreu um erro</Title>
+            <Subtitle>{routeError && routeError.message ? routeError.message : 'Não foi possível carregar esta rota.'}</Subtitle>
+          </Wrapper>
+        </Container>
+      )}
+    </Draggable>
   );
 
   const whenLoaded = (

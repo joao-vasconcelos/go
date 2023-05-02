@@ -146,6 +146,7 @@ export default function Page() {
 
   return (
     <Pannel
+      loading={routeLoading}
       header={
         <>
           <SaveButtons

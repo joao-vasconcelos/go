@@ -8,8 +8,8 @@ import API from '../../../services/API';
 import TwoUnevenColumns from '../../../layouts/TwoUnevenColumns';
 import Pannel from '../../../layouts/Pannel';
 import ListItem from './listItem';
-import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { TbCirclePlus, TbArrowBarToDown, TbDots } from 'react-icons/tb';
+import { TextInput, ActionIcon, Menu, Divider } from '@mantine/core';
+import { TbCirclePlus, TbArrowBarToDown, TbDots, TbPencil } from 'react-icons/tb';
 import notify from '../../../services/notify';
 import NoDataLabel from '../../../components/NoDataLabel';
 import ErrorDisplay from '../../../components/ErrorDisplay';
@@ -37,7 +37,7 @@ export default function Layout({ children }) {
   //
   // C. Handle actions
 
-  const handleCreateAgency = async () => {
+  const handleCreateStop = async () => {
     try {
       setIsCreating(true);
       const response = await API({
@@ -62,6 +62,7 @@ export default function Layout({ children }) {
     <TwoUnevenColumns
       first={
         <Pannel
+          loading={stopsLoading}
           header={
             <>
               <SearchField placeholder='Procurar...' width={'100%'} />
@@ -73,11 +74,15 @@ export default function Layout({ children }) {
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateAgency}>
+                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateStop}>
                     Nova Paragem
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
                   <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download stop.txt</Menu.Item>
+                  <Menu.Label>Dados Relacionados</Menu.Label>
+                  <Menu.Item icon={<TbPencil size='20px' />} onClick={() => router.push('/dashboard/municipalities')}>
+                    Editar Municípios
+                  </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>

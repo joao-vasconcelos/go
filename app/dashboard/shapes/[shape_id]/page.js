@@ -158,6 +158,7 @@ export default function Page() {
 
   return (
     <Pannel
+      loading={shapeLoading}
       header={
         <>
           <SaveButtons

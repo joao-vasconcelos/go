@@ -1,6 +1,7 @@
 'use client';
 
 import { styled } from '@stitches/react';
+import { Loader, LoadingOverlay } from '@mantine/core';
 
 const Container = styled('div', {
   display: 'flex',
@@ -14,6 +15,15 @@ const Container = styled('div', {
   top: 0,
   bottom: 0,
   overflow: 'auto',
+});
+
+const LoadingWrapper = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  height: '100%',
+  overflow: 'scroll',
 });
 
 const Header = styled('div', {
@@ -44,12 +54,17 @@ const Footer = styled('div', {
   borderTop: '1px solid $gray4',
 });
 
-export default function Pannel({ header, children, footer }) {
+export default function Pannel({ loading, header, children, footer }) {
+  //
+
   return (
     <Container>
+      <LoadingOverlay visible={loading} overlayBlur={2} transitionDuration={500} loaderProps={{ size: 'md', color: 'gray' }} />
       {header && <Header>{header}</Header>}
       <Body>{children}</Body>
       {footer && <Footer>{footer}</Footer>}
     </Container>
   );
+
+  //
 }
