@@ -43,6 +43,8 @@ export default function Page() {
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
+  const [isCreatingRoute, setIsCreatingRoute] = useState(false);
+
   const { line_id } = useParams();
 
   //
@@ -121,40 +123,24 @@ export default function Page() {
 
   const handleAddRoute = async () => {
     try {
-      //   setIsCreatingRoute(true);
-      const response = await API({
-        service: 'routes',
-        operation: 'create',
-        method: 'GET',
-      });
-      form.insertListItem('routes', response._id);
-      //   router.push(`/dashboard/lines/${response._id}`);
-      //   notify('new', 'success', 'Linha criada com sucesso.');
-      //   setIsCreating(false);
+      setIsCreatingRoute(true);
+      notify('new-route', 'loading', 'A criar Rota...');
+      const response = await API({ service: 'routes', operation: 'create', method: 'POST', body: { parent_line: line_id } });
+      form.insertListItem('routes', response);
+      notify('new-route', 'success', 'Rota criada com sucesso.');
+      setIsCreatingRoute(false);
     } catch (err) {
-      //   setIsCreating(false);
+      setIsCreatingRoute(false);
       console.log(err);
-      //   notify('new', 'error', err.message);
+      notify('new-route', 'error', err.message);
     }
-
-    // form.insertListItem('routes', LineDefault.routes[0]);
-    // form.values.routes.forEach((item, index) => {
-    //   const line_code = form.values.line_code;
-    //   form.setFieldValue(`routes.${index}.route_code`, `${line_code}_${index}`);
-    // });
   };
 
   const handleRoutesReorder = async ({ destination, source }) => {
     form.reorderListItem('routes', { from: source.index, to: destination.index });
-
-    // form.values.routes.forEach((item, index) => {
-    //   const line_code = form.values.line_code;
-    //   form.setFieldValue(`routes.${index}.route_code`, `${line_code}_${index}`);
-    // });
   };
 
-  const handleOpenRoute = (index) => {
-    const route_id = form.values.routes[index];
+  const handleOpenRoute = (route_id) => {
     router.push(`/dashboard/lines/${line_id}/${route_id}`);
   };
 
@@ -196,7 +182,7 @@ export default function Page() {
           <SectionTitle>Detalhes da Linha</SectionTitle>
           <SimpleGrid cols={2}>
             <SimpleGrid cols={2}>
-              <TextInput placeholder='ID da Linha' label='ID da Linha' {...form.getInputProps('line_code')} />
+              <TextInput placeholder='Código da Linha' label='Código da Linha' {...form.getInputProps('line_code')} />
               <TextInput placeholder='Número da Linha' label='Número da Linha' {...form.getInputProps('line_short_name')} />
             </SimpleGrid>
             <TextInput placeholder='Nome da Linha' label='Nome da Linha' {...form.getInputProps('line_long_name')} />
@@ -218,16 +204,17 @@ export default function Page() {
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                   {form.values.routes.map((item, index) => (
-                    <RouteCard key={index} line_code={form.values.line_short_name} route_id={item} onOpen={handleOpenRoute} route_code={item.route_code} route_name={item.route_name} index={index} />
+                    <RouteCard key={index} index={index} onOpen={handleOpenRoute} line_code={form.values.line_short_name} route_id={item._id} route_name={item.route_name} />
                   ))}
                   {provided.placeholder}
                 </div>
               )}
             </Droppable>
           </DragDropContext>
-          <Button onClick={handleAddRoute}>Add Route</Button>
+          <Button onClick={handleAddRoute} loading={isCreatingRoute}>
+            Add Route
+          </Button>
         </Section>
-        <Divider />
       </form>
     </Pannel>
   );

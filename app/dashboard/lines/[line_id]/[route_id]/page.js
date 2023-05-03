@@ -8,9 +8,9 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../services/API';
 import { Validation as RouteValidation } from '../../../../../schemas/Route/validation';
 import { Default as RouteDefault } from '../../../../../schemas/Route/default';
-import { Tooltip, Select, MultiSelect, Button, ColorInput, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
-import { TbSquaresFilled, TbChevronLeft, TbExternalLink, TbTrash } from 'react-icons/tb';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
+import { TbExternalLink, TbTrash } from 'react-icons/tb';
+import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '../../../../../layouts/Pannel';
 import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
@@ -42,6 +42,8 @@ export default function Page() {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+
+  const [isCreatingPattern, setIsCreatingPattern] = useState(false);
 
   const { line_id, route_id } = useParams();
 
@@ -120,25 +122,27 @@ export default function Page() {
     });
   };
 
-  const handleAddRoute = () => {
-    form.insertListItem('routes', LineDefault.routes[0]);
-    form.values.routes.forEach((item, index) => {
-      const line_code = form.values.line_code;
-      form.setFieldValue(`routes.${index}.route_code`, `${line_code}_${index}`);
-    });
+  const handleCreatePattern = async () => {
+    try {
+      setIsCreatingPattern(true);
+      notify('new-pattern', 'loading', 'A criar Pattern...');
+      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { parent_route: route_id } });
+      form.insertListItem('patterns', response);
+      notify('new-pattern', 'success', 'Pattern criado com sucesso.');
+      setIsCreatingPattern(false);
+    } catch (err) {
+      setIsCreatingPattern(false);
+      console.log(err);
+      notify('new-pattern', 'error', err.message);
+    }
   };
 
-  const handleRoutesReorder = ({ destination, source }) => {
-    form.reorderListItem('routes', { from: source.index, to: destination.index });
-    form.values.routes.forEach((item, index) => {
-      const line_code = form.values.line_code;
-      form.setFieldValue(`routes.${index}.route_code`, `${line_code}_${index}`);
-    });
+  const handlePatternsReorder = async ({ destination, source }) => {
+    form.reorderListItem('patterns', { from: source.index, to: destination.index });
   };
 
-  const handleOpenRoute = (index) => {
-    const route_id = form.values.routes[index]._id;
-    router.push(`/dashboard/lines/${line_id}/${route_id}`);
+  const handleOpenPattern = (pattern_id) => {
+    router.push(`/dashboard/lines/${line_id}/${route_id}/${pattern_id}`);
   };
 
   //
@@ -189,12 +193,22 @@ export default function Page() {
         <Divider />
         <Section>
           <SectionTitle>Patterns</SectionTitle>
-          <SimpleGrid cols={1}>
-            <PatternCard direction={0} />
-            <PatternCard direction={1} />
-          </SimpleGrid>
+          <DragDropContext onDragEnd={handlePatternsReorder}>
+            <Droppable droppableId='droppable'>
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {form.values.patterns.map((item, index) => (
+                    <PatternCard key={index} index={index} onOpen={handleOpenPattern} pattern_id={item._id} headsign={item.headsign} />
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+          <Button onClick={handleCreatePattern} loading={isCreatingPattern} disabled={form.values.patterns.length > 1}>
+            Add Pattern
+          </Button>
         </Section>
-        <Divider />
       </form>
     </Pannel>
   );

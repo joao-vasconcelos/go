@@ -9,6 +9,14 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
+    parent_route: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Route',
+    },
+    direction_code: {
+      type: Number,
+      maxlength: 50,
+    },
     headsign: {
       type: String,
       maxlength: 50,
@@ -19,9 +27,6 @@ export const Schema = new mongoose.Schema(
     },
     path: [
       {
-        stop_sequence: {
-          type: Number,
-        },
         stop: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Stop',
@@ -42,10 +47,16 @@ export const Schema = new mongoose.Schema(
           type: String,
           maxlength: 6,
         },
-        default_wait_time: {
+        default_dwell_time: {
           type: String,
           maxlength: 6,
         },
+        apex: [
+          {
+            type: String,
+            maxlength: 6,
+          },
+        ],
       },
     ],
     schedules: [

@@ -9,18 +9,20 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
+    parent_line: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Line',
+    },
     route_name: {
       type: String,
       maxlength: 50,
     },
-    inbound: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Pattern',
-    },
-    outbound: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Pattern',
-    },
+    patterns: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Pattern',
+      },
+    ],
   },
   { timestamps: true }
 );

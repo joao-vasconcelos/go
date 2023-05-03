@@ -6,7 +6,7 @@
 /* * */
 /* A. Default Values */
 export const Default = {
+  parent_line: null,
   route_name: '',
-  inbound: null,
-  outbound: null,
+  patterns: [],
 };

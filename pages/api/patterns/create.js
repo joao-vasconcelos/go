@@ -1,14 +1,14 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { Default as RouteDefault } from '../../../schemas/Route/default';
-import { Model as RouteModel } from '../../../schemas/Route/model';
+import { Default as PatternDefault } from '../../../schemas/Pattern/default';
+import { Model as PatternModel } from '../../../schemas/Pattern/model';
 
 /* * */
-/* CREATE ROUTE */
+/* CREATE PATTERN */
 /* Explanation needed. */
 /* * */
 
-export default async function routesCreate(req, res) {
+export default async function patternsCreate(req, res) {
   //
   await delay();
 
@@ -37,11 +37,11 @@ export default async function routesCreate(req, res) {
 
   // 2. Try to save a new document with req.body
   try {
-    const newRoute = { ...RouteDefault, parent_line: req.body.parent_line };
-    const createdDocument = await RouteModel(newRoute).save();
+    const newPattern = { ...PatternDefault, parent_route: req.body.parent_route, direction_code: req.body.direction_code };
+    const createdDocument = await PatternModel(newPattern).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot create this Route.' });
+    return await res.status(500).json({ message: 'Cannot create this Pattern.' });
   }
 }

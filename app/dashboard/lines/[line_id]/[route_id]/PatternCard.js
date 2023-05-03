@@ -1,9 +1,8 @@
 'use client';
 
-import useSWR from 'swr';
 import { styled } from '@stitches/react';
-import { TbArrowMoveRight, TbArrowMoveLeft, TbChevronRight, TbAlertTriangleFilled } from 'react-icons/tb';
-import { Skeleton } from '@mantine/core';
+import { Draggable } from '@hello-pangea/dnd';
+import { TbArrowMoveRight, TbArrowMoveLeft, TbChevronRight, TbChevronUp, TbChevronDown } from 'react-icons/tb';
 
 const Container = styled('div', {
   display: 'flex',
@@ -91,62 +90,31 @@ const Subtitle = styled(Text, {
   lineHeight: '1',
 });
 
-export default function PatternCard({ pattern_id, direction, onOpen }) {
+export default function PatternCard({ index, pattern_id, headsign, onOpen }) {
   //
-
-  //
-  // A. Setup variables
-
-  //
-  // B. Fetch data
-
-  const { data: patternData, error: patternError, isLoading: patternLoading } = useSWR(pattern_id && `/api/patterns/${pattern_id}`);
 
   //
   // E. Render components
 
-  const WhenLoading = () => (
-    <Container>
-      <Toolbar>
-        <DirectionIcon>{direction > 0 ? <TbArrowMoveRight size='30px' /> : <TbArrowMoveLeft size='30px' />}</DirectionIcon>
-      </Toolbar>
-      <Wrapper>
-        <Skeleton height={20} width='30%' radius='sm' />
-        <Skeleton height={25} width='100%' radius='sm' />
-      </Wrapper>
-    </Container>
+  return (
+    <Draggable draggableId={index.toString()} index={index}>
+      {(provided) => (
+        <Container ref={provided.innerRef} {...provided.draggableProps} clickable>
+          <Toolbar {...provided.dragHandleProps}>
+            <TbChevronUp size='20px' />
+            <TbChevronDown size='20px' />
+          </Toolbar>
+          <Wrapper onClick={() => onOpen(pattern_id)}>
+            <Subtitle>{index === 0 ? 'Inbound' : 'Outbound'}</Subtitle>
+            <Title isUntitled={!headsign}>{headsign ? headsign : 'Pattern sem headsign'}</Title>
+          </Wrapper>
+          <Toolbar>
+            <TbChevronRight size='20px' />
+          </Toolbar>
+        </Container>
+      )}
+    </Draggable>
   );
-
-  const WhenError = () => (
-    <Container>
-      <Toolbar>
-        <TbAlertTriangleFilled size='20px' />
-      </Toolbar>
-      <Wrapper>
-        <Title>Ocorreu um erro</Title>
-        <Subtitle>{patternError && patternError.message ? patternError.message : 'Não foi possível carregar este pattern.'}</Subtitle>
-      </Wrapper>
-    </Container>
-  );
-
-  const WhenLoaded = () => (
-    <Container clickable>
-      <Toolbar>
-        <DirectionIcon>{direction > 0 ? <TbArrowMoveRight size='30px' /> : <TbArrowMoveLeft size='30px' />}</DirectionIcon>
-      </Toolbar>
-      <Wrapper>
-        <Subtitle>{direction > 0 ? 'Outbound' : 'Inbound'}</Subtitle>
-        <Title isUntitled={!patternData.headsign}>{patternData.headsign ? patternData.headsign : 'Pattern sem Headsign'}</Title>
-      </Wrapper>
-      <Toolbar>
-        <TbChevronRight size='20px' />
-      </Toolbar>
-    </Container>
-  );
-
-  if (patternLoading) return <WhenLoading />;
-  else if (patternError) return <WhenError />;
-  else if (patternData) return <WhenLoaded />;
 
   //
 }

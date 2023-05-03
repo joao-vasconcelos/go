@@ -25,13 +25,12 @@ const Container = styled('div', {
   variants: {
     selected: {
       true: {
-        cursor: 'default',
         backgroundColor: '$gray3',
         '&:hover': {
-          backgroundColor: '$gray3',
+          backgroundColor: '$gray4',
         },
         '&:active': {
-          backgroundColor: '$gray3',
+          backgroundColor: '$gray5',
         },
       },
     },

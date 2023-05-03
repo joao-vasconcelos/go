@@ -1,6 +1,7 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
 import { Model as RouteModel } from '../../../../schemas/Route/model';
+import { Model as PatternModel } from '../../../../schemas/Pattern/model';
 
 /* * */
 /* GET ROUTE BY ID */
@@ -29,7 +30,7 @@ export default async function routesGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await RouteModel.findOne({ _id: req.query._id });
+    const foundDocument = await RouteModel.findOne({ _id: req.query._id }).populate('patterns');
     if (!foundDocument) return await res.status(404).json({ message: `Route with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {

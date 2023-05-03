@@ -1,13 +1,13 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
-import { Model as LineModel } from '../../../schemas/Line/model';
+import { Model as PatternModel } from '../../../schemas/Pattern/model';
 
 /* * */
-/* LIST ALL LINES */
-/* This endpoint returns all lines. */
+/* LIST ALL PATTERNS */
+/* This endpoint returns all patterns. */
 /* * */
 
-export default async function linesList(req, res) {
+export default async function patternsList(req, res) {
   //
   await delay();
 
@@ -27,10 +27,10 @@ export default async function linesList(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await LineModel.find({});
+    const allDocuments = await PatternModel.find({});
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list Lines.' });
+    return await res.status(500).json({ message: 'Cannot list Patterns.' });
   }
 }

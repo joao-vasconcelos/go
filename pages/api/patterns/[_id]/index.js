@@ -1,14 +1,13 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model as LineModel } from '../../../../schemas/Line/model';
-import { Model as RouteModel } from '../../../../schemas/Route/model';
+import { Model as PatternModel } from '../../../../schemas/Pattern/model';
 
 /* * */
-/* GET LINE BY ID */
+/* GET PATTERN BY ID */
 /* Explanation needed. */
 /* * */
 
-export default async function linesGet(req, res) {
+export default async function patternsGet(req, res) {
   //
   await delay();
 
@@ -30,11 +29,11 @@ export default async function linesGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await LineModel.findOne({ _id: req.query._id }).populate('routes');
-    if (!foundDocument) return await res.status(404).json({ message: `Line with _id: ${req.query._id} not found.` });
+    const foundDocument = await PatternModel.findOne({ _id: req.query._id });
+    if (!foundDocument) return await res.status(404).json({ message: `Pattern with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot fetch this Line.' });
+    return await res.status(500).json({ message: 'Cannot fetch this Pattern.' });
   }
 }

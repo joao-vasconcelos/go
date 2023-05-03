@@ -1,10 +1,8 @@
 'use client';
 
-import useSWR from 'swr';
 import { styled } from '@stitches/react';
 import { Draggable } from '@hello-pangea/dnd';
-import { TbChevronUp, TbChevronDown, TbChevronRight, TbAlertTriangleFilled } from 'react-icons/tb';
-import { Skeleton } from '@mantine/core';
+import { TbChevronUp, TbChevronDown, TbChevronRight } from 'react-icons/tb';
 
 const Container = styled('div', {
   display: 'flex',
@@ -84,54 +82,13 @@ const Subtitle = styled(Text, {
   lineHeight: '1',
 });
 
-export default function RouteCard({ line_code, route_id, index, onOpen, route_code, route_name }) {
+export default function RouteCard({ index, onOpen, line_code, route_id, route_name }) {
   //
-
-  //
-  // A. Setup variables
-
-  //
-  // B. Fetch data
-
-  const { data: routeData, error: routeError, isLoading: routeLoading, isValidating: routeValidating, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
 
   //
   // E. Render components
 
-  const whenLoading = (
-    <Draggable draggableId={index.toString()} index={index}>
-      {(provided) => (
-        <Container ref={provided.innerRef} {...provided.draggableProps}>
-          <Toolbar {...provided.dragHandleProps}>
-            <TbChevronUp size='20px' />
-            <TbChevronDown size='20px' />
-          </Toolbar>
-          <Wrapper>
-            <Skeleton height={20} width='30%' radius='sm' />
-            <Skeleton height={25} width='100%' radius='sm' />
-          </Wrapper>
-        </Container>
-      )}
-    </Draggable>
-  );
-
-  const whenError = (
-    <Draggable draggableId={index.toString()} index={index}>
-      {(provided) => (
-        <Container ref={provided.innerRef} {...provided.draggableProps}>
-          <Toolbar {...provided.dragHandleProps}>
-            <TbAlertTriangleFilled size='20px' />
-          </Toolbar>
-          <Wrapper>
-            <Title>Ocorreu um erro</Title>
-            <Subtitle>{routeError && routeError.message ? routeError.message : 'Não foi possível carregar esta rota.'}</Subtitle>
-          </Wrapper>
-        </Container>
-      )}
-    </Draggable>
-  );
-
-  const whenLoaded = (
+  return (
     <Draggable draggableId={index.toString()} index={index}>
       {(provided) => (
         <Container ref={provided.innerRef} {...provided.draggableProps} clickable>
@@ -139,11 +96,11 @@ export default function RouteCard({ line_code, route_id, index, onOpen, route_co
             <TbChevronUp size='20px' />
             <TbChevronDown size='20px' />
           </Toolbar>
-          <Wrapper onClick={() => onOpen(index)}>
+          <Wrapper onClick={() => onOpen(route_id)}>
             <Subtitle>
               {line_code}_{index}
             </Subtitle>
-            <Title isUntitled={!routeData.route_name}>{routeData.route_name ? routeData.route_name : 'Rota Sem Nome'}</Title>
+            <Title isUntitled={!route_name}>{route_name ? route_name : 'Rota Sem Nome'}</Title>
           </Wrapper>
           <Toolbar>
             <TbChevronRight size='20px' />
@@ -152,10 +109,6 @@ export default function RouteCard({ line_code, route_id, index, onOpen, route_co
       )}
     </Draggable>
   );
-
-  if (routeLoading) return whenLoading;
-  else if (routeError) return whenError;
-  else if (routeData) return whenLoaded;
 
   //
 }

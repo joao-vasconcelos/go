@@ -1,15 +1,14 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Validation as LineValidation } from '../../../../schemas/Line/validation';
-import { Model as LineModel } from '../../../../schemas/Line/model';
-import { Model as RouteModel } from '../../../../schemas/Route/model';
+import { Validation as PatternValidation } from '../../../../schemas/Pattern/validation';
+import { Model as PatternModel } from '../../../../schemas/Pattern/model';
 
 /* * */
-/* EDIT LINE */
+/* EDIT PATTERN */
 /* Explanation needed. */
 /* * */
 
-export default async function linesEdit(req, res) {
+export default async function patternsEdit(req, res) {
   //
   await delay();
 
@@ -30,7 +29,7 @@ export default async function linesEdit(req, res) {
 
   // 2. Validate req.body against schema
   try {
-    req.body = LineValidation.cast(req.body);
+    req.body = PatternValidation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
@@ -46,10 +45,10 @@ export default async function linesEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['line_code'].
-    const foundDocumentWithLineId = await LineModel.exists({ line_code: req.body.line_code });
-    if (foundDocumentWithLineId && foundDocumentWithLineId._id != req.query._id) {
-      throw new Error('Uma Linha com o mesmo Código já existe.');
+    // The values that need to be unique are ['_id'].
+    const foundDocumentWithPatternId = await PatternModel.exists({ _id: req.query._id });
+    if (foundDocumentWithPatternId && foundDocumentWithPatternId._id != req.query._id) {
+      throw new Error('Um Pattern com o mesmo Código já existe.');
     }
   } catch (err) {
     console.log(err);
@@ -58,13 +57,11 @@ export default async function linesEdit(req, res) {
 
   // 2. Try to update the correct document
   try {
-    const editedDocument = await LineModel.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
-    if (!editedDocument) return await res.status(404).json({ message: `Line with _id: ${req.query._id} not found.` });
+    const editedDocument = await PatternModel.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
+    if (!editedDocument) return await res.status(404).json({ message: `Pattern with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot update this Line.' });
+    return await res.status(500).json({ message: 'Cannot update this Pattern.' });
   }
-
-  //
 }

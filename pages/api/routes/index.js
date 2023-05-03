@@ -3,7 +3,7 @@ import mongodb from '../../../services/mongodb';
 import { Model as RouteModel } from '../../../schemas/Route/model';
 
 /* * */
-/* LIST ALL AGENCIES */
+/* LIST ALL ROUTES */
 /* This endpoint returns all routes. */
 /* * */
 
