@@ -27,29 +27,27 @@ export const Schema = new mongoose.Schema(
     },
     path: [
       {
-        stop: {
+        stop_id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Stop',
         },
-        pickup_type: {
-          type: String,
-          maxlength: 6,
+        allow_pickup: {
+          type: Boolean,
         },
-        drop_off_type: {
-          type: String,
-          maxlength: 6,
+        allow_drop_off: {
+          type: Boolean,
         },
         distance_delta: {
-          type: String,
-          maxlength: 6,
+          type: Number,
         },
-        default_time_delta: {
-          type: String,
-          maxlength: 6,
+        default_velocity: {
+          type: Number,
+        },
+        default_travel_time: {
+          type: Number,
         },
         default_dwell_time: {
-          type: String,
-          maxlength: 6,
+          type: Number,
         },
         apex: [
           {

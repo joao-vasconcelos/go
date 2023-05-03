@@ -18,6 +18,7 @@ import { openConfirmModal } from '@mantine/modals';
 import Line from '../../../../../../components/line/Line';
 import StopSequenceCard from './StopSequenceCard';
 import StopSequenceTable from './StopSequenceTable';
+import getStopsDistance from '../../../../../../services/getStopsDistance';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
@@ -68,6 +69,7 @@ export default function Page() {
   });
 
   const keepFormUpdated = (data) => {
+    // getStopsDistance();
     if (!form.isDirty()) {
       form.setValues(data);
       form.resetDirty(data);
@@ -126,21 +128,11 @@ export default function Page() {
   };
 
   const handleCreateStopSequence = async () => {
-    // try {
-    //   setIsCreatingStopSequence(true);
-    //   notify('new-pattern', 'loading', 'A criar Pattern...');
-    //   const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { parent_route: route_id } });
-    form.insertListItem('path', {});
-    //   notify('new-pattern', 'success', 'Pattern criado com sucesso.');
-    //   setIsCreatingStopSequence(false);
-    // } catch (err) {
-    //   setIsCreatingStopSequence(false);
-    //   console.log(err);
-    //   notify('new-pattern', 'error', err.message);
-    // }
+    form.insertListItem('path', PatternDefault.path[0]);
   };
 
-  const handleStopSequenceReorder = async ({ destination, source }) => {
+  const handleStopSequenceReorder = async ({ source, destination }) => {
+    if (source.index === destination.index) return;
     openConfirmModal({
       title: (
         <Text size={'lg'} fw={700}>
@@ -155,8 +147,53 @@ export default function Page() {
       onConfirm: async () => {
         // Perform reorder on confirm
         form.reorderListItem('path', { from: source.index, to: destination.index });
+        // Reset values of first stop to zero
+        // form.setValues('path.0.distance_delta', 0);
+        // form.setValues('path.0.default_velocity', 0);
       },
     });
+  };
+
+  const handleDeleteSequenceRow = async (index) => {
+    openConfirmModal({
+      title: (
+        <Text size={'lg'} fw={700}>
+          Eliminar paragem da sequência?
+        </Text>
+      ),
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text>Atenção que ao re-ordenar as paragens pode causar erros no cálculo das distâncias, etc. Tem a certeza que pretende re-ordenar a sequência de paragens?</Text>,
+      labels: { confirm: 'Sim, eliminar paragem', cancel: 'Manter como está' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        // Perform delete on confirm
+        form.removeListItem('path', index);
+      },
+    });
+  };
+
+  const handleCalculateStopDistances = () => {
+    console.log(patternData.path);
+    return;
+
+    for (let index = 0; index < form.values.path.length; index++) {
+      //
+      // Skip the first iteration
+      if (index === 0) {
+        // The first stop is zero
+        form.setFieldValue(`path.${index}.distance_delta`, 0);
+        continue;
+        //
+      }
+
+      // Get the two stops
+      const stopSequencePrev = form.values.path[index - 1];
+      const stopSequenceCurrent = form.values.path[index];
+    }
+
+    getStopsDistance();
+    console.log('calculate stop distances');
   };
 
   //   const handleOpenStopSequence = (pattern_id) => {
@@ -212,6 +249,7 @@ export default function Page() {
               searchable
               nothingFound='Sem opções'
               w={'100%'}
+              {...form.getInputProps('shape')}
               data={
                 shapesData
                   ? shapesData.map((item) => {
@@ -226,17 +264,12 @@ export default function Page() {
         <Section>
           <SectionTitle>Paragens</SectionTitle>
           <SimpleGrid cols={1}>
-            {/* <DragDropContext onDragEnd={handleStopSequenceReorder}>
-              <Droppable droppableId='droppable'>
-                {(provided) => (
-                  <div {...provided.droppableProps} ref={provided.innerRef}> */}
-            <StopSequenceTable form={form} onReorder={handleStopSequenceReorder} />
-            {/* </div>
-                )}
-              </Droppable>
-            </DragDropContext> */}
+            <StopSequenceTable form={form} onReorder={handleStopSequenceReorder} onDelete={handleDeleteSequenceRow} />
             <Button onClick={handleCreateStopSequence} loading={isCreatingStopSequence}>
               Add Stop to Sequence
+            </Button>
+            <Button onClick={handleCalculateStopDistances} disabled={isCreatingStopSequence} variant='light'>
+              Calcular distâncias entre paragens
             </Button>
           </SimpleGrid>
         </Section>
