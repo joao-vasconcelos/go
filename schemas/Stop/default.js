@@ -12,13 +12,13 @@ export const Default = {
   stop_name: '',
   stop_short_name: '',
   tts_stop_name: '',
-  stop_lat: '',
-  stop_lon: '',
+  stop_lat: 0,
+  stop_lon: 0,
   location_type: '',
   platform_code: '',
   parent_station: '',
   stop_url: '',
-  public_visible: false,
+  public_visible: true,
 
   // Operation
   stop_area_1: false,
@@ -38,16 +38,16 @@ export const Default = {
   stepp_id: '',
 
   // Infrastructure
-  has_pole: '',
+  has_pole: 0,
   pole_material: '',
-  has_shelter: '',
+  has_shelter: 0,
   shelter_code: '',
   shelter_maintainer: '',
-  has_mupi: '',
-  has_bench: '',
-  has_trash_bin: '',
-  has_lighting: '',
-  has_electricity: '',
+  has_mupi: 0,
+  has_bench: 0,
+  has_trash_bin: 0,
+  has_lighting: 0,
+  has_electricity: 0,
   docking_bay_type: '',
   last_infrastructure_maintenance: '',
   last_infrastructure_check: '',
@@ -91,15 +91,17 @@ export const Default = {
   near_transit_office: false,
 
   // Intermodal Connections
-  light_rail: false,
   subway: false,
+  light_rail: false,
   train: false,
   boat: false,
   airport: false,
   bike_sharing: false,
   bike_parking: false,
   car_parking: false,
-  stop_remarks: false,
+
+  // Comments
+  stop_remarks: '',
 
   //
 };

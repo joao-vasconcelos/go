@@ -179,7 +179,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
     } else if (timeInSeconds < 3600) {
       const minutes = Math.floor(timeInSeconds / 60);
       const seconds = timeInSeconds % 60;
-      return `${minutes}m:${seconds}s`;
+      return `${minutes} min ${seconds} seg`;
     } else {
       const hours = Math.floor(timeInSeconds / 3600);
       const minutes = Math.floor((timeInSeconds % 3600) / 60);
@@ -224,6 +224,24 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
     </TableHeader>
   );
 
+  const StopSequenceSubHeader = () => (
+    <TableHeader>
+      <TableCellHeader />
+      <TableCellHeader />
+      <TableCellHeader />
+      <TableCellHeader />
+      <TableCellHeader />
+      <TableCellHeader />
+      <TableCellHeader />
+      <TableCellHeader>AVG Vel Med</TableCellHeader>
+      <TableCellHeader />
+      <TableCellHeader>temp total est</TableCellHeader>
+      <TableCellHeader>tempo total parado</TableCellHeader>
+      <TableCellHeader />
+      <TableCellHeader />
+    </TableHeader>
+  );
+
   const StopSequenceRow = () => <div></div>;
 
   return (
@@ -233,6 +251,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
           <div {...provided.droppableProps} ref={provided.innerRef}>
             <TableContainer>
               <StopSequenceHeader />
+              <StopSequenceSubHeader />
               <TableBody>
                 {form.values.path.length > 0 ? (
                   form.values.path.map((item, index) => (
@@ -256,7 +275,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                               data={
                                 stopsData
                                   ? stopsData.map((item) => {
-                                      return { value: item._id, label: `${item.stop_name || 'Stop sem Nome'} (${item.stop_code})` };
+                                      return { value: item._id, label: `[${item.stop_code}] ${item.stop_name || 'Stop sem Nome'}` };
                                     })
                                   : []
                               }
@@ -300,7 +319,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                 placeholder='default_travel_time'
                                 defaultValue={20}
                                 min={0}
-                                step={10}
+                                step={5}
                                 stepHoldDelay={500}
                                 stepHoldInterval={100}
                                 formatter={(value) => `${value} km/h`}

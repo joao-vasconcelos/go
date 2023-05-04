@@ -37,7 +37,7 @@ export default async function shapesImport(req, res) {
 
   // 2. Try to update the correct document. If it does not exist, create it
   try {
-    const importedDocument = await ShapeModel.findOneAndReplace({ shape_code: req.body.shape_code }, req.body, { new: true, upsert: true });
+    const importedDocument = await ShapeModel.findOneAndUpdate({ shape_code: req.body.shape_code }, req.body, { new: true, upsert: true });
     if (!importedDocument) return await res.status(500).json({ message: `Shape with shape_code: ${req.body.shape_code} was not imported.` });
     return await res.status(200).json(importedDocument);
   } catch (err) {

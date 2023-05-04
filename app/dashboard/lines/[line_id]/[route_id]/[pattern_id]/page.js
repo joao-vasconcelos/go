@@ -19,6 +19,7 @@ import Line from '../../../../../../components/line/Line';
 import StopSequenceCard from './StopSequenceCard';
 import StopSequenceTable from './StopSequenceTable';
 import getStopsDistance from '../../../../../../services/getStopsDistance';
+import calculateDistanceBetweenStops from '../../../../../../services/calculateDistanceBetweenStops';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
@@ -173,9 +174,14 @@ export default function Page() {
     });
   };
 
-  const handleCalculateStopDistances = () => {
-    console.log(patternData.path);
-    return;
+  const handleCalculateStopDistances = async () => {
+    //
+
+    // console.log(patternData.path);
+    // return;
+
+    const patternShape = await API({ service: 'shapes', resourceId: form.values.shape, method: 'GET' });
+    const patternShapeCoordinates = patternShape.geojson.geometry.coordinates;
 
     for (let index = 0; index < form.values.path.length; index++) {
       //
@@ -190,9 +196,24 @@ export default function Page() {
       // Get the two stops
       const stopSequencePrev = form.values.path[index - 1];
       const stopSequenceCurrent = form.values.path[index];
+
+      const stopPrev = await API({ service: 'stops', resourceId: stopSequencePrev.stop_id, method: 'GET' });
+      const stopCurrent = await API({ service: 'stops', resourceId: stopSequenceCurrent.stop_id, method: 'GET' });
+
+      const stopPrevCoordinates = [stopPrev.stop_lat, stopPrev.stop_lon];
+      const stopCurrentCoordinates = [stopCurrent.stop_lat, stopCurrent.stop_lon];
+
+      console.log('stopPrevCoordinates', stopPrevCoordinates);
+      console.log('stopCurrentCoordinates', stopCurrentCoordinates);
+
+      const distance = calculateDistanceBetweenStops(stopPrevCoordinates, stopCurrentCoordinates, patternShapeCoordinates);
+
+      form.setFieldValue(`path.${index}.distance_delta`, distance);
+
+      console.log('distance', distance);
     }
 
-    getStopsDistance();
+    // getStopsDistance();
     console.log('calculate stop distances');
   };
 
@@ -253,7 +274,7 @@ export default function Page() {
               data={
                 shapesData
                   ? shapesData.map((item) => {
-                      return { value: item._id, label: item.shape_name || 'Shape sem Nome' };
+                      return { value: item._id, label: `[${item.shape_code}] ${item.shape_name || 'Shape sem Nome'}` };
                     })
                   : []
               }
@@ -263,13 +284,13 @@ export default function Page() {
         <Divider />
         <Section>
           <SectionTitle>Paragens</SectionTitle>
+          <Button onClick={handleCalculateStopDistances} disabled={isCreatingStopSequence} variant='light'>
+            Calcular distâncias entre paragens
+          </Button>
           <SimpleGrid cols={1}>
             <StopSequenceTable form={form} onReorder={handleStopSequenceReorder} onDelete={handleDeleteSequenceRow} />
             <Button onClick={handleCreateStopSequence} loading={isCreatingStopSequence}>
               Add Stop to Sequence
-            </Button>
-            <Button onClick={handleCalculateStopDistances} disabled={isCreatingStopSequence} variant='light'>
-              Calcular distâncias entre paragens
             </Button>
           </SimpleGrid>
         </Section>

@@ -29,12 +29,12 @@ export const Schema = new mongoose.Schema(
       maxlength: 100,
     },
     stop_lat: {
-      type: String,
-      maxlength: 100,
+      type: Number,
+      required: true,
     },
     stop_lon: {
-      type: String,
-      maxlength: 100,
+      type: Number,
+      required: true,
     },
     location_type: {
       type: String,
@@ -110,16 +110,14 @@ export const Schema = new mongoose.Schema(
 
     // Infrastructure
     has_pole: {
-      type: String,
-      maxlength: 100,
+      type: Number,
     },
     pole_material: {
       type: String,
       maxlength: 100,
     },
     has_shelter: {
-      type: String,
-      maxlength: 100,
+      type: Number,
     },
     shelter_code: {
       type: String,
@@ -130,28 +128,22 @@ export const Schema = new mongoose.Schema(
       maxlength: 100,
     },
     has_mupi: {
-      type: String,
-      maxlength: 100,
+      type: Number,
     },
     has_bench: {
-      type: String,
-      maxlength: 100,
+      type: Number,
     },
     has_trash_bin: {
-      type: String,
-      maxlength: 100,
+      type: Number,
     },
     has_lighting: {
-      type: String,
-      maxlength: 100,
+      type: Number,
     },
     has_electricity: {
-      type: String,
-      maxlength: 100,
+      type: Number,
     },
     docking_bay_type: {
-      type: String,
-      maxlength: 100,
+      type: Number,
     },
     last_infrastructure_maintenance: {
       type: String,
@@ -288,10 +280,10 @@ export const Schema = new mongoose.Schema(
     },
 
     // Intermodal Connections
-    light_rail: {
+    subway: {
       type: Boolean,
     },
-    subway: {
+    light_rail: {
       type: Boolean,
     },
     train: {
@@ -312,8 +304,11 @@ export const Schema = new mongoose.Schema(
     car_parking: {
       type: Boolean,
     },
+
+    // Comments
     stop_remarks: {
-      type: Boolean,
+      type: String,
+      maxlength: 10000,
     },
 
     //

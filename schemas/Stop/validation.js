@@ -14,8 +14,8 @@ export const Validation = yup.object({
   stop_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   stop_short_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   tts_stop_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  stop_lat: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  stop_lon: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
+  stop_lat: yup.number().default(0).required(),
+  stop_lon: yup.number().default(0).required(),
   location_type: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   platform_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   parent_station: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
@@ -40,9 +40,9 @@ export const Validation = yup.object({
   stepp_id: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
 
   // Infrastructure
-  has_pole: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
+  has_pole: yup.number().required(),
   pole_material: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  has_shelter: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
+  has_shelter: yup.number().required(),
   shelter_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   shelter_maintainer: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   has_mupi: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
@@ -101,7 +101,9 @@ export const Validation = yup.object({
   bike_sharing: yup.boolean(),
   bike_parking: yup.boolean(),
   car_parking: yup.boolean(),
-  stop_remarks: yup.boolean(),
+
+  // Comments
+  stop_remarks: yup.string().max(10000, 'Field_ deve ter apenas ${max} caracteres.'),
 
   //
 });
