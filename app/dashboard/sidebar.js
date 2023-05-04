@@ -3,7 +3,7 @@ import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { styled } from '@stitches/react';
 import { Tooltip, ActionIcon } from '@mantine/core';
-import { TbChartPie, TbFileZip, TbBusStop, TbBuildingCommunity, TbShape2, TbCoins, TbCalendarDue, TbLiveView, TbLogin, TbArrowLoopRight, TbUsers } from 'react-icons/tb';
+import { TbChartPie, TbFileZip, TbBusStop, TbBuildingCommunity, TbShape2, TbCoins, TbCalendarDue, TbLiveView, TbLogin, TbArrowLoopRight, TbUsers, TbAlertTriangle } from 'react-icons/tb';
 
 const Container = styled('div', {
   width: '100%',
@@ -93,7 +93,8 @@ export default function Component() {
     { href: 'fares', label: 'Tarifários', icon: <TbCoins /> },
     { href: 'agencies', label: 'Agências', icon: <TbBuildingCommunity /> },
     { href: 'export', label: 'Exportar GTFS', icon: <TbFileZip /> },
-    { href: 'realtime', label: 'Tempo Real', icon: <TbLiveView />, disabled: true },
+    // { href: 'alerts', label: 'Alertas', icon: <TbAlertTriangle />, disabled: true },
+    // { href: 'realtime', label: 'Tempo Real', icon: <TbLiveView />, disabled: true },
     { href: 'users', label: 'Utilizadores', icon: <TbUsers /> },
   ];
 
