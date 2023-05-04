@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { styled } from '@stitches/react';
 import { Select, ActionIcon, Flex, Checkbox, Badge, Tooltip, NumberInput, MultiSelect } from '@mantine/core';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { TbSortAscendingNumbers, TbX, TbArrowBarUp, TbClockPause, TbEqual, TbPlayerTrackNext, TbArrowBarToDown, TbArrowAutofitContent, TbTrash, TbChevronDown, TbClockHour4, TbChevronRight, TbGripVertical } from 'react-icons/tb';
+import { TbSortAscendingNumbers, TbX, TbArrowBarUp, TbClockPause, TbEqual, TbPlayerTrackNext, TbArrowBarToDown, TbArrowAutofitContent, TbTrash, TbChevronDown, TbClockHour4, TbChevronRight, TbGripVertical, TbSum } from 'react-icons/tb';
 
 const TableContainer = styled('div', {
   display: 'grid',
@@ -224,7 +224,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
     </TableHeader>
   );
 
-  const StopSequenceSubHeader = () => (
+  const StopSequenceFooter = () => (
     <TableHeader>
       <TableCellHeader />
       <TableCellHeader />
@@ -235,7 +235,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
       <TableCellHeader />
       <TableCellHeader>AVG Vel Med</TableCellHeader>
       <TableCellHeader />
-      <TableCellHeader>temp total est</TableCellHeader>
+      <TableCellHeader>∑ = sjnjds</TableCellHeader>
       <TableCellHeader>tempo total parado</TableCellHeader>
       <TableCellHeader />
       <TableCellHeader />
@@ -251,7 +251,6 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
           <div {...provided.droppableProps} ref={provided.innerRef}>
             <TableContainer>
               <StopSequenceHeader />
-              <StopSequenceSubHeader />
               <TableBody>
                 {form.values.path.length > 0 ? (
                   form.values.path.map((item, index) => (
@@ -395,6 +394,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                 )}
                 {provided.placeholder}
               </TableBody>
+              <StopSequenceFooter />
             </TableContainer>
           </div>
         )}

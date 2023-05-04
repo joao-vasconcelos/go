@@ -122,7 +122,7 @@ export default function Page() {
   const handlePlayPhoneticName = async () => {
     const synth = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance(form.values.tts_stop_name || '');
-    utterance.lang = 'en';
+    utterance.lang = 'pt';
     synth.speak(utterance);
   };
 

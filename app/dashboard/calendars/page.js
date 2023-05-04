@@ -1,20 +1,7 @@
 'use client';
 
-import { styled } from '@stitches/react';
-
-const Text = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
-  height: '100%',
-  fontSize: '20px',
-  fontWeight: 'bold',
-  textTransform: 'uppercase',
-  color: 'rgba(0,0,0,0.05)',
-  letterSpacing: '1px',
-});
+import NoDataLabel from '../../../components/NoDataLabel';
 
 export default function Page() {
-  return <Text>Nenhum Calendário Selecionado</Text>;
+  return <NoDataLabel fill text='Nenhum Calendário Selecionado' />;
 }
