@@ -7,6 +7,8 @@ import Header from './header';
 import Sidebar from './sidebar';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
+import { DatesProvider } from '@mantine/dates';
+import 'dayjs/locale/pt';
 
 const PageWrapper = styled('div', {
   position: 'fixed',
@@ -51,16 +53,18 @@ export default function Layout({ children, session }) {
   return (
     <SessionProvider session={session}>
       <SWRConfig value={swrOptions}>
-        <Notifications />
-        <ModalsProvider>
-          <PageWrapper>
-            <Header />
-            <Body>
-              <Sidebar />
-              <Content>{children}</Content>
-            </Body>
-          </PageWrapper>
-        </ModalsProvider>
+        <DatesProvider settings={{ locale: 'pt' }}>
+          <Notifications />
+          <ModalsProvider>
+            <PageWrapper>
+              <Header />
+              <Body>
+                <Sidebar />
+                <Content>{children}</Content>
+              </Body>
+            </PageWrapper>
+          </ModalsProvider>
+        </DatesProvider>
       </SWRConfig>
     </SessionProvider>
   );

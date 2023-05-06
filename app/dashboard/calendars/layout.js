@@ -79,6 +79,10 @@ export default function Layout({ children }) {
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
                   <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download calendar_dates.txt</Menu.Item>
+                  <Menu.Label>Dados Relacionados</Menu.Label>
+                  <Menu.Item icon={<TbArrowBarToDown size='20px' />} onClick={() => router.push('/dashboard/dates')}>
+                    Editar Datas
+                  </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>

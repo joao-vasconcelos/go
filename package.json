@@ -28,9 +28,9 @@
         "@vercel/analytics": "^1.0.1",
         "dayjs": "^1.11.7",
         "leaflet": "^1.9.3",
-        "mongodb": "^5.3.0",
+        "mongodb": "^5.4.0",
         "mongoose": "^7.1.0",
-        "next": "^13.3.4",
+        "next": "^13.4.1",
         "next-auth": "^4.22.1",
         "nodemailer": "^6.9.1",
         "papaparse": "^5.4.1",
@@ -44,7 +44,7 @@
     "devDependencies": {
         "@svgr/webpack": "^7.0.0",
         "eslint": "8.39.0",
-        "eslint-config-next": "^13.3.4",
+        "eslint-config-next": "^13.4.1",
         "typescript": "^5.0.4"
     }
 }
