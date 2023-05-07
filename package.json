@@ -1,10 +1,11 @@
 {
-    "name": "@carrismetropolitana/puppy",
+    "name": "@carrismetropolitana/go",
     "version": "2023.1.6",
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "next build",
+        "bump": "node bump-version.js",
+        "build": "npm run bump && next build",
         "start": "next start",
         "lint": "next lint"
     },
