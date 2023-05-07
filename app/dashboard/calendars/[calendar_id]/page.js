@@ -15,7 +15,7 @@ import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import HeaderTitle from '../../../../components/lists/HeaderTitle';
-import HorizontalCalendar from '../../../../components/HorizontalCalendar/horizontalCalendar';
+import HorizontalCalendar from '../../../../components/HorizontalCalendar/HorizontalCalendar';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
