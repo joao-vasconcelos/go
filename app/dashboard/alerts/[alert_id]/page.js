@@ -6,16 +6,15 @@ import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../services/API';
-import { Validation as CalendarValidation } from '../../../../schemas/Calendar/validation';
-import { Default as CalendarDefault } from '../../../../schemas/Calendar/default';
-import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect, Divider } from '@mantine/core';
+import { Validation as FareValidation } from '../../../../schemas/Fare/validation';
+import { Default as FareDefault } from '../../../../schemas/Fare/default';
+import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect } from '@mantine/core';
 import { TbTrash } from 'react-icons/tb';
 import Pannel from '../../../../layouts/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import HeaderTitle from '../../../../components/lists/HeaderTitle';
-import HorizontalCalendar from '../../../../components/HorizontalCalendar/horizontalCalendar';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
@@ -42,12 +41,12 @@ export default function Page() {
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
-  const { calendar_id } = useParams();
+  const { fare_id } = useParams();
 
   //
   // B. Fetch data
 
-  const { data: calendarData, error: calendarError, isLoading: calendarLoading } = useSWR(calendar_id && `/api/calendars/${calendar_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: fareData, error: fareError, isLoading: fareLoading } = useSWR(fare_id && `/api/fares/${fare_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: agenciesData } = useSWR('/api/agencies');
 
   //
@@ -57,8 +56,8 @@ export default function Page() {
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
-    validate: yupResolver(CalendarValidation),
-    initialValues: calendarData || CalendarDefault,
+    validate: yupResolver(FareValidation),
+    initialValues: fareData || FareDefault,
   });
 
   const keepFormUpdated = (data) => {
@@ -76,13 +75,13 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/calendars/`);
+    router.push(`/dashboard/fares/`);
   };
 
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      await API({ service: 'calendars', resourceId: calendar_id, operation: 'edit', method: 'PUT', body: form.values });
+      await API({ service: 'fares', resourceId: fare_id, operation: 'edit', method: 'PUT', body: form.values });
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -91,29 +90,29 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [calendar_id, form]);
+  }, [fare_id, form]);
 
   const handleDelete = async () => {
     openConfirmModal({
       title: (
         <Text size={'lg'} fw={700}>
-          Eliminar Calendário?
+          Eliminar Tarifário?
         </Text>
       ),
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar este Calendário para sempre?</Text>,
-      labels: { confirm: 'Eliminar Calendário', cancel: 'Não Eliminar' },
+      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar este Tarifário para sempre?</Text>,
+      labels: { confirm: 'Eliminar Tarifário', cancel: 'Não Eliminar' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(calendar_id, 'loading', 'A eliminar Calendário...');
-          await API({ service: 'calendars', resourceId: calendar_id, operation: 'delete', method: 'DELETE' });
-          router.push('/dashboard/calendars');
-          notify(calendar_id, 'success', 'Calendário eliminado!');
+          notify(fare_id, 'loading', 'A eliminar Tarifário...');
+          await API({ service: 'fares', resourceId: fare_id, operation: 'delete', method: 'DELETE' });
+          router.push('/dashboard/fares');
+          notify(fare_id, 'success', 'Tarifário eliminado!');
         } catch (err) {
           console.log(err);
-          notify(calendar_id, 'error', err.message || 'Occoreu um erro.');
+          notify(fare_id, 'error', err.message || 'Occoreu um erro.');
         }
       },
     });
@@ -124,22 +123,22 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={calendarLoading}
+      loading={fareLoading}
       header={
         <>
           <SaveButtons
             isValid={form.isValid()}
             isDirty={form.isDirty()}
-            isLoading={calendarLoading}
-            isErrorValidating={calendarError}
+            isLoading={fareLoading}
+            isErrorValidating={fareError}
             isSaving={isSaving}
             isErrorSaving={hasErrorSaving}
             onValidate={() => handleValidate()}
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <HeaderTitle text={form.values.calendar_long_name || 'Calendário Sem Nome'} />
-          <Tooltip label='Eliminar Calendário' color='red' position='bottom' withArrow>
+          <HeaderTitle text={form.values.fare_long_name || 'Tarifário Sem Nome'} />
+          <Tooltip label='Eliminar Tarifário' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
               <TbTrash size='20px' />
             </ActionIcon>
@@ -149,10 +148,40 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Configuração do Calendário</SectionTitle>
+          <SectionTitle>Configuração do Tarifário</SectionTitle>
+          <SimpleGrid cols={3}>
+            <TextInput label='Nome do Tarifário' placeholder='Tarifa 1' {...form.getInputProps('fare_long_name')} />
+            <TextInput label='Abreviatura' placeholder='1' {...form.getInputProps('fare_short_name')} />
+            <TextInput label='Código do Tarifário' placeholder='FARE_1' {...form.getInputProps('fare_code')} />
+          </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput label='Código do Calendário' placeholder='Codigo do Calendario' {...form.getInputProps('calendar_code')} />
-            <TextInput label='Nome do Calendário' placeholder='Nome' {...form.getInputProps('calendar_name')} />
+            <NumberInput label='Preço' placeholder='3.50' precision={2} step={0.05} min={0.0} {...form.getInputProps('price')} />
+            <Select label='Moeda' placeholder='EUR' searchable nothingFound='Sem opções' data={[{ value: 'EUR', label: 'Euro' }]} {...form.getInputProps('currency_type')} />
+          </SimpleGrid>
+          <SimpleGrid cols={2}>
+            <Select
+              label='Modalidade de Pagamento'
+              placeholder='Escolha uma opção'
+              searchable
+              nothingFound='Sem opções'
+              data={[
+                { value: '0', label: 'Pagamento a Bordo (navegante® a bordo)' },
+                { value: '1', label: 'Pré-pagamento (navegante® pré-pago, navegante®)' },
+              ]}
+              {...form.getInputProps('payment_method')}
+            />
+            <Select
+              label='Permite Transbordos'
+              placeholder='Sim / Não'
+              nothingFound='Sem opções'
+              data={[
+                { value: '0', label: 'Não, não são permitidos transbordos.' },
+                { value: '1', label: 'Sim, é permitido apenas 1 transbordo.' },
+                { value: '2', label: 'Sim, são permitidos apenas 2 transbordos.' },
+                { value: '', label: 'Sim, são permitidos transbordos ilimitados.' },
+              ]}
+              {...form.getInputProps('transfers')}
+            />
           </SimpleGrid>
           <SimpleGrid cols={1}>
             <MultiSelect
@@ -170,11 +199,6 @@ export default function Page() {
               {...form.getInputProps('agencies')}
             />
           </SimpleGrid>
-        </Section>
-        <Divider />
-        <Section>
-          <SectionTitle>Datas deste Calendário</SectionTitle>
-          <HorizontalCalendar datesData={form.values.dates} />
         </Section>
       </form>
     </Pannel>

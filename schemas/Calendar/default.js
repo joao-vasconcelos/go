@@ -9,4 +9,5 @@ export const Default = {
   calendar_code: '',
   calendar_name: '',
   agencies: [],
+  dates: [],
 };

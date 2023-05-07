@@ -10,8 +10,8 @@
     },
     "dependencies": {
         "@babel/core": "^7.21.8",
-        "@emotion/react": "^11.10.8",
-        "@emotion/server": "^11.10.0",
+        "@emotion/react": "^11.11.0",
+        "@emotion/server": "^11.11.0",
         "@hello-pangea/dnd": "^16.2.0",
         "@mantine/core": "^6.0.10",
         "@mantine/dates": "^6.0.10",
@@ -43,7 +43,7 @@
     },
     "devDependencies": {
         "@svgr/webpack": "^7.0.0",
-        "eslint": "8.39.0",
+        "eslint": "8.40.0",
         "eslint-config-next": "^13.4.1",
         "typescript": "^5.0.4"
     }

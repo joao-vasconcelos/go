@@ -10,15 +10,13 @@ import { Validation as PatternValidation } from '../../../../../../schemas/Patte
 import { Default as PatternDefault } from '../../../../../../schemas/Pattern/default';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text, Select } from '@mantine/core';
 import { TbExternalLink, TbTrash } from 'react-icons/tb';
-import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '../../../../../../layouts/Pannel';
 import SaveButtons from '../../../../../../components/SaveButtons';
 import notify from '../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import Line from '../../../../../../components/line/Line';
-import StopSequenceCard from './StopSequenceCard';
 import StopSequenceTable from './StopSequenceTable';
-import getStopsDistance from '../../../../../../services/getStopsDistance';
+import SchedulesTable from './SchedulesTable';
 import calculateDistanceBetweenStops from '../../../../../../services/calculateDistanceBetweenStops';
 
 const SectionTitle = styled('p', {
@@ -47,6 +45,7 @@ export default function Page() {
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
   const [isCreatingStopSequence, setIsCreatingStopSequence] = useState();
+  const [isCreatingSchedule, setIsCreatingSchedule] = useState();
 
   const { line_id, route_id, pattern_id } = useParams();
 
@@ -70,7 +69,6 @@ export default function Page() {
   });
 
   const keepFormUpdated = (data) => {
-    // getStopsDistance();
     if (!form.isDirty()) {
       form.setValues(data);
       form.resetDirty(data);
@@ -221,6 +219,29 @@ export default function Page() {
   //     router.push(`/dashboard/lines/${line_id}/${route_id}/${pattern_id}`);
   //   };
 
+  const handleCreateSchedule = async () => {
+    form.insertListItem('schedules', PatternDefault.schedules[0]);
+  };
+
+  const handleDeleteScheduleRow = async (index) => {
+    openConfirmModal({
+      title: (
+        <Text size={'lg'} fw={700}>
+          Eliminar horário?
+        </Text>
+      ),
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text>Tem a certeza que pretende eliminar este horário?</Text>,
+      labels: { confirm: 'Sim, eliminar horário', cancel: 'Manter como está' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        // Perform delete on confirm
+        form.removeListItem('schedules', index);
+      },
+    });
+  };
+
   //
   // E. Render components
 
@@ -295,6 +316,15 @@ export default function Page() {
           </SimpleGrid>
         </Section>
         <Divider />
+        <Section>
+          <SectionTitle>Horários</SectionTitle>
+          <SimpleGrid cols={1}>
+            <SchedulesTable form={form} onDelete={handleDeleteScheduleRow} />
+            <Button onClick={handleCreateSchedule} loading={isCreatingSchedule}>
+              Adicionar novo Horário
+            </Button>
+          </SimpleGrid>
+        </Section>
       </form>
     </Pannel>
   );

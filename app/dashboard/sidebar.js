@@ -3,7 +3,7 @@ import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { styled } from '@stitches/react';
 import { Tooltip, ActionIcon } from '@mantine/core';
-import { TbChartPie, TbFileZip, TbBusStop, TbBuildingCommunity, TbShape2, TbCoins, TbCalendarDue, TbLiveView, TbLogin, TbArrowLoopRight, TbUsers, TbAlertTriangle } from 'react-icons/tb';
+import { TbChartPie, TbFileZip, TbBusStop, TbBuildingCommunity, TbMessageChatbot, TbShape2, TbCoins, TbCalendarDue, TbLiveView, TbLogin, TbArrowLoopRight, TbUsers, TbAlertTriangle } from 'react-icons/tb';
 
 const Container = styled('div', {
   width: '100%',
@@ -15,6 +15,7 @@ const Container = styled('div', {
   backgroundColor: '$gray0',
   borderRight: '1px solid $gray3',
   boxShadow: '$xs',
+  zIndex: 999,
 });
 
 const NavWrapper = styled('div', {
@@ -86,14 +87,15 @@ export default function Component() {
 
   const links = [
     { href: 'statistics', label: 'Estatísticas', icon: <TbChartPie /> },
+    { href: 'alerts', label: 'Alertas', icon: <TbAlertTriangle /> },
     { href: 'stops', label: 'Paragens', icon: <TbBusStop /> },
     { href: 'lines', label: 'Linhas', icon: <TbArrowLoopRight /> },
     { href: 'calendars', label: 'Calendários', icon: <TbCalendarDue /> },
     { href: 'shapes', label: 'Shapes', icon: <TbShape2 /> },
     { href: 'fares', label: 'Tarifários', icon: <TbCoins /> },
     { href: 'agencies', label: 'Agências', icon: <TbBuildingCommunity /> },
+    { href: 'threads', label: 'Mensagenns', icon: <TbMessageChatbot /> },
     { href: 'export', label: 'Exportar GTFS', icon: <TbFileZip /> },
-    // { href: 'alerts', label: 'Alertas', icon: <TbAlertTriangle />, disabled: true },
     // { href: 'realtime', label: 'Tempo Real', icon: <TbLiveView />, disabled: true },
     { href: 'users', label: 'Utilizadores', icon: <TbUsers /> },
   ];

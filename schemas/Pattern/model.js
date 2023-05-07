@@ -52,7 +52,7 @@ export const Schema = new mongoose.Schema(
         apex: [
           {
             type: String,
-            maxlength: 6,
+            maxlength: 100,
           },
         ],
       },
@@ -61,15 +61,15 @@ export const Schema = new mongoose.Schema(
       {
         schedule_id: {
           type: String,
-          maxlength: 6,
+          maxlength: 100,
         },
         calendar_id: {
           type: String,
-          maxlength: 6,
+          maxlength: 100,
         },
         start_time: {
           type: String,
-          maxlength: 6,
+          maxlength: 100,
         },
         path_overrides: [
           {

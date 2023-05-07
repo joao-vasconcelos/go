@@ -24,6 +24,20 @@ export const Schema = new mongoose.Schema(
         ref: 'Agency',
       },
     ],
+    dates: [
+      {
+        date: {
+          type: String,
+          maxlength: 8,
+        },
+        period: {
+          type: Number,
+        },
+        holiday: {
+          type: Boolean,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

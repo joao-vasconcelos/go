@@ -22,5 +22,12 @@ export const Default = {
       apex: [],
     },
   ],
-  schedules: [],
+  schedules: [
+    {
+      schedule_id: '',
+      calendar_id: '',
+      start_time: '',
+      path_overrides: [],
+    },
+  ],
 };

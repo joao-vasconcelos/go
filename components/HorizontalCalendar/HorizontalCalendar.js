@@ -3,8 +3,6 @@
 import { styled } from '@stitches/react';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useDisclosure } from '@mantine/hooks';
 import DateCard from './dateCard';
 
 const TableContainer = styled('div', {
@@ -13,12 +11,11 @@ const TableContainer = styled('div', {
   gap: '1px',
   backgroundColor: '$gray0',
   overflow: 'scroll',
-  height: '100vh',
 });
 
 const TableRow = styled('div', {
   display: 'grid',
-  gridTemplateColumns: '200px repeat(42, 40px)',
+  gridTemplateColumns: '200px repeat(42, 30px)',
   alignItems: 'center',
   gap: '1px',
 });
@@ -47,15 +44,19 @@ const TableCell = styled('div', {
 const TableCellHeader = styled(TableCell, {
   minHeight: '25px',
   fontWeight: '$medium',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
+  fontSize: '11px',
 });
 
 const TableCellBody = styled(TableCell, {
-  minHeight: '40px',
+  minHeight: '30px',
   alignItems: 'center',
   justifyContent: 'center',
 });
 
-export default function HorizontalCalendar({ datesData }) {
+export default function HorizontalCalendar({ datesData, onUpdateDate, onDeleteDate }) {
   //
 
   //
@@ -141,53 +142,35 @@ export default function HorizontalCalendar({ datesData }) {
     //
   }, [datesData]);
 
-  const CalendarHeader = () => (
-    <TableHeader>
-      <TableCellHeader>Mês</TableCellHeader>
-      <TableCellHeader>Seg</TableCellHeader>
-      <TableCellHeader>Ter</TableCellHeader>
-      <TableCellHeader>Qua</TableCellHeader>
-      <TableCellHeader>Qui</TableCellHeader>
-      <TableCellHeader>Sex</TableCellHeader>
-      <TableCellHeader>Sab</TableCellHeader>
-      <TableCellHeader>Dom</TableCellHeader>
-      <TableCellHeader>Seg</TableCellHeader>
-      <TableCellHeader>Ter</TableCellHeader>
-      <TableCellHeader>Qua</TableCellHeader>
-      <TableCellHeader>Qui</TableCellHeader>
-      <TableCellHeader>Sex</TableCellHeader>
-      <TableCellHeader>Sab</TableCellHeader>
-      <TableCellHeader>Dom</TableCellHeader>
-      <TableCellHeader>Seg</TableCellHeader>
-      <TableCellHeader>Ter</TableCellHeader>
-      <TableCellHeader>Qua</TableCellHeader>
-      <TableCellHeader>Qui</TableCellHeader>
-      <TableCellHeader>Sex</TableCellHeader>
-      <TableCellHeader>Sab</TableCellHeader>
-      <TableCellHeader>Dom</TableCellHeader>
-      <TableCellHeader>Seg</TableCellHeader>
-      <TableCellHeader>Ter</TableCellHeader>
-      <TableCellHeader>Qua</TableCellHeader>
-      <TableCellHeader>Qui</TableCellHeader>
-      <TableCellHeader>Sex</TableCellHeader>
-      <TableCellHeader>Sab</TableCellHeader>
-      <TableCellHeader>Dom</TableCellHeader>
-      <TableCellHeader>Seg</TableCellHeader>
-      <TableCellHeader>Ter</TableCellHeader>
-      <TableCellHeader>Qua</TableCellHeader>
-      <TableCellHeader>Qui</TableCellHeader>
-      <TableCellHeader>Sex</TableCellHeader>
-      <TableCellHeader>Sab</TableCellHeader>
-      <TableCellHeader>Dom</TableCellHeader>
-      <TableCellHeader>Seg</TableCellHeader>
-      <TableCellHeader>Ter</TableCellHeader>
-      <TableCellHeader>Qua</TableCellHeader>
-      <TableCellHeader>Qui</TableCellHeader>
-      <TableCellHeader>Sex</TableCellHeader>
-      <TableCellHeader>Sab</TableCellHeader>
-      <TableCellHeader>Dom</TableCellHeader>
-    </TableHeader>
-  );
+  //
+  // D. Render components
+
+  const CalendarHeader = () => {
+    //
+
+    if (!allDatesFormatted) return <div>Loading</div>;
+
+    let longestArrayLength = 0;
+    for (let i = 0; i < allDatesFormatted.length; i++) {
+      if (allDatesFormatted[i].days.length > longestArrayLength) {
+        longestArrayLength = allDatesFormatted[i].days.length;
+      }
+    }
+
+    let headerCells = [];
+    while (headerCells.length < longestArrayLength) {
+      headerCells = [...headerCells, 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
+    }
+
+    return (
+      <TableHeader>
+        <TableCellHeader>Mês</TableCellHeader>
+        {headerCells.map((weekdayString, index) => (
+          <TableCellHeader key={index}>{weekdayString}</TableCellHeader>
+        ))}
+      </TableHeader>
+    );
+  };
 
   return (
     <TableContainer>

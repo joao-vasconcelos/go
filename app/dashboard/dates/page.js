@@ -12,10 +12,8 @@ import { TextInput, ActionIcon, Modal, SegmentedControl, Menu, Checkbox, Switch,
 import { DatePicker } from '@mantine/dates';
 import { TbCirclePlus, TbArrowBarToDown, TbDots } from 'react-icons/tb';
 import notify from '../../../services/notify';
-import NoDataLabel from '../../../components/NoDataLabel';
-import ErrorDisplay from '../../../components/ErrorDisplay';
 import FooterText from '../../../components/lists/FooterText';
-import HorizontalCalendar from './horizontalCalendar';
+import HorizontalCalendar from '../../../components/HorizontalCalendar/HorizontalCalendar';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -98,21 +96,12 @@ export default function Page() {
     }
   };
 
+  const handleUpdateDate = () => {};
+
+  const handleDeleteDate = () => {};
+
   //
   // D. Render components
-
-  const CustomDatePicker = ({ calendarType = 'multiple' }) => {
-    //
-    const defaultDate = new Date(2023, 0);
-
-    switch (calendarType) {
-      default:
-      case 'range':
-        return <DatePicker type='range' value={selectedDateRange} onChange={setSelectedDateRange} numberOfColumns={3} />;
-      case 'multiple':
-        return <DatePicker type='multiple' value={selectedDatesCollection} onChange={setSelectedDatesCollection} numberOfColumns={3} />;
-    }
-  };
 
   return (
     <Pannel
@@ -182,7 +171,7 @@ export default function Page() {
           </Button>
         </SimpleGrid>
       </Modal>
-      <HorizontalCalendar datesData={datesData} />
+      <HorizontalCalendar datesData={datesData} onUpdateDate={handleUpdateDate} onDeleteDate={handleDeleteDate} />
     </Pannel>
   );
 }

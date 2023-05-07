@@ -6,16 +6,15 @@ import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../services/API';
-import { Validation as CalendarValidation } from '../../../../schemas/Calendar/validation';
-import { Default as CalendarDefault } from '../../../../schemas/Calendar/default';
-import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect, Divider } from '@mantine/core';
+import { Validation as AgencyValidation } from '../../../../schemas/Agency/validation';
+import { Default as AgencyDefault } from '../../../../schemas/Agency/default';
+import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon, Text } from '@mantine/core';
 import { TbTrash } from 'react-icons/tb';
 import Pannel from '../../../../layouts/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import HeaderTitle from '../../../../components/lists/HeaderTitle';
-import HorizontalCalendar from '../../../../components/HorizontalCalendar/horizontalCalendar';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
@@ -42,13 +41,12 @@ export default function Page() {
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
-  const { calendar_id } = useParams();
+  const { agency_id } = useParams();
 
   //
   // B. Fetch data
 
-  const { data: calendarData, error: calendarError, isLoading: calendarLoading } = useSWR(calendar_id && `/api/calendars/${calendar_id}`, { onSuccess: (data) => keepFormUpdated(data) });
-  const { data: agenciesData } = useSWR('/api/agencies');
+  const { data: agencyData, error: agencyError, isLoading: agencyLoading } = useSWR(agency_id && `/api/agencies/${agency_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -57,8 +55,8 @@ export default function Page() {
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
-    validate: yupResolver(CalendarValidation),
-    initialValues: calendarData || CalendarDefault,
+    validate: yupResolver(AgencyValidation),
+    initialValues: agencyData || AgencyDefault,
   });
 
   const keepFormUpdated = (data) => {
@@ -76,13 +74,13 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/calendars/`);
+    router.push(`/dashboard/agencies/`);
   };
 
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      await API({ service: 'calendars', resourceId: calendar_id, operation: 'edit', method: 'PUT', body: form.values });
+      await API({ service: 'agencies', resourceId: agency_id, operation: 'edit', method: 'PUT', body: form.values });
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -91,29 +89,29 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [calendar_id, form]);
+  }, [agency_id, form]);
 
   const handleDelete = async () => {
     openConfirmModal({
       title: (
         <Text size={'lg'} fw={700}>
-          Eliminar Calendário?
+          Eliminar Agência?
         </Text>
       ),
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar este Calendário para sempre?</Text>,
-      labels: { confirm: 'Eliminar Calendário', cancel: 'Não Eliminar' },
+      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar esta Agência para sempre?</Text>,
+      labels: { confirm: 'Eliminar Agência', cancel: 'Não Eliminar' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(calendar_id, 'loading', 'A eliminar Calendário...');
-          await API({ service: 'calendars', resourceId: calendar_id, operation: 'delete', method: 'DELETE' });
-          router.push('/dashboard/calendars');
-          notify(calendar_id, 'success', 'Calendário eliminado!');
+          notify(agency_id, 'loading', 'A eliminar Agência...');
+          await API({ service: 'agencies', resourceId: agency_id, operation: 'delete', method: 'DELETE' });
+          router.push('/dashboard/agencies');
+          notify(agency_id, 'success', 'Agência eliminada!');
         } catch (err) {
           console.log(err);
-          notify(calendar_id, 'error', err.message || 'Occoreu um erro.');
+          notify(agency_id, 'error', err.message || 'Occoreu um erro.');
         }
       },
     });
@@ -124,22 +122,22 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={calendarLoading}
+      loading={agencyLoading}
       header={
         <>
           <SaveButtons
             isValid={form.isValid()}
             isDirty={form.isDirty()}
-            isLoading={calendarLoading}
-            isErrorValidating={calendarError}
+            isLoading={agencyLoading}
+            isErrorValidating={agencyError}
             isSaving={isSaving}
             isErrorSaving={hasErrorSaving}
             onValidate={() => handleValidate()}
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <HeaderTitle text={form.values.calendar_long_name || 'Calendário Sem Nome'} />
-          <Tooltip label='Eliminar Calendário' color='red' position='bottom' withArrow>
+          <HeaderTitle text={form.values.agency_name || 'Agência Sem Nome'} />
+          <Tooltip label='Eliminar Agência' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
               <TbTrash size='20px' />
             </ActionIcon>
@@ -149,32 +147,23 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Configuração do Calendário</SectionTitle>
-          <SimpleGrid cols={2}>
-            <TextInput label='Código do Calendário' placeholder='Codigo do Calendario' {...form.getInputProps('calendar_code')} />
-            <TextInput label='Nome do Calendário' placeholder='Nome' {...form.getInputProps('calendar_name')} />
-          </SimpleGrid>
+          <SectionTitle>Configuração da Agência</SectionTitle>
           <SimpleGrid cols={1}>
-            <MultiSelect
-              label='Agências'
-              placeholder='Agências relacionadas'
-              searchable
-              nothingFound='Sem opções'
-              data={
-                agenciesData
-                  ? agenciesData.map((item) => {
-                      return { value: item._id, label: item.agency_name || 'Agência Sem Nome' };
-                    })
-                  : []
-              }
-              {...form.getInputProps('agencies')}
-            />
+            <TextInput placeholder='Nome do Operador' label='Nome da Agência' {...form.getInputProps('agency_name')} />
           </SimpleGrid>
-        </Section>
-        <Divider />
-        <Section>
-          <SectionTitle>Datas deste Calendário</SectionTitle>
-          <HorizontalCalendar datesData={form.values.dates} />
+          <SimpleGrid cols={3}>
+            <TextInput placeholder='41' label='Código da Agência' {...form.getInputProps('agency_code')} />
+            <Select label='Idioma' placeholder='Idioma' searchable nothingFound='Sem opções' data={['Português (Portugal)']} {...form.getInputProps('agency_lang')} />
+            <Select label='Timezone' placeholder='Lisboa, Portugal' searchable nothingFound='Sem opções' data={['GMT:0 - Lisboa, Portugal']} {...form.getInputProps('agency_timezone')} />
+          </SimpleGrid>
+          <SimpleGrid cols={2}>
+            <TextInput placeholder='+351 912 345 678' label='Contacto Telefónico' {...form.getInputProps('agency_phone')} />
+            <TextInput placeholder='email@agencia.pt' label='Contacto Eletrónico' {...form.getInputProps('agency_email')} />
+          </SimpleGrid>
+          <SimpleGrid cols={2}>
+            <TextInput placeholder='https://...' label='Website Público' {...form.getInputProps('agency_url')} />
+            <TextInput placeholder='https://...' label='Website dos Tarifários' {...form.getInputProps('agency_fare_url')} />
+          </SimpleGrid>
         </Section>
       </form>
     </Pannel>

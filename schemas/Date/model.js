@@ -14,13 +14,10 @@ export const Schema = new mongoose.Schema(
       maxlength: 8,
       unique: true,
     },
-    period: {
+    default_period: {
       type: Number,
     },
-    weekday_type: {
-      type: Number,
-    },
-    holiday: {
+    default_holiday: {
       type: Boolean,
     },
   },

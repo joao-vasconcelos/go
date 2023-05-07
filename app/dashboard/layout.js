@@ -29,6 +29,7 @@ const Content = styled('div', {
   height: '100%',
   padding: '$md',
   background: '$gray1',
+  zIndex: 0,
 });
 
 export default function Layout({ children, session }) {
