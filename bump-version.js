@@ -1,5 +1,5 @@
 // import pjson from './package.json';
-const packageJson = require('../package.json');
+const packageJson = require('./package.json');
 const fs = require('fs');
 
 const now = new Date();
