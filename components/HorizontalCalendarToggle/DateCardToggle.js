@@ -25,23 +25,20 @@ const Placeholder = styled(CardDefault, {
 });
 
 const DateCardContainer = styled(CardDefault, {
-  color: '$info9',
+  color: '$gray8',
   cursor: 'pointer',
   border: '1px solid transparent',
-  backgroundColor: '$gray3',
+  backgroundColor: '$gray1',
   transition: 'all 100ms ease',
   '&:hover': {
-    // border: '1px solid $gray0',
     boxShadow: '$md',
-    color: '$info9',
-    backgroundColor: '$info2',
+    color: '$gray9',
+    backgroundColor: '$gray3',
   },
   '&:active': {
-    border: '1px solid $gray0',
     boxShadow: '$md',
-    transform: 'scale(1.05)',
-    color: '$info9',
-    backgroundColor: '$info3',
+    color: '$gray9',
+    backgroundColor: '$gray5',
   },
   variants: {
     selected: {
