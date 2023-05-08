@@ -15,7 +15,7 @@ import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import HeaderTitle from '../../../../components/lists/HeaderTitle';
-import HorizontalCalendar from '../../../../components/HorizontalCalendar/HorizontalCalendar';
+import HorizontalCalendarToggle from '../../../../components/HorizontalCalendarToggle/HorizontalCalendarToggle';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
@@ -47,8 +47,8 @@ export default function Page() {
   //
   // B. Fetch data
 
+  const { data: datesData, error: datesError, isLoading: datesLoading, isValidating: datesValidating } = useSWR('/api/dates');
   const { data: calendarData, error: calendarError, isLoading: calendarLoading } = useSWR(calendar_id && `/api/calendars/${calendar_id}`, { onSuccess: (data) => keepFormUpdated(data) });
-  const { data: agenciesData } = useSWR('/api/agencies');
 
   //
   // C. Setup form
@@ -62,6 +62,7 @@ export default function Page() {
   });
 
   const keepFormUpdated = (data) => {
+    console.log('form.values.dates', form.values.dates);
     if (!form.isDirty()) {
       form.setValues(data);
       form.resetDirty(data);
@@ -119,6 +120,22 @@ export default function Page() {
     });
   };
 
+  const handleToggleDate = (dateObj) => {
+    //
+
+    //
+    const index = form.values.dates.findIndex((obj) => obj.date === dateObj.date);
+
+    if (index >= 0) {
+      // Date string is present in the array, so remove the object
+      const newArray = form.values.dates.filter((obj) => obj.date !== dateObj.date);
+      form.setFieldValue('dates', newArray);
+    } else {
+      // Date string is not present in the array, so add a new object
+      form.setFieldValue('dates', [...form.values.dates, dateObj]);
+    }
+  };
+
   //
   // E. Render components
 
@@ -154,27 +171,11 @@ export default function Page() {
             <TextInput label='Código do Calendário' placeholder='Codigo do Calendario' {...form.getInputProps('calendar_code')} />
             <TextInput label='Nome do Calendário' placeholder='Nome' {...form.getInputProps('calendar_name')} />
           </SimpleGrid>
-          <SimpleGrid cols={1}>
-            <MultiSelect
-              label='Agências'
-              placeholder='Agências relacionadas'
-              searchable
-              nothingFound='Sem opções'
-              data={
-                agenciesData
-                  ? agenciesData.map((item) => {
-                      return { value: item._id, label: item.agency_name || 'Agência Sem Nome' };
-                    })
-                  : []
-              }
-              {...form.getInputProps('agencies')}
-            />
-          </SimpleGrid>
         </Section>
         <Divider />
         <Section>
           <SectionTitle>Datas deste Calendário</SectionTitle>
-          <HorizontalCalendar datesData={form.values.dates} />
+          <HorizontalCalendarToggle allDates={datesData} activeDates={form.values.dates} onToggleDate={handleToggleDate} />
         </Section>
       </form>
     </Pannel>
