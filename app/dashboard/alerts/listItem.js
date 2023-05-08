@@ -42,14 +42,14 @@ export default function ListItem({ _id, fare_code, fare_short_name, fare_long_na
   //
 
   const router = useRouter();
-  const { fare_id } = useParams();
+  const { alert_id } = useParams();
 
   const handleClick = () => {
-    router.push(`/dashboard/fares/${_id}`);
+    router.push(`/dashboard/alerts/${_id}`);
   };
 
   return (
-    <BaseListItem onClick={handleClick} isSelected={fare_id === _id} withChevron>
+    <BaseListItem onClick={handleClick} isSelected={alert_id === _id} withChevron>
       <Wrapper>
         <Title isUntitled={!fare_long_name}>{fare_long_name || 'Tarifário Sem Nome'}</Title>
         <Flex>

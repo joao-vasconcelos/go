@@ -41,14 +41,14 @@ export default function ListItem({ _id, agency_code, agency_name }) {
   //
 
   const router = useRouter();
-  const { agency_id } = useParams();
+  const { thread_id } = useParams();
 
   const handleClick = () => {
-    router.push(`/dashboard/agencies/${_id}`);
+    router.push(`/dashboard/threads/${_id}`);
   };
 
   return (
-    <BaseListItem onClick={handleClick} isSelected={agency_id === _id} withChevron>
+    <BaseListItem onClick={handleClick} isSelected={thread_id === _id} withChevron>
       <Wrapper>
         <Title isUntitled={!agency_name}>{agency_name || 'Agência Sem Nome'}</Title>
         <Badge>{agency_code}</Badge>

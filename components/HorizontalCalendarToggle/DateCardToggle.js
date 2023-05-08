@@ -29,7 +29,7 @@ const DateCardContainer = styled(CardDefault, {
   cursor: 'pointer',
   border: '1px solid transparent',
   backgroundColor: '$gray1',
-  transition: 'all 100ms ease',
+  //   transition: 'all 100ms ease',
   '&:hover': {
     boxShadow: '$md',
     color: '$gray9',
