@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "next dev",
         "bump": "node bump-version.js",
-        "build": "npm run bump && next build",
+        "build": "next build",
         "start": "next start",
         "lint": "next lint"
     },
