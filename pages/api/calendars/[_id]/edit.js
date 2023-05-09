@@ -45,8 +45,8 @@ export default async function calendarsEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['calendar_code'].
-    const foundDocumentWithCalendarCode = await CalendarModel.exists({ calendar_code: req.body.calendar_code });
+    // The values that need to be unique are ['code'].
+    const foundDocumentWithCalendarCode = await CalendarModel.exists({ code: req.body.code });
     if (foundDocumentWithCalendarCode && foundDocumentWithCalendarCode._id != req.query._id) {
       throw new Error('Um Calendário com o mesmo Código já existe.');
     }
