@@ -13,7 +13,7 @@ const version = `${year}.${month}.${day}-${hours}${minutes}`;
 
 packageJson.version = version;
 
-fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2));
+fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 4));
 
 function padNumber(number) {
   return number.toString().padStart(2, '0');
