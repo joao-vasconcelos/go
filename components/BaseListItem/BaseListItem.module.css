@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--size-md);
+  width: 100%;
+  background-color: var(--gray0);
+  border-bottom: 1px solid var(--gray4);
+  padding: var(--size-md);
+  cursor: pointer;
+}
+
+.container:last-child {
+  border-bottom: none;
+}
+
+.container:hover {
+  background-color: var(--gray2);
+}
+
+.container:active {
+  background-color: var(--gray3);
+}
+
+/*  */
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+/*  */
+
+.selected {
+  background-color: var(--gray3);
+}
+
+.selected:hover {
+  background-color: var(--gray4);
+}
+
+.selected:active {
+  background-color: var(--gray5);
+}

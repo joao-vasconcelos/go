@@ -2,7 +2,7 @@
 
 import { styled } from '@stitches/react';
 import { useRouter, useParams } from 'next/navigation';
-import BaseListItem from '../../../layouts/BaseListItem';
+import BaseListItem from '../../../components/BaseListItem/BaseListItem';
 import Flex from '../../../layouts/Flex';
 
 const Wrapper = styled('div', {

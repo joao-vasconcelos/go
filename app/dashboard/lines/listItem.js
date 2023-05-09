@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useParams } from 'next/navigation';
-import BaseListItem from '../../../layouts/BaseListItem';
+import BaseListItem from '../../../components/BaseListItem/BaseListItem';
 import Line from '../../../components/line/Line';
 
 export default function ListItem({ _id, line_short_name, line_long_name, line_color, line_text_color }) {
