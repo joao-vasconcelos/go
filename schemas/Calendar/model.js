@@ -9,33 +9,26 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
-    calendar_code: {
+    code: {
       type: String,
       maxlength: 10,
       unique: true,
     },
-    calendar_name: {
+    name: {
       type: String,
       maxlength: 50,
     },
-    agencies: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Agency',
-      },
-    ],
+    description: {
+      type: String,
+      maxlength: 50,
+    },
+    is_holiday: {
+      type: Boolean,
+    },
     dates: [
       {
-        date: {
-          type: String,
-          maxlength: 8,
-        },
-        period: {
-          type: Number,
-        },
-        holiday: {
-          type: Boolean,
-        },
+        type: String,
+        maxlength: 8,
       },
     ],
   },

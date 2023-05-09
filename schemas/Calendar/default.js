@@ -6,8 +6,9 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  calendar_code: '',
-  calendar_name: '',
-  agencies: [],
+  code: '',
+  name: '',
+  description: '',
+  is_holiday: false,
   dates: [],
 };
