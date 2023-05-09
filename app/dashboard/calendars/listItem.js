@@ -3,7 +3,7 @@
 import { styled } from '@stitches/react';
 import { useRouter, useParams } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
-import Flex from '../../../layouts/Flex';
+import { Group } from '@mantine/core';
 
 const Wrapper = styled('div', {
   display: 'flex',
@@ -52,9 +52,9 @@ export default function ListItem({ _id, code, name }) {
     <BaseListItem onClick={handleClick} isSelected={calendar_id === _id} withChevron>
       <Wrapper>
         <Title isUntitled={!name}>{name || 'Calendário Sem Nome'}</Title>
-        <Flex>
+        <Group>
           <Badge>{code}</Badge>
-        </Flex>
+        </Group>
       </Wrapper>
     </BaseListItem>
   );

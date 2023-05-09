@@ -3,7 +3,7 @@
 import { styled } from '@stitches/react';
 import { useRouter, useParams } from 'next/navigation';
 import BaseListItem from '../../../layouts/BaseListItem';
-import Flex from '../../../layouts/Flex';
+import { Group } from '@mantine/core';
 
 const Wrapper = styled('div', {
   display: 'flex',
@@ -52,12 +52,12 @@ export default function ListItem({ _id, stop_code, stop_name, stop_lat, stop_lon
     <BaseListItem onClick={handleClick} isSelected={stop_id === _id} withChevron>
       <Wrapper>
         <Title isUntitled={!stop_name}>{stop_name || 'Paragem Sem Nome'}</Title>
-        <Flex>
+        <Group>
           <Badge>{stop_code || '-'}</Badge>
           <Badge>
             {stop_lat || '0.00'}, {stop_lon || '0.00'}
           </Badge>
-        </Flex>
+        </Group>
       </Wrapper>
     </BaseListItem>
   );

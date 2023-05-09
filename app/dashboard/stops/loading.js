@@ -1,6 +1,6 @@
 'use client';
 
-import TwoUnevenColumns from '../../../layouts/TwoUnevenColumns';
+import { TwoUnevenColumns } from '../../../components/Layouts/Layouts';
 import { Skeleton } from '@mantine/core';
 
 export default function Layout({ children }) {

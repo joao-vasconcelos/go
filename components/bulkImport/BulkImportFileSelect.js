@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Group, Text, Alert, Stack } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
 import { TbUpload, TbBan, TbDragDrop, TbAlertTriangleFilled } from 'react-icons/tb';
-import Flex from '../../layouts/Flex';
 
 export default function BulkImportFileSelect({ filesParser, onParse }) {
   //
@@ -51,7 +50,7 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
 
   const DropZoneIdle = () => (
     <Dropzone.Idle>
-      <Flex>
+      <Group>
         <TbDragDrop size='40px' />
         <div>
           <Text size='xl' inline>
@@ -61,13 +60,13 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
             Este processo irá criar novas shapes. Será necessário posteriormente associar estas shapes aos patterns.
           </Text>
         </div>
-      </Flex>
+      </Group>
     </Dropzone.Idle>
   );
 
   const DropZoneAccept = () => (
     <Dropzone.Accept>
-      <Flex>
+      <Group>
         <TbUpload size='40px' />
         <div>
           <Text size='xl' inline>
@@ -77,13 +76,13 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
             Este processo irá criar novas shapes. Será necessário posteriormente associar estas shapes aos patterns.
           </Text>
         </div>
-      </Flex>
+      </Group>
     </Dropzone.Accept>
   );
 
   const DropZoneReject = () => (
     <Dropzone.Reject>
-      <Flex>
+      <Group>
         <TbBan size='40px' />
         <div>
           <Text size='xl' inline>
@@ -93,7 +92,7 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
             Não é possível aceitar esta seleção.
           </Text>
         </div>
-      </Flex>
+      </Group>
     </Dropzone.Reject>
   );
 

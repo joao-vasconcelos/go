@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import API from '../../../services/API';
-import TwoUnevenColumns from '../../../layouts/TwoUnevenColumns';
+import { TwoUnevenColumns } from '../../../components/Layouts/Layouts';
 import Pannel from '../../../components/Pannel/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu, Divider } from '@mantine/core';
