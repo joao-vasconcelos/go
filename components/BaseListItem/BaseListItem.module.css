@@ -33,14 +33,14 @@
 
 /*  */
 
-.selected {
+.isSelected {
   background-color: var(--gray3);
 }
 
-.selected:hover {
+.isSelected:hover {
   background-color: var(--gray4);
 }
 
-.selected:active {
+.isSelected:active {
   background-color: var(--gray5);
 }
