@@ -11,7 +11,7 @@ import { Validation as ShapeValidation } from '../../../../schemas/Shape/validat
 import { Default as ShapeDefault } from '../../../../schemas/Shape/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Text, Button } from '@mantine/core';
 import { TbTrash } from 'react-icons/tb';
-import Pannel from '../../../../layouts/Pannel';
+import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';

@@ -10,7 +10,7 @@ import { Validation as StopValidation } from '../../../../schemas/Stop/validatio
 import { Default as StopDefault } from '../../../../schemas/Stop/default';
 import { Tooltip, Select, SimpleGrid, Switch, Chip, Checkbox, Group, TextInput, NumberInput, ActionIcon, Text, Divider, Textarea } from '@mantine/core';
 import { TbTrash, TbWorldLatitude, TbWorldLongitude, TbVolume } from 'react-icons/tb';
-import Pannel from '../../../../layouts/Pannel';
+import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';

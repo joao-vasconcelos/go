@@ -10,7 +10,7 @@ import { Validation as PatternValidation } from '../../../../../../schemas/Patte
 import { Default as PatternDefault } from '../../../../../../schemas/Pattern/default';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text, Select } from '@mantine/core';
 import { TbExternalLink, TbTrash } from 'react-icons/tb';
-import Pannel from '../../../../../../layouts/Pannel';
+import Pannel from '../../../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../../../components/SaveButtons';
 import notify from '../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';

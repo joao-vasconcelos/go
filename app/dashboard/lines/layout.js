@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import API from '../../../services/API';
 import TwoUnevenColumns from '../../../layouts/TwoUnevenColumns';
-import Pannel from '../../../layouts/Pannel';
+import Pannel from '../../../components/Pannel/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
 import { TbCirclePlus, TbArrowBarToDown, TbDots } from 'react-icons/tb';

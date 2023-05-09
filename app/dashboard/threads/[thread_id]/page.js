@@ -10,7 +10,7 @@ import { Validation as AgencyValidation } from '../../../../schemas/Agency/valid
 import { Default as AgencyDefault } from '../../../../schemas/Agency/default';
 import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon, Text } from '@mantine/core';
 import { TbTrash } from 'react-icons/tb';
-import Pannel from '../../../../layouts/Pannel';
+import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';

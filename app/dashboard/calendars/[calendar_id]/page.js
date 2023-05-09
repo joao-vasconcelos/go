@@ -10,7 +10,7 @@ import { Validation as CalendarValidation } from '../../../../schemas/Calendar/v
 import { Default as CalendarDefault } from '../../../../schemas/Calendar/default';
 import { Tooltip, Switch, SimpleGrid, TextInput, ActionIcon, Text, Divider } from '@mantine/core';
 import { TbTrash } from 'react-icons/tb';
-import Pannel from '../../../../layouts/Pannel';
+import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';

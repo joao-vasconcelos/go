@@ -5,7 +5,7 @@ import { styled } from '@stitches/react';
 import { Checkbox, ActionIcon, Flex, Stack, Text, Code, Button, Tooltip, SimpleGrid } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
 import { TbCloudUpload, TbX, TbTrash, TbCircleCheckFilled, TbAlertTriangleFilled, TbRotateClockwise2 } from 'react-icons/tb';
-import Pannel from '../../layouts/Pannel';
+import Pannel from '../../components/Pannel/Pannel';
 import HeaderTitle from '../lists/HeaderTitle';
 
 const TableRow = styled('div', {

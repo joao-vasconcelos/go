@@ -11,7 +11,7 @@ import { Default as RouteDefault } from '../../../../../schemas/Route/default';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
 import { TbExternalLink, TbTrash } from 'react-icons/tb';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
-import Pannel from '../../../../../layouts/Pannel';
+import Pannel from '../../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';

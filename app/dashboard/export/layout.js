@@ -1,7 +1,7 @@
 'use client';
 
 import ThreeEvenColumns from '../../../layouts/ThreeEvenColumns';
-import Pannel from '../../../layouts/Pannel';
+import Pannel from '../../../components/Pannel/Pannel';
 
 export default function Layout({ children }) {
   //

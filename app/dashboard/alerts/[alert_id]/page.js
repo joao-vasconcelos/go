@@ -10,7 +10,7 @@ import { Validation as FareValidation } from '../../../../schemas/Fare/validatio
 import { Default as FareDefault } from '../../../../schemas/Fare/default';
 import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect } from '@mantine/core';
 import { TbTrash } from 'react-icons/tb';
-import Pannel from '../../../../layouts/Pannel';
+import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';

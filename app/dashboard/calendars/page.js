@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import useSWR from 'swr';
 import API from '../../../services/API';
-import Pannel from '../../../layouts/Pannel';
+import Pannel from '../../../components/Pannel/Pannel';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, LoadingOverlay } from '@mantine/core';
 import { TbCalendarPlus } from 'react-icons/tb';
