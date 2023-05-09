@@ -67,7 +67,7 @@ export default function AppSidebar() {
     { href: 'shapes', label: 'Shapes', icon: <TbShape2 /> },
     { href: 'fares', label: 'Tarifários', icon: <TbCoins /> },
     { href: 'agencies', label: 'Agências', icon: <TbBuildingCommunity /> },
-    { href: 'threads', label: 'Mensagenns', icon: <TbMessageChatbot /> },
+    { href: 'threads', label: 'Conversas', icon: <TbMessageChatbot /> },
     { href: 'export', label: 'Exportar GTFS', icon: <TbFileZip /> },
     // { href: 'realtime', label: 'Tempo Real', icon: <TbLiveView />, disabled: true },
     { href: 'users', label: 'Utilizadores', icon: <TbUsers /> },
