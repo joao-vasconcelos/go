@@ -40,6 +40,11 @@
   border-top-color: #68a3fa;
 }
 
+.period1.isActive {
+  color: #e2edfe;
+  background-color: #0759d3;
+}
+
 .period1:hover {
   color: #054098;
   background-color: #a5c8fc;
@@ -47,6 +52,11 @@
 
 .period1:hover.hasNote:after {
   border-top-color: #3584f8;
+}
+
+.period1:hover.isActive {
+  color: #e2edfe;
+  background-color: #054098;
 }
 
 /* * */
@@ -61,6 +71,11 @@
   border-top-color: #a3d579;
 }
 
+.period2.isActive {
+  color: #e1f1d3;
+  background-color: #629c31;
+}
+
 .period2:hover {
   color: #477123;
   background-color: #c2e3a6;
@@ -70,16 +85,26 @@
   border-top-color: #89c953;
 }
 
+.period2:hover.isActive {
+  color: #e1f1d3;
+  background-color: #477123;
+}
+
 /* * */
 /* PERÍODO DE VERÃO */
 
 .period3 {
-  color: #926400;
+  color: #ab7500;
   background-color: #ffeabd;
 }
 
 .period3.hasNote:after {
   border-top-color: #ffc649;
+}
+
+.period3.isActive {
+  color: #ffeabd;
+  background-color: #ab7500;
 }
 
 .period3:hover {
@@ -89,4 +114,9 @@
 
 .period3:hover.hasNote:after {
   border-top-color: #ffb618;
+}
+
+.period3:hover.isActive {
+  color: #ffeabd;
+  background-color: #926400;
 }

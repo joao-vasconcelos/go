@@ -90,7 +90,7 @@ export default function Layout({ children }) {
           footer={calendarsData && (calendarsData.length === 1 ? <FooterText text={`Encontrado 1 Calendário`} /> : <FooterText text={`Encontrados ${calendarsData.length} Calendários`} />)}
         >
           <ErrorDisplay error={calendarsError} loading={calendarsValidating} />
-          {calendarsData && calendarsData.length > 0 ? calendarsData.map((item) => <ListItem key={item._id} _id={item._id} calendar_code={item.calendar_code} calendar_name={item.calendar_name} />) : <NoDataLabel />}
+          {calendarsData && calendarsData.length > 0 ? calendarsData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} />) : <NoDataLabel />}
         </Pannel>
       }
       second={children}

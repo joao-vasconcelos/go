@@ -92,7 +92,7 @@ export default function HCalendarPeriodCard({ date, dateObj }) {
           </SimpleGrid>
         </form>
       </Modal>
-      <div className={`${styles.container} ${styles[`period${dateObj.period}`]} ${dateObj.notes && styles.hasNote}`} selected={isModalPresented} onClick={openModal}>
+      <div className={`${styles.container} ${styles[`period${dateObj.period}`]} ${dateObj.notes && styles.hasNote}`} onClick={openModal}>
         {dayString}
       </div>
     </>

@@ -1,15 +1,13 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import useSWR from 'swr';
 import API from '../../../services/API';
 import Pannel from '../../../layouts/Pannel';
 import { useDisclosure } from '@mantine/hooks';
-import { TextInput, ActionIcon, Modal, SegmentedControl, Menu, Checkbox, Switch, Select, Button, SimpleGrid, Divider, LoadingOverlay } from '@mantine/core';
-import { TbCirclePlus, TbArrowBarToDown, TbDots } from 'react-icons/tb';
+import { Modal, Button, LoadingOverlay } from '@mantine/core';
+import { TbCalendarPlus } from 'react-icons/tb';
 import notify from '../../../services/notify';
-import FooterText from '../../../components/lists/FooterText';
 import HCalendar from '../../../components/HCalendar/HCalendar';
 import AddDatesCalendar from '../../../components/AddDatesCalendar/AddDatesCalendar';
 import HCalendarPeriodCard from '../../../components/HCalendarPeriodCard/HCalendarPeriodCard';
@@ -74,14 +72,12 @@ export default function Page() {
     <Pannel
       loading={datesLoading}
       header={
-        <>
-          <ActionIcon onClick={openModal} variant='light' color='blue'>
-            <TbCirclePlus size='20px' />
-          </ActionIcon>
-        </>
+        <Button leftIcon={<TbCalendarPlus size='20px' />} onClick={openModal} variant='light' color='blue' size='sm'>
+          Gerir Datas
+        </Button>
       }
     >
-      <Modal opened={isModalPresented} onClose={closeModal} title='Authentication' size='auto' centered>
+      <Modal opened={isModalPresented} onClose={closeModal} title='Gerir Datas' size='auto' centered>
         <LoadingOverlay visible={isUpdatingDates} />
         <AddDatesCalendar onUpdate={handleUpdateDates} onDelete={handleDeleteDates} />
       </Modal>

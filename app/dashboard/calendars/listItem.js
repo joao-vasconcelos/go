@@ -38,7 +38,7 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ _id, calendar_code, calendar_name }) {
+export default function ListItem({ _id, code, name }) {
   //
 
   const router = useRouter();
@@ -51,9 +51,9 @@ export default function ListItem({ _id, calendar_code, calendar_name }) {
   return (
     <BaseListItem onClick={handleClick} isSelected={calendar_id === _id} withChevron>
       <Wrapper>
-        <Title isUntitled={!calendar_name}>{calendar_name || 'Calendário Sem Nome'}</Title>
+        <Title isUntitled={!name}>{name || 'Calendário Sem Nome'}</Title>
         <Flex>
-          <Badge>{calendar_code}</Badge>
+          <Badge>{code}</Badge>
         </Flex>
       </Wrapper>
     </BaseListItem>

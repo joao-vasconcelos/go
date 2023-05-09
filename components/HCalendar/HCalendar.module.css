@@ -9,20 +9,24 @@
 .tableHeaderRow,
 .tableBodyRow {
   display: grid;
-  grid-template-columns: 200px repeat(42, 30px);
+  grid-template-columns: 100px repeat(42, 30px);
   align-items: center;
   gap: 1px;
 }
 
 .tableHeaderRow {
   position: sticky;
-  background-color: var(--gray3);
+  background-color: var(--gray2);
 }
 
 .tableBody {
   display: grid;
   gap: 1px;
   width: 100%;
+}
+
+.tableBodyRow:hover {
+  background-color: var(--info1);
 }
 
 .tableHeaderCell,
@@ -34,15 +38,39 @@
 
 .tableHeaderCell {
   min-height: 25px;
-  font-weight: 500;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.tableHeaderCell:hover {
+  background-color: var(--gray3);
+}
+
+.tableHeaderCell:active {
+  background-color: var(--gray4);
 }
 
 .tableBodyCell {
   min-height: 30px;
   align-items: center;
   justify-content: center;
+}
+
+.monthCell {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.monthCell:hover {
+  background-color: var(--info2);
+}
+
+.monthCell:active {
+  background-color: var(--info3);
 }

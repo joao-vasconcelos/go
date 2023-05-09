@@ -8,14 +8,15 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../services/API';
 import { Validation as CalendarValidation } from '../../../../schemas/Calendar/validation';
 import { Default as CalendarDefault } from '../../../../schemas/Calendar/default';
-import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect, Divider } from '@mantine/core';
+import { Tooltip, Switch, SimpleGrid, TextInput, ActionIcon, Text, Divider } from '@mantine/core';
 import { TbTrash } from 'react-icons/tb';
 import Pannel from '../../../../layouts/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import HeaderTitle from '../../../../components/lists/HeaderTitle';
-import HorizontalCalendarToggle from '../../../../components/HorizontalCalendarToggle/HorizontalCalendarToggle';
+import HCalendar from '../../../../components/HCalendar/HCalendar';
+import HCalendarToggle from '../../../../components/HCalendarToggle/HCalendarToggle';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
@@ -62,7 +63,6 @@ export default function Page() {
   });
 
   const keepFormUpdated = (data) => {
-    console.log('form.values.dates', form.values.dates);
     if (!form.isDirty()) {
       form.setValues(data);
       form.resetDirty(data);
@@ -121,19 +121,38 @@ export default function Page() {
   };
 
   const handleToggleDate = (dateObj) => {
-    //
-
-    //
-    const index = form.values.dates.findIndex((obj) => obj.date === dateObj.date);
-
-    if (index >= 0) {
+    if (form.values.dates.includes(dateObj.date)) {
       // Date string is present in the array, so remove the object
-      const newArray = form.values.dates.filter((obj) => obj.date !== dateObj.date);
+      const newArray = form.values.dates.filter((date) => date !== dateObj.date);
       form.setFieldValue('dates', newArray);
     } else {
       // Date string is not present in the array, so add a new object
-      form.setFieldValue('dates', [...form.values.dates, dateObj]);
+      form.setFieldValue('dates', [...form.values.dates, dateObj.date]);
     }
+  };
+
+  const handleMultiToggleDates = (selectedDates) => {
+    //
+    const arrayOfSelectedDates = selectedDates.map((dateObj) => dateObj.date);
+    //
+    const datesThatAreNotYetSelected = arrayOfSelectedDates.filter((date) => !form.values.dates.includes(date));
+    const datesThatAreAlreadySelected = form.values.dates.filter((date) => arrayOfSelectedDates.includes(date));
+    //
+    if (datesThatAreNotYetSelected.length >= datesThatAreAlreadySelected.length) {
+      // Include all the dates that were not yet selected
+      form.setFieldValue('dates', [...form.values.dates, ...datesThatAreNotYetSelected]);
+    } else {
+      // Remove all the dates that were not yet selected
+      const newDatesArray = form.values.dates.filter((date) => !arrayOfSelectedDates.includes(date));
+      form.setFieldValue('dates', newDatesArray);
+    }
+  };
+
+  //
+  // E. Render components
+
+  const renderDateCardComponent = ({ key, ...props }) => {
+    return <HCalendarToggle key={key} activeDates={form.values.dates} onToggle={handleToggleDate} {...props} />;
   };
 
   //
@@ -155,7 +174,7 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <HeaderTitle text={form.values.calendar_long_name || 'Calendário Sem Nome'} />
+          <HeaderTitle text={form.values.name || 'Calendário Sem Nome'} />
           <Tooltip label='Eliminar Calendário' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
               <TbTrash size='20px' />
@@ -168,14 +187,23 @@ export default function Page() {
         <Section>
           <SectionTitle>Configuração do Calendário</SectionTitle>
           <SimpleGrid cols={2}>
-            <TextInput label='Código do Calendário' placeholder='Codigo do Calendario' {...form.getInputProps('code')} />
             <TextInput label='Nome do Calendário' placeholder='Nome' {...form.getInputProps('name')} />
+            <TextInput label='Código do Calendário' placeholder='Codigo do Calendario' {...form.getInputProps('code')} />
           </SimpleGrid>
         </Section>
         <Divider />
         <Section>
+          <Switch
+            label='Marcar todas as datas deste calendário como Feriado'
+            description='Todas as datas aqui selecionadas serão marcadas como feriado, independentemente de estarem marcadas como dias regulares noutros calendários.'
+            size='md'
+            {...form.getInputProps('is_holiday', { type: 'checkbox' })}
+          />
+        </Section>
+        <Divider />
+        <Section>
           <SectionTitle>Datas deste Calendário</SectionTitle>
-          <HorizontalCalendarToggle allDates={datesData} activeDates={form.values.dates} onToggleDate={handleToggleDate} />
+          <HCalendar availableDates={datesData} renderCardComponent={renderDateCardComponent} onMultiSelect={handleMultiToggleDates} />
         </Section>
       </form>
     </Pannel>

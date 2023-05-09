@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import HCalendarSpacer from '../HCalendarSpacer/HCalendarSpacer';
 import HCalendarPlaceholder from '../HCalendarPlaceholder/HCalendarPlaceholder';
 
-export default function HCalendar({ availableDates, renderCardComponent }) {
+export default function HCalendar({ availableDates, renderCardComponent, onMultiSelect }) {
   //
 
   //
@@ -52,7 +52,7 @@ export default function HCalendar({ availableDates, renderCardComponent }) {
       // Setup the variable for this iteration
       const monthSortKey = dayjs(dateItem.date, 'YYYYMMDD').format('YYYYMM');
       const monthNumber = dayjs(dateItem.date, 'YYYYMMDD').month();
-      const monthName = dayjs(dateItem.date, 'YYYYMMDD').format('MMMM YYYY');
+      const monthName = dayjs(dateItem.date, 'YYYYMMDD').format('MMM YYYY');
       const monthIndex = acc.findIndex((month) => month.sort_key === monthSortKey);
       // Month doesn't exist in the array yet, create a new month object
       if (monthIndex === -1) acc.push({ sort_key: monthSortKey, month_number: monthNumber, month_name: monthName, days: [dateItem] });
@@ -89,9 +89,37 @@ export default function HCalendar({ availableDates, renderCardComponent }) {
   //
   // D. Render components
 
+  const handleReferenceClick = () => {
+    if (!onMultiSelect) return;
+    onMultiSelect(availableDates);
+  };
+
+  const handleDayTypeClick = (columnIndex) => {
+    if (!onMultiSelect) return;
+    let matchingDates = [];
+    for (const month of allDatesFormatted) {
+      if (month.days.length > columnIndex) {
+        if (month.days[columnIndex].date) {
+          matchingDates.push(month.days[columnIndex]);
+        }
+      }
+    }
+    onMultiSelect(matchingDates);
+  };
+
+  const handleMonthClick = (month) => {
+    if (!onMultiSelect) return;
+    const matchingDates = availableDates.filter((dateObj) => {
+      return dateObj.date.includes(month.sort_key);
+    });
+    onMultiSelect(matchingDates);
+  };
+
+  //
+  // D. Render components
+
   const CalendarHeader = () => {
     //
-
     if (!allDatesFormatted) return <div>Loading</div>;
 
     let longestArrayLength = 0;
@@ -108,9 +136,11 @@ export default function HCalendar({ availableDates, renderCardComponent }) {
 
     return (
       <div className={styles.tableHeaderRow}>
-        <div className={styles.tableHeaderCell}>Mês</div>
+        <div className={styles.tableHeaderCell} onClick={handleReferenceClick}>
+          Mês
+        </div>
         {headerCells.map((weekdayString, index) => (
-          <div key={index} className={styles.tableHeaderCell}>
+          <div key={index} className={styles.tableHeaderCell} onClick={() => handleDayTypeClick(index)}>
             {weekdayString}
           </div>
         ))}
@@ -125,7 +155,9 @@ export default function HCalendar({ availableDates, renderCardComponent }) {
         {allDatesFormatted &&
           allDatesFormatted.map((month, index) => (
             <div key={index} className={styles.tableBodyRow}>
-              <div className={styles.tableBodyCell}>{month.month_name}</div>
+              <div className={`${styles.tableBodyCell} ${styles.monthCell}`} onClick={() => handleMonthClick(month)}>
+                {month.month_name}
+              </div>
               {month.days.map((dateObj, index) => {
                 switch (dateObj.card_type) {
                   default:

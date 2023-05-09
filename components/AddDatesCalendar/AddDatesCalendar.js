@@ -126,14 +126,16 @@ export default function AddDatesCalendar({ onUpdate, onDelete }) {
               { value: 3, label: '3 - Período de Verão' },
             ]}
           />
-          <Textarea {...form.getInputProps('comment')} />
+          <Textarea label='Notas sobre estas datas' {...form.getInputProps('notes')} />
         </SimpleGrid>
-        <Button size='lg' onClick={handleUpdate} disabled={!isSelectionValid()}>
-          Atualizar Datas
-        </Button>
-        <Button size='lg' color='red' onClick={handleDelete} disabled={!isSelectionValid()}>
-          Eliminar Datas
-        </Button>
+        <SimpleGrid cols={2}>
+          <Button size='lg' onClick={handleUpdate} disabled={!isSelectionValid()}>
+            Atualizar Datas
+          </Button>
+          <Button size='lg' color='red' onClick={handleDelete} disabled={!isSelectionValid()}>
+            Eliminar Datas
+          </Button>
+        </SimpleGrid>
       </SimpleGrid>
     </form>
   );
