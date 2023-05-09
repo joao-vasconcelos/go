@@ -5,7 +5,7 @@
   flex-direction: column;
   gap: var(--size-xs);
   justify-content: space-between;
-  background-color: white;
+  background-color: var(--gray0);
   border-right: 1px solid var(--gray3);
   z-index: 25;
   overflow: scroll;

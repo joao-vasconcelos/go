@@ -21,9 +21,6 @@
   --gray7: #868e96;
   --gray8: #495057;
   --gray9: #343a40;
-  --gray10: #212529;
-  --gray11: #6f6e77;
-  --gray12: #1a1523;
 
   /* STATUS-SUCCESS */
   --success0: #ebfbee;
@@ -81,4 +78,20 @@
   --font-sm: 12px;
   --font-md: 14px;
   --font-lg: 18px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* GRAYS */
+    --gray9: #adbac7;
+    --gray8: #dee2e6;
+    --gray7: #ced4da;
+    --gray6: #adb5bd;
+    --gray5: #868e96;
+    --gray4: #495057;
+    --gray3: #373e47;
+    --gray2: #2d333b;
+    --gray1: #22272e;
+    --gray0: #1c2128;
+  }
 }
