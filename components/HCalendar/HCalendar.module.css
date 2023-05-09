@@ -1,0 +1,48 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background-color: var(--gray0);
+  overflow: scroll;
+}
+
+.tableHeaderRow,
+.tableBodyRow {
+  display: grid;
+  grid-template-columns: 200px repeat(42, 30px);
+  align-items: center;
+  gap: 1px;
+}
+
+.tableHeaderRow {
+  position: sticky;
+  background-color: var(--gray3);
+}
+
+.tableBody {
+  display: grid;
+  gap: 1px;
+  width: 100%;
+}
+
+.tableHeaderCell,
+.tableBodyCell {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.tableHeaderCell {
+  min-height: 25px;
+  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 11px;
+}
+
+.tableBodyCell {
+  min-height: 30px;
+  align-items: center;
+  justify-content: center;
+}

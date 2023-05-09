@@ -168,8 +168,8 @@ export default function Page() {
         <Section>
           <SectionTitle>Configuração do Calendário</SectionTitle>
           <SimpleGrid cols={2}>
-            <TextInput label='Código do Calendário' placeholder='Codigo do Calendario' {...form.getInputProps('calendar_code')} />
-            <TextInput label='Nome do Calendário' placeholder='Nome' {...form.getInputProps('calendar_name')} />
+            <TextInput label='Código do Calendário' placeholder='Codigo do Calendario' {...form.getInputProps('code')} />
+            <TextInput label='Nome do Calendário' placeholder='Nome' {...form.getInputProps('name')} />
           </SimpleGrid>
         </Section>
         <Divider />

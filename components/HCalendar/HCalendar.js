@@ -1,62 +1,12 @@
 'use client';
 
-import { styled } from '@stitches/react';
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import DateCard from './dateCard';
+import styles from './HCalendar.module.css';
+import dayjs from 'dayjs';
+import HCalendarSpacer from '../HCalendarSpacer/HCalendarSpacer';
+import HCalendarPlaceholder from '../HCalendarPlaceholder/HCalendarPlaceholder';
 
-const TableContainer = styled('div', {
-  display: 'grid',
-  gridTemplateColumns: '1fr',
-  gap: '1px',
-  backgroundColor: '$gray0',
-  overflow: 'scroll',
-});
-
-const TableRow = styled('div', {
-  display: 'grid',
-  gridTemplateColumns: '200px repeat(42, 30px)',
-  alignItems: 'center',
-  gap: '1px',
-});
-
-const TableHeader = styled(TableRow, {
-  position: 'sticky',
-  backgroundColor: '$gray3',
-});
-
-const TableBody = styled('div', {
-  display: 'grid',
-  gap: '1px',
-  width: '100%',
-});
-
-const TableBodyRow = styled(TableRow, {
-  //   backgroundColor: '$gray0',
-});
-
-const TableCell = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-});
-
-const TableCellHeader = styled(TableCell, {
-  minHeight: '25px',
-  fontWeight: '$medium',
-  alignItems: 'center',
-  justifyContent: 'center',
-  textAlign: 'center',
-  fontSize: '11px',
-});
-
-const TableCellBody = styled(TableCell, {
-  minHeight: '30px',
-  alignItems: 'center',
-  justifyContent: 'center',
-});
-
-export default function HorizontalCalendar({ datesData, onUpdateDate, onDeleteDate }) {
+export default function HCalendar({ availableDates, renderCardComponent }) {
   //
 
   //
@@ -65,22 +15,16 @@ export default function HorizontalCalendar({ datesData, onUpdateDate, onDeleteDa
   const [allDatesFormatted, setAllDatesFormatted] = useState();
 
   //
-  // B. Fetch data
-
-  //
-  // C. Handle actions
-
-  //
   // D. Render components
 
   useEffect(() => {
     //
 
-    // 1. Exit if datesData is not defined
-    if (!datesData || !datesData.length) return;
+    // 1. Exit if availableDates is not defined
+    if (!availableDates || !availableDates.length) return;
 
     // 2. Sort the array to ensure we get the whole range of dates in the database
-    const sortedDates = datesData.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+    const sortedDates = availableDates.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
 
     // 3. Create the placeholder dates from the first and last dates in the database
     let allPlaceholderDatesInRange = [];
@@ -97,7 +41,7 @@ export default function HorizontalCalendar({ datesData, onUpdateDate, onDeleteDa
     for (let i = 0; i < allPlaceholderDatesInRange.length; i++) {
       const placeholderDate = allPlaceholderDatesInRange[i];
       // Find the corresponding object in arrayB
-      const actualDateObject = datesData.find((dateObject) => dateObject.date === placeholderDate);
+      const actualDateObject = availableDates.find((dateObject) => dateObject.date === placeholderDate);
       // If the object exists, assign its properties to the date in arrayA
       if (actualDateObject) allPlaceholderDatesInRange[i] = { ...actualDateObject, card_type: 'date' };
       else allPlaceholderDatesInRange[i] = { date: placeholderDate, card_type: 'placeholder' };
@@ -140,7 +84,7 @@ export default function HorizontalCalendar({ datesData, onUpdateDate, onDeleteDa
     setAllDatesFormatted(allDatesReadyForCalendar);
 
     //
-  }, [datesData]);
+  }, [availableDates]);
 
   //
   // D. Render components
@@ -163,29 +107,39 @@ export default function HorizontalCalendar({ datesData, onUpdateDate, onDeleteDa
     }
 
     return (
-      <TableHeader>
-        <TableCellHeader>Mês</TableCellHeader>
+      <div className={styles.tableHeaderRow}>
+        <div className={styles.tableHeaderCell}>Mês</div>
         {headerCells.map((weekdayString, index) => (
-          <TableCellHeader key={index}>{weekdayString}</TableCellHeader>
+          <div key={index} className={styles.tableHeaderCell}>
+            {weekdayString}
+          </div>
         ))}
-      </TableHeader>
+      </div>
     );
   };
 
   return (
-    <TableContainer>
+    <div className={styles.container}>
       <CalendarHeader />
-      <TableBody>
+      <div className={styles.tableBody}>
         {allDatesFormatted &&
           allDatesFormatted.map((month, index) => (
-            <TableBodyRow key={index}>
-              <TableCellBody>{month.month_name}</TableCellBody>
-              {month.days.map((dateObj, index) => (
-                <DateCard key={index} cardType={dateObj.card_type} date={dateObj.date} />
-              ))}
-            </TableBodyRow>
+            <div key={index} className={styles.tableBodyRow}>
+              <div className={styles.tableBodyCell}>{month.month_name}</div>
+              {month.days.map((dateObj, index) => {
+                switch (dateObj.card_type) {
+                  default:
+                  case 'spacer':
+                    return <HCalendarSpacer key={index} />;
+                  case 'placeholder':
+                    return <HCalendarPlaceholder key={index} date={dateObj.date} />;
+                  case 'date':
+                    return renderCardComponent({ key: index, date: dateObj.date, dateObj: dateObj });
+                }
+              })}
+            </div>
           ))}
-      </TableBody>
-    </TableContainer>
+      </div>
+    </div>
   );
 }

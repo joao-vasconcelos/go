@@ -57,7 +57,7 @@ export default async function calendarsEdit(req, res) {
 
   // 2. Try to update the correct document
   try {
-    const editedDocument = await CalendarModel.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
+    const editedDocument = await CalendarModel.findOneAndUpdate({ _id: req.query._id }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Calendar with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {

@@ -45,10 +45,10 @@ export default async function datesEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['agency_code'].
-    const foundDocumentWithDateCode = await DateModel.exists({ agency_code: req.body.agency_code });
-    if (foundDocumentWithDateCode && foundDocumentWithDateCode._id != req.query._id) {
-      throw new Error('Uma Agência com o mesmo Código já existe.');
+    // The values that need to be unique are ['date'].
+    const foundDocumentWithDate = await DateModel.exists({ date: req.body.date });
+    if (foundDocumentWithDate && foundDocumentWithDate._id != req.query._id) {
+      throw new Error('Uma Data igual já existe.');
     }
   } catch (err) {
     console.log(err);
@@ -57,7 +57,7 @@ export default async function datesEdit(req, res) {
 
   // 2. Try to update the correct document
   try {
-    const editedDocument = await DateModel.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
+    const editedDocument = await DateModel.findOneAndUpdate({ _id: req.query._id }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Date with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {

@@ -14,11 +14,12 @@ export const Schema = new mongoose.Schema(
       maxlength: 8,
       unique: true,
     },
-    default_period: {
+    period: {
       type: Number,
     },
-    default_holiday: {
-      type: Boolean,
+    notes: {
+      type: String,
+      maxlength: 5000,
     },
   },
   { timestamps: true }

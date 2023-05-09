@@ -58,7 +58,7 @@ export default async function linesEdit(req, res) {
 
   // 2. Try to update the correct document
   try {
-    const editedDocument = await LineModel.findOneAndReplace({ _id: req.query._id }, req.body, { new: true });
+    const editedDocument = await LineModel.findOneAndUpdate({ _id: req.query._id }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Line with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
