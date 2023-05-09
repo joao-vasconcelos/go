@@ -1,39 +1,12 @@
+'use client';
+
+import styles from './AppSidebar.module.css';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { styled } from '@stitches/react';
 import { Tooltip, ActionIcon } from '@mantine/core';
 import { TbChartPie, TbFileZip, TbBusStop, TbBuildingCommunity, TbMessageChatbot, TbShape2, TbCoins, TbCalendarDue, TbLiveView, TbLogin, TbArrowLoopRight, TbUsers, TbAlertTriangle } from 'react-icons/tb';
-
-const Container = styled('div', {
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '$xs',
-  justifyContent: 'space-between',
-  backgroundColor: '$gray0',
-  borderRight: '1px solid $gray3',
-  boxShadow: '$xs',
-  zIndex: 999,
-});
-
-const NavWrapper = styled('div', {
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '$md',
-  padding: '$lg',
-  alignItems: 'center',
-  variants: {
-    grow: {
-      true: {
-        overflowY: 'scroll',
-        height: '100%',
-      },
-    },
-  },
-});
 
 const NavButton = styled(ActionIcon, {
   color: '$gray12',
@@ -82,7 +55,7 @@ const NavButton = styled(ActionIcon, {
   },
 });
 
-export default function Component() {
+export default function AppSidebar() {
   //
 
   const links = [
@@ -117,8 +90,8 @@ export default function Component() {
   };
 
   return (
-    <Container>
-      <NavWrapper grow>
+    <div className={styles.container}>
+      <div className={styles.navWrapper}>
         {links.map((item) => {
           if (item.disabled) {
             return (
@@ -140,14 +113,14 @@ export default function Component() {
             );
           }
         })}
-      </NavWrapper>
-      <NavWrapper>
+      </div>
+      <div className={styles.navWrapper}>
         <Tooltip label='Logout' color='gray' position='right'>
           <NavButton danger size='xl' onClick={handleLogout}>
             <TbLogin />
           </NavButton>
         </Tooltip>
-      </NavWrapper>
-    </Container>
+      </div>
+    </div>
   );
 }

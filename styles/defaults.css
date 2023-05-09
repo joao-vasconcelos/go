@@ -1,0 +1,84 @@
+:root {
+  /* ACCENT */
+  --primary1: #ffffc8;
+  --primary2: #ffff8c;
+  --primary3: #fff050;
+  --primary4: #ffe632;
+  --primary5: #ffdd00;
+  --primary6: #ffcd00;
+  --primary7: #ffb900;
+  --primary8: #f5a000;
+  --primary9: #e68c00;
+
+  /* GRAYS */
+  --gray0: #ffffff;
+  --gray1: #f8f9fa;
+  --gray2: #f1f3f5;
+  --gray3: #e9ecef;
+  --gray4: #dee2e6;
+  --gray5: #ced4da;
+  --gray6: #adb5bd;
+  --gray7: #868e96;
+  --gray8: #495057;
+  --gray9: #343a40;
+  --gray10: #212529;
+  --gray11: #6f6e77;
+  --gray12: #1a1523;
+
+  /* STATUS-SUCCESS */
+  --success0: #ebfbee;
+  --success1: #d3f9d8;
+  --success2: #b2f2bb;
+  --success3: #8ce99a;
+  --success4: #69db7c;
+  --success5: #51cf66;
+  --success6: #40c057;
+  --success7: #37b24d;
+  --success8: #2f9e44;
+  --success9: #2b8a3e;
+
+  /* STATUS-WARNING */
+  --warning1: #fff8cc;
+  --warning2: #ffef99;
+  --warning3: #ffe466;
+  --warning4: #ffda3f;
+  --warning5: #ffc800;
+  --warning6: #dba700;
+  --warning7: #b78700;
+  --warning8: #936a00;
+  --warning9: #7a5500;
+
+  /* STATUS-DANGER */
+  --danger0: #fff5f5;
+  --danger1: #ffe3e3;
+  --danger2: #ffc9c9;
+  --danger3: #ffa8a8;
+  --danger4: #ff8787;
+  --danger5: #ff6b6b;
+  --danger6: #fa5252;
+  --danger7: #f03e3e;
+  --danger8: #e03131;
+  --danger9: #c92a2a;
+
+  /* STATUS-INFO */
+  --info1: #e7f5ff;
+  --info2: #d0ebff;
+  --info3: #79caf7;
+  --info4: #57b0f0;
+  --info5: #228be6;
+  --info6: #196cc5;
+  --info7: #1150a5;
+  --info8: #0b3885;
+  --info9: #06286e;
+
+  /* SIZES */
+  --size-xs: 5px;
+  --size-sm: 10px;
+  --size-md: 15px;
+  --size-lg: 25px;
+
+  /* FONTS */
+  --font-sm: 12px;
+  --font-md: 14px;
+  --font-lg: 18px;
+}

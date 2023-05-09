@@ -1,36 +1,16 @@
 'use client';
 
+import 'dayjs/locale/pt';
 import { SWRConfig } from 'swr';
-import { styled } from '@stitches/react';
 import { SessionProvider } from 'next-auth/react';
-import Header from './header';
-import Sidebar from './sidebar';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
-import 'dayjs/locale/pt';
-
-const PageWrapper = styled('div', {
-  position: 'fixed',
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-});
-
-const Body = styled('div', {
-  width: '100%',
-  height: '100%',
-  display: 'grid',
-  gridTemplateColumns: '85px 1fr',
-});
-
-const Content = styled('div', {
-  height: '100%',
-  padding: '$md',
-  background: '$gray1',
-  zIndex: 0,
-});
+import styles from './layout.module.css';
+import Image from 'next/image';
+import carrisMetropolitanaIcon from '../../public/appicon.svg';
+import AppHeader from '../../components/AppHeader/AppHeader';
+import AppSidebar from '../../components/AppSidebar/AppSidebar';
 
 export default function Layout({ children, session }) {
   //
@@ -57,13 +37,12 @@ export default function Layout({ children, session }) {
         <DatesProvider settings={{ locale: 'pt' }}>
           <Notifications />
           <ModalsProvider>
-            <PageWrapper>
-              <Header />
-              <Body>
-                <Sidebar />
-                <Content>{children}</Content>
-              </Body>
-            </PageWrapper>
+            <div className={styles.pageWrapper}>
+              <Image priority className={styles.appIcon} src={carrisMetropolitanaIcon} alt={'Carris Metropolitana'} />
+              <AppHeader />
+              <AppSidebar />
+              <div className={styles.content}>{children}</div>
+            </div>
           </ModalsProvider>
         </DatesProvider>
       </SWRConfig>

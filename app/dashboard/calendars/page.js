@@ -96,7 +96,19 @@ export default function Page() {
     }
   };
 
-  const handleUpdateDate = () => {};
+  const handleUpdateDate = async (dateObj) => {
+    // try {
+    //   setIsSaving(true);
+    //   await API({ service: 'dates', resourceId: calendar_id, operation: 'edit', method: 'PUT', body: form.values });
+    //   form.resetDirty();
+    //   setIsSaving(false);
+    //   setHasErrorSaving(false);
+    // } catch (err) {
+    //   console.log(err);
+    //   setIsSaving(false);
+    //   setHasErrorSaving(err);
+    // }
+  };
 
   const handleDeleteDate = () => {};
 

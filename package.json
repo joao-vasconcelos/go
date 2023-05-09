@@ -1,6 +1,6 @@
 {
   "name": "@carrismetropolitana/go",
-  "version": "2023.05.08-1422",
+  "version": "2023.05.09-0240",
   "private": true,
   "scripts": {
     "dev": "next dev",

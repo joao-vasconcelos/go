@@ -8,6 +8,7 @@ export const metadata = {
 };
 
 import '../styles/reset.css';
+import '../styles/defaults.css';
 import { Inter } from 'next/font/google';
 import { ServerStylesheet } from './stitches';
 
