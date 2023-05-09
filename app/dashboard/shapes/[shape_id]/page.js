@@ -9,7 +9,7 @@ import API from '../../../../services/API';
 import { MapContainer, TileLayer, Polyline } from 'react-leaflet';
 import { Validation as ShapeValidation } from '../../../../schemas/Shape/validation';
 import { Default as ShapeDefault } from '../../../../schemas/Shape/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Text, Button } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Text, Button, Group } from '@mantine/core';
 import { TbTrash } from 'react-icons/tb';
 import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
@@ -17,7 +17,6 @@ import notify from '../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import HeaderTitle from '../../../../components/lists/HeaderTitle';
 import ImportShapeFromText from './ImportShapeFromText';
-import Flex from '../../../../layouts/Flex';
 import DynamicTable from '../../../../components/DynamicTable';
 import OpenStreetMap from '../../../../components/OpenStreetMap';
 
@@ -211,11 +210,11 @@ export default function Page() {
       <Divider />
       <Section>
         <SectionTitle>Pontos GTFS</SectionTitle>
-        <Flex>
+        <Group>
           <Button variant='light' color='red' onClick={handleShapeDelete}>
             Eliminar Pontos da Shape
           </Button>
-        </Flex>
+        </Group>
         <DynamicTable
           data={(shapeData && shapeData.points) || []}
           isLoading={shapeLoading}

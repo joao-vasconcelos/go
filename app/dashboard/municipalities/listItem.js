@@ -3,7 +3,7 @@
 import { styled } from '@stitches/react';
 import { useRouter, useParams } from 'next/navigation';
 import BaseListItem from '../../../components/BaseListItem/BaseListItem';
-import Flex from '../../../layouts/Flex';
+import { Group } from '@mantine/core';
 
 const Wrapper = styled('div', {
   display: 'flex',
@@ -52,11 +52,11 @@ export default function ListItem({ _id, municipality_code, municipality_name, di
     <BaseListItem onClick={handleClick} isSelected={municipality_id === _id} withChevron>
       <Wrapper>
         <Title isUntitled={!municipality_name}>{municipality_name || 'Município Sem Nome'}</Title>
-        <Flex>
+        <Group>
           <Badge>{municipality_code}</Badge>
           <Badge>{district}</Badge>
           <Badge>{dico}</Badge>
-        </Flex>
+        </Group>
       </Wrapper>
     </BaseListItem>
   );

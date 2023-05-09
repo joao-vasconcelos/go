@@ -5,7 +5,6 @@ import { styled } from '@stitches/react';
 import { Table, Group, TextInput, Loader } from '@mantine/core';
 import { keys } from '@mantine/utils';
 import { TbSearch, TbSelector, TbChevronDown, TbChevronUp } from 'react-icons/tb';
-import Flex from '../layouts/Flex';
 
 const TableHeaderColumn = styled('th', {
   cursor: 'pointer',
