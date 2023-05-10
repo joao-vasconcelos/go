@@ -2,21 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { styled } from '@stitches/react';
 import { signIn } from 'next-auth/react';
-import { TextInput, Button } from '@mantine/core';
+import { TextInput, Button, SimpleGrid } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { Default as EmailDefault } from '../../../schemas/Email/default';
 import { Validation as EmailValidation } from '../../../schemas/Email/validation';
 import { useSession } from 'next-auth/react';
-
-const FlexWrapper = styled('div', {
-  width: '100%',
-  padding: '$lg',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '$md',
-});
 
 export default function AuthSignIn() {
   //
@@ -44,12 +35,12 @@ export default function AuthSignIn() {
   } else {
     return (
       <form onSubmit={form.onSubmit(handleSignIn)}>
-        <FlexWrapper>
+        <SimpleGrid>
           <TextInput placeholder='email@tmlmobilidade.pt' {...form.getInputProps('email')} />
           <Button type={'submit'} fullWidth loading={isLoading}>
             Sign in
           </Button>
-        </FlexWrapper>
+        </SimpleGrid>
       </form>
     );
   }

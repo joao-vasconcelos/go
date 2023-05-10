@@ -1,28 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { styled } from '@stitches/react';
-import { Button } from '@mantine/core';
-
-const FlexWrapper = styled('div', {
-  width: '100%',
-  padding: '$lg',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '$md',
-});
-
-const Text = styled('p', {
-  textAlign: 'center',
-  variants: {
-    type: {
-      error: {
-        color: '$danger5',
-        fontWeight: '$bold',
-      },
-    },
-  },
-});
+import { Button, SimpleGrid, Text } from '@mantine/core';
 
 export default function AuthError() {
   //
@@ -47,11 +26,13 @@ export default function AuthError() {
   };
 
   return (
-    <FlexWrapper>
-      <Text type={'error'}>{getErrorMessage()}</Text>
+    <SimpleGrid>
+      <Text color='red' align='center' fw='bold'>
+        {getErrorMessage()}
+      </Text>
       <Button fullWidth variant='light' onClick={handleSignInRetry}>
         Go Back
       </Button>
-    </FlexWrapper>
+    </SimpleGrid>
   );
 }
