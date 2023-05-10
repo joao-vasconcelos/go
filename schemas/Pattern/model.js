@@ -59,18 +59,22 @@ export const Schema = new mongoose.Schema(
     ],
     schedules: [
       {
-        schedule_id: {
-          type: String,
-          maxlength: 100,
-        },
-        calendar_id: {
-          type: String,
-          maxlength: 100,
-        },
         start_time: {
           type: String,
           maxlength: 100,
         },
+        calendars_on: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Calendar',
+          },
+        ],
+        calendars_off: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Calendar',
+          },
+        ],
         path_overrides: [
           {
             stop_sequence: {

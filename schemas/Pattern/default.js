@@ -24,8 +24,8 @@ export const Default = {
   ],
   schedules: [
     {
-      schedule_id: '',
-      calendar_id: '',
+      calendars_on: [],
+      calendars_off: [],
       start_time: '',
       path_overrides: [],
     },

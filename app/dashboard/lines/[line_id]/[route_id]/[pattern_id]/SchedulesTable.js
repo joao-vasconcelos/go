@@ -2,9 +2,9 @@
 
 import useSWR from 'swr';
 import { styled } from '@stitches/react';
-import { Select, ActionIcon, Flex, Checkbox, Badge, Tooltip, NumberInput, MultiSelect, TextInput } from '@mantine/core';
+import { Select, ActionIcon, Flex, Checkbox, Badge, Tooltip, NumberInput, MultiSelect, TextInput, Button } from '@mantine/core';
 import { TimeInput } from '@mantine/dates';
-import { TbSortAscendingNumbers, TbX, TbArrowBarUp, TbClockPause, TbEqual, TbPlayerTrackNext, TbArrowBarToDown, TbArrowAutofitContent, TbTrash, TbChevronDown, TbClockHour4, TbChevronRight, TbGripVertical, TbSum } from 'react-icons/tb';
+import { TbSortAscendingNumbers, TbAdjustmentsFilled, TbX, TbArrowBarUp, TbClockPause, TbEqual, TbPlayerTrackNext, TbArrowBarToDown, TbArrowAutofitContent, TbTrash, TbSum } from 'react-icons/tb';
 
 const TableContainer = styled('div', {
   display: 'grid',
@@ -19,7 +19,7 @@ const TableContainer = styled('div', {
 
 const TableRow = styled('div', {
   display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr) 80px',
+  gridTemplateColumns: '150px 1fr 1fr 100px 80px',
   alignItems: 'center',
   gap: '5px',
   //   width: '100%',
@@ -154,7 +154,7 @@ const Subtitle = styled(Text, {
   lineHeight: '1',
 });
 
-export default function SchedulesTable({ form, onReorder, onDelete }) {
+export default function SchedulesTable({ form, onDelete }) {
   //
 
   // Fetch calendars
@@ -169,8 +169,9 @@ export default function SchedulesTable({ form, onReorder, onDelete }) {
   const StopSequenceHeader = () => (
     <TableHeader>
       <TableCellHeader>Hora de Início</TableCellHeader>
-      <TableCellHeader>Código</TableCellHeader>
-      <TableCellHeader>Calendário</TableCellHeader>
+      <TableCellHeader>Calendários ON</TableCellHeader>
+      <TableCellHeader>Calendários OFF</TableCellHeader>
+      <TableCellHeader />
       <TableCellHeader />
     </TableHeader>
   );
@@ -195,24 +196,43 @@ export default function SchedulesTable({ form, onReorder, onDelete }) {
                 <TimeInput withSeconds aria-label='star_time' {...form.getInputProps(`schedules.${index}.start_time`)} w={'100%'} />
               </TableCellBody>
               <TableCellBody>
-                <TextInput aria-label='schedule_id' {...form.getInputProps(`schedules.${index}.schedule_id`)} w={'100%'} />
-              </TableCellBody>
-              <TableCellBody>
-                <Select
+                <MultiSelect
                   aria-label='Calendário'
                   placeholder='Calendário'
                   searchable
                   nothingFound='Sem opções'
                   w={'100%'}
-                  {...form.getInputProps(`schedules.${index}.calendar_id`)}
+                  {...form.getInputProps(`schedules.${index}.calendars_on`)}
                   data={
                     calendarsData
-                      ? calendarsData.map((item) => {
-                          return { value: item._id, label: `[${item.calendar_code}] ${item.calendar_name || 'Calendário sem Nome'}` };
+                      ? calendarsData.map((calendar) => {
+                          return { value: calendar._id, label: `[${calendar.code}] ${calendar.name || 'Calendário sem Nome'}`, disabled: form.values.schedules[index].calendars_off.includes(calendar._id) };
                         })
                       : []
                   }
                 />
+              </TableCellBody>
+              <TableCellBody>
+                <MultiSelect
+                  aria-label='Calendário'
+                  placeholder='Calendário'
+                  searchable
+                  nothingFound='Sem opções'
+                  w={'100%'}
+                  {...form.getInputProps(`schedules.${index}.calendars_off`)}
+                  data={
+                    calendarsData
+                      ? calendarsData.map((calendar) => {
+                          return { value: calendar._id, label: `[${calendar.code}] ${calendar.name || 'Calendário sem Nome'}`, disabled: form.values.schedules[index].calendars_on.includes(calendar._id) };
+                        })
+                      : []
+                  }
+                />
+              </TableCellBody>
+              <TableCellBody hcenter>
+                <Button size='xs' disabled>
+                  Ajustes
+                </Button>
               </TableCellBody>
               <TableCellBody hcenter>
                 <Flex>
