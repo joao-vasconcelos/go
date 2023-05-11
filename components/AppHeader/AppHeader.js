@@ -1,7 +1,6 @@
 import { useSession } from 'next-auth/react';
 import styles from './AppHeader.module.css';
-import AppVersion from '../AppVersion/AppVersion';
-import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
+import AppOptions from '../AppOptions/AppOptions';
 
 export default function AppHeader() {
   //
@@ -11,8 +10,7 @@ export default function AppHeader() {
     <div className={styles.container}>
       <p className={styles.greeting}>{`Olá ${(session && session.user.name) || '-'}!`}</p>
       <div className={styles.options}>
-        <LocaleSwitcher />
-        <AppVersion />
+        <AppOptions />
       </div>
     </div>
   );

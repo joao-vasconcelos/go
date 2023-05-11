@@ -1,9 +1,0 @@
-.container {
-  display: flex;
-  align-items: center;
-  gap: var(--size-sm);
-  color: var(--success5);
-  font-size: var(--font-sm);
-  font-weight: 600;
-  line-height: 1;
-}

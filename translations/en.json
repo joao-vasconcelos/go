@@ -17,8 +17,16 @@
             }
         }
     },
-    "LocaleSwitcher": {
-        "label": "Change language",
-        "locale": "{locale, select, en {English} pt {Português} other {Unknown}}"
+    "AppOptions": {
+        "language": {
+            "label": "Language",
+            "locale": "{locale, select, en {English} pt {Português} other {Unknown}}"
+        },
+        "auth": {
+            "logout": "Logout"
+        },
+        "version": {
+            "label": "Version"
+        }
     }
 }

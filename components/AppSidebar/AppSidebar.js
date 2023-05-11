@@ -2,7 +2,6 @@
 
 import styles from './AppSidebar.module.css';
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { styled } from '@stitches/react';
 import { Tooltip, ActionIcon } from '@mantine/core';
@@ -59,7 +58,7 @@ export default function AppSidebar() {
   //
 
   const links = [
-    { href: 'statistics', label: 'Estatísticas', icon: <IconChartPie /> },
+    { href: 'statistics', label: 'Estatísticas', icon: <IconChartPie />, disabled: true },
     { href: 'alerts', label: 'Alertas', icon: <IconAlertTriangle />, disabled: true },
     { href: 'stops', label: 'Paragens', icon: <IconBusStop /> },
     { href: 'lines', label: 'Linhas', icon: <IconArrowLoopRight /> },
@@ -82,10 +81,6 @@ export default function AppSidebar() {
     } else if (pathname != '/' && href != '/') {
       return pathname.includes(href);
     }
-  };
-
-  const handleLogout = () => {
-    signOut();
   };
 
   return (
@@ -112,13 +107,6 @@ export default function AppSidebar() {
             );
           }
         })}
-      </div>
-      <div className={styles.navWrapper}>
-        <Tooltip label='Logout' color='gray' position='right'>
-          <NavButton danger size='xl' onClick={handleLogout}>
-            <IconLogin />
-          </NavButton>
-        </Tooltip>
       </div>
     </div>
   );
