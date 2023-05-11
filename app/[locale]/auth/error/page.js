@@ -2,22 +2,24 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, SimpleGrid, Text } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 
 export default function AuthError() {
   //
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('auth.error');
 
   const getErrorMessage = () => {
     switch (searchParams.get('error')) {
       case 'Configuration':
-        return 'There is a problem with the server configuration.';
+        return t('type.configuration');
       case 'AccessDenied':
-        return 'You cannot login with this email.';
+        return t('type.access-denied');
       case 'Verification':
-        return 'The token has expired or has already been used.';
+        return t('type.verification');
       default:
-        return 'Unkown issue.';
+        return t('type.unknown');
     }
   };
 
@@ -31,7 +33,7 @@ export default function AuthError() {
         {getErrorMessage()}
       </Text>
       <Button fullWidth variant='light' onClick={handleSignInRetry}>
-        Go Back
+        {t('submit')}
       </Button>
     </SimpleGrid>
   );

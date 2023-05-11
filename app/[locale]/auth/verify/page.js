@@ -3,12 +3,14 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Button, SimpleGrid, Text } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 
 export default function AuthVerify() {
   //
   const router = useRouter();
   const searchParams = useSearchParams();
   const { status } = useSession();
+  const t = useTranslations('auth.verify');
 
   if (status === 'authenticated') {
     if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
@@ -21,9 +23,9 @@ export default function AuthVerify() {
 
   return (
     <SimpleGrid>
-      <Text align='center'>Please check your email.</Text>
+      <Text align='center'>{t('instruction')}</Text>
       <Button fullWidth variant='light' onClick={handleSignInRetry}>
-        I did not receive my email
+        {t('submit')}
       </Button>
     </SimpleGrid>
   );
