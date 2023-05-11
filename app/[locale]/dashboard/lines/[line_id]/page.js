@@ -10,7 +10,7 @@ import { Validation as LineValidation } from '../../../../../schemas/Line/valida
 import { Default as LineDefault } from '../../../../../schemas/Line/default';
 import { Tooltip, Select, MultiSelect, Button, ColorInput, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '../../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
