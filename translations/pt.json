@@ -1,5 +1,24 @@
 {
-    "About": {
-        "title": "Sobre nós"
+    "auth": {
+        "signin": {
+            "submit": "Entrar"
+        },
+        "verify": {
+            "instruction": "Please check your email",
+            "submit": "I did not receive my email"
+        },
+        "error": {
+            "submit": "Try Again",
+            "type": {
+                "configuration": "There is a problem with the server configuration.",
+                "access-denied": "You cannot login with this email.",
+                "verification": "The token has expired or has already been used.",
+                "unkown": "Unkown Issue"
+            }
+        }
+    },
+    "LocaleSwitcher": {
+        "label": "Change language",
+        "locale": "{locale, select, en {English} pt {Português} other {Unknown}}"
     }
 }
