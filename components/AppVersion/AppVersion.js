@@ -1,6 +1,6 @@
+import pjson from '../../package.json';
 import styles from './AppVersion.module.css';
 import { IconCloudFilled } from '@tabler/icons-react';
-import pjson from '../../package.json';
 
 export default function AppVersion() {
   return (
