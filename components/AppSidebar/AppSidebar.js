@@ -6,7 +6,7 @@ import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { styled } from '@stitches/react';
 import { Tooltip, ActionIcon } from '@mantine/core';
-import { IconChartPie, IconFileZip, IconBusStop, IconBuildingCommunity, IconMessageChatbot, IconShape2, IconCoins, IconCalendarDue, IconLiveView, IconLogin, IconArrowLoopRight, IconUsers, IconAlertTriangle } from '@tabler/icons-react';
+import { IconChartPie, IconFileZip, IconBusStop, IconBuildingCommunity, IconMessageChatbot, IconShape2, IconCoins, IconCalendarDue, IconLogin, IconArrowLoopRight, IconUsers, IconAlertTriangle } from '@tabler/icons-react';
 
 const NavButton = styled(ActionIcon, {
   color: '$gray12',
@@ -69,7 +69,6 @@ export default function AppSidebar() {
     { href: 'agencies', label: 'Agências', icon: <IconBuildingCommunity /> },
     { href: 'threads', label: 'Conversas', icon: <IconMessageChatbot />, disabled: true },
     { href: 'export', label: 'Exportar GTFS', icon: <IconFileZip /> },
-    // { href: 'realtime', label: 'Tempo Real', icon: <IconLiveView />, disabled: true },
     { href: 'users', label: 'Utilizadores', icon: <IconUsers /> },
   ];
 
