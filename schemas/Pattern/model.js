@@ -9,13 +9,16 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
+    pattern_code: {
+      type: String,
+      maxlength: 50,
+    },
     parent_route: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Route',
     },
     direction_code: {
       type: Number,
-      maxlength: 50,
     },
     headsign: {
       type: String,

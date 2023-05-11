@@ -9,6 +9,11 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
+    route_code: {
+      type: String,
+      maxlength: 50,
+      unique: true,
+    },
     parent_line: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Line',
