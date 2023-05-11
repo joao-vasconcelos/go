@@ -1,5 +1,5 @@
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { TbCheck } from 'react-icons/tb';
+import { IconCheck } from '@tabler/icons-react';
 
 /* * * * * */
 /* UI NOTIFICATIONS (TOASTS) */
@@ -26,7 +26,7 @@ export default async function notify(identifier, type, title, message) {
 
     case 'success':
       defaultOptions.autoClose = 3000;
-      defaultOptions.icon = <TbCheck />;
+      defaultOptions.icon = <IconCheck />;
       defaultOptions.color = 'green';
       updateNotification(defaultOptions);
       break;

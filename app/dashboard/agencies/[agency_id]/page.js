@@ -9,7 +9,7 @@ import API from '../../../../services/API';
 import { Validation as AgencyValidation } from '../../../../schemas/Agency/validation';
 import { Default as AgencyDefault } from '../../../../schemas/Agency/default';
 import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon, Text } from '@mantine/core';
-import { TbTrash } from 'react-icons/tb';
+import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
@@ -139,7 +139,7 @@ export default function Page() {
           <HeaderTitle text={form.values.agency_name || 'Agência Sem Nome'} />
           <Tooltip label='Eliminar Agência' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <TbTrash size='20px' />
+              <IconTrash size='20px' />
             </ActionIcon>
           </Tooltip>
         </>

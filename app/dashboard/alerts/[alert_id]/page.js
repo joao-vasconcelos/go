@@ -9,7 +9,7 @@ import API from '../../../../services/API';
 import { Validation as FareValidation } from '../../../../schemas/Fare/validation';
 import { Default as FareDefault } from '../../../../schemas/Fare/default';
 import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect } from '@mantine/core';
-import { TbTrash } from 'react-icons/tb';
+import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
@@ -140,7 +140,7 @@ export default function Page() {
           <HeaderTitle text={form.values.fare_long_name || 'Tarifário Sem Nome'} />
           <Tooltip label='Eliminar Tarifário' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <TbTrash size='20px' />
+              <IconTrash size='20px' />
             </ActionIcon>
           </Tooltip>
         </>

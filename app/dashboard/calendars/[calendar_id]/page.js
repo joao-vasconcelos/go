@@ -9,7 +9,7 @@ import API from '../../../../services/API';
 import { Validation as CalendarValidation } from '../../../../schemas/Calendar/validation';
 import { Default as CalendarDefault } from '../../../../schemas/Calendar/default';
 import { Tooltip, Switch, SimpleGrid, TextInput, ActionIcon, Text, Divider } from '@mantine/core';
-import { TbTrash } from 'react-icons/tb';
+import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
@@ -177,7 +177,7 @@ export default function Page() {
           <HeaderTitle text={form.values.name || 'Calendário Sem Nome'} />
           <Tooltip label='Eliminar Calendário' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <TbTrash size='20px' />
+              <IconTrash size='20px' />
             </ActionIcon>
           </Tooltip>
         </>

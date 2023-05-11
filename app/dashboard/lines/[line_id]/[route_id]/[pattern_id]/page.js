@@ -9,7 +9,7 @@ import API from '../../../../../../services/API';
 import { Validation as PatternValidation } from '../../../../../../schemas/Pattern/validation';
 import { Default as PatternDefault } from '../../../../../../schemas/Pattern/default';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text, Select } from '@mantine/core';
-import { TbExternalLink, TbTrash } from 'react-icons/tb';
+import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../../../components/SaveButtons';
 import notify from '../../../../../../services/notify';
@@ -269,12 +269,12 @@ export default function Page() {
           />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
-              <TbExternalLink size='20px' />
+              <IconExternalLink size='20px' />
             </ActionIcon>
           </Tooltip>
           <Tooltip label='Eliminar Pattern' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <TbTrash size='20px' />
+              <IconTrash size='20px' />
             </ActionIcon>
           </Tooltip>
         </>

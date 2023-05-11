@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { SimpleGrid, Textarea, Button, Alert } from '@mantine/core';
 import { parseShapesCsv } from '../shapesTxtParser';
-import { TbInfoCircleFilled } from 'react-icons/tb';
+import { IconInfoCircleFilled } from '@tabler/icons-react';
 
 //
 
@@ -31,7 +31,7 @@ export default function ImportShapeFromText({ onImport }) {
     <>
       <SimpleGrid cols={1}>
         {shapeText.length > 0 && (
-          <Alert icon={<TbInfoCircleFilled size='20px' />} title='Atenção' color='blue'>
+          <Alert icon={<IconInfoCircleFilled size='20px' />} title='Atenção' color='blue'>
             A importação de novos pontos substitui os atualmente guardados na shape. Utilize esta função para atualizar a shape sem ser necessário re-associar shapes aos patterns.
           </Alert>
         )}

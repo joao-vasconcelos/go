@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { styled } from '@stitches/react';
 import { Select, ActionIcon, Flex, Checkbox, Badge, Tooltip, NumberInput, MultiSelect, TextInput, Button } from '@mantine/core';
 import { TimeInput } from '@mantine/dates';
-import { TbSortAscendingNumbers, TbAdjustmentsFilled, TbX, TbArrowBarUp, TbClockPause, TbEqual, TbPlayerTrackNext, TbArrowBarToDown, TbArrowAutofitContent, TbTrash, TbSum } from 'react-icons/tb';
+import { IconTrash } from '@tabler/icons-react';
 
 const TableContainer = styled('div', {
   display: 'grid',
@@ -237,7 +237,7 @@ export default function SchedulesTable({ form, onDelete }) {
               <TableCellBody hcenter>
                 <Flex>
                   <ActionIcon size='lg' color='red' onClick={() => onDelete(index)}>
-                    <TbTrash size='20px' />
+                    <IconTrash size='20px' />
                   </ActionIcon>
                 </Flex>
               </TableCellBody>

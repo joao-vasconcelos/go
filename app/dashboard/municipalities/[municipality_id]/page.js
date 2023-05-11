@@ -9,7 +9,7 @@ import API from '../../../../services/API';
 import { Validation as MunicipalityValidation } from '../../../../schemas/Municipality/validation';
 import { Default as MunicipalityDefault } from '../../../../schemas/Municipality/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Text } from '@mantine/core';
-import { TbTrash } from 'react-icons/tb';
+import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
@@ -139,7 +139,7 @@ export default function Page() {
           <HeaderTitle text={form.values.municipality_name || 'Município Sem Nome'} />
           <Tooltip label='Eliminar Município' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <TbTrash size='20px' />
+              <IconTrash size='20px' />
             </ActionIcon>
           </Tooltip>
         </>

@@ -10,7 +10,7 @@ import { MapContainer, TileLayer, Polyline } from 'react-leaflet';
 import { Validation as ShapeValidation } from '../../../../schemas/Shape/validation';
 import { Default as ShapeDefault } from '../../../../schemas/Shape/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Text, Button, Group } from '@mantine/core';
-import { TbTrash } from 'react-icons/tb';
+import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
@@ -174,7 +174,7 @@ export default function Page() {
           <HeaderTitle text={form.values.shape_name || 'Shape Sem Nome'} />
           <Tooltip label='Eliminar Shape' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <TbTrash size='20px' />
+              <IconTrash size='20px' />
             </ActionIcon>
           </Tooltip>
         </>

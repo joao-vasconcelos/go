@@ -9,7 +9,7 @@ import { TwoUnevenColumns } from '../../../components/Layouts/Layouts';
 import Pannel from '../../../components/Pannel/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu, Divider } from '@mantine/core';
-import { TbCirclePlus, TbArrowBarToDown, TbDots, TbPencil } from 'react-icons/tb';
+import { IconCirclePlus, IconArrowBarToDown, IconDots, IconPencil } from '@tabler/icons-react';
 import notify from '../../../services/notify';
 import NoDataLabel from '../../../components/NoDataLabel';
 import ErrorDisplay from '../../../components/ErrorDisplay';
@@ -69,18 +69,18 @@ export default function Layout({ children }) {
               <Menu shadow='md' position='bottom-end'>
                 <Menu.Target>
                   <ActionIcon variant='light' size='lg' loading={stopsLoading || isCreating}>
-                    <TbDots size='20px' />
+                    <IconDots size='20px' />
                   </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateStop}>
+                  <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateStop}>
                     Nova Paragem
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download stop.txt</Menu.Item>
+                  <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download stop.txt</Menu.Item>
                   <Menu.Label>Dados Relacionados</Menu.Label>
-                  <Menu.Item icon={<TbPencil size='20px' />} onClick={() => router.push('/dashboard/municipalities')}>
+                  <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/municipalities')}>
                     Editar Municípios
                   </Menu.Item>
                 </Menu.Dropdown>
@@ -90,7 +90,7 @@ export default function Layout({ children }) {
           footer={stopsData && (stopsData.length === 1 ? <FooterText text={`Encontrada 1 Paragem`} /> : <FooterText text={`Encontradas ${stopsData.length} Paragems`} />)}
         >
           <ErrorDisplay error={stopsError} loading={stopsValidating} />
-          {stopsData && stopsData.length > 0 ? stopsData.map((item) => <ListItem key={item._id} _id={item._id} stop_code={item.stop_code} stop_name={item.stop_name} />) : <NoDataLabel />}
+          {stopsData && stopsData.length > 0 ? stopsData.map((item) => <ListItem key={item._id} _id={item._id} stop_code={item.stop_code} stop_name={item.stop_name} stop_lat={item.stop_lat} stop_lon={item.stop_lon} />) : <NoDataLabel />}
         </Pannel>
       }
       second={children}

@@ -9,7 +9,7 @@ import API from '../../../../services/API';
 import { Validation as StopValidation } from '../../../../schemas/Stop/validation';
 import { Default as StopDefault } from '../../../../schemas/Stop/default';
 import { Tooltip, Select, SimpleGrid, Switch, Chip, Checkbox, Group, TextInput, NumberInput, ActionIcon, Text, Divider, Textarea } from '@mantine/core';
-import { TbTrash, TbWorldLatitude, TbWorldLongitude, TbVolume } from 'react-icons/tb';
+import { IconTrash, IconWorldLatitude, IconWorldLongitude, IconVolume } from '@tabler/icons-react';
 import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
 import notify from '../../../../services/notify';
@@ -148,7 +148,7 @@ export default function Page() {
           <HeaderTitle text={form.values.stop_name || 'Paragem Sem Nome'} />
           <Tooltip label='Eliminar Paragem' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <TbTrash size='20px' />
+              <IconTrash size='20px' />
             </ActionIcon>
           </Tooltip>
         </>
@@ -159,8 +159,20 @@ export default function Page() {
           <SectionTitle>Configurações Gerais da Paragem</SectionTitle>
           <SimpleGrid cols={3}>
             <TextInput placeholder='123456' label='Código da Paragem' {...form.getInputProps('stop_code')} />
-            <NumberInput placeholder='38.123456' label='Latitude' precision={6} min={37} max={40} step={0.000001} stepHoldDelay={500} stepHoldInterval={100} hideControls icon={<TbWorldLatitude size='18px' />} {...form.getInputProps('stop_lat')} />
-            <NumberInput placeholder='-9.654321' label='Longitude' precision={6} min={-10} max={-7} step={0.000001} stepHoldDelay={500} stepHoldInterval={100} hideControls icon={<TbWorldLongitude size='18px' />} {...form.getInputProps('stop_lon')} />
+            <NumberInput placeholder='38.123456' label='Latitude' precision={6} min={37} max={40} step={0.000001} stepHoldDelay={500} stepHoldInterval={100} hideControls icon={<IconWorldLatitude size='18px' />} {...form.getInputProps('stop_lat')} />
+            <NumberInput
+              placeholder='-9.654321'
+              label='Longitude'
+              precision={6}
+              min={-10}
+              max={-7}
+              step={0.000001}
+              stepHoldDelay={500}
+              stepHoldInterval={100}
+              hideControls
+              icon={<IconWorldLongitude size='18px' />}
+              {...form.getInputProps('stop_lon')}
+            />
           </SimpleGrid>
           <SimpleGrid cols={1}>
             <TextInput placeholder='Nome da Paragem' label='Nome da Paragem' {...form.getInputProps('stop_name')} />
@@ -173,7 +185,7 @@ export default function Page() {
               {...form.getInputProps('tts_stop_name')}
               rightSection={
                 <ActionIcon onClick={handlePlayPhoneticName} variant='subtle' color='blue' disabled={!form.values.tts_stop_name}>
-                  <TbVolume />
+                  <IconVolume />
                 </ActionIcon>
               }
             />

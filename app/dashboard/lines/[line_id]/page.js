@@ -9,7 +9,7 @@ import API from '../../../../services/API';
 import { Validation as LineValidation } from '../../../../schemas/Line/validation';
 import { Default as LineDefault } from '../../../../schemas/Line/default';
 import { Tooltip, Select, MultiSelect, Button, ColorInput, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
-import { TbExternalLink, TbTrash } from 'react-icons/tb';
+import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import Pannel from '../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../components/SaveButtons';
@@ -166,12 +166,12 @@ export default function Page() {
           <Line short_name={form.values.line_short_name} long_name={form.values.line_long_name} color={form.values.line_color} text_color={form.values.line_text_color} />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
-              <TbExternalLink size='20px' />
+              <IconExternalLink size='20px' />
             </ActionIcon>
           </Tooltip>
           <Tooltip label='Eliminar Linha' color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <TbTrash size='20px' />
+              <IconTrash size='20px' />
             </ActionIcon>
           </Tooltip>
         </>

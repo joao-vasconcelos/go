@@ -2,7 +2,7 @@
 
 import { styled } from '@stitches/react';
 import { Draggable } from '@hello-pangea/dnd';
-import { TbChevronUp, TbChevronDown, TbChevronRight } from 'react-icons/tb';
+import { IconChevronUp, IconChevronDown, IconChevronRight } from '@tabler/icons-react';
 
 const Container = styled('div', {
   display: 'flex',
@@ -93,8 +93,8 @@ export default function RouteCard({ index, onOpen, line_code, route_id, route_na
       {(provided) => (
         <Container ref={provided.innerRef} {...provided.draggableProps} clickable>
           <Toolbar {...provided.dragHandleProps}>
-            <TbChevronUp size='20px' />
-            <TbChevronDown size='20px' />
+            <IconChevronUp size='20px' />
+            <IconChevronDown size='20px' />
           </Toolbar>
           <Wrapper onClick={() => onOpen(route_id)}>
             <Subtitle>
@@ -103,7 +103,7 @@ export default function RouteCard({ index, onOpen, line_code, route_id, route_na
             <Title isUntitled={!route_name}>{route_name ? route_name : 'Rota Sem Nome'}</Title>
           </Wrapper>
           <Toolbar>
-            <TbChevronRight size='20px' />
+            <IconChevronRight size='20px' />
           </Toolbar>
         </Container>
       )}

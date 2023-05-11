@@ -2,7 +2,7 @@
 
 import { styled } from '@stitches/react';
 import { Draggable } from '@hello-pangea/dnd';
-import { TbArrowMoveRight, TbArrowMoveLeft, TbChevronRight, TbChevronUp, TbChevronDown } from 'react-icons/tb';
+import { IconArrowMoveRight, IconArrowMoveLeft, IconChevronRight, IconChevronUp, IconChevronDown } from '@tabler/icons-react';
 
 const Container = styled('div', {
   display: 'flex',
@@ -101,15 +101,15 @@ export default function PatternCard({ index, pattern_id, headsign, onOpen }) {
       {(provided) => (
         <Container ref={provided.innerRef} {...provided.draggableProps} clickable>
           <Toolbar {...provided.dragHandleProps}>
-            <TbChevronUp size='20px' />
-            <TbChevronDown size='20px' />
+            <IconChevronUp size='20px' />
+            <IconChevronDown size='20px' />
           </Toolbar>
           <Wrapper onClick={() => onOpen(pattern_id)}>
             <Subtitle>{index === 0 ? 'Inbound' : 'Outbound'}</Subtitle>
             <Title isUntitled={!headsign}>{headsign ? headsign : 'Pattern sem headsign'}</Title>
           </Wrapper>
           <Toolbar>
-            <TbChevronRight size='20px' />
+            <IconChevronRight size='20px' />
           </Toolbar>
         </Container>
       )}

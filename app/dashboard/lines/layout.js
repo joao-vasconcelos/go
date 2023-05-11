@@ -9,7 +9,7 @@ import { TwoUnevenColumns } from '../../../components/Layouts/Layouts';
 import Pannel from '../../../components/Pannel/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { TbCirclePlus, TbArrowBarToDown, TbDots } from 'react-icons/tb';
+import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-react';
 import notify from '../../../services/notify';
 import NoDataLabel from '../../../components/NoDataLabel';
 import ErrorDisplay from '../../../components/ErrorDisplay';
@@ -69,16 +69,16 @@ export default function Layout({ children }) {
               <Menu shadow='md' position='bottom-end'>
                 <Menu.Target>
                   <ActionIcon variant='light' size='lg' loading={linesLoading || isCreating}>
-                    <TbDots size='20px' />
+                    <IconDots size='20px' />
                   </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<TbCirclePlus size='20px' />} onClick={handleCreateAgency}>
+                  <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateAgency}>
                     Nova Linha
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<TbArrowBarToDown size='20px' />}>Download line.txt</Menu.Item>
+                  <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download line.txt</Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>

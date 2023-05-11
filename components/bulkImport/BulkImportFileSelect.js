@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Group, Text, Alert, Stack } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
-import { TbUpload, TbBan, TbDragDrop, TbAlertTriangleFilled } from 'react-icons/tb';
+import { IconUpload, IconBan, IconDragDrop, IconAlertTriangleFilled } from '@tabler/icons-react';
 
 export default function BulkImportFileSelect({ filesParser, onParse }) {
   //
@@ -43,7 +43,7 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
   // C. Render components
 
   const ErrorAlert = () => (
-    <Alert icon={<TbAlertTriangleFilled size='20px' />} title='Ocorreu um erro na importação' color='red'>
+    <Alert icon={<IconAlertTriangleFilled size='20px' />} title='Ocorreu um erro na importação' color='red'>
       {hasParsingError || 'Não foi possível importar o(s) ficheiro(s). Por favor verifique a formatação.'}
     </Alert>
   );
@@ -51,7 +51,7 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
   const DropZoneIdle = () => (
     <Dropzone.Idle>
       <Group>
-        <TbDragDrop size='40px' />
+        <IconDragDrop size='40px' />
         <div>
           <Text size='xl' inline>
             Adicione um ficheiro shapes.txt para importar em lote.
@@ -67,7 +67,7 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
   const DropZoneAccept = () => (
     <Dropzone.Accept>
       <Group>
-        <TbUpload size='40px' />
+        <IconUpload size='40px' />
         <div>
           <Text size='xl' inline>
             Largue para iniciar a importação.
@@ -83,7 +83,7 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
   const DropZoneReject = () => (
     <Dropzone.Reject>
       <Group>
-        <TbBan size='40px' />
+        <IconBan size='40px' />
         <div>
           <Text size='xl' inline>
             Adicione apenas ficheiros TXT ou CSV.

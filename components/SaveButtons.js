@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Tooltip, ActionIcon, Button } from '@mantine/core';
-import { TbX, TbChevronLeft, TbDeviceFloppy, TbAlertTriangleFilled } from 'react-icons/tb';
+import { IconX, IconChevronLeft, IconDeviceFloppy, IconAlertTriangleFilled } from '@tabler/icons-react';
 
 /* * */
 /* SAVE BUTTONS */
@@ -36,7 +36,7 @@ export default function SaveButtons({ isValid, isDirty, isLoading, isValidating,
 
   if (isErrorSaving && isSaving) {
     return (
-      <Button size='xs' leftIcon={<TbAlertTriangleFilled size='20px' />} variant='light' color='red' loading>
+      <Button size='xs' leftIcon={<IconAlertTriangleFilled size='20px' />} variant='light' color='red' loading>
         A Tentar Novamente...
       </Button>
     );
@@ -50,7 +50,7 @@ export default function SaveButtons({ isValid, isDirty, isLoading, isValidating,
   if (isErrorSaving) {
     return (
       <Tooltip label={`Ocorreu um erro ao salvar as alterações: ${isErrorSaving.message}`} color='red' position='bottom' width={300} multiline withArrow>
-        <Button size='xs' leftIcon={<TbAlertTriangleFilled size='20px' />} variant='light' color='red' onClick={onSave}>
+        <Button size='xs' leftIcon={<IconAlertTriangleFilled size='20px' />} variant='light' color='red' onClick={onSave}>
           Salvar Alterações
         </Button>
       </Tooltip>
@@ -67,7 +67,7 @@ export default function SaveButtons({ isValid, isDirty, isLoading, isValidating,
   if (isLoading || isSaving) {
     return (
       <ActionIcon size='lg' loading={true}>
-        <TbX size='20px' />
+        <IconX size='20px' />
       </ActionIcon>
     );
   }
@@ -81,7 +81,7 @@ export default function SaveButtons({ isValid, isDirty, isLoading, isValidating,
     return (
       <Tooltip label={`Ocorreu um erro ao atualizar: ${isErrorValidating.message}`} color='red' position='bottom' width={300} multiline withArrow>
         <ActionIcon size='lg' variant='light' color='red'>
-          <TbAlertTriangleFilled size='20px' />
+          <IconAlertTriangleFilled size='20px' />
         </ActionIcon>
       </Tooltip>
     );
@@ -96,7 +96,7 @@ export default function SaveButtons({ isValid, isDirty, isLoading, isValidating,
     return (
       <Tooltip label='Erro de Preenchimento' color='gray' position='bottom' withArrow>
         <ActionIcon size='lg' onClick={onValidate}>
-          <TbDeviceFloppy size='20px' />
+          <IconDeviceFloppy size='20px' />
         </ActionIcon>
       </Tooltip>
     );
@@ -111,7 +111,7 @@ export default function SaveButtons({ isValid, isDirty, isLoading, isValidating,
     return (
       <Tooltip label='Guardar Alterações' color='green' position='bottom' withArrow>
         <ActionIcon size='lg' color='green' variant='light' onClick={onSave}>
-          <TbDeviceFloppy size='20px' />
+          <IconDeviceFloppy size='20px' />
         </ActionIcon>
       </Tooltip>
     );
@@ -124,7 +124,7 @@ export default function SaveButtons({ isValid, isDirty, isLoading, isValidating,
   return (
     <Tooltip label='Voltar' color='gray' position='bottom' withArrow>
       <ActionIcon size='lg' onClick={onClose}>
-        <TbChevronLeft size='20px' />
+        <IconChevronLeft size='20px' />
       </ActionIcon>
     </Tooltip>
   );

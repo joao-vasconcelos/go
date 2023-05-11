@@ -4,7 +4,22 @@ import useSWR from 'swr';
 import { styled } from '@stitches/react';
 import { Select, ActionIcon, Flex, Checkbox, Badge, Tooltip, NumberInput, MultiSelect } from '@mantine/core';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { TbSortAscendingNumbers, TbX, TbArrowBarUp, TbClockPause, TbEqual, TbPlayerTrackNext, TbArrowBarToDown, TbArrowAutofitContent, TbTrash, TbChevronDown, TbClockHour4, TbChevronRight, TbGripVertical, TbSum } from 'react-icons/tb';
+import {
+  IconSortAscendingNumbers,
+  IconX,
+  IconArrowBarUp,
+  IconClockPause,
+  IconEqual,
+  IconPlayerTrackNext,
+  IconArrowBarToDown,
+  IconArrowAutofitContent,
+  IconTrash,
+  IconChevronDown,
+  IconClockHour4,
+  IconChevronRight,
+  IconGripVertical,
+  IconSum,
+} from '@tabler/icons-react';
 
 const TableContainer = styled('div', {
   display: 'grid',
@@ -204,14 +219,14 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
     <TableHeader>
       <TableCellHeader />
       <TableCellHeader hcenter>
-        <TbSortAscendingNumbers size='20px' />
+        <IconSortAscendingNumbers size='20px' />
       </TableCellHeader>
       <TableCellHeader>Paragem</TableCellHeader>
       <TableCellHeader hcenter>
-        <TbArrowBarToDown size='20px' />
+        <IconArrowBarToDown size='20px' />
       </TableCellHeader>
       <TableCellHeader hcenter>
-        <TbArrowBarUp size='20px' />
+        <IconArrowBarUp size='20px' />
       </TableCellHeader>
       <TableCellHeader>Distância entre paragens</TableCellHeader>
       <TableCellHeader />
@@ -258,7 +273,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                       {(provided) => (
                         <TableBodyRow ref={provided.innerRef} {...provided.draggableProps}>
                           <TableCellGrip hcenter {...provided.dragHandleProps}>
-                            <TbGripVertical size='20px' />
+                            <IconGripVertical size='20px' />
                           </TableCellGrip>
                           <TableCellBody hcenter>
                             <Title>{index}</Title>
@@ -301,7 +316,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                 stepHoldDelay={500}
                                 stepHoldInterval={100}
                                 formatter={formatMetersToDistance}
-                                icon={<TbArrowAutofitContent size='20px' />}
+                                icon={<IconArrowAutofitContent size='20px' />}
                                 {...form.getInputProps(`path.${index}.distance_delta`)}
                                 disabled={index === 0}
                                 value={index === 0 ? 0 : form.values.path[index].distance_delta}
@@ -309,7 +324,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                             </Tooltip>
                           </TableCellBody>
                           <TableCellBody>
-                            <TbX size='20px' />
+                            <IconX size='20px' />
                           </TableCellBody>
                           <TableCellBody>
                             <Tooltip label='Velocidade comercial no troço.' position='bottom' withArrow>
@@ -322,7 +337,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                 stepHoldDelay={500}
                                 stepHoldInterval={100}
                                 formatter={(value) => `${value} km/h`}
-                                icon={<TbPlayerTrackNext size='18px' />}
+                                icon={<IconPlayerTrackNext size='18px' />}
                                 {...form.getInputProps(`path.${index}.default_velocity`)}
                                 disabled={index === 0}
                                 value={index === 0 ? 0 : form.values.path[index].default_velocity}
@@ -330,7 +345,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                             </Tooltip>
                           </TableCellBody>
                           <TableCellBody>
-                            <TbEqual size='30px' />
+                            <IconEqual size='30px' />
                           </TableCellBody>
                           <TableCellBody>
                             <Tooltip label='Tempo estimado de viagem no troço.' position='bottom' withArrow>
@@ -338,7 +353,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                 aria-label='default_travel_time'
                                 placeholder='default_travel_time'
                                 formatter={formatSecondsToTime}
-                                icon={<TbClockHour4 size='18px' />}
+                                icon={<IconClockHour4 size='18px' />}
                                 readOnly
                                 {...form.getInputProps(`path.${index}.default_travel_time`)}
                                 disabled={index === 0}
@@ -357,7 +372,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                 step={10}
                                 stepHoldDelay={500}
                                 stepHoldInterval={100}
-                                icon={<TbClockPause size='20px' />}
+                                icon={<IconClockPause size='20px' />}
                                 formatter={formatSecondsToTime}
                                 {...form.getInputProps(`path.${index}.default_dwell_time`)}
                               />
@@ -377,7 +392,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                           <TableCellBody hcenter>
                             <Flex>
                               <ActionIcon size='lg' color='red' onClick={() => onDelete(index)}>
-                                <TbTrash size='20px' />
+                                <IconTrash size='20px' />
                               </ActionIcon>
                             </Flex>
                           </TableCellBody>

@@ -6,7 +6,7 @@ import API from '../../../services/API';
 import Pannel from '../../../components/Pannel/Pannel';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, LoadingOverlay } from '@mantine/core';
-import { TbCalendarPlus } from 'react-icons/tb';
+import { IconCalendarPlus } from '@tabler/icons-react';
 import notify from '../../../services/notify';
 import HCalendar from '../../../components/HCalendar/HCalendar';
 import AddDatesCalendar from '../../../components/AddDatesCalendar/AddDatesCalendar';
@@ -72,7 +72,7 @@ export default function Page() {
     <Pannel
       loading={datesLoading}
       header={
-        <Button leftIcon={<TbCalendarPlus size='20px' />} onClick={openModal} variant='light' color='blue' size='sm'>
+        <Button leftIcon={<IconCalendarPlus size='20px' />} onClick={openModal} variant='light' color='blue' size='sm'>
           Gerir Datas
         </Button>
       }

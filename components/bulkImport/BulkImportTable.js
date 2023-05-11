@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { styled } from '@stitches/react';
 import { Checkbox, ActionIcon, Flex, Stack, Text, Code, Button, Tooltip, SimpleGrid } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
-import { TbCloudUpload, TbX, TbTrash, TbCircleCheckFilled, TbAlertTriangleFilled, TbRotateClockwise2 } from 'react-icons/tb';
+import { IconCloudUpload, IconX, IconTrash, IconCircleCheckFilled, IconAlertTriangleFilled, IconRotateClockwise2 } from '@tabler/icons-react';
 import Pannel from '../../components/Pannel/Pannel';
 import HeaderTitle from '../lists/HeaderTitle';
 
@@ -220,10 +220,10 @@ export default function BulkImportTable({ controller }) {
         <TableCellBody>
           <Flex>
             <ActionIcon size='lg' color='blue' onClick={() => handleUploadSingleRow(row)}>
-              <TbCloudUpload size='20px' />
+              <IconCloudUpload size='20px' />
             </ActionIcon>
             <ActionIcon size='lg' color='red' onClick={() => handleDeleteSingleRow(row)}>
-              <TbTrash size='20px' />
+              <IconTrash size='20px' />
             </ActionIcon>
           </Flex>
         </TableCellBody>
@@ -250,7 +250,7 @@ export default function BulkImportTable({ controller }) {
       <TableBodyRow uploaded>
         <TableCellBody>
           <ActionIcon size='sm' color='green' variant='transparent' aria-label='Shape uploaded'>
-            <TbCircleCheckFilled size='20px' />
+            <IconCircleCheckFilled size='20px' />
           </ActionIcon>
         </TableCellBody>
         <TableCellBody>{row.item.shape_code || '-'}</TableCellBody>
@@ -266,7 +266,7 @@ export default function BulkImportTable({ controller }) {
       <TableBodyRow error>
         <TableCellBody>
           <ActionIcon size='sm' color='red' variant='transparent' aria-label='Error uploading'>
-            <TbAlertTriangleFilled size='20px' />
+            <IconAlertTriangleFilled size='20px' />
           </ActionIcon>
         </TableCellBody>
         <TableCellBody>{row.item.shape_code || '-'}</TableCellBody>
@@ -275,7 +275,7 @@ export default function BulkImportTable({ controller }) {
         <TableCellBody>
           <Tooltip label='Tentar Novamente' position='left' color='gray' withArrow>
             <ActionIcon size='lg' variant='default' aria-label='Shape uploaded'>
-              <TbCloudUpload size='20px' />
+              <IconCloudUpload size='20px' />
             </ActionIcon>
           </Tooltip>
         </TableCellBody>
@@ -291,7 +291,7 @@ export default function BulkImportTable({ controller }) {
       header={
         <>
           <ActionIcon size='lg' onClick={handleReset}>
-            <TbX size='20px' />
+            <IconX size='20px' />
           </ActionIcon>
           <HeaderTitle text='shjdh' />
         </>
