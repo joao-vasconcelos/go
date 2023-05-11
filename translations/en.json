@@ -28,5 +28,18 @@
         "version": {
             "label": "Version"
         }
+    },
+    "AppSidebar": {
+        "statistics": "Statistics",
+        "alerts": "Alerts",
+        "stops": "Stops",
+        "lines": "Lines",
+        "calendars": "Calendars",
+        "shapes": "Shapes",
+        "fares": "Fares",
+        "agencies": "Agencies",
+        "threads": "Threads",
+        "export": "Export",
+        "users": "Users"
     }
 }

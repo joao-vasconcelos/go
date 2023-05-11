@@ -19,3 +19,29 @@
   gap: var(--size-md);
   padding: var(--size-lg);
 }
+
+.navButton {
+  color: var(--gray9);
+  font-size: 26px;
+}
+
+.navButton:hover {
+  background-color: var(--gray2);
+}
+
+.navButton:active {
+  background-color: var(--gray4);
+}
+
+.navButton.selected,
+.navButton:hover.selected {
+  background-color: var(--primary5);
+  color: var(--gray9);
+}
+
+@media (prefers-color-scheme: dark) {
+  .navButton.selected,
+  .navButton:hover.selected {
+    color: var(--gray0);
+  }
+}

@@ -7,6 +7,7 @@ import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
 import styles from './layout.module.css';
+import Link from 'next/link';
 import Image from 'next/image';
 import carrisMetropolitanaIcon from '../../../public/appicon.svg';
 import AppHeader from '../../../components/AppHeader/AppHeader';
@@ -38,7 +39,9 @@ export default function Layout({ children, session }) {
           <Notifications />
           <ModalsProvider>
             <div className={styles.pageWrapper}>
-              <Image priority className={styles.appIcon} src={carrisMetropolitanaIcon} alt={'Carris Metropolitana'} />
+              <Link href={'/'}>
+                <Image priority className={styles.appIcon} src={carrisMetropolitanaIcon} alt={'Carris Metropolitana'} />
+              </Link>
               <AppHeader />
               <AppSidebar />
               <div className={styles.content}>{children}</div>
