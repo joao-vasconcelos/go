@@ -4,21 +4,29 @@
             "submit": "Entrar"
         },
         "verify": {
-            "instruction": "Please check your email",
-            "submit": "I did not receive my email"
+            "instruction": "Por favor verifique o seu email",
+            "submit": "Não recebi o meu email"
         },
         "error": {
-            "submit": "Try Again",
+            "submit": "Tentar Novamente",
             "type": {
-                "configuration": "There is a problem with the server configuration.",
-                "access-denied": "You cannot login with this email.",
-                "verification": "The token has expired or has already been used.",
+                "configuration": "Existe um problema com a configuração do servidor.",
+                "access-denied": "Não é possível entrar com este email.",
+                "verification": "Este acesso expirou ou já foi utilizado.",
                 "unkown": "Unkown Issue"
             }
         }
     },
-    "LocaleSwitcher": {
-        "label": "Change language",
-        "locale": "{locale, select, en {English} pt {Português} other {Unknown}}"
+    "AppOptions": {
+        "language": {
+            "label": "Language",
+            "locale": "{locale, select, en {English} pt {Português} other {Unknown}}"
+        },
+        "auth": {
+            "logout": "Logout"
+        },
+        "version": {
+            "label": "Version"
+        }
     }
 }
