@@ -1,7 +1,32 @@
 {
     "auth": {
         "signin": {
-            "submit": "Entrar"
+            "submit": "Iniciar Sessão"
+        },
+        "verify": {
+            "instruction": "Por favor verifique o seu email",
+            "submit": "Não recebi o meu email"
+        },
+        "error": {
+            "submit": "Tentar Novamente",
+            "type": {
+                "configuration": "Existe um problema com a configuração do servidor.",
+                "access-denied": "Não é possível entrar com este email.",
+                "verification": "Este acesso expirou ou já foi utilizado.",
+                "unkown": "Erro Desconhecido"
+            }
+        }
+    },
+    "AppOptions": {
+        "language": {
+            "label": "Idioma",
+            "locale": "{locale, select, en {English} pt {Português} other {Desconhecido}}"
+        },
+        "auth": {
+            "logout": "Terminar Sessão"
+        },
+        "version": {
+            "label": "Versão"
         }
     }
 }
