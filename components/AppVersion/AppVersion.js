@@ -1,11 +1,11 @@
 import styles from './AppVersion.module.css';
-import { TbCloudFilled } from 'react-icons/tb';
+import { IconCloudFilled } from '@tabler/icons-react';
 import pjson from '../../package.json';
 
 export default function AppVersion() {
   return (
     <div className={styles.container}>
-      <TbCloudFilled size={'14px'} />
+      <IconCloudFilled size={'14px'} />
       <span>{pjson.version}</span>
     </div>
   );

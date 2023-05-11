@@ -6,7 +6,7 @@ import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { styled } from '@stitches/react';
 import { Tooltip, ActionIcon } from '@mantine/core';
-import { TbChartPie, TbFileZip, TbBusStop, TbBuildingCommunity, TbMessageChatbot, TbShape2, TbCoins, TbCalendarDue, TbLiveView, TbLogin, TbArrowLoopRight, TbUsers, TbAlertTriangle } from 'react-icons/tb';
+import { IconChartPie, IconFileZip, IconBusStop, IconBuildingCommunity, IconMessageChatbot, IconShape2, IconCoins, IconCalendarDue, IconLiveView, IconLogin, IconArrowLoopRight, IconUsers, IconAlertTriangle } from '@tabler/icons-react';
 
 const NavButton = styled(ActionIcon, {
   color: '$gray12',
@@ -59,18 +59,18 @@ export default function AppSidebar() {
   //
 
   const links = [
-    { href: 'statistics', label: 'Estatísticas', icon: <TbChartPie /> },
-    { href: 'alerts', label: 'Alertas', icon: <TbAlertTriangle /> },
-    { href: 'stops', label: 'Paragens', icon: <TbBusStop /> },
-    { href: 'lines', label: 'Linhas', icon: <TbArrowLoopRight /> },
-    { href: 'calendars', label: 'Calendários', icon: <TbCalendarDue /> },
-    { href: 'shapes', label: 'Shapes', icon: <TbShape2 /> },
-    { href: 'fares', label: 'Tarifários', icon: <TbCoins /> },
-    { href: 'agencies', label: 'Agências', icon: <TbBuildingCommunity /> },
-    { href: 'threads', label: 'Conversas', icon: <TbMessageChatbot /> },
-    { href: 'export', label: 'Exportar GTFS', icon: <TbFileZip /> },
-    // { href: 'realtime', label: 'Tempo Real', icon: <TbLiveView />, disabled: true },
-    { href: 'users', label: 'Utilizadores', icon: <TbUsers /> },
+    { href: 'statistics', label: 'Estatísticas', icon: <IconChartPie /> },
+    { href: 'alerts', label: 'Alertas', icon: <IconAlertTriangle /> },
+    { href: 'stops', label: 'Paragens', icon: <IconBusStop /> },
+    { href: 'lines', label: 'Linhas', icon: <IconArrowLoopRight /> },
+    { href: 'calendars', label: 'Calendários', icon: <IconCalendarDue /> },
+    { href: 'shapes', label: 'Shapes', icon: <IconShape2 /> },
+    { href: 'fares', label: 'Tarifários', icon: <IconCoins /> },
+    { href: 'agencies', label: 'Agências', icon: <IconBuildingCommunity /> },
+    { href: 'threads', label: 'Conversas', icon: <IconMessageChatbot /> },
+    { href: 'export', label: 'Exportar GTFS', icon: <IconFileZip /> },
+    // { href: 'realtime', label: 'Tempo Real', icon: <IconLiveView />, disabled: true },
+    { href: 'users', label: 'Utilizadores', icon: <IconUsers /> },
   ];
 
   const pathname = usePathname();
@@ -117,7 +117,7 @@ export default function AppSidebar() {
       <div className={styles.navWrapper}>
         <Tooltip label='Logout' color='gray' position='right'>
           <NavButton danger size='xl' onClick={handleLogout}>
-            <TbLogin />
+            <IconLogin />
           </NavButton>
         </Tooltip>
       </div>
