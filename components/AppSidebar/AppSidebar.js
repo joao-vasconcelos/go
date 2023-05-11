@@ -58,15 +58,15 @@ export default function AppSidebar() {
   //
 
   const links = [
-    { href: 'statistics', label: 'Estatísticas', icon: <IconChartPie />, disabled: true },
-    { href: 'alerts', label: 'Alertas', icon: <IconAlertTriangle />, disabled: true },
+    // { href: 'statistics', label: 'Estatísticas', icon: <IconChartPie />, disabled: true },
+    // { href: 'alerts', label: 'Alertas', icon: <IconAlertTriangle />, disabled: true },
     { href: 'stops', label: 'Paragens', icon: <IconBusStop /> },
     { href: 'lines', label: 'Linhas', icon: <IconArrowLoopRight /> },
     { href: 'calendars', label: 'Calendários', icon: <IconCalendarDue /> },
     { href: 'shapes', label: 'Shapes', icon: <IconShape2 /> },
     { href: 'fares', label: 'Tarifários', icon: <IconCoins /> },
     { href: 'agencies', label: 'Agências', icon: <IconBuildingCommunity /> },
-    { href: 'threads', label: 'Conversas', icon: <IconMessageChatbot />, disabled: true },
+    // { href: 'threads', label: 'Conversas', icon: <IconMessageChatbot />, disabled: true },
     { href: 'export', label: 'Exportar GTFS', icon: <IconFileZip /> },
     { href: 'users', label: 'Utilizadores', icon: <IconUsers /> },
   ];

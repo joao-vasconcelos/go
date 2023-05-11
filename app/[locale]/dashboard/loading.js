@@ -1,7 +1,5 @@
-'use client';
-
-import { LoadingOverlay } from '@mantine/core';
+import Loader from '../../../components/Loader/Loader';
 
 export default function Loading() {
-  return <LoadingOverlay visible loaderProps={{ color: 'gray' }} />;
+  return <Loader visible full />;
 }
