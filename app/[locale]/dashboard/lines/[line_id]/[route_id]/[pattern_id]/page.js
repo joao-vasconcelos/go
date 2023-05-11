@@ -5,19 +5,19 @@ import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import API from '../../../../../../services/API';
-import { Validation as PatternValidation } from '../../../../../../schemas/Pattern/validation';
-import { Default as PatternDefault } from '../../../../../../schemas/Pattern/default';
+import API from '../../../../../../../services/API';
+import { Validation as PatternValidation } from '../../../../../../../schemas/Pattern/validation';
+import { Default as PatternDefault } from '../../../../../../../schemas/Pattern/default';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text, Select } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
-import Pannel from '../../../../../../components/Pannel/Pannel';
-import SaveButtons from '../../../../../../components/SaveButtons';
-import notify from '../../../../../../services/notify';
+import Pannel from '../../../../../../../components/Pannel/Pannel';
+import SaveButtons from '../../../../../../../components/SaveButtons';
+import notify from '../../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import Line from '../../../../../../components/line/Line';
+import Line from '../../../../../../../components/line/Line';
 import StopSequenceTable from './StopSequenceTable';
 import SchedulesTable from './SchedulesTable';
-import calculateDistanceBetweenStops from '../../../../../../services/calculateDistanceBetweenStops';
+import calculateDistanceBetweenStops from '../../../../../../../services/calculateDistanceBetweenStops';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',

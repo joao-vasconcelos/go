@@ -5,17 +5,17 @@ import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import API from '../../../../../services/API';
-import { Validation as RouteValidation } from '../../../../../schemas/Route/validation';
-import { Default as RouteDefault } from '../../../../../schemas/Route/default';
+import API from '../../../../../../services/API';
+import { Validation as RouteValidation } from '../../../../../../schemas/Route/validation';
+import { Default as RouteDefault } from '../../../../../../schemas/Route/default';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
-import Pannel from '../../../../../components/Pannel/Pannel';
-import SaveButtons from '../../../../../components/SaveButtons';
-import notify from '../../../../../services/notify';
+import Pannel from '../../../../../../components/Pannel/Pannel';
+import SaveButtons from '../../../../../../components/SaveButtons';
+import notify from '../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import Line from '../../../../../components/line/Line';
+import Line from '../../../../../../components/line/Line';
 import PatternCard from './PatternCard';
 
 const SectionTitle = styled('p', {
