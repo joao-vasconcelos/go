@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { styled } from '@stitches/react';
 import { Table, Group, TextInput, Loader } from '@mantine/core';
 import { keys } from '@mantine/utils';
-import { TbSearch, TbSelector, TbChevronDown, TbChevronUp } from 'react-icons/tb';
+import { IconSearch, IconSelector, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 
 const TableHeaderColumn = styled('th', {
   cursor: 'pointer',
@@ -109,7 +109,7 @@ export default function DynamicTable(props) {
 
   return (
     <>
-      <TextInput placeholder={props.searchFieldPlaceholder} icon={<TbSearch />} value={searchQuery} onChange={handleSearchQueryChange} />
+      <TextInput placeholder={props.searchFieldPlaceholder} icon={<IconSearch />} value={searchQuery} onChange={handleSearchQueryChange} />
       <Table withBorder>
         <thead>
           <tr>
@@ -117,7 +117,7 @@ export default function DynamicTable(props) {
               <TableHeaderColumn key={index} isSorted={sortKey === col.key} onClick={() => handleSortChange(col.key)}>
                 <Group position='apart'>
                   {col.label}
-                  {sortKey === col.key ? reverseSortDirection ? <TbChevronUp /> : <TbChevronDown /> : <TbSelector />}
+                  {sortKey === col.key ? reverseSortDirection ? <IconChevronUp /> : <IconChevronDown /> : <IconSelector />}
                 </Group>
               </TableHeaderColumn>
             ))}

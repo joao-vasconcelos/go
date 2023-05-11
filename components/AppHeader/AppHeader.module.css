@@ -16,3 +16,9 @@
   font-size: var(--font-lg);
   font-weight: 500;
 }
+
+.options {
+  display: flex;
+  flex-direction: row;
+  gap: var(--size-md);
+}
