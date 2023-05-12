@@ -81,6 +81,70 @@
             }
         }
     },
+    "fares": {
+        "untitled": "Untitled Fare",
+        "list": {
+            "footer": "Found {count, plural, =1 {1 Fare} other {# Fares}}"
+        },
+        "operations": {
+            "create": {
+                "title": "Create New Fare",
+                "loading": "Creating new Fare...",
+                "success": "A new Fare was created!",
+                "error": "An error occurred while creating this Fare."
+            },
+            "delete": {
+                "title": "Delete Fare",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Fare forever?",
+                "confirm": "Delete Fare Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Fare...",
+                "success": "Fare was deleted.",
+                "error": "An error occurred while deleting this Fare."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Details"
+            }
+        },
+        "form": {
+            "agency_name": {
+                "label": "Agency Name",
+                "placeholder": "A.C.M.E Transportation"
+            },
+            "agency_code": {
+                "label": "Agency Code",
+                "placeholder": "41"
+            },
+            "agency_lang": {
+                "label": "Primary Agency Language",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "agency_timezone": {
+                "label": "Timezone",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "agency_phone": {
+                "label": "Public Phone Number",
+                "placeholder": "+351 213 456 789"
+            },
+            "agency_email": {
+                "label": "Public Email Address",
+                "placeholder": "contact@agency.com"
+            },
+            "agency_url": {
+                "label": "Public Website URL",
+                "placeholder": "https://agency.com"
+            },
+            "agency_fare_url": {
+                "label": "Website for Fares Information",
+                "placeholder": "https://agency.com/fares"
+            }
+        }
+    },
     "AppOptions": {
         "language": {
             "label": "Idioma",
