@@ -8,6 +8,7 @@ import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
 import { useColorScheme } from '@mantine/hooks';
+import { MapProvider } from 'react-map-gl';
 import styles from './layout.module.css';
 import Link from 'next/link';
 import AppHeader from '../../../components/AppHeader/AppHeader';
@@ -44,14 +45,16 @@ export default function Layout({ children, session }) {
           <DatesProvider settings={{ locale: 'pt' }}>
             <Notifications />
             <ModalsProvider>
-              <div className={styles.pageWrapper}>
-                <Link href={'/'} className={styles.appIcon}>
-                  <AppLogo />
-                </Link>
-                <AppHeader />
-                <AppSidebar />
-                <div className={styles.content}>{children}</div>
-              </div>
+              <MapProvider>
+                <div className={styles.pageWrapper}>
+                  <Link href={'/'} className={styles.appIcon}>
+                    <AppLogo />
+                  </Link>
+                  <AppHeader />
+                  <AppSidebar />
+                  <div className={styles.content}>{children}</div>
+                </div>
+              </MapProvider>
             </ModalsProvider>
           </DatesProvider>
         </MantineProvider>

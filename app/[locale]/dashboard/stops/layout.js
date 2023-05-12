@@ -13,7 +13,8 @@ import { IconCirclePlus, IconArrowBarToDown, IconDots, IconPencil } from '@table
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
-import FooterText from '../../../../components/lists/FooterText';
+import { useTranslations } from 'next-intl';
+import ListFooter from '../../../../components/ListFooter/ListFooter';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -26,6 +27,7 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('stops');
 
   const [isCreating, setIsCreating] = useState(false);
 
@@ -87,7 +89,7 @@ export default function Layout({ children }) {
               </Menu>
             </>
           }
-          footer={stopsData && (stopsData.length === 1 ? <FooterText text={`Encontrada 1 Paragem`} /> : <FooterText text={`Encontradas ${stopsData.length} Paragems`} />)}
+          footer={stopsData && <ListFooter>{t('list.footer', { count: stopsData.length })}</ListFooter>}
         >
           <ErrorDisplay error={stopsError} loading={stopsValidating} />
           {stopsData && stopsData.length > 0 ? stopsData.map((item) => <ListItem key={item._id} _id={item._id} stop_code={item.stop_code} stop_name={item.stop_name} stop_lat={item.stop_lat} stop_lon={item.stop_lon} />) : <NoDataLabel />}

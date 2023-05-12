@@ -13,7 +13,8 @@ import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-reac
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
-import FooterText from '../../../../components/lists/FooterText';
+import { useTranslations } from 'next-intl';
+import ListFooter from '../../../../components/ListFooter/ListFooter';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -26,6 +27,7 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('fares');
 
   const [isCreating, setIsCreating] = useState(false);
 
@@ -84,7 +86,7 @@ export default function Layout({ children }) {
               </Menu>
             </>
           }
-          footer={faresData && (faresData.length === 1 ? <FooterText text={`Encontrado 1 Tarifário`} /> : <FooterText text={`Encontrados ${faresData.length} Tarifários`} />)}
+          footer={faresData && <ListFooter>{t('list.footer', { count: faresData.length })}</ListFooter>}
         >
           <ErrorDisplay error={faresError} loading={faresValidating} />
           {faresData && faresData.length > 0 ? (
