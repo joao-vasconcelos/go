@@ -1,20 +1,40 @@
 .text {
   font-size: 16px;
-  color: var(--gray9);
+  color: var(--reference-1);
 }
 
-.text.md {
+.md {
   font-size: 12px;
   font-weight: 500;
 }
 
-.text.title {
+.title {
   font-size: 16px;
   font-weight: 600;
 }
 
-.text.title.untitled {
+.untitled {
   opacity: 0.5;
   font-weight: 500;
   font-style: italic;
+}
+
+.h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--gray9);
+}
+
+.h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.h3 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.fullWidth {
+  width: 100%;
 }

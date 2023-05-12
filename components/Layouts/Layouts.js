@@ -28,3 +28,9 @@ export function ThreeEvenColumns({ first, second, third }) {
     </div>
   );
 }
+
+//
+// SECTION
+export function Section({ children }) {
+  return <div className={styles.section}>{children}</div>;
+}

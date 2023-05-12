@@ -42,16 +42,13 @@ export default function Layout({ children }) {
   const handleCreateAgency = async () => {
     try {
       setIsCreating(true);
-      const response = await API({
-        service: 'agencies',
-        operation: 'create',
-        method: 'GET',
-      });
+      notify('new', 'loading', t('operations.create.loading'));
+      const response = await API({ service: 'agencies', operation: 'create', method: 'GET' });
       router.push(`/dashboard/agencies/${response._id}`);
-      notify('new', 'success', 'Agência criada com sucesso.');
+      notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
-      notify('new', 'error', err.message);
+      notify('new', 'error', err.message || t('operations.create.error'));
       setIsCreating(false);
       console.log(err);
     }
@@ -77,7 +74,7 @@ export default function Layout({ children }) {
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
                   <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateAgency}>
-                    Nova Agência
+                    {t('operations.create.title')}
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
                   <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
