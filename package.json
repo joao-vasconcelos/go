@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/go",
-    "version": "2023.05.11-2100",
+    "version": "2023.05.12-0130",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -29,9 +29,9 @@
         "@vercel/analytics": "^1.0.1",
         "dayjs": "^1.11.7",
         "leaflet": "^1.9.3",
-        "mongodb": "^5.4.0",
+        "mongodb": "^5.5.0",
         "mongoose": "^7.1.1",
-        "next": "^13.4.1",
+        "next": "^13.4.2",
         "next-auth": "^4.22.1",
         "next-intl": "^2.14.1",
         "nodemailer": "^6.9.2",
@@ -45,7 +45,7 @@
     },
     "devDependencies": {
         "eslint": "^8.40.0",
-        "eslint-config-next": "^13.4.1",
+        "eslint-config-next": "^13.4.2",
         "typescript": "^5.0.4"
     }
 }
