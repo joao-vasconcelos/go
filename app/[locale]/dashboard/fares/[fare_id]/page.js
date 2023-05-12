@@ -1,35 +1,21 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../services/API';
 import { Validation as FareValidation } from '../../../../../schemas/Fare/validation';
 import { Default as FareDefault } from '../../../../../schemas/Fare/default';
-import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect } from '@mantine/core';
+import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, MultiSelect } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../components/Pannel/Pannel';
+import Text from '../../../../../components/Text/Text';
+import { Section } from '../../../../../components/Layouts/Layouts';
 import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import HeaderTitle from '../../../../../components/lists/HeaderTitle';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
-
-const Section = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '$lg',
-  gap: '$md',
-  width: '100%',
-  maxHeight: '100%',
-});
+import { useTranslations } from 'next-intl';
 
 export default function Page() {
   //
@@ -38,6 +24,7 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('fares');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
@@ -94,25 +81,21 @@ export default function Page() {
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar Tarifário?
-        </Text>
-      ),
+      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar este Tarifário para sempre?</Text>,
-      labels: { confirm: 'Eliminar Tarifário', cancel: 'Não Eliminar' },
+      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(fare_id, 'loading', 'A eliminar Tarifário...');
+          notify(fare_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'fares', resourceId: fare_id, operation: 'delete', method: 'DELETE' });
           router.push('/dashboard/fares');
-          notify(fare_id, 'success', 'Tarifário eliminado!');
+          notify(fare_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
-          notify(fare_id, 'error', err.message || 'Occoreu um erro.');
+          notify(fare_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -137,8 +120,10 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <HeaderTitle text={form.values.fare_long_name || 'Tarifário Sem Nome'} />
-          <Tooltip label='Eliminar Tarifário' color='red' position='bottom' withArrow>
+          <Text size='h1' style={!form.values.fare_long_name && 'untitled'} full>
+            {form.values.fare_long_name || t('untitled')}
+          </Text>
+          <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
               <IconTrash size='20px' />
             </ActionIcon>
@@ -148,32 +133,39 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Configuração do Tarifário</SectionTitle>
+          <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={3}>
-            <TextInput label='Nome do Tarifário' placeholder='Tarifa 1' {...form.getInputProps('fare_long_name')} />
-            <TextInput label='Abreviatura' placeholder='1' {...form.getInputProps('fare_short_name')} />
-            <TextInput label='Código do Tarifário' placeholder='FARE_1' {...form.getInputProps('fare_code')} />
+            <TextInput label={t('form.fare_long_name.label')} placeholder={t('form.fare_long_name.placeholder')} {...form.getInputProps('fare_long_name')} />
+            <TextInput label={t('form.fare_short_name.label')} placeholder={t('form.fare_short_name.placeholder')} {...form.getInputProps('fare_short_name')} />
+            <TextInput label={t('form.fare_code.label')} placeholder={t('form.fare_code.placeholder')} {...form.getInputProps('fare_code')} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <NumberInput label='Preço' placeholder='3.50' precision={2} step={0.05} min={0.0} {...form.getInputProps('price')} />
-            <Select label='Moeda' placeholder='EUR' searchable nothingFound='Sem opções' data={[{ value: 'EUR', label: 'Euro' }]} {...form.getInputProps('currency_type')} />
+            <NumberInput label={t('form.price.label')} placeholder={t('form.price.placeholder')} precision={2} step={0.05} min={0.0} {...form.getInputProps('price')} />
+            <Select
+              label={t('form.currency_type.label')}
+              placeholder={t('form.currency_type.placeholder')}
+              nothingFound={t('form.currency_type.nothingFound')}
+              data={[{ value: 'EUR', label: 'Euro' }]}
+              {...form.getInputProps('currency_type')}
+              searchable
+            />
           </SimpleGrid>
           <SimpleGrid cols={2}>
             <Select
-              label='Modalidade de Pagamento'
-              placeholder='Escolha uma opção'
-              searchable
-              nothingFound='Sem opções'
+              label={t('form.payment_method.label')}
+              placeholder={t('form.payment_method.placeholder')}
+              nothingFound={t('form.payment_method.nothingFound')}
               data={[
                 { value: '0', label: 'Pagamento a Bordo (navegante® a bordo)' },
                 { value: '1', label: 'Pré-pagamento (navegante® pré-pago, navegante®)' },
               ]}
               {...form.getInputProps('payment_method')}
+              searchable
             />
             <Select
-              label='Permite Transbordos'
-              placeholder='Sim / Não'
-              nothingFound='Sem opções'
+              label={t('form.transfers.label')}
+              placeholder={t('form.transfers.placeholder')}
+              nothingFound={t('form.transfers.nothingFound')}
               data={[
                 { value: '0', label: 'Não, não são permitidos transbordos.' },
                 { value: '1', label: 'Sim, é permitido apenas 1 transbordo.' },
@@ -181,22 +173,23 @@ export default function Page() {
                 { value: '', label: 'Sim, são permitidos transbordos ilimitados.' },
               ]}
               {...form.getInputProps('transfers')}
+              searchable
             />
           </SimpleGrid>
           <SimpleGrid cols={1}>
             <MultiSelect
-              label='Agências'
-              placeholder='Agências relacionadas'
-              searchable
-              nothingFound='Sem opções'
+              label={t('form.agencies.label')}
+              placeholder={t('form.agencies.placeholder')}
+              nothingFound={t('form.agencies.nothingFound')}
               data={
                 agenciesData
                   ? agenciesData.map((item) => {
-                      return { value: item._id, label: item.agency_name || 'Agência Sem Nome' };
+                      return { value: item._id, label: item.agency_name || '-' };
                     })
                   : []
               }
               {...form.getInputProps('agencies')}
+              searchable
             />
           </SimpleGrid>
         </Section>
