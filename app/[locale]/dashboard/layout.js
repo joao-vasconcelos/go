@@ -3,9 +3,11 @@
 import 'dayjs/locale/pt';
 import { SWRConfig } from 'swr';
 import { SessionProvider } from 'next-auth/react';
+import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
+import { useColorScheme } from '@mantine/hooks';
 import styles from './layout.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -32,22 +34,28 @@ export default function Layout({ children, session }) {
     },
   };
 
+  // hook will return either 'dark' or 'light' on client
+  // and always 'light' during ssr as window.matchMedia is not available
+  const preferredColorScheme = useColorScheme();
+
   return (
     <SessionProvider session={session}>
       <SWRConfig value={swrOptions}>
-        <DatesProvider settings={{ locale: 'pt' }}>
-          <Notifications />
-          <ModalsProvider>
-            <div className={styles.pageWrapper}>
-              <Link href={'/'}>
-                <Image priority className={styles.appIcon} src={carrisMetropolitanaIcon} alt={'Carris Metropolitana'} />
-              </Link>
-              <AppHeader />
-              <AppSidebar />
-              <div className={styles.content}>{children}</div>
-            </div>
-          </ModalsProvider>
-        </DatesProvider>
+        <MantineProvider theme={{ colorScheme: preferredColorScheme }} withGlobalStyles withNormalizeCSS>
+          <DatesProvider settings={{ locale: 'pt' }}>
+            <Notifications />
+            <ModalsProvider>
+              <div className={styles.pageWrapper}>
+                <Link href={'/'}>
+                  <Image priority className={styles.appIcon} src={carrisMetropolitanaIcon} alt={'Carris Metropolitana'} />
+                </Link>
+                <AppHeader />
+                <AppSidebar />
+                <div className={styles.content}>{children}</div>
+              </div>
+            </ModalsProvider>
+          </DatesProvider>
+        </MantineProvider>
       </SWRConfig>
     </SessionProvider>
   );

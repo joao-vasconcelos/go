@@ -8,6 +8,7 @@ export const metadata = {
 
 import '../styles/reset.css';
 import '../styles/defaults.css';
+import '../styles/colors.css';
 import { Inter } from 'next/font/google';
 
 const inter = Inter({
