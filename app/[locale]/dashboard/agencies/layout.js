@@ -49,9 +49,9 @@ export default function Layout({ children }) {
       notify('new', 'success', 'Agência criada com sucesso.');
       setIsCreating(false);
     } catch (err) {
+      notify('new', 'error', err.message);
       setIsCreating(false);
       console.log(err);
-      notify('new', 'error', err.message);
     }
   };
 
@@ -86,7 +86,7 @@ export default function Layout({ children }) {
           footer={agenciesData && (agenciesData.length === 1 ? <FooterText text={`Encontrada 1 Agência`} /> : <FooterText text={`Encontradas ${agenciesData.length} Agências`} />)}
         >
           <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
-          {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_code={item.agency_code} agency_name={item.agency_name} />) : <NoDataLabel />}
+          {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_name={item.agency_name} />) : <NoDataLabel />}
         </Pannel>
       }
       second={children}

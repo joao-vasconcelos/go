@@ -1,0 +1,20 @@
+.text {
+  font-size: 16px;
+  color: var(--gray9);
+}
+
+.text.md {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.text.title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.text.title.untitled {
+  opacity: 0.5;
+  font-weight: 500;
+  font-style: italic;
+}
