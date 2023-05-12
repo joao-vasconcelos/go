@@ -13,7 +13,8 @@ import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-reac
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
-import FooterText from '../../../../components/lists/FooterText';
+import { useTranslations } from 'next-intl';
+import ListFooter from '../../../../components/ListFooter/ListFooter';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -26,6 +27,7 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('agencies');
 
   const [isCreating, setIsCreating] = useState(false);
 
@@ -83,7 +85,7 @@ export default function Layout({ children }) {
               </Menu>
             </>
           }
-          footer={agenciesData && (agenciesData.length === 1 ? <FooterText text={`Encontrada 1 Agência`} /> : <FooterText text={`Encontradas ${agenciesData.length} Agências`} />)}
+          footer={agenciesData && <ListFooter>{t('list.footer', { count: agenciesData.length })}</ListFooter>}
         >
           <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
           {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_name={item.agency_name} />) : <NoDataLabel />}

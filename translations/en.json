@@ -17,6 +17,11 @@
             }
         }
     },
+    "agencies": {
+        "list": {
+            "footer": "Found {count, plural, =1 {1 Agency} other {# Agencies}}"
+        }
+    },
     "AppOptions": {
         "language": {
             "label": "Language",
