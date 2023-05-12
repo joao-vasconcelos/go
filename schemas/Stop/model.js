@@ -57,17 +57,9 @@ export const Schema = new mongoose.Schema(
     },
 
     // Operation
-    stop_area_1: {
-      type: Boolean,
-    },
-    stop_area_2: {
-      type: Boolean,
-    },
-    stop_area_3: {
-      type: Boolean,
-    },
-    stop_area_4: {
-      type: Boolean,
+    agencies: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Agency',
     },
 
     // Administrative
