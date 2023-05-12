@@ -109,39 +109,41 @@
             }
         },
         "form": {
-            "agency_name": {
-                "label": "Agency Name",
-                "placeholder": "A.C.M.E Transportation"
+            "fare_long_name": {
+                "label": "Fare Name",
+                "placeholder": "Tarif 1"
             },
-            "agency_code": {
-                "label": "Agency Code",
-                "placeholder": "41"
+            "fare_short_name": {
+                "label": "Fare Short Name",
+                "placeholder": "T1"
             },
-            "agency_lang": {
-                "label": "Primary Agency Language",
+            "fare_code": {
+                "label": "Fare Code",
+                "placeholder": "T1"
+            },
+            "price": {
+                "label": "Price",
+                "placeholder": "2.50"
+            },
+            "currency_type": {
+                "label": "Currency",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
-            "agency_timezone": {
-                "label": "Timezone",
+            "payment_method": {
+                "label": "Payment Method",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
-            "agency_phone": {
-                "label": "Public Phone Number",
-                "placeholder": "+351 213 456 789"
+            "transfers": {
+                "label": "Allow Transfers",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
             },
-            "agency_email": {
-                "label": "Public Email Address",
-                "placeholder": "contact@agency.com"
-            },
-            "agency_url": {
-                "label": "Public Website URL",
-                "placeholder": "https://agency.com"
-            },
-            "agency_fare_url": {
-                "label": "Website for Fares Information",
-                "placeholder": "https://agency.com/fares"
+            "agencies": {
+                "label": "Valid on these Agencies",
+                "placeholder": "Choose Agencies...",
+                "nothingFound": "No Results Found"
             }
         }
     },
