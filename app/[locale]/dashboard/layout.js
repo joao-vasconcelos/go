@@ -10,10 +10,9 @@ import { DatesProvider } from '@mantine/dates';
 import { useColorScheme } from '@mantine/hooks';
 import styles from './layout.module.css';
 import Link from 'next/link';
-import Image from 'next/image';
-import carrisMetropolitanaIcon from '../../../public/appicon.svg';
 import AppHeader from '../../../components/AppHeader/AppHeader';
 import AppSidebar from '../../../components/AppSidebar/AppSidebar';
+import AppLogo from '../../../components/AppLogo/AppLogo';
 
 export default function Layout({ children, session }) {
   //
@@ -46,8 +45,8 @@ export default function Layout({ children, session }) {
             <Notifications />
             <ModalsProvider>
               <div className={styles.pageWrapper}>
-                <Link href={'/'}>
-                  <Image priority className={styles.appIcon} src={carrisMetropolitanaIcon} alt={'Carris Metropolitana'} />
+                <Link href={'/'} className={styles.appIcon}>
+                  <AppLogo />
                 </Link>
                 <AppHeader />
                 <AppSidebar />

@@ -16,16 +16,18 @@
   --gray0-50: rgba(255, 255, 255, 0.5);
 
   /* GRAYS */
-  --gray0: #ffffff;
-  --gray1: #f8f9fa;
-  --gray2: #f1f3f5;
-  --gray3: #e9ecef;
-  --gray4: #dee2e6;
-  --gray5: #ced4da;
-  --gray6: #adb5bd;
-  --gray7: #868e96;
-  --gray8: #495057;
-  --gray9: #343a40;
+  --reference-0: #ffffff;
+  --gray0: #f8f9fa;
+  --gray1: #f1f3f5;
+  --gray2: #e9ecef;
+  --gray3: #dee2e6;
+  --gray4: #ced4da;
+  --gray5: #adb5bd;
+  --gray6: #868e96;
+  --gray7: #495057;
+  --gray8: #343a40;
+  --gray9: #212529;
+  --reference-1: #000000;
 
   /* STATUS-SUCCESS */
   --success0: #ebfbee;
@@ -93,27 +95,29 @@
     --gray0-50: rgba(0, 0, 0, 0.5);
 
     /* GRAYS (Mantine Defaults) */
-    --gray9: #c1c2c5;
-    --gray8: #a6a7ab;
-    --gray7: #909296;
-    --gray6: #5c5f66;
-    --gray5: #373a40;
-    --gray4: #2c2e33;
-    --gray3: #25262b;
-    --gray2: #1a1b1e;
-    --gray1: #141517;
+    --reference-0: #000000;
     --gray0: #101113;
+    --gray1: #141517;
+    --gray2: #1a1b1e;
+    --gray3: #25262b;
+    --gray4: #2c2e33;
+    --gray5: #373a40;
+    --gray6: #5c5f66;
+    --gray7: #909296;
+    --gray8: #a6a7ab;
+    --gray9: #c1c2c5;
+    --reference-1: #ffffff;
 
     /* GRAYS (Github Inspired) */
-    /* --gray9: #eeeeee; */
-    /* --gray8: #dee2e6; */
-    /* --gray7: #ced4da; */
-    /* --gray6: #adb5bd; */
-    /* --gray5: #868e96; */
-    /* --gray4: #495057; */
-    /* --gray3: #373e47; */
-    /* --gray2: #2d333b; */
-    /* --gray1: #22272e; */
-    /* --gray0: #1c2128; */
+    /* --gray9: #ffffff; */
+    /* --gray8: #ced4da; */
+    /* --gray7: #adb5bd; */
+    /* --gray6: #868e96; */
+    /* --gray5: #495057; */
+    /* --gray4: #373e47; */
+    /* --gray3: #2d333b; */
+    /* --gray2: #22272e; */
+    /* --gray1: #1c2128; */
+    /* --gray0: #000000; */
   }
 }
