@@ -13,7 +13,7 @@ import styles from './layout.module.css';
 import Link from 'next/link';
 import AppHeader from '../../../components/AppHeader/AppHeader';
 import AppSidebar from '../../../components/AppSidebar/AppSidebar';
-import AppLogo from '../../../components/AppLogo/AppLogo';
+import { CMIcon } from '../../../components/AppLogos/AppLogos';
 
 export default function Layout({ children, session }) {
   //
@@ -48,7 +48,7 @@ export default function Layout({ children, session }) {
               <MapProvider>
                 <div className={styles.pageWrapper}>
                   <Link href={'/'} className={styles.appIcon}>
-                    <AppLogo />
+                    <CMIcon />
                   </Link>
                   <AppHeader />
                   <AppSidebar />
