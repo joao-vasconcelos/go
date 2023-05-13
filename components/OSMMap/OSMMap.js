@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 
 export default function OSMMap({ id, mapStyle, width, height, scrollZoom = true, children }) {
   return (
-    <div>
+    <div style={{ width: width || '100%', height: height || '100%' }}>
       <Map
         id={`${id}Map`}
         mapLib={maplibregl}
