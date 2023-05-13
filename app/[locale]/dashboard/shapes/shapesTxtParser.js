@@ -57,12 +57,12 @@ export async function parseShapesCsv(csvString) {
       return accumulator;
     }, []);
 
-    // Sort the points array each shape by shape_pt_sequence
+    // Sort the points array for each shape by shape_pt_sequence
     for (const currentShape of allShapes) {
       currentShape.shape_points_count = currentShape.points.length;
       currentShape.shape_distance = currentShape.points[currentShape.points.length - 1].shape_dist_traveled;
       currentShape.points.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence);
-      currentShape.geojson.geometry.coordinates = currentShape.points.map((point) => [parseFloat(point.shape_pt_lat), parseFloat(point.shape_pt_lon)]);
+      currentShape.geojson.geometry.coordinates = currentShape.points.map((point) => [parseFloat(point.shape_pt_lon), parseFloat(point.shape_pt_lat)]);
     }
 
     // Return the shapes to the caller

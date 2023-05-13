@@ -13,7 +13,8 @@ import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-reac
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
-import FooterText from '../../../../components/lists/FooterText';
+import { useTranslations } from 'next-intl';
+import ListFooter from '../../../../components/ListFooter/ListFooter';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -26,6 +27,7 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('shapes');
 
   const [isCreating, setIsCreating] = useState(false);
 
@@ -40,18 +42,15 @@ export default function Layout({ children }) {
   const handleCreateShape = async () => {
     try {
       setIsCreating(true);
-      const response = await API({
-        service: 'shapes',
-        operation: 'create',
-        method: 'GET',
-      });
+      notify('new', 'loading', t('operations.create.loading'));
+      const response = await API({ service: 'shapes', operation: 'create', method: 'GET' });
       router.push(`/dashboard/shapes/${response._id}`);
-      notify('new', 'success', 'Shape criada com sucesso.');
+      notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
+      notify('new', 'error', err.message || t('operations.create.error'));
       setIsCreating(false);
       console.log(err);
-      notify('new', 'error', err.message);
     }
   };
 
@@ -75,7 +74,7 @@ export default function Layout({ children }) {
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
                   <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateShape}>
-                    Nova Shape
+                    {t('operations.create.title')}
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
                   <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download shapes.txt</Menu.Item>
@@ -83,7 +82,7 @@ export default function Layout({ children }) {
               </Menu>
             </>
           }
-          footer={shapesData && (shapesData.length === 1 ? <FooterText text={`Encontrada 1 Shape`} /> : <FooterText text={`Encontradas ${shapesData.length} Shapes`} />)}
+          footer={shapesData && <ListFooter>{t('list.footer', { count: shapesData.length })}</ListFooter>}
         >
           <ErrorDisplay error={shapesError} loading={shapesValidating} />
           {shapesData && shapesData.length > 0 ? shapesData.map((item) => <ListItem key={item._id} _id={item._id} shape_code={item.shape_code} shape_name={item.shape_name} shape_distance={item.shape_distance} />) : <NoDataLabel />}

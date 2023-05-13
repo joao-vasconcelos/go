@@ -42,18 +42,15 @@ export default function Layout({ children }) {
   const handleCreateFare = async () => {
     try {
       setIsCreating(true);
-      const response = await API({
-        service: 'fares',
-        operation: 'create',
-        method: 'GET',
-      });
+      notify('new', 'loading', t('operations.create.loading'));
+      const response = await API({ service: 'fares', operation: 'create', method: 'GET' });
       router.push(`/dashboard/fares/${response._id}`);
-      notify('new', 'success', 'Tarifário criado com sucesso.');
+      notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
+      notify('new', 'error', err.message || t('operations.create.error'));
       setIsCreating(false);
       console.log(err);
-      notify('new', 'error', err.message);
     }
   };
 
@@ -77,7 +74,7 @@ export default function Layout({ children }) {
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
                   <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateFare}>
-                    Novo Tarifário
+                    {t('operations.create.title')}
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
                   <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download fare_attributes.txt</Menu.Item>
