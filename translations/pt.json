@@ -147,6 +147,72 @@
             }
         }
     },
+    "shapes": {
+        "untitled": "Untitled Shape",
+        "list": {
+            "footer": "Found {count, plural, =1 {1 Shape} other {# Shapes}}"
+        },
+        "operations": {
+            "import": {
+                "title": "Create New Shape",
+                "loading": "Creating new Shape...",
+                "success": "A new Shape was created!",
+                "error": "An error occurred while creating this Shape."
+            },
+            "create": {
+                "title": "Create New Shape",
+                "loading": "Creating new Shape...",
+                "success": "A new Shape was created!",
+                "error": "An error occurred while creating this Shape."
+            },
+            "delete": {
+                "title": "Delete Shape",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Shape forever?",
+                "confirm": "Delete Shape Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Shape...",
+                "success": "Shape was deleted.",
+                "error": "An error occurred while deleting this Shape."
+            },
+            "delete_points": {
+                "title": "Delete Shape Points",
+                "description": "Deleting shape points is irreversible. However, this will not desassociate this shape with its pattern. If you do not re-import new points an error will be thrown if you try to export a GTFS with this line. Are you sure you want to delete this shapes points forever?",
+                "confirm": "Delete Shape Points Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Shape Points...",
+                "success": "Shape Points were deleted.",
+                "error": "An error occurred while deleting this Shapes points."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Shape Details",
+                "description": "Something about this section"
+            },
+            "statistics": {
+                "title": "Statistics",
+                "description": "Something about this section"
+            },
+            "update": {
+                "title": "Update Shape",
+                "description": "Something about this section"
+            },
+            "points": {
+                "title": "Shape GTFS Points",
+                "description": "Something about this section"
+            }
+        },
+        "form": {
+            "shape_name": {
+                "label": "Shape Name",
+                "placeholder": "Shape for Line 1234"
+            },
+            "shape_code": {
+                "label": "Shape Code",
+                "placeholder": "shp_1234_1_0"
+            }
+        }
+    },
     "stops": {
         "untitled": "Untitled Stop",
         "list": {
