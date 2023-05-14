@@ -77,7 +77,7 @@ export default function Layout({ children }) {
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
                   <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateStop}>
-                    Nova Paragem
+                    {t('operations.create.title')}
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
                   <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download stop.txt</Menu.Item>

@@ -172,7 +172,7 @@ export default function Page() {
           <Text size='h1' style={!form.values.stop_name && 'untitled'} full>
             {form.values.stop_name || t('untitled')}
           </Text>
-          <Tooltip label={'Open in Google Maps'} position='bottom' withArrow>
+          <Tooltip label={t('operations.gmaps.title')} position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg' onClick={handleOpenInGoogleMaps}>
               <IconBrandGoogleMaps size='20px' />
             </ActionIcon>

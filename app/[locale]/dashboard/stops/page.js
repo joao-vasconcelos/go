@@ -9,6 +9,7 @@ import OSMMap from '../../../../components/OSMMap/OSMMap';
 import OSMMapDefaults from '../../../../components/OSMMap/OSMMap.config';
 import Pannel from '../../../../components/Pannel/Pannel';
 import Text from '../../../../components/Text/Text';
+import { useTranslations } from 'next-intl';
 
 export default function Page() {
   //
@@ -18,6 +19,7 @@ export default function Page() {
 
   const { allStopsMap } = useMap();
   const [mapStyle, setMapStyle] = useState('map');
+  const t = useTranslations('stops');
 
   //
   // B. Fetch data
@@ -77,15 +79,15 @@ export default function Page() {
     <Pannel
       header={
         <>
-          <Tooltip label={'Re-Center Map'} position='bottom' withArrow>
+          <Tooltip label={t('operations.recenter.title')} position='bottom' withArrow>
             <ActionIcon color='gray' variant='light' size='lg' onClick={handleMapReCenter}>
               <IconArrowsMinimize size='20px' />
             </ActionIcon>
           </Tooltip>
           <Text size='h1' full>
-            Todas as Paragens
+            {t('page.title')}
           </Text>
-          <Tooltip label={'Open in Google Maps'} position='bottom' withArrow>
+          <Tooltip label={t('operations.gmaps.title')} position='bottom' withArrow>
             <ActionIcon color='gray' variant='light' size='lg' onClick={handleOpenInGoogleMaps}>
               <IconBrandGoogleMaps size='20px' />
             </ActionIcon>
