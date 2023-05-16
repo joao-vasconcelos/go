@@ -218,7 +218,16 @@
         "list": {
             "footer": "Found {count, plural, =1 {1 Stop} other {# Stops}}"
         },
+        "page": {
+            "title": "All Stops"
+        },
         "operations": {
+            "recenter": {
+                "title": "Re-center Map"
+            },
+            "gmaps": {
+                "title": "Open in Google Maps"
+            },
             "create": {
                 "title": "Create New Stop",
                 "loading": "Creating new Stop...",
