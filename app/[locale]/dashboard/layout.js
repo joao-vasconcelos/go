@@ -2,21 +2,22 @@
 
 import 'dayjs/locale/pt';
 import { SWRConfig } from 'swr';
-import { SessionProvider } from 'next-auth/react';
-import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
-import { useColorScheme } from '@mantine/hooks';
 import { MapProvider } from 'react-map-gl';
 import styles from './layout.module.css';
 import Link from 'next/link';
 import AppHeader from '../../../components/AppHeader/AppHeader';
 import AppSidebar from '../../../components/AppSidebar/AppSidebar';
 import { CMIcon } from '../../../components/AppLogos/AppLogos';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
-export default function Layout({ children, session }) {
+export default function Layout({ children }) {
   //
+
+  const router = useRouter();
 
   // SWR CONFIGURATION
   const swrOptions = {
@@ -34,31 +35,31 @@ export default function Layout({ children, session }) {
     },
   };
 
-  // hook will return either 'dark' or 'light' on client
-  // and always 'light' during ssr as window.matchMedia is not available
-  const preferredColorScheme = useColorScheme();
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push('/auth/signin');
+      // The user is not authenticated, handle it here.
+    },
+  });
 
   return (
-    <SessionProvider session={session}>
-      <SWRConfig value={swrOptions}>
-        <MantineProvider theme={{ colorScheme: preferredColorScheme }} withGlobalStyles withNormalizeCSS>
-          <DatesProvider settings={{ locale: 'pt' }}>
-            <Notifications />
-            <ModalsProvider>
-              <MapProvider>
-                <div className={styles.pageWrapper}>
-                  <Link href={'/'} className={styles.appIcon}>
-                    <CMIcon />
-                  </Link>
-                  <AppHeader />
-                  <AppSidebar />
-                  <div className={styles.content}>{children}</div>
-                </div>
-              </MapProvider>
-            </ModalsProvider>
-          </DatesProvider>
-        </MantineProvider>
-      </SWRConfig>
-    </SessionProvider>
+    <SWRConfig value={swrOptions}>
+      <DatesProvider settings={{ locale: 'pt' }}>
+        <Notifications />
+        <ModalsProvider>
+          <MapProvider>
+            <div className={styles.pageWrapper}>
+              <Link href={'/'} className={styles.appIcon}>
+                <CMIcon />
+              </Link>
+              <AppHeader />
+              <AppSidebar />
+              <div className={styles.content}>{children}</div>
+            </div>
+          </MapProvider>
+        </ModalsProvider>
+      </DatesProvider>
+    </SWRConfig>
   );
 }
