@@ -3,7 +3,7 @@ import Map, { NavigationControl } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-export default function OSMMap({ id, mapStyle, width, height, scrollZoom = true, children }) {
+export default function OSMMap({ id, mapStyle, width, height, scrollZoom = true, onClick = () => {}, interactiveLayerIds = [], children }) {
   return (
     <div style={{ width: width || '100%', height: height || '100%' }}>
       <Map
@@ -15,6 +15,9 @@ export default function OSMMap({ id, mapStyle, width, height, scrollZoom = true,
         scrollZoom={scrollZoom}
         mapStyle={osmMapDefaults.styles[mapStyle] || osmMapDefaults.styles.default}
         style={{ width: width || '100%', height: height || '100%' }}
+        onClick={onClick}
+        interactive={interactiveLayerIds ? true : false}
+        interactiveLayerIds={interactiveLayerIds}
       >
         <NavigationControl />
         {children}
