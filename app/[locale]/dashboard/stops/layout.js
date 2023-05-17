@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@stitches/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import API from '../../../../services/API';
@@ -57,6 +57,10 @@ export default function Layout({ children }) {
     }
   };
 
+  const listData = useMemo(() => {
+    return stopsData || [];
+  }, [stopsData]);
+
   //
   // D. Render data
 
@@ -89,10 +93,10 @@ export default function Layout({ children }) {
               </Menu>
             </>
           }
-          footer={stopsData && <ListFooter>{t('list.footer', { count: stopsData.length })}</ListFooter>}
+          footer={listData && <ListFooter>{t('list.footer', { count: listData.length })}</ListFooter>}
         >
           <ErrorDisplay error={stopsError} loading={stopsValidating} />
-          {stopsData && stopsData.length > 0 ? stopsData.map((item) => <ListItem key={item._id} _id={item._id} stop_code={item.stop_code} stop_name={item.stop_name} stop_lat={item.stop_lat} stop_lon={item.stop_lon} />) : <NoDataLabel />}
+          {listData && listData.length > 0 ? listData.map((item) => <ListItem key={item._id} _id={item._id} stop_code={item.stop_code} stop_name={item.stop_name} stop_lat={item.stop_lat} stop_lon={item.stop_lon} />) : <NoDataLabel />}
         </Pannel>
       }
       second={children}
