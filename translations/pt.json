@@ -13,7 +13,7 @@
                 "configuration": "Existe um problema com a configuração do servidor.",
                 "access-denied": "Não é possível entrar com este email.",
                 "verification": "Este acesso expirou ou já foi utilizado.",
-                "unkown": "Erro Desconhecido"
+                "unknown": "Unkown Issue"
             }
         }
     },
