@@ -116,10 +116,14 @@ export default function Page() {
     window.open(`https://www.google.com/maps/@${form.values.stop_lat},${form.values.stop_lon},${zoom}z`, '_blank', 'noopener,noreferrer');
   };
 
+  const handleMapClick = (event) => {
+    console.log(event.features[0]);
+  };
+
   //
   // E. Transform data
 
-  const data = useMemo(() => {
+  const mapData = useMemo(() => {
     // Create a GeoJSON object
     const geoJSON = {
       type: 'Feature',
@@ -134,7 +138,8 @@ export default function Page() {
         coordinates: [parseFloat(stopData.stop_lon), parseFloat(stopData.stop_lat)],
       };
       geoJSON.properties = {
-        stop_id: stopData.stop_id,
+        _id: stopData._id,
+        stop_code: stopData.stop_code,
         stop_name: stopData.stop_name,
         stop_lat: stopData.stop_lat,
         stop_lon: stopData.stop_lon,
@@ -186,9 +191,9 @@ export default function Page() {
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
-        <OSMMap id='singleStop' height='400px' scrollZoom={false}>
-          <Source id='all-stops' type='geojson' data={data}>
-            <Layer id='all-stops' type='circle' source='all-stops' paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
+        <OSMMap id='singleStop' height='400px' scrollZoom={false} onClick={handleMapClick} interactiveLayerIds={['stop']}>
+          <Source id='stop' type='geojson' data={mapData}>
+            <Layer id='stop' type='circle' source='stop' paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
           </Source>
         </OSMMap>
 
