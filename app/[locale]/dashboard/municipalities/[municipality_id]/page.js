@@ -149,8 +149,8 @@ export default function Page() {
         <Section>
           <SectionTitle>Configuração do Município</SectionTitle>
           <SimpleGrid cols={2}>
-            <TextInput label='Código do Município' placeholder='FARE_1' {...form.getInputProps('municipality_code')} />
-            <TextInput label='Nome do Município' placeholder='Tarifa 1' {...form.getInputProps('municipality_name')} />
+            <TextInput label='Código do Município' placeholder='FARE_1' {...form.getInputProps('code')} />
+            <TextInput label='Nome do Município' placeholder='Tarifa 1' {...form.getInputProps('name')} />
           </SimpleGrid>
           <SimpleGrid cols={3}>
             <TextInput label='Distrito' placeholder='Distrito' {...form.getInputProps('district')} />

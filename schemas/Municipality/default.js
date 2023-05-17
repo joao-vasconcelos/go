@@ -6,8 +6,8 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  municipality_code: '',
-  municipality_name: '',
+  code: '',
+  name: '',
   district: '',
   nuts_iii: '',
   dico: '',

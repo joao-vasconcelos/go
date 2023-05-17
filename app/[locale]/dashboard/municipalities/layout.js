@@ -86,11 +86,7 @@ export default function Layout({ children }) {
           footer={municipalitiesData && (municipalitiesData.length === 1 ? <FooterText text={`Encontrado 1 Município`} /> : <FooterText text={`Encontrados ${municipalitiesData.length} Municípios`} />)}
         >
           <ErrorDisplay error={municipalitiesError} loading={municipalitiesValidating} />
-          {municipalitiesData && municipalitiesData.length > 0 ? (
-            municipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} municipality_code={item.municipality_code} municipality_name={item.municipality_name} district={item.district} dico={item.dico} />)
-          ) : (
-            <NoDataLabel />
-          )}
+          {municipalitiesData && municipalitiesData.length > 0 ? municipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} dico={item.dico} />) : <NoDataLabel />}
         </Pannel>
       }
       second={children}

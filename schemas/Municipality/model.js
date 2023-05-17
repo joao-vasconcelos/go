@@ -14,7 +14,7 @@ export const Schema = new mongoose.Schema(
       maxlength: 10,
       unique: true,
     },
-    municipality_name: {
+    name: {
       type: String,
       maxlength: 50,
     },

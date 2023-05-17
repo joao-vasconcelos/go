@@ -38,7 +38,7 @@ const Badge = styled('div', {
   borderRadius: '$md',
 });
 
-export default function ListItem({ _id, municipality_code, municipality_name, district, dico }) {
+export default function ListItem({ _id, code, name, district, dico }) {
   //
 
   const router = useRouter();
@@ -51,9 +51,9 @@ export default function ListItem({ _id, municipality_code, municipality_name, di
   return (
     <BaseListItem onClick={handleClick} isSelected={municipality_id === _id} withChevron>
       <Wrapper>
-        <Title isUntitled={!municipality_name}>{municipality_name || 'Município Sem Nome'}</Title>
+        <Title isUntitled={!name}>{name || 'Município Sem Nome'}</Title>
         <Group>
-          <Badge>{municipality_code}</Badge>
+          <Badge>{code}</Badge>
           <Badge>{district}</Badge>
           <Badge>{dico}</Badge>
         </Group>
