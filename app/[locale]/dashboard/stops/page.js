@@ -39,10 +39,14 @@ export default function Page() {
     window.open(`https://www.google.com/maps/@${center.lat},${center.lng},${zoom}z`, '_blank', 'noopener,noreferrer');
   };
 
+  const handleMapClick = (event) => {
+    console.log(event.features[0]);
+  };
+
   //
   // D. Transform data
 
-  const data = useMemo(() => {
+  const mapData = useMemo(() => {
     // Create a GeoJSON object
     const geoJSON = {
       type: 'FeatureCollection',
@@ -59,7 +63,8 @@ export default function Page() {
             coordinates: [parseFloat(stop.stop_lon), parseFloat(stop.stop_lat)],
           },
           properties: {
-            stop_id: stop.stop_id,
+            _id: stop._id,
+            stop_code: stop.stop_code,
             stop_name: stop.stop_name,
             stop_lat: stop.stop_lat,
             stop_lon: stop.stop_lon,
@@ -105,8 +110,8 @@ export default function Page() {
         </>
       }
     >
-      <OSMMap id='allStops' mapStyle={mapStyle}>
-        <Source id='all-stops' type='geojson' data={data}>
+      <OSMMap id='allStops' mapStyle={mapStyle} onClick={handleMapClick} interactiveLayerIds={['all-stops']}>
+        <Source id='all-stops' type='geojson' data={mapData}>
           <Layer id='all-stops' type='circle' source='all-stops' paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
         </Source>
       </OSMMap>
