@@ -7,8 +7,8 @@ import * as yup from 'yup';
 
 /* * */
 /* A. YUP Validation Schema */
-export const Validation = yup.object({
-  //
+export const Validation = yup.object({});
+/*
   // General
   stop_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   stop_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
@@ -107,3 +107,4 @@ export const Validation = yup.object({
 
   //
 });
+*/
