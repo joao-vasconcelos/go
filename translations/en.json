@@ -13,7 +13,7 @@
                 "configuration": "There is a problem with the server configuration.",
                 "access-denied": "You cannot login with this email.",
                 "verification": "The token has expired or has already been used.",
-                "unkown": "Unkown Issue"
+                "unknown": "Unkown Issue"
             }
         }
     },
