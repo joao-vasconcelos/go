@@ -13,7 +13,8 @@ import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-reac
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
-import FooterText from '../../../../components/lists/FooterText';
+import { useTranslations } from 'next-intl';
+import ListFooter from '../../../../components/ListFooter/ListFooter';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -26,6 +27,7 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('users');
 
   const [isCreating, setIsCreating] = useState(false);
 
@@ -40,18 +42,15 @@ export default function Layout({ children }) {
   const handleCreateUser = async () => {
     try {
       setIsCreating(true);
-      const response = await API({
-        service: 'users',
-        operation: 'create',
-        method: 'GET',
-      });
+      notify('new', 'loading', t('operations.create.loading'));
+      const response = await API({ service: 'users', operation: 'create', method: 'GET' });
       router.push(`/dashboard/users/${response._id}`);
-      notify('new', 'success', 'Utilizador criado com sucesso.');
+      notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
+      notify('new', 'error', err.message || t('operations.create.error'));
       setIsCreating(false);
       console.log(err);
-      notify('new', 'error', err.message);
     }
   };
 
@@ -75,7 +74,7 @@ export default function Layout({ children }) {
                 <Menu.Dropdown>
                   <Menu.Label>Importar</Menu.Label>
                   <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateUser}>
-                    Novo Utilizador
+                    {t('operations.create.title')}
                   </Menu.Item>
                   <Menu.Label>Exportar</Menu.Label>
                   <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download CSV</Menu.Item>
@@ -83,7 +82,7 @@ export default function Layout({ children }) {
               </Menu>
             </>
           }
-          footer={usersData && (usersData.length === 1 ? <FooterText text={`Encontrado 1 Utilizador`} /> : <FooterText text={`Encontrados ${usersData.length} Utilizadores`} />)}
+          footer={usersData && <ListFooter>{t('list.footer', { count: usersData.length })}</ListFooter>}
         >
           <ErrorDisplay error={usersError} loading={usersValidating} />
           {usersData && usersData.length > 0 ? usersData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} email={item.email} />) : <NoDataLabel />}

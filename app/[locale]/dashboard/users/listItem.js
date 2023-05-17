@@ -1,47 +1,16 @@
-'use client';
-
-import { styled } from '@stitches/react';
 import { useRouter, useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import BaseListItem from '../../../../components/BaseListItem/BaseListItem';
-
-const Wrapper = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'start',
-  gap: '$sm',
-});
-
-const Title = styled('div', {
-  fontSize: '16px',
-  color: '$gray12',
-  fontWeight: '$bold',
-  variants: {
-    isUntitled: {
-      true: {
-        fontSize: '16px',
-        color: '$gray10',
-        fontWeight: '$regular',
-        fontStyle: 'italic',
-      },
-    },
-  },
-});
-
-const Badge = styled('div', {
-  fontFamily: 'monospace',
-  fontSize: '10px',
-  letterSpacing: '1px',
-  color: '$gray9',
-  border: '1px solid $gray6',
-  padding: '2px 6px',
-  borderRadius: '$md',
-});
+import Text from '../../../../components/Text/Text';
+import Badge from '../../../../components/Badge/Badge';
+import { Group } from '@mantine/core';
 
 export default function ListItem({ _id, name, email }) {
   //
 
   const router = useRouter();
   const { user_id } = useParams();
+  const t = useTranslations('users');
 
   const handleClick = () => {
     router.push(`/dashboard/users/${_id}`);
@@ -49,10 +18,12 @@ export default function ListItem({ _id, name, email }) {
 
   return (
     <BaseListItem onClick={handleClick} isSelected={user_id === _id} withChevron>
-      <Wrapper>
-        <Title isUntitled={!name}>{name || 'Utilizador Sem Nome'}</Title>
+      <Text size='title' style={!name && 'untitled'}>
+        {name || t('untitled')}
+      </Text>
+      <Group>
         <Badge>{email}</Badge>
-      </Wrapper>
+      </Group>
     </BaseListItem>
   );
 }
