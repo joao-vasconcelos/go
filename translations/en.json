@@ -567,6 +567,139 @@
             }
         }
     },
+    "users": {
+        "untitled": "Untitled User",
+        "list": {
+            "footer": "Found {count, plural, =1 {1 User} other {# Users}}"
+        },
+        "operations": {
+            "create": {
+                "title": "Create New User",
+                "loading": "Creating new User...",
+                "success": "A new User was created!",
+                "error": "An error occurred while creating this User."
+            },
+            "delete": {
+                "title": "Delete User",
+                "description": "Deleting is irreversible. Are you sure you want to delete this User forever?",
+                "confirm": "Delete User Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting User...",
+                "success": "User was deleted.",
+                "error": "An error occurred while deleting this User."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "User Details",
+                "description": "About this section"
+            },
+            "permissions": {
+                "title": "Permissions for this user",
+                "description": "About this section"
+            }
+        },
+        "form": {
+            "name": {
+                "label": "First and Last Name",
+                "placeholder": "Alberto Soares"
+            },
+            "email": {
+                "label": "Email",
+                "placeholder": "first.last@tmlmobilidade.pt"
+            },
+            "phone": {
+                "label": "Phone Number",
+                "placeholder": "+351 912 345 678"
+            },
+            "last_login": {
+                "label": "Last Login",
+                "placeholder": "(unavailable data)"
+            },
+            "emailVerified": {
+                "label": "Last Email Verification",
+                "placeholder": "(unavailable data)"
+            },
+            "agencies": {
+                "label": "Associated Agencies",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "municipalities": {
+                "label": "Associated Municipalities",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "permissions": {
+                "agencies": {
+                    "view": "View Agencies",
+                    "create": "Create Agencies",
+                    "edit": "Edit Agencies",
+                    "delete": "Delete Agencies"
+                },
+                "alerts": {
+                    "view": "View Alerts",
+                    "create": "Create Alerts",
+                    "edit": "Edit Alerts",
+                    "delete": "Delete Alerts"
+                },
+                "calendars": {
+                    "view": "View Calendars",
+                    "create": "Create Calendars",
+                    "edit": "Edit Calendars",
+                    "delete": "Delete Calendars"
+                },
+                "dates": {
+                    "view": "View Dates",
+                    "create": "Create Dates",
+                    "edit": "Edit Dates",
+                    "delete": "Delete Dates"
+                },
+                "fares": {
+                    "view": "View Fares",
+                    "create": "Create Fares",
+                    "edit": "Edit Fares",
+                    "delete": "Delete Fares"
+                },
+                "lines": {
+                    "view": "View Lines",
+                    "create": "Create Lines",
+                    "edit": "Edit Lines",
+                    "delete": "Delete Lines"
+                },
+                "municipalities": {
+                    "view": "View Municipalities",
+                    "create": "Create Municipalities",
+                    "edit": "Edit Municipalities",
+                    "delete": "Delete Municipalities"
+                },
+                "shapes": {
+                    "view": "View Shapes",
+                    "create": "Create Shapes",
+                    "edit": "Edit Shapes",
+                    "delete": "Delete Shapes"
+                },
+                "stops": {
+                    "view": "View Stops",
+                    "create": "Create Stops",
+                    "edit": "Edit Stops",
+                    "delete": "Delete Stops"
+                },
+                "threads": {
+                    "view": "View Threads",
+                    "create": "Create Threads",
+                    "edit": "Edit Threads",
+                    "delete": "Delete Threads"
+                },
+                "users": {
+                    "view": "View Users",
+                    "create": "Create Users",
+                    "edit": "Edit Users",
+                    "delete": "Delete Users"
+                }
+            }
+        }
+    },
     "AppOptions": {
         "language": {
             "label": "Language",
