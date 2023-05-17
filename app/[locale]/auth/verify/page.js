@@ -12,21 +12,21 @@ export default function AuthVerify() {
   const { status } = useSession();
   const t = useTranslations('auth.verify');
 
-  if (status === 'authenticated') {
-    if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
-    else router.push('/dashboard/statistics');
-  }
-
   const handleSignInRetry = () => {
     router.push('/auth/signin');
   };
 
-  return (
-    <SimpleGrid>
-      <Text align='center'>{t('instruction')}</Text>
-      <Button fullWidth variant='light' onClick={handleSignInRetry}>
-        {t('submit')}
-      </Button>
-    </SimpleGrid>
-  );
+  if (status === 'authenticated') {
+    if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
+    else router.push('/dashboard/');
+  } else {
+    return (
+      <SimpleGrid>
+        <Text align='center'>{t('instruction')}</Text>
+        <Button fullWidth variant='light' onClick={handleSignInRetry}>
+          {t('submit')}
+        </Button>
+      </SimpleGrid>
+    );
+  }
 }
