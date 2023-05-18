@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 export default function AuthGate({ permission = '', scope, redirect = false, children }) {
   //
@@ -10,16 +10,17 @@ export default function AuthGate({ permission = '', scope, redirect = false, chi
   const router = useRouter();
   const { data: session } = useSession();
 
+  const hasPermission = useMemo(() => {
+    return session?.user?.permissions[permission] === true;
+  }, [permission, session?.user?.permissions]);
+
   useEffect(() => {
-    if (redirect) router.push('/dashboard');
-  }, [redirect, router]);
+    if (!hasPermission && redirect) router.push('/dashboard');
+  }, [hasPermission, redirect, router]);
 
   //   return children;
-  if (session?.user?.permissions[permission] === true) {
-    return children;
-  } else {
-    return <></>;
-  }
+  if (hasPermission) return children;
+  else return <></>;
 
   //
 }
