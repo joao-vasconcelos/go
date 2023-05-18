@@ -612,14 +612,6 @@
                 "label": "Phone Number",
                 "placeholder": "+351 912 345 678"
             },
-            "last_login": {
-                "label": "Last Login",
-                "placeholder": "(unavailable data)"
-            },
-            "emailVerified": {
-                "label": "Last Email Verification",
-                "placeholder": "(unavailable data)"
-            },
             "agencies": {
                 "label": "Associated Agencies",
                 "placeholder": "Choose an option...",
@@ -724,5 +716,9 @@
         "threads": "Threads",
         "export": "Export",
         "users": "Users"
+    },
+    "UserActivityBadge": {
+        "was_active": "Active {value}",
+        "was_never_active": "This user neved logged in"
     }
 }
