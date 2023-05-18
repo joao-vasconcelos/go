@@ -12,7 +12,7 @@ export default function Providers({ children, session }) {
   const preferredColorScheme = useColorScheme();
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} refetchInterval={15}>
       <MantineProvider theme={{ colorScheme: preferredColorScheme }} withGlobalStyles withNormalizeCSS>
         {children}
       </MantineProvider>
