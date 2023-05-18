@@ -43,3 +43,11 @@
 .fullWidth {
   width: 100%;
 }
+
+.default {
+  color: var(--reference-1);
+}
+
+.muted {
+  color: var(--gray6);
+}
