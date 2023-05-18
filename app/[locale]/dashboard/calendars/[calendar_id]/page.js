@@ -1,37 +1,23 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../services/API';
 import { Validation as CalendarValidation } from '../../../../../schemas/Calendar/validation';
 import { Default as CalendarDefault } from '../../../../../schemas/Calendar/default';
-import { Tooltip, Switch, SimpleGrid, TextInput, ActionIcon, Text, Divider } from '@mantine/core';
+import { Tooltip, Switch, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../components/Pannel/Pannel';
+import { Section } from '../../../../../components/Layouts/Layouts';
+import Text from '../../../../../components/Text/Text';
 import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import HeaderTitle from '../../../../../components/lists/HeaderTitle';
+import { useTranslations } from 'next-intl';
 import HCalendar from '../../../../../components/HCalendar/HCalendar';
 import HCalendarToggle from '../../../../../components/HCalendarToggle/HCalendarToggle';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
-
-const Section = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '$lg',
-  gap: '$md',
-  width: '100%',
-  maxHeight: '100%',
-});
 
 export default function Page() {
   //
@@ -40,6 +26,7 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('calendars');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
@@ -96,25 +83,21 @@ export default function Page() {
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar Calendário?
-        </Text>
-      ),
+      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar este Calendário para sempre?</Text>,
-      labels: { confirm: 'Eliminar Calendário', cancel: 'Não Eliminar' },
+      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(calendar_id, 'loading', 'A eliminar Calendário...');
+          notify(fare_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'calendars', resourceId: calendar_id, operation: 'delete', method: 'DELETE' });
           router.push('/dashboard/calendars');
-          notify(calendar_id, 'success', 'Calendário eliminado!');
+          notify(fare_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
-          notify(calendar_id, 'error', err.message || 'Occoreu um erro.');
+          notify(fare_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -174,8 +157,10 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <HeaderTitle text={form.values.name || 'Calendário Sem Nome'} />
-          <Tooltip label='Eliminar Calendário' color='red' position='bottom' withArrow>
+          <Text size='h1' style={!form.values.name && 'untitled'} full>
+            {form.values.name || t('untitled')}
+          </Text>
+          <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
               <IconTrash size='20px' />
             </ActionIcon>
@@ -185,24 +170,19 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Configuração do Calendário</SectionTitle>
+          <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
-            <TextInput label='Nome do Calendário' placeholder='Nome' {...form.getInputProps('name')} />
-            <TextInput label='Código do Calendário' placeholder='Codigo do Calendario' {...form.getInputProps('code')} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} />
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} />
           </SimpleGrid>
         </Section>
         <Divider />
         <Section>
-          <Switch
-            label='Marcar todas as datas deste calendário como Feriado'
-            description='Todas as datas aqui selecionadas serão marcadas como feriado, independentemente de estarem marcadas como dias regulares noutros calendários.'
-            size='md'
-            {...form.getInputProps('is_holiday', { type: 'checkbox' })}
-          />
+          <Switch label={t('form.is_holiday.label')} description={t('form.is_holiday.description')} size='md' {...form.getInputProps('is_holiday', { type: 'checkbox' })} />
         </Section>
         <Divider />
         <Section>
-          <SectionTitle>Datas deste Calendário</SectionTitle>
+          <Text size='h2'>{t('sections.dates.title')}</Text>
           <HCalendar availableDates={datesData} renderCardComponent={renderDateCardComponent} onMultiSelect={handleMultiToggleDates} />
         </Section>
       </form>
