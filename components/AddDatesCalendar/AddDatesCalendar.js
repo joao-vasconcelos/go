@@ -3,7 +3,7 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { SegmentedControl, Select, Button, SimpleGrid, LoadingOverlay, Textarea, Divider } from '@mantine/core';
+import { SegmentedControl, Select, Button, SimpleGrid, LoadingOverlay, Divider } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 
 export default function AddDatesCalendar({ onUpdate, onDelete }) {
@@ -21,7 +21,7 @@ export default function AddDatesCalendar({ onUpdate, onDelete }) {
   // C. Handle actions
 
   const form = useForm({
-    initialValues: { period: 1, comment: '' },
+    initialValues: { period: 1 },
   });
 
   //
@@ -68,7 +68,6 @@ export default function AddDatesCalendar({ onUpdate, onDelete }) {
       return {
         date: dateString,
         period: form.values.period,
-        comment: form.values.comment,
       };
     });
 
@@ -126,7 +125,6 @@ export default function AddDatesCalendar({ onUpdate, onDelete }) {
               { value: 3, label: '3 - Período de Verão' },
             ]}
           />
-          <Textarea label='Notas sobre estas datas' {...form.getInputProps('notes')} />
         </SimpleGrid>
         <SimpleGrid cols={2}>
           <Button size='lg' onClick={handleUpdate} disabled={!isSelectionValid()}>
