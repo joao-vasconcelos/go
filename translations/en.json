@@ -81,6 +81,99 @@
             }
         }
     },
+    "calendars": {
+        "untitled": "Untitled Calendar",
+        "list": {
+            "footer": "Found {count, plural, =1 {1 Calendar} other {# Calendars}}"
+        },
+        "operations": {
+            "create": {
+                "title": "Create New Calendar",
+                "loading": "Creating new Calendar...",
+                "success": "A new Calendar was created!",
+                "error": "An error occurred while creating this Calendar."
+            },
+            "delete": {
+                "title": "Delete Calendar",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Calendar forever?",
+                "confirm": "Delete Calendar Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Calendar...",
+                "success": "Calendar was deleted.",
+                "error": "An error occurred while deleting this Calendar."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Details"
+            }
+        },
+        "form": {
+            "name": {
+                "label": "Calendar Name",
+                "placeholder": "Weekdays"
+            },
+            "code": {
+                "label": "Calendar Code",
+                "placeholder": "DU"
+            },
+            "is_holiday": {
+                "label": "Set all dates as Holiday",
+                "description": "All dates here selected will be marked as holiday, even if they are marked as regular days in other calendars. This only affects dates for trips where this calendar is selected."
+            }
+        }
+    },
+    "dates": {
+        "title": "All Available Dates",
+        "operations": {
+            "close": {
+                "title": "Back to Calendars"
+            },
+            "manage": {
+                "title": "Manage Dates"
+            },
+            "update": {
+                "title": "Update",
+                "loading": "Updating...",
+                "success": "Dates were updated!",
+                "error": "An error occurred while updating Dates."
+            },
+            "delete": {
+                "title": "Delete",
+                "description": "Deleting is irreversible. Are you sure you want to delete these Dates forever?",
+                "confirm": "Delete Dates Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting...",
+                "success": "Dates were deleted.",
+                "error": "An error occurred while deleting these Dates."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Details"
+            },
+            "dates": {
+                "title": "Dates for this Calendar"
+            }
+        },
+        "form": {
+            "range": {
+                "title": "Date Range"
+            },
+            "multiple": {
+                "title": "Single Dates"
+            },
+            "period": {
+                "label": "Period",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "notes": {
+                "label": "Notes for this Date",
+                "placeholder": "In this day..."
+            }
+        }
+    },
     "fares": {
         "untitled": "Untitled Fare",
         "list": {
