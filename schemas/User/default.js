@@ -10,6 +10,7 @@ export const Default = {
   email: '',
   phone: '',
   emailVerified: '',
+  last_active: '',
   permissions: {
     // AGENCIES
     agencies_view: false,
