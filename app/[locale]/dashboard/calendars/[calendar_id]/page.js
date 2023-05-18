@@ -181,10 +181,7 @@ export default function Page() {
           <Switch label={t('form.is_holiday.label')} description={t('form.is_holiday.description')} size='md' {...form.getInputProps('is_holiday', { type: 'checkbox' })} />
         </Section>
         <Divider />
-        <Section>
-          <Text size='h2'>{t('sections.dates.title')}</Text>
-          <HCalendar availableDates={datesData} renderCardComponent={renderDateCardComponent} onMultiSelect={handleMultiToggleDates} />
-        </Section>
+        <HCalendar availableDates={datesData} renderCardComponent={renderDateCardComponent} onMultiSelect={handleMultiToggleDates} />
       </form>
     </Pannel>
   );

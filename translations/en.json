@@ -106,9 +106,6 @@
         "sections": {
             "config": {
                 "title": "Details"
-            },
-            "dates": {
-                "title": "Dates for this Calendar"
             }
         },
         "form": {
