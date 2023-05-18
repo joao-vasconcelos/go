@@ -2,6 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function AuthGate({ permission = '', scope, redirect = false, children }) {
   //
@@ -9,11 +10,14 @@ export default function AuthGate({ permission = '', scope, redirect = false, chi
   const router = useRouter();
   const { data: session } = useSession();
 
+  useEffect(() => {
+    if (redirect) router.push('/dashboard');
+  }, [redirect, router]);
+
   //   return children;
   if (session?.user?.permissions[permission] === true) {
     return children;
   } else {
-    if (redirect) router.push('/dashboard');
     return <></>;
   }
 
