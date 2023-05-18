@@ -4,7 +4,7 @@ import Text from '../../../../components/Text/Text';
 import Badge from '../../../../components/Badge/Badge';
 import { Group } from '@mantine/core';
 
-export default function ListItem({ _id, stop_name, stop_code, stop_lat, stop_lon }) {
+export default function ListItem({ style, _id, stop_name, stop_code, stop_lat, stop_lon }) {
   //
 
   const router = useRouter();
@@ -15,7 +15,7 @@ export default function ListItem({ _id, stop_name, stop_code, stop_lat, stop_lon
   };
 
   return (
-    <BaseListItem onClick={handleClick} isSelected={stop_id === _id} withChevron>
+    <BaseListItem onClick={handleClick} isSelected={stop_id === _id} withChevron style={style}>
       <Text size='title' style={!stop_name && 'untitled'}>
         {stop_name || 'Paragem Sem Nome'}
       </Text>

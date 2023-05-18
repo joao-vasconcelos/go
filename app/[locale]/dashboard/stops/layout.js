@@ -4,6 +4,8 @@ import { styled } from '@stitches/react';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeList as List } from 'react-window';
 import API from '../../../../services/API';
 import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
@@ -98,7 +100,19 @@ export default function Layout({ children }) {
             footer={listData && <ListFooter>{t('list.footer', { count: listData.length })}</ListFooter>}
           >
             <ErrorDisplay error={stopsError} loading={stopsValidating} />
-            {listData && listData.length > 0 ? listData.map((item) => <ListItem key={item._id} _id={item._id} stop_code={item.stop_code} stop_name={item.stop_name} stop_lat={item.stop_lat} stop_lon={item.stop_lon} />) : <NoDataLabel />}
+            {listData && listData.length > 0 ? (
+              <AutoSizer>
+                {({ height, width }) => (
+                  <List className='List' height={height} itemCount={listData.length} itemSize={85} width={width}>
+                    {({ index, style }) => (
+                      <ListItem key={listData[index]._id} _id={listData[index]._id} style={style} stop_code={listData[index].stop_code} stop_name={listData[index].stop_name} stop_lat={listData[index].stop_lat} stop_lon={listData[index].stop_lon} />
+                    )}
+                  </List>
+                )}
+              </AutoSizer>
+            ) : (
+              <NoDataLabel />
+            )}
           </Pannel>
         }
         second={children}

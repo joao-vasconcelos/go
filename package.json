@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/go",
-    "version": "2023.05.18-1745",
+    "version": "2023.05.18-2346",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -40,6 +40,8 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-map-gl": "^7.0.23",
+        "react-virtualized-auto-sizer": "^1.0.17",
+        "react-window": "^1.8.9",
         "sharp": "^0.32.1",
         "swr": "^2.1.5",
         "yup": "^1.1.1"
