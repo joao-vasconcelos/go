@@ -14,6 +14,7 @@ import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
 import FooterText from '../../../../components/lists/FooterText';
+import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -59,37 +60,39 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <TwoUnevenColumns
-      first={
-        <Pannel
-          loading={municipalitiesLoading}
-          header={
-            <>
-              <SearchField placeholder='Procurar...' width={'100%'} />
-              <Menu shadow='md' position='bottom-end'>
-                <Menu.Target>
-                  <ActionIcon variant='light' size='lg' loading={municipalitiesLoading || isCreating}>
-                    <IconDots size='20px' />
-                  </ActionIcon>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateFare}>
-                    Novo Município
-                  </Menu.Item>
-                  <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download municipalities.txt</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </>
-          }
-          footer={municipalitiesData && (municipalitiesData.length === 1 ? <FooterText text={`Encontrado 1 Município`} /> : <FooterText text={`Encontrados ${municipalitiesData.length} Municípios`} />)}
-        >
-          <ErrorDisplay error={municipalitiesError} loading={municipalitiesValidating} />
-          {municipalitiesData && municipalitiesData.length > 0 ? municipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} dico={item.dico} />) : <NoDataLabel />}
-        </Pannel>
-      }
-      second={children}
-    />
+    <AuthGate permission='municipalities_view' redirect>
+      <TwoUnevenColumns
+        first={
+          <Pannel
+            loading={municipalitiesLoading}
+            header={
+              <>
+                <SearchField placeholder='Procurar...' width={'100%'} />
+                <Menu shadow='md' position='bottom-end'>
+                  <Menu.Target>
+                    <ActionIcon variant='light' size='lg' loading={municipalitiesLoading || isCreating}>
+                      <IconDots size='20px' />
+                    </ActionIcon>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label>Importar</Menu.Label>
+                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateFare}>
+                      Novo Município
+                    </Menu.Item>
+                    <Menu.Label>Exportar</Menu.Label>
+                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download municipalities.txt</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            }
+            footer={municipalitiesData && (municipalitiesData.length === 1 ? <FooterText text={`Encontrado 1 Município`} /> : <FooterText text={`Encontrados ${municipalitiesData.length} Municípios`} />)}
+          >
+            <ErrorDisplay error={municipalitiesError} loading={municipalitiesValidating} />
+            {municipalitiesData && municipalitiesData.length > 0 ? municipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} dico={item.dico} />) : <NoDataLabel />}
+          </Pannel>
+        }
+        second={children}
+      />
+    </AuthGate>
   );
 }

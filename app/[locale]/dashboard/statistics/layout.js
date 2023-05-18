@@ -1,6 +1,7 @@
 'use client';
 
 import { styled } from '@stitches/react';
+import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 const Container = styled('div', {
   display: 'grid',
@@ -17,5 +18,9 @@ const Container = styled('div', {
 });
 
 export default function Layout({ children }) {
-  return <Container>{children}</Container>;
+  return (
+    <AuthGate permission='statistics_view' redirect>
+      <Container>{children}</Container>;
+    </AuthGate>
+  );
 }

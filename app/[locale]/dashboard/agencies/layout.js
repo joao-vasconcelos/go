@@ -15,6 +15,7 @@ import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '../../../../components/ListFooter/ListFooter';
+import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -58,37 +59,41 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <TwoUnevenColumns
-      first={
-        <Pannel
-          loading={agenciesLoading}
-          header={
-            <>
-              <SearchField placeholder='Procurar...' width={'100%'} />
-              <Menu shadow='md' position='bottom-end'>
-                <Menu.Target>
-                  <ActionIcon variant='light' size='lg' loading={agenciesLoading || isCreating}>
-                    <IconDots size='20px' />
-                  </ActionIcon>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateAgency}>
-                    {t('operations.create.title')}
-                  </Menu.Item>
-                  <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </>
-          }
-          footer={agenciesData && <ListFooter>{t('list.footer', { count: agenciesData.length })}</ListFooter>}
-        >
-          <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
-          {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_name={item.agency_name} />) : <NoDataLabel />}
-        </Pannel>
-      }
-      second={children}
-    />
+    <AuthGate permission='agencies_view' redirect>
+      <TwoUnevenColumns
+        first={
+          <Pannel
+            loading={agenciesLoading}
+            header={
+              <>
+                <SearchField placeholder='Procurar...' width={'100%'} />
+                <Menu shadow='md' position='bottom-end'>
+                  <Menu.Target>
+                    <ActionIcon variant='light' size='lg' loading={agenciesLoading || isCreating}>
+                      <IconDots size='20px' />
+                    </ActionIcon>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <AuthGate permission='agencies_create'>
+                      <Menu.Label>Importar</Menu.Label>
+                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateAgency}>
+                        {t('operations.create.title')}
+                      </Menu.Item>
+                    </AuthGate>
+                    <Menu.Label>Exportar</Menu.Label>
+                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            }
+            footer={agenciesData && <ListFooter>{t('list.footer', { count: agenciesData.length })}</ListFooter>}
+          >
+            <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
+            {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_name={item.agency_name} />) : <NoDataLabel />}
+          </Pannel>
+        }
+        second={children}
+      />
+    </AuthGate>
   );
 }

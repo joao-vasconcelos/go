@@ -16,6 +16,8 @@ import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -27,6 +29,8 @@ export default function Page() {
   const t = useTranslations('agencies');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'agencies_edit');
 
   const { agency_id } = useParams();
 
@@ -122,11 +126,13 @@ export default function Page() {
           <Text size='h1' style={!form.values.agency_name && 'untitled'} full>
             {form.values.agency_name || t('untitled')}
           </Text>
-          <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <AuthGate permission='agencies_delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
@@ -134,10 +140,10 @@ export default function Page() {
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={1}>
-            <TextInput label={t('form.agency_name.label')} placeholder={t('form.agency_name.placeholder')} {...form.getInputProps('agency_name')} />
+            <TextInput label={t('form.agency_name.label')} placeholder={t('form.agency_name.placeholder')} {...form.getInputProps('agency_name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={3}>
-            <TextInput label={t('form.agency_code.label')} placeholder={t('form.agency_code.placeholder')} {...form.getInputProps('agency_code')} />
+            <TextInput label={t('form.agency_code.label')} placeholder={t('form.agency_code.placeholder')} {...form.getInputProps('agency_code')} readOnly={isReadOnly} />
             <Select
               label={t('form.agency_lang.label')}
               placeholder={t('form.agency_lang.placeholder')}
@@ -145,16 +151,25 @@ export default function Page() {
               data={[{ value: 'pt', label: 'Português (Portugal)' }]}
               {...form.getInputProps('agency_lang')}
               searchable
+              readOnly={isReadOnly}
             />
-            <Select label={t('form.agency_timezone.label')} placeholder={t('form.agency_timezone.placeholder')} nothingFound={t('form.agency_timezone.nothingFound')} data={['Europe/Lisbon']} {...form.getInputProps('agency_timezone')} searchable />
+            <Select
+              label={t('form.agency_timezone.label')}
+              placeholder={t('form.agency_timezone.placeholder')}
+              nothingFound={t('form.agency_timezone.nothingFound')}
+              data={['Europe/Lisbon']}
+              {...form.getInputProps('agency_timezone')}
+              searchable
+              readOnly={isReadOnly}
+            />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput label={t('form.agency_phone.label')} placeholder={t('form.agency_phone.placeholder')} {...form.getInputProps('agency_phone')} />
-            <TextInput label={t('form.agency_email.label')} placeholder={t('form.agency_email.placeholder')} {...form.getInputProps('agency_email')} />
+            <TextInput label={t('form.agency_phone.label')} placeholder={t('form.agency_phone.placeholder')} {...form.getInputProps('agency_phone')} readOnly={isReadOnly} />
+            <TextInput label={t('form.agency_email.label')} placeholder={t('form.agency_email.placeholder')} {...form.getInputProps('agency_email')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput label={t('form.agency_url.label')} placeholder={t('form.agency_url.placeholder')} {...form.getInputProps('agency_url')} />
-            <TextInput label={t('form.agency_fare_url.label')} placeholder={t('form.agency_fare_url.placeholder')} {...form.getInputProps('agency_fare_url')} />
+            <TextInput label={t('form.agency_url.label')} placeholder={t('form.agency_url.placeholder')} {...form.getInputProps('agency_url')} readOnly={isReadOnly} />
+            <TextInput label={t('form.agency_fare_url.label')} placeholder={t('form.agency_fare_url.placeholder')} {...form.getInputProps('agency_fare_url')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
       </form>

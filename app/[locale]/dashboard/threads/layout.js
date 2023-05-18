@@ -14,6 +14,7 @@ import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
 import FooterText from '../../../../components/lists/FooterText';
+import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -59,37 +60,39 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <TwoUnevenColumns
-      first={
-        <Pannel
-          loading={agenciesLoading}
-          header={
-            <>
-              <SearchField placeholder='Procurar...' width={'100%'} />
-              <Menu shadow='md' position='bottom-end'>
-                <Menu.Target>
-                  <ActionIcon variant='light' size='lg' loading={agenciesLoading || isCreating}>
-                    <IconDots size='20px' />
-                  </ActionIcon>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateAgency}>
-                    Nova Agência
-                  </Menu.Item>
-                  <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </>
-          }
-          footer={agenciesData && (agenciesData.length === 1 ? <FooterText text={`Encontrada 1 Agência`} /> : <FooterText text={`Encontradas ${agenciesData.length} Agências`} />)}
-        >
-          <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
-          {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_code={item.agency_code} agency_name={item.agency_name} />) : <NoDataLabel />}
-        </Pannel>
-      }
-      second={children}
-    />
+    <AuthGate permission='threads_view' redirect>
+      <TwoUnevenColumns
+        first={
+          <Pannel
+            loading={agenciesLoading}
+            header={
+              <>
+                <SearchField placeholder='Procurar...' width={'100%'} />
+                <Menu shadow='md' position='bottom-end'>
+                  <Menu.Target>
+                    <ActionIcon variant='light' size='lg' loading={agenciesLoading || isCreating}>
+                      <IconDots size='20px' />
+                    </ActionIcon>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label>Importar</Menu.Label>
+                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateAgency}>
+                      Nova Agência
+                    </Menu.Item>
+                    <Menu.Label>Exportar</Menu.Label>
+                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            }
+            footer={agenciesData && (agenciesData.length === 1 ? <FooterText text={`Encontrada 1 Agência`} /> : <FooterText text={`Encontradas ${agenciesData.length} Agências`} />)}
+          >
+            <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
+            {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_code={item.agency_code} agency_name={item.agency_name} />) : <NoDataLabel />}
+          </Pannel>
+        }
+        second={children}
+      />
+    </AuthGate>
   );
 }

@@ -15,6 +15,7 @@ import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '../../../../components/ListFooter/ListFooter';
+import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -58,37 +59,39 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <TwoUnevenColumns
-      first={
-        <Pannel
-          loading={usersLoading}
-          header={
-            <>
-              <SearchField placeholder='Procurar...' width={'100%'} />
-              <Menu shadow='md' position='bottom-end'>
-                <Menu.Target>
-                  <ActionIcon variant='light' size='lg' loading={usersLoading || isCreating}>
-                    <IconDots size='20px' />
-                  </ActionIcon>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateUser}>
-                    {t('operations.create.title')}
-                  </Menu.Item>
-                  <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download CSV</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </>
-          }
-          footer={usersData && <ListFooter>{t('list.footer', { count: usersData.length })}</ListFooter>}
-        >
-          <ErrorDisplay error={usersError} loading={usersValidating} />
-          {usersData && usersData.length > 0 ? usersData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} email={item.email} />) : <NoDataLabel />}
-        </Pannel>
-      }
-      second={children}
-    />
+    <AuthGate permission='users_view' redirect>
+      <TwoUnevenColumns
+        first={
+          <Pannel
+            loading={usersLoading}
+            header={
+              <>
+                <SearchField placeholder='Procurar...' width={'100%'} />
+                <Menu shadow='md' position='bottom-end'>
+                  <Menu.Target>
+                    <ActionIcon variant='light' size='lg' loading={usersLoading || isCreating}>
+                      <IconDots size='20px' />
+                    </ActionIcon>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label>Importar</Menu.Label>
+                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateUser}>
+                      {t('operations.create.title')}
+                    </Menu.Item>
+                    <Menu.Label>Exportar</Menu.Label>
+                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download CSV</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            }
+            footer={usersData && <ListFooter>{t('list.footer', { count: usersData.length })}</ListFooter>}
+          >
+            <ErrorDisplay error={usersError} loading={usersValidating} />
+            {usersData && usersData.length > 0 ? usersData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} email={item.email} />) : <NoDataLabel />}
+          </Pannel>
+        }
+        second={children}
+      />
+    </AuthGate>
   );
 }

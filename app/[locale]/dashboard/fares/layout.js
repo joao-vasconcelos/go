@@ -15,6 +15,7 @@ import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '../../../../components/ListFooter/ListFooter';
+import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -58,42 +59,44 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <TwoUnevenColumns
-      first={
-        <Pannel
-          loading={faresLoading}
-          header={
-            <>
-              <SearchField placeholder='Procurar...' width={'100%'} />
-              <Menu shadow='md' position='bottom-end'>
-                <Menu.Target>
-                  <ActionIcon variant='light' size='lg' loading={faresLoading || isCreating}>
-                    <IconDots size='20px' />
-                  </ActionIcon>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateFare}>
-                    {t('operations.create.title')}
-                  </Menu.Item>
-                  <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download fare_attributes.txt</Menu.Item>
-                  <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download fare_rules.txt</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </>
-          }
-          footer={faresData && <ListFooter>{t('list.footer', { count: faresData.length })}</ListFooter>}
-        >
-          <ErrorDisplay error={faresError} loading={faresValidating} />
-          {faresData && faresData.length > 0 ? (
-            faresData.map((item) => <ListItem key={item._id} _id={item._id} fare_code={item.fare_code} fare_short_name={item.fare_short_name} fare_long_name={item.fare_long_name} price={item.price} currency_type={item.currency_type} />)
-          ) : (
-            <NoDataLabel />
-          )}
-        </Pannel>
-      }
-      second={children}
-    />
+    <AuthGate permission='fares_view' redirect>
+      <TwoUnevenColumns
+        first={
+          <Pannel
+            loading={faresLoading}
+            header={
+              <>
+                <SearchField placeholder='Procurar...' width={'100%'} />
+                <Menu shadow='md' position='bottom-end'>
+                  <Menu.Target>
+                    <ActionIcon variant='light' size='lg' loading={faresLoading || isCreating}>
+                      <IconDots size='20px' />
+                    </ActionIcon>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label>Importar</Menu.Label>
+                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateFare}>
+                      {t('operations.create.title')}
+                    </Menu.Item>
+                    <Menu.Label>Exportar</Menu.Label>
+                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download fare_attributes.txt</Menu.Item>
+                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download fare_rules.txt</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            }
+            footer={faresData && <ListFooter>{t('list.footer', { count: faresData.length })}</ListFooter>}
+          >
+            <ErrorDisplay error={faresError} loading={faresValidating} />
+            {faresData && faresData.length > 0 ? (
+              faresData.map((item) => <ListItem key={item._id} _id={item._id} fare_code={item.fare_code} fare_short_name={item.fare_short_name} fare_long_name={item.fare_long_name} price={item.price} currency_type={item.currency_type} />)
+            ) : (
+              <NoDataLabel />
+            )}
+          </Pannel>
+        }
+        second={children}
+      />
+    </AuthGate>
   );
 }

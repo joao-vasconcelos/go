@@ -15,6 +15,7 @@ import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '../../../../components/ListFooter/ListFooter';
+import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 const SearchField = styled(TextInput, {
   width: '100%',
@@ -58,37 +59,39 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <TwoUnevenColumns
-      first={
-        <Pannel
-          loading={shapesLoading}
-          header={
-            <>
-              <SearchField placeholder='Procurar...' width={'100%'} />
-              <Menu shadow='md' position='bottom-end'>
-                <Menu.Target>
-                  <ActionIcon variant='light' size='lg' loading={shapesLoading || isCreating}>
-                    <IconDots size='20px' />
-                  </ActionIcon>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateShape}>
-                    {t('operations.create.title')}
-                  </Menu.Item>
-                  <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download shapes.txt</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </>
-          }
-          footer={shapesData && <ListFooter>{t('list.footer', { count: shapesData.length })}</ListFooter>}
-        >
-          <ErrorDisplay error={shapesError} loading={shapesValidating} />
-          {shapesData && shapesData.length > 0 ? shapesData.map((item) => <ListItem key={item._id} _id={item._id} shape_code={item.shape_code} shape_name={item.shape_name} shape_distance={item.shape_distance} />) : <NoDataLabel />}
-        </Pannel>
-      }
-      second={children}
-    />
+    <AuthGate permission='shapes_view' redirect>
+      <TwoUnevenColumns
+        first={
+          <Pannel
+            loading={shapesLoading}
+            header={
+              <>
+                <SearchField placeholder='Procurar...' width={'100%'} />
+                <Menu shadow='md' position='bottom-end'>
+                  <Menu.Target>
+                    <ActionIcon variant='light' size='lg' loading={shapesLoading || isCreating}>
+                      <IconDots size='20px' />
+                    </ActionIcon>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label>Importar</Menu.Label>
+                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateShape}>
+                      {t('operations.create.title')}
+                    </Menu.Item>
+                    <Menu.Label>Exportar</Menu.Label>
+                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download shapes.txt</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            }
+            footer={shapesData && <ListFooter>{t('list.footer', { count: shapesData.length })}</ListFooter>}
+          >
+            <ErrorDisplay error={shapesError} loading={shapesValidating} />
+            {shapesData && shapesData.length > 0 ? shapesData.map((item) => <ListItem key={item._id} _id={item._id} shape_code={item.shape_code} shape_name={item.shape_name} shape_distance={item.shape_distance} />) : <NoDataLabel />}
+          </Pannel>
+        }
+        second={children}
+      />
+    </AuthGate>
   );
 }
