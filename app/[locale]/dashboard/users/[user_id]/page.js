@@ -16,6 +16,9 @@ import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
+import UserActivityBadge from '../../../../../components/UserActivityBadge/UserActivityBadge';
+import { useSession } from 'next-auth/react';
+import { isAllowed } from '../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -29,6 +32,9 @@ export default function Page() {
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
   const { user_id } = useParams();
+
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'users_edit');
 
   //
   // B. Fetch data
@@ -137,17 +143,14 @@ export default function Page() {
           <div>
             <Text size='h2'>{t('sections.config.title')}</Text>
             <Text size='h4'>{t('sections.config.description')}</Text>
+            <UserActivityBadge last_active={userData?.last_active} />
           </div>
           <SimpleGrid cols={1}>
-            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
             <TextInput label={t('form.email.label')} placeholder={t('form.email.placeholder')} {...form.getInputProps('email')} />
             <TextInput label={t('form.phone.label')} placeholder={t('form.phone.placeholder')} {...form.getInputProps('phone')} />
-          </SimpleGrid>
-          <SimpleGrid cols={2}>
-            <TextInput label={t('form.emailVerified.label')} placeholder={t('form.emailVerified.placeholder')} {...form.getInputProps('emailVerified')} readOnly />
-            <TextInput label={t('form.last_login.label')} placeholder={t('form.last_login.placeholder')} {...form.getInputProps('last_login')} readOnly />
           </SimpleGrid>
         </Section>
         <Divider />
@@ -190,78 +193,78 @@ export default function Page() {
         <Section>
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.agencies.view')} size='md' {...form.getInputProps('permissions.agencies_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.agencies.create')} size='md' {...form.getInputProps('permissions.agencies_create', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.agencies.edit')} size='md' {...form.getInputProps('permissions.agencies_edit', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.agencies.delete')} size='md' {...form.getInputProps('permissions.agencies_delete', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.agencies.edit')} size='md' {...form.getInputProps('permissions.agencies_edit', { type: 'checkbox' })} disabled={!form.values.permissions.agencies_view} />
+            <Switch label={t('form.permissions.agencies.create')} size='md' {...form.getInputProps('permissions.agencies_create', { type: 'checkbox' })} disabled={!form.values.permissions.agencies_view || !form.values.permissions.agencies_edit} />
+            <Switch label={t('form.permissions.agencies.delete')} size='md' {...form.getInputProps('permissions.agencies_delete', { type: 'checkbox' })} disabled={!form.values.permissions.agencies_view} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.alerts.view')} size='md' {...form.getInputProps('permissions.alerts_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.alerts.create')} size='md' {...form.getInputProps('permissions.alerts_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.alerts.edit')} size='md' {...form.getInputProps('permissions.alerts_edit', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.alerts.create')} size='md' {...form.getInputProps('permissions.alerts_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.alerts.delete')} size='md' {...form.getInputProps('permissions.alerts_delete', { type: 'checkbox' })} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.calendars.view')} size='md' {...form.getInputProps('permissions.calendars_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.calendars.create')} size='md' {...form.getInputProps('permissions.calendars_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.calendars.edit')} size='md' {...form.getInputProps('permissions.calendars_edit', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.calendars.create')} size='md' {...form.getInputProps('permissions.calendars_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.calendars.delete')} size='md' {...form.getInputProps('permissions.calendars_delete', { type: 'checkbox' })} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.dates.view')} size='md' {...form.getInputProps('permissions.dates_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.dates.create')} size='md' {...form.getInputProps('permissions.dates_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.dates.edit')} size='md' {...form.getInputProps('permissions.dates_edit', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.dates.create')} size='md' {...form.getInputProps('permissions.dates_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.dates.delete')} size='md' {...form.getInputProps('permissions.dates_delete', { type: 'checkbox' })} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.fares.view')} size='md' {...form.getInputProps('permissions.fares_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.fares.create')} size='md' {...form.getInputProps('permissions.fares_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.fares.edit')} size='md' {...form.getInputProps('permissions.fares_edit', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.fares.create')} size='md' {...form.getInputProps('permissions.fares_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.fares.delete')} size='md' {...form.getInputProps('permissions.fares_delete', { type: 'checkbox' })} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.lines.view')} size='md' {...form.getInputProps('permissions.lines_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.lines.create')} size='md' {...form.getInputProps('permissions.lines_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.lines.edit')} size='md' {...form.getInputProps('permissions.lines_edit', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.lines.create')} size='md' {...form.getInputProps('permissions.lines_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.lines.delete')} size='md' {...form.getInputProps('permissions.lines_delete', { type: 'checkbox' })} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.municipalities.view')} size='md' {...form.getInputProps('permissions.municipalities_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.municipalities.create')} size='md' {...form.getInputProps('permissions.municipalities_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.municipalities.edit')} size='md' {...form.getInputProps('permissions.municipalities_edit', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.municipalities.create')} size='md' {...form.getInputProps('permissions.municipalities_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.municipalities.delete')} size='md' {...form.getInputProps('permissions.municipalities_delete', { type: 'checkbox' })} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.shapes.view')} size='md' {...form.getInputProps('permissions.shapes_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.shapes.create')} size='md' {...form.getInputProps('permissions.shapes_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.shapes.edit')} size='md' {...form.getInputProps('permissions.shapes_edit', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.shapes.create')} size='md' {...form.getInputProps('permissions.shapes_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.shapes.delete')} size='md' {...form.getInputProps('permissions.shapes_delete', { type: 'checkbox' })} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.stops.view')} size='md' {...form.getInputProps('permissions.stops_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.stops.create')} size='md' {...form.getInputProps('permissions.stops_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.stops.edit')} size='md' {...form.getInputProps('permissions.stops_edit', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.stops.create')} size='md' {...form.getInputProps('permissions.stops_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.stops.delete')} size='md' {...form.getInputProps('permissions.stops_delete', { type: 'checkbox' })} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.threads.view')} size='md' {...form.getInputProps('permissions.threads_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.threads.create')} size='md' {...form.getInputProps('permissions.threads_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.threads.edit')} size='md' {...form.getInputProps('permissions.threads_edit', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.threads.create')} size='md' {...form.getInputProps('permissions.threads_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.threads.delete')} size='md' {...form.getInputProps('permissions.threads_delete', { type: 'checkbox' })} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.users.view')} size='md' {...form.getInputProps('permissions.users_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.users.create')} size='md' {...form.getInputProps('permissions.users_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.users.edit')} size='md' {...form.getInputProps('permissions.users_edit', { type: 'checkbox' })} />
+            <Switch label={t('form.permissions.users.create')} size='md' {...form.getInputProps('permissions.users_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.users.delete')} size='md' {...form.getInputProps('permissions.users_delete', { type: 'checkbox' })} />
           </SimpleGrid>
         </Section>
