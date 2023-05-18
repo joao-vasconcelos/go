@@ -45,8 +45,17 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
-      if (token.user) session.user = token.user;
-      return session;
+      try {
+        if (token.user) {
+          await mongodb.connect();
+          const foundUser = await UserModel.findOneAndUpdate({ _id: token.user.id }, { last_active: new Date() }, { new: true });
+          if (foundUser) session.user = foundUser;
+          return session;
+        }
+      } catch (err) {
+        console.log(err);
+        return false;
+      }
     },
   },
 });
