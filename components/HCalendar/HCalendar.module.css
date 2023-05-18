@@ -6,6 +6,12 @@
   overflow: scroll;
 }
 
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: var(--gray2);
+  }
+}
+
 .tableHeaderRow,
 .tableBodyRow {
   display: grid;
@@ -26,7 +32,7 @@
 }
 
 .tableBodyRow:hover {
-  background-color: var(--info1);
+  background-color: var(--gray1);
 }
 
 .tableHeaderCell,
@@ -68,9 +74,9 @@
 }
 
 .monthCell:hover {
-  background-color: var(--info2);
+  background-color: var(--gray3);
 }
 
 .monthCell:active {
-  background-color: var(--info3);
+  background-color: var(--gray4);
 }
