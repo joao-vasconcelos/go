@@ -80,10 +80,12 @@ export default function Layout({ children }) {
                     </Menu.Item>
                     <Menu.Label>Exportar</Menu.Label>
                     <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download calendar_dates.txt</Menu.Item>
-                    <Menu.Label>Dados Relacionados</Menu.Label>
-                    <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/dates')}>
-                      Editar Datas
-                    </Menu.Item>
+                    <AuthGate permission='dates_view'>
+                      <Menu.Label>Dados Relacionados</Menu.Label>
+                      <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/dates')}>
+                        Editar Datas
+                      </Menu.Item>
+                    </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
               </>

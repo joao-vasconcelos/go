@@ -10,6 +10,8 @@ import { Modal, SimpleGrid, Textarea, Select, Button, LoadingOverlay } from '@ma
 import dayjs from 'dayjs';
 import Loader from '../Loader/Loader';
 import notify from '../../services/notify';
+import AuthGate, { isAllowed } from '../AuthGate/AuthGate';
+import { useSession } from 'next-auth/react';
 
 export default function HCalendarPeriodCard({ date, dateObj }) {
   //
@@ -17,6 +19,7 @@ export default function HCalendarPeriodCard({ date, dateObj }) {
   //
   // A. Setup variables
   const t = useTranslations('dates');
+  const { data: session } = useSession();
   const [isModalPresented, { open: openModal, close: closeModal }] = useDisclosure(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [hasErrorUpdating, setHasErrorUpdating] = useState(false);
@@ -82,16 +85,19 @@ export default function HCalendarPeriodCard({ date, dateObj }) {
               ]}
               {...form.getInputProps('period')}
               searchable
+              readOnly={!isAllowed(session, 'dates_edit')}
             />
-            <Textarea label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} minRows={5} {...form.getInputProps('notes')} />
-            <SimpleGrid cols={2}>
-              <Button size='lg' onClick={handleUpdate}>
-                {t('operations.update.title')}
-              </Button>
-              <Button size='lg' variant='light' color='red' onClick={handleDelete}>
-                {t('operations.delete.title')}
-              </Button>
-            </SimpleGrid>
+            <Textarea label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} minRows={5} {...form.getInputProps('notes')} readOnly={!isAllowed(session, 'dates_edit')} />
+            <AuthGate permission='dates_edit'>
+              <SimpleGrid cols={2}>
+                <Button size='lg' onClick={handleUpdate}>
+                  {t('operations.update.title')}
+                </Button>
+                <Button size='lg' variant='light' color='red' onClick={handleDelete}>
+                  {t('operations.delete.title')}
+                </Button>
+              </SimpleGrid>
+            </AuthGate>
           </SimpleGrid>
         </form>
       </Modal>

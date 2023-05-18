@@ -5,7 +5,7 @@ import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 export default function Layout({ children }) {
   return (
-    <AuthGate permission='calendars_view' redirect>
+    <AuthGate permission='dates_view' redirect>
       <OneFullColumn first={children} />
     </AuthGate>
   );

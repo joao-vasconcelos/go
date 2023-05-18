@@ -18,6 +18,7 @@ import HCalendar from '../../../../components/HCalendar/HCalendar';
 import HCalendarPeriodCard from '../../../../components/HCalendarPeriodCard/HCalendarPeriodCard';
 import Loader from '../../../../components/Loader/Loader';
 import dayjs from 'dayjs';
+import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -159,9 +160,11 @@ export default function Page() {
           <Text size='h1' full>
             {t('title')}
           </Text>
-          <Button leftIcon={<IconCalendarPlus size='20px' />} onClick={openModal} variant='light' color='blue' size='sm'>
-            {t('operations.manage.title')}
-          </Button>
+          <AuthGate permission='dates_edit'>
+            <Button leftIcon={<IconCalendarPlus size='20px' />} onClick={openModal} variant='light' color='blue' size='sm'>
+              {t('operations.manage.title')}
+            </Button>
+          </AuthGate>
         </>
       }
     >
