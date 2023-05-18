@@ -45,10 +45,25 @@ export default async function usersEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['user_email'].
+    // The values that need to be unique are ['email'].
     const foundDocumentWithEmail = await UserModel.exists({ email: req.body.email });
     if (foundDocumentWithEmail && foundDocumentWithEmail._id != req.query._id) {
-      throw new Error('A User with the same user_email already exists.');
+      throw new Error('A User with the same email already exists.');
+    }
+  } catch (err) {
+    console.log(err);
+    return await res.status(409).json({ message: err.message });
+  }
+
+  // 4. Setup permissions
+  try {
+    // Agencies
+    if (!req.body.permissions.agencies_view) {
+      req.body.permissions.agencies_edit = false;
+      req.body.permissions.agencies_delete = false;
+    }
+    if (!req.body.permissions.agencies_edit) {
+      req.body.permissions.agencies_create = false;
     }
   } catch (err) {
     console.log(err);
