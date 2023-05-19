@@ -3,6 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
+import Loader from '../Loader/Loader';
 
 export default function AuthGate({ permission = '', scope, redirect = false, children }) {
   //
@@ -12,11 +13,13 @@ export default function AuthGate({ permission = '', scope, redirect = false, chi
 
   const hasPermission = useMemo(() => {
     return session?.user?.permissions[permission] === true;
-  }, [permission, session?.user?.permissions]);
+  }, [permission, session]);
 
   useEffect(() => {
-    if (!hasPermission && redirect) router.push('/dashboard');
-  }, [hasPermission, redirect, router]);
+    if (session != undefined) {
+      if (!hasPermission && redirect) router.push('/dashboard');
+    }
+  }, [session, hasPermission, redirect, router]);
 
   //   return children;
   if (hasPermission) return children;
