@@ -40,7 +40,7 @@ export default function Layout({ children }) {
   //
   // C. Handle actions
 
-  const handleCreateAgency = async () => {
+  const handleCreate = async () => {
     try {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
@@ -76,7 +76,7 @@ export default function Layout({ children }) {
                   <Menu.Dropdown>
                     <AuthGate permission='agencies_create'>
                       <Menu.Label>Importar</Menu.Label>
-                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateAgency}>
+                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
                     </AuthGate>
