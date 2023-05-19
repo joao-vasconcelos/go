@@ -25,22 +25,29 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
-    associated_line: {
-      type: String,
-      maxlength: 50,
-    },
-    associated_stop: {
-      type: String,
-      maxlength: 50,
-    },
+    associated_lines: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Line',
+      },
+    ],
+    associated_stops: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Stop',
+      },
+    ],
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
     virtuals: {
       messages: {
-        ref: 'Message',
-        localField: '_id',
-        foreignField: 'thread',
+        options: {
+          ref: 'Message',
+          localField: '_id',
+          foreignField: 'thread_id',
+        },
       },
     },
   }

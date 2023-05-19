@@ -9,11 +9,12 @@ import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
-import FooterText from '../../../../components/lists/FooterText';
+import { useTranslations } from 'next-intl';
+import ListFooter from '../../../../components/ListFooter/ListFooter';
 import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 const SearchField = styled(TextInput, {
@@ -27,32 +28,30 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('threads');
 
   const [isCreating, setIsCreating] = useState(false);
 
   //
   // B. Fetch data
 
-  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating } = useSWR('/api/agencies');
+  const { data: threadsData, error: threadsError, isLoading: threadsLoading, isValidating: threadsValidating } = useSWR('/api/threads');
 
   //
   // C. Handle actions
 
-  const handleCreateAgency = async () => {
+  const handleCreateThread = async () => {
     try {
       setIsCreating(true);
-      const response = await API({
-        service: 'agencies',
-        operation: 'create',
-        method: 'GET',
-      });
-      router.push(`/dashboard/agencies/${response._id}`);
-      notify('new', 'success', 'Agência criada com sucesso.');
+      notify('new', 'loading', t('operations.create.loading'));
+      const response = await API({ service: 'threads', operation: 'create', method: 'GET' });
+      router.push(`/dashboard/threads/${response._id}`);
+      notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
+      notify('new', 'error', err.message || t('operations.create.error'));
       setIsCreating(false);
       console.log(err);
-      notify('new', 'error', err.message);
     }
   };
 
@@ -64,31 +63,31 @@ export default function Layout({ children }) {
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={agenciesLoading}
+            loading={threadsLoading}
             header={
               <>
                 <SearchField placeholder='Procurar...' width={'100%'} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={agenciesLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={threadsLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Label>Importar</Menu.Label>
-                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateAgency}>
-                      Nova Agência
-                    </Menu.Item>
-                    <Menu.Label>Exportar</Menu.Label>
-                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
+                    <AuthGate permission='threads_create'>
+                      <Menu.Label>Importar</Menu.Label>
+                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateThread}>
+                        {t('operations.create.title')}
+                      </Menu.Item>
+                    </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
               </>
             }
-            footer={agenciesData && (agenciesData.length === 1 ? <FooterText text={`Encontrada 1 Agência`} /> : <FooterText text={`Encontradas ${agenciesData.length} Agências`} />)}
+            footer={threadsData && <ListFooter>{t('list.footer', { count: threadsData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
-            {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_code={item.agency_code} agency_name={item.agency_name} />) : <NoDataLabel />}
+            <ErrorDisplay error={threadsError} loading={threadsValidating} />
+            {threadsData && threadsData.length > 0 ? threadsData.map((item) => <ListItem key={item._id} _id={item._id} subject={item.subject} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

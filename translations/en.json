@@ -660,6 +660,71 @@
             }
         }
     },
+    "threads": {
+        "untitled": "Untitled Thread",
+        "list": {
+            "no_selection": "Please Select a Thread",
+            "no_data": "No Threads Found",
+            "footer": "Found {count, plural, =1 {1 Thread} other {# Threads}}"
+        },
+        "operations": {
+            "close": {
+                "title": "Close Thread"
+            },
+            "create": {
+                "title": "Create New Thread",
+                "loading": "Creating new Thread...",
+                "success": "A new Thread was created!",
+                "error": "An error occurred while creating this Thread."
+            },
+            "delete": {
+                "title": "Delete Thread",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Thread forever?",
+                "confirm": "Delete Thread Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Thread...",
+                "success": "Thread was deleted.",
+                "error": "An error occurred while deleting this Thread."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Details"
+            }
+        },
+        "form": {
+            "subject": {
+                "label": "Thread Subject",
+                "placeholder": "Misplaced Stop"
+            },
+            "theme": {
+                "label": "Theme for this Thread",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found",
+                "options": {
+                    "stops": "Stops",
+                    "lines": "Lines",
+                    "schedules": "Schedules"
+                }
+            },
+            "associated_lines": {
+                "label": "Lines Associated with this Thread",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "associated_stops": {
+                "label": "Stops Associated with this Thread",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            }
+        },
+        "messages": {
+            "content": {
+                "label": "Thread Subject",
+                "placeholder": "Misplaced Stop"
+            }
+        }
+    },
     "users": {
         "untitled": "Untitled User",
         "list": {
@@ -687,8 +752,8 @@
                 "title": "User Details",
                 "description": "About this section"
             },
-            "permissions": {
-                "title": "Permissions for this user",
+            "scopes": {
+                "title": "Scopes for this user",
                 "description": "About this section"
             }
         },
@@ -717,10 +782,20 @@
             },
             "permissions": {
                 "agencies": {
-                    "view": "View Agencies",
-                    "create": "Create Agencies",
-                    "edit": "Edit Agencies",
-                    "delete": "Delete Agencies"
+                    "title": "Agencies",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Agencies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "edit": {
+                        "label": "Edit & Create Agencies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Agencies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
                 },
                 "alerts": {
                     "view": "View Alerts",
