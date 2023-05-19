@@ -21,7 +21,7 @@ export default function Layout({ children }) {
 
   // SWR CONFIGURATION
   const swrOptions = {
-    refreshInterval: 1000,
+    refreshInterval: 30000,
     fetcher: async (...args) => {
       const res = await fetch(...args);
       if (!res.ok) {
