@@ -14,6 +14,8 @@ import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
 import FooterText from '../../../../components/lists/FooterText';
+import { useTranslations } from 'next-intl';
+import ListFooter from '../../../../components/ListFooter/ListFooter';
 import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 const SearchField = styled(TextInput, {
@@ -27,6 +29,7 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('lines');
 
   const [isCreating, setIsCreating] = useState(false);
 
@@ -38,21 +41,18 @@ export default function Layout({ children }) {
   //
   // C. Handle actions
 
-  const handleCreateAgency = async () => {
+  const handleCreate = async () => {
     try {
       setIsCreating(true);
-      const response = await API({
-        service: 'lines',
-        operation: 'create',
-        method: 'GET',
-      });
+      notify('new', 'loading', t('operations.create.loading'));
+      const response = await API({ service: 'lines', operation: 'create', method: 'GET' });
       router.push(`/dashboard/lines/${response._id}`);
-      notify('new', 'success', 'Linha criada com sucesso.');
+      notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
+      notify('new', 'error', err.message || t('operations.create.error'));
       setIsCreating(false);
       console.log(err);
-      notify('new', 'error', err.message);
     }
   };
 
@@ -76,8 +76,8 @@ export default function Layout({ children }) {
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Label>Importar</Menu.Label>
-                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateAgency}>
-                      Nova Linha
+                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
+                      {t('operations.create.title')}
                     </Menu.Item>
                     <Menu.Label>Exportar</Menu.Label>
                     <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download line.txt</Menu.Item>
@@ -85,7 +85,7 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={linesData && (linesData.length === 1 ? <FooterText text={`Encontrada 1 Linha`} /> : <FooterText text={`Encontradas ${linesData.length} Linhas`} />)}
+            footer={linesData && <ListFooter>{t('list.footer', { count: linesData.length })}</ListFooter>}
           >
             <ErrorDisplay error={linesError} loading={linesValidating} />
             {linesData && linesData.length > 0 ? (

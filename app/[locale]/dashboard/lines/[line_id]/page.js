@@ -8,29 +8,23 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../services/API';
 import { Validation as LineValidation } from '../../../../../schemas/Line/validation';
 import { Default as LineDefault } from '../../../../../schemas/Line/default';
-import { Tooltip, Select, MultiSelect, Button, ColorInput, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
+import { Tooltip, Select, MultiSelect, Button, ColorInput, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '../../../../../components/Pannel/Pannel';
+import Text from '../../../../../components/Text/Text';
+import { Section } from '../../../../../components/Layouts/Layouts';
 import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import Line from '../../../../../components/line/Line';
+import LineDisplay from '../../../../../components/LineDisplay/LineDisplay';
 import RouteCard from './RouteCard';
+import { useTranslations } from 'next-intl';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
   fontWeight: 'bold',
   color: '$gray12',
-});
-
-const Section = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '$lg',
-  gap: '$md',
-  width: '100%',
-  maxHeight: '100%',
 });
 
 export default function Page() {
@@ -40,6 +34,7 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('lines');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
@@ -97,25 +92,21 @@ export default function Page() {
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar Linha?
-        </Text>
-      ),
+      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar esta Linha para sempre?</Text>,
-      labels: { confirm: 'Eliminar Linha', cancel: 'Não Eliminar' },
+      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(line_id, 'loading', 'A eliminar Linha...');
+          notify(line_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'lines', resourceId: line_id, operation: 'delete', method: 'DELETE' });
           router.push('/dashboard/lines');
-          notify(line_id, 'success', 'Linha eliminada!');
+          notify(line_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
-          notify(line_id, 'error', err.message || 'Occoreu um erro.');
+          notify(line_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -163,7 +154,7 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Line short_name={form.values.line_short_name} long_name={form.values.line_long_name} color={form.values.line_color} text_color={form.values.line_text_color} />
+          <LineDisplay short_name={form.values.line_short_name} long_name={form.values.line_long_name} color={form.values.line_color} text_color={form.values.line_text_color} />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />
@@ -179,11 +170,11 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Detalhes da Linha</SectionTitle>
+          <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
             <SimpleGrid cols={2}>
-              <TextInput placeholder='Código da Linha' label='Código da Linha' {...form.getInputProps('line_code')} />
-              <TextInput placeholder='Número da Linha' label='Número da Linha' {...form.getInputProps('line_short_name')} />
+              <TextInput label={t('form.line_code.label')} placeholder={t('form.line_code.placeholder')} {...form.getInputProps('line_code')} />
+              <TextInput label={t('form.line_short_name.label')} placeholder={t('form.line_short_name.placeholder')} {...form.getInputProps('line_short_name')} />
             </SimpleGrid>
             <TextInput placeholder='Nome da Linha' label='Nome da Linha' {...form.getInputProps('line_long_name')} />
           </SimpleGrid>
@@ -198,7 +189,7 @@ export default function Page() {
         </Section>
         <Divider />
         <Section>
-          <SectionTitle>Rotas</SectionTitle>
+          <Text size='h2'>{t('sections.routes.title')}</Text>
           <DragDropContext onDragEnd={handleRoutesReorder}>
             <Droppable droppableId='droppable'>
               {(provided) => (

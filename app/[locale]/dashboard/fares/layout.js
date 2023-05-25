@@ -40,7 +40,7 @@ export default function Layout({ children }) {
   //
   // C. Handle actions
 
-  const handleCreateFare = async () => {
+  const handleCreate = async () => {
     try {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
@@ -75,7 +75,7 @@ export default function Layout({ children }) {
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Label>Importar</Menu.Label>
-                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateFare}>
+                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
                       {t('operations.create.title')}
                     </Menu.Item>
                     <Menu.Label>Exportar</Menu.Label>

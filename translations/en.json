@@ -240,6 +240,81 @@
             }
         }
     },
+    "lines": {
+        "untitled": "Untitled Line",
+        "list": {
+            "footer": "Found {count, plural, =1 {1 Line} other {# Lines}}"
+        },
+        "operations": {
+            "create": {
+                "title": "Create New Line",
+                "loading": "Creating new Line...",
+                "success": "A new Line was created!",
+                "error": "An error occurred while creating this Line."
+            },
+            "delete": {
+                "title": "Delete Line",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Line forever?",
+                "confirm": "Delete Line Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Line...",
+                "success": "Line was deleted.",
+                "error": "An error occurred while deleting this Line."
+            },
+            "add_route": {
+                "title": "Create New Route",
+                "loading": "Creating new Route...",
+                "success": "A new Route was created!",
+                "error": "An error occurred while creating this Route."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Details"
+            },
+            "routes": {
+                "title": "Routes"
+            }
+        },
+        "form": {
+            "line_code": {
+                "label": "Código da Linha",
+                "placeholder": "1234"
+            },
+            "line_short_name": {
+                "label": "Line Short Name",
+                "placeholder": "1234"
+            },
+            "fare_code": {
+                "label": "Fare Code",
+                "placeholder": "T1"
+            },
+            "price": {
+                "label": "Price",
+                "placeholder": "2.50"
+            },
+            "currency_type": {
+                "label": "Currency",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "payment_method": {
+                "label": "Payment Method",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "transfers": {
+                "label": "Allow Transfers",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "agencies": {
+                "label": "Valid on these Agencies",
+                "placeholder": "Choose Agencies...",
+                "nothingFound": "No Results Found"
+            }
+        }
+    },
     "shapes": {
         "untitled": "Untitled Shape",
         "list": {
