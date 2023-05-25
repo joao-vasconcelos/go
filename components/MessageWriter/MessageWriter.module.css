@@ -38,3 +38,8 @@
 .send:hover {
   background-color: var(--info6);
 }
+
+.send.disabled {
+  cursor: not-allowed;
+  background-color: var(--gray3);
+}
