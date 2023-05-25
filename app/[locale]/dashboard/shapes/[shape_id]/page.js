@@ -10,8 +10,8 @@ import OSMMap from '../../../../../components/OSMMap/OSMMap';
 import { useMap, Source, Layer } from 'react-map-gl';
 import { Validation as ShapeValidation } from '../../../../../schemas/Shape/validation';
 import { Default as ShapeDefault } from '../../../../../schemas/Shape/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Button, Group } from '@mantine/core';
-import { IconTrash } from '@tabler/icons-react';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
+import { IconTrash, IconPlaylistX } from '@tabler/icons-react';
 import Pannel from '../../../../../components/Pannel/Pannel';
 import Text from '../../../../../components/Text/Text';
 import { Section } from '../../../../../components/Layouts/Layouts';
@@ -19,7 +19,6 @@ import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import ImportShapeFromText from './ImportShapeFromText';
-import DynamicTable from '../../../../../components/DynamicTable';
 import { useTranslations } from 'next-intl';
 
 export default function Page() {
@@ -105,7 +104,7 @@ export default function Page() {
     });
   };
 
-  const handleShapeDelete = async () => {
+  const handlePointsDelete = async () => {
     openConfirmModal({
       title: <Text size='h2'>{t('operations.delete_points.title')}</Text>,
       centered: true,
@@ -171,6 +170,11 @@ export default function Page() {
           <Text size='h1' style={!form.values.shape_name && 'untitled'} full>
             {form.values.shape_name || t('untitled')}
           </Text>
+          <Tooltip label={t('operations.delete_points.title')} color='red' position='bottom' withArrow>
+            <ActionIcon color='red' variant='light' size='lg' onClick={handlePointsDelete}>
+              <IconPlaylistX size='20px' />
+            </ActionIcon>
+          </Tooltip>
           <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
               <IconTrash size='20px' />
@@ -207,7 +211,7 @@ export default function Page() {
           <Text size='h2'>{t('sections.statistics.title')}</Text>
           <Text size='h4'>{t('sections.statistics.description')}</Text>
         </div>
-        <SimpleGrid cols={2}></SimpleGrid>
+        <SimpleGrid cols={2}>TBD</SimpleGrid>
       </Section>
 
       <Divider />
@@ -218,30 +222,6 @@ export default function Page() {
           <Text size='h4'>{t('sections.update.description')}</Text>
         </div>
         <ImportShapeFromText onImport={(result) => form.setFieldValue('points', result)} />
-      </Section>
-
-      <Divider />
-
-      <Section>
-        <div>
-          <Text size='h2'>{t('sections.points.title')}</Text>
-          <Text size='h4'>{t('sections.points.description')}</Text>
-        </div>
-        <Group>
-          <Button variant='light' color='red' onClick={handleShapeDelete}>
-            Eliminar Pontos da Shape
-          </Button>
-        </Group>
-        <DynamicTable
-          data={(shapeData && shapeData.points) || []}
-          isLoading={shapeLoading}
-          columns={[
-            { label: 'shape_pt_sequence', key: 'shape_pt_sequence' },
-            { label: 'shape_pt_lat', key: 'shape_pt_lat' },
-            { label: 'shape_pt_lon', key: 'shape_pt_lon' },
-            { label: 'shape_dist_traveled', key: 'shape_dist_traveled' },
-          ]}
-        />
       </Section>
     </Pannel>
   );
