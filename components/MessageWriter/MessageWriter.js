@@ -1,5 +1,5 @@
 import styles from './MessageWriter.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon, Textarea } from '@mantine/core';
 import { IconPaperclip, IconArrowBigUpFilled } from '@tabler/icons-react';
@@ -27,8 +27,6 @@ export default function MessageWriter({ thread_id }) {
   // C. Setup form
 
   const form = useForm({
-    validateInputOnBlur: true,
-    validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(MessageValidation),
     initialValues: MessageDefault,
@@ -38,11 +36,14 @@ export default function MessageWriter({ thread_id }) {
   // D. Handle actions
 
   const handleSend = async () => {
+    if (!form.isValid()) return;
     try {
       setIsSending(true);
-      const newMessage = { thread_id: thread_id, content: form.values.content, sent_by: session.user._id, files: [] };
-      const response = await API({ service: 'messages', operation: 'create', method: 'POST', body: newMessage });
+      form.setFieldValue('thread_id', thread_id);
+      form.setFieldValue('sent_by', session.user._id);
+      await API({ service: 'messages', operation: 'create', method: 'POST', body: form });
       mutate(`/api/threads/${thread_id}`);
+      form.reset();
       setIsSending(false);
     } catch (err) {
       notify('new', 'error', err.message || t('operations.create.error'));
@@ -57,7 +58,7 @@ export default function MessageWriter({ thread_id }) {
         <IconPaperclip size={18} />
       </div>
       <Textarea placeholder={t('messages.content.placeholder')} {...form.getInputProps('content')} w='100%' minRows={1} maxRows={5} autosize />
-      <div className={styles.send} onClick={handleSend}>
+      <div className={`${styles.send} ${!form.isValid() && styles.disabled}`} onClick={handleSend}>
         {isSending ? <Loader visible /> : <IconArrowBigUpFilled size={14} />}
       </div>
     </form>
