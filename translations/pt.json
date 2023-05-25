@@ -707,6 +707,14 @@
                     "schedules": "Schedules"
                 }
             },
+            "status": {
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found",
+                "options": {
+                    "open": "Thread is open",
+                    "resolved": "Resolved"
+                }
+            },
             "associated_lines": {
                 "label": "Lines Associated with this Thread",
                 "placeholder": "Choose an option...",
@@ -720,8 +728,7 @@
         },
         "messages": {
             "content": {
-                "label": "Thread Subject",
-                "placeholder": "Misplaced Stop"
+                "placeholder": "Write your message here..."
             }
         }
     },
