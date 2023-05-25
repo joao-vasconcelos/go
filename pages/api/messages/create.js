@@ -32,7 +32,7 @@ export default async function messagesCreate(req, res) {
     req.body = MessageValidation.cast(req.body);
   } catch (err) {
     console.log(err);
-    return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
+    return await res.status(400).json({ message: err.message });
   }
 
   // 1. Try to connect to mongodb
