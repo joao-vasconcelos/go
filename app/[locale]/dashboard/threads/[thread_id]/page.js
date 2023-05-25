@@ -39,9 +39,7 @@ export default function Page() {
   //
   // B. Fetch data
 
-  const { data: threadData, error: threadError, isLoading: threadLoading } = useSWR(thread_id && `/api/threads/${thread_id}`);
-
-  console.log(threadData);
+  const { data: threadData, error: threadError, isLoading: threadLoading } = useSWR(thread_id && `/api/threads/${thread_id}`, { refreshInterval: 500 });
 
   //
   // C. Setup form
