@@ -40,17 +40,38 @@ export const Schema = new mongoose.Schema(
     permissions: {
       //
       // AGENCIES
-      agencies_view: {
-        type: Boolean,
+      agencies: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
+        export: {
+          type: Boolean,
+        },
       },
-      agencies_create: {
-        type: Boolean,
-      },
-      agencies_edit: {
-        type: Boolean,
-      },
-      agencies_delete: {
-        type: Boolean,
+      //
+      // EXPORT
+      export: {
+        view: {
+          type: Boolean,
+        },
+        gtfs_v18: {
+          type: Boolean,
+        },
+        gtfs_v29: {
+          type: Boolean,
+        },
+        agencies: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Agency',
+          },
+        ],
       },
       //
       // ALERTS

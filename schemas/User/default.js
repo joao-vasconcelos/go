@@ -13,10 +13,19 @@ export const Default = {
   last_active: '',
   permissions: {
     // AGENCIES
-    agencies_view: false,
-    agencies_create: false,
-    agencies_edit: false,
-    agencies_delete: false,
+    agencies: {
+      view: false,
+      create_edit: false,
+      delete: false,
+      export: false,
+    },
+    // EXPORT
+    export: {
+      view: false,
+      v18: false,
+      v29: false,
+      agencies: [],
+    },
     // ALERTS
     alerts_view: false,
     alerts_create: false,

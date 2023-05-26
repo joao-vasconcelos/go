@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../services/API';
@@ -60,6 +60,17 @@ export default function Page() {
       form.resetDirty(data);
     }
   };
+
+  //
+  // D. Handle actions
+
+  const agenciesFormattedForSelect = useMemo(() => {
+    return agenciesData
+      ? agenciesData.map((item) => {
+          return { value: item._id, label: item.agency_name || '-' };
+        })
+      : [];
+  }, [agenciesData]);
 
   //
   // D. Handle actions
@@ -160,20 +171,7 @@ export default function Page() {
             <Text size='h4'>{t('sections.scopes.description')}</Text>
           </div>
           <SimpleGrid cols={2}>
-            <MultiSelect
-              label={t('form.agencies.label')}
-              placeholder={t('form.agencies.placeholder')}
-              nothingFound={t('form.agencies.nothingFound')}
-              data={
-                agenciesData
-                  ? agenciesData.map((item) => {
-                      return { value: item._id, label: item.agency_name || '-' };
-                    })
-                  : []
-              }
-              {...form.getInputProps('agencies')}
-              searchable
-            />
+            <MultiSelect label={t('form.agencies.label')} placeholder={t('form.agencies.placeholder')} nothingFound={t('form.agencies.nothingFound')} data={agenciesFormattedForSelect} {...form.getInputProps('agencies')} searchable />
             <MultiSelect
               label={t('form.municipalities.label')}
               placeholder={t('form.municipalities.placeholder')}
@@ -190,27 +188,73 @@ export default function Page() {
             />
           </SimpleGrid>
         </Section>
+
         <Divider />
+
         <Section>
           <div>
             <Text size='h2'>{t('form.permissions.agencies.title')}</Text>
             <Text size='h4'>{t('form.permissions.agencies.description')}</Text>
           </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.agencies.view.label')} description={t('form.permissions.agencies.view.description')} size='md' {...form.getInputProps('permissions.agencies_view', { type: 'checkbox' })} />
+          <SimpleGrid cols={4} mt='md'>
+            <Switch label={t('form.permissions.agencies.view.label')} description={t('form.permissions.agencies.view.description')} size='md' {...form.getInputProps('permissions.agencies.view', { type: 'checkbox' })} />
             <Switch
               size='md'
-              label={t('form.permissions.agencies.edit.label')}
-              description={t('form.permissions.agencies.edit.description')}
-              disabled={!form.values.permissions.agencies_view}
-              {...form.getInputProps('permissions.agencies_edit', { type: 'checkbox' })}
+              label={t('form.permissions.agencies.create_edit.label')}
+              description={t('form.permissions.agencies.create_edit.description')}
+              disabled={!form.values.permissions.agencies.view}
+              {...form.getInputProps('permissions.agencies.create_edit', { type: 'checkbox' })}
             />
             <Switch
               size='md'
               label={t('form.permissions.agencies.delete.label')}
               description={t('form.permissions.agencies.delete.description')}
-              disabled={!form.values.permissions.agencies_view}
-              {...form.getInputProps('permissions.agencies_delete', { type: 'checkbox' })}
+              disabled={!form.values.permissions.agencies.view}
+              {...form.getInputProps('permissions.agencies.delete', { type: 'checkbox' })}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.agencies.export.label')}
+              description={t('form.permissions.agencies.export.description')}
+              disabled={!form.values.permissions.agencies.view}
+              {...form.getInputProps('permissions.agencies.export', { type: 'checkbox' })}
+            />
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size='h2'>{t('form.permissions.export.title')}</Text>
+            <Text size='h4'>{t('form.permissions.export.description')}</Text>
+          </div>
+          <SimpleGrid cols={3} mt='md'>
+            <Switch label={t('form.permissions.export.view.label')} description={t('form.permissions.export.view.description')} size='md' {...form.getInputProps('permissions.export.view', { type: 'checkbox' })} />
+            <Switch
+              size='md'
+              label={t('form.permissions.export.gtfs_v18.label')}
+              description={t('form.permissions.export.gtfs_v18.description')}
+              disabled={!form.values.permissions.export.view}
+              {...form.getInputProps('permissions.export.gtfs_v18', { type: 'checkbox' })}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.export.gtfs_v29.label')}
+              description={t('form.permissions.export.gtfs_v29.description')}
+              disabled={!form.values.permissions.export.view}
+              {...form.getInputProps('permissions.export_gtfs_v29', { type: 'checkbox' })}
+            />
+          </SimpleGrid>
+          <SimpleGrid cols={1} mt='md'>
+            <MultiSelect
+              label={t('form.permissions.export.agencies.label')}
+              placeholder={t('form.permissions.export.agencies.placeholder')}
+              nothingFound={t('form.permissions.export.agencies.nothingFound')}
+              disabled={!form.values.permissions.export.view}
+              data={agenciesFormattedForSelect}
+              {...form.getInputProps('agencies')}
+              searchable
             />
           </SimpleGrid>
         </Section>
