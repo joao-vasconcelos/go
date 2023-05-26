@@ -8,30 +8,24 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../../../services/API';
 import { Validation as PatternValidation } from '../../../../../../../schemas/Pattern/validation';
 import { Default as PatternDefault } from '../../../../../../../schemas/Pattern/default';
-import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text, Select } from '@mantine/core';
+import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../../../components/Pannel/Pannel';
+import Text from '../../../../../../../components/Text/Text';
+import { Section } from '../../../../../../../components/Layouts/Layouts';
 import SaveButtons from '../../../../../../../components/SaveButtons';
 import notify from '../../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import LineDisplay from '../../../../../../../components/LineDisplay/LineDisplay';
-import StopSequenceTable from './StopSequenceTable';
+import StopSequenceTable from '../../../../../../../components/StopSequenceTable/StopSequenceTable';
 import SchedulesTable from '../../../../../../../components/SchedulesTable/SchedulesTable';
 import calculateDistanceBetweenStops from '../../../../../../../services/calculateDistanceBetweenStops';
+import { useTranslations } from 'next-intl';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',
   fontWeight: 'bold',
   color: '$gray12',
-});
-
-const Section = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '$lg',
-  gap: '$md',
-  width: '100%',
-  maxHeight: '100%',
 });
 
 export default function Page() {
@@ -41,6 +35,7 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('patterns');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
@@ -102,25 +97,21 @@ export default function Page() {
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar Pattern?
-        </Text>
-      ),
+      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar este Pattern para sempre?</Text>,
-      labels: { confirm: 'Eliminar Pattern', cancel: 'Não Eliminar' },
+      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(pattern_id, 'loading', 'A eliminar Pattern...');
+          notify(pattern_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'patterns', resourceId: pattern_id, operation: 'delete', method: 'DELETE' });
-          patternr.push(`/dashboard/lines/${line_id}`);
-          notify(pattern_id, 'success', 'Pattern eliminada!');
+          router.push('/dashboard/patterns');
+          notify(pattern_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
-          notify(pattern_id, 'error', err.message || 'Occoreu um erro.');
+          notify(pattern_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -282,7 +273,7 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Detalhes do Pattern</SectionTitle>
+          <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
             <TextInput placeholder='Headsign' label='Headsign' {...form.getInputProps('headsign')} />
             <Select
@@ -304,7 +295,7 @@ export default function Page() {
         </Section>
         <Divider />
         <Section>
-          <SectionTitle>Paragens</SectionTitle>
+          <Text size='h2'>{t('sections.stops.title')}</Text>
           <Button onClick={handleCalculateStopDistances} disabled={isCreatingStopSequence} variant='light'>
             Calcular distâncias entre paragens
           </Button>
@@ -317,7 +308,7 @@ export default function Page() {
         </Section>
         <Divider />
         <Section>
-          <SectionTitle>Horários</SectionTitle>
+          <Text size='h2'>{t('sections.schedules.title')}</Text>
           <SimpleGrid cols={1}>
             <SchedulesTable form={form} onDelete={handleDeleteScheduleRow} />
             <Button onClick={handleCreateSchedule} loading={isCreatingSchedule}>

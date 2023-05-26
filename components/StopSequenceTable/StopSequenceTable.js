@@ -1,31 +1,15 @@
 'use client';
 
 import useSWR from 'swr';
+import styles from './StopSequenceTable.module.css';
 import { styled } from '@stitches/react';
-import { Select, ActionIcon, Flex, Checkbox, Badge, Tooltip, NumberInput, MultiSelect } from '@mantine/core';
+import { Select, ActionIcon, Flex, Checkbox, Tooltip, NumberInput, MultiSelect } from '@mantine/core';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import {
-  IconSortAscendingNumbers,
-  IconX,
-  IconArrowBarUp,
-  IconClockPause,
-  IconEqual,
-  IconPlayerTrackNext,
-  IconArrowBarToDown,
-  IconArrowAutofitContent,
-  IconTrash,
-  IconChevronDown,
-  IconClockHour4,
-  IconChevronRight,
-  IconGripVertical,
-  IconSum,
-} from '@tabler/icons-react';
+import { IconSortAscendingNumbers, IconX, IconArrowBarUp, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowBarToDown, IconArrowAutofitContent, IconTrash, IconClockHour4, IconGripVertical } from '@tabler/icons-react';
 
 const TableContainer = styled('div', {
   display: 'grid',
   gridTemplateColumns: '1fr',
-  //   flexDirection: 'column',
-  //   width: '100%',
   gap: '1px',
   backgroundColor: '$gray4',
   border: '1px solid $gray4',
@@ -37,7 +21,6 @@ const TableRow = styled('div', {
   gridTemplateColumns: '40px 40px 300px 40px 40px 200px 40px 180px 40px 180px 180px 500px 70px',
   alignItems: 'center',
   gap: '5px',
-  //   width: '100%',
 });
 
 const TableHeader = styled(TableRow, {
@@ -49,7 +32,6 @@ const TableBody = styled('div', {
   flexDirection: 'column',
   gap: '1px',
   width: '100%',
-  //   backgroundColor: '$gray5',
 });
 
 const TableBodyRow = styled(TableRow, {
@@ -95,53 +77,6 @@ const TableCellBody = styled(TableCell, {
   minHeight: '20px',
 });
 
-const Container = styled('div', {
-  display: 'flex',
-  flexDirection: 'row',
-  //   alignItems: 'center',
-  width: '100%',
-  //   marginBottom: '$md',
-  overflow: 'hidden',
-  border: '1px solid $gray4',
-  borderBottom: 'none',
-  //   borderRadius: '$md',
-  backgroundColor: '$gray0',
-  transition: 'box-shadow 300ms ease, background-color 300ms ease',
-  cursor: 'pointer',
-  '&:hover': {
-    // boxShadow: '$xs',
-    backgroundColor: '$gray0',
-  },
-  '&:active': {
-    backgroundColor: '$gray1',
-  },
-});
-
-const Toolbar = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '$md',
-  color: '$gray5',
-  transition: 'color 300ms ease',
-  '&:hover': {
-    color: '$gray8',
-  },
-  '&:active': {
-    color: '$gray8',
-  },
-});
-
-const Wrapper = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'start',
-  width: '100%',
-  gap: '$sm',
-  padding: '$md',
-});
-
 const Text = styled('p', {
   lineHeight: '1',
   variants: {
@@ -159,13 +94,6 @@ const Title = styled(Text, {
   fontSize: '18px',
   color: '$gray12',
   fontWeight: '$medium',
-  lineHeight: '1',
-});
-
-const Subtitle = styled(Text, {
-  fontSize: '14px',
-  color: '$gray8',
-  fontWeight: '$bold',
   lineHeight: '1',
 });
 
@@ -256,8 +184,6 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
       <TableCellHeader />
     </TableHeader>
   );
-
-  const StopSequenceRow = () => <div></div>;
 
   return (
     <DragDropContext onDragEnd={onReorder}>
