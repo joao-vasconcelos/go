@@ -1,7 +1,6 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -18,14 +17,8 @@ import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import LineDisplay from '../../../../../components/LineDisplay/LineDisplay';
-import RouteCard from './RouteCard';
+import RouteCard from '../../../../../components/RouteCard/RouteCard';
 import { useTranslations } from 'next-intl';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
 
 export default function Page() {
   //

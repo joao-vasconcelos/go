@@ -1,37 +1,24 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../../services/API';
 import { Validation as RouteValidation } from '../../../../../../schemas/Route/validation';
 import { Default as RouteDefault } from '../../../../../../schemas/Route/default';
-import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
+import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '../../../../../../components/Pannel/Pannel';
+import Text from '../../../../../../components/Text/Text';
+import { Section } from '../../../../../../components/Layouts/Layouts';
 import SaveButtons from '../../../../../../components/SaveButtons';
 import notify from '../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import LineDisplay from '../../../../../../components/LineDisplay/LineDisplay';
-import PatternCard from './PatternCard';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
-
-const Section = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '$lg',
-  gap: '$md',
-  width: '100%',
-  maxHeight: '100%',
-});
+import PatternCard from '../../../../../../components/PatternCard/PatternCard';
+import { useTranslations } from 'next-intl';
 
 export default function Page() {
   //
@@ -40,6 +27,7 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('routes');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
@@ -98,25 +86,21 @@ export default function Page() {
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar Rota?
-        </Text>
-      ),
+      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar esta Rota sempre?</Text>,
-      labels: { confirm: 'Eliminar Rota', cancel: 'Não Eliminar' },
+      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(route_id, 'loading', 'A eliminar Rota...');
+          notify(route_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'routes', resourceId: route_id, operation: 'delete', method: 'DELETE' });
-          router.push(`/dashboard/lines/${line_id}`);
-          notify(route_id, 'success', 'Rota eliminada!');
+          router.push('/dashboard/routes');
+          notify(route_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
-          notify(route_id, 'error', err.message || 'Occoreu um erro.');
+          notify(route_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -175,7 +159,7 @@ export default function Page() {
               <IconExternalLink size='20px' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label='Eliminar Linha' color='red' position='bottom' withArrow>
+          <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
               <IconTrash size='20px' />
             </ActionIcon>
@@ -185,14 +169,14 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Detalhes da Rota</SectionTitle>
+          <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={1}>
-            <TextInput placeholder='Nome da Rota' label='Nome da Rota' {...form.getInputProps('route_name')} />
+            <TextInput label={t('form.route_name.label')} placeholder={t('form.route_name.placeholder')} {...form.getInputProps('route_name')} />
           </SimpleGrid>
         </Section>
         <Divider />
         <Section>
-          <SectionTitle>Patterns</SectionTitle>
+          <Text size='h2'>{t('sections.patterns.title')}</Text>
           <DragDropContext onDragEnd={handlePatternsReorder}>
             <Droppable droppableId='droppable'>
               {(provided) => (
