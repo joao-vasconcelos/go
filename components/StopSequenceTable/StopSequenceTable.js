@@ -2,100 +2,9 @@
 
 import useSWR from 'swr';
 import styles from './StopSequenceTable.module.css';
-import { styled } from '@stitches/react';
 import { Select, ActionIcon, Flex, Checkbox, Tooltip, NumberInput, MultiSelect } from '@mantine/core';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { IconSortAscendingNumbers, IconX, IconArrowBarUp, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowBarToDown, IconArrowAutofitContent, IconTrash, IconClockHour4, IconGripVertical } from '@tabler/icons-react';
-
-const TableContainer = styled('div', {
-  display: 'grid',
-  gridTemplateColumns: '1fr',
-  gap: '1px',
-  backgroundColor: '$gray4',
-  border: '1px solid $gray4',
-  overflow: 'scroll',
-});
-
-const TableRow = styled('div', {
-  display: 'grid',
-  gridTemplateColumns: '40px 40px 300px 40px 40px 200px 40px 180px 40px 180px 180px 500px 70px',
-  alignItems: 'center',
-  gap: '5px',
-});
-
-const TableHeader = styled(TableRow, {
-  backgroundColor: '$gray3',
-});
-
-const TableBody = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1px',
-  width: '100%',
-});
-
-const TableBodyRow = styled(TableRow, {
-  backgroundColor: '$gray0',
-  '&:hover': {
-    backgroundColor: '$gray1',
-  },
-});
-
-const TableCell = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-  padding: '$sm',
-  fontSize: '14px',
-  variants: {
-    hcenter: {
-      true: {
-        justifyContent: 'center',
-      },
-    },
-  },
-});
-
-const TableCellGrip = styled(TableCell, {
-  color: '$gray6',
-  transition: 'color 300ms ease',
-  cursor: 'grab',
-  '&:hover': {
-    color: '$gray8',
-  },
-  '&:active': {
-    color: '$gray8',
-  },
-});
-
-const TableCellHeader = styled(TableCell, {
-  minHeight: '25px',
-  fontWeight: '$medium',
-});
-
-const TableCellBody = styled(TableCell, {
-  minHeight: '20px',
-});
-
-const Text = styled('p', {
-  lineHeight: '1',
-  variants: {
-    isUntitled: {
-      true: {
-        color: '$gray6',
-        fontWeight: '$regular',
-        fontStyle: 'italic',
-      },
-    },
-  },
-});
-
-const Title = styled(Text, {
-  fontSize: '18px',
-  color: '$gray12',
-  fontWeight: '$medium',
-  lineHeight: '1',
-});
 
 export default function StopSequenceTable({ form, onReorder, onDelete }) {
   //
@@ -144,45 +53,45 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
   // Render components
 
   const StopSequenceHeader = () => (
-    <TableHeader>
-      <TableCellHeader />
-      <TableCellHeader hcenter>
+    <div className={styles.tableHeaderRow}>
+      <div className={styles.tableHeaderCell} />
+      <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
         <IconSortAscendingNumbers size='20px' />
-      </TableCellHeader>
-      <TableCellHeader>Paragem</TableCellHeader>
-      <TableCellHeader hcenter>
+      </div>
+      <div className={styles.tableHeaderCell}>Paragem</div>
+      <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
         <IconArrowBarToDown size='20px' />
-      </TableCellHeader>
-      <TableCellHeader hcenter>
+      </div>
+      <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
         <IconArrowBarUp size='20px' />
-      </TableCellHeader>
-      <TableCellHeader>Distância entre paragens</TableCellHeader>
-      <TableCellHeader />
-      <TableCellHeader>Velocidade Comercial no troço</TableCellHeader>
-      <TableCellHeader />
-      <TableCellHeader>default_travel_time</TableCellHeader>
-      <TableCellHeader>Dwell Time</TableCellHeader>
-      <TableCellHeader>apex</TableCellHeader>
-      <TableCellHeader />
-    </TableHeader>
+      </div>
+      <div className={styles.tableHeaderCell}>Distância entre paragens</div>
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell}>Velocidade Comercial no troço</div>
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell}>default_travel_time</div>
+      <div className={styles.tableHeaderCell}>Dwell Time</div>
+      <div className={styles.tableHeaderCell}>apex</div>
+      <div className={styles.tableHeaderCell} />
+    </div>
   );
 
   const StopSequenceFooter = () => (
-    <TableHeader>
-      <TableCellHeader />
-      <TableCellHeader />
-      <TableCellHeader />
-      <TableCellHeader />
-      <TableCellHeader />
-      <TableCellHeader />
-      <TableCellHeader />
-      <TableCellHeader>AVG Vel Med</TableCellHeader>
-      <TableCellHeader />
-      <TableCellHeader>∑ = sjnjds</TableCellHeader>
-      <TableCellHeader>tempo total parado</TableCellHeader>
-      <TableCellHeader />
-      <TableCellHeader />
-    </TableHeader>
+    <div className={styles.tableHeaderRow}>
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell}>AVG Vel Med</div>
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell}>∑ = sjnjds</div>
+      <div className={styles.tableHeaderCell}>tempo total parado</div>
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell} />
+    </div>
   );
 
   return (
@@ -190,21 +99,21 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
       <Droppable droppableId='droppable'>
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            <TableContainer>
+            <div className={styles.container}>
               <StopSequenceHeader />
-              <TableBody>
+              <div className={styles.rowWrapper}>
                 {form.values.path.length > 0 ? (
                   form.values.path.map((item, index) => (
                     <Draggable key={index} draggableId={index.toString()} index={index}>
                       {(provided) => (
-                        <TableBodyRow ref={provided.innerRef} {...provided.draggableProps}>
-                          <TableCellGrip hcenter {...provided.dragHandleProps}>
+                        <div className={styles.tableBodyRow} ref={provided.innerRef} {...provided.draggableProps}>
+                          <div className={`${styles.tableCellGrip} ${styles.hcenter}`} {...provided.dragHandleProps}>
                             <IconGripVertical size='20px' />
-                          </TableCellGrip>
-                          <TableCellBody hcenter>
-                            <Title>{index}</Title>
-                          </TableCellBody>
-                          <TableCellBody>
+                          </div>
+                          <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
+                            <div className={styles.sequenceIndex}>{index}</div>
+                          </div>
+                          <div className={styles.tableBodyCell}>
                             <Select
                               aria-label='Paragem'
                               placeholder='Paragem'
@@ -220,18 +129,18 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                   : []
                               }
                             />
-                          </TableCellBody>
-                          <TableCellBody hcenter>
+                          </div>
+                          <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
                             <Tooltip label='Permite embarque nesta paragem' position='bottom' withArrow>
                               <Checkbox size='sm' {...form.getInputProps(`path.${index}.allow_pickup`, { type: 'checkbox' })} />
                             </Tooltip>
-                          </TableCellBody>
-                          <TableCellBody hcenter>
+                          </div>
+                          <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
                             <Tooltip label='Permite desembarque nesta paragem' position='bottom' withArrow>
                               <Checkbox size='sm' {...form.getInputProps(`path.${index}.allow_drop_off`, { type: 'checkbox' })} />
                             </Tooltip>
-                          </TableCellBody>
-                          <TableCellBody>
+                          </div>
+                          <div className={styles.tableBodyCell}>
                             <Tooltip label='Distância percorrida desde a paragem anterior até à atual, em metros. (x metros são y km)' position='bottom' width='300px' multiline withArrow>
                               <NumberInput
                                 aria-label='distance_delta'
@@ -248,11 +157,11 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                 value={index === 0 ? 0 : form.values.path[index].distance_delta}
                               />
                             </Tooltip>
-                          </TableCellBody>
-                          <TableCellBody>
+                          </div>
+                          <div className={styles.tableBodyCell}>
                             <IconX size='20px' />
-                          </TableCellBody>
-                          <TableCellBody>
+                          </div>
+                          <div className={styles.tableBodyCell}>
                             <Tooltip label='Velocidade comercial no troço.' position='bottom' withArrow>
                               <NumberInput
                                 aria-label='default_travel_time'
@@ -269,11 +178,11 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                 value={index === 0 ? 0 : form.values.path[index].default_velocity}
                               />
                             </Tooltip>
-                          </TableCellBody>
-                          <TableCellBody>
+                          </div>
+                          <div className={styles.tableBodyCell}>
                             <IconEqual size='30px' />
-                          </TableCellBody>
-                          <TableCellBody>
+                          </div>
+                          <div className={styles.tableBodyCell}>
                             <Tooltip label='Tempo estimado de viagem no troço.' position='bottom' withArrow>
                               <NumberInput
                                 aria-label='default_travel_time'
@@ -286,8 +195,8 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                 value={calculateTravelTime(form.values.path[index].distance_delta, form.values.path[index].default_velocity)}
                               />
                             </Tooltip>
-                          </TableCellBody>
-                          <TableCellBody>
+                          </div>
+                          <div className={styles.tableBodyCell}>
                             <Tooltip label='Tempo estimado para entrada e saída de passagairos, em segundos. (${segundos} são ${segundos/60} minutos)' position='bottom' width='300px' multiline withArrow>
                               <NumberInput
                                 aria-label='Default wait time'
@@ -303,8 +212,8 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                 {...form.getInputProps(`path.${index}.default_dwell_time`)}
                               />
                             </Tooltip>
-                          </TableCellBody>
-                          <TableCellBody>
+                          </div>
+                          <div className={styles.tableBodyCell}>
                             <MultiSelect
                               w='100%'
                               aria-label='Passes aceites'
@@ -314,29 +223,29 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                               data={['navegante Metropolitano', 'Alcochete', 'Almada', 'etc']}
                               {...form.getInputProps(`path.${index}.apex`)}
                             />
-                          </TableCellBody>
-                          <TableCellBody hcenter>
+                          </div>
+                          <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
                             <Flex>
                               <ActionIcon size='lg' color='red' onClick={() => onDelete(index)}>
                                 <IconTrash size='20px' />
                               </ActionIcon>
                             </Flex>
-                          </TableCellBody>
-                        </TableBodyRow>
+                          </div>
+                        </div>
                       )}
                     </Draggable>
                   ))
                 ) : (
-                  <TableRow>
-                    <TableBody>
-                      <TableCellBody>Nenhuma Linha Selecionada</TableCellBody>
-                    </TableBody>
-                  </TableRow>
+                  <div className={styles.tableRow}>
+                    <div className={styles.rowWrapper}>
+                      <div className={styles.tableBodyCell}>Nenhuma Linha Selecionada</div>
+                    </div>
+                  </div>
                 )}
                 {provided.placeholder}
-              </TableBody>
+              </div>
               <StopSequenceFooter />
-            </TableContainer>
+            </div>
           </div>
         )}
       </Droppable>
