@@ -310,9 +310,6 @@
                 "success": "A new Route was created!",
                 "error": "An error occurred while creating this Route."
             },
-            "open_website": {
-                "title": "Open in Website"
-            },
             "delete": {
                 "title": "Delete Route",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Route forever?",
@@ -335,6 +332,52 @@
             },
             "patterns": {
                 "title": "Patterns"
+            }
+        },
+        "form": {
+            "route_name": {
+                "label": "Route Name",
+                "placeholder": "1234"
+            }
+        }
+    },
+    "patterns": {
+        "untitled": "Untitled Pattern",
+        "operations": {
+            "create": {
+                "title": "Create New Pattern",
+                "loading": "Creating new Pattern...",
+                "success": "A new Pattern was created!",
+                "error": "An error occurred while creating this Pattern."
+            },
+            "delete": {
+                "title": "Delete Pattern",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Pattern forever?",
+                "confirm": "Delete Pattern Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Pattern...",
+                "success": "Pattern was deleted.",
+                "error": "An error occurred while deleting this Pattern."
+            },
+            "add_route": {
+                "title": "Create New Pattern",
+                "loading": "Creating new Pattern...",
+                "success": "A new Pattern was created!",
+                "error": "An error occurred while creating this Pattern."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Details",
+                "description": "Something about this section"
+            },
+            "stops": {
+                "title": "Stops",
+                "description": "Something about this section"
+            },
+            "schedules": {
+                "title": "Schedules",
+                "description": "Something about this section"
             }
         },
         "form": {
