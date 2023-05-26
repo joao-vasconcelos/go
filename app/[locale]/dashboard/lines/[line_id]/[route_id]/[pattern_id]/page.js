@@ -1,7 +1,6 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -21,12 +20,6 @@ import StopSequenceTable from '../../../../../../../components/StopSequenceTable
 import SchedulesTable from '../../../../../../../components/SchedulesTable/SchedulesTable';
 import calculateDistanceBetweenStops from '../../../../../../../services/calculateDistanceBetweenStops';
 import { useTranslations } from 'next-intl';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
 
 export default function Page() {
   //
