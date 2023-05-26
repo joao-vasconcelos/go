@@ -74,6 +74,22 @@ export const Schema = new mongoose.Schema(
         ],
       },
       //
+      // USERS
+      users: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
+        export: {
+          type: Boolean,
+        },
+      },
+      //
       // ALERTS
       alerts_view: {
         type: Boolean,
@@ -197,20 +213,6 @@ export const Schema = new mongoose.Schema(
         type: Boolean,
       },
       threads_delete: {
-        type: Boolean,
-      },
-      //
-      // USERS
-      users_view: {
-        type: Boolean,
-      },
-      users_create: {
-        type: Boolean,
-      },
-      users_edit: {
-        type: Boolean,
-      },
-      users_delete: {
         type: Boolean,
       },
     },

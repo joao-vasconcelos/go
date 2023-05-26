@@ -13,17 +13,17 @@ export default function AppSidebar() {
   const t = useTranslations('AppSidebar');
 
   const links = [
-    { href: 'statistics', label: t('statistics'), icon: <IconChartPie />, auth_key: 'statistics_view' },
-    { href: 'alerts', label: t('alerts'), icon: <IconAlertTriangle />, auth_key: 'alerts_view' },
-    { href: 'stops', label: t('stops'), icon: <IconBusStop />, auth_key: 'stops_view' },
-    { href: 'lines', label: t('lines'), icon: <IconArrowLoopRight />, auth_key: 'lines_view' },
-    { href: 'calendars', label: t('calendars'), icon: <IconCalendarDue />, auth_key: 'calendars_view' },
-    { href: 'shapes', label: t('shapes'), icon: <IconShape2 />, auth_key: 'shapes_view' },
-    { href: 'fares', label: t('fares'), icon: <IconCoins />, auth_key: 'fares_view' },
-    { href: 'agencies', label: t('agencies'), icon: <IconBuildingCommunity />, auth_key: 'agencies_view' },
-    { href: 'threads', label: t('threads'), icon: <IconMessageChatbot />, auth_key: 'threads_view' },
-    { href: 'export', label: t('export'), icon: <IconFileZip />, auth_key: 'export_view' },
-    { href: 'users', label: t('users'), icon: <IconUsers />, auth_key: 'users_view' },
+    { href: 'statistics', label: t('statistics'), icon: <IconChartPie />, auth_scope: 'statistics', auth_permission: 'view' },
+    { href: 'alerts', label: t('alerts'), icon: <IconAlertTriangle />, auth_scope: 'alerts', auth_permission: 'view' },
+    { href: 'stops', label: t('stops'), icon: <IconBusStop />, auth_scope: 'stops', auth_permission: 'view' },
+    { href: 'lines', label: t('lines'), icon: <IconArrowLoopRight />, auth_scope: 'lines', auth_permission: 'view' },
+    { href: 'calendars', label: t('calendars'), icon: <IconCalendarDue />, auth_scope: 'calendars', auth_permission: 'view' },
+    { href: 'shapes', label: t('shapes'), icon: <IconShape2 />, auth_scope: 'shapes', auth_permission: 'view' },
+    { href: 'fares', label: t('fares'), icon: <IconCoins />, auth_scope: 'fares', auth_permission: 'view' },
+    { href: 'agencies', label: t('agencies'), icon: <IconBuildingCommunity />, auth_scope: 'agencies', auth_permission: 'view' },
+    { href: 'threads', label: t('threads'), icon: <IconMessageChatbot />, auth_scope: 'threads', auth_permission: 'view' },
+    { href: 'export', label: t('export'), icon: <IconFileZip />, auth_scope: 'export', auth_permission: 'view' },
+    { href: 'users', label: t('users'), icon: <IconUsers />, auth_scope: 'users', auth_permission: 'view' },
   ];
 
   const isActivePage = (href) => {
@@ -41,7 +41,7 @@ export default function AppSidebar() {
       <div className={styles.navWrapper}>
         {links.map((item) => {
           return (
-            <AuthGate key={item.href} permission={item.auth_key}>
+            <AuthGate key={item.href} scope={item.auth_scope} permission={item.auth_permission}>
               <Tooltip label={item.label} color='gray' position='right'>
                 <Link href={'/dashboard/' + item.href}>
                   <ActionIcon className={`${styles.navButton} ${isActivePage(item.href) && styles.selected}`} size='xl'>

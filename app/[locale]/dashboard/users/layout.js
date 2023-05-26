@@ -59,7 +59,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate permission='users_view' redirect>
+    <AuthGate scope='users' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel

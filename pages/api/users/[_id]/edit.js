@@ -55,15 +55,23 @@ export default async function usersEdit(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 4. Setup permissions
+  // 4. Reset & Ensure permissions
   try {
     // Agencies
-    if (!req.body.permissions.agencies_view) {
-      req.body.permissions.agencies_edit = false;
-      req.body.permissions.agencies_delete = false;
+    if (!req.body.permissions.agencies.view) {
+      req.body.permissions.agencies.create_edit = false;
+      req.body.permissions.agencies.delete = false;
     }
-    if (!req.body.permissions.agencies_edit) {
-      req.body.permissions.agencies_create = false;
+    // Export
+    if (!req.body.permissions.export.view) {
+      req.body.permissions.export.gtfs_v18 = false;
+      req.body.permissions.export.gtfs_v29 = false;
+      req.body.permissions.export.agencies = [];
+    }
+    // Users
+    if (!req.body.permissions.users.view) {
+      req.body.permissions.users.create_edit = false;
+      req.body.permissions.users.delete = false;
     }
   } catch (err) {
     console.log(err);

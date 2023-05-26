@@ -1,6 +1,6 @@
 'use client';
 
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -28,6 +28,7 @@ export default function Page() {
 
   const router = useRouter();
   const t = useTranslations('users');
+  const { mutate } = useSWRConfig();
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
 
@@ -87,6 +88,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'users', resourceId: user_id, operation: 'edit', method: 'PUT', body: form.values });
+      mutate(`/api/users/${user_id}`);
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -95,7 +97,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [user_id, form]);
+  }, [user_id, form, mutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -242,7 +244,7 @@ export default function Page() {
               label={t('form.permissions.export.gtfs_v29.label')}
               description={t('form.permissions.export.gtfs_v29.description')}
               disabled={!form.values.permissions.export.view}
-              {...form.getInputProps('permissions.export_gtfs_v29', { type: 'checkbox' })}
+              {...form.getInputProps('permissions.export.gtfs_v29', { type: 'checkbox' })}
             />
           </SimpleGrid>
           <SimpleGrid cols={1} mt='md'>
@@ -252,8 +254,41 @@ export default function Page() {
               nothingFound={t('form.permissions.export.agencies.nothingFound')}
               disabled={!form.values.permissions.export.view}
               data={agenciesFormattedForSelect}
-              {...form.getInputProps('agencies')}
+              {...form.getInputProps('permissions.export.agencies')}
               searchable
+            />
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size='h2'>{t('form.permissions.users.title')}</Text>
+            <Text size='h4'>{t('form.permissions.users.description')}</Text>
+          </div>
+          <SimpleGrid cols={4} mt='md'>
+            <Switch label={t('form.permissions.users.view.label')} description={t('form.permissions.users.view.description')} size='md' {...form.getInputProps('permissions.users.view', { type: 'checkbox' })} />
+            <Switch
+              size='md'
+              label={t('form.permissions.users.create_edit.label')}
+              description={t('form.permissions.users.create_edit.description')}
+              disabled={!form.values.permissions.users.view}
+              {...form.getInputProps('permissions.users.create_edit', { type: 'checkbox' })}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.users.delete.label')}
+              description={t('form.permissions.users.delete.description')}
+              disabled={!form.values.permissions.users.view}
+              {...form.getInputProps('permissions.users.delete', { type: 'checkbox' })}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.users.export.label')}
+              description={t('form.permissions.users.export.description')}
+              disabled={!form.values.permissions.users.view}
+              {...form.getInputProps('permissions.users.export', { type: 'checkbox' })}
             />
           </SimpleGrid>
         </Section>
@@ -323,13 +358,6 @@ export default function Page() {
             <Switch label={t('form.permissions.threads.edit')} size='md' {...form.getInputProps('permissions.threads_edit', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.threads.create')} size='md' {...form.getInputProps('permissions.threads_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.threads.delete')} size='md' {...form.getInputProps('permissions.threads_delete', { type: 'checkbox' })} />
-          </SimpleGrid>
-          <Divider />
-          <SimpleGrid cols={4}>
-            <Switch label={t('form.permissions.users.view')} size='md' {...form.getInputProps('permissions.users_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.users.edit')} size='md' {...form.getInputProps('permissions.users_edit', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.users.create')} size='md' {...form.getInputProps('permissions.users_create', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.users.delete')} size='md' {...form.getInputProps('permissions.users_delete', { type: 'checkbox' })} />
           </SimpleGrid>
         </Section>
       </form>

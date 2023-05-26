@@ -976,6 +976,26 @@
                         "nothingFound": "No Results Found"
                     }
                 },
+                "users": {
+                    "title": "Users",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Users",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Users",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Users",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "export": {
+                        "label": "Export Users",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
                 "alerts": {
                     "view": "View Alerts",
                     "create": "Create Alerts",
@@ -1030,12 +1050,6 @@
                     "create": "Create Threads",
                     "edit": "Edit Threads",
                     "delete": "Delete Threads"
-                },
-                "users": {
-                    "view": "View Users",
-                    "create": "Create Users",
-                    "edit": "Edit Users",
-                    "delete": "Delete Users"
                 }
             }
         }

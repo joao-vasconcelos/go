@@ -26,6 +26,13 @@ export const Default = {
       v29: false,
       agencies: [],
     },
+    // USERS
+    users: {
+      view: false,
+      create_edit: false,
+      delete: false,
+      export: false,
+    },
     // ALERTS
     alerts_view: false,
     alerts_create: false,
@@ -71,10 +78,5 @@ export const Default = {
     threads_create: false,
     threads_edit: false,
     threads_delete: false,
-    // USERS
-    users_view: false,
-    users_create: false,
-    users_edit: false,
-    users_delete: false,
   },
 };
