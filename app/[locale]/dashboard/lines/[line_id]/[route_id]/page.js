@@ -15,7 +15,7 @@ import Pannel from '../../../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../../../components/SaveButtons';
 import notify from '../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import Line from '../../../../../../components/line/Line';
+import LineDisplay from '../../../../../../components/LineDisplay/LineDisplay';
 import PatternCard from './PatternCard';
 
 const SectionTitle = styled('p', {
@@ -164,7 +164,7 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Line
+          <LineDisplay
             short_name={(lineData && lineData.line_short_name) || '•••'}
             long_name={`${(lineData && lineData.line_long_name) || 'Loading...'} (${form.values.route_name || 'Rota sem nome'})`}
             color={(lineData && lineData.line_color) || ''}

@@ -14,7 +14,7 @@ import Pannel from '../../../../../../../components/Pannel/Pannel';
 import SaveButtons from '../../../../../../../components/SaveButtons';
 import notify from '../../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import Line from '../../../../../../../components/line/Line';
+import LineDisplay from '../../../../../../../components/LineDisplay/LineDisplay';
 import StopSequenceTable from './StopSequenceTable';
 import SchedulesTable from './SchedulesTable';
 import calculateDistanceBetweenStops from '../../../../../../../services/calculateDistanceBetweenStops';
@@ -261,7 +261,7 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Line
+          <LineDisplay
             short_name={(lineData && lineData.line_short_name) || '•••'}
             long_name={`${(lineData && lineData.line_long_name) || 'Loading...'} (${form.values.headsign || 'Pattern sem headsign'})`}
             color={(lineData && lineData.line_color) || ''}
