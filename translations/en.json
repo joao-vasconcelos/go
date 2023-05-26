@@ -942,12 +942,57 @@
                         "label": "View Agencies",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
-                    "edit": {
-                        "label": "Edit & Create Agencies",
+                    "create_edit": {
+                        "label": "Create & Edit Agencies",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
                     "delete": {
                         "label": "Delete Agencies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "export": {
+                        "label": "Export Agencies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
+                "export": {
+                    "title": "GTFS Export",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Export Page",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "gtfs_v18": {
+                        "label": "Export GTFS v18",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "gtfs_v29": {
+                        "label": "Export GTFS v29",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "agencies": {
+                        "label": "Can Export data from these Agencies",
+                        "placeholder": "Choose an option...",
+                        "nothingFound": "No Results Found"
+                    }
+                },
+                "users": {
+                    "title": "Users",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Users",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Users",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Users",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "export": {
+                        "label": "Export Users",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
@@ -955,7 +1000,8 @@
                     "view": "View Alerts",
                     "create": "Create Alerts",
                     "edit": "Edit Alerts",
-                    "delete": "Delete Alerts"
+                    "delete": "Delete Alerts",
+                    "export": "Export Alerts"
                 },
                 "calendars": {
                     "view": "View Calendars",
@@ -1004,12 +1050,6 @@
                     "create": "Create Threads",
                     "edit": "Edit Threads",
                     "delete": "Delete Threads"
-                },
-                "users": {
-                    "view": "View Users",
-                    "create": "Create Users",
-                    "edit": "Edit Users",
-                    "delete": "Delete Users"
                 }
             }
         }
