@@ -171,7 +171,6 @@ export default function Page() {
             <Text size='h4'>{t('sections.scopes.description')}</Text>
           </div>
           <SimpleGrid cols={2}>
-            <MultiSelect label={t('form.agencies.label')} placeholder={t('form.agencies.placeholder')} nothingFound={t('form.agencies.nothingFound')} data={agenciesFormattedForSelect} {...form.getInputProps('agencies')} searchable />
             <MultiSelect
               label={t('form.municipalities.label')}
               placeholder={t('form.municipalities.placeholder')}
