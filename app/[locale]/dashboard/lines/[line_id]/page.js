@@ -155,12 +155,12 @@ export default function Page() {
             onClose={async () => await handleClose()}
           />
           <LineDisplay short_name={form.values.line_short_name} long_name={form.values.line_long_name} color={form.values.line_color} text_color={form.values.line_text_color} />
-          <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
+          <Tooltip label={t('operations.open_website.title')} color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label='Eliminar Linha' color='red' position='bottom' withArrow>
+          <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
               <IconTrash size='20px' />
             </ActionIcon>
@@ -176,7 +176,7 @@ export default function Page() {
               <TextInput label={t('form.line_code.label')} placeholder={t('form.line_code.placeholder')} {...form.getInputProps('line_code')} />
               <TextInput label={t('form.line_short_name.label')} placeholder={t('form.line_short_name.placeholder')} {...form.getInputProps('line_short_name')} />
             </SimpleGrid>
-            <TextInput placeholder='Nome da Linha' label='Nome da Linha' {...form.getInputProps('line_long_name')} />
+            <TextInput label={t('form.line_long_name.label')} placeholder={t('form.line_long_name.placeholder')} {...form.getInputProps('line_long_name')} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
             <ColorInput placeholder='Cor da Linha' label='Cor da Linha' {...form.getInputProps('line_color')} />
