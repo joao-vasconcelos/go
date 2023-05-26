@@ -16,7 +16,7 @@ import notify from '../../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import LineDisplay from '../../../../../../../components/LineDisplay/LineDisplay';
 import StopSequenceTable from './StopSequenceTable';
-import SchedulesTable from './SchedulesTable';
+import SchedulesTable from '../../../../../../../components/SchedulesTable/SchedulesTable';
 import calculateDistanceBetweenStops from '../../../../../../../services/calculateDistanceBetweenStops';
 
 const SectionTitle = styled('p', {
