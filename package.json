@@ -32,7 +32,7 @@
         "maplibre-gl": "^3.0.0",
         "mongodb": "^5.5.0",
         "mongoose": "^7.2.1",
-        "next": "^13.4.4",
+        "next": "^13.4.3",
         "next-auth": "^4.22.1",
         "next-intl": "^2.14.6",
         "nodemailer": "^6.9.2",
@@ -48,7 +48,7 @@
     },
     "devDependencies": {
         "eslint": "^8.41.0",
-        "eslint-config-next": "^13.4.4",
+        "eslint-config-next": "^13.4.3",
         "typescript": "^5.0.4"
     }
 }
