@@ -261,6 +261,56 @@
             }
         }
     },
+    "municipalities": {
+        "untitled": "Untitled Municipality",
+        "list": {
+            "footer": "Found {count, plural, =1 {1 Municipality} other {# Municipalities}}"
+        },
+        "operations": {
+            "create": {
+                "title": "Create New Municipality",
+                "loading": "Creating new Municipality...",
+                "success": "A new Municipality was created!",
+                "error": "An error occurred while creating this Municipality."
+            },
+            "delete": {
+                "title": "Delete Municipality",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Municipality forever?",
+                "confirm": "Delete Municipality Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Municipality...",
+                "success": "Municipality was deleted.",
+                "error": "An error occurred while deleting this Municipality."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Details"
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Municipality Code",
+                "placeholder": "T1"
+            },
+            "name": {
+                "label": "Municipality Name",
+                "placeholder": "Tarif 1"
+            },
+            "district": {
+                "label": "District",
+                "placeholder": "T1"
+            },
+            "dico": {
+                "label": "DICO",
+                "placeholder": "T1"
+            },
+            "nuts_iii": {
+                "label": "NUTS III",
+                "placeholder": "T1"
+            }
+        }
+    },
     "lines": {
         "untitled": "Untitled Line",
         "list": {
@@ -1092,6 +1142,22 @@
                         "nothingFound": "No Results Found"
                     }
                 },
+                "municipalities": {
+                    "title": "Municipalities",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Municipalities",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Municipalities",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Municipalities",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
                 "alerts": {
                     "view": "View Alerts",
                     "create": "Create Alerts",
@@ -1110,12 +1176,6 @@
                     "create": "Create Dates",
                     "edit": "Edit Dates",
                     "delete": "Delete Dates"
-                },
-                "municipalities": {
-                    "view": "View Municipalities",
-                    "create": "Create Municipalities",
-                    "edit": "Edit Municipalities",
-                    "delete": "Delete Municipalities"
                 },
                 "shapes": {
                     "view": "View Shapes",
