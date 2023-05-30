@@ -6,12 +6,13 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  line_code: '',
-  line_short_name: '',
-  line_long_name: '',
+  code: '',
+  short_name: '',
+  long_name: '',
   agencies: [],
-  line_color: '',
-  line_text_color: '#FFFFFF',
-  circular: 'false',
+  color: '',
+  text_color: '#FFFFFF',
+  circular: false,
+  school: false,
   routes: [],
 };

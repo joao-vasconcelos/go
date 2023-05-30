@@ -25,18 +25,6 @@ export const Schema = new mongoose.Schema(
     last_active: {
       type: Date,
     },
-    agencies: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Agency',
-      },
-    ],
-    municipalities: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Municipalities',
-      },
-    ],
     permissions: {
       //
       // AGENCIES

@@ -11,28 +11,28 @@ export const Schema = new mongoose.Schema(
   {
     //
     // General
-    stop_code: {
+    code: {
       type: String,
       maxlength: 6,
       unique: true,
     },
-    stop_name: {
+    name: {
       type: String,
       maxlength: 100,
     },
-    stop_short_name: {
+    short_name: {
       type: String,
       maxlength: 100,
     },
-    tts_stop_name: {
+    tts_name: {
       type: String,
       maxlength: 100,
     },
-    stop_lat: {
+    latitude: {
       type: Number,
       required: true,
     },
-    stop_lon: {
+    longitude: {
       type: Number,
       required: true,
     },
@@ -45,10 +45,6 @@ export const Schema = new mongoose.Schema(
       maxlength: 100,
     },
     parent_station: {
-      type: String,
-      maxlength: 100,
-    },
-    stop_url: {
       type: String,
       maxlength: 100,
     },
@@ -298,7 +294,7 @@ export const Schema = new mongoose.Schema(
     },
 
     // Comments
-    stop_remarks: {
+    remarks: {
       type: String,
       maxlength: 10000,
     },

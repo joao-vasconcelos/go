@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
-    pattern_code: {
+    code: {
       type: String,
       maxlength: 50,
     },
@@ -17,7 +17,7 @@ export const Schema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Route',
     },
-    direction_code: {
+    direction: {
       type: Number,
     },
     headsign: {
@@ -30,7 +30,7 @@ export const Schema = new mongoose.Schema(
     },
     path: [
       {
-        stop_id: {
+        stop: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Stop',
         },
@@ -80,7 +80,7 @@ export const Schema = new mongoose.Schema(
         ],
         path_overrides: [
           {
-            stop_sequence: {
+            sequence_index: {
               type: Number,
             },
             pickup_type: {

@@ -6,9 +6,9 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  shape_code: '',
-  shape_name: '',
-  shape_distance: 0,
+  code: '',
+  name: '',
+  distance: 0,
   points: [],
   geojson: {
     type: 'Feature',

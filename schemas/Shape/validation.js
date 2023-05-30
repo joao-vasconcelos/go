@@ -8,9 +8,9 @@ import * as yup from 'yup';
 /* * */
 /* A. YUP Validation Schema */
 export const Validation = yup.object({
-  shape_code: yup.string().max(50, 'Código da Shape deve ter apenas ${max} caracteres.'),
-  shape_name: yup.string().max(50, 'ID da Agência deve ter apenas ${max} caracteres.'),
-  shape_distance: yup.number(),
+  code: yup.string().max(50, 'Código da Shape deve ter apenas ${max} caracteres.'),
+  name: yup.string().max(50, 'ID da Agência deve ter apenas ${max} caracteres.'),
+  distance: yup.number(),
   //   points: yup.array(
   //     yup.object({
   //       shape_pt_lat: yup.string(),

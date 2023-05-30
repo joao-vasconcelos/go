@@ -8,23 +8,20 @@
 export const Default = {
   //
   // General
-  stop_code: '',
-  stop_name: '',
-  stop_short_name: '',
-  tts_stop_name: '',
-  stop_lat: 0,
-  stop_lon: 0,
+  code: '',
+  name: '',
+  short_name: '',
+  tts_name: '',
+  latitude: 0,
+  longitude: 0,
   location_type: '',
   platform_code: '',
   parent_station: '',
-  stop_url: '',
+  url: '',
   public_visible: true,
 
   // Operation
-  stop_area_1: false,
-  stop_area_2: false,
-  stop_area_3: false,
-  stop_area_4: false,
+  agencies: [],
 
   // Administrative
   address: '',
@@ -101,7 +98,7 @@ export const Default = {
   car_parking: false,
 
   // Comments
-  stop_remarks: '',
+  remarks: '',
 
   //
 };
