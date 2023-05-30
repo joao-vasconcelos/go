@@ -1092,6 +1092,22 @@
                         "nothingFound": "No Results Found"
                     }
                 },
+                "municipalities": {
+                    "title": "Municipalities",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Municipalities",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Municipalities",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Municipalities",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
                 "alerts": {
                     "view": "View Alerts",
                     "create": "Create Alerts",
@@ -1110,12 +1126,6 @@
                     "create": "Create Dates",
                     "edit": "Edit Dates",
                     "delete": "Delete Dates"
-                },
-                "municipalities": {
-                    "view": "View Municipalities",
-                    "create": "Create Municipalities",
-                    "edit": "Edit Municipalities",
-                    "delete": "Delete Municipalities"
                 },
                 "shapes": {
                     "view": "View Shapes",

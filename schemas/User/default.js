@@ -54,6 +54,12 @@ export const Default = {
       delete: false,
       municipalities: [],
     },
+    // MUNICIPALITIES
+    municipalities: {
+      view: false,
+      create_edit: false,
+      delete: false,
+    },
 
     // ALERTS
     alerts_view: false,
@@ -70,11 +76,6 @@ export const Default = {
     dates_create: false,
     dates_edit: false,
     dates_delete: false,
-    // MUNICIPALITIES
-    municipalities_view: false,
-    municipalities_create: false,
-    municipalities_edit: false,
-    municipalities_delete: false,
     // SHAPES
     shapes_view: false,
     shapes_create: false,
