@@ -32,18 +32,18 @@ export default async function importLines(req, res) {
 
   for (const route of allLines) {
     await LineModel.findOneAndUpdate(
-      { line_code: route.route_short_name },
+      { code: route.route_short_name },
       {
         ...LineDefault,
-        line_code: route.route_short_name,
-        line_short_name: route.route_short_name,
-        line_long_name: route.route_long_name,
-        line_color: route.route_color,
-        line_text_color: route.route_text_color,
+        code: route.route_short_name,
+        short_name: route.route_short_name,
+        long_name: route.route_long_name,
+        color: route.route_color,
+        text_color: route.route_text_color,
       },
       { new: true, upsert: true }
     );
-    console.log('saved line ', route.route_short_name);
+    console.log('Saved Line ', route.route_short_name);
   }
 
   return await res.status(200).json({ message: 'Done import.' });
