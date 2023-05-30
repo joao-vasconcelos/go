@@ -1,6 +1,6 @@
 'use client';
 
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -28,9 +28,11 @@ export default function Page() {
   //
   // A. Setup variables
 
+  const { mutate } = useSWRConfig();
   const router = useRouter();
   const t = useTranslations('lines');
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isCreatingRoute, setIsCreatingRoute] = useState(false);
   const { data: session } = useSession();
@@ -97,6 +99,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'lines', resourceId: line_id, operation: 'edit', method: 'PUT', body: form.values });
+      mutate('/api/lines');
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -105,7 +108,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [line_id, form]);
+  }, [line_id, form, mutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -117,12 +120,16 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
+          setIsDeleting(true);
           notify(line_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'lines', resourceId: line_id, operation: 'delete', method: 'DELETE' });
+          mutate('/api/lines');
           router.push('/dashboard/lines');
           notify(line_id, 'success', t('operations.delete.success'));
+          setIsDeleting(false);
         } catch (err) {
           console.log(err);
+          setIsDeleting(false);
           notify(line_id, 'error', err.message || t('operations.delete.error'));
         }
       },
@@ -158,7 +165,7 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={lineLoading}
+      loading={lineLoading || isDeleting}
       header={
         <>
           <SaveButtons

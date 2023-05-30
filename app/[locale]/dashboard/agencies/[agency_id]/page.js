@@ -1,6 +1,6 @@
 'use client';
 
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -25,6 +25,7 @@ export default function Page() {
   //
   // A. Setup variables
 
+  const { mutate } = useSWRConfig();
   const router = useRouter();
   const t = useTranslations('agencies');
   const [isSaving, setIsSaving] = useState(false);
@@ -72,6 +73,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'agencies', resourceId: agency_id, operation: 'edit', method: 'PUT', body: form.values });
+      mutate('/api/agencies');
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -80,7 +82,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [agency_id, form]);
+  }, [agency_id, form, mutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -94,6 +96,7 @@ export default function Page() {
         try {
           notify(agency_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'agencies', resourceId: agency_id, operation: 'delete', method: 'DELETE' });
+          mutate('/api/agencies');
           router.push('/dashboard/agencies');
           notify(agency_id, 'success', t('operations.delete.success'));
         } catch (err) {

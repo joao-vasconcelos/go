@@ -1,9 +1,9 @@
 'use client';
 
+import useSWR from 'swr';
 import { styled } from '@stitches/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import useSWR from 'swr';
 import API from '../../../../services/API';
 import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: linesData, error: linesError, isLoading: linesLoading, isValidating: linesValidating } = useSWR('/api/lines');
+  const { data: linesData, error: linesError, isLoading: linesLoading, isValidating: linesValidating, mutate } = useSWR('/api/lines');
 
   //
   // C. Handle actions
@@ -45,6 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'lines', operation: 'create', method: 'GET' });
+      mutate();
       router.push(`/dashboard/lines/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);

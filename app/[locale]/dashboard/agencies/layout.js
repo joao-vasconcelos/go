@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating } = useSWR('/api/agencies');
+  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating, mutate } = useSWR('/api/agencies');
 
   //
   // C. Handle actions
@@ -45,6 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'agencies', operation: 'create', method: 'GET' });
+      mutate();
       router.push(`/dashboard/agencies/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
