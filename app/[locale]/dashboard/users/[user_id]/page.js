@@ -379,7 +379,7 @@ export default function Page() {
               label={t('form.permissions.stops.edit_code.label')}
               description={t('form.permissions.stops.edit_code.description')}
               {...form.getInputProps('permissions.stops.edit_code', { type: 'checkbox' })}
-              disabled={!form.values.permissions.stops.view}
+              disabled={!form.values.permissions.stops.view || !form.values.permissions.stops.create_edit}
               readOnly={isReadOnly}
             />
             <Switch

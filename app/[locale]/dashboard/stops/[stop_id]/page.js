@@ -34,6 +34,7 @@ export default function Page() {
   const { singleStopMap } = useMap();
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'stops', 'create_edit');
+  const canEditStopCode = isAllowed(session, 'stops', 'edit_code');
 
   const { stop_id } = useParams();
 
@@ -220,7 +221,7 @@ export default function Page() {
             <Text size='h4'>{t('sections.config.description')}</Text>
           </div>
           <SimpleGrid cols={3}>
-            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly && !canEditStopCode} />
             <NumberInput
               label={t('form.latitude.label')}
               placeholder={t('form.latitude.placeholder')}
