@@ -7,7 +7,7 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../services/API';
 import { Validation as FareValidation } from '../../../../../schemas/Fare/validation';
 import { Default as FareDefault } from '../../../../../schemas/Fare/default';
-import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, MultiSelect } from '@mantine/core';
+import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../components/Pannel/Pannel';
 import Text from '../../../../../components/Text/Text';
@@ -38,7 +38,6 @@ export default function Page() {
   // B. Fetch data
 
   const { data: fareData, error: fareError, isLoading: fareLoading } = useSWR(fare_id && `/api/fares/${fare_id}`, { onSuccess: (data) => keepFormUpdated(data) });
-  const { data: agenciesData } = useSWR('/api/agencies');
 
   //
   // C. Setup form
