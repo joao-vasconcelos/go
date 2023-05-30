@@ -84,10 +84,30 @@
     "export": {
         "gtfs_v18": {
             "title": "Export Intended Offer (v18)",
-            "agencies": {
-                "label": "Export for this Agency",
-                "placeholder": "Choose an Agency...",
-                "nothingFound": "No Results Found"
+            "sections": {
+                "intro": {
+                    "title": "Export GTFS Intro",
+                    "description": "Something about this section"
+                }
+            },
+            "operations": {
+                "start": {
+                    "label": "Start Export (v18)"
+                }
+            },
+            "form": {
+                "agencies": {
+                    "label": "Export for this Agency",
+                    "description": "Choose Agencies or leave empty for all.",
+                    "placeholder": "Choose an Agency...",
+                    "nothingFound": "No Results Found"
+                },
+                "lines": {
+                    "label": "Export this lines",
+                    "description": "Choose Lines or leave empty for all.",
+                    "placeholder": "Choose Lines...",
+                    "nothingFound": "No Results Found"
+                }
             }
         },
         "gtfs_v29": {
