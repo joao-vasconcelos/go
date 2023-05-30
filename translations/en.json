@@ -261,6 +261,56 @@
             }
         }
     },
+    "municipalities": {
+        "untitled": "Untitled Municipality",
+        "list": {
+            "footer": "Found {count, plural, =1 {1 Municipality} other {# Municipalities}}"
+        },
+        "operations": {
+            "create": {
+                "title": "Create New Municipality",
+                "loading": "Creating new Municipality...",
+                "success": "A new Municipality was created!",
+                "error": "An error occurred while creating this Municipality."
+            },
+            "delete": {
+                "title": "Delete Municipality",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Municipality forever?",
+                "confirm": "Delete Municipality Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Municipality...",
+                "success": "Municipality was deleted.",
+                "error": "An error occurred while deleting this Municipality."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Details"
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Municipality Code",
+                "placeholder": "T1"
+            },
+            "name": {
+                "label": "Municipality Name",
+                "placeholder": "Tarif 1"
+            },
+            "district": {
+                "label": "District",
+                "placeholder": "T1"
+            },
+            "dico": {
+                "label": "DICO",
+                "placeholder": "T1"
+            },
+            "nuts_iii": {
+                "label": "NUTS III",
+                "placeholder": "T1"
+            }
+        }
+    },
     "lines": {
         "untitled": "Untitled Line",
         "list": {

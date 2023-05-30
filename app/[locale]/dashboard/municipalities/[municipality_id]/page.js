@@ -1,35 +1,23 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../services/API';
 import { Validation as MunicipalityValidation } from '../../../../../schemas/Municipality/validation';
 import { Default as MunicipalityDefault } from '../../../../../schemas/Municipality/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Text } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../components/Pannel/Pannel';
+import Text from '../../../../../components/Text/Text';
+import { Section } from '../../../../../components/Layouts/Layouts';
 import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import HeaderTitle from '../../../../../components/lists/HeaderTitle';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
-
-const Section = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '$lg',
-  gap: '$md',
-  width: '100%',
-  maxHeight: '100%',
-});
+import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -38,8 +26,11 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('municipalities');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'municipalities', 'create_edit');
 
   const { municipality_id } = useParams();
 
@@ -93,25 +84,21 @@ export default function Page() {
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar Município?
-        </Text>
-      ),
+      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar este Município para sempre?</Text>,
-      labels: { confirm: 'Eliminar Município', cancel: 'Não Eliminar' },
+      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(municipality_id, 'loading', 'A eliminar Município...');
+          notify(municipality_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'municipalities', resourceId: municipality_id, operation: 'delete', method: 'DELETE' });
           router.push('/dashboard/municipalities');
-          notify(municipality_id, 'success', 'Município eliminado!');
+          notify(municipality_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
-          notify(municipality_id, 'error', err.message || 'Occoreu um erro.');
+          notify(municipality_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -136,26 +123,30 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <HeaderTitle text={form.values.municipality_name || 'Município Sem Nome'} />
-          <Tooltip label='Eliminar Município' color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <Text size='h1' style={!form.values.name && 'untitled'} full>
+            {form.values.name || t('untitled')}
+          </Text>
+          <AuthGate scope='municipalities' permission='delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Configuração do Município</SectionTitle>
+          <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
-            <TextInput label='Código do Município' placeholder='FARE_1' {...form.getInputProps('code')} />
-            <TextInput label='Nome do Município' placeholder='Tarifa 1' {...form.getInputProps('name')} />
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={3}>
-            <TextInput label='Distrito' placeholder='Distrito' {...form.getInputProps('district')} />
-            <TextInput label='DiCo' placeholder='DiCo' {...form.getInputProps('dico')} />
-            <TextInput label='Nuts III' placeholder='Nuts III' {...form.getInputProps('nuts_iii')} />
+            <TextInput label={t('form.district.label')} placeholder={t('form.district.placeholder')} {...form.getInputProps('district')} readOnly={isReadOnly} />
+            <TextInput label={t('form.dico.label')} placeholder={t('form.dico.placeholder')} {...form.getInputProps('dico')} readOnly={isReadOnly} />
+            <TextInput label={t('form.nuts_iii.label')} placeholder={t('form.nuts_iii.placeholder')} {...form.getInputProps('nuts_iii')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
       </form>

@@ -9,11 +9,12 @@ import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
-import FooterText from '../../../../components/lists/FooterText';
+import { useTranslations } from 'next-intl';
+import ListFooter from '../../../../components/ListFooter/ListFooter';
 import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 const SearchField = styled(TextInput, {
@@ -27,6 +28,7 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('municipalities');
 
   const [isCreating, setIsCreating] = useState(false);
 
@@ -38,21 +40,18 @@ export default function Layout({ children }) {
   //
   // C. Handle actions
 
-  const handleCreateFare = async () => {
+  const handleCreate = async () => {
     try {
       setIsCreating(true);
-      const response = await API({
-        service: 'municipalities',
-        operation: 'create',
-        method: 'GET',
-      });
+      notify('new', 'loading', t('operations.create.loading'));
+      const response = await API({ service: 'municipalities', operation: 'create', method: 'GET' });
       router.push(`/dashboard/municipalities/${response._id}`);
-      notify('new', 'success', 'Município criado com sucesso.');
+      notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
+      notify('new', 'error', err.message || t('operations.create.error'));
       setIsCreating(false);
       console.log(err);
-      notify('new', 'error', err.message);
     }
   };
 
@@ -60,7 +59,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate permission='municipalities_view' redirect>
+    <AuthGate scope='municipalities' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -75,17 +74,17 @@ export default function Layout({ children }) {
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Label>Importar</Menu.Label>
-                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateFare}>
-                      Novo Município
-                    </Menu.Item>
-                    <Menu.Label>Exportar</Menu.Label>
-                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download municipalities.txt</Menu.Item>
+                    <AuthGate scope='municipalities' permission='create_edit'>
+                      <Menu.Label>Importar</Menu.Label>
+                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
+                        {t('operations.create.title')}
+                      </Menu.Item>
+                    </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
               </>
             }
-            footer={municipalitiesData && (municipalitiesData.length === 1 ? <FooterText text={`Encontrado 1 Município`} /> : <FooterText text={`Encontrados ${municipalitiesData.length} Municípios`} />)}
+            footer={municipalitiesData && <ListFooter>{t('list.footer', { count: municipalitiesData.length })}</ListFooter>}
           >
             <ErrorDisplay error={municipalitiesError} loading={municipalitiesValidating} />
             {municipalitiesData && municipalitiesData.length > 0 ? municipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} dico={item.dico} />) : <NoDataLabel />}
