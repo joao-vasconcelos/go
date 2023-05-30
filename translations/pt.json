@@ -81,6 +81,19 @@
             }
         }
     },
+    "export": {
+        "gtfs_v18": {
+            "title": "Export Intended Offer (v18)",
+            "agencies": {
+                "label": "Export for this Agency",
+                "placeholder": "Choose an Agency...",
+                "nothingFound": "No Results Found"
+            }
+        },
+        "gtfs_v29": {
+            "title": "Export Intended Offer (v29)"
+        }
+    },
     "calendars": {
         "untitled": "Untitled Calendar",
         "list": {
