@@ -11,6 +11,7 @@ export default function ListItem({ _id, name }) {
   const t = useTranslations('agencies');
 
   const handleClick = () => {
+    if (agency_id === _id) return;
     router.push(`/dashboard/agencies/${_id}`);
   };
 

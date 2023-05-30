@@ -9,7 +9,7 @@ import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';

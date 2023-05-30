@@ -94,6 +94,19 @@ export const Schema = new mongoose.Schema(
         ],
       },
       //
+      // FARES
+      fares: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
+      },
+      //
       // ALERTS
       alerts_view: {
         type: Boolean,
@@ -133,20 +146,6 @@ export const Schema = new mongoose.Schema(
         type: Boolean,
       },
       dates_delete: {
-        type: Boolean,
-      },
-      //
-      // FARES
-      fares_view: {
-        type: Boolean,
-      },
-      fares_create: {
-        type: Boolean,
-      },
-      fares_edit: {
-        type: Boolean,
-      },
-      fares_delete: {
         type: Boolean,
       },
       //

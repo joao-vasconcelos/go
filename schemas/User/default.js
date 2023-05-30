@@ -39,6 +39,13 @@ export const Default = {
       delete: false,
       agencies: [],
     },
+    // FARES
+    fares: {
+      view: false,
+      create_edit: false,
+      delete: false,
+    },
+
     // ALERTS
     alerts_view: false,
     alerts_create: false,
@@ -54,16 +61,6 @@ export const Default = {
     dates_create: false,
     dates_edit: false,
     dates_delete: false,
-    // FARES
-    fares_view: false,
-    fares_create: false,
-    fares_edit: false,
-    fares_delete: false,
-    // LINES
-    lines_view: false,
-    lines_create: false,
-    lines_edit: false,
-    lines_delete: false,
     // MUNICIPALITIES
     municipalities_view: false,
     municipalities_create: false,

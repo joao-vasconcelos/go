@@ -74,8 +74,8 @@ export default function Layout({ children }) {
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
+                    <Menu.Label>Importar</Menu.Label>
                     <AuthGate scope='agencies' permission='create_edit'>
-                      <Menu.Label>Importar</Menu.Label>
                       <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>

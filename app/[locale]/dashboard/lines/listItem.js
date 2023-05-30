@@ -9,6 +9,7 @@ export default function ListItem({ _id, short_name, long_name, color, text_color
   const { line_id } = useParams();
 
   const handleClick = () => {
+    if (line_id === _id) return;
     router.push(`/dashboard/lines/${_id}`);
   };
 

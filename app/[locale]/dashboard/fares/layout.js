@@ -59,7 +59,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate permission='fares_view' redirect>
+    <AuthGate scope='fares' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -75,12 +75,11 @@ export default function Layout({ children }) {
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Label>Importar</Menu.Label>
-                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
-                      {t('operations.create.title')}
-                    </Menu.Item>
-                    <Menu.Label>Exportar</Menu.Label>
-                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download fare_attributes.txt</Menu.Item>
-                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download fare_rules.txt</Menu.Item>
+                    <AuthGate scope='fares' permission='create_edit'>
+                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
+                        {t('operations.create.title')}
+                      </Menu.Item>
+                    </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
               </>
@@ -89,7 +88,7 @@ export default function Layout({ children }) {
           >
             <ErrorDisplay error={faresError} loading={faresValidating} />
             {faresData && faresData.length > 0 ? (
-              faresData.map((item) => <ListItem key={item._id} _id={item._id} fare_code={item.fare_code} fare_short_name={item.fare_short_name} fare_long_name={item.fare_long_name} price={item.price} currency_type={item.currency_type} />)
+              faresData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} long_name={item.long_name} price={item.price} currency_type={item.currency_type} />)
             ) : (
               <NoDataLabel />
             )}

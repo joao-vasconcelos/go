@@ -16,6 +16,8 @@ import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -27,6 +29,8 @@ export default function Page() {
   const t = useTranslations('fares');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'fares', 'create_edit');
 
   const { fare_id } = useParams();
 
@@ -120,14 +124,16 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Text size='h1' style={!form.values.fare_long_name && 'untitled'} full>
-            {form.values.fare_long_name || t('untitled')}
+          <Text size='h1' style={!form.values.long_name && 'untitled'} full>
+            {form.values.long_name || t('untitled')}
           </Text>
-          <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <AuthGate scope='fares' permission='delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
@@ -135,18 +141,19 @@ export default function Page() {
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={3}>
-            <TextInput label={t('form.fare_long_name.label')} placeholder={t('form.fare_long_name.placeholder')} {...form.getInputProps('fare_long_name')} />
-            <TextInput label={t('form.fare_short_name.label')} placeholder={t('form.fare_short_name.placeholder')} {...form.getInputProps('fare_short_name')} />
-            <TextInput label={t('form.fare_code.label')} placeholder={t('form.fare_code.placeholder')} {...form.getInputProps('fare_code')} />
+            <TextInput label={t('form.long_name.label')} placeholder={t('form.long_name.placeholder')} {...form.getInputProps('long_name')} readOnly={isReadOnly} />
+            <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} readOnly={isReadOnly} />
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <NumberInput label={t('form.price.label')} placeholder={t('form.price.placeholder')} precision={2} step={0.05} min={0.0} {...form.getInputProps('price')} />
+            <NumberInput label={t('form.price.label')} placeholder={t('form.price.placeholder')} precision={2} step={0.05} min={0.0} {...form.getInputProps('price')} readOnly={isReadOnly} />
             <Select
               label={t('form.currency_type.label')}
               placeholder={t('form.currency_type.placeholder')}
               nothingFound={t('form.currency_type.nothingFound')}
-              data={[{ value: 'EUR', label: 'Euro' }]}
               {...form.getInputProps('currency_type')}
+              data={[{ value: 'EUR', label: 'Euro' }]}
+              readOnly={isReadOnly}
               searchable
             />
           </SimpleGrid>
@@ -155,40 +162,26 @@ export default function Page() {
               label={t('form.payment_method.label')}
               placeholder={t('form.payment_method.placeholder')}
               nothingFound={t('form.payment_method.nothingFound')}
+              {...form.getInputProps('payment_method')}
               data={[
                 { value: '0', label: 'Pagamento a Bordo (navegante® a bordo)' },
                 { value: '1', label: 'Pré-pagamento (navegante® pré-pago, navegante®)' },
               ]}
-              {...form.getInputProps('payment_method')}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
               label={t('form.transfers.label')}
               placeholder={t('form.transfers.placeholder')}
               nothingFound={t('form.transfers.nothingFound')}
+              {...form.getInputProps('transfers')}
               data={[
                 { value: '0', label: 'Não, não são permitidos transbordos.' },
                 { value: '1', label: 'Sim, é permitido apenas 1 transbordo.' },
                 { value: '2', label: 'Sim, são permitidos apenas 2 transbordos.' },
                 { value: '', label: 'Sim, são permitidos transbordos ilimitados.' },
               ]}
-              {...form.getInputProps('transfers')}
-              searchable
-            />
-          </SimpleGrid>
-          <SimpleGrid cols={1}>
-            <MultiSelect
-              label={t('form.agencies.label')}
-              placeholder={t('form.agencies.placeholder')}
-              nothingFound={t('form.agencies.nothingFound')}
-              data={
-                agenciesData
-                  ? agenciesData.map((item) => {
-                      return { value: item._id, label: item.agency_name || '-' };
-                    })
-                  : []
-              }
-              {...form.getInputProps('agencies')}
+              readOnly={isReadOnly}
               searchable
             />
           </SimpleGrid>

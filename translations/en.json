@@ -215,15 +215,15 @@
             }
         },
         "form": {
-            "fare_long_name": {
+            "long_name": {
                 "label": "Fare Name",
                 "placeholder": "Tarif 1"
             },
-            "fare_short_name": {
+            "short_name": {
                 "label": "Fare Short Name",
                 "placeholder": "T1"
             },
-            "fare_code": {
+            "code": {
                 "label": "Fare Code",
                 "placeholder": "T1"
             },
@@ -244,11 +244,6 @@
             "transfers": {
                 "label": "Allow Transfers",
                 "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "agencies": {
-                "label": "Valid on these Agencies",
-                "placeholder": "Choose Agencies...",
                 "nothingFound": "No Results Found"
             }
         }
@@ -1038,6 +1033,22 @@
                         "nothingFound": "No Results Found"
                     }
                 },
+                "fares": {
+                    "title": "Fares",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Fares",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Fares",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Fares",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
                 "alerts": {
                     "view": "View Alerts",
                     "create": "Create Alerts",
@@ -1056,12 +1067,6 @@
                     "create": "Create Dates",
                     "edit": "Edit Dates",
                     "delete": "Delete Dates"
-                },
-                "fares": {
-                    "view": "View Fares",
-                    "create": "Create Fares",
-                    "edit": "Edit Fares",
-                    "delete": "Delete Fares"
                 },
                 "municipalities": {
                     "view": "View Municipalities",
