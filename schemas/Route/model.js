@@ -14,13 +14,13 @@ export const Schema = new mongoose.Schema(
       maxlength: 50,
       unique: true,
     },
-    parent_line: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Line',
-    },
     name: {
       type: String,
       maxlength: 50,
+    },
+    parent_line: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Line',
     },
     patterns: [
       {
