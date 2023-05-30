@@ -560,27 +560,27 @@
             }
         },
         "form": {
-            "stop_code": {
+            "code": {
                 "label": "Unique Stop Code",
                 "placeholder": "012345"
             },
-            "stop_lat": {
+            "latitude": {
                 "label": "Latitude",
                 "placeholder": "38.123456"
             },
-            "stop_lon": {
+            "longitude": {
                 "label": "Longitude",
                 "placeholder": "-9.123456"
             },
-            "stop_name": {
+            "name": {
                 "label": "Stop Name",
                 "placeholder": "Rua Marquês de Pombal 8"
             },
-            "stop_short_name": {
+            "short_name": {
                 "label": "Stop Short Name",
                 "placeholder": "R. Mrq. de Pombal 8"
             },
-            "tts_stop_name": {
+            "tts_name": {
                 "label": "Text-to-Speech Name",
                 "placeholder": "Rua Marquês de Pombal Porta Oito"
             },
@@ -607,7 +607,8 @@
             },
             "municipality": {
                 "label": "Municipality",
-                "placeholder": "Moita"
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
             },
             "parish": {
                 "label": "Parish",
@@ -838,7 +839,7 @@
             "car_parking": {
                 "label": "car_parking"
             },
-            "stop_remarks": {
+            "notes": {
                 "label": "Notes & Comments on this stop",
                 "placeholder": "Planned construction in..."
             }

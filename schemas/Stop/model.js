@@ -53,10 +53,12 @@ export const Schema = new mongoose.Schema(
     },
 
     // Operation
-    agencies: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Agency',
-    },
+    agencies: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Agency',
+      },
+    ],
 
     // Administrative
     address: {
@@ -80,8 +82,8 @@ export const Schema = new mongoose.Schema(
       maxlength: 100,
     },
     municipality: {
-      type: String,
-      maxlength: 100,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Municipality',
     },
     parish: {
       type: String,
@@ -294,7 +296,7 @@ export const Schema = new mongoose.Schema(
     },
 
     // Comments
-    remarks: {
+    notes: {
       type: String,
       maxlength: 10000,
     },

@@ -4,26 +4,27 @@ import Text from '../../../../components/Text/Text';
 import Badge from '../../../../components/Badge/Badge';
 import { Group } from '@mantine/core';
 
-export default function ListItem({ style, _id, stop_name, stop_code, stop_lat, stop_lon }) {
+export default function ListItem({ style, _id, name, code, latitude, longitude }) {
   //
 
   const router = useRouter();
   const { stop_id } = useParams();
 
   const handleClick = () => {
+    if (stop_id === _id) return;
     router.push(`/dashboard/stops/${_id}`);
   };
 
   return (
     <BaseListItem onClick={handleClick} isSelected={stop_id === _id} withChevron style={style}>
-      <Text size='title' style={!stop_name && 'untitled'}>
-        {stop_name || 'Paragem Sem Nome'}
+      <Text size='title' style={!name && 'untitled'}>
+        {name || 'Paragem Sem Nome'}
       </Text>
       <Group>
-        {stop_code && <Badge>{stop_code}</Badge>}
-        {stop_lat && stop_lon && (
+        {code && <Badge>{code}</Badge>}
+        {latitude && longitude && (
           <Badge>
-            {stop_lat}, {stop_lon}
+            {latitude}, {longitude}
           </Badge>
         )}
       </Group>

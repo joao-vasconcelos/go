@@ -29,7 +29,7 @@ export const Default = {
   jurisdiction: '',
   region: '',
   district: '',
-  municipality: '',
+  municipality: null,
   parish: '',
   locality: '',
   stepp_id: '',
@@ -97,8 +97,8 @@ export const Default = {
   bike_parking: false,
   car_parking: false,
 
-  // Comments
-  remarks: '',
+  // Notes
+  notes: '',
 
   //
 };

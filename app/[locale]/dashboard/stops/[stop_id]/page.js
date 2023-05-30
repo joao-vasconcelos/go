@@ -16,8 +16,10 @@ import Text from '../../../../../components/Text/Text';
 import SaveButtons from '../../../../../components/SaveButtons';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import { useTranslations } from 'next-intl';
 import OSMMap from '../../../../../components/OSMMap/OSMMap';
+import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -30,6 +32,8 @@ export default function Page() {
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const { singleStopMap } = useMap();
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'stops', 'create_edit');
 
   const { stop_id } = useParams();
 
@@ -38,6 +42,7 @@ export default function Page() {
 
   const { data: stopData, error: stopError, isLoading: stopLoading } = useSWR(stop_id && `/api/stops/${stop_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: agenciesData } = useSWR('/api/agencies');
+  const { data: municipalitiesData } = useSWR('/api/municipalities');
 
   //
   // C. Setup form
@@ -123,6 +128,14 @@ export default function Page() {
   //
   // E. Transform data
 
+  const municipalitiesFormattedForSelect = useMemo(() => {
+    return municipalitiesData
+      ? municipalitiesData.map((item) => {
+          return { value: item._id, label: item.name || '-' };
+        })
+      : [];
+  }, [municipalitiesData]);
+
   const mapData = useMemo(() => {
     // Create a GeoJSON object
     const geoJSON = {
@@ -182,11 +195,13 @@ export default function Page() {
               <IconBrandGoogleMaps size='20px' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <AuthGate scope='stops' permission='delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
@@ -205,10 +220,10 @@ export default function Page() {
             <Text size='h4'>{t('sections.config.description')}</Text>
           </div>
           <SimpleGrid cols={3}>
-            <TextInput label={t('form.stop_code.label')} placeholder={t('form.stop_code.placeholder')} {...form.getInputProps('stop_code')} />
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
             <NumberInput
-              label={t('form.stop_lat.label')}
-              placeholder={t('form.stop_lat.placeholder')}
+              label={t('form.latitude.label')}
+              placeholder={t('form.latitude.placeholder')}
               precision={6}
               min={37}
               max={40}
@@ -217,11 +232,12 @@ export default function Page() {
               stepHoldInterval={100}
               hideControls
               icon={<IconWorldLatitude size='18px' />}
-              {...form.getInputProps('stop_lat')}
+              {...form.getInputProps('latitude')}
+              readOnly={isReadOnly}
             />
             <NumberInput
-              label={t('form.stop_lon.label')}
-              placeholder={t('form.stop_lon.placeholder')}
+              label={t('form.longitude.label')}
+              placeholder={t('form.longitude.placeholder')}
               precision={6}
               min={-10}
               max={-7}
@@ -230,20 +246,21 @@ export default function Page() {
               stepHoldInterval={100}
               hideControls
               icon={<IconWorldLongitude size='18px' />}
-              {...form.getInputProps('stop_lon')}
+              {...form.getInputProps('longitude')}
             />
           </SimpleGrid>
           <SimpleGrid cols={1}>
-            <TextInput label={t('form.stop_name.label')} placeholder={t('form.stop_name.placeholder')} {...form.getInputProps('stop_name')} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput label={t('form.stop_short_name.label')} placeholder={t('form.stop_short_name.placeholder')} {...form.getInputProps('stop_short_name')} />
+            <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} />
             <TextInput
-              label={t('form.tts_stop_name.label')}
-              placeholder={t('form.tts_stop_name.placeholder')}
-              {...form.getInputProps('tts_stop_name')}
+              label={t('form.tts_name.label')}
+              placeholder={t('form.tts_name.placeholder')}
+              {...form.getInputProps('tts_name')}
+              readOnly={isReadOnly}
               rightSection={
-                <ActionIcon onClick={handlePlayPhoneticName} variant='subtle' color='blue' disabled={!form.values.tts_stop_name}>
+                <ActionIcon onClick={handlePlayPhoneticName} variant='subtle' color='blue' disabled={!form.values.tts_name}>
                   <IconVolume size='18px' />
                 </ActionIcon>
               }
@@ -271,6 +288,7 @@ export default function Page() {
                   : []
               }
               {...form.getInputProps('agencies')}
+              readOnly={isReadOnly}
               searchable
             />
           </SimpleGrid>
@@ -284,18 +302,18 @@ export default function Page() {
             <Text size='h4'>{t('sections.admin.description')}</Text>
           </div>
           <SimpleGrid cols={3}>
-            <TextInput label={t('form.address.label')} placeholder={t('form.address.placeholder')} {...form.getInputProps('address')} />
-            <TextInput label={t('form.postal_code.label')} placeholder={t('form.postal_code.placeholder')} {...form.getInputProps('postal_code')} />
-            <TextInput label={t('form.locality.label')} placeholder={t('form.locality.placeholder')} {...form.getInputProps('locality')} />
+            <TextInput label={t('form.address.label')} placeholder={t('form.address.placeholder')} {...form.getInputProps('address')} readOnly={isReadOnly} />
+            <TextInput label={t('form.postal_code.label')} placeholder={t('form.postal_code.placeholder')} {...form.getInputProps('postal_code')} readOnly={isReadOnly} />
+            <TextInput label={t('form.locality.label')} placeholder={t('form.locality.placeholder')} {...form.getInputProps('locality')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={3}>
-            <TextInput label={t('form.region.label')} placeholder={t('form.region.placeholder')} {...form.getInputProps('region')} />
-            <TextInput label={t('form.municipality.label')} placeholder={t('form.municipality.placeholder')} {...form.getInputProps('municipality')} />
-            <TextInput label={t('form.parish.label')} placeholder={t('form.parish.placeholder')} {...form.getInputProps('parish')} />
+            <TextInput label={t('form.region.label')} placeholder={t('form.region.placeholder')} {...form.getInputProps('region')} readOnly={isReadOnly} />
+            <TextInput label={t('form.municipality.label')} placeholder={t('form.municipality.placeholder')} {...form.getInputProps('municipality')} readOnly={isReadOnly} />
+            <TextInput label={t('form.parish.label')} placeholder={t('form.parish.placeholder')} {...form.getInputProps('parish')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput label={t('form.jurisdiction.label')} placeholder={t('form.jurisdiction.placeholder')} {...form.getInputProps('jurisdiction')} />
-            <TextInput label={t('form.stepp_id.label')} placeholder={t('form.stepp_id.placeholder')} {...form.getInputProps('stepp_id')} />
+            <TextInput label={t('form.jurisdiction.label')} placeholder={t('form.jurisdiction.placeholder')} {...form.getInputProps('jurisdiction')} readOnly={isReadOnly} />
+            <TextInput label={t('form.stepp_id.label')} placeholder={t('form.stepp_id.placeholder')} {...form.getInputProps('stepp_id')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
 
@@ -318,9 +336,10 @@ export default function Page() {
                 { value: 2, label: '2 - Existe, mas está danificado' },
                 { value: 3, label: '3 - Existe e está OK' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
-            <TextInput label={t('form.pole_material.label')} placeholder={t('form.pole_material.placeholder')} disabled={form.values.has_pole < 2} {...form.getInputProps('pole_material')} />
+            <TextInput label={t('form.pole_material.label')} placeholder={t('form.pole_material.placeholder')} disabled={form.values.has_pole < 2} {...form.getInputProps('pole_material')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={3}>
             <Select
@@ -336,10 +355,11 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
-            <TextInput label={t('form.shelter_code.label')} placeholder={t('form.shelter_code.placeholder')} disabled={form.values.has_shelter < 1} {...form.getInputProps('shelter_code')} />
-            <TextInput label={t('form.shelter_maintainer.label')} placeholder={t('form.shelter_maintainer.placeholder')} disabled={form.values.has_shelter < 1} {...form.getInputProps('shelter_maintainer')} />
+            <TextInput label={t('form.shelter_code.label')} placeholder={t('form.shelter_code.placeholder')} disabled={form.values.has_shelter < 1} {...form.getInputProps('shelter_code')} readOnly={isReadOnly} />
+            <TextInput label={t('form.shelter_maintainer.label')} placeholder={t('form.shelter_maintainer.placeholder')} disabled={form.values.has_shelter < 1} {...form.getInputProps('shelter_maintainer')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={3}>
             <Select
@@ -355,6 +375,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -370,6 +391,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -385,6 +407,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
           </SimpleGrid>
@@ -400,6 +423,7 @@ export default function Page() {
                 { value: 2, label: '2 - Imediações visíveis' },
                 { value: 3, label: '3 - Leitura é possível e confortável' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -411,6 +435,7 @@ export default function Page() {
                 { value: 0, label: '0 - Indisponível' },
                 { value: 1, label: '1 - Disponível' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -422,10 +447,11 @@ export default function Page() {
                 { value: 0, label: '0 - Indisponível' },
                 { value: 1, label: '1 - Disponível' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
-            <TextInput label={t('form.last_infrastructure_maintenance.label')} placeholder={t('form.last_infrastructure_maintenance.placeholder')} {...form.getInputProps('last_infrastructure_maintenance')} />
-            <TextInput label={t('form.last_infrastructure_check.label')} placeholder={t('form.last_infrastructure_check.placeholder')} {...form.getInputProps('last_infrastructure_check')} />
+            <TextInput label={t('form.last_infrastructure_maintenance.label')} placeholder={t('form.last_infrastructure_maintenance.placeholder')} {...form.getInputProps('last_infrastructure_maintenance')} readOnly={isReadOnly} />
+            <TextInput label={t('form.last_infrastructure_check.label')} placeholder={t('form.last_infrastructure_check.placeholder')} {...form.getInputProps('last_infrastructure_check')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
 
@@ -448,9 +474,10 @@ export default function Page() {
                 { value: 2, label: '2 - Existe, mas está danificado' },
                 { value: 3, label: '3 - Existe e está OK' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
-            <TextInput label={t('form.stop_sign_maintainer.label')} placeholder={t('form.stop_sign_maintainer.placeholder')} disabled={form.values.has_stop_sign < 2} {...form.getInputProps('stop_sign_maintainer')} />
+            <TextInput label={t('form.stop_sign_maintainer.label')} placeholder={t('form.stop_sign_maintainer.placeholder')} disabled={form.values.has_stop_sign < 2} {...form.getInputProps('stop_sign_maintainer')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={3}>
             <Select
@@ -466,9 +493,10 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
-            <TextInput label={t('form.shelter_frame_area_cm.label')} placeholder={t('form.shelter_frame_area_cm.placeholder')} {...form.getInputProps('shelter_frame_area_cm')} />
+            <TextInput label={t('form.shelter_frame_area_cm.label')} placeholder={t('form.shelter_frame_area_cm.placeholder')} {...form.getInputProps('shelter_frame_area_cm')} readOnly={isReadOnly} />
             <Select
               label={t('form.has_pip_real_time.label')}
               placeholder={t('form.has_pip_real_time.placeholder')}
@@ -482,9 +510,10 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
-            <TextInput label={t('form.pip_real_time_code.label')} placeholder={t('form.pip_real_time_code.placeholder')} {...form.getInputProps('pip_real_time_code')} />
+            <TextInput label={t('form.pip_real_time_code.label')} placeholder={t('form.pip_real_time_code.placeholder')} {...form.getInputProps('pip_real_time_code')} readOnly={isReadOnly} />
             <Select
               label={t('form.has_h2oa_signage.label')}
               placeholder={t('form.has_h2oa_signage.placeholder')}
@@ -498,6 +527,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -513,6 +543,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -528,12 +559,13 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
-            <TextInput label={t('form.last_schedules_maintenance.label')} placeholder={t('form.last_schedules_maintenance.placeholder')} {...form.getInputProps('last_schedules_maintenance')} />
-            <TextInput label={t('form.last_schedules_check.label')} placeholder={t('form.last_schedules_check.placeholder')} {...form.getInputProps('last_schedules_check')} />
-            <TextInput label={t('form.last_stop_sign_maintenance.label')} placeholder={t('form.last_stop_sign_maintenance.placeholder')} {...form.getInputProps('last_stop_sign_maintenance')} />
-            <TextInput label={t('form.last_stop_sign_check.label')} placeholder={t('form.last_stop_sign_check.placeholder')} {...form.getInputProps('last_stop_sign_check')} />
+            <TextInput label={t('form.last_schedules_maintenance.label')} placeholder={t('form.last_schedules_maintenance.placeholder')} {...form.getInputProps('last_schedules_maintenance')} readOnly={isReadOnly} />
+            <TextInput label={t('form.last_schedules_check.label')} placeholder={t('form.last_schedules_check.placeholder')} {...form.getInputProps('last_schedules_check')} readOnly={isReadOnly} />
+            <TextInput label={t('form.last_stop_sign_maintenance.label')} placeholder={t('form.last_stop_sign_maintenance.placeholder')} {...form.getInputProps('last_stop_sign_maintenance')} readOnly={isReadOnly} />
+            <TextInput label={t('form.last_stop_sign_check.label')} placeholder={t('form.last_stop_sign_check.placeholder')} {...form.getInputProps('last_stop_sign_check')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
 
@@ -558,9 +590,10 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
-            <TextInput label={t('form.sidewalk_type.label')} placeholder={t('form.sidewalk_type.placeholder')} {...form.getInputProps('sidewalk_type')} />
+            <TextInput label={t('form.sidewalk_type.label')} placeholder={t('form.sidewalk_type.placeholder')} {...form.getInputProps('sidewalk_type')} readOnly={isReadOnly} />
             <Select
               label={t('form.has_tactile_schedules.label')}
               placeholder={t('form.has_tactile_schedules.placeholder')}
@@ -574,6 +607,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -589,6 +623,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -604,6 +639,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -619,6 +655,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -634,6 +671,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -649,6 +687,7 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
             <Select
@@ -664,9 +703,10 @@ export default function Page() {
                 { value: 4, label: '4 - Em bom estado' },
                 { value: 5, label: '5 - Em muito bom estado' },
               ]}
+              readOnly={isReadOnly}
               searchable
             />
-            <TextInput label={t('form.last_accessibility_check.label')} placeholder={t('form.last_accessibility_check.placeholder')} {...form.getInputProps('last_accessibility_check')} />
+            <TextInput label={t('form.last_accessibility_check.label')} placeholder={t('form.last_accessibility_check.placeholder')} {...form.getInputProps('last_accessibility_check')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
 
@@ -678,15 +718,15 @@ export default function Page() {
             <Text size='h4'>{t('sections.services.description')}</Text>
           </div>
           <SimpleGrid cols={3}>
-            <Switch label={t('form.near_health_clinic.label')} size='md' {...form.getInputProps('near_health_clinic', { type: 'checkbox' })} />
-            <Switch label={t('form.near_hospital.label')} size='md' {...form.getInputProps('near_hospital', { type: 'checkbox' })} />
-            <Switch label={t('form.near_university.label')} size='md' {...form.getInputProps('near_university', { type: 'checkbox' })} />
-            <Switch label={t('form.near_school.label')} size='md' {...form.getInputProps('near_school', { type: 'checkbox' })} />
-            <Switch label={t('form.near_police_station.label')} size='md' {...form.getInputProps('near_police_station', { type: 'checkbox' })} />
-            <Switch label={t('form.near_fire_station.label')} size='md' {...form.getInputProps('near_fire_station', { type: 'checkbox' })} />
-            <Switch label={t('form.near_shopping.label')} size='md' {...form.getInputProps('near_shopping', { type: 'checkbox' })} />
-            <Switch label={t('form.near_historic_building.label')} size='md' {...form.getInputProps('near_historic_building', { type: 'checkbox' })} />
-            <Switch label={t('form.near_transit_office.label')} size='md' {...form.getInputProps('near_transit_office', { type: 'checkbox' })} />
+            <Switch label={t('form.near_health_clinic.label')} size='md' {...form.getInputProps('near_health_clinic', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_hospital.label')} size='md' {...form.getInputProps('near_hospital', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_university.label')} size='md' {...form.getInputProps('near_university', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_school.label')} size='md' {...form.getInputProps('near_school', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_police_station.label')} size='md' {...form.getInputProps('near_police_station', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_fire_station.label')} size='md' {...form.getInputProps('near_fire_station', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_shopping.label')} size='md' {...form.getInputProps('near_shopping', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_historic_building.label')} size='md' {...form.getInputProps('near_historic_building', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_transit_office.label')} size='md' {...form.getInputProps('near_transit_office', { type: 'checkbox' })} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
 
@@ -698,14 +738,14 @@ export default function Page() {
             <Text size='h4'>{t('sections.connections.description')}</Text>
           </div>
           <SimpleGrid cols={3}>
-            <Switch label={t('form.subway.label')} size='md' {...form.getInputProps('subway', { type: 'checkbox' })} />
-            <Switch label={t('form.light_rail.label')} size='md' {...form.getInputProps('light_rail', { type: 'checkbox' })} />
-            <Switch label={t('form.train.label')} size='md' {...form.getInputProps('train', { type: 'checkbox' })} />
-            <Switch label={t('form.boat.label')} size='md' {...form.getInputProps('boat', { type: 'checkbox' })} />
-            <Switch label={t('form.airport.label')} size='md' {...form.getInputProps('airport', { type: 'checkbox' })} />
-            <Switch label={t('form.bike_sharing.label')} size='md' {...form.getInputProps('bike_sharing', { type: 'checkbox' })} />
-            <Switch label={t('form.bike_parking.label')} size='md' {...form.getInputProps('bike_parking', { type: 'checkbox' })} />
-            <Switch label={t('form.car_parking.label')} size='md' {...form.getInputProps('car_parking', { type: 'checkbox' })} />
+            <Switch label={t('form.subway.label')} size='md' {...form.getInputProps('subway', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.light_rail.label')} size='md' {...form.getInputProps('light_rail', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.train.label')} size='md' {...form.getInputProps('train', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.boat.label')} size='md' {...form.getInputProps('boat', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.airport.label')} size='md' {...form.getInputProps('airport', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.bike_sharing.label')} size='md' {...form.getInputProps('bike_sharing', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.bike_parking.label')} size='md' {...form.getInputProps('bike_parking', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.car_parking.label')} size='md' {...form.getInputProps('car_parking', { type: 'checkbox' })} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
         <Divider />
@@ -714,7 +754,7 @@ export default function Page() {
             <Text size='h2'>{t('sections.notes.title')}</Text>
             <Text size='h4'>{t('sections.notes.description')}</Text>
           </div>
-          <Textarea aria-label={t('form.stop_remarks.label')} placeholder={t('form.stop_remarks.placeholder')} autosize minRows={5} maxRows={15} {...form.getInputProps('stop_remarks')} />
+          <Textarea aria-label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} autosize minRows={5} maxRows={15} {...form.getInputProps('notes')} readOnly={isReadOnly} />
         </Section>
       </form>
     </Pannel>
