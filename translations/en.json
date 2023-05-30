@@ -37,6 +37,9 @@
                 "loading": "Deleting Agency...",
                 "success": "Agency was deleted.",
                 "error": "An error occurred while deleting this Agency."
+            },
+            "export": {
+                "title": "Export agency.txt"
             }
         },
         "sections": {
@@ -45,40 +48,53 @@
             }
         },
         "form": {
-            "agency_name": {
+            "name": {
                 "label": "Agency Name",
                 "placeholder": "A.C.M.E Transportation"
             },
-            "agency_code": {
+            "code": {
                 "label": "Agency Code",
                 "placeholder": "41"
             },
-            "agency_lang": {
+            "lang": {
                 "label": "Primary Agency Language",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
-            "agency_timezone": {
+            "timezone": {
                 "label": "Timezone",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
-            "agency_phone": {
+            "phone": {
                 "label": "Public Phone Number",
                 "placeholder": "+351 213 456 789"
             },
-            "agency_email": {
+            "email": {
                 "label": "Public Email Address",
                 "placeholder": "contact@agency.com"
             },
-            "agency_url": {
+            "url": {
                 "label": "Public Website URL",
                 "placeholder": "https://agency.com"
             },
-            "agency_fare_url": {
+            "fare_url": {
                 "label": "Website for Fares Information",
                 "placeholder": "https://agency.com/fares"
             }
+        }
+    },
+    "export": {
+        "gtfs_v18": {
+            "title": "Export Intended Offer (v18)",
+            "agencies": {
+                "label": "Export for this Agency",
+                "placeholder": "Choose an Agency...",
+                "nothingFound": "No Results Found"
+            }
+        },
+        "gtfs_v29": {
+            "title": "Export Intended Offer (v29)"
         }
     },
     "calendars": {
@@ -904,10 +920,6 @@
         "sections": {
             "config": {
                 "title": "User Details",
-                "description": "About this section"
-            },
-            "scopes": {
-                "title": "Scopes for this user",
                 "description": "About this section"
             }
         },
