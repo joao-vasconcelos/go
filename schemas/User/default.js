@@ -60,31 +60,36 @@ export const Default = {
       create_edit: false,
       delete: false,
     },
-
     // ALERTS
-    alerts_view: false,
-    alerts_create: false,
-    alerts_edit: false,
-    alerts_delete: false,
-    // CALENDARS
-    calendars_view: false,
-    calendars_create: false,
-    calendars_edit: false,
-    calendars_delete: false,
-    // DATES
-    dates_view: false,
-    dates_create: false,
-    dates_edit: false,
-    dates_delete: false,
+    alerts: {
+      view: false,
+      create_edit: false,
+      publish: false,
+      delete: false,
+    },
     // SHAPES
-    shapes_view: false,
-    shapes_create: false,
-    shapes_edit: false,
-    shapes_delete: false,
+    shapes: {
+      view: false,
+      create_edit: false,
+      delete: false,
+    },
+    // CALENDARS
+    calendars: {
+      view: false,
+      create_edit: false,
+      delete: false,
+    },
+    // DATES
+    dates: {
+      view: false,
+      create_edit: false,
+      delete: false,
+    },
     // THREADS
-    threads_view: false,
-    threads_create: false,
-    threads_edit: false,
-    threads_delete: false,
+    threads: {
+      view: false,
+      create_edit: false,
+      delete: false,
+    },
   },
 };

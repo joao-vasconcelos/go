@@ -442,40 +442,148 @@ export default function Page() {
         <Divider />
 
         <Section>
-          <Divider />
-          <SimpleGrid cols={4}>
-            <Switch label={t('form.permissions.alerts.view')} size='md' {...form.getInputProps('permissions.alerts_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.alerts.edit')} size='md' {...form.getInputProps('permissions.alerts_edit', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.alerts.create')} size='md' {...form.getInputProps('permissions.alerts_create', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.alerts.delete')} size='md' {...form.getInputProps('permissions.alerts_delete', { type: 'checkbox' })} />
+          <div>
+            <Text size='h2'>{t('form.permissions.alerts.title')}</Text>
+            <Text size='h4'>{t('form.permissions.alerts.description')}</Text>
+          </div>
+          <SimpleGrid cols={4} mt='md'>
+            <Switch label={t('form.permissions.alerts.view.label')} description={t('form.permissions.alerts.view.description')} size='md' {...form.getInputProps('permissions.alerts.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch
+              size='md'
+              label={t('form.permissions.alerts.create_edit.label')}
+              description={t('form.permissions.alerts.create_edit.description')}
+              {...form.getInputProps('permissions.alerts.create_edit', { type: 'checkbox' })}
+              disabled={!form.values.permissions.alerts.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.alerts.publish.label')}
+              description={t('form.permissions.alerts.publish.description')}
+              {...form.getInputProps('permissions.alerts.publish', { type: 'checkbox' })}
+              disabled={!form.values.permissions.alerts.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.alerts.delete.label')}
+              description={t('form.permissions.alerts.delete.description')}
+              {...form.getInputProps('permissions.alerts.delete', { type: 'checkbox' })}
+              disabled={!form.values.permissions.alerts.view}
+              readOnly={isReadOnly}
+            />
           </SimpleGrid>
-          <Divider />
-          <SimpleGrid cols={4}>
-            <Switch label={t('form.permissions.calendars.view')} size='md' {...form.getInputProps('permissions.calendars_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.calendars.edit')} size='md' {...form.getInputProps('permissions.calendars_edit', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.calendars.create')} size='md' {...form.getInputProps('permissions.calendars_create', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.calendars.delete')} size='md' {...form.getInputProps('permissions.calendars_delete', { type: 'checkbox' })} />
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size='h2'>{t('form.permissions.shapes.title')}</Text>
+            <Text size='h4'>{t('form.permissions.shapes.description')}</Text>
+          </div>
+          <SimpleGrid cols={3} mt='md'>
+            <Switch label={t('form.permissions.shapes.view.label')} description={t('form.permissions.shapes.view.description')} size='md' {...form.getInputProps('permissions.shapes.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch
+              size='md'
+              label={t('form.permissions.shapes.create_edit.label')}
+              description={t('form.permissions.shapes.create_edit.description')}
+              {...form.getInputProps('permissions.shapes.create_edit', { type: 'checkbox' })}
+              disabled={!form.values.permissions.shapes.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.shapes.delete.label')}
+              description={t('form.permissions.shapes.delete.description')}
+              {...form.getInputProps('permissions.shapes.delete', { type: 'checkbox' })}
+              disabled={!form.values.permissions.shapes.view}
+              readOnly={isReadOnly}
+            />
           </SimpleGrid>
-          <Divider />
-          <SimpleGrid cols={4}>
-            <Switch label={t('form.permissions.dates.view')} size='md' {...form.getInputProps('permissions.dates_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.dates.edit')} size='md' {...form.getInputProps('permissions.dates_edit', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.dates.create')} size='md' {...form.getInputProps('permissions.dates_create', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.dates.delete')} size='md' {...form.getInputProps('permissions.dates_delete', { type: 'checkbox' })} />
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size='h2'>{t('form.permissions.calendars.title')}</Text>
+            <Text size='h4'>{t('form.permissions.calendars.description')}</Text>
+          </div>
+          <SimpleGrid cols={3} mt='md'>
+            <Switch label={t('form.permissions.calendars.view.label')} description={t('form.permissions.calendars.view.description')} size='md' {...form.getInputProps('permissions.calendars.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch
+              size='md'
+              label={t('form.permissions.calendars.create_edit.label')}
+              description={t('form.permissions.calendars.create_edit.description')}
+              {...form.getInputProps('permissions.calendars.create_edit', { type: 'checkbox' })}
+              disabled={!form.values.permissions.calendars.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.calendars.delete.label')}
+              description={t('form.permissions.calendars.delete.description')}
+              {...form.getInputProps('permissions.calendars.delete', { type: 'checkbox' })}
+              disabled={!form.values.permissions.calendars.view}
+              readOnly={isReadOnly}
+            />
           </SimpleGrid>
-          <Divider />
-          <SimpleGrid cols={4}>
-            <Switch label={t('form.permissions.shapes.view')} size='md' {...form.getInputProps('permissions.shapes_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.shapes.edit')} size='md' {...form.getInputProps('permissions.shapes_edit', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.shapes.create')} size='md' {...form.getInputProps('permissions.shapes_create', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.shapes.delete')} size='md' {...form.getInputProps('permissions.shapes_delete', { type: 'checkbox' })} />
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size='h2'>{t('form.permissions.dates.title')}</Text>
+            <Text size='h4'>{t('form.permissions.dates.description')}</Text>
+          </div>
+          <SimpleGrid cols={3} mt='md'>
+            <Switch label={t('form.permissions.dates.view.label')} description={t('form.permissions.dates.view.description')} size='md' {...form.getInputProps('permissions.dates.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch
+              size='md'
+              label={t('form.permissions.dates.create_edit.label')}
+              description={t('form.permissions.dates.create_edit.description')}
+              {...form.getInputProps('permissions.dates.create_edit', { type: 'checkbox' })}
+              disabled={!form.values.permissions.dates.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.dates.delete.label')}
+              description={t('form.permissions.dates.delete.description')}
+              {...form.getInputProps('permissions.dates.delete', { type: 'checkbox' })}
+              disabled={!form.values.permissions.dates.view}
+              readOnly={isReadOnly}
+            />
           </SimpleGrid>
-          <Divider />
-          <SimpleGrid cols={4}>
-            <Switch label={t('form.permissions.threads.view')} size='md' {...form.getInputProps('permissions.threads_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.threads.edit')} size='md' {...form.getInputProps('permissions.threads_edit', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.threads.create')} size='md' {...form.getInputProps('permissions.threads_create', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.threads.delete')} size='md' {...form.getInputProps('permissions.threads_delete', { type: 'checkbox' })} />
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size='h2'>{t('form.permissions.threads.title')}</Text>
+            <Text size='h4'>{t('form.permissions.threads.description')}</Text>
+          </div>
+          <SimpleGrid cols={3} mt='md'>
+            <Switch label={t('form.permissions.threads.view.label')} description={t('form.permissions.threads.view.description')} size='md' {...form.getInputProps('permissions.threads.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch
+              size='md'
+              label={t('form.permissions.threads.create_edit.label')}
+              description={t('form.permissions.threads.create_edit.description')}
+              {...form.getInputProps('permissions.threads.create_edit', { type: 'checkbox' })}
+              disabled={!form.values.permissions.threads.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.threads.delete.label')}
+              description={t('form.permissions.threads.delete.description')}
+              {...form.getInputProps('permissions.threads.delete', { type: 'checkbox' })}
+              disabled={!form.values.permissions.threads.view}
+              readOnly={isReadOnly}
+            />
           </SimpleGrid>
         </Section>
       </form>

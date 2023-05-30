@@ -146,73 +146,71 @@ export const Schema = new mongoose.Schema(
       },
       //
       // ALERTS
-      alerts_view: {
-        type: Boolean,
-      },
-      alerts_create: {
-        type: Boolean,
-      },
-      alerts_edit: {
-        type: Boolean,
-      },
-      alerts_delete: {
-        type: Boolean,
-      },
-      //
-      // CALENDARS
-      calendars_view: {
-        type: Boolean,
-      },
-      calendars_create: {
-        type: Boolean,
-      },
-      calendars_edit: {
-        type: Boolean,
-      },
-      calendars_delete: {
-        type: Boolean,
-      },
-      //
-      // DATES
-      dates_view: {
-        type: Boolean,
-      },
-      dates_create: {
-        type: Boolean,
-      },
-      dates_edit: {
-        type: Boolean,
-      },
-      dates_delete: {
-        type: Boolean,
+      alerts: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        publish: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
       },
       //
       // SHAPES
-      shapes_view: {
-        type: Boolean,
+      shapes: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
       },
-      shapes_create: {
-        type: Boolean,
+      //
+      // CALENDARS
+      calendars: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
       },
-      shapes_edit: {
-        type: Boolean,
-      },
-      shapes_delete: {
-        type: Boolean,
+      //
+      // DATES
+      dates: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
       },
       //
       // THREADS
-      threads_view: {
-        type: Boolean,
-      },
-      threads_create: {
-        type: Boolean,
-      },
-      threads_edit: {
-        type: Boolean,
-      },
-      threads_delete: {
-        type: Boolean,
+      threads: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
       },
     },
   },
