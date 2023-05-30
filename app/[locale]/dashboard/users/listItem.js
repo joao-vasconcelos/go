@@ -13,6 +13,7 @@ export default function ListItem({ _id, name, email }) {
   const t = useTranslations('users');
 
   const handleClick = () => {
+    if (user_id === _id) return;
     router.push(`/dashboard/users/${_id}`);
   };
 
