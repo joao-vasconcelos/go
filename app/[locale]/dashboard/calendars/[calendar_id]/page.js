@@ -18,6 +18,8 @@ import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import HCalendar from '../../../../../components/HCalendar/HCalendar';
 import HCalendarToggle from '../../../../../components/HCalendarToggle/HCalendarToggle';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -29,6 +31,8 @@ export default function Page() {
   const t = useTranslations('calendars');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'calendars', 'create_edit');
 
   const { calendar_id } = useParams();
 
@@ -91,13 +95,13 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(fare_id, 'loading', t('operations.delete.loading'));
+          notify(calendar_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'calendars', resourceId: calendar_id, operation: 'delete', method: 'DELETE' });
           router.push('/dashboard/calendars');
-          notify(fare_id, 'success', t('operations.delete.success'));
+          notify(calendar_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
-          notify(fare_id, 'error', err.message || t('operations.delete.error'));
+          notify(calendar_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -135,7 +139,7 @@ export default function Page() {
   // E. Render components
 
   const renderDateCardComponent = ({ key, ...props }) => {
-    return <HCalendarToggle key={key} activeDates={form.values.dates} onToggle={handleToggleDate} {...props} />;
+    return <HCalendarToggle key={key} activeDates={form.values.dates} onToggle={handleToggleDate} readOnly={isReadOnly} {...props} />;
   };
 
   //
@@ -160,11 +164,13 @@ export default function Page() {
           <Text size='h1' style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
-          <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <AuthGate scope='calendars' permission='delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
@@ -172,13 +178,13 @@ export default function Page() {
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
-            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} />
-            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
         <Divider />
         <Section>
-          <Switch label={t('form.is_holiday.label')} description={t('form.is_holiday.description')} size='md' {...form.getInputProps('is_holiday', { type: 'checkbox' })} />
+          <Switch label={t('form.is_holiday.label')} description={t('form.is_holiday.description')} size='md' {...form.getInputProps('is_holiday', { type: 'checkbox' })} readOnly={isReadOnly} />
         </Section>
         <Divider />
         <HCalendar availableDates={datesData} renderCardComponent={renderDateCardComponent} onMultiSelect={handleMultiToggleDates} />

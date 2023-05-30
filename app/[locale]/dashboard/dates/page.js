@@ -18,7 +18,8 @@ import HCalendar from '../../../../components/HCalendar/HCalendar';
 import HCalendarPeriodCard from '../../../../components/HCalendarPeriodCard/HCalendarPeriodCard';
 import Loader from '../../../../components/Loader/Loader';
 import dayjs from 'dayjs';
-import AuthGate from '../../../../components/AuthGate/AuthGate';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -29,6 +30,8 @@ export default function Page() {
   const router = useRouter();
   const t = useTranslations('dates');
   const [isModalPresented, { open: openModal, close: closeModal }] = useDisclosure(false);
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'dates', 'create_edit');
 
   const [selectedCalendarType, setSelectedCalendarType] = useState('range');
   const [selectedDateRange, setSelectedDateRange] = useState([]);
@@ -141,7 +144,7 @@ export default function Page() {
   // D. Render components
 
   const renderDateCardComponent = ({ key, ...props }) => {
-    return <HCalendarPeriodCard key={key} {...props} />;
+    return <HCalendarPeriodCard key={key} {...props} readOnly={isReadOnly} />;
   };
 
   //
@@ -160,7 +163,7 @@ export default function Page() {
           <Text size='h1' full>
             {t('title')}
           </Text>
-          <AuthGate permission='dates_edit'>
+          <AuthGate scope='dates' permission='create_edit'>
             <Button leftIcon={<IconCalendarPlus size='20px' />} onClick={openModal} variant='light' color='blue' size='sm'>
               {t('operations.manage.title')}
             </Button>
@@ -194,12 +197,13 @@ export default function Page() {
                 label={t('form.period.label')}
                 placeholder={t('form.period.placeholder')}
                 nothingFound={t('form.period.nothingFound')}
+                {...form.getInputProps('period')}
                 data={[
                   { value: 1, label: '1 - Período Escolar' },
                   { value: 2, label: '2 - Período de Férias Escolares' },
                   { value: 3, label: '3 - Período de Verão' },
                 ]}
-                {...form.getInputProps('period')}
+                readOnly={isReadOnly}
                 searchable
               />
             </SimpleGrid>
@@ -207,9 +211,11 @@ export default function Page() {
               <Button size='lg' onClick={handleUpdate} disabled={!isSelectionValid()}>
                 {t('operations.update.title')}
               </Button>
-              <Button size='lg' color='red' onClick={handleDelete} disabled={!isSelectionValid()}>
-                {t('operations.delete.title')}
-              </Button>
+              <AuthGate scope='dates' permission='delete'>
+                <Button size='lg' color='red' onClick={handleDelete} disabled={!isSelectionValid()}>
+                  {t('operations.delete.title')}
+                </Button>
+              </AuthGate>
             </SimpleGrid>
           </SimpleGrid>
         </form>

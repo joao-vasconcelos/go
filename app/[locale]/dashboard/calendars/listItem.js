@@ -12,6 +12,7 @@ export default function ListItem({ _id, code, name }) {
   const t = useTranslations('calendars');
 
   const handleClick = () => {
+    if (calendar_id === _id) return;
     router.push(`/dashboard/calendars/${_id}`);
   };
 

@@ -9,7 +9,7 @@ import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconArrowBarToDown, IconDots, IconPencil } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots, IconPencil } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
@@ -40,7 +40,7 @@ export default function Layout({ children }) {
   //
   // C. Handle actions
 
-  const handleCreateCalendar = async () => {
+  const handleCreate = async () => {
     try {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
@@ -59,7 +59,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate permission='calendars_view' redirect>
+    <AuthGate scope='calendars' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -75,12 +75,10 @@ export default function Layout({ children }) {
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Label>Importar</Menu.Label>
-                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateCalendar}>
+                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
                       {t('operations.create.title')}
                     </Menu.Item>
-                    <Menu.Label>Exportar</Menu.Label>
-                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download calendar_dates.txt</Menu.Item>
-                    <AuthGate permission='dates_view'>
+                    <AuthGate scope='dates' permission='view'>
                       <Menu.Label>Dados Relacionados</Menu.Label>
                       <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/dates')}>
                         Editar Datas

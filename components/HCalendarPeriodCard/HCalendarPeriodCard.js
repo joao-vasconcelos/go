@@ -13,13 +13,12 @@ import notify from '../../services/notify';
 import AuthGate, { isAllowed } from '../AuthGate/AuthGate';
 import { useSession } from 'next-auth/react';
 
-export default function HCalendarPeriodCard({ date, dateObj }) {
+export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
   //
 
   //
   // A. Setup variables
   const t = useTranslations('dates');
-  const { data: session } = useSession();
   const [isModalPresented, { open: openModal, close: closeModal }] = useDisclosure(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [hasErrorUpdating, setHasErrorUpdating] = useState(false);
@@ -78,16 +77,16 @@ export default function HCalendarPeriodCard({ date, dateObj }) {
               label={t('form.period.label')}
               placeholder={t('form.period.placeholder')}
               nothingFound={t('form.period.nothingFound')}
+              {...form.getInputProps('period')}
               data={[
                 { value: 1, label: '1 - Período Escolar' },
                 { value: 2, label: '2 - Período de Férias Escolares' },
                 { value: 3, label: '3 - Período de Verão' },
               ]}
-              {...form.getInputProps('period')}
+              readOnly={readOnly}
               searchable
-              readOnly={!isAllowed(session, 'dates_edit')}
             />
-            <Textarea label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} minRows={5} {...form.getInputProps('notes')} readOnly={!isAllowed(session, 'dates_edit')} />
+            <Textarea label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} minRows={5} {...form.getInputProps('notes')} readOnly={readOnly} />
             <AuthGate permission='dates_edit'>
               <SimpleGrid cols={2}>
                 <Button size='lg' onClick={handleUpdate}>
@@ -101,7 +100,7 @@ export default function HCalendarPeriodCard({ date, dateObj }) {
           </SimpleGrid>
         </form>
       </Modal>
-      <div className={`${styles.container} ${styles[`period${dateObj.period}`]} ${dateObj.notes && styles.hasNote}`} onClick={openModal}>
+      <div className={`${styles.container} ${readOnly && styles.readOnly} ${styles[`period${dateObj.period}`]} ${dateObj.notes && styles.hasNote}`} onClick={openModal}>
         {dayString}
       </div>
     </>
