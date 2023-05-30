@@ -112,10 +112,13 @@ export const Schema = new mongoose.Schema(
         view: {
           type: Boolean,
         },
+        propose: {
+          type: Boolean,
+        },
         create_edit: {
           type: Boolean,
         },
-        propose: {
+        edit_code: {
           type: Boolean,
         },
         delete: {

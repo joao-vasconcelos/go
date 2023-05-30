@@ -48,8 +48,9 @@ export const Default = {
     // STOPS
     stops: {
       view: false,
-      create_edit: false,
       propose: false,
+      create_edit: false,
+      edit_code: false,
       delete: false,
       municipalities: [],
     },

@@ -1070,12 +1070,16 @@
                         "label": "View Stops",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
+                    "propose": {
+                        "label": "Propose Changes to Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
                     "create_edit": {
                         "label": "Create & Edit Stops",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
-                    "propose": {
-                        "label": "Propose Changes to Stops",
+                    "edit_code": {
+                        "label": "Edit Stop Codes",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
                     "delete": {

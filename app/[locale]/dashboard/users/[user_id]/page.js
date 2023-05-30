@@ -356,8 +356,16 @@ export default function Page() {
             <Text size='h2'>{t('form.permissions.stops.title')}</Text>
             <Text size='h4'>{t('form.permissions.stops.description')}</Text>
           </div>
-          <SimpleGrid cols={4} mt='md'>
+          <SimpleGrid cols={3} mt='md'>
             <Switch label={t('form.permissions.stops.view.label')} description={t('form.permissions.stops.view.description')} size='md' {...form.getInputProps('permissions.stops.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch
+              size='md'
+              label={t('form.permissions.stops.propose.label')}
+              description={t('form.permissions.stops.propose.description')}
+              {...form.getInputProps('permissions.stops.propose', { type: 'checkbox' })}
+              disabled={!form.values.permissions.stops.view}
+              readOnly={isReadOnly}
+            />
             <Switch
               size='md'
               label={t('form.permissions.stops.create_edit.label')}
@@ -368,9 +376,9 @@ export default function Page() {
             />
             <Switch
               size='md'
-              label={t('form.permissions.stops.propose.label')}
-              description={t('form.permissions.stops.propose.description')}
-              {...form.getInputProps('permissions.stops.propose', { type: 'checkbox' })}
+              label={t('form.permissions.stops.edit_code.label')}
+              description={t('form.permissions.stops.edit_code.description')}
+              {...form.getInputProps('permissions.stops.edit_code', { type: 'checkbox' })}
               disabled={!form.values.permissions.stops.view}
               readOnly={isReadOnly}
             />
