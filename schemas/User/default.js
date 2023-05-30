@@ -17,7 +17,6 @@ export const Default = {
       view: false,
       create_edit: false,
       delete: false,
-      export: false,
     },
     // EXPORT
     export: {
@@ -32,6 +31,13 @@ export const Default = {
       create_edit: false,
       delete: false,
       export: false,
+    },
+    // USERS
+    lines: {
+      view: false,
+      create_edit: false,
+      delete: false,
+      agencies: [],
     },
     // ALERTS
     alerts_view: false,

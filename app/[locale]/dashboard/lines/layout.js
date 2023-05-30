@@ -59,7 +59,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate permission='lines_view' redirect>
+    <AuthGate scope='lines' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -74,12 +74,12 @@ export default function Layout({ children }) {
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Label>Importar</Menu.Label>
-                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
-                      {t('operations.create.title')}
-                    </Menu.Item>
-                    <Menu.Label>Exportar</Menu.Label>
-                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download line.txt</Menu.Item>
+                    <AuthGate scope='lines' permission='create_edit'>
+                      <Menu.Label>Importar</Menu.Label>
+                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
+                        {t('operations.create.title')}
+                      </Menu.Item>
+                    </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
               </>
@@ -87,11 +87,7 @@ export default function Layout({ children }) {
             footer={linesData && <ListFooter>{t('list.footer', { count: linesData.length })}</ListFooter>}
           >
             <ErrorDisplay error={linesError} loading={linesValidating} />
-            {linesData && linesData.length > 0 ? (
-              linesData.map((item) => <ListItem key={item._id} _id={item._id} line_short_name={item.line_short_name} line_long_name={item.line_long_name} line_color={item.line_color} line_text_color={item.line_tex} />)
-            ) : (
-              <NoDataLabel />
-            )}
+            {linesData && linesData.length > 0 ? linesData.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} long_name={item.long_name} color={item.color} text_color={item.text_color} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

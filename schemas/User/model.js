@@ -38,9 +38,6 @@ export const Schema = new mongoose.Schema(
         delete: {
           type: Boolean,
         },
-        export: {
-          type: Boolean,
-        },
       },
       //
       // EXPORT
@@ -76,6 +73,25 @@ export const Schema = new mongoose.Schema(
         export: {
           type: Boolean,
         },
+      },
+      //
+      // LINES
+      lines: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
+        agencies: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Agency',
+          },
+        ],
       },
       //
       // ALERTS
@@ -131,20 +147,6 @@ export const Schema = new mongoose.Schema(
         type: Boolean,
       },
       fares_delete: {
-        type: Boolean,
-      },
-      //
-      // LINES
-      lines_view: {
-        type: Boolean,
-      },
-      lines_create: {
-        type: Boolean,
-      },
-      lines_edit: {
-        type: Boolean,
-      },
-      lines_delete: {
         type: Boolean,
       },
       //

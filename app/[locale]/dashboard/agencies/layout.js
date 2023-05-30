@@ -80,10 +80,6 @@ export default function Layout({ children }) {
                         {t('operations.create.title')}
                       </Menu.Item>
                     </AuthGate>
-                    <AuthGate scope='agencies' permission='export'>
-                      <Menu.Label>Exportar</Menu.Label>
-                      <Menu.Item icon={<IconArrowBarToDown size='20px' />}>{t('operations.export.title')}</Menu.Item>
-                    </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
               </>

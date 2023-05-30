@@ -2,7 +2,7 @@ import { useRouter, useParams } from 'next/navigation';
 import BaseListItem from '../../../../components/BaseListItem/BaseListItem';
 import LineDisplay from '../../../../components/LineDisplay/LineDisplay';
 
-export default function ListItem({ _id, line_short_name, line_long_name, line_color, line_text_color }) {
+export default function ListItem({ _id, short_name, long_name, color, text_color }) {
   //
 
   const router = useRouter();
@@ -14,7 +14,7 @@ export default function ListItem({ _id, line_short_name, line_long_name, line_co
 
   return (
     <BaseListItem onClick={handleClick} isSelected={line_id === _id} withChevron>
-      <LineDisplay short_name={line_short_name} long_name={line_long_name} color={line_color} text_color={line_text_color} />
+      <LineDisplay short_name={short_name} long_name={long_name} color={color} text_color={text_color} />
     </BaseListItem>
   );
 }

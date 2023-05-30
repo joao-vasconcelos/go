@@ -36,6 +36,10 @@ export const Schema = new mongoose.Schema(
     school: {
       type: Boolean,
     },
+    fare: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Fare',
+    },
     agencies: [
       {
         type: mongoose.Schema.Types.ObjectId,
