@@ -45,37 +45,37 @@
             }
         },
         "form": {
-            "agency_name": {
+            "name": {
                 "label": "Agency Name",
                 "placeholder": "A.C.M.E Transportation"
             },
-            "agency_code": {
+            "code": {
                 "label": "Agency Code",
                 "placeholder": "41"
             },
-            "agency_lang": {
+            "lang": {
                 "label": "Primary Agency Language",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
-            "agency_timezone": {
+            "timezone": {
                 "label": "Timezone",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
-            "agency_phone": {
+            "phone": {
                 "label": "Public Phone Number",
                 "placeholder": "+351 213 456 789"
             },
-            "agency_email": {
+            "email": {
                 "label": "Public Email Address",
                 "placeholder": "contact@agency.com"
             },
-            "agency_url": {
+            "url": {
                 "label": "Public Website URL",
                 "placeholder": "https://agency.com"
             },
-            "agency_fare_url": {
+            "fare_url": {
                 "label": "Website for Fares Information",
                 "placeholder": "https://agency.com/fares"
             }
@@ -276,12 +276,6 @@
                 "loading": "Deleting Line...",
                 "success": "Line was deleted.",
                 "error": "An error occurred while deleting this Line."
-            },
-            "add_route": {
-                "title": "Create New Route",
-                "loading": "Creating new Route...",
-                "success": "A new Route was created!",
-                "error": "An error occurred while creating this Route."
             }
         },
         "sections": {
@@ -295,22 +289,43 @@
             }
         },
         "form": {
-            "line_code": {
+            "code": {
                 "label": "Line Code",
                 "placeholder": "1234"
             },
-            "line_short_name": {
+            "short_name": {
                 "label": "Line Short Name",
                 "placeholder": "1234"
             },
-            "line_long_name": {
+            "long_name": {
                 "label": "Line Long Name",
                 "placeholder": "T1"
+            },
+            "color": {
+                "label": "Line Color",
+                "placeholder": "#ED1A44"
+            },
+            "text_color": {
+                "label": "Line Text Color",
+                "placeholder": "#FFFFFF"
+            },
+            "fare": {
+                "label": "Fare Rule for this Line",
+                "placeholder": "Choose Fare...",
+                "nothingFound": "No Results Found"
             },
             "agencies": {
                 "label": "Valid on these Agencies",
                 "placeholder": "Choose Agencies...",
                 "nothingFound": "No Results Found"
+            },
+            "routes": {
+                "create": {
+                    "title": "Create New Route",
+                    "loading": "Creating new Route...",
+                    "success": "A new Route was created!",
+                    "error": "An error occurred while creating this Route."
+                }
             }
         }
     },
@@ -918,10 +933,6 @@
             "config": {
                 "title": "User Details",
                 "description": "About this section"
-            },
-            "scopes": {
-                "title": "Scopes for this user",
-                "description": "About this section"
             }
         },
         "form": {
@@ -961,10 +972,6 @@
                     },
                     "delete": {
                         "label": "Delete Agencies",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "export": {
-                        "label": "Export Agencies",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
@@ -1009,6 +1016,27 @@
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
+                "lines": {
+                    "title": "Lines, Routes & Patterns",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Lines, Routes & Patterns",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Lines, Routes & Patterns",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Lines, Routes & Patterns",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "agencies": {
+                        "label": "Can Edit and/or Delete Lines, Routes & Patterns from these Agencies",
+                        "placeholder": "Choose an option...",
+                        "nothingFound": "No Results Found"
+                    }
+                },
                 "alerts": {
                     "view": "View Alerts",
                     "create": "Create Alerts",
@@ -1033,12 +1061,6 @@
                     "create": "Create Fares",
                     "edit": "Edit Fares",
                     "delete": "Delete Fares"
-                },
-                "lines": {
-                    "view": "View Lines",
-                    "create": "Create Lines",
-                    "edit": "Edit Lines",
-                    "delete": "Delete Lines"
                 },
                 "municipalities": {
                     "view": "View Municipalities",
