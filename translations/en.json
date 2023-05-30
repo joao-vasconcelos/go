@@ -1062,6 +1062,31 @@
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
+                "stops": {
+                    "title": "Stops",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "propose": {
+                        "label": "Propose Changes to Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "municipalities": {
+                        "label": "Can Edit / Delete / Suggest Stops from these Municipalities",
+                        "placeholder": "Choose an option...",
+                        "nothingFound": "No Results Found"
+                    }
+                },
                 "alerts": {
                     "view": "View Alerts",
                     "create": "Create Alerts",
@@ -1092,12 +1117,6 @@
                     "create": "Create Shapes",
                     "edit": "Edit Shapes",
                     "delete": "Delete Shapes"
-                },
-                "stops": {
-                    "view": "View Stops",
-                    "create": "Create Stops",
-                    "edit": "Edit Stops",
-                    "delete": "Delete Stops"
                 },
                 "threads": {
                     "view": "View Threads",

@@ -45,6 +45,14 @@ export const Default = {
       create_edit: false,
       delete: false,
     },
+    // STOPS
+    stops: {
+      view: false,
+      create_edit: false,
+      propose: false,
+      delete: false,
+      municipalities: [],
+    },
 
     // ALERTS
     alerts_view: false,
@@ -71,11 +79,6 @@ export const Default = {
     shapes_create: false,
     shapes_edit: false,
     shapes_delete: false,
-    // STOPS
-    stops_view: false,
-    stops_create: false,
-    stops_edit: false,
-    stops_delete: false,
     // THREADS
     threads_view: false,
     threads_create: false,

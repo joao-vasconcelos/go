@@ -73,6 +73,14 @@ export default function Page() {
       : [];
   }, [agenciesData]);
 
+  const municipalitiesFormattedForSelect = useMemo(() => {
+    return municipalitiesData
+      ? municipalitiesData.map((item) => {
+          return { value: item._id, label: item.name || '-' };
+        })
+      : [];
+  }, [municipalitiesData]);
+
   //
   // D. Handle actions
 
@@ -344,6 +352,54 @@ export default function Page() {
         <Divider />
 
         <Section>
+          <div>
+            <Text size='h2'>{t('form.permissions.stops.title')}</Text>
+            <Text size='h4'>{t('form.permissions.stops.description')}</Text>
+          </div>
+          <SimpleGrid cols={4} mt='md'>
+            <Switch label={t('form.permissions.stops.view.label')} description={t('form.permissions.stops.view.description')} size='md' {...form.getInputProps('permissions.stops.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch
+              size='md'
+              label={t('form.permissions.stops.create_edit.label')}
+              description={t('form.permissions.stops.create_edit.description')}
+              {...form.getInputProps('permissions.stops.create_edit', { type: 'checkbox' })}
+              disabled={!form.values.permissions.stops.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.stops.propose.label')}
+              description={t('form.permissions.stops.propose.description')}
+              {...form.getInputProps('permissions.stops.propose', { type: 'checkbox' })}
+              disabled={!form.values.permissions.stops.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.stops.delete.label')}
+              description={t('form.permissions.stops.delete.description')}
+              {...form.getInputProps('permissions.stops.delete', { type: 'checkbox' })}
+              disabled={!form.values.permissions.stops.view}
+              readOnly={isReadOnly}
+            />
+          </SimpleGrid>
+          <SimpleGrid cols={1} mt='md'>
+            <MultiSelect
+              label={t('form.permissions.stops.municipalities.label')}
+              placeholder={t('form.permissions.stops.municipalities.placeholder')}
+              nothingFound={t('form.permissions.stops.municipalities.nothingFound')}
+              {...form.getInputProps('permissions.stops.municipalities')}
+              data={municipalitiesFormattedForSelect}
+              disabled={!form.values.permissions.stops.view}
+              readOnly={isReadOnly}
+              searchable
+            />
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
           <Divider />
           <SimpleGrid cols={4}>
             <Switch label={t('form.permissions.alerts.view')} size='md' {...form.getInputProps('permissions.alerts_view', { type: 'checkbox' })} />
@@ -378,13 +434,6 @@ export default function Page() {
             <Switch label={t('form.permissions.shapes.edit')} size='md' {...form.getInputProps('permissions.shapes_edit', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.shapes.create')} size='md' {...form.getInputProps('permissions.shapes_create', { type: 'checkbox' })} />
             <Switch label={t('form.permissions.shapes.delete')} size='md' {...form.getInputProps('permissions.shapes_delete', { type: 'checkbox' })} />
-          </SimpleGrid>
-          <Divider />
-          <SimpleGrid cols={4}>
-            <Switch label={t('form.permissions.stops.view')} size='md' {...form.getInputProps('permissions.stops_view', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.stops.edit')} size='md' {...form.getInputProps('permissions.stops_edit', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.stops.create')} size='md' {...form.getInputProps('permissions.stops_create', { type: 'checkbox' })} />
-            <Switch label={t('form.permissions.stops.delete')} size='md' {...form.getInputProps('permissions.stops_delete', { type: 'checkbox' })} />
           </SimpleGrid>
           <Divider />
           <SimpleGrid cols={4}>

@@ -107,6 +107,28 @@ export const Schema = new mongoose.Schema(
         },
       },
       //
+      // STOPS
+      stops: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        propose: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
+        municipalities: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Municipality',
+          },
+        ],
+      },
+      //
       // ALERTS
       alerts_view: {
         type: Boolean,
@@ -174,20 +196,6 @@ export const Schema = new mongoose.Schema(
         type: Boolean,
       },
       shapes_delete: {
-        type: Boolean,
-      },
-      //
-      // STOPS
-      stops_view: {
-        type: Boolean,
-      },
-      stops_create: {
-        type: Boolean,
-      },
-      stops_edit: {
-        type: Boolean,
-      },
-      stops_delete: {
         type: Boolean,
       },
       //
