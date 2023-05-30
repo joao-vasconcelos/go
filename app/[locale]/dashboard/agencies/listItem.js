@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import BaseListItem from '../../../../components/BaseListItem/BaseListItem';
 import Text from '../../../../components/Text/Text';
 
-export default function ListItem({ _id, agency_name }) {
+export default function ListItem({ _id, name }) {
   //
 
   const router = useRouter();
@@ -16,8 +16,8 @@ export default function ListItem({ _id, agency_name }) {
 
   return (
     <BaseListItem onClick={handleClick} isSelected={agency_id === _id} withChevron>
-      <Text size='title' style={!agency_name && 'untitled'}>
-        {agency_name || t('untitled')}
+      <Text size='title' style={!name && 'untitled'}>
+        {name || t('untitled')}
       </Text>
     </BaseListItem>
   );

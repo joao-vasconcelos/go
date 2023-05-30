@@ -123,8 +123,8 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Text size='h1' style={!form.values.agency_name && 'untitled'} full>
-            {form.values.agency_name || t('untitled')}
+          <Text size='h1' style={!form.values.name && 'untitled'} full>
+            {form.values.name || t('untitled')}
           </Text>
           <AuthGate permission='agencies_delete'>
             <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
@@ -140,36 +140,28 @@ export default function Page() {
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={1}>
-            <TextInput label={t('form.agency_name.label')} placeholder={t('form.agency_name.placeholder')} {...form.getInputProps('agency_name')} readOnly={isReadOnly} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={3}>
-            <TextInput label={t('form.agency_code.label')} placeholder={t('form.agency_code.placeholder')} {...form.getInputProps('agency_code')} readOnly={isReadOnly} />
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
             <Select
-              label={t('form.agency_lang.label')}
-              placeholder={t('form.agency_lang.placeholder')}
-              nothingFound={t('form.agency_lang.nothingFound')}
+              label={t('form.lang.label')}
+              placeholder={t('form.lang.placeholder')}
+              nothingFound={t('form.lang.nothingFound')}
               data={[{ value: 'pt', label: 'Português (Portugal)' }]}
-              {...form.getInputProps('agency_lang')}
+              {...form.getInputProps('lang')}
               searchable
               readOnly={isReadOnly}
             />
-            <Select
-              label={t('form.agency_timezone.label')}
-              placeholder={t('form.agency_timezone.placeholder')}
-              nothingFound={t('form.agency_timezone.nothingFound')}
-              data={['Europe/Lisbon']}
-              {...form.getInputProps('agency_timezone')}
-              searchable
-              readOnly={isReadOnly}
-            />
+            <Select label={t('form.timezone.label')} placeholder={t('form.timezone.placeholder')} nothingFound={t('form.timezone.nothingFound')} data={['Europe/Lisbon']} {...form.getInputProps('timezone')} searchable readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput label={t('form.agency_phone.label')} placeholder={t('form.agency_phone.placeholder')} {...form.getInputProps('agency_phone')} readOnly={isReadOnly} />
-            <TextInput label={t('form.agency_email.label')} placeholder={t('form.agency_email.placeholder')} {...form.getInputProps('agency_email')} readOnly={isReadOnly} />
+            <TextInput label={t('form.phone.label')} placeholder={t('form.phone.placeholder')} {...form.getInputProps('phone')} readOnly={isReadOnly} />
+            <TextInput label={t('form.email.label')} placeholder={t('form.email.placeholder')} {...form.getInputProps('email')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput label={t('form.agency_url.label')} placeholder={t('form.agency_url.placeholder')} {...form.getInputProps('agency_url')} readOnly={isReadOnly} />
-            <TextInput label={t('form.agency_fare_url.label')} placeholder={t('form.agency_fare_url.placeholder')} {...form.getInputProps('agency_fare_url')} readOnly={isReadOnly} />
+            <TextInput label={t('form.url.label')} placeholder={t('form.url.placeholder')} {...form.getInputProps('url')} readOnly={isReadOnly} />
+            <TextInput label={t('form.fare_url.label')} placeholder={t('form.fare_url.placeholder')} {...form.getInputProps('fare_url')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
       </form>

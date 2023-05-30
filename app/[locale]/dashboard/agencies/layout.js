@@ -59,7 +59,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate permission='agencies_view' redirect>
+    <AuthGate scope='agencies' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -74,14 +74,16 @@ export default function Layout({ children }) {
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <AuthGate permission='agencies_create'>
+                    <AuthGate scope='agencies' permission='create_edit'>
                       <Menu.Label>Importar</Menu.Label>
                       <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
                     </AuthGate>
-                    <Menu.Label>Exportar</Menu.Label>
-                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
+                    <AuthGate scope='agencies' permission='export'>
+                      <Menu.Label>Exportar</Menu.Label>
+                      <Menu.Item icon={<IconArrowBarToDown size='20px' />}>{t('operations.export.title')}</Menu.Item>
+                    </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
               </>
@@ -89,7 +91,7 @@ export default function Layout({ children }) {
             footer={agenciesData && <ListFooter>{t('list.footer', { count: agenciesData.length })}</ListFooter>}
           >
             <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
-            {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_name={item.agency_name} />) : <NoDataLabel />}
+            {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}
