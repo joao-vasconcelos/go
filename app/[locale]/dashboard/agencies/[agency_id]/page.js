@@ -30,7 +30,7 @@ export default function Page() {
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const { data: session } = useSession();
-  const isReadOnly = !isAllowed(session, 'agencies_edit');
+  const isReadOnly = !isAllowed(session, 'agencies', 'create_edit');
 
   const { agency_id } = useParams();
 
@@ -126,7 +126,7 @@ export default function Page() {
           <Text size='h1' style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
-          <AuthGate permission='agencies_delete'>
+          <AuthGate scope='agencies' permission='delete'>
             <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
               <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
                 <IconTrash size='20px' />

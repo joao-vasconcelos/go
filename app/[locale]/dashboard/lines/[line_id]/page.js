@@ -19,6 +19,8 @@ import { openConfirmModal } from '@mantine/modals';
 import LineDisplay from '../../../../../components/LineDisplay/LineDisplay';
 import RouteCard from '../../../../../components/RouteCard/RouteCard';
 import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -30,8 +32,9 @@ export default function Page() {
   const t = useTranslations('lines');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
-
   const [isCreatingRoute, setIsCreatingRoute] = useState(false);
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
   const { line_id } = useParams();
 
@@ -142,7 +145,7 @@ export default function Page() {
   };
 
   const handleRoutesReorder = async ({ destination, source }) => {
-    if (!source || !destination) return;
+    if (!source || !destination || isReadOnly) return;
     form.reorderListItem('routes', { from: source.index, to: destination.index });
   };
 
@@ -175,11 +178,13 @@ export default function Page() {
               <IconExternalLink size='20px' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <AuthGate scope='lines' permission='delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
@@ -188,20 +193,29 @@ export default function Page() {
           <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
             <SimpleGrid cols={2}>
-              <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} />
-              <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} />
+              <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+              <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} readOnly={isReadOnly} />
             </SimpleGrid>
-            <TextInput label={t('form.long_name.label')} placeholder={t('form.long_name.placeholder')} {...form.getInputProps('long_name')} />
+            <TextInput label={t('form.long_name.label')} placeholder={t('form.long_name.placeholder')} {...form.getInputProps('long_name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <ColorInput label={t('form.color.label')} placeholder={t('form.color.placeholder')} {...form.getInputProps('color')} />
-            <ColorInput label={t('form.text_color.label')} placeholder={t('form.text_color.placeholder')} {...form.getInputProps('text_color')} />
+            <ColorInput label={t('form.color.label')} placeholder={t('form.color.placeholder')} {...form.getInputProps('color')} readOnly={isReadOnly} />
+            <ColorInput label={t('form.text_color.label')} placeholder={t('form.text_color.placeholder')} {...form.getInputProps('text_color')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFound={t('form.fare.nothingFound')} data={faresFormattedForSelect} searchable />
+            <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFound={t('form.fare.nothingFound')} {...form.getInputProps('fare')} data={faresFormattedForSelect} readOnly={isReadOnly} searchable />
           </SimpleGrid>
           <SimpleGrid cols={1}>
-            <MultiSelect label={t('form.agencies.label')} placeholder={t('form.agencies.placeholder')} nothingFound={t('form.agencies.nothingFound')} data={agenciesFormattedForSelect} searchable />
+            <MultiSelect
+              label={t('form.agencies.label')}
+              description={t('form.agencies.description')}
+              placeholder={t('form.agencies.placeholder')}
+              nothingFound={t('form.agencies.nothingFound')}
+              {...form.getInputProps('agencies')}
+              data={agenciesFormattedForSelect}
+              readOnly={isReadOnly}
+              searchable
+            />
           </SimpleGrid>
         </Section>
         <Divider />
@@ -219,9 +233,11 @@ export default function Page() {
               )}
             </Droppable>
           </DragDropContext>
-          <Button onClick={handleAddRoute} loading={isCreatingRoute}>
-            {t('form.routes.create.title')}
-          </Button>
+          <AuthGate scope='lines' permission='create_edit'>
+            <Button onClick={handleAddRoute} loading={isCreatingRoute}>
+              {t('form.routes.create.title')}
+            </Button>
+          </AuthGate>
         </Section>
       </form>
     </Pannel>

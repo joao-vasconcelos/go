@@ -315,7 +315,8 @@
                 "nothingFound": "No Results Found"
             },
             "agencies": {
-                "label": "Valid on these Agencies",
+                "label": "Operate by this Agencies",
+                "description": "Please avoid choosing more than one operator as this may cause a lot of confusion.",
                 "placeholder": "Choose Agencies...",
                 "nothingFound": "No Results Found"
             },
