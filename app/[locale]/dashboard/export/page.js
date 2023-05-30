@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '../../../../components/AuthGate/AuthGate';
 import { IconArrowBigDownLinesFilled } from '@tabler/icons-react';
-import { SimpleGrid, TextInput, Select, Button } from '@mantine/core';
+import { SimpleGrid, TextInput, Select, MultiSelect, Button, Divider } from '@mantine/core';
 import { Section } from '../../../../components/Layouts/Layouts';
 import { useState, useMemo } from 'react';
 
@@ -20,24 +20,34 @@ export default function Page() {
 
   const t = useTranslations('export');
   const { data: session } = useSession();
-  const [selectedAgencyId, setSelectedAgencyId] = useState('');
+  const [selectedAgencyId, setSelectedAgencyId] = useState();
+  const [selectedLineIds, setSelectedLineIds] = useState([]);
   const [isExportingV18, setIsExportingV18] = useState(false);
 
   //
   // B. Fetch data
 
   const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading } = useSWR('/api/agencies');
+  const { data: linesData, error: linesError, isLoading: linesLoading } = useSWR('/api/lines');
 
   //
   // B. Format data
 
   const agenciesFormattedForSelect = useMemo(() => {
-    return agenciesData
-      ? agenciesData.map((item) => {
-          return { value: item._id, label: item.agency_name || '-' };
-        })
-      : [];
+    if (!agenciesData) return [];
+    return agenciesData.map((item) => {
+      return { value: item._id, label: item.name || '-' };
+    });
   }, [agenciesData]);
+
+  const linesFormattedForSelect = useMemo(() => {
+    if (!linesData) return [];
+    let filteredLineBySelectedAgency = linesData;
+    if (selectedAgencyId) filteredLineBySelectedAgency = linesData.filter((item) => item.agencies.includes(selectedAgencyId));
+    return filteredLineBySelectedAgency.map((item) => {
+      return { value: item._id, label: `(${item.short_name}) ${item.long_name}` };
+    });
+  }, [linesData, selectedAgencyId]);
 
   //
   // D. Handle actions
@@ -72,46 +82,60 @@ export default function Page() {
     <ThreeEvenColumns
       first={
         <Pannel
+          loading={isExportingV18}
           header={
             <>
-              <IconArrowBigDownLinesFilled size='20px' />
-              <Text size='h1' full>
+              <IconArrowBigDownLinesFilled size='22px' />
+              <Text size='h2' full>
                 {t('gtfs_v18.title')}
               </Text>
             </>
           }
         >
           <Section>
-            <Text size='h2'>{t('gtfs_v18.title')}</Text>
+            <div>
+              <Text size='h2'>{t('gtfs_v18.sections.intro.title')}</Text>
+              <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
+            </div>
+          </Section>
+          <Divider />
+          <Section>
             <Select
-              label={t('gtfs_v18.agencies.label')}
-              placeholder={t('gtfs_v18.agencies.placeholder')}
-              nothingFound={t('gtfs_v18.agencies.nothingFound')}
+              label={t('gtfs_v18.form.agencies.label')}
+              placeholder={t('gtfs_v18.form.agencies.placeholder')}
+              description={t('gtfs_v18.form.agencies.description')}
+              nothingFound={t('gtfs_v18.form.agencies.nothingFound')}
               data={agenciesFormattedForSelect}
               value={selectedAgencyId}
               onChange={setSelectedAgencyId}
               searchable
+              clearable
             />
+            <MultiSelect
+              label={t('gtfs_v18.form.lines.label')}
+              placeholder={t('gtfs_v18.form.lines.placeholder')}
+              description={t('gtfs_v18.form.lines.description')}
+              nothingFound={t('gtfs_v18.form.lines.nothingFound')}
+              data={linesFormattedForSelect}
+              value={selectedLineIds}
+              onChange={setSelectedLineIds}
+              disabled={!selectedAgencyId}
+              searchable
+              clearable
+            />
+          </Section>
+          <Divider />
+          <Section>
             <SimpleGrid cols={1}>
-              <Button onClick={handleExportGTFSv18} loading={isExportingV18}>
-                Start Export V18
+              <Button onClick={handleExportGTFSv18} loading={isExportingV18} disabled={!selectedAgencyId}>
+                {t('gtfs_v18.operations.start.label')}
               </Button>
+              <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
             </SimpleGrid>
           </Section>
         </Pannel>
       }
-      second={
-        <Pannel
-          header={
-            <>
-              <IconArrowBigDownLinesFilled size='20px' />
-              <Text size='h1' full>
-                {t('gtfs_v29.title')}
-              </Text>
-            </>
-          }
-        ></Pannel>
-      }
+      second={<Pannel></Pannel>}
       third={<Pannel></Pannel>}
     />
   );

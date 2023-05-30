@@ -78,11 +78,11 @@ export default async function exportGTFSv18(req, res) {
           populate: [
             {
               path: 'shape',
-              select: 'shape_code',
+              select: 'code',
             },
             {
-              path: 'path.stop_id',
-              select: 'stop_code',
+              path: 'path.stop',
+              select: 'code',
             },
             {
               path: 'schedules.calendars_on',
@@ -163,20 +163,20 @@ export default async function exportGTFSv18(req, res) {
               // Build the trip_id based on the route_code, direction, calendar_code and start_time of this schedule
               // Remove the : from this schedules start_time to use it as the
               const startTimeStripped = scheduleData.start_time.split(':').join('');
-              const thisTripId = `${routeData.route_code}_${patternData.direction_code}_${calendarData.code}_${startTimeStripped}`;
+              const thisTripId = `${routeData.code}_${patternData.direction}_${calendarData.code}_${startTimeStripped}`;
 
               // 4.5.2.3.4.3.2.
               // Write the .txt entry for this trip
               writeCsvToFile('trips.txt', {
-                route_id: routeData.route_code,
-                pattern_id: patternData.pattern_code,
+                route_id: routeData.code,
+                pattern_id: patternData.code,
                 pattern_short_name: patternData.headsign,
                 service_id: calendarData.code,
                 calendar_desc: calendarData.description,
                 trip_id: thisTripId,
                 trip_headsign: patternData.headsign,
-                direction_id: patternData.direction_code,
-                shape_id: patternData.shape.shape_code,
+                direction_id: patternData.direction,
+                shape_id: patternData.shape.code,
               });
 
               // 4.5.2.3.4.3.3.
@@ -198,7 +198,7 @@ export default async function exportGTFSv18(req, res) {
 
                 // 4.5.2.3.4.2.
                 // Append the stop_id of this path sequence to the scoped referenced stop IDs array
-                referencedStopIds.push(pathData.stop_id._id);
+                referencedStopIds.push(pathData.stop._id);
 
                 // 4.5.2.3.4.3.5.1.
                 // Increment the arrival_time for this stop with the travel time for this path segment
@@ -221,7 +221,7 @@ export default async function exportGTFSv18(req, res) {
                   trip_id: thisTripId,
                   arrival_time: currentTripTime,
                   departure_time: thisStopDepartureTime,
-                  stop_id: pathData.stop_id.stop_code,
+                  stop_id: pathData.stop.code,
                   stop_sequence: pathIndex,
                   pickup_type: pathData.allow_pickup ? 0 : 1,
                   drop_off_type: pathData.allow_drop_off ? 0 : 1,
@@ -297,14 +297,14 @@ export default async function exportGTFSv18(req, res) {
 /* Build an agency object entry */
 function parseAgency(agency) {
   return {
-    agency_id: agency.agency_code,
-    agency_name: agency.agency_name,
-    agency_url: agency.agency_url || 'https://www.carrismetropolitana.pt',
-    agency_timezone: agency.agency_timezone,
-    agency_lang: agency.agency_lang,
-    agency_phone: agency.agency_phone,
-    agency_fare_url: agency.agency_fare_url,
-    agency_email: agency.agency_email,
+    agency_id: agency.code,
+    agency_name: agency.name,
+    agency_url: agency.url || 'https://www.carrismetropolitana.pt',
+    agency_timezone: agency.timezone,
+    agency_lang: agency.lang,
+    agency_phone: agency.phone,
+    agency_fare_url: agency.fare_url,
+    agency_email: agency.email,
   };
 }
 
@@ -323,22 +323,22 @@ function parseAgency(agency) {
 /* Build a route object entry */
 function parseRoute(agency, line, route) {
   return {
-    line_id: line.line_code,
-    line_short_name: line.line_short_name,
-    line_long_name: line.line_long_name,
+    line_id: line.code,
+    line_short_name: line.short_name,
+    line_long_name: line.long_name,
     line_type: 0,
-    route_id: route.route_code,
-    agency_id: agency.agency_code,
-    route_origin: 'line.route_origin',
-    route_destination: 'line.route_destination',
-    route_short_name: line.line_short_name,
-    route_long_name: route.route_name,
+    route_id: route.code,
+    agency_id: agency.code,
+    route_origin: 'line.origin',
+    route_destination: 'line.destination',
+    route_short_name: line.short_name,
+    route_long_name: route.name,
     route_type: 3,
     path_type: 1,
     circular: line.circular ? 1 : 0,
     school: 0,
-    route_color: line.line_color.slice(1),
-    route_text_color: line.line_text_color.slice(1),
+    route_color: line.color.slice(1),
+    route_text_color: line.text_color.slice(1),
   };
 }
 
@@ -360,7 +360,7 @@ function parseShape(shape) {
   const parsedShape = [];
   for (const shapePoint of shape.points) {
     parsedShape.push({
-      shape_id: shape.shape_code,
+      shape_id: shape.code,
       shape_pt_lat: shapePoint.shape_pt_lat,
       shape_pt_lon: shapePoint.shape_pt_lon,
       shape_pt_sequence: shapePoint.shape_pt_sequence,
@@ -415,14 +415,14 @@ function parseCalendar(calendar) {
 /* Build a trip object entry */
 function parseStop(stop) {
   return {
-    stop_id: stop.stop_code,
+    stop_id: stop.code,
     stop_id_stepp: '',
-    stop_code: stop.stop_code,
-    stop_name: stop.stop_name,
+    stop_code: stop.code,
+    stop_name: stop.name,
     stop_desc: '',
     stop_remarks: '',
-    stop_lat: stop.stop_lat,
-    stop_lon: stop.stop_lon,
+    stop_lat: stop.latitude,
+    stop_lon: stop.longitude,
     zone_id: '',
     zone_shift: '',
     stop_url: '',
