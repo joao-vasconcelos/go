@@ -152,7 +152,7 @@ export default function Page() {
               placeholder={t('form.currency_type.placeholder')}
               nothingFound={t('form.currency_type.nothingFound')}
               {...form.getInputProps('currency_type')}
-              data={[{ value: 'EUR', label: 'Euro' }]}
+              data={[{ value: 'EUR', label: t('form.currency_type.options.EUR') }]}
               readOnly={isReadOnly}
               searchable
             />
@@ -164,8 +164,8 @@ export default function Page() {
               nothingFound={t('form.payment_method.nothingFound')}
               {...form.getInputProps('payment_method')}
               data={[
-                { value: '0', label: 'Pagamento a Bordo (navegante® a bordo)' },
-                { value: '1', label: 'Pré-pagamento (navegante® pré-pago, navegante®)' },
+                { value: '0', label: t('form.payment_method.options.0') },
+                { value: '1', label: t('form.payment_method.options.1') },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -176,10 +176,10 @@ export default function Page() {
               nothingFound={t('form.transfers.nothingFound')}
               {...form.getInputProps('transfers')}
               data={[
-                { value: '0', label: 'Não, não são permitidos transbordos.' },
-                { value: '1', label: 'Sim, é permitido apenas 1 transbordo.' },
-                { value: '2', label: 'Sim, são permitidos apenas 2 transbordos.' },
-                { value: '', label: 'Sim, são permitidos transbordos ilimitados.' },
+                { value: '0', label: t('form.transfers.options.0') },
+                { value: '1', label: t('form.transfers.options.1') },
+                { value: '2', label: t('form.transfers.options.2') },
+                { value: 'unlimited', label: t('form.transfers.options.unlimited') },
               ]}
               readOnly={isReadOnly}
               searchable

@@ -234,17 +234,30 @@
             "currency_type": {
                 "label": "Currency",
                 "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "nothingFound": "No Results Found",
+                "options": {
+                    "EUR": "Euro"
+                }
             },
             "payment_method": {
                 "label": "Payment Method",
                 "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "nothingFound": "No Results Found",
+                "options": {
+                    "0": "Pay to the Driver (navegante® a bordo)",
+                    "1": "Pay before boarding (navegante® pré-pago, navegante®)"
+                }
             },
             "transfers": {
                 "label": "Allow Transfers",
                 "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "nothingFound": "No Results Found",
+                "options": {
+                    "0": "Transfers are not allowed",
+                    "1": "Only 1 transfer is allowed",
+                    "2": "Up to 2 transfers are allowed",
+                    "unlimited": "Unlimited transfers are allowed"
+                }
             }
         }
     },
