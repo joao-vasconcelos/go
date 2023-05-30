@@ -63,7 +63,7 @@ export default function Page() {
   };
 
   //
-  // D. Handle actions
+  // D. Format data
 
   const agenciesFormattedForSelect = useMemo(() => {
     return agenciesData
