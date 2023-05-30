@@ -45,7 +45,7 @@ export default async function importPatterns(req, res) {
       for (const direction of routeInfo.directions) {
         //
 
-        const shapeId = await ShapeModel.findOne({ code: direction.shape[0].shape_id });
+        const shapeId = await ShapeModel.findOne({ name: direction.shape[0].shape_id, code: direction.shape[0].shape_id });
         console.log('Shape_id', direction.shape[0].shape_id);
 
         // Manage Path
@@ -83,7 +83,7 @@ export default async function importPatterns(req, res) {
           });
 
           if (!matchingCalendar || matchingCalendar.length === 0) {
-            matchingCalendar = await CalendarModel({ ...CalendarDefault, code: trip.service_id, dates: trip.dates }).save();
+            matchingCalendar = await CalendarModel({ ...CalendarDefault, name: trip.service_id, code: trip.service_id, dates: trip.dates }).save();
             console.log('Created Calendar:', matchingCalendar.code);
           } else console.log('Used existing Calendar:', matchingCalendar.code);
 
