@@ -166,29 +166,6 @@ export default function Page() {
             <TextInput label={t('form.phone.label')} placeholder={t('form.phone.placeholder')} {...form.getInputProps('phone')} />
           </SimpleGrid>
         </Section>
-        <Divider />
-        <Section>
-          <div>
-            <Text size='h2'>{t('sections.scopes.title')}</Text>
-            <Text size='h4'>{t('sections.scopes.description')}</Text>
-          </div>
-          <SimpleGrid cols={2}>
-            <MultiSelect
-              label={t('form.municipalities.label')}
-              placeholder={t('form.municipalities.placeholder')}
-              nothingFound={t('form.municipalities.nothingFound')}
-              data={
-                municipalitiesData
-                  ? municipalitiesData.map((item) => {
-                      return { value: item._id, label: item.name || '-' };
-                    })
-                  : []
-              }
-              {...form.getInputProps('municipalities')}
-              searchable
-            />
-          </SimpleGrid>
-        </Section>
 
         <Divider />
 

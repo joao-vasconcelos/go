@@ -918,10 +918,6 @@
             "config": {
                 "title": "User Details",
                 "description": "About this section"
-            },
-            "scopes": {
-                "title": "Scopes for this user",
-                "description": "About this section"
             }
         },
         "form": {

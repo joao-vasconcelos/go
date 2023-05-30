@@ -10,9 +10,7 @@ import AuthGate, { isAllowed } from '../../../../components/AuthGate/AuthGate';
 import { IconArrowBigDownLinesFilled } from '@tabler/icons-react';
 import { SimpleGrid, TextInput, Select, Button } from '@mantine/core';
 import { Section } from '../../../../components/Layouts/Layouts';
-import exportGTFSv18 from '../../../../services/exportGTFSv18';
 import { useState, useMemo } from 'react';
-import API from '../../../../services/API';
 
 export default function Page() {
   //
