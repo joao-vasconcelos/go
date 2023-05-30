@@ -111,14 +111,14 @@ export default function Page() {
 
   const handlePlayPhoneticName = async () => {
     const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(form.values.tts_stop_name || '');
+    const utterance = new SpeechSynthesisUtterance(form.values.tts_name || '');
     utterance.lang = 'pt';
     synth.speak(utterance);
   };
 
   const handleOpenInGoogleMaps = () => {
     const zoom = 19;
-    window.open(`https://www.google.com/maps/@${form.values.stop_lat},${form.values.stop_lon},${zoom}z`, '_blank', 'noopener,noreferrer');
+    window.open(`https://www.google.com/maps/@${form.values.latitude},${form.values.longitude},${zoom}z`, '_blank', 'noopener,noreferrer');
   };
 
   const handleMapClick = (event) => {
@@ -145,17 +145,17 @@ export default function Page() {
     };
 
     // Loop through each stop in the collection and setup the feature to the GeoJSON object.
-    if (stopData) {
+    if (stopData && stopData.latitude && stopData.longitude) {
       geoJSON.geometry = {
         type: 'Point',
-        coordinates: [parseFloat(stopData.stop_lon), parseFloat(stopData.stop_lat)],
+        coordinates: [parseFloat(stopData.longitude), parseFloat(stopData.latitude)],
       };
       geoJSON.properties = {
         _id: stopData._id,
-        stop_code: stopData.stop_code,
-        stop_name: stopData.stop_name,
-        stop_lat: stopData.stop_lat,
-        stop_lon: stopData.stop_lon,
+        code: stopData.code,
+        name: stopData.name,
+        latitude: stopData.latitude,
+        longitude: stopData.longitude,
       };
       singleStopMap?.flyTo({
         center: geoJSON.geometry.coordinates,
@@ -187,8 +187,8 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Text size='h1' style={!form.values.stop_name && 'untitled'} full>
-            {form.values.stop_name || t('untitled')}
+          <Text size='h1' style={!form.values.name && 'untitled'} full>
+            {form.values.name || t('untitled')}
           </Text>
           <Tooltip label={t('operations.gmaps.title')} position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg' onClick={handleOpenInGoogleMaps}>
