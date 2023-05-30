@@ -1,9 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import { Group, Text, Alert, Stack } from '@mantine/core';
+import styles from './BulkImportFileSelect.module.css';
+import { useState, useRef } from 'react';
+import { Alert, Button } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
 import { IconUpload, IconBan, IconDragDrop, IconAlertTriangleFilled } from '@tabler/icons-react';
+import Pannel from '../Pannel/Pannel';
+import Text from '../Text/Text';
+import { useTranslations } from 'next-intl';
 
 export default function BulkImportFileSelect({ filesParser, onParse }) {
   //
@@ -11,6 +15,8 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
   //
   // A. Setup variables
 
+  const t = useTranslations('BulkImportFileSelect');
+  const openFileBrowserRef = useRef(null);
   const [isParsing, setIsParsing] = useState(false);
   const [hasParsingError, setHasParsingError] = useState(false);
 
@@ -43,69 +49,47 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
   // C. Render components
 
   const ErrorAlert = () => (
-    <Alert icon={<IconAlertTriangleFilled size='20px' />} title='Ocorreu um erro na importação' color='red'>
-      {hasParsingError || 'Não foi possível importar o(s) ficheiro(s). Por favor verifique a formatação.'}
+    <Alert icon={<IconAlertTriangleFilled size='20px' />} title={t('parsing_error.title')} color='red'>
+      {hasParsingError || t('parsing_error.description')}
     </Alert>
   );
 
   const DropZoneIdle = () => (
-    <Dropzone.Idle>
-      <Group>
-        <IconDragDrop size='40px' />
-        <div>
-          <Text size='xl' inline>
-            Adicione um ficheiro shapes.txt para importar em lote.
-          </Text>
-          <Text size='sm' color='dimmed' inline mt={7}>
-            Este processo irá criar novas shapes. Será necessário posteriormente associar estas shapes aos patterns.
-          </Text>
-        </div>
-      </Group>
-    </Dropzone.Idle>
+    <div className={styles.container} onClick={() => openFileBrowserRef.current()}>
+      <IconDragDrop size='60px' />
+      <Text size='h1'>{t('dropzone.idle.title')}</Text>
+      <Text size='h3'>{t('dropzone.idle.description')}</Text>
+    </div>
   );
 
   const DropZoneAccept = () => (
     <Dropzone.Accept>
-      <Group>
-        <IconUpload size='40px' />
-        <div>
-          <Text size='xl' inline>
-            Largue para iniciar a importação.
-          </Text>
-          <Text size='sm' color='dimmed' inline mt={7}>
-            Este processo irá criar novas shapes. Será necessário posteriormente associar estas shapes aos patterns.
-          </Text>
-        </div>
-      </Group>
+      <div className={styles.container}>
+        <IconUpload size='60px' />
+        <Text size='h1'>{t('dropzone.accept.title')}</Text>
+        <Text size='h3'>{t('dropzone.accept.description')}</Text>
+      </div>
     </Dropzone.Accept>
   );
 
   const DropZoneReject = () => (
     <Dropzone.Reject>
-      <Group>
-        <IconBan size='40px' />
-        <div>
-          <Text size='xl' inline>
-            Adicione apenas ficheiros TXT ou CSV.
-          </Text>
-          <Text size='sm' color='dimmed' inline mt={7}>
-            Não é possível aceitar esta seleção.
-          </Text>
-        </div>
-      </Group>
+      <div className={styles.container}>
+        <IconBan size='60px' />
+        <Text size='xl'>{t('dropzone.reject.title')}</Text>
+        <Text size='h3'>{t('dropzone.reject.description')}</Text>
+      </div>
     </Dropzone.Reject>
   );
 
   return (
-    <Stack>
+    <Pannel>
       {hasParsingError && <ErrorAlert />}
-      <Dropzone.FullScreen onDrop={handleAcceptedFilesDrop} onReject={handleRejectedFilesDrop} accept={['text/plain', 'text/csv']} loading={isParsing}>
-        <Group position='center' p='lg' mih='300px' style={{ pointerEvents: 'none' }}>
-          <DropZoneIdle />
-          <DropZoneAccept />
-          <DropZoneReject />
-        </Group>
+      <DropZoneIdle />
+      <Dropzone.FullScreen active={!isParsing} openRef={openFileBrowserRef} onDrop={handleAcceptedFilesDrop} onReject={handleRejectedFilesDrop} accept={['text/plain', 'text/csv']} loading={isParsing}>
+        <DropZoneAccept />
+        <DropZoneReject />
       </Dropzone.FullScreen>
-    </Stack>
+    </Pannel>
   );
 }

@@ -1277,5 +1277,25 @@
     "UserActivityBadge": {
         "was_active": "Active {value}",
         "was_never_active": "This user neved logged in"
+    },
+    "BulkImportFileSelect": {
+        "dropzone": {
+            "idle": {
+                "title": "Adicione um ficheiro shapes.txt para importar em lote",
+                "description": "Este processo irá criar novas shapes. Será necessário posteriormente associar estas shapes aos patterns."
+            },
+            "accept": {
+                "title": "Largue para iniciar a importação",
+                "description": "Este processo irá criar novas shapes. Será necessário posteriormente associar estas shapes aos patterns."
+            },
+            "reject": {
+                "title": "Adicione apenas ficheiros TXT ou CSV",
+                "description": "Não é possível aceitar esta seleção."
+            }
+        },
+        "parsing_error": {
+            "title": "Ocorreu um erro na importação",
+            "description": "Não foi possível importar o(s) ficheiro(s). Por favor verifique a formatação."
+        }
     }
 }
