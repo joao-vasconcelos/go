@@ -37,9 +37,6 @@
                 "loading": "Deleting Agency...",
                 "success": "Agency was deleted.",
                 "error": "An error occurred while deleting this Agency."
-            },
-            "export": {
-                "title": "Export agency.txt"
             }
         },
         "sections": {
@@ -218,15 +215,15 @@
             }
         },
         "form": {
-            "fare_long_name": {
+            "long_name": {
                 "label": "Fare Name",
                 "placeholder": "Tarif 1"
             },
-            "fare_short_name": {
+            "short_name": {
                 "label": "Fare Short Name",
                 "placeholder": "T1"
             },
-            "fare_code": {
+            "code": {
                 "label": "Fare Code",
                 "placeholder": "T1"
             },
@@ -237,22 +234,30 @@
             "currency_type": {
                 "label": "Currency",
                 "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "nothingFound": "No Results Found",
+                "options": {
+                    "EUR": "Euro"
+                }
             },
             "payment_method": {
                 "label": "Payment Method",
                 "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "nothingFound": "No Results Found",
+                "options": {
+                    "0": "Pay to the Driver (navegante® a bordo)",
+                    "1": "Pay before boarding (navegante® pré-pago, navegante®)"
+                }
             },
             "transfers": {
                 "label": "Allow Transfers",
                 "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "agencies": {
-                "label": "Valid on these Agencies",
-                "placeholder": "Choose Agencies...",
-                "nothingFound": "No Results Found"
+                "nothingFound": "No Results Found",
+                "options": {
+                    "0": "Transfers are not allowed",
+                    "1": "Only 1 transfer is allowed",
+                    "2": "Up to 2 transfers are allowed",
+                    "unlimited": "Unlimited transfers are allowed"
+                }
             }
         }
     },
@@ -279,12 +284,6 @@
                 "loading": "Deleting Line...",
                 "success": "Line was deleted.",
                 "error": "An error occurred while deleting this Line."
-            },
-            "add_route": {
-                "title": "Create New Route",
-                "loading": "Creating new Route...",
-                "success": "A new Route was created!",
-                "error": "An error occurred while creating this Route."
             }
         },
         "sections": {
@@ -298,22 +297,44 @@
             }
         },
         "form": {
-            "line_code": {
+            "code": {
                 "label": "Line Code",
                 "placeholder": "1234"
             },
-            "line_short_name": {
+            "short_name": {
                 "label": "Line Short Name",
                 "placeholder": "1234"
             },
-            "line_long_name": {
+            "long_name": {
                 "label": "Line Long Name",
                 "placeholder": "T1"
             },
+            "color": {
+                "label": "Line Color",
+                "placeholder": "#ED1A44"
+            },
+            "text_color": {
+                "label": "Line Text Color",
+                "placeholder": "#FFFFFF"
+            },
+            "fare": {
+                "label": "Fare Rule for this Line",
+                "placeholder": "Choose Fare...",
+                "nothingFound": "No Results Found"
+            },
             "agencies": {
-                "label": "Valid on these Agencies",
+                "label": "Operate by this Agencies",
+                "description": "Please avoid choosing more than one operator as this may cause a lot of confusion.",
                 "placeholder": "Choose Agencies...",
                 "nothingFound": "No Results Found"
+            },
+            "routes": {
+                "create": {
+                    "title": "Create New Route",
+                    "loading": "Creating new Route...",
+                    "success": "A new Route was created!",
+                    "error": "An error occurred while creating this Route."
+                }
             }
         }
     },
@@ -961,10 +982,6 @@
                     "delete": {
                         "label": "Delete Agencies",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "export": {
-                        "label": "Export Agencies",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
                 "export": {
@@ -1008,6 +1025,68 @@
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
+                "lines": {
+                    "title": "Lines, Routes & Patterns",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Lines, Routes & Patterns",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Lines, Routes & Patterns",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Lines, Routes & Patterns",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "agencies": {
+                        "label": "Can Edit and/or Delete Lines, Routes & Patterns from these Agencies",
+                        "placeholder": "Choose an option...",
+                        "nothingFound": "No Results Found"
+                    }
+                },
+                "fares": {
+                    "title": "Fares",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Fares",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Fares",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Fares",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
+                "stops": {
+                    "title": "Stops",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "propose": {
+                        "label": "Propose Changes to Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "municipalities": {
+                        "label": "Can Edit / Delete / Suggest Stops from these Municipalities",
+                        "placeholder": "Choose an option...",
+                        "nothingFound": "No Results Found"
+                    }
+                },
                 "alerts": {
                     "view": "View Alerts",
                     "create": "Create Alerts",
@@ -1027,18 +1106,6 @@
                     "edit": "Edit Dates",
                     "delete": "Delete Dates"
                 },
-                "fares": {
-                    "view": "View Fares",
-                    "create": "Create Fares",
-                    "edit": "Edit Fares",
-                    "delete": "Delete Fares"
-                },
-                "lines": {
-                    "view": "View Lines",
-                    "create": "Create Lines",
-                    "edit": "Edit Lines",
-                    "delete": "Delete Lines"
-                },
                 "municipalities": {
                     "view": "View Municipalities",
                     "create": "Create Municipalities",
@@ -1050,12 +1117,6 @@
                     "create": "Create Shapes",
                     "edit": "Edit Shapes",
                     "delete": "Delete Shapes"
-                },
-                "stops": {
-                    "view": "View Stops",
-                    "create": "Create Stops",
-                    "edit": "Edit Stops",
-                    "delete": "Delete Stops"
                 },
                 "threads": {
                     "view": "View Threads",
