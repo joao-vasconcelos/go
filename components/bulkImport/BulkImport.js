@@ -1,8 +1,8 @@
 'use client';
 
-import useBulkImportController from './useBulkImportController';
-import BulkImportFileSelect from './BulkImportFileSelect';
-import BulkImportTable from './BulkImportTable';
+import useBulkImportController from '../../hooks/useBulkImportController';
+import BulkImportFileSelect from '../BulkImportFileSelect/BulkImportFileSelect';
+import BulkImportTable from '../BulkImportTable/BulkImportTable';
 
 export default function BulkImport({ filesParser, dataUploader }) {
   //

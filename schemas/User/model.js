@@ -169,6 +169,9 @@ export const Schema = new mongoose.Schema(
         create_edit: {
           type: Boolean,
         },
+        bulk_import: {
+          type: Boolean,
+        },
         delete: {
           type: Boolean,
         },

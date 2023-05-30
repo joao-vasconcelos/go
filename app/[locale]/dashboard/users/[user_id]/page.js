@@ -482,13 +482,21 @@ export default function Page() {
             <Text size='h2'>{t('form.permissions.shapes.title')}</Text>
             <Text size='h4'>{t('form.permissions.shapes.description')}</Text>
           </div>
-          <SimpleGrid cols={3} mt='md'>
+          <SimpleGrid cols={4} mt='md'>
             <Switch label={t('form.permissions.shapes.view.label')} description={t('form.permissions.shapes.view.description')} size='md' {...form.getInputProps('permissions.shapes.view', { type: 'checkbox' })} readOnly={isReadOnly} />
             <Switch
               size='md'
               label={t('form.permissions.shapes.create_edit.label')}
               description={t('form.permissions.shapes.create_edit.description')}
               {...form.getInputProps('permissions.shapes.create_edit', { type: 'checkbox' })}
+              disabled={!form.values.permissions.shapes.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.shapes.bulk_import.label')}
+              description={t('form.permissions.shapes.bulk_import.description')}
+              {...form.getInputProps('permissions.shapes.bulk_import', { type: 'checkbox' })}
               disabled={!form.values.permissions.shapes.view}
               readOnly={isReadOnly}
             />

@@ -40,7 +40,7 @@ export default function Layout({ children }) {
   //
   // C. Handle actions
 
-  const handleCreateShape = async () => {
+  const handleCreate = async () => {
     try {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
@@ -59,7 +59,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate permission='shapes_view' redirect>
+    <AuthGate scope='shapes' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -74,12 +74,12 @@ export default function Layout({ children }) {
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Label>Importar</Menu.Label>
-                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateShape}>
-                      {t('operations.create.title')}
-                    </Menu.Item>
-                    <Menu.Label>Exportar</Menu.Label>
-                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download shapes.txt</Menu.Item>
+                    <AuthGate scope='shapes' permission='create_edit'>
+                      <Menu.Label>Importar</Menu.Label>
+                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
+                        {t('operations.create.title')}
+                      </Menu.Item>
+                    </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
               </>
@@ -87,7 +87,7 @@ export default function Layout({ children }) {
             footer={shapesData && <ListFooter>{t('list.footer', { count: shapesData.length })}</ListFooter>}
           >
             <ErrorDisplay error={shapesError} loading={shapesValidating} />
-            {shapesData && shapesData.length > 0 ? shapesData.map((item) => <ListItem key={item._id} _id={item._id} shape_code={item.shape_code} shape_name={item.shape_name} shape_distance={item.shape_distance} />) : <NoDataLabel />}
+            {shapesData && shapesData.length > 0 ? shapesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} distance={item.distance} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

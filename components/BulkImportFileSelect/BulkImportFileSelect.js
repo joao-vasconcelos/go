@@ -99,13 +99,13 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
   return (
     <Stack>
       {hasParsingError && <ErrorAlert />}
-      <Dropzone onDrop={handleAcceptedFilesDrop} onReject={handleRejectedFilesDrop} accept={['text/plain', 'text/csv']} loading={isParsing}>
+      <Dropzone.FullScreen onDrop={handleAcceptedFilesDrop} onReject={handleRejectedFilesDrop} accept={['text/plain', 'text/csv']} loading={isParsing}>
         <Group position='center' p='lg' mih='300px' style={{ pointerEvents: 'none' }}>
           <DropZoneIdle />
           <DropZoneAccept />
           <DropZoneReject />
         </Group>
-      </Dropzone>
+      </Dropzone.FullScreen>
     </Stack>
   );
 }
