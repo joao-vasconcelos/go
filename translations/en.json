@@ -1317,5 +1317,8 @@
             "title": "Ocorreu um erro na importação",
             "description": "Não foi possível importar o(s) ficheiro(s). Por favor verifique a formatação."
         }
+    },
+    "SearchField": {
+        "placeholder": "Search..."
     }
 }

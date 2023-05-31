@@ -1,25 +1,22 @@
 'use client';
 
-import { styled } from '@stitches/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import useSearch from '../../../../hooks/useSearch';
 import useSWR from 'swr';
 import API from '../../../../services/API';
 import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
-import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-react';
+import { ActionIcon, Menu } from '@mantine/core';
+import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '../../../../components/ListFooter/ListFooter';
 import AuthGate from '../../../../components/AuthGate/AuthGate';
-
-const SearchField = styled(TextInput, {
-  width: '100%',
-});
+import SearchField from '../../../../components/SearchField/SearchField';
 
 export default function Layout({ children }) {
   //
@@ -30,12 +27,18 @@ export default function Layout({ children }) {
   const router = useRouter();
   const t = useTranslations('agencies');
 
+  const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
   //
   // B. Fetch data
 
   const { data: allAgenciesData, error: allAgenciesError, isLoading: allAgenciesLoading, isValidating: allAgenciesValidating, mutate: allAgenciesMutate } = useSWR('/api/agencies');
+
+  //
+  // C. Search
+
+  const filteredAgenciesData = useSearch(searchQuery, allAgenciesData, { keys: ['name', 'code'] });
 
   //
   // C. Handle actions
@@ -67,7 +70,7 @@ export default function Layout({ children }) {
             loading={allAgenciesLoading}
             header={
               <>
-                <SearchField placeholder='Procurar...' width={'100%'} />
+                <SearchField onChange={setSearchQuery} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
                     <ActionIcon variant='light' size='lg' loading={allAgenciesLoading || isCreating}>
@@ -85,10 +88,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={allAgenciesData && <ListFooter>{t('list.footer', { count: allAgenciesData.length })}</ListFooter>}
+            footer={filteredAgenciesData && <ListFooter>{t('list.footer', { count: filteredAgenciesData.length })}</ListFooter>}
           >
             <ErrorDisplay error={allAgenciesError} loading={allAgenciesValidating} />
-            {allAgenciesData && allAgenciesData.length > 0 ? allAgenciesData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} />) : <NoDataLabel />}
+            {filteredAgenciesData && filteredAgenciesData.length > 0 ? filteredAgenciesData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}
