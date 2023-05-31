@@ -24,7 +24,7 @@ export default function Page() {
   //
   // B. Fetch data
 
-  const { data: stopsData, error: stopsError, isLoading: stopsLoading, isValidating: stopsValidating } = useSWR('/api/stops');
+  const { data: allStopsData, error: allStopsError, isLoading: allStopsLoading, isValidating: allStopsValidating } = useSWR('/api/stops');
 
   //
   // D. Handle actions
@@ -54,28 +54,28 @@ export default function Page() {
     };
 
     // Loop through each stop in the collection and setup the feature to the GeoJSON object.
-    if (stopsData) {
-      for (const stop of stopsData) {
+    if (allStopsData) {
+      for (const stop of allStopsData) {
         geoJSON.features.push({
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [parseFloat(stop.stop_lon), parseFloat(stop.stop_lat)],
+            coordinates: [parseFloat(stop.longitude), parseFloat(stop.latitude)],
           },
           properties: {
             _id: stop._id,
-            stop_code: stop.stop_code,
-            stop_name: stop.stop_name,
-            stop_lat: stop.stop_lat,
-            stop_lon: stop.stop_lon,
+            code: stop.code,
+            name: stop.name,
+            latitude: stop.latitude,
+            longitude: stop.longitude,
           },
         });
       }
     }
     // Return parsed data
     return geoJSON;
-    // Only run if stopsData changes
-  }, [stopsData]);
+    // Only run if allStopsData changes
+  }, [allStopsData]);
 
   //
   // E. Render components

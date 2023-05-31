@@ -17,7 +17,7 @@ export default function ListItem({ style, _id, name, code, latitude, longitude }
 
   return (
     <BaseListItem onClick={handleClick} isSelected={stop_id === _id} withChevron style={style}>
-      <Text size='title' style={!name && 'untitled'}>
+      <Text size='subtitle' style={!name && 'untitled'}>
         {name || 'Paragem Sem Nome'}
       </Text>
       <Group>
