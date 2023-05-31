@@ -12,6 +12,7 @@ export const Schema = new mongoose.Schema(
     code: {
       type: String,
       maxlength: 50,
+      unique: true,
     },
     parent_route: {
       type: mongoose.Schema.Types.ObjectId,
@@ -83,21 +84,14 @@ export const Schema = new mongoose.Schema(
             sequence_index: {
               type: Number,
             },
-            pickup_type: {
-              type: String,
-              maxlength: 6,
+            velocity: {
+              type: Number,
             },
-            drop_off_type: {
-              type: String,
-              maxlength: 6,
+            travel_time: {
+              type: Number,
             },
-            time_delta: {
-              type: String,
-              maxlength: 6,
-            },
-            wait_time: {
-              type: String,
-              maxlength: 6,
+            dwell_time: {
+              type: Number,
             },
           },
         ],
