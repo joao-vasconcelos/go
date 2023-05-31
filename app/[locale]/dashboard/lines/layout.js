@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: linesData, error: linesError, isLoading: linesLoading, isValidating: linesValidating, mutate } = useSWR('/api/lines');
+  const { data: allLinesData, error: allLinesError, isLoading: allLinesLoading, isValidating: allLinesValidating, mutate: allLinesMutate } = useSWR('/api/lines');
 
   //
   // C. Handle actions
@@ -45,7 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'lines', operation: 'create', method: 'GET' });
-      mutate();
+      allLinesMutate();
       router.push(`/dashboard/lines/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
@@ -64,13 +64,13 @@ export default function Layout({ children }) {
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={linesLoading}
+            loading={allLinesLoading}
             header={
               <>
                 <SearchField placeholder='Procurar...' width={'100%'} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={linesLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allLinesLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
@@ -85,10 +85,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={linesData && <ListFooter>{t('list.footer', { count: linesData.length })}</ListFooter>}
+            footer={allLinesData && <ListFooter>{t('list.footer', { count: allLinesData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={linesError} loading={linesValidating} />
-            {linesData && linesData.length > 0 ? linesData.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} long_name={item.long_name} color={item.color} text_color={item.text_color} />) : <NoDataLabel />}
+            <ErrorDisplay error={allLinesError} loading={allLinesValidating} />
+            {allLinesData && allLinesData.length > 0 ? allLinesData.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} long_name={item.long_name} color={item.color} text_color={item.text_color} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

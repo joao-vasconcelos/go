@@ -1,6 +1,6 @@
 'use client';
 
-import useSWR, { useSWRConfig } from 'swr';
+import useSWR from 'swr';
 import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -28,9 +28,9 @@ export default function Page() {
 
   const router = useRouter();
   const t = useTranslations('users');
-  const { mutate } = useSWRConfig();
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { user_id } = useParams();
 
@@ -40,7 +40,8 @@ export default function Page() {
   //
   // B. Fetch data
 
-  const { data: userData, error: userError, isLoading: userLoading } = useSWR(user_id && `/api/users/${user_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { mutate: allUsersMutate } = useSWR('/api/users');
+  const { data: userData, error: userError, isLoading: userLoading, mutate: userMutate } = useSWR(user_id && `/api/users/${user_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: agenciesData } = useSWR('/api/agencies');
   const { data: municipalitiesData } = useSWR('/api/municipalities');
 
@@ -96,7 +97,8 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'users', resourceId: user_id, operation: 'edit', method: 'PUT', body: form.values });
-      mutate(`/api/users/${user_id}`);
+      userMutate();
+      allUsersMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -105,7 +107,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [user_id, form, mutate]);
+  }, [user_id, form, userMutate, allUsersMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -117,12 +119,16 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
+          setIsDeleting(true);
           notify(user_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'users', resourceId: user_id, operation: 'delete', method: 'DELETE' });
+          allUsersMutate();
           router.push('/dashboard/users');
           notify(user_id, 'success', t('operations.delete.success'));
+          setIsDeleting(false);
         } catch (err) {
           console.log(err);
+          setIsDeleting(false);
           notify(user_id, 'error', err.message || t('operations.delete.error'));
         }
       },
@@ -134,7 +140,7 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={userLoading}
+      loading={userLoading || isDeleting}
       header={
         <>
           <SaveButtons

@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: calendarsData, error: calendarsError, isLoading: calendarsLoading, isValidating: calendarsValidating } = useSWR('/api/calendars');
+  const { data: allCalendarsData, error: allCalendarsError, isLoading: allCalendarsLoading, isValidating: allCalendarsValidating, mutate: allCalendarsMutate } = useSWR('/api/calendars');
 
   //
   // C. Handle actions
@@ -45,6 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'calendars', operation: 'create', method: 'GET' });
+      allCalendarsMutate();
       router.push(`/dashboard/calendars/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
@@ -63,13 +64,13 @@ export default function Layout({ children }) {
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={calendarsLoading}
+            loading={allCalendarsLoading}
             header={
               <>
                 <SearchField placeholder='Procurar...' width={'100%'} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={calendarsLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allCalendarsLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
@@ -88,10 +89,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={calendarsData && <ListFooter>{t('list.footer', { count: calendarsData.length })}</ListFooter>}
+            footer={allCalendarsData && <ListFooter>{t('list.footer', { count: allCalendarsData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={calendarsError} loading={calendarsValidating} />
-            {calendarsData && calendarsData.length > 0 ? calendarsData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} />) : <NoDataLabel />}
+            <ErrorDisplay error={allCalendarsError} loading={allCalendarsValidating} />
+            {allCalendarsData && allCalendarsData.length > 0 ? allCalendarsData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

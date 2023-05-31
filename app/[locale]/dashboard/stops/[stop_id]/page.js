@@ -31,6 +31,7 @@ export default function Page() {
   const t = useTranslations('stops');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
   const { singleStopMap } = useMap();
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'stops', 'create_edit');
@@ -41,6 +42,7 @@ export default function Page() {
   //
   // B. Fetch data
 
+  const { mutate: allStopsMutate } = useSWR('/api/stops');
   const { data: stopData, error: stopError, isLoading: stopLoading } = useSWR(stop_id && `/api/stops/${stop_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: agenciesData } = useSWR('/api/agencies');
   const { data: municipalitiesData } = useSWR('/api/municipalities');
@@ -78,6 +80,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'stops', resourceId: stop_id, operation: 'edit', method: 'PUT', body: form.values });
+      allStopsMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -86,7 +89,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [stop_id, form]);
+  }, [stop_id, form, allStopsMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -98,12 +101,16 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
+          setIsDeleting(true);
           notify(stop_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'stops', resourceId: stop_id, operation: 'delete', method: 'DELETE' });
+          allStopsMutate();
           router.push('/dashboard/stops');
           notify(stop_id, 'success', t('operations.delete.success'));
+          setIsDeleting(false);
         } catch (err) {
           console.log(err);
+          setIsDeleting(false);
           notify(stop_id, 'error', err.message || t('operations.delete.error'));
         }
       },
@@ -174,7 +181,7 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={stopLoading}
+      loading={stopLoading || isDeleting}
       header={
         <>
           <SaveButtons

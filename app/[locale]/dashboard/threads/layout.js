@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: threadsData, error: threadsError, isLoading: threadsLoading, isValidating: threadsValidating } = useSWR('/api/threads');
+  const { data: allThreadsData, error: allThreadsError, isLoading: allThreadsLoading, isValidating: allThreadsValidating, mutate: allThreadsMutate } = useSWR('/api/threads');
 
   //
   // C. Handle actions
@@ -45,6 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'threads', operation: 'create', method: 'GET' });
+      allThreadsMutate();
       router.push(`/dashboard/threads/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
@@ -63,13 +64,13 @@ export default function Layout({ children }) {
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={threadsLoading}
+            loading={allThreadsLoading}
             header={
               <>
                 <SearchField placeholder='Procurar...' width={'100%'} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={threadsLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allThreadsLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
@@ -84,10 +85,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={threadsData && <ListFooter>{t('list.footer', { count: threadsData.length })}</ListFooter>}
+            footer={allThreadsData && <ListFooter>{t('list.footer', { count: allThreadsData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={threadsError} loading={threadsValidating} />
-            {threadsData && threadsData.length > 0 ? threadsData.map((item) => <ListItem key={item._id} _id={item._id} subject={item.subject} />) : <NoDataLabel />}
+            <ErrorDisplay error={allThreadsError} loading={allThreadsValidating} />
+            {allThreadsData && allThreadsData.length > 0 ? allThreadsData.map((item) => <ListItem key={item._id} _id={item._id} subject={item.subject} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

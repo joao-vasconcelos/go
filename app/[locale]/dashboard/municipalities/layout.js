@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: municipalitiesData, error: municipalitiesError, isLoading: municipalitiesLoading, isValidating: municipalitiesValidating } = useSWR('/api/municipalities');
+  const { data: allMunicipalitiesData, error: allMunicipalitiesError, isLoading: allMunicipalitiesLoading, isValidating: allMunicipalitiesValidating, mutate: allMunicipalitiesMutate } = useSWR('/api/municipalities');
 
   //
   // C. Handle actions
@@ -45,6 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'municipalities', operation: 'create', method: 'GET' });
+      allMunicipalitiesMutate();
       router.push(`/dashboard/municipalities/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
@@ -63,13 +64,13 @@ export default function Layout({ children }) {
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={municipalitiesLoading}
+            loading={allMunicipalitiesLoading}
             header={
               <>
                 <SearchField placeholder='Procurar...' width={'100%'} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={municipalitiesLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allMunicipalitiesLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
@@ -84,10 +85,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={municipalitiesData && <ListFooter>{t('list.footer', { count: municipalitiesData.length })}</ListFooter>}
+            footer={allMunicipalitiesData && <ListFooter>{t('list.footer', { count: allMunicipalitiesData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={municipalitiesError} loading={municipalitiesValidating} />
-            {municipalitiesData && municipalitiesData.length > 0 ? municipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} dico={item.dico} />) : <NoDataLabel />}
+            <ErrorDisplay error={allMunicipalitiesError} loading={allMunicipalitiesValidating} />
+            {allMunicipalitiesData && allMunicipalitiesData.length > 0 ? allMunicipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} dico={item.dico} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

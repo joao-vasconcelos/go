@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating, mutate } = useSWR('/api/agencies');
+  const { data: allAgenciesData, error: allAgenciesError, isLoading: allAgenciesLoading, isValidating: allAgenciesValidating, mutate: allAgenciesMutate } = useSWR('/api/agencies');
 
   //
   // C. Handle actions
@@ -45,7 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'agencies', operation: 'create', method: 'GET' });
-      mutate();
+      allAgenciesMutate();
       router.push(`/dashboard/agencies/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
@@ -64,13 +64,13 @@ export default function Layout({ children }) {
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={agenciesLoading}
+            loading={allAgenciesLoading}
             header={
               <>
                 <SearchField placeholder='Procurar...' width={'100%'} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={agenciesLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allAgenciesLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
@@ -85,10 +85,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={agenciesData && <ListFooter>{t('list.footer', { count: agenciesData.length })}</ListFooter>}
+            footer={allAgenciesData && <ListFooter>{t('list.footer', { count: allAgenciesData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
-            {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} />) : <NoDataLabel />}
+            <ErrorDisplay error={allAgenciesError} loading={allAgenciesValidating} />
+            {allAgenciesData && allAgenciesData.length > 0 ? allAgenciesData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

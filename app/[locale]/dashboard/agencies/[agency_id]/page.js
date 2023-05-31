@@ -1,6 +1,6 @@
 'use client';
 
-import useSWR, { useSWRConfig } from 'swr';
+import useSWR from 'swr';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -25,11 +25,11 @@ export default function Page() {
   //
   // A. Setup variables
 
-  const { mutate } = useSWRConfig();
   const router = useRouter();
   const t = useTranslations('agencies');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'agencies', 'create_edit');
 
@@ -38,6 +38,7 @@ export default function Page() {
   //
   // B. Fetch data
 
+  const { mutate: allAgenciesMutate } = useSWR('/api/agencies');
   const { data: agencyData, error: agencyError, isLoading: agencyLoading } = useSWR(agency_id && `/api/agencies/${agency_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
@@ -73,7 +74,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'agencies', resourceId: agency_id, operation: 'edit', method: 'PUT', body: form.values });
-      mutate('/api/agencies');
+      allAgenciesMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -82,7 +83,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [agency_id, form, mutate]);
+  }, [agency_id, form, allAgenciesMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -94,13 +95,16 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
+          setIsDeleting(true);
           notify(agency_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'agencies', resourceId: agency_id, operation: 'delete', method: 'DELETE' });
-          mutate('/api/agencies');
+          allAgenciesMutate();
           router.push('/dashboard/agencies');
           notify(agency_id, 'success', t('operations.delete.success'));
+          setIsDeleting(false);
         } catch (err) {
           console.log(err);
+          setIsDeleting(false);
           notify(agency_id, 'error', err.message || t('operations.delete.error'));
         }
       },
@@ -112,7 +116,7 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={agencyLoading}
+      loading={agencyLoading || isDeleting}
       header={
         <>
           <SaveButtons

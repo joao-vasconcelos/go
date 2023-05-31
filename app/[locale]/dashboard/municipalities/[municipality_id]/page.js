@@ -29,6 +29,7 @@ export default function Page() {
   const t = useTranslations('municipalities');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'municipalities', 'create_edit');
 
@@ -37,6 +38,7 @@ export default function Page() {
   //
   // B. Fetch data
 
+  const { mutate: allMunicipalitiesMutate } = useSWR('/api/municipalities');
   const { data: municipalityData, error: municipalityError, isLoading: municipalityLoading } = useSWR(municipality_id && `/api/municipalities/${municipality_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
@@ -72,6 +74,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'municipalities', resourceId: municipality_id, operation: 'edit', method: 'PUT', body: form.values });
+      allMunicipalitiesMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -80,7 +83,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [municipality_id, form]);
+  }, [municipality_id, form, allMunicipalitiesMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -92,12 +95,16 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
+          setIsDeleting(true);
           notify(municipality_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'municipalities', resourceId: municipality_id, operation: 'delete', method: 'DELETE' });
+          allMunicipalitiesMutate();
           router.push('/dashboard/municipalities');
           notify(municipality_id, 'success', t('operations.delete.success'));
+          setIsDeleting(false);
         } catch (err) {
           console.log(err);
+          setIsDeleting(false);
           notify(municipality_id, 'error', err.message || t('operations.delete.error'));
         }
       },
@@ -109,7 +116,7 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={municipalityLoading}
+      loading={municipalityLoading || isDeleting}
       header={
         <>
           <SaveButtons

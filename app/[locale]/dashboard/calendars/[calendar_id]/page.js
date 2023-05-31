@@ -31,6 +31,7 @@ export default function Page() {
   const t = useTranslations('calendars');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'calendars', 'create_edit');
 
@@ -39,8 +40,9 @@ export default function Page() {
   //
   // B. Fetch data
 
-  const { data: datesData, error: datesError, isLoading: datesLoading, isValidating: datesValidating } = useSWR('/api/dates');
+  const { mutate: allCalendarsMutate } = useSWR('/api/calendars');
   const { data: calendarData, error: calendarError, isLoading: calendarLoading } = useSWR(calendar_id && `/api/calendars/${calendar_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: allDatesData, error: allDatesError, isLoading: allDatesLoading, isValidating: allDatesValidating } = useSWR('/api/dates');
 
   //
   // C. Setup form
@@ -75,6 +77,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'calendars', resourceId: calendar_id, operation: 'edit', method: 'PUT', body: form.values });
+      allCalendarsMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -83,7 +86,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [calendar_id, form]);
+  }, [calendar_id, form, allCalendarsMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -95,12 +98,16 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
+          setIsDeleting(true);
           notify(calendar_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'calendars', resourceId: calendar_id, operation: 'delete', method: 'DELETE' });
+          allCalendarsMutate();
           router.push('/dashboard/calendars');
           notify(calendar_id, 'success', t('operations.delete.success'));
+          setIsDeleting(false);
         } catch (err) {
           console.log(err);
+          setIsDeleting(false);
           notify(calendar_id, 'error', err.message || t('operations.delete.error'));
         }
       },
@@ -147,7 +154,7 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={calendarLoading}
+      loading={calendarLoading || isDeleting}
       header={
         <>
           <SaveButtons
@@ -187,7 +194,7 @@ export default function Page() {
           <Switch label={t('form.is_holiday.label')} description={t('form.is_holiday.description')} size='md' {...form.getInputProps('is_holiday', { type: 'checkbox' })} readOnly={isReadOnly} />
         </Section>
         <Divider />
-        <HCalendar availableDates={datesData} renderCardComponent={renderDateCardComponent} onMultiSelect={handleMultiToggleDates} />
+        <HCalendar availableDates={allDatesData} renderCardComponent={renderDateCardComponent} onMultiSelect={handleMultiToggleDates} />
       </form>
     </Pannel>
   );

@@ -9,7 +9,7 @@ import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: faresData, error: faresError, isLoading: faresLoading, isValidating: faresValidating } = useSWR('/api/fares');
+  const { data: allFaresData, error: allFaresError, isLoading: allFaresLoading, isValidating: allFaresValidating, mutate: allFaresMutate } = useSWR('/api/fares');
 
   //
   // C. Handle actions
@@ -45,6 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'fares', operation: 'create', method: 'GET' });
+      allFaresMutate();
       router.push(`/dashboard/fares/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
@@ -63,13 +64,13 @@ export default function Layout({ children }) {
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={faresLoading}
+            loading={allFaresLoading}
             header={
               <>
                 <SearchField placeholder='Procurar...' width={'100%'} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={faresLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allFaresLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
@@ -84,11 +85,11 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={faresData && <ListFooter>{t('list.footer', { count: faresData.length })}</ListFooter>}
+            footer={allFaresData && <ListFooter>{t('list.footer', { count: allFaresData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={faresError} loading={faresValidating} />
-            {faresData && faresData.length > 0 ? (
-              faresData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} long_name={item.long_name} price={item.price} currency_type={item.currency_type} />)
+            <ErrorDisplay error={allFaresError} loading={allFaresValidating} />
+            {allFaresData && allFaresData.length > 0 ? (
+              allFaresData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} long_name={item.long_name} price={item.price} currency_type={item.currency_type} />)
             ) : (
               <NoDataLabel />
             )}

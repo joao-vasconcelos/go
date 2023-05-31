@@ -49,7 +49,7 @@ export default function Page() {
   //
   // C. Fetch data
 
-  const { data: datesData, error: datesError, isLoading: datesLoading, isValidating: datesValidating } = useSWR('/api/dates');
+  const { data: allDatesData, error: allDatesError, isLoading: allDatesLoading, isValidating: allDatesValidating, mutate: allDatesMutate } = useSWR('/api/dates');
 
   //
   // C. Helper functions
@@ -102,6 +102,7 @@ export default function Page() {
       notify('update', 'loading', t('operations.update.loading'));
       const formattedDateObjects = formatSelectedDates();
       await API({ service: 'dates', operation: 'create', method: 'POST', body: formattedDateObjects });
+      allDatesMutate();
       notify('update', 'success', t('operations.update.loading'));
       setSelectedDateRange([]);
       setSelectedDatesCollection([]);
@@ -128,6 +129,7 @@ export default function Page() {
           notify('delete', 'loading', t('operations.delete.loading'));
           const formattedDateObjects = formatSelectedDates();
           await API({ service: 'dates', operation: 'delete', method: 'POST', body: formattedDateObjects });
+          allDatesMutate();
           notify('delete', 'success', t('operations.delete.success'));
           setIsUpdatingDates(false);
           closeModal();
@@ -152,7 +154,7 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={datesLoading}
+      loading={allDatesLoading}
       header={
         <>
           <Tooltip label={t('operations.close.title')} color='gray' position='bottom' withArrow>
@@ -220,7 +222,7 @@ export default function Page() {
           </SimpleGrid>
         </form>
       </Modal>
-      <HCalendar availableDates={datesData} renderCardComponent={renderDateCardComponent} />
+      <HCalendar availableDates={allDatesData} renderCardComponent={renderDateCardComponent} />
     </Pannel>
   );
 }

@@ -31,12 +31,15 @@ export default function Page() {
   const t = useTranslations('shapes');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
   const { singleShapeMap } = useMap();
 
   const { shape_id } = useParams();
 
   //
   // B. Fetch data
+
+  const { mutate: allShapesMutate } = useSWR('/api/shapes');
   const { data: shapeData, error: shapeError, isLoading: shapeLoading } = useSWR(shape_id && `/api/shapes/${shape_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
@@ -72,6 +75,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'shapes', resourceId: shape_id, operation: 'edit', method: 'PUT', body: form.values });
+      allShapesMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -80,7 +84,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [shape_id, form]);
+  }, [shape_id, form, allShapesMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -92,12 +96,16 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
+          setIsDeleting(true);
           notify(shape_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'shapes', resourceId: shape_id, operation: 'delete', method: 'DELETE' });
+          allShapesMutate();
           router.push('/dashboard/shapes');
           notify(shape_id, 'success', t('operations.delete.success'));
+          setIsDeleting(false);
         } catch (err) {
           console.log(err);
+          setIsDeleting(false);
           notify(shape_id, 'error', err.message || t('operations.delete.error'));
         }
       },
@@ -153,7 +161,7 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={shapeLoading}
+      loading={shapeLoading || isDeleting}
       header={
         <>
           <SaveButtons

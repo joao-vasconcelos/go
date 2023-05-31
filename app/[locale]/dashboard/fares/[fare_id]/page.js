@@ -29,6 +29,7 @@ export default function Page() {
   const t = useTranslations('fares');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'fares', 'create_edit');
 
@@ -37,6 +38,7 @@ export default function Page() {
   //
   // B. Fetch data
 
+  const { mutate: allFaresMutate } = useSWR('/api/fares');
   const { data: fareData, error: fareError, isLoading: fareLoading } = useSWR(fare_id && `/api/fares/${fare_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
@@ -72,6 +74,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'fares', resourceId: fare_id, operation: 'edit', method: 'PUT', body: form.values });
+      allFaresMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -80,7 +83,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [fare_id, form]);
+  }, [fare_id, form, allFaresMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -92,12 +95,16 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
+          setIsDeleting(true);
           notify(fare_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'fares', resourceId: fare_id, operation: 'delete', method: 'DELETE' });
+          allFaresMutate();
           router.push('/dashboard/fares');
           notify(fare_id, 'success', t('operations.delete.success'));
+          setIsDeleting(false);
         } catch (err) {
           console.log(err);
+          setIsDeleting(false);
           notify(fare_id, 'error', err.message || t('operations.delete.error'));
         }
       },
@@ -109,7 +116,7 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={fareLoading}
+      loading={fareLoading || isDeleting}
       header={
         <>
           <SaveButtons

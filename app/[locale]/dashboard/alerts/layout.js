@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: alertsData, error: alertsError, isLoading: alertsLoading, isValidating: alertsValidating } = useSWR('/api/alerts');
+  const { data: alertsData, error: alertsError, isLoading: alertsLoading, isValidating: alertsValidating, mutate } = useSWR('/api/alerts');
 
   //
   // C. Handle actions
@@ -45,6 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'alerts', operation: 'create', method: 'GET' });
+      mutate();
       router.push(`/dashboard/alerts/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);

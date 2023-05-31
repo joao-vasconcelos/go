@@ -1,6 +1,6 @@
 'use client';
 
-import useSWR, { useSWRConfig } from 'swr';
+import useSWR from 'swr';
 import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -28,7 +28,6 @@ export default function Page() {
   //
   // A. Setup variables
 
-  const { mutate } = useSWRConfig();
   const router = useRouter();
   const t = useTranslations('lines');
   const [isSaving, setIsSaving] = useState(false);
@@ -43,6 +42,7 @@ export default function Page() {
   //
   // B. Fetch data
 
+  const { mutate: allLinesMutate } = useSWR('/api/lines');
   const { data: lineData, error: lineError, isLoading: lineLoading } = useSWR(line_id && `/api/lines/${line_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading } = useSWR('/api/agencies');
   const { data: faresData, error: faresError, isLoading: faresLoading } = useSWR('/api/fares');
@@ -99,7 +99,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'lines', resourceId: line_id, operation: 'edit', method: 'PUT', body: form.values });
-      mutate('/api/lines');
+      allLinesMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -108,7 +108,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [line_id, form, mutate]);
+  }, [line_id, form, allLinesMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -123,7 +123,7 @@ export default function Page() {
           setIsDeleting(true);
           notify(line_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'lines', resourceId: line_id, operation: 'delete', method: 'DELETE' });
-          mutate('/api/lines');
+          allLinesMutate();
           router.push('/dashboard/lines');
           notify(line_id, 'success', t('operations.delete.success'));
           setIsDeleting(false);

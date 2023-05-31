@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: shapesData, error: shapesError, isLoading: shapesLoading, isValidating: shapesValidating } = useSWR('/api/shapes');
+  const { data: allShapesData, error: allShapesError, isLoading: allShapesLoading, isValidating: allShapesValidating, mutate: allShapesMutate } = useSWR('/api/shapes');
 
   //
   // C. Handle actions
@@ -45,6 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'shapes', operation: 'create', method: 'GET' });
+      allShapesMutate();
       router.push(`/dashboard/shapes/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
@@ -63,13 +64,13 @@ export default function Layout({ children }) {
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={shapesLoading}
+            loading={allShapesLoading}
             header={
               <>
                 <SearchField placeholder='Procurar...' width={'100%'} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={shapesLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allShapesLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
@@ -84,10 +85,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={shapesData && <ListFooter>{t('list.footer', { count: shapesData.length })}</ListFooter>}
+            footer={allShapesData && <ListFooter>{t('list.footer', { count: allShapesData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={shapesError} loading={shapesValidating} />
-            {shapesData && shapesData.length > 0 ? shapesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} distance={item.distance} />) : <NoDataLabel />}
+            <ErrorDisplay error={allShapesError} loading={allShapesValidating} />
+            {allShapesData && allShapesData.length > 0 ? allShapesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} distance={item.distance} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

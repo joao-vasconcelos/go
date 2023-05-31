@@ -39,6 +39,7 @@ export default function Page() {
   //
   // B. Fetch data
 
+  const { mutate: allThreadsMutate } = useSWR('/api/threads');
   const { data: threadData, error: threadError, isLoading: threadLoading } = useSWR(thread_id && `/api/threads/${thread_id}`, { refreshInterval: 500 });
 
   //

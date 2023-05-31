@@ -35,7 +35,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: usersData, error: usersError, isLoading: usersLoading, isValidating: usersValidating } = useSWR('/api/users/');
+  const { data: allUsersData, error: allUsersError, isLoading: allUsersLoading, isValidating: allUsersValidating, mutate: allUsersMutate } = useSWR('/api/users');
 
   //
   // C. Handle actions
@@ -45,6 +45,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'users', operation: 'create', method: 'GET' });
+      allUsersMutate();
       router.push(`/dashboard/users/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
@@ -63,13 +64,13 @@ export default function Layout({ children }) {
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={usersLoading}
+            loading={allUsersLoading}
             header={
               <>
                 <SearchField placeholder='Procurar...' width={'100%'} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={usersLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allUsersLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
@@ -84,10 +85,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={usersData && <ListFooter>{t('list.footer', { count: usersData.length })}</ListFooter>}
+            footer={allUsersData && <ListFooter>{t('list.footer', { count: allUsersData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={usersError} loading={usersValidating} />
-            {usersData && usersData.length > 0 ? usersData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} email={item.email} />) : <NoDataLabel />}
+            <ErrorDisplay error={allUsersError} loading={allUsersValidating} />
+            {allUsersData && allUsersData.length > 0 ? allUsersData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} email={item.email} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

@@ -37,7 +37,7 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: stopsData, error: stopsError, isLoading: stopsLoading, isValidating: stopsValidating } = useSWR('/api/stops');
+  const { data: allStopsData, error: allStopsError, isLoading: allStopsLoading, isValidating: allStopsValidating, mutate: allStopsMutate } = useSWR('/api/stops');
 
   //
   // C. Handle actions
@@ -47,6 +47,7 @@ export default function Layout({ children }) {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'stops', operation: 'create', method: 'GET' });
+      allStopsMutate();
       router.push(`/dashboard/stops/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
@@ -65,13 +66,13 @@ export default function Layout({ children }) {
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={stopsLoading}
+            loading={allStopsLoading}
             header={
               <>
                 <SearchField placeholder='Procurar...' width={'100%'} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={stopsLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allStopsLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
@@ -92,15 +93,23 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={stopsData && <ListFooter>{t('list.footer', { count: stopsData.length })}</ListFooter>}
+            footer={allStopsData && <ListFooter>{t('list.footer', { count: allStopsData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={stopsError} loading={stopsValidating} />
-            {stopsData && stopsData.length > 0 ? (
+            <ErrorDisplay error={allStopsError} loading={allStopsValidating} />
+            {allStopsData && allStopsData.length > 0 ? (
               <AutoSizer>
                 {({ height, width }) => (
-                  <List className='List' height={height} itemCount={stopsData.length} itemSize={85} width={width}>
+                  <List className='List' height={height} itemCount={allStopsData.length} itemSize={85} width={width}>
                     {({ index, style }) => (
-                      <ListItem key={stopsData[index]._id} style={style} _id={stopsData[index]._id} code={stopsData[index].code} name={stopsData[index].name} latitude={stopsData[index].latitude} longitude={stopsData[index].longitude} />
+                      <ListItem
+                        key={allStopsData[index]._id}
+                        style={style}
+                        _id={allStopsData[index]._id}
+                        code={allStopsData[index].code}
+                        name={allStopsData[index].name}
+                        latitude={allStopsData[index].latitude}
+                        longitude={allStopsData[index].longitude}
+                      />
                     )}
                   </List>
                 )}
