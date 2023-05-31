@@ -39,7 +39,6 @@ export default function Layout({ children }) {
     required: true,
     onUnauthenticated() {
       router.push('/auth/signin');
-      // The user is not authenticated, handle it here.
     },
   });
 

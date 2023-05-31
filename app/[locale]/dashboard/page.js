@@ -1,15 +1,5 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
+import { OneFullColumn } from '../../../components/Layouts/Layouts';
 
 export default function Page() {
-  const { data: session, status } = useSession();
-
-  console.log(session);
-
-  return (
-    <div>
-      <h1>Hello, Next.js dash!</h1>
-    </div>
-  );
+  return <OneFullColumn first={<p>some statistics will be on this page</p>} />;
 }
