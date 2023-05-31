@@ -1,14 +1,14 @@
 'use client';
 
-import { styled } from '@stitches/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import useSearch from '../../../../hooks/useSearch';
 import useSWR from 'swr';
 import API from '../../../../services/API';
 import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
-import { TextInput, ActionIcon, Menu } from '@mantine/core';
+import { ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
@@ -16,10 +16,7 @@ import ErrorDisplay from '../../../../components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '../../../../components/ListFooter/ListFooter';
 import AuthGate from '../../../../components/AuthGate/AuthGate';
-
-const SearchField = styled(TextInput, {
-  width: '100%',
-});
+import SearchField from '../../../../components/SearchField/SearchField';
 
 export default function Layout({ children }) {
   //
@@ -30,12 +27,18 @@ export default function Layout({ children }) {
   const router = useRouter();
   const t = useTranslations('fares');
 
+  const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
   //
   // B. Fetch data
 
   const { data: allFaresData, error: allFaresError, isLoading: allFaresLoading, isValidating: allFaresValidating, mutate: allFaresMutate } = useSWR('/api/fares');
+
+  //
+  // C. Search
+
+  const filteredFaresData = useSearch(searchQuery, allFaresData);
 
   //
   // C. Handle actions
@@ -67,7 +70,7 @@ export default function Layout({ children }) {
             loading={allFaresLoading}
             header={
               <>
-                <SearchField placeholder='Procurar...' width={'100%'} />
+                <SearchField onChange={setSearchQuery} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
                     <ActionIcon variant='light' size='lg' loading={allFaresLoading || isCreating}>
@@ -85,11 +88,11 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={allFaresData && <ListFooter>{t('list.footer', { count: allFaresData.length })}</ListFooter>}
+            footer={filteredFaresData && <ListFooter>{t('list.footer', { count: filteredFaresData.length })}</ListFooter>}
           >
             <ErrorDisplay error={allFaresError} loading={allFaresValidating} />
-            {allFaresData && allFaresData.length > 0 ? (
-              allFaresData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} long_name={item.long_name} price={item.price} currency_type={item.currency_type} />)
+            {filteredFaresData && filteredFaresData.length > 0 ? (
+              filteredFaresData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} long_name={item.long_name} price={item.price} currency_type={item.currency_type} />)
             ) : (
               <NoDataLabel />
             )}

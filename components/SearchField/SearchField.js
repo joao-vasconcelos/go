@@ -14,7 +14,7 @@ export default function SearchField({ placeholder, onChange }) {
 
   return (
     <div className={styles.container}>
-      <TextInput placeholder={placeholder || t('placeholder')} icon={<IconSearch size={18} />} onChange={handleChange} />
+      <TextInput placeholder={placeholder || t('placeholder')} icon={<IconSearch size={16} />} onChange={handleChange} />
     </div>
   );
 }
