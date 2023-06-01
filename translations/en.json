@@ -549,11 +549,11 @@
             }
         },
         "form": {
-            "shape_name": {
+            "name": {
                 "label": "Shape Name",
                 "placeholder": "Shape for Line 1234"
             },
-            "shape_code": {
+            "code": {
                 "label": "Shape Code",
                 "placeholder": "shp_1234_1_0"
             }
