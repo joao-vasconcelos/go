@@ -9,6 +9,7 @@ import { Model as ShapeModel } from '../../../schemas/Shape/model';
 import { Model as StopModel } from '../../../schemas/Stop/model';
 import { Model as CalendarModel } from '../../../schemas/Calendar/model';
 import { Default as CalendarDefault } from '../../../schemas/Calendar/default';
+import { Default as ShapeDefault } from '../../../schemas/Shape/default';
 
 /* * */
 /* IMPORT ROUTES */
@@ -45,7 +46,7 @@ export default async function importPatterns(req, res) {
       for (const direction of routeInfo.directions) {
         //
 
-        const shapeId = await ShapeModel.findOne({ name: direction.shape[0].shape_id, code: direction.shape[0].shape_id });
+        const shapeId = await ShapeModel.findOneAndUpdate({ code: direction.shape[0].shape_id }, { code: direction.shape[0].shape_id, name: direction.shape[0].shape_id }, { new: true, upsert: true });
         console.log('Shape_id', direction.shape[0].shape_id);
 
         // Manage Path

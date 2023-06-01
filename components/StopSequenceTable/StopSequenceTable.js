@@ -10,7 +10,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
   //
 
   // Fetch stops
-  const { data: stopsData, error: stopsError, isLoading: stopsLoading } = useSWR('/api/stops');
+  const { data: allStopsData } = useSWR('/api/stops');
 
   //
   // Formatters
@@ -122,9 +122,9 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                               w={'100%'}
                               {...form.getInputProps(`path.${index}.stop_id`)}
                               data={
-                                stopsData
-                                  ? stopsData.map((item) => {
-                                      return { value: item._id, label: `[${item.stop_code}] ${item.stop_name || 'Stop sem Nome'}` };
+                                allStopsData
+                                  ? allStopsData.map((item) => {
+                                      return { value: item._id, label: `[${item.code}] ${item.name || 'Stop sem Nome'}` };
                                     })
                                   : []
                               }

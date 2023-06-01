@@ -27,7 +27,7 @@ export default async function shapesList(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await ShapeModel.find({}, 'shape_code shape_name shape_distance');
+    const allDocuments = await ShapeModel.find({}, 'code name distance');
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
