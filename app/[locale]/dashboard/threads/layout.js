@@ -60,7 +60,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate permission='threads_view' redirect>
+    <AuthGate scope='threads' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
