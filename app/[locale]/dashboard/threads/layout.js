@@ -1,6 +1,5 @@
 'use client';
 
-import { styled } from '@stitches/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
@@ -8,7 +7,7 @@ import API from '../../../../services/API';
 import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
-import { TextInput, ActionIcon, Menu } from '@mantine/core';
+import { ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
@@ -16,10 +15,8 @@ import ErrorDisplay from '../../../../components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '../../../../components/ListFooter/ListFooter';
 import AuthGate from '../../../../components/AuthGate/AuthGate';
-
-const SearchField = styled(TextInput, {
-  width: '100%',
-});
+import SearchField from '../../../../components/SearchField/SearchField';
+import useSearch from '../../../../hooks/useSearch';
 
 export default function Layout({ children }) {
   //
@@ -29,13 +26,18 @@ export default function Layout({ children }) {
 
   const router = useRouter();
   const t = useTranslations('threads');
-
+  const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
   //
   // B. Fetch data
 
   const { data: allThreadsData, error: allThreadsError, isLoading: allThreadsLoading, isValidating: allThreadsValidating, mutate: allThreadsMutate } = useSWR('/api/threads');
+
+  //
+  // C. Search
+
+  const filteredThreadsData = useSearch(searchQuery, allThreadsData, { keys: ['subject', 'theme'] });
 
   //
   // C. Handle actions
@@ -85,10 +87,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={allThreadsData && <ListFooter>{t('list.footer', { count: allThreadsData.length })}</ListFooter>}
+            footer={filteredThreadsData && <ListFooter>{t('list.footer', { count: filteredThreadsData.length })}</ListFooter>}
           >
             <ErrorDisplay error={allThreadsError} loading={allThreadsValidating} />
-            {allThreadsData && allThreadsData.length > 0 ? allThreadsData.map((item) => <ListItem key={item._id} _id={item._id} subject={item.subject} />) : <NoDataLabel />}
+            {filteredThreadsData && filteredThreadsData.length > 0 ? filteredThreadsData.map((item) => <ListItem key={item._id} _id={item._id} subject={item.subject} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}
