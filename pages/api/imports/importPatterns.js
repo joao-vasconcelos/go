@@ -61,10 +61,10 @@ export default async function importPatterns(req, res) {
             stop: stopId._id,
             allow_pickup: true,
             allow_drop_off: true,
-            distance_delta: 0,
-            default_velocity: 0,
+            distance_delta: 10,
+            default_velocity: 20,
             default_travel_time: 0,
-            default_dwell_time: 0,
+            default_dwell_time: 30,
             apex: [],
           });
         }

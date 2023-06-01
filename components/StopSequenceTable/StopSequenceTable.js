@@ -120,7 +120,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                               searchable
                               nothingFound='Sem opções'
                               w={'100%'}
-                              {...form.getInputProps(`path.${index}.stop_id`)}
+                              {...form.getInputProps(`path.${index}.stop`)}
                               data={
                                 allStopsData
                                   ? allStopsData.map((item) => {
