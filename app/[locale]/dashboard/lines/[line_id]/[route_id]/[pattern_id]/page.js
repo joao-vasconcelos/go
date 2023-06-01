@@ -12,7 +12,7 @@ import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../../../components/Pannel/Pannel';
 import Text from '../../../../../../../components/Text/Text';
 import { Section } from '../../../../../../../components/Layouts/Layouts';
-import SaveButtons from '../../../../../../../components/SaveButtons';
+import AutoSave from '../../../../../../../components/AutoSave/AutoSave';
 import notify from '../../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import LineDisplay from '../../../../../../../components/LineDisplay/LineDisplay';
@@ -20,6 +20,8 @@ import StopSequenceTable from '../../../../../../../components/StopSequenceTable
 import SchedulesTable from '../../../../../../../components/SchedulesTable/SchedulesTable';
 import calculateDistanceBetweenStops from '../../../../../../../services/calculateDistanceBetweenStops';
 import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -31,17 +33,18 @@ export default function Page() {
   const t = useTranslations('patterns');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
-
   const [isCreatingStopSequence, setIsCreatingStopSequence] = useState();
   const [isCreatingSchedule, setIsCreatingSchedule] = useState();
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
   const { line_id, route_id, pattern_id } = useParams();
 
   //
   // B. Fetch data
 
-  const { data: shapesData, error: shapesError, isLoading: shapesLoading } = useSWR('/api/shapes');
-  const { data: lineData, error: lineError, isLoading: lineLoading, isValidating: lineValidating, mutate: lineMutate } = useSWR(line_id && `/api/lines/${line_id}`);
+  const { data: allShapesData } = useSWR('/api/shapes');
+  const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
   const { data: routeData, error: routeError, isLoading: routeLoading, isValidating: routeValidating, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
   const { data: patternData, error: patternError, isLoading: patternLoading } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
@@ -100,7 +103,7 @@ export default function Page() {
         try {
           notify(pattern_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'patterns', resourceId: pattern_id, operation: 'delete', method: 'DELETE' });
-          router.push('/dashboard/patterns');
+          router.push(`/dashboard/lines/${line_id}/${route_id}`);
           notify(pattern_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
@@ -115,6 +118,7 @@ export default function Page() {
   };
 
   const handleStopSequenceReorder = async ({ source, destination }) => {
+    if (!source || !destination || isReadOnly) return;
     if (source.index === destination.index) return;
     openConfirmModal({
       title: (
@@ -234,7 +238,7 @@ export default function Page() {
       loading={patternLoading}
       header={
         <>
-          <SaveButtons
+          <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={patternLoading}
@@ -245,44 +249,43 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <LineDisplay
-            short_name={(lineData && lineData.line_short_name) || '•••'}
-            long_name={`${(lineData && lineData.line_long_name) || 'Loading...'} (${form.values.headsign || 'Pattern sem headsign'})`}
-            color={(lineData && lineData.line_color) || ''}
-            text_color={(lineData && lineData.line_text_color) || ''}
-          />
+          <LineDisplay short_name={lineData && lineData.short_name} long_name={form.values.headsign || t('untitled')} color={lineData && lineData.color} text_color={lineData && lineData.text_color} />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label='Eliminar Pattern' color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <AuthGate scope='lines' permission='delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
+          <SimpleGrid cols={4}>
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly />
+          </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput placeholder='Headsign' label='Headsign' {...form.getInputProps('headsign')} />
+            <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} {...form.getInputProps('headsign')} />
             <Select
-              label='Shape'
-              placeholder='Shape'
-              searchable
-              nothingFound='Sem opções'
-              w={'100%'}
+              label={t('form.shape.label')}
+              placeholder={t('form.shape.placeholder')}
+              nothingFound={t('form.shape.nothingFound')}
               {...form.getInputProps('shape')}
               data={
-                shapesData
-                  ? shapesData.map((item) => {
-                      return { value: item._id, label: `[${item.shape_code}] ${item.shape_name || 'Shape sem Nome'}` };
+                allShapesData
+                  ? allShapesData.map((shape) => {
+                      return { value: shape._id, label: `[${shape.code}] ${shape.name || t('form.shape.untitled')}` };
                     })
                   : []
               }
+              searchable
             />
           </SimpleGrid>
         </Section>

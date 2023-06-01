@@ -13,7 +13,7 @@ import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '../../../../../components/Pannel/Pannel';
 import Text from '../../../../../components/Text/Text';
 import { Section } from '../../../../../components/Layouts/Layouts';
-import SaveButtons from '../../../../../components/SaveButtons';
+import AutoSave from '../../../../../components/AutoSave/AutoSave';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import LineDisplay from '../../../../../components/LineDisplay/LineDisplay';
@@ -43,9 +43,9 @@ export default function Page() {
   // B. Fetch data
 
   const { mutate: allLinesMutate } = useSWR('/api/lines');
-  const { data: lineData, error: lineError, isLoading: lineLoading } = useSWR(line_id && `/api/lines/${line_id}`, { onSuccess: (data) => keepFormUpdated(data) });
-  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading } = useSWR('/api/agencies');
-  const { data: faresData, error: faresError, isLoading: faresLoading } = useSWR('/api/fares');
+  const { data: lineData, error: lineError, isLoading: lineLoading, mutate: lineMutate } = useSWR(line_id && `/api/lines/${line_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: allAgenciesData } = useSWR('/api/agencies');
+  const { data: allFaresData } = useSWR('/api/fares');
 
   //
   // C. Setup form
@@ -69,20 +69,20 @@ export default function Page() {
   // D. Format data
 
   const agenciesFormattedForSelect = useMemo(() => {
-    return agenciesData
-      ? agenciesData.map((item) => {
+    return allAgenciesData
+      ? allAgenciesData.map((item) => {
           return { value: item._id, label: item.name || '-' };
         })
       : [];
-  }, [agenciesData]);
+  }, [allAgenciesData]);
 
   const faresFormattedForSelect = useMemo(() => {
-    return faresData
-      ? faresData.map((item) => {
+    return allFaresData
+      ? allFaresData.map((item) => {
           return { value: item._id, label: item.name || '-' };
         })
       : [];
-  }, [faresData]);
+  }, [allFaresData]);
 
   //
   // D. Handle actions
@@ -92,13 +92,14 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/lines/`);
+    router.push(`/dashboard/lines`);
   };
 
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
       await API({ service: 'lines', resourceId: line_id, operation: 'edit', method: 'PUT', body: form.values });
+      lineMutate();
       allLinesMutate();
       form.resetDirty();
       setIsSaving(false);
@@ -108,7 +109,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [line_id, form, allLinesMutate]);
+  }, [line_id, form, lineMutate, allLinesMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -168,7 +169,7 @@ export default function Page() {
       loading={lineLoading || isDeleting}
       header={
         <>
-          <SaveButtons
+          <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={lineLoading}
@@ -179,7 +180,7 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <LineDisplay short_name={form.values.short_name} long_name={form.values.long_name} color={form.values.color} text_color={form.values.text_color} />
+          <LineDisplay short_name={form.values.short_name} long_name={form.values.long_name || t('untitled')} color={form.values.color} text_color={form.values.text_color} />
           <Tooltip label={t('operations.open_website.title')} color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />
@@ -233,7 +234,7 @@ export default function Page() {
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                   {form.values.routes.map((item, index) => (
-                    <RouteCard key={index} index={index} onOpen={handleOpenRoute} line_code={form.values.short_name} _id={item._id} name={item.name} />
+                    <RouteCard key={index} index={index} onOpen={handleOpenRoute} _id={item._id} code={item.code} name={item.name} />
                   ))}
                   {provided.placeholder}
                 </div>
