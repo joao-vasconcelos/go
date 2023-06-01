@@ -8,7 +8,7 @@ import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
-
+  //
   //
   // A. Setup variables
 
