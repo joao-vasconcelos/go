@@ -1319,5 +1319,18 @@
     },
     "SearchField": {
         "placeholder": "Search..."
+    },
+    "AutoSave": {
+        "retry": {
+            "title": "Retrying..."
+        },
+        "idle": {
+            "close": {
+                "title": "Close"
+            },
+            "back": {
+                "title": "Go Back"
+            }
+        }
     }
 }
