@@ -3,12 +3,12 @@
 import API from '../../../../services/API';
 import notify from '../../../../services/notify';
 import shapesTxtParser from './shapesTxtParser';
-import BulkImport from '../../../../components/BulkImport2/BulkImport';
+import BulkImport from '../../../../components/BulkImport/BulkImport';
 import AuthGate from '../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
-  //
+
   //
   // A. Setup variables
 
