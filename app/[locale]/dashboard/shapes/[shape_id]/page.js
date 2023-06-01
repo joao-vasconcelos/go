@@ -137,22 +137,27 @@ export default function Page() {
   // E. Transform data
 
   const mapData = useMemo(() => {
-    if (shapeData && shapeData.geojson) {
-      // Calculate the bounding box of the feature
-      const [minLng, minLat, maxLng, maxLat] = bbox(shapeData.geojson);
-      // Calculate the bounding box of the feature
-      singleShapeMap?.fitBounds(
-        [
-          [minLng, minLat],
-          [maxLng, maxLat],
-        ],
-        { padding: 100, duration: 2000 }
-      );
-      // Calculate the bounding box of the feature
-      return shapeData.geojson;
-    } else {
-      return { geometry: { type: 'LineString', coordinates: [] }, type: 'Feature' };
+    try {
+      if (shapeData && shapeData.geojson) {
+        // Calculate the bounding box of the feature
+        const [minLng, minLat, maxLng, maxLat] = bbox(shapeData.geojson);
+        // Calculate the bounding box of the feature
+        singleShapeMap?.fitBounds(
+          [
+            [minLng, minLat],
+            [maxLng, maxLat],
+          ],
+          { padding: 100, duration: 2000 }
+        );
+        // Calculate the bounding box of the feature
+        return shapeData.geojson;
+      } else {
+        return { geometry: { type: 'LineString', coordinates: [] }, type: 'Feature' };
+      }
+    } catch (error) {
+      console.log(error);
     }
+
     // Only run if stopData changes
   }, [shapeData, singleShapeMap]);
 
@@ -175,8 +180,8 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Text size='h1' style={!form.values.shape_name && 'untitled'} full>
-            {form.values.shape_name || t('untitled')}
+          <Text size='h1' style={!form.values.name && 'untitled'} full>
+            {form.values.name || t('untitled')}
           </Text>
           <Tooltip label={t('operations.delete_points.title')} color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handlePointsDelete}>
@@ -206,8 +211,8 @@ export default function Page() {
             <Text size='h4'>{t('sections.config.description')}</Text>
           </div>
           <SimpleGrid cols={2}>
-            <TextInput label={t('form.shape_name.label')} placeholder={t('form.shape_name.placeholder')} {...form.getInputProps('shape_name')} />
-            <TextInput label={t('form.shape_code.label')} placeholder={t('form.shape_code.placeholder')} {...form.getInputProps('shape_code')} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} />
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} />
           </SimpleGrid>
         </Section>
       </form>
