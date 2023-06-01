@@ -28,7 +28,6 @@ export default function Layout({ children }) {
 
   const router = useRouter();
   const t = useTranslations('stops');
-
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 

@@ -1,14 +1,13 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import API from '../../../../services/API';
 import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
-import { TextInput, ActionIcon, Menu } from '@mantine/core';
+import { ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
@@ -16,10 +15,8 @@ import ErrorDisplay from '../../../../components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '../../../../components/ListFooter/ListFooter';
 import AuthGate from '../../../../components/AuthGate/AuthGate';
-
-const SearchField = styled(TextInput, {
-  width: '100%',
-});
+import SearchField from '../../../../components/SearchField/SearchField';
+import useSearch from '../../../../hooks/useSearch';
 
 export default function Layout({ children }) {
   //
@@ -29,13 +26,18 @@ export default function Layout({ children }) {
 
   const router = useRouter();
   const t = useTranslations('lines');
-
+  const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
   //
   // B. Fetch data
 
   const { data: allLinesData, error: allLinesError, isLoading: allLinesLoading, isValidating: allLinesValidating, mutate: allLinesMutate } = useSWR('/api/lines');
+
+  //
+  // C. Search
+
+  const filteredLinesData = useSearch(searchQuery, allLinesData, { keys: ['code', 'short_name', 'long_name'] });
 
   //
   // C. Handle actions
@@ -67,7 +69,7 @@ export default function Layout({ children }) {
             loading={allLinesLoading}
             header={
               <>
-                <SearchField placeholder='Procurar...' width={'100%'} />
+                <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
                     <ActionIcon variant='light' size='lg' loading={allLinesLoading || isCreating}>
@@ -85,10 +87,14 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={allLinesData && <ListFooter>{t('list.footer', { count: allLinesData.length })}</ListFooter>}
+            footer={filteredLinesData && <ListFooter>{t('list.footer', { count: filteredLinesData.length })}</ListFooter>}
           >
             <ErrorDisplay error={allLinesError} loading={allLinesValidating} />
-            {allLinesData && allLinesData.length > 0 ? allLinesData.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} long_name={item.long_name} color={item.color} text_color={item.text_color} />) : <NoDataLabel />}
+            {filteredLinesData && filteredLinesData.length > 0 ? (
+              filteredLinesData.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} long_name={item.long_name} color={item.color} text_color={item.text_color} />)
+            ) : (
+              <NoDataLabel />
+            )}
           </Pannel>
         }
         second={children}
