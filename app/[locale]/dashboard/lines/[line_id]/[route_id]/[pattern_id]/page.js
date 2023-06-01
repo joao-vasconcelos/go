@@ -248,6 +248,7 @@ export default function Page() {
             onValidate={() => handleValidate()}
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
+            closeType='back'
           />
           <LineDisplay short_name={lineData && lineData.short_name} long_name={form.values.headsign || t('untitled')} color={lineData && lineData.color} text_color={lineData && lineData.text_color} />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>

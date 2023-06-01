@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
 import { Tooltip, ActionIcon, Button } from '@mantine/core';
 import { IconX, IconChevronLeft, IconDeviceFloppy, IconAlertTriangleFilled } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
 
 /* * */
 /* AUTOSAVE COMPONENT */
 /* Pair of buttons that trigger an action on an interval and on click. */
 /* * */
 
-export default function AutoSave({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, interval = 1000 }) {
+export default function AutoSave({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, closeType = 'close', interval = 1000 }) {
   //
+
+  const t = useTranslations('AutoSave');
 
   //
   // A. AUTOSAVE INTERVAL
@@ -30,14 +33,14 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
   }, [isValid, isDirty, isSaving, isErrorSaving, onSave, interval]);
 
   //
-  // B. IS SAVING AFTER ERROR
+  // B. RETRY (IS SAVING AFTER ERROR)
   // If form had an error saving, and the user clicked try again
   // then show the save button with a loading spinner.
 
   if (isErrorSaving && isSaving) {
     return (
       <Button size='xs' leftIcon={<IconAlertTriangleFilled size='20px' />} variant='light' color='red' loading>
-        A Tentar Novamente...
+        {t('retry.title')}
       </Button>
     );
   }
@@ -122,9 +125,10 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
   // If the form has no unsaved changes, is valid and is not loading,
   // then the close button is enabled and the save button shows a reassuring icon and message.
   return (
-    <Tooltip label='Voltar' color='gray' position='bottom' withArrow>
+    <Tooltip label={t(`idle.${closeType}.title`)} color='gray' position='bottom' withArrow>
       <ActionIcon size='lg' onClick={onClose}>
-        <IconChevronLeft size='20px' />
+        {closeType === 'close' && <IconX size='20px' />}
+        {closeType === 'back' && <IconChevronLeft size='20px' />}
       </ActionIcon>
     </Tooltip>
   );

@@ -68,7 +68,7 @@ export default function Page() {
   //
   // D. Format data
 
-  const agenciesFormattedForSelect = useMemo(() => {
+  const allAgenciesDataFormatted = useMemo(() => {
     return allAgenciesData
       ? allAgenciesData.map((item) => {
           return { value: item._id, label: item.name || '-' };
@@ -76,10 +76,10 @@ export default function Page() {
       : [];
   }, [allAgenciesData]);
 
-  const faresFormattedForSelect = useMemo(() => {
+  const allFaresDataFormatted = useMemo(() => {
     return allFaresData
       ? allFaresData.map((item) => {
-          return { value: item._id, label: item.name || '-' };
+          return { value: item._id, label: item.long_name || '-' };
         })
       : [];
   }, [allFaresData]);
@@ -211,7 +211,7 @@ export default function Page() {
             <ColorInput label={t('form.text_color.label')} placeholder={t('form.text_color.placeholder')} {...form.getInputProps('text_color')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFound={t('form.fare.nothingFound')} {...form.getInputProps('fare')} data={faresFormattedForSelect} readOnly={isReadOnly} searchable />
+            <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFound={t('form.fare.nothingFound')} {...form.getInputProps('fare')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
           </SimpleGrid>
           <SimpleGrid cols={1}>
             <MultiSelect
@@ -220,7 +220,7 @@ export default function Page() {
               placeholder={t('form.agencies.placeholder')}
               nothingFound={t('form.agencies.nothingFound')}
               {...form.getInputProps('agencies')}
-              data={agenciesFormattedForSelect}
+              data={allAgenciesDataFormatted}
               readOnly={isReadOnly}
               searchable
             />

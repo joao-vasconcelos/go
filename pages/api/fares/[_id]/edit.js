@@ -45,9 +45,9 @@ export default async function faresEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['fare_code'].
-    const foundDocumentWithFareCode = await FareModel.exists({ fare_code: req.body.fare_code });
-    if (foundDocumentWithFareCode && foundDocumentWithFareCode._id != req.query._id) {
+    // The values that need to be unique are ['code'].
+    const foundDocumentWithCode = await FareModel.exists({ code: req.body.code });
+    if (foundDocumentWithCode && foundDocumentWithCode._id != req.query._id) {
       throw new Error('Um Tarifário com o mesmo Código já existe.');
     }
   } catch (err) {
