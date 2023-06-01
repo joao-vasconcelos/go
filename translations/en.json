@@ -411,12 +411,6 @@
     "routes": {
         "untitled": "Untitled Route",
         "operations": {
-            "create": {
-                "title": "Create New Route",
-                "loading": "Creating new Route...",
-                "success": "A new Route was created!",
-                "error": "An error occurred while creating this Route."
-            },
             "delete": {
                 "title": "Delete Route",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Route forever?",
@@ -425,12 +419,6 @@
                 "loading": "Deleting Route...",
                 "success": "Route was deleted.",
                 "error": "An error occurred while deleting this Route."
-            },
-            "add_route": {
-                "title": "Create New Route",
-                "loading": "Creating new Route...",
-                "success": "A new Route was created!",
-                "error": "An error occurred while creating this Route."
             }
         },
         "sections": {
@@ -442,21 +430,28 @@
             }
         },
         "form": {
-            "route_name": {
+            "code": {
+                "label": "Route Code",
+                "placeholder": "1234_0"
+            },
+            "name": {
                 "label": "Route Name",
-                "placeholder": "1234"
+                "placeholder": "Origin - Destination (alternative)"
+            },
+            "patterns": {
+                "create": {
+                    "title": "Create New Pattern",
+                    "loading": "Creating new Pattern...",
+                    "success": "A new Pattern was created!",
+                    "error": "An error occurred while creating this Pattern."
+                }
             }
         }
     },
     "patterns": {
         "untitled": "Untitled Pattern",
+        "direction": "{direction, plural, =0 {Inbound} =1 {Outbound} other {Direction Error: < # > was found}}",
         "operations": {
-            "create": {
-                "title": "Create New Pattern",
-                "loading": "Creating new Pattern...",
-                "success": "A new Pattern was created!",
-                "error": "An error occurred while creating this Pattern."
-            },
             "delete": {
                 "title": "Delete Pattern",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Pattern forever?",
@@ -465,12 +460,6 @@
                 "loading": "Deleting Pattern...",
                 "success": "Pattern was deleted.",
                 "error": "An error occurred while deleting this Pattern."
-            },
-            "add_route": {
-                "title": "Create New Pattern",
-                "loading": "Creating new Pattern...",
-                "success": "A new Pattern was created!",
-                "error": "An error occurred while creating this Pattern."
             }
         },
         "sections": {
@@ -488,9 +477,19 @@
             }
         },
         "form": {
-            "route_name": {
-                "label": "Route Name",
+            "code": {
+                "label": "Pattern Code",
                 "placeholder": "1234"
+            },
+            "headsign": {
+                "label": "Headsign",
+                "placeholder": "Destination (via Known Place)"
+            },
+            "shape": {
+                "label": "Associated Shape",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found",
+                "untitled": "Untitled Shape"
             }
         }
     },

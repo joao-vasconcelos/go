@@ -3,7 +3,7 @@ import styles from './LineDisplay.module.css';
 export function LineBadge({ short_name, color, text_color }) {
   return (
     <div className={styles.badge} style={{ backgroundColor: color, color: text_color }}>
-      {short_name}
+      {short_name || '• • •'}
     </div>
   );
 }

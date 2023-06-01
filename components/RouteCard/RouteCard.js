@@ -4,9 +4,12 @@ import styles from './RouteCard.module.css';
 import { Draggable } from '@hello-pangea/dnd';
 import { IconChevronRight, IconGripVertical } from '@tabler/icons-react';
 import Text from '../Text/Text';
+import { useTranslations } from 'next-intl';
 
-export default function RouteCard({ index, onOpen, line_code, route_id, route_name }) {
+export default function RouteCard({ index, onOpen, _id, code, name }) {
   //
+
+  const t = useTranslations('routes');
 
   //
   // E. Render components
@@ -18,12 +21,10 @@ export default function RouteCard({ index, onOpen, line_code, route_id, route_na
           <div className={styles.toolbar} {...provided.dragHandleProps}>
             <IconGripVertical size='25px' />
           </div>
-          <div className={styles.wrapper} onClick={() => onOpen(route_id)}>
-            <div className={styles.subtitle}>
-              {line_code}_{index}
-            </div>
-            <Text size='title' style={!route_name && 'untitled'}>
-              {route_name ? route_name : 'Rota Sem Nome'}
+          <div className={styles.wrapper} onClick={() => onOpen(_id)}>
+            <div className={styles.subtitle}>{code || '...'}</div>
+            <Text size='title' style={!name && 'untitled'}>
+              {name ? name : t('untitled')}
             </Text>
           </div>
           <div className={styles.toolbar}>
