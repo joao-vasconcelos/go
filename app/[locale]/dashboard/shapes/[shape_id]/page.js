@@ -15,7 +15,7 @@ import { IconTrash, IconPlaylistX } from '@tabler/icons-react';
 import Pannel from '../../../../../components/Pannel/Pannel';
 import Text from '../../../../../components/Text/Text';
 import { Section } from '../../../../../components/Layouts/Layouts';
-import SaveButtons from '../../../../../components/SaveButtons';
+import AutoSave from '../../../../../components/AutoSave/AutoSave';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import ImportShapeFromText from './ImportShapeFromText';
@@ -164,7 +164,7 @@ export default function Page() {
       loading={shapeLoading || isDeleting}
       header={
         <>
-          <SaveButtons
+          <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={shapeLoading}

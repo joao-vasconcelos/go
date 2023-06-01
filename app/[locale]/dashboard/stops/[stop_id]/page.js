@@ -13,7 +13,7 @@ import { IconTrash, IconWorldLatitude, IconWorldLongitude, IconVolume, IconBrand
 import Pannel from '../../../../../components/Pannel/Pannel';
 import { Section } from '../../../../../components/Layouts/Layouts';
 import Text from '../../../../../components/Text/Text';
-import SaveButtons from '../../../../../components/SaveButtons';
+import AutoSave from '../../../../../components/AutoSave/AutoSave';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import OSMMap from '../../../../../components/OSMMap/OSMMap';
@@ -184,7 +184,7 @@ export default function Page() {
       loading={stopLoading || isDeleting}
       header={
         <>
-          <SaveButtons
+          <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={stopLoading}
