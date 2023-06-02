@@ -392,10 +392,10 @@
                 "placeholder": "Choose Fare...",
                 "nothingFound": "No Results Found"
             },
-            "agencies": {
+            "agency": {
                 "label": "Operate by this Agencies",
-                "description": "Please avoid choosing more than one operator as this may cause a lot of confusion.",
-                "placeholder": "Choose Agencies...",
+                "description": "Choose one operator for this line.",
+                "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
             "routes": {
