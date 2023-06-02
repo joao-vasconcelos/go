@@ -21,13 +21,17 @@ export default async function exportGTFSv18(req, res) {
   //
   await delay();
 
+  //
   // 0. Refuse request if not POST
+
   if (req.method != 'POST') {
     await res.setHeader('Allow', ['POST']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
+  //
   // 1. Parse request body into JSON
+
   try {
     req.body = await JSON.parse(req.body);
   } catch (err) {
@@ -36,7 +40,20 @@ export default async function exportGTFSv18(req, res) {
     return;
   }
 
-  // 2. Create temporary directory to hold the files
+  //
+  // 2. Validate form (TBD)
+
+  //   try {
+  //     req.body = await JSON.parse(req.body);
+  //   } catch (err) {
+  //     console.log(err);
+  //     await res.status(500).json({ message: 'JSON parse error.' });
+  //     return;
+  //   }
+
+  //
+  // 3. Create temporary directory
+
   try {
     prepareTempDirectory();
   } catch (err) {
@@ -44,7 +61,9 @@ export default async function exportGTFSv18(req, res) {
     return await res.status(500).json({ message: 'Could not create temporary directory.' });
   }
 
-  // 3. Try to connect to mongodb
+  //
+  // 4. Try to connect to mongodb
+
   try {
     await mongodb.connect();
   } catch (err) {
@@ -52,216 +71,19 @@ export default async function exportGTFSv18(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4. Generate GTFS archive
+  //
+  // 5. Try to connect to mongodb
+
   try {
-    //
-
-    // 4.1.
-    // Retrieve all the lines that match the given agency_id
-    const agencyData = await AgencyModel.findOne({ _id: req.body.agency_id });
-
-    // 4.2.
-    // Retrieve all the lines that match the given parameters
-    const allLines = await LineModel.find({})
-      .limit(10)
-      .populate({
-        path: 'routes',
-        populate: {
-          path: 'patterns',
-          populate: [
-            {
-              path: 'shape',
-              select: 'code',
-            },
-            {
-              path: 'path.stop',
-              select: 'code',
-            },
-            {
-              path: 'schedules.calendars_on',
-              select: 'code',
-            },
-          ],
-        },
-      });
-
-    // 4.3.
-    // For this route, build its entry in the agency.txt file
-    const parsedAgency = parseAgency(agencyData);
-    writeCsvToFile('agency.txt', parsedAgency);
-
-    // 4.4.
-    // In order to build stops.txt, shapes.txt and calendar_dates.txt it is necessary
-    // to initiate these variables outside all loops that hold the _ids
-    // of the objects that are referenced in the other objects (trips, patterns)
-    let referencedStopIds = [];
-    let referencedShapeIds = [];
-    let referencedCalendarIds = [];
-
-    // 4.5.
-    // Iterate on all the lines
-    for (const lineData of allLines) {
-      //
-
-      // 4.5.1.
-      // Skip if this line has no routes
-      if (!lineData.routes) continue;
-
-      // 4.5.2.
-      // Iterate on all the routes for the given line
-      for (const routeData of lineData.routes) {
-        //
-
-        // 4.5.2.1.
-        // Skip if this route has no patterns
-        if (!routeData.patterns) continue;
-
-        // 4.5.2.2.
-        // Write the .txt entry for this route
-        const parsedRoute = parseRoute(agencyData, lineData, routeData);
-        writeCsvToFile('routes.txt', parsedRoute);
-
-        // 4.5.2.3.
-        // Iterate on all the patterns for the given route
-        for (const patternData of routeData.patterns) {
-          //
-
-          // 4.5.2.3.1.
-          // Skip if this pattern has no schedules or no path
-          if (!patternData.schedules || !patternData.path) continue;
-
-          // 4.5.2.3.4.2.
-          // Append the shape_id of this schedule to the scoped referenced calendar IDs array
-          referencedShapeIds.push(patternData.shape._id);
-
-          // 4.5.2.3.4.
-          // Iterate on all the schedules for the given pattern
-          for (const scheduleData of patternData.schedules) {
-            //
-
-            // 4.5.2.3.4.1.
-            // Skip if this schedule has no associated calendars with service
-            if (!scheduleData.calendars_on) continue;
-
-            // 4.5.2.3.4.3.
-            // Iterate on all the calendars associated with this schedule
-            for (const calendarData of scheduleData.calendars_on) {
-              //
-
-              // 4.5.2.3.4.2.
-              // Append the calendar_id of this schedule to the scoped referenced calendar IDs array
-              referencedCalendarIds.push(calendarData._id);
-
-              // 4.5.2.3.4.3.1.
-              // Build the trip_id based on the route_code, direction, calendar_code and start_time of this schedule
-              // Remove the : from this schedules start_time to use it as the
-              const startTimeStripped = scheduleData.start_time.split(':').join('');
-              const thisTripId = `${routeData.code}_${patternData.direction}_${calendarData.code}_${startTimeStripped}`;
-
-              // 4.5.2.3.4.3.2.
-              // Write the .txt entry for this trip
-              writeCsvToFile('trips.txt', {
-                route_id: routeData.code,
-                pattern_id: patternData.code,
-                pattern_short_name: patternData.headsign,
-                service_id: calendarData.code,
-                calendar_desc: calendarData.description,
-                trip_id: thisTripId,
-                trip_headsign: patternData.headsign,
-                direction_id: patternData.direction,
-                shape_id: patternData.shape.code,
-              });
-
-              // 4.5.2.3.4.3.3.
-              // Calculate the arrival_time for each stop
-              // Start by collecting the arrival time of the first stop in the path
-              // and hold it outside the path loop to keep updating it relative to each iteration
-              let currentTripTime = scheduleData.start_time;
-
-              // 4.5.2.3.4.3.4.
-              // Calculate the accumulated trip distance for each stop
-              // Trip distance is incremented relative to each iteration
-              // so hold the variable outside the path loop, and initiate it with zero
-              let currentTripDistance = 0;
-
-              // 4.5.2.3.4.3.5.
-              // Iterate on all the calendars associated with this schedule
-              for (const [pathIndex, pathData] of patternData.path.entries()) {
-                //
-
-                // 4.5.2.3.4.2.
-                // Append the stop_id of this path sequence to the scoped referenced stop IDs array
-                referencedStopIds.push(pathData.stop._id);
-
-                // 4.5.2.3.4.3.5.1.
-                // Increment the arrival_time for this stop with the travel time for this path segment
-                // If the schedule has a travel time override, then use that instead of the default (not yet implemented)
-                // In the first iteration, the travel time is zero, so we get the start_time as the current trip time.
-                currentTripTime = incrementTime(currentTripTime, pathData.default_travel_time);
-
-                // 4.5.2.3.4.3.5.2.
-                // Increment the arrival_time for this stop with the dwell time
-                // If the schedule has a dwell time override, then use that instead of the default (not yet implemented)
-                const thisStopDepartureTime = incrementTime(currentTripTime, pathData.default_dwell_time);
-
-                // 4.5.2.3.4.3.5.3.
-                // Increment the distance for this path segment with the distance delta
-                currentTripDistance = currentTripDistance + pathData.distance_delta;
-
-                // 4.5.2.3.4.3.5.3.
-                // Write the .txt entry for this stop_time
-                writeCsvToFile('stop_times.txt', {
-                  trip_id: thisTripId,
-                  arrival_time: currentTripTime,
-                  departure_time: thisStopDepartureTime,
-                  stop_id: pathData.stop.code,
-                  stop_sequence: pathIndex,
-                  pickup_type: pathData.allow_pickup ? 0 : 1,
-                  drop_off_type: pathData.allow_drop_off ? 0 : 1,
-                  shape_dist_traveled: currentTripDistance,
-                  timepoint: 1,
-                });
-                //
-              }
-            }
-          }
-
-          //
-        }
-      }
-    }
-
-    // 4.5.2.3.3.
-    // Write the .txt entry for referenced shapes
-    const referencedShapeDocuments = await ShapeModel.find({ _id: { $in: referencedShapeIds } });
-    for (const shapeData of referencedShapeDocuments) {
-      const parsedShape = parseShape(shapeData);
-      writeCsvToFile('shapes.txt', parsedShape);
-    }
-
-    // 4.5.2.3.3.
-    // Write the .txt entry for referenced calendars
-    const referencedCalendarDocuments = await CalendarModel.find({ _id: { $in: referencedCalendarIds } });
-    for (const calendarData of referencedCalendarDocuments) {
-      const parsedCalendar = parseCalendar(calendarData);
-      writeCsvToFile('calendar_dates.txt', parsedCalendar);
-    }
-
-    // 4.5.2.3.3.
-    // Write the .txt entry for referenced stops
-    const referencedStopDocuments = await StopModel.find({ _id: { $in: referencedStopIds } });
-    for (const stopData of referencedStopDocuments) {
-      const parsedStop = parseStop(stopData);
-      writeCsvToFile('stops.txt', parsedStop);
-    }
-
-    //
+    await buildGTFSv18(req.body.agency_id, req.body.lines);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot generate GTFS archive.' });
+    return await res.status(500).json({ message: 'Error building GTFS v18 archive.' });
   }
 
-  // 5. Zip the files and return them to the client
+  //
+  // 6. Zip the generated files and return them to the client
+
   try {
     const tempDirPath = getTempDirectoryPath();
     zipFiles(['agency.txt', 'routes.txt', 'calendar_dates.txt', 'trips.txt', 'stop_times.txt', 'shapes.txt', 'stops.txt'], 'output-gtfs.zip');
@@ -275,6 +97,7 @@ export default async function exportGTFSv18(req, res) {
   //
 }
 
+//
 //
 //
 //
@@ -293,6 +116,7 @@ function getTempDirectoryPath() {
 //
 //
 //
+//
 
 /* * */
 /* PREPARE TEMPORARY DIRECTORY */
@@ -306,6 +130,7 @@ function prepareTempDirectory() {
   //
 }
 
+//
 //
 //
 //
@@ -355,8 +180,49 @@ function zipFiles(arrayOfFileNames, outputZipFilename) {
 //
 //
 //
+
+/* * */
+/* PARSE AND SUM TIME STRING */
+/* Parse a GTFS-standard time string in the format HH:MM:SS and sum it */
+/* with a given increment in seconds. Return a string in the same format. */
+function incrementTime(timeString, increment) {
+  // Parse the time string into hours, minutes, and seconds
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+  // Calculate the new total seconds
+  const totalSeconds = hours * 3600 + minutes * 60 + seconds + increment;
+  // Calculate the new hours, minutes, and seconds
+  const newHours = Math.floor(totalSeconds / 3600) % 24;
+  const newMinutes = Math.floor(totalSeconds / 60) % 60;
+  const newSeconds = totalSeconds % 60;
+  // Format the new time string
+  return `${padZero(newHours)}:${padZero(newMinutes)}:${padZero(newSeconds)}`;
+  //
+}
+
 //
 //
+//
+//
+
+/* * */
+/* PAD ZEROS */
+/* Add zeros to start of string if length is less than 2. */
+function padZero(num) {
+  return num.toString().padStart(2, '0');
+}
+
+//
+//
+//
+//
+
+/* * */
+/* GET AGENCY DATA */
+/* Fetch the database for the given agency_id. */
+async function getAgencyData(agencyId) {
+  return await AgencyModel.findOne({ _id: agencyId });
+}
+
 //
 //
 //
@@ -382,7 +248,27 @@ function parseAgency(agency) {
 //
 //
 //
-//
+
+/* * */
+/* GET ALL LINES DATA */
+/* Fetch the database for the given agency_id. */
+async function getAllLinesData(filterParams) {
+  // Populate nested fields all at once to avoid incresing lengthy db calls
+  const populateParams = {
+    path: 'routes',
+    populate: {
+      path: 'patterns',
+      populate: [
+        { path: 'shape', select: 'code' },
+        { path: 'path.stop', select: 'code' },
+        { path: 'schedules.calendars_on', select: 'code' },
+      ],
+    },
+  };
+  // Request database with the given params
+  return await LineModel.find(filterParams).populate(populateParams);
+}
+
 //
 //
 //
@@ -416,12 +302,6 @@ function parseRoute(agency, line, route) {
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* * */
 /* PARSE SHAPE */
@@ -440,12 +320,6 @@ function parseShape(shape) {
   return parsedShape;
 }
 
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -469,12 +343,6 @@ function parseCalendar(calendar) {
   return parsedCalendar;
 }
 
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -524,49 +392,210 @@ function parseStop(stop) {
 //
 //
 //
-//
-//
-//
 
-//
-//
-//
+/* * */
+/* BUILD GTFS V18 */
+/* This builds the GTFS data model. */
+async function buildGTFSv18(agencyId, lineIds) {
+  //
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+  // 0.
+  // In order to build stops.txt, shapes.txt and calendar_dates.txt it is necessary
+  // to initiate these variables outside all loops that hold the _ids
+  // of the objects that are referenced in the other objects (trips, patterns)
+  const referencedStopIds = new Set();
+  const referencedShapeIds = new Set();
+  const referencedCalendarIds = new Set();
 
-//HELPER TIMES
-function incrementTime(timeString, increment) {
-  // Parse the time string into hours, minutes, and seconds
-  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+  // 1.
+  // Retrieve the requested agency object
+  // and write the entry for this agency in agency.txt file
+  const agencyData = await getAgencyData(agencyId);
+  const parsedAgency = parseAgency(agencyData);
+  writeCsvToFile('agency.txt', parsedAgency);
 
-  // Calculate the new total seconds
-  const totalSeconds = hours * 3600 + minutes * 60 + seconds + increment;
+  // 2.
+  // Retrieve only the lines that match the requested parameters,
+  // or all of them for the given agency if lineIds is empty.
+  let linesFilterParams = { agency: agencyId };
+  if (lineIds.length) linesFilterParams._id = { $in: lineIds };
+  const allLinesData = await getAllLinesData(linesFilterParams);
 
-  // Calculate the new hours, minutes, and seconds
-  const newHours = Math.floor(totalSeconds / 3600) % 24;
-  const newMinutes = Math.floor(totalSeconds / 60) % 60;
-  const newSeconds = totalSeconds % 60;
+  // 3.
+  // Initiate the main loop that go through all lines
+  // and progressively builds the GTFS files
+  for (const lineData of allLinesData) {
+    //
+    // 3.1.
+    // Skip if this line has no routes
+    if (!lineData.routes) continue;
 
-  // Format the new time string
-  const newTimeString = `${padZero(newHours)}:${padZero(newMinutes)}:${padZero(newSeconds)}`;
+    // 3.2.
+    // Because GTFS has no lines files, directly loop
+    // on all the routes for this line
+    for (const routeData of lineData.routes) {
+      //
+      // 3.2.1.
+      // Skip if this route has no patterns
+      if (!routeData.patterns) continue;
 
-  return newTimeString;
-}
+      // 3.2.2.
+      // Write the routes.txt entry for this route
+      const parsedRoute = parseRoute(agencyData, lineData, routeData);
+      writeCsvToFile('routes.txt', parsedRoute);
 
-// Helper function to pad single-digit numbers with leading zeros
-function padZero(num) {
-  return num.toString().padStart(2, '0');
+      // 3.2.3.
+      // Iterate on all the patterns for the given route
+      for (const patternData of routeData.patterns) {
+        //
+        // 3.2.3.1.
+        // Skip if this pattern has no schedules or no path
+        if (!patternData.schedules || !patternData.path) continue;
+
+        // 3.2.3.2.
+        // Append the shape_id of this pattern to the scoped variable
+        referencedShapeIds.add(patternData.shape._id);
+
+        // 3.2.3.3.
+        // Iterate on all the schedules for the given pattern
+        for (const scheduleData of patternData.schedules) {
+          //
+          // 3.2.3.3.1.
+          // Skip if this schedule has no associated calendars
+          if (!scheduleData.calendars_on) continue;
+
+          // 3.2.3.3.2.
+          // The rule for this GTFS version is to create as many trips as associated calendars.
+          // For this, iterate on all the calendars associated with this schedule and build the trips.
+          for (const calendarData of scheduleData.calendars_on) {
+            //
+            // 3.2.3.3.2.1.
+            // Append the calendar_ids of this schedule to the scoped variable
+            referencedCalendarIds.add(calendarData._id);
+
+            // 3.2.3.3.2.2.
+            // Remove the : from this schedules start_time to use it as the identifier for this trip.
+            // Associate the route_code, direction, calendar_code and start_time of this schedule.
+            const startTimeStripped = scheduleData.start_time.split(':').join('');
+            const thisTripId = `${routeData.code}_${patternData.direction}_${calendarData.code}_${startTimeStripped}`;
+
+            // 3.2.3.3.2.3.
+            // Write the trips.txt entry for this trip
+            writeCsvToFile('trips.txt', {
+              route_id: routeData.code,
+              pattern_id: patternData.code,
+              pattern_short_name: patternData.headsign,
+              service_id: calendarData.code,
+              calendar_desc: calendarData.description,
+              trip_id: thisTripId,
+              trip_headsign: patternData.headsign,
+              direction_id: patternData.direction,
+              shape_id: patternData.shape.code,
+            });
+
+            // 3.2.3.3.2.4.
+            // Calculate the arrival_time for each stop
+            // Start by collecting the arrival time of the first stop in the path
+            // and hold it outside the path loop to keep updating it relative to each iteration
+            let currentArrivalTime = scheduleData.start_time;
+
+            // 3.2.3.3.2.5.
+            // Calculate the accumulated trip distance for each stop
+            // Trip distance is incremented relative to each iteration
+            // so hold the variable outside the path loop, and initiate it with zero
+            let currentTripDistance = 0;
+
+            // 3.2.3.3.2.6.
+            // Iterate on all the calendars associated with this schedule
+            for (const [pathIndex, pathData] of patternData.path.entries()) {
+              //
+              // 3.2.3.3.2.6.1.
+              // Skip if this pathStop has no associated stop
+              if (!pathData.stop) continue;
+
+              // 3.2.3.3.2.6.2.
+              // Append the stop_ids of this path to the scoped variable
+              referencedStopIds.add(pathData.stop._id);
+
+              // 3.2.3.3.2.6.3.
+              // Increment the arrival_time for this stop with the travel time for this path segment
+              // If the schedule has a travel time override, then use that instead of the default (not yet implemented)
+              // In the first iteration, the travel time is zero, so we get the start_time as the current trip time.
+              currentArrivalTime = incrementTime(currentArrivalTime, pathData.default_travel_time);
+
+              // 3.2.3.3.2.6.4.
+              // Increment the arrival_time for this stop with the dwell time
+              // If the schedule has a dwell time override, then use that instead of the default (not yet implemented)
+              const departureTime = incrementTime(currentArrivalTime, pathData.default_dwell_time);
+
+              // 3.2.3.3.2.6.5.
+              // Increment the travelled distance for this path segment with the distance delta
+              currentTripDistance = currentTripDistance + pathData.distance_delta;
+
+              // 3.2.3.3.2.6.6.
+              // Write the stop_times.txt entry for this stop_time
+              writeCsvToFile('stop_times.txt', {
+                trip_id: thisTripId,
+                arrival_time: currentArrivalTime,
+                departure_time: departureTime,
+                stop_id: pathData.stop.code,
+                stop_sequence: pathIndex,
+                pickup_type: pathData.allow_pickup ? 0 : 1,
+                drop_off_type: pathData.allow_drop_off ? 0 : 1,
+                shape_dist_traveled: currentTripDistance,
+                timepoint: 1,
+              });
+
+              // 3.2.3.3.2.6.6.
+              // The current trip time should now be equal to the departure time, so that the next iteration
+              // also takes into the account the dwell time on the current stop.
+              currentArrivalTime = departureTime;
+
+              // End of path loop
+            }
+
+            // End of schedule calendars loop
+          }
+
+          // End of schedules loop
+        }
+
+        // End of patterns loop
+      }
+
+      // End of routes loop
+    }
+
+    // End of lines loop
+  }
+
+  // 4.
+  // Fetch the referenced shapes and write the shapes.txt file
+  for (const shapeId of referencedShapeIds) {
+    const shapeData = await ShapeModel.findOne({ _id: shapeId }, 'code points');
+    if (shapeData.points && shapeData.points.length) {
+      const parsedShape = parseShape(shapeData);
+      writeCsvToFile('shapes.txt', parsedShape);
+    }
+  }
+
+  // 5.
+  // Fetch the referenced calendars and write the calendar_dates.txt file
+  for (const calendarId of referencedCalendarIds) {
+    const calendarData = await CalendarModel.findOne({ _id: calendarId });
+    if (calendarData.dates && calendarData.dates.length) {
+      const parsedCalendar = parseCalendar(calendarData);
+      writeCsvToFile('calendar_dates.txt', parsedCalendar);
+    }
+  }
+
+  // 6.
+  // Fetch the referenced stops and write the stops.txt file
+  for (const stopId of referencedStopIds) {
+    const stopData = await StopModel.findOne({ _id: stopId }, 'code name tts_name latitude longitude');
+    const parsedStop = parseStop(stopData);
+    writeCsvToFile('stops.txt', parsedStop);
+  }
+
+  //
 }

@@ -29,7 +29,7 @@ export default function Page() {
   // B. Fetch data
 
   const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading } = useSWR('/api/agencies');
-  const { data: linesData, error: linesError, isLoading: linesLoading } = useSWR('/api/lines');
+  const { data: allLinesData, error: linesError, isLoading: linesLoading } = useSWR('/api/lines');
 
   //
   // B. Format data
@@ -42,13 +42,13 @@ export default function Page() {
   }, [agenciesData]);
 
   const linesFormattedForSelect = useMemo(() => {
-    if (!linesData) return [];
-    let filteredLineBySelectedAgency = linesData;
-    if (selectedAgencyId) filteredLineBySelectedAgency = linesData.filter((item) => item.agencies.includes(selectedAgencyId));
+    if (!allLinesData) return [];
+    let filteredLineBySelectedAgency = allLinesData;
+    if (selectedAgencyId) filteredLineBySelectedAgency = allLinesData.filter((item) => item.agency === selectedAgencyId);
     return filteredLineBySelectedAgency.map((item) => {
       return { value: item._id, label: `(${item.short_name}) ${item.long_name}` };
     });
-  }, [linesData, selectedAgencyId]);
+  }, [allLinesData, selectedAgencyId]);
 
   //
   // D. Handle actions
@@ -56,7 +56,7 @@ export default function Page() {
   const handleExportGTFSv18 = async () => {
     try {
       setIsExportingV18(true);
-      const archiveBlob = await API({ service: 'export', operation: 'gtfs_v18', method: 'POST', body: { agency_id: selectedAgencyId }, parseType: 'blob' });
+      const archiveBlob = await API({ service: 'export', operation: 'gtfs_v18', method: 'POST', body: { agency_id: selectedAgencyId, lines: selectedLineIds }, parseType: 'blob' });
       const objectURL = URL.createObjectURL(archiveBlob);
       const zipDownload = document.createElement('a');
       zipDownload.href = objectURL;
