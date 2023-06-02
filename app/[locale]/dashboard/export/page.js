@@ -11,6 +11,7 @@ import { IconArrowBigDownLinesFilled } from '@tabler/icons-react';
 import { SimpleGrid, TextInput, Select, MultiSelect, Button, Divider } from '@mantine/core';
 import { Section } from '../../../../components/Layouts/Layouts';
 import { useState, useMemo } from 'react';
+import API from '../../../../services/API';
 
 export default function Page() {
   //
@@ -55,11 +56,7 @@ export default function Page() {
   const handleExportGTFSv18 = async () => {
     try {
       setIsExportingV18(true);
-      const archiveBlob = await fetch('/api/export/gtfs_v18', {
-        method: 'POST',
-        body: JSON.stringify({ agency_id: selectedAgencyId }),
-      }).then((response) => response.blob());
-
+      const archiveBlob = await API({ service: 'export', operation: 'gtfs_v18', method: 'POST', body: { agency_id: selectedAgencyId }, parseType: 'blob' });
       const objectURL = URL.createObjectURL(archiveBlob);
       const zipDownload = document.createElement('a');
       zipDownload.href = objectURL;
