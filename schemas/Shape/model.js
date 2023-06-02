@@ -18,7 +18,7 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 100,
     },
-    distance: {
+    extension: {
       type: String,
       maxlength: 100,
     },
@@ -63,7 +63,20 @@ export const Schema = new mongoose.Schema(
       },
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    virtuals: {
+      associated_pattern: {
+        options: {
+          ref: 'Pattern',
+          localField: '_id',
+          foreignField: 'shape',
+          justOne: true,
+        },
+      },
+    },
+  }
 );
 
 /* * */

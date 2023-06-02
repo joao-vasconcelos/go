@@ -28,6 +28,7 @@ export const Schema = new mongoose.Schema(
     shape: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Shape',
+      unique: true,
     },
     path: [
       {

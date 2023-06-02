@@ -8,7 +8,7 @@
 export const Default = {
   code: '',
   name: '',
-  distance: 0,
+  extension: 0,
   points: [],
   geojson: {
     type: 'Feature',

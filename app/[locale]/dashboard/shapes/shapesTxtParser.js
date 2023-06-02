@@ -30,11 +30,11 @@ export async function parseShapesCsv(csvString) {
     // Get the array of objects from the parsedCsv data
     const allShapes = parsedCsv.data.reduce((accumulator, row) => {
       // Get the shape object matching this row 'shape_id'
-      let currentShape = accumulator.find((item) => item.shape_code === row.shape_id);
+      let currentShape = accumulator.find((item) => item.code === row.shape_id);
       // If no shape object exists, then create it
       if (!currentShape) {
         currentShape = {
-          shape_code: row.shape_id,
+          code: row.shape_id,
           points: [],
           geojson: {
             type: 'Feature',
@@ -60,7 +60,7 @@ export async function parseShapesCsv(csvString) {
     // Sort the points array for each shape by shape_pt_sequence
     for (const currentShape of allShapes) {
       currentShape.shape_points_count = currentShape.points.length;
-      currentShape.shape_distance = currentShape.points[currentShape.points.length - 1].shape_dist_traveled;
+      currentShape.distance = currentShape.points[currentShape.points.length - 1].shape_dist_traveled;
       currentShape.points.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence);
       currentShape.geojson.geometry.coordinates = currentShape.points.map((point) => [parseFloat(point.shape_pt_lon), parseFloat(point.shape_pt_lat)]);
     }

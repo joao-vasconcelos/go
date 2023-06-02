@@ -11,7 +11,7 @@ import { useMap, Source, Layer } from 'react-map-gl';
 import { Validation as ShapeValidation } from '../../../../../schemas/Shape/validation';
 import { Default as ShapeDefault } from '../../../../../schemas/Shape/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
-import { IconTrash, IconPlaylistX } from '@tabler/icons-react';
+import { IconArrowUpRight, IconTrash, IconPlaylistX } from '@tabler/icons-react';
 import Pannel from '../../../../../components/Pannel/Pannel';
 import Text from '../../../../../components/Text/Text';
 import { Section } from '../../../../../components/Layouts/Layouts';
@@ -20,6 +20,7 @@ import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import ImportShapeFromText from './ImportShapeFromText';
 import { useTranslations } from 'next-intl';
+import StatCard from '../../../../../components/StatCard/StatCard';
 
 export default function Page() {
   //
@@ -133,6 +134,13 @@ export default function Page() {
     });
   };
 
+  const handleOpenPattern = async () => {
+    const pattern_id = shapeData.associated_pattern._id;
+    const route_id = shapeData.associated_pattern.parent_route._id;
+    const line_id = shapeData.associated_pattern.parent_route.parent_line._id;
+    window.open(`/dashboard/lines/${line_id}/${route_id}/${pattern_id}`, '_blank');
+  };
+
   //
   // E. Transform data
 
@@ -183,6 +191,13 @@ export default function Page() {
           <Text size='h1' style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
+          {shapeData && shapeData.associated_pattern && (
+            <Tooltip label={t('operations.open_pattern.title')} color='gray' position='bottom' withArrow>
+              <ActionIcon color='gray' variant='light' size='lg' onClick={handleOpenPattern}>
+                <IconArrowUpRight size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          )}
           <Tooltip label={t('operations.delete_points.title')} color='red' position='bottom' withArrow>
             <ActionIcon color='red' variant='light' size='lg' onClick={handlePointsDelete}>
               <IconPlaylistX size='20px' />
@@ -224,7 +239,10 @@ export default function Page() {
           <Text size='h2'>{t('sections.statistics.title')}</Text>
           <Text size='h4'>{t('sections.statistics.description')}</Text>
         </div>
-        <SimpleGrid cols={2}>TBD</SimpleGrid>
+        <SimpleGrid cols={2}>
+          <StatCard title={t('sections.statistics.cards.extension')} value={form.values.extension} />
+          <StatCard title={t('sections.statistics.cards.points_count')} value={form.values.points.length} />
+        </SimpleGrid>
       </Section>
 
       <Divider />

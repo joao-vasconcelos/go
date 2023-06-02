@@ -1,20 +1,9 @@
-import { useCallback, useEffect, useReducer, useRef } from 'react';
-
-const api = {
-  uploadFile({ timeout = 3000 }) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, timeout);
-    });
-  },
-};
+import { useEffect, useReducer } from 'react';
 
 // Constants
 const LOADED = 'LOADED';
 const INIT = 'INIT';
 const UPLOADING = 'UPLOADING';
-const SHAPES_UPLOADED = 'SHAPES_UPLOADED';
 const UPLOAD_ERROR = 'UPLOAD_ERROR';
 
 const initialState = {

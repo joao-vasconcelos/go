@@ -8,6 +8,7 @@ import { IconUpload, IconBan, IconDragDrop, IconAlertTriangleFilled } from '@tab
 import Pannel from '../Pannel/Pannel';
 import Text from '../Text/Text';
 import { useTranslations } from 'next-intl';
+import Loader from '../Loader/Loader';
 
 export default function BulkImportFileSelect({ filesParser, onParse }) {
   //
@@ -84,6 +85,7 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
 
   return (
     <Pannel>
+      {isParsing && <Loader full fixed />}
       {hasParsingError && <ErrorAlert />}
       <DropZoneIdle />
       <Dropzone.FullScreen active={!isParsing} openRef={openFileBrowserRef} onDrop={handleAcceptedFilesDrop} onReject={handleRejectedFilesDrop} accept={['text/plain', 'text/csv']} loading={isParsing}>

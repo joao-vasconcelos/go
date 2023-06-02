@@ -120,9 +120,9 @@ export default function BulkImportTable({ controller }) {
       children: (
         <Flex direction='column'>
           <Text>Se uma shape com o mesmo ID já existir, será atualizada com os pontos desta nova importação. Se não existir, então será criada uma nova shape.</Text>
-          <Code style={{ fontSize: '14px' }}>shape_code: {row.item.shape_code}</Code>
-          <Code style={{ fontSize: '14px' }}>shape_distance: {row.item.shape_distance}</Code>
-          <Code style={{ fontSize: '14px' }}>shape_points_count: {row.item.shape_points_count}</Code>
+          <Code style={{ fontSize: '14px' }}>code: {row.item.code}</Code>
+          <Code style={{ fontSize: '14px' }}>distance: {row.item.distance}</Code>
+          <Code style={{ fontSize: '14px' }}>points_count: {row.item.points_count}</Code>
         </Flex>
       ),
       labels: { confirm: 'Importar Shape', cancel: 'Cancelar' },
@@ -213,9 +213,9 @@ export default function BulkImportTable({ controller }) {
           <Checkbox aria-label='Selecionar linha' checked={isThisRowChecked} onChange={() => handleCheckSingleRow(row.row_id)} transitionDuration={0} />
         </TableCellBody>
         <TableCellBody onClick={() => handleCheckSingleRow(row.row_id)} style={{ cursor: 'pointer' }}>
-          {row.item.shape_code || '-'}
+          {row.item.code || '-'}
         </TableCellBody>
-        <TableCellBody>{row.item.shape_extension || 0} km</TableCellBody>
+        <TableCellBody>{row.item.distance || 0} km</TableCellBody>
         <TableCellBody>{row.item.points.length}</TableCellBody>
         <TableCellBody>
           <Flex>
@@ -237,8 +237,8 @@ export default function BulkImportTable({ controller }) {
         <TableCellBody>
           <ActionIcon size='lg' color='blue' loading />
         </TableCellBody>
-        <TableCellBody>{row.item.shape_code || '-'}</TableCellBody>
-        <TableCellBody>{row.item.shape_extension || 0} km</TableCellBody>
+        <TableCellBody>{row.item.code || '-'}</TableCellBody>
+        <TableCellBody>{row.item.distance || 0} km</TableCellBody>
         <TableCellBody>{row.item.points.length}</TableCellBody>
         <TableCellBody />
       </TableBodyRow>
@@ -253,8 +253,8 @@ export default function BulkImportTable({ controller }) {
             <IconCircleCheckFilled size='20px' />
           </ActionIcon>
         </TableCellBody>
-        <TableCellBody>{row.item.shape_code || '-'}</TableCellBody>
-        <TableCellBody>{row.item.shape_extension || 0} km</TableCellBody>
+        <TableCellBody>{row.item.code || '-'}</TableCellBody>
+        <TableCellBody>{row.item.distance || 0} km</TableCellBody>
         <TableCellBody>{row.item.points.length}</TableCellBody>
         <TableCellBody />
       </TableBodyRow>
@@ -269,8 +269,8 @@ export default function BulkImportTable({ controller }) {
             <IconAlertTriangleFilled size='20px' />
           </ActionIcon>
         </TableCellBody>
-        <TableCellBody>{row.item.shape_code || '-'}</TableCellBody>
-        <TableCellBody>{row.item.shape_extension || 0} km</TableCellBody>
+        <TableCellBody>{row.item.code || '-'}</TableCellBody>
+        <TableCellBody>{row.item.distance || 0} km</TableCellBody>
         <TableCellBody>{row.item.points.length}</TableCellBody>
         <TableCellBody>
           <Tooltip label='Tentar Novamente' position='left' color='gray' withArrow>
@@ -293,7 +293,7 @@ export default function BulkImportTable({ controller }) {
           <ActionIcon size='lg' onClick={handleReset}>
             <IconX size='20px' />
           </ActionIcon>
-          <HeaderTitle text='shjdh' />
+          <HeaderTitle text='Import Shapes' />
         </>
       }
       footer={
@@ -317,7 +317,7 @@ export default function BulkImportTable({ controller }) {
             transitionDuration={0}
           />
         </TableCellHeader>
-        <TableCellHeader>shape_code</TableCellHeader>
+        <TableCellHeader>code</TableCellHeader>
         <TableCellHeader>Extensão</TableCellHeader>
         <TableCellHeader>Número de Pontos</TableCellHeader>
       </TableHeader>
