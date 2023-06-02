@@ -55,7 +55,8 @@ export default async function exportGTFSv18(req, res) {
   // 3. Create temporary directory
 
   try {
-    prepareTempDirectory();
+    // If in development, then prepare the directory
+    if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') prepareTempDirectory();
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Could not create temporary directory.' });
