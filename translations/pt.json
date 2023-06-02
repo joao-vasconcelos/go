@@ -393,7 +393,7 @@
                 "nothingFound": "No Results Found"
             },
             "agency": {
-                "label": "Operate by this Agencies",
+                "label": "Operated by this Agency",
                 "description": "Choose one operator for this line.",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
