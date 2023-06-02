@@ -16,10 +16,15 @@ export default async function AuthLayout({ children }) {
   const { status } = useSession();
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
-      else router.push('/dashboard/');
-    }
+    // Periodically check if user has a valid session.
+    const checkAuthInterval = setInterval(() => {
+      if (status === 'authenticated') {
+        if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
+        else router.push('/dashboard/');
+      }
+    }, 500);
+    // Clear the interval on unmount (from React API)
+    return () => clearInterval(checkAuthInterval);
   }, [router, searchParams, status]);
 
   return status === 'unauthenticated' ? (
