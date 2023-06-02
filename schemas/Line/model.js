@@ -40,12 +40,10 @@ export const Schema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Fare',
     },
-    agencies: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Agency',
-      },
-    ],
+    agency: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Agency',
+    },
     routes: [
       {
         type: mongoose.Schema.Types.ObjectId,

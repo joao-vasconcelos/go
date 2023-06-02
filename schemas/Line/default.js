@@ -14,6 +14,6 @@ export const Default = {
   circular: false,
   school: false,
   fare: null,
-  agencies: [],
+  agency: null,
   routes: [],
 };

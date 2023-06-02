@@ -214,12 +214,12 @@ export default function Page() {
             <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFound={t('form.fare.nothingFound')} {...form.getInputProps('fare')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
           </SimpleGrid>
           <SimpleGrid cols={1}>
-            <MultiSelect
-              label={t('form.agencies.label')}
-              description={t('form.agencies.description')}
-              placeholder={t('form.agencies.placeholder')}
-              nothingFound={t('form.agencies.nothingFound')}
-              {...form.getInputProps('agencies')}
+            <Select
+              label={t('form.agency.label')}
+              description={t('form.agency.description')}
+              placeholder={t('form.agency.placeholder')}
+              nothingFound={t('form.agency.nothingFound')}
+              {...form.getInputProps('agency')}
               data={allAgenciesDataFormatted}
               readOnly={isReadOnly}
               searchable
