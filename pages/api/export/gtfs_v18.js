@@ -13,11 +13,6 @@ import { Model as CalendarModel } from '../../../schemas/Calendar/model';
 import { Model as ShapeModel } from '../../../schemas/Shape/model';
 
 /* * */
-/* CONSTANSTS */
-
-const TEMP_WRITE_DIRECTORY = './export_temp';
-
-/* * */
 /* EXPORT GTFS V18 */
 /* This endpoint returns a zip file. */
 /* * */
@@ -43,9 +38,7 @@ export default async function exportGTFSv18(req, res) {
 
   // 2. Create temporary directory to hold the files
   try {
-    // If the directory already exists, delete it with all the contents
-    if (fs.existsSync(TEMP_WRITE_DIRECTORY)) fs.rmSync(TEMP_WRITE_DIRECTORY, { recursive: true, force: true });
-    fs.mkdirSync(TEMP_WRITE_DIRECTORY); // Create a fresh empty directory
+    prepareTempDirectory();
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Could not create temporary directory.' });
@@ -270,14 +263,91 @@ export default async function exportGTFSv18(req, res) {
 
   // 5. Zip the files and return them to the client
   try {
+    const tempDirPath = getTempDirectoryPath();
     zipFiles(['agency.txt', 'routes.txt', 'calendar_dates.txt', 'trips.txt', 'stop_times.txt', 'shapes.txt', 'stops.txt'], 'output-gtfs.zip');
     res.writeHead(200, { 'Content-Type': 'application/zip', 'Content-Disposition': 'attachment; filename=output-gtfs.zip' });
-    fs.createReadStream(`${TEMP_WRITE_DIRECTORY}/output-gtfs.zip`).pipe(res);
+    fs.createReadStream(`${tempDirPath}/output-gtfs.zip`).pipe(res);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot compress files.' });
   }
 
+  //
+}
+
+//
+//
+//
+
+/* * */
+/* PROVIDE TEMP DIRECTORY PATH */
+/* Return the path for the temporary directory based on current environment. */
+function getTempDirectoryPath() {
+  // If in development, then return the 'temp' folder in the current directory
+  if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') return './tmp';
+  // If in production, return the server provided root 'temp' folder
+  else return '/tmp/';
+  //
+}
+
+//
+//
+//
+
+/* * */
+/* PREPARE TEMPORARY DIRECTORY */
+/* Delete and recreate the temp directory to hold the generated files. */
+function prepareTempDirectory() {
+  // Get directory path based on environment
+  const tempDirPath = getTempDirectoryPath();
+  // If the directory already exists, delete it with all the contents
+  if (fs.existsSync(tempDirPath)) fs.rmSync(tempDirPath, { recursive: true, force: true });
+  fs.mkdirSync(tempDirPath); // Create a fresh empty directory
+  //
+}
+
+//
+//
+//
+
+/* * */
+/* WRITE CSV TO FILE */
+/* Parse and append data to an existing file. */
+function writeCsvToFile(filename, data, papaparseOptions) {
+  // Get temporary directory path
+  const tempDirPath = getTempDirectoryPath();
+  // If data is not an array, then wrap it in one
+  if (!Array.isArray(data)) data = [data];
+  // Check if the file already exists
+  const fileExists = fs.existsSync(`${tempDirPath}/${filename}`);
+  // Use papaparse to produce the CSV string
+  let csvData = Papa.unparse(data, { header: !fileExists, ...papaparseOptions });
+  // Prepend a new line character to csvData string if it is not the first line on the file
+  if (fileExists) csvData = '\n' + csvData;
+  // Append the csv string to the file
+  fs.appendFileSync(`${tempDirPath}/${filename}`, csvData);
+}
+
+//
+//
+//
+//
+
+/* * */
+/* ZIP FILES */
+/* Build a ZIP archive of an array of filenames. */
+function zipFiles(arrayOfFileNames, outputZipFilename) {
+  // Get temporary directory path
+  const tempDirPath = getTempDirectoryPath();
+  // Create new ZIP variable
+  const outputZip = new AdmZip();
+  // Include all requested files
+  for (const filename of arrayOfFileNames) {
+    // Add the current filename to the zip archive
+    outputZip.addLocalFile(`${tempDirPath}/${filename}`);
+  }
+  // Build the ZIP archive
+  outputZip.writeZip(`${tempDirPath}/${outputZipFilename}`);
   //
 }
 
@@ -457,48 +527,10 @@ function parseStop(stop) {
 //
 //
 //
-//
-//
-//
-
-/* * */
-/* WRITE CSV TO FILE */
-/* Parse and append data to an existing file */
-function writeCsvToFile(filename, data, papaparseOptions) {
-  // If data is not an array, then wrap it in one
-  if (!Array.isArray(data)) data = [data];
-  // Check if the file already exists
-  const fileExists = fs.existsSync(`${TEMP_WRITE_DIRECTORY}/${filename}`);
-  // Use papaparse to produce the CSV string
-  let csvData = Papa.unparse(data, { header: !fileExists, ...papaparseOptions });
-  // Prepend a new line character to csvData string if it is not the first line on the file
-  if (fileExists) csvData = '\n' + csvData;
-  // Append the csv string to the file
-  fs.appendFileSync(`${TEMP_WRITE_DIRECTORY}/${filename}`, csvData);
-}
 
 //
 //
 //
-//
-//
-//
-//
-
-/* * */
-/* ZIP FILES */
-/* Build a ZIP archive of an array of filenames */
-function zipFiles(arrayOfFileNames, outputZipFilename) {
-  // Create new ZIP variable
-  const outputZip = new AdmZip();
-  // Include all requested files
-  for (const filename of arrayOfFileNames) {
-    // Add the current filename to the zip archive
-    outputZip.addLocalFile(`${TEMP_WRITE_DIRECTORY}/${filename}`);
-  }
-  // Build the ZIP archive
-  outputZip.writeZip(`${TEMP_WRITE_DIRECTORY}/${outputZipFilename}`);
-}
 
 //
 //
