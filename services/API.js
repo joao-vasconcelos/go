@@ -2,7 +2,7 @@
 /* FETCH CHEF POINT API */
 /* * */
 
-export default async function fetchAPI(request) {
+export default async function API(request) {
   //
   // Build the endpoint string
   let endpoint = '/api';
@@ -20,8 +20,10 @@ export default async function fetchAPI(request) {
   // Fetch the API with the given values
   const response = await fetch(endpoint, options);
 
-  // Parse the response to JSON
-  const parsedResponse = await response.json();
+  let parsedResponse;
+  // Parse the response to JSON or BLOB
+  if (!request.parseType || request.parseType === 'json') parsedResponse = await response.json();
+  else if (request.parseType === 'blob') parsedResponse = await response.blob();
 
   // Throw an error if the response is not OK
   if (!response.ok) throw new Error(parsedResponse.message);
