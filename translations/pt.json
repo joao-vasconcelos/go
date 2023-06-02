@@ -528,6 +528,9 @@
                 "loading": "Deleting Shape Points...",
                 "success": "Shape Points were deleted.",
                 "error": "An error occurred while deleting this Shapes points."
+            },
+            "open_pattern": {
+                "title": "Open Pattern in New Tab"
             }
         },
         "sections": {
@@ -537,7 +540,12 @@
             },
             "statistics": {
                 "title": "Statistics",
-                "description": "Something about this section"
+                "description": "Something about this section",
+                "cards": {
+                    "extension": "Shape Extension in Kilometers",
+                    "points_count": "Number of Shape Points",
+                    "associated_pattern": "Used by Pattern"
+                }
             },
             "update": {
                 "title": "Update Shape",
