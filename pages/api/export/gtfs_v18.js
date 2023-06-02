@@ -110,7 +110,7 @@ function getTempDirectoryPath() {
   // If in development, then return the 'temp' folder in the current directory
   if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') return './tmp';
   // If in production, return the server provided root 'temp' folder
-  else return '/tmp/';
+  else return '/tmp/export';
   //
 }
 
