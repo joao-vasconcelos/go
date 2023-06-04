@@ -483,11 +483,13 @@
             },
             "headsign": {
                 "label": "Headsign",
-                "placeholder": "Destination (via Known Place)"
+                "placeholder": "Destination (via Known Place)",
+                "description": "This is what should be displayed outside the bus."
             },
             "shape": {
                 "label": "Associated Shape",
                 "placeholder": "Choose an option...",
+                "description": "This is the shape. <link>Open in new tab.</link>",
                 "nothingFound": "No Results Found",
                 "untitled": "Untitled Shape"
             }
@@ -530,7 +532,7 @@
                 "error": "An error occurred while deleting this Shapes points."
             },
             "open_pattern": {
-                "title": "Open Pattern in New Tab"
+                "title": "Open Associated Pattern in New Tab"
             }
         },
         "sections": {
@@ -1340,5 +1342,6 @@
                 "title": "Go Back"
             }
         }
-    }
+    },
+    "ImportShapeFromGTFS": {}
 }
