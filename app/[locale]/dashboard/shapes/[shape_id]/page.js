@@ -18,9 +18,9 @@ import { Section } from '../../../../../components/Layouts/Layouts';
 import AutoSave from '../../../../../components/AutoSave/AutoSave';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import ImportShapeFromText from './ImportShapeFromText';
 import { useTranslations } from 'next-intl';
 import StatCard from '../../../../../components/StatCard/StatCard';
+import ImportShapeFromGTFS from '../../../../../components/ImportShapeFromGTFS/ImportShapeFromGTFS';
 
 export default function Page() {
   //
@@ -165,8 +165,7 @@ export default function Page() {
     } catch (error) {
       console.log(error);
     }
-
-    // Only run if stopData changes
+    //
   }, [shapeData, singleShapeMap]);
 
   //
@@ -252,7 +251,8 @@ export default function Page() {
           <Text size='h2'>{t('sections.update.title')}</Text>
           <Text size='h4'>{t('sections.update.description')}</Text>
         </div>
-        <ImportShapeFromText onImport={(result) => form.setFieldValue('points', result)} />
+        {/* <ImportShapeFromText onImport={(result) => form.setFieldValue('points', result)} /> */}
+        <ImportShapeFromGTFS onImport={(result) => form.setFieldValue('points', result)} />
       </Section>
     </Pannel>
   );
