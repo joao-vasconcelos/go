@@ -393,7 +393,7 @@
                 "placeholder": "#FFFFFF"
             },
             "fare": {
-                "label": "Tarifa Associada",
+                "label": "Fare Rule for this Line",
                 "placeholder": "Selecionar Tarifa...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
@@ -494,7 +494,7 @@
             "shape": {
                 "label": "Shape Associada",
                 "placeholder": "Escolha uma opção...",
-                "description": "<link>Abrir numa nova janela.</link>",
+                "description": "This is the shape. <link>Open in new tab.</link>",
                 "nothingFound": "Nenhum Resultado Encontrado",
                 "untitled": "Shape sem título"
             }
@@ -646,7 +646,7 @@
         },
         "form": {
             "code": {
-                "label": "Código da Paragem",
+                "label": "Unique Stop Code",
                 "placeholder": "012345"
             },
             "latitude": {
@@ -765,7 +765,7 @@
             },
             "last_infrastructure_check": {
                 "label": "Último Verificação da Infraestrutura",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_infrastructure_check"
             },
             "has_stop_sign": {
                 "label": "Tem Postalete",
@@ -782,8 +782,8 @@
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "shelter_frame_area_cm": {
-                "label": "Área da Moldura do Abrigo (H x W cm)",
-                "placeholder": "23 x 42 cm"
+                "label": "Shelter Frame Area (cm)",
+                "placeholder": "shelter_frame_area_cm"
             },
             "has_pip_real_time": {
                 "label": "Tem PIP Tempo Real",
@@ -792,7 +792,7 @@
             },
             "pip_real_time_code": {
                 "label": "Código do PIP Tempo Real",
-                "placeholder": "PIP372"
+                "placeholder": "pip_real_time_code"
             },
             "has_h2oa_signage": {
                 "label": "Tem Sinalética H2OA",
@@ -811,19 +811,19 @@
             },
             "last_schedules_maintenance": {
                 "label": "Última Atualização de Horários",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_schedules_maintenance"
             },
             "last_schedules_check": {
                 "label": "Última Verificação de Horários",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_schedules_check"
             },
             "last_stop_sign_maintenance": {
                 "label": "Última Manutenção do Postalete",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_stop_sign_maintenance"
             },
             "last_stop_sign_check": {
                 "label": "Última Verificação do Postalete",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_stop_sign_check"
             },
             "has_sidewalk": {
                 "label": "Tem Passeio",
@@ -871,58 +871,58 @@
             },
             "last_accessibility_check": {
                 "label": "Última Verificação de Acessibilidade",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_accessibility_check"
             },
             "near_health_clinic": {
-                "label": "Centro de Saúde"
+                "label": "near_health_clinic"
             },
             "near_hospital": {
-                "label": "Hospital"
+                "label": "near_hospital"
             },
             "near_university": {
-                "label": "Universidade"
+                "label": "near_university"
             },
             "near_school": {
-                "label": "Escola"
+                "label": "near_school"
             },
             "near_police_station": {
-                "label": "Esquadra"
+                "label": "near_police_station"
             },
             "near_fire_station": {
-                "label": "Bombeiros"
+                "label": "near_fire_station"
             },
             "near_shopping": {
-                "label": "Comércio"
+                "label": "near_shopping"
             },
             "near_historic_building": {
-                "label": "Zona Histórica"
+                "label": "near_historic_building"
             },
             "near_transit_office": {
-                "label": "Espaço navegante®"
+                "label": "near_transit_office"
             },
             "subway": {
-                "label": "Metro"
+                "label": "subway"
             },
             "light_rail": {
-                "label": "Metro de Superfície"
+                "label": "light_rail"
             },
             "train": {
-                "label": "Comboio"
+                "label": "train"
             },
             "boat": {
-                "label": "Barco"
+                "label": "boat"
             },
             "airport": {
-                "label": "Aeroporto"
+                "label": "airport"
             },
             "bike_sharing": {
-                "label": "Bicicletas Partilhadas"
+                "label": "bike_sharing"
             },
             "bike_parking": {
-                "label": "Estacionamento de Bicicletas"
+                "label": "bike_parking"
             },
             "car_parking": {
-                "label": "Estacionamento Automóvel"
+                "label": "car_parking"
             },
             "notes": {
                 "label": "Notas & Comentários sobre esta paragem",
