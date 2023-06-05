@@ -13,115 +13,115 @@
                 "configuration": "Existe um problema com a configuração do servidor.",
                 "access-denied": "Não é possível entrar com este email.",
                 "verification": "Este acesso expirou ou já foi utilizado.",
-                "unknown": "Unkown Issue"
+                "unknown": "Erro Desconhecido"
             }
         }
     },
     "agencies": {
-        "untitled": "Untitled Agency",
+        "untitled": "Agência sem nome",
         "list": {
-            "footer": "Found {count, plural, =1 {1 Agency} other {# Agencies}}"
+            "footer": "{count, plural, one {}=1 {Encontrada 1 Agência} other {Encontradas # Agências}}"
         },
         "operations": {
             "create": {
-                "title": "Create New Agency",
-                "loading": "Creating new Agency...",
-                "success": "A new Agency was created!",
-                "error": "An error occurred while creating this Agency."
+                "title": "Criar Agência",
+                "loading": "A criar Agência...",
+                "success": "Uma nova Agência foi criada!",
+                "error": "Um erro ocorreu ao criar esta Agência."
             },
             "delete": {
-                "title": "Delete Agency",
-                "description": "Deleting is irreversible. Are you sure you want to delete this Agency forever?",
-                "confirm": "Delete Agency Forever",
-                "cancel": "Do Not Delete",
-                "loading": "Deleting Agency...",
-                "success": "Agency was deleted.",
-                "error": "An error occurred while deleting this Agency."
+                "title": "Eliminar Agência",
+                "description": "Eliminar é irreversível. Tem certeza de que deseja eliminar esta Agência para sempre?",
+                "confirm": "Eliminar Agência para sempre",
+                "cancel": "Não Eliminar",
+                "loading": "A eliminar Agência...",
+                "success": "Agência eliminada.",
+                "error": "Um erro ocorreu ao eliminar esta Agência."
             }
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Detalhes"
             }
         },
         "form": {
             "name": {
-                "label": "Agency Name",
-                "placeholder": "A.C.M.E Transportation"
+                "label": "Nome da Agência",
+                "placeholder": "A.C.M.E Transportes"
             },
             "code": {
-                "label": "Agency Code",
+                "label": "Código da Agência",
                 "placeholder": "41"
             },
             "lang": {
-                "label": "Primary Agency Language",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "label": "Idioma Principal desta Agência",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "timezone": {
-                "label": "Timezone",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "label": "Fuso horário",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "phone": {
-                "label": "Public Phone Number",
+                "label": "Contacto de Telefone Público",
                 "placeholder": "+351 213 456 789"
             },
             "email": {
-                "label": "Public Email Address",
+                "label": "Endereço do Email Público",
                 "placeholder": "contact@agency.com"
             },
             "url": {
-                "label": "Public Website URL",
+                "label": "URL do Site Público",
                 "placeholder": "https://agency.com"
             },
             "fare_url": {
-                "label": "Website for Fares Information",
+                "label": "Website para Informações de Tarifas",
                 "placeholder": "https://agency.com/fares"
             }
         }
     },
     "export": {
         "gtfs_v18": {
-            "title": "Export Intended Offer (v18)",
+            "title": "Exportar Plano de Oferta (v18)",
             "sections": {
                 "intro": {
                     "title": "Export GTFS Intro",
-                    "description": "Something about this section"
+                    "description": "Algo sobre esta secção"
                 }
             },
             "operations": {
                 "start": {
-                    "label": "Start Export (v18)"
+                    "label": "Iniciar Exportação (v18)"
                 }
             },
             "form": {
                 "agencies": {
-                    "label": "Export for this Agency",
-                    "description": "Choose Agencies or leave empty for all.",
-                    "placeholder": "Choose an Agency...",
-                    "nothingFound": "No Results Found"
+                    "label": "Exportar para esta Agência",
+                    "description": "Escolha uma Agência ou deixe em branco para todas.",
+                    "placeholder": "Escolha uma Agência...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
                 },
                 "lines": {
-                    "label": "Export this lines",
-                    "description": "Choose Lines or leave empty for all.",
-                    "placeholder": "Choose Lines...",
-                    "nothingFound": "No Results Found"
+                    "label": "Exportar estas linhas",
+                    "description": "Escolha Linhas ou deixe em branco para todas.",
+                    "placeholder": "Escolha Linhas...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
                 }
             }
         },
         "gtfs_v29": {
-            "title": "Export Intended Offer (v29)"
+            "title": "Exportar Plano de Oferta (v29)"
         }
     },
     "calendars": {
-        "untitled": "Untitled Calendar",
+        "untitled": "Calendário sem título",
         "list": {
-            "footer": "Found {count, plural, =1 {1 Calendar} other {# Calendars}}"
+            "footer": "{count, plural, one {}=1 {Encontrado 1 Calendário} other {Encontrados # Calendários}}"
         },
         "operations": {
             "create": {
-                "title": "Create New Calendar",
+                "title": "Criar Calendário",
                 "loading": "Creating new Calendar...",
                 "success": "A new Calendar was created!",
                 "error": "An error occurred while creating this Calendar."
@@ -130,7 +130,7 @@
                 "title": "Delete Calendar",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Calendar forever?",
                 "confirm": "Delete Calendar Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting Calendar...",
                 "success": "Calendar was deleted.",
                 "error": "An error occurred while deleting this Calendar."
@@ -138,7 +138,7 @@
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Detalhes"
             }
         },
         "form": {
@@ -175,7 +175,7 @@
                 "title": "Delete",
                 "description": "Deleting is irreversible. Are you sure you want to delete these Dates forever?",
                 "confirm": "Delete Dates Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting...",
                 "success": "Dates were deleted.",
                 "error": "An error occurred while deleting these Dates."
@@ -183,7 +183,7 @@
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Detalhes"
             },
             "dates": {
                 "title": "Dates for this Calendar"
@@ -198,8 +198,8 @@
             },
             "period": {
                 "label": "Period",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "notes": {
                 "label": "Notes for this Date",
@@ -223,7 +223,7 @@
                 "title": "Delete Fare",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Fare forever?",
                 "confirm": "Delete Fare Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting Fare...",
                 "success": "Fare was deleted.",
                 "error": "An error occurred while deleting this Fare."
@@ -231,7 +231,7 @@
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Detalhes"
             }
         },
         "form": {
@@ -253,16 +253,16 @@
             },
             "currency_type": {
                 "label": "Currency",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
                     "EUR": "Euro"
                 }
             },
             "payment_method": {
                 "label": "Payment Method",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
                     "0": "Pay to the Driver (navegante® a bordo)",
                     "1": "Pay before boarding (navegante® pré-pago, navegante®)"
@@ -270,8 +270,8 @@
             },
             "transfers": {
                 "label": "Allow Transfers",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
                     "0": "Transfers are not allowed",
                     "1": "Only 1 transfer is allowed",
@@ -297,7 +297,7 @@
                 "title": "Delete Municipality",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Municipality forever?",
                 "confirm": "Delete Municipality Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting Municipality...",
                 "success": "Municipality was deleted.",
                 "error": "An error occurred while deleting this Municipality."
@@ -305,7 +305,7 @@
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Detalhes"
             }
         },
         "form": {
@@ -350,7 +350,7 @@
                 "title": "Delete Line",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Line forever?",
                 "confirm": "Delete Line Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting Line...",
                 "success": "Line was deleted.",
                 "error": "An error occurred while deleting this Line."
@@ -358,7 +358,7 @@
         },
         "sections": {
             "config": {
-                "title": "Details",
+                "title": "Detalhes",
                 "description": "Something about this section"
             },
             "routes": {
@@ -390,13 +390,13 @@
             "fare": {
                 "label": "Fare Rule for this Line",
                 "placeholder": "Choose Fare...",
-                "nothingFound": "No Results Found"
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "agency": {
-                "label": "Operated by this Agency",
+                "label": "Operate by this Agencies",
                 "description": "Choose one operator for this line.",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "routes": {
                 "create": {
@@ -415,7 +415,7 @@
                 "title": "Delete Route",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Route forever?",
                 "confirm": "Delete Route Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting Route...",
                 "success": "Route was deleted.",
                 "error": "An error occurred while deleting this Route."
@@ -423,7 +423,7 @@
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Detalhes"
             },
             "patterns": {
                 "title": "Patterns"
@@ -456,7 +456,7 @@
                 "title": "Delete Pattern",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Pattern forever?",
                 "confirm": "Delete Pattern Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting Pattern...",
                 "success": "Pattern was deleted.",
                 "error": "An error occurred while deleting this Pattern."
@@ -464,7 +464,7 @@
         },
         "sections": {
             "config": {
-                "title": "Details",
+                "title": "Detalhes",
                 "description": "Something about this section"
             },
             "stops": {
@@ -488,9 +488,9 @@
             },
             "shape": {
                 "label": "Associated Shape",
-                "placeholder": "Choose an option...",
+                "placeholder": "Escolha uma opção...",
                 "description": "This is the shape. <link>Open in new tab.</link>",
-                "nothingFound": "No Results Found",
+                "nothingFound": "Nenhum Resultado Encontrado",
                 "untitled": "Untitled Shape"
             }
         }
@@ -517,7 +517,7 @@
                 "title": "Delete Shape",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Shape forever?",
                 "confirm": "Delete Shape Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting Shape...",
                 "success": "Shape was deleted.",
                 "error": "An error occurred while deleting this Shape."
@@ -526,13 +526,13 @@
                 "title": "Delete Shape Points",
                 "description": "Deleting shape points is irreversible. However, this will not desassociate this shape with its pattern. If you do not re-import new points an error will be thrown if you try to export a GTFS with this line. Are you sure you want to delete this shapes points forever?",
                 "confirm": "Delete Shape Points Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting Shape Points...",
                 "success": "Shape Points were deleted.",
                 "error": "An error occurred while deleting this Shapes points."
             },
             "open_pattern": {
-                "title": "Open Associated Pattern in New Tab"
+                "title": "Open Pattern in New Tab"
             }
         },
         "sections": {
@@ -544,7 +544,7 @@
                 "title": "Statistics",
                 "description": "Something about this section",
                 "cards": {
-                    "extension": "Shape Extension",
+                    "extension": "Shape Extension in Kilometers",
                     "points_count": "Number of Shape Points",
                     "associated_pattern": "Used by Pattern"
                 }
@@ -594,7 +594,7 @@
                 "title": "Delete Stop",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Stop forever?",
                 "confirm": "Delete Stop Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting Stop...",
                 "success": "Stop was deleted.",
                 "error": "An error occurred while deleting this Stop."
@@ -602,7 +602,7 @@
         },
         "sections": {
             "config": {
-                "title": "Details",
+                "title": "Detalhes",
                 "description": "Info about this section"
             },
             "areas": {
@@ -666,7 +666,7 @@
             "agencies": {
                 "label": "Used by these Agencies",
                 "placeholder": "Choose Agencies...",
-                "nothingFound": "No Results Found"
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "address": {
                 "label": "Stop Address",
@@ -686,8 +686,8 @@
             },
             "municipality": {
                 "label": "Municipality",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Moita",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "parish": {
                 "label": "Parish",
@@ -703,17 +703,17 @@
             },
             "has_pole": {
                 "label": "Has Pole",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "pole_material": {
                 "label": "Pole Material",
-                "placeholder": "Choose an option..."
+                "placeholder": "Escolha uma opção..."
             },
             "has_shelter": {
                 "label": "Has Shelter",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "shelter_code": {
                 "label": "Shelter Code",
@@ -725,33 +725,33 @@
             },
             "has_mupi": {
                 "label": "Has Mupi",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_bench": {
                 "label": "Has Bench",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_trash_bin": {
                 "label": "Has Trash Bin",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_lighting": {
                 "label": "Has Lighting",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_electricity": {
                 "label": "Has Electricity",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "docking_bay_type": {
                 "label": "Docking Bay Type",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "last_infrastructure_maintenance": {
                 "label": "Last Infrastructure Maintenance",
@@ -763,8 +763,8 @@
             },
             "has_stop_sign": {
                 "label": "Has Stop Sign",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "stop_sign_maintainer": {
                 "label": "Stop Sign Maintainer",
@@ -772,8 +772,8 @@
             },
             "has_pole_frame": {
                 "label": "Has Pole Frame",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "shelter_frame_area_cm": {
                 "label": "Shelter Frame Area (cm)",
@@ -781,8 +781,8 @@
             },
             "has_pip_real_time": {
                 "label": "Has PIP Real Time",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "pip_real_time_code": {
                 "label": "PIP Real Time Code",
@@ -790,18 +790,18 @@
             },
             "has_h2oa_signage": {
                 "label": "Has H2OA Signage",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_schedules": {
                 "label": "Has Schedules",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_network_map": {
                 "label": "Has Network Map",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "last_schedules_maintenance": {
                 "label": "Last Schedules Maintenance",
@@ -821,8 +821,8 @@
             },
             "has_sidewalk": {
                 "label": "Has Sidewalk",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "sidewalk_type": {
                 "label": "Sidewalk Type",
@@ -830,38 +830,38 @@
             },
             "has_tactile_schedules": {
                 "label": "Has Tactile Schedules",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "stop_access_type": {
                 "label": "Stop Access Type",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_crosswalk": {
                 "label": "Has Crosswalk",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_tactile_pavement": {
                 "label": "Has Tactile Pavement",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_abusive_parking": {
                 "label": "Has Abusive Parking",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_audio_stop_info": {
                 "label": "Has Audio Stop Info",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "wheelchair_boarding": {
                 "label": "Wheelchair Boarding",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "last_accessibility_check": {
                 "label": "Last Accessibility Check",
@@ -945,7 +945,7 @@
                 "title": "Delete Thread",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Thread forever?",
                 "confirm": "Delete Thread Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting Thread...",
                 "success": "Thread was deleted.",
                 "error": "An error occurred while deleting this Thread."
@@ -953,7 +953,7 @@
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Detalhes"
             }
         },
         "form": {
@@ -963,8 +963,8 @@
             },
             "theme": {
                 "label": "Theme for this Thread",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
                     "stops": "Stops",
                     "lines": "Lines",
@@ -972,8 +972,8 @@
                 }
             },
             "status": {
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
                     "open": "Thread is open",
                     "resolved": "Resolved"
@@ -981,18 +981,18 @@
             },
             "associated_lines": {
                 "label": "Lines Associated with this Thread",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "associated_stops": {
                 "label": "Stops Associated with this Thread",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             }
         },
         "messages": {
             "content": {
-                "placeholder": "Write your message here..."
+                "placeholder": "Misplaced Stop"
             }
         }
     },
@@ -1012,7 +1012,7 @@
                 "title": "Delete User",
                 "description": "Deleting is irreversible. Are you sure you want to delete this User forever?",
                 "confirm": "Delete User Forever",
-                "cancel": "Do Not Delete",
+                "cancel": "Não Eliminar",
                 "loading": "Deleting User...",
                 "success": "User was deleted.",
                 "error": "An error occurred while deleting this User."
@@ -1039,13 +1039,13 @@
             },
             "agencies": {
                 "label": "Associated Agencies",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "municipalities": {
                 "label": "Associated Municipalities",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "permissions": {
                 "agencies": {
@@ -1081,8 +1081,8 @@
                     },
                     "agencies": {
                         "label": "Can Export data from these Agencies",
-                        "placeholder": "Choose an option...",
-                        "nothingFound": "No Results Found"
+                        "placeholder": "Escolha uma opção...",
+                        "nothingFound": "Nenhum Resultado Encontrado"
                     }
                 },
                 "users": {
@@ -1122,8 +1122,8 @@
                     },
                     "agencies": {
                         "label": "Can Edit and/or Delete Lines, Routes & Patterns from these Agencies",
-                        "placeholder": "Choose an option...",
-                        "nothingFound": "No Results Found"
+                        "placeholder": "Escolha uma opção...",
+                        "nothingFound": "Nenhum Resultado Encontrado"
                     }
                 },
                 "fares": {
@@ -1167,8 +1167,8 @@
                     },
                     "municipalities": {
                         "label": "Can Edit / Delete / Suggest Stops from these Municipalities",
-                        "placeholder": "Choose an option...",
-                        "nothingFound": "No Results Found"
+                        "placeholder": "Escolha uma opção...",
+                        "nothingFound": "Nenhum Resultado Encontrado"
                     }
                 },
                 "municipalities": {
@@ -1343,5 +1343,41 @@
             }
         }
     },
-    "ImportShapeFromGTFS": {}
+    "ImportShapeFromGTFS": {
+        "title": "These are the Shapes found in the uploaded GTFS:",
+        "clear": {
+            "title": "Clear Table"
+        },
+        "import": {
+            "success": "Shape points imported! ({shape_id})"
+        },
+        "table": {
+            "header": {
+                "route_id": "Route ID",
+                "trip_headsign": "Headsign",
+                "shape_id": "Shape ID",
+                "import": "Import"
+            },
+            "body": {
+                "import": {
+                    "title": "Import Shape Points",
+                    "description": "This will immediately replace all points for this shape. This cannot be undone."
+                }
+            }
+        }
+    },
+    "GTFSParser": {
+        "idle": {
+            "title": "Drag here the GTFS archive exported from Remix, or click to select from a folder.",
+            "description": "Please choose only one archive that is no bigger than {max_file_size_value} {max_file_size_unit}."
+        },
+        "accept": {
+            "title": "Now let it go!",
+            "description": "Drop here to upload."
+        },
+        "reject": {
+            "title": "The selected file cannot be accepted.",
+            "description": "Are you sure you have the .zip file exported from Remix?"
+        }
+    }
 }
