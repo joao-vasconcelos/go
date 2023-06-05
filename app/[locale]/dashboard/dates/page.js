@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
-import API from '../../../../services/API';
-import Pannel from '../../../../components/Pannel/Pannel';
+import API from '@/services/API';
+import Pannel from '@/components/Pannel/Pannel';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, ActionIcon, Tooltip } from '@mantine/core';
 import { SegmentedControl, Select, SimpleGrid, Divider } from '@mantine/core';
@@ -12,14 +12,14 @@ import { DatePicker } from '@mantine/dates';
 import { useTranslations } from 'next-intl';
 import { useForm } from '@mantine/form';
 import { IconCalendarPlus, IconChevronLeft } from '@tabler/icons-react';
-import notify from '../../../../services/notify';
-import Text from '../../../../components/Text/Text';
-import HCalendar from '../../../../components/HCalendar/HCalendar';
-import HCalendarPeriodCard from '../../../../components/HCalendarPeriodCard/HCalendarPeriodCard';
-import Loader from '../../../../components/Loader/Loader';
+import notify from '@/services/notify';
+import Text from '@/components/Text/Text';
+import HCalendar from '@/components/HCalendar/HCalendar';
+import HCalendarPeriodCard from '@/components/HCalendarPeriodCard/HCalendarPeriodCard';
+import Loader from '@/components/Loader/Loader';
 import dayjs from 'dayjs';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '../../../../components/AuthGate/AuthGate';
+import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 
 export default function Page() {
   //

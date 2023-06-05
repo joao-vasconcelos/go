@@ -1,5 +1,5 @@
-import { OneFullColumn } from '../../../../components/Layouts/Layouts';
-import AuthGate from '../../../../components/AuthGate/AuthGate';
+import { OneFullColumn } from '@/components/Layouts/Layouts';
+import AuthGate from '@/components/AuthGate/AuthGate';
 
 export default function Layout({ children }) {
   return (

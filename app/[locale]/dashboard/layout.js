@@ -8,9 +8,9 @@ import { DatesProvider } from '@mantine/dates';
 import { MapProvider } from 'react-map-gl';
 import styles from './layout.module.css';
 import Link from 'next/link';
-import AppHeader from '../../../components/AppHeader/AppHeader';
-import AppSidebar from '../../../components/AppSidebar/AppSidebar';
-import { CMIcon } from '../../../components/AppLogos/AppLogos';
+import AppHeader from '@/components/AppHeader/AppHeader';
+import AppSidebar from '@/components/AppSidebar/AppSidebar';
+import { CMIcon } from '@/components/AppLogos/AppLogos';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 

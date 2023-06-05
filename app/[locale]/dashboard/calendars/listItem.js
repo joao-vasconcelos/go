@@ -1,8 +1,8 @@
 import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import BaseListItem from '../../../../components/BaseListItem/BaseListItem';
-import Text from '../../../../components/Text/Text';
-import Badge from '../../../../components/Badge/Badge';
+import BaseListItem from '@/components/BaseListItem/BaseListItem';
+import Text from '@/components/Text/Text';
+import Badge from '@/components/Badge/Badge';
 
 export default function ListItem({ _id, code, name }) {
   //

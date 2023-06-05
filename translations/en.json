@@ -20,6 +20,7 @@
     "agencies": {
         "untitled": "Untitled Agency",
         "list": {
+            "no_selection": "Select an Agency",
             "footer": "Found {count, plural, =1 {1 Agency} other {# Agencies}}"
         },
         "operations": {
@@ -117,6 +118,7 @@
     "calendars": {
         "untitled": "Untitled Calendar",
         "list": {
+            "no_selection": "Select a Calendar",
             "footer": "Found {count, plural, =1 {1 Calendar} other {# Calendars}}"
         },
         "operations": {
@@ -210,6 +212,7 @@
     "fares": {
         "untitled": "Untitled Fare",
         "list": {
+            "no_selection": "Select a Fare",
             "footer": "Found {count, plural, =1 {1 Fare} other {# Fares}}"
         },
         "operations": {
@@ -284,6 +287,7 @@
     "municipalities": {
         "untitled": "Untitled Municipality",
         "list": {
+            "no_selection": "Select a Municipality",
             "footer": "Found {count, plural, =1 {1 Municipality} other {# Municipalities}}"
         },
         "operations": {
@@ -334,6 +338,7 @@
     "lines": {
         "untitled": "Untitled Line",
         "list": {
+            "no_selection": "Select a Line",
             "footer": "Found {count, plural, =1 {1 Line} other {# Lines}}"
         },
         "operations": {
@@ -498,6 +503,7 @@
     "shapes": {
         "untitled": "Untitled Shape",
         "list": {
+            "no_selection": "Select a Shape",
             "footer": "Found {count, plural, =1 {1 Shape} other {# Shapes}}"
         },
         "operations": {
@@ -572,6 +578,7 @@
     "stops": {
         "untitled": "Untitled Stop",
         "list": {
+            "no_selection": "Select a Stop",
             "footer": "Found {count, plural, =1 {1 Stop} other {# Stops}}"
         },
         "page": {
@@ -927,7 +934,7 @@
     "threads": {
         "untitled": "Untitled Thread",
         "list": {
-            "no_selection": "Please Select a Thread",
+            "no_selection": "Select a Thread",
             "no_data": "No Threads Found",
             "footer": "Found {count, plural, =1 {1 Thread} other {# Threads}}"
         },
@@ -999,6 +1006,7 @@
     "users": {
         "untitled": "Untitled User",
         "list": {
+            "no_selection": "Select a User",
             "footer": "Found {count, plural, =1 {1 User} other {# Users}}"
         },
         "operations": {
@@ -1302,6 +1310,9 @@
         "threads": "Threads",
         "export": "Export",
         "users": "Users"
+    },
+    "NoDataLabel": {
+        "title": "No Data Available"
     },
     "UserActivityBadge": {
         "was_active": "Active {value}",

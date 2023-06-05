@@ -5,21 +5,21 @@ import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import { useMap, Source, Layer } from 'react-map-gl';
-import API from '../../../../../services/API';
-import { Validation as StopValidation } from '../../../../../schemas/Stop/validation';
-import { Default as StopDefault } from '../../../../../schemas/Stop/default';
+import API from '@/services/API';
+import { Validation as StopValidation } from '@/schemas/Stop/validation';
+import { Default as StopDefault } from '@/schemas/Stop/default';
 import { Tooltip, Select, SimpleGrid, Switch, MultiSelect, TextInput, NumberInput, ActionIcon, Divider, Textarea } from '@mantine/core';
 import { IconTrash, IconWorldLatitude, IconWorldLongitude, IconVolume, IconBrandGoogleMaps } from '@tabler/icons-react';
-import Pannel from '../../../../../components/Pannel/Pannel';
-import { Section } from '../../../../../components/Layouts/Layouts';
-import Text from '../../../../../components/Text/Text';
-import AutoSave from '../../../../../components/AutoSave/AutoSave';
-import notify from '../../../../../services/notify';
+import Pannel from '@/components/Pannel/Pannel';
+import { Section } from '@/components/Layouts/Layouts';
+import Text from '@/components/Text/Text';
+import AutoSave from '@/components/AutoSave/AutoSave';
+import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import OSMMap from '../../../../../components/OSMMap/OSMMap';
+import OSMMap from '@/components/OSMMap/OSMMap';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
+import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 
 export default function Page() {
   //
