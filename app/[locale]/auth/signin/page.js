@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { TextInput, Button, SimpleGrid } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import { Default as EmailDefault } from '../../../../schemas/Email/default';
-import { Validation as EmailValidation } from '../../../../schemas/Email/validation';
+import { Default as EmailDefault } from '@/schemas/Email/default';
+import { Validation as EmailValidation } from '@/schemas/Email/validation';
 import { useTranslations } from 'next-intl';
 
 export default function AuthSignIn() {

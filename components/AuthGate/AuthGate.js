@@ -8,7 +8,7 @@ export default function AuthGate({ scope = '', permission = '', redirect = false
   //
 
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const hasPermission = useMemo(() => {
     try {
@@ -19,10 +19,10 @@ export default function AuthGate({ scope = '', permission = '', redirect = false
   }, [permission, scope, session?.user?.permissions]);
 
   useEffect(() => {
-    if (session != undefined) {
+    if (status === 'authenticated') {
       if (!hasPermission && redirect) router.push('/dashboard');
     }
-  }, [session, hasPermission, redirect, router]);
+  }, [hasPermission, redirect, router, status]);
 
   //   return children;
   if (hasPermission) return children;
