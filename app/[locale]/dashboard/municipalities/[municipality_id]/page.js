@@ -4,20 +4,20 @@ import useSWR from 'swr';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import API from '../../../../../services/API';
-import { Validation as MunicipalityValidation } from '../../../../../schemas/Municipality/validation';
-import { Default as MunicipalityDefault } from '../../../../../schemas/Municipality/default';
+import API from '@/services/API';
+import { Validation as MunicipalityValidation } from '@/schemas/Municipality/validation';
+import { Default as MunicipalityDefault } from '@/schemas/Municipality/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
-import Pannel from '../../../../../components/Pannel/Pannel';
-import Text from '../../../../../components/Text/Text';
-import { Section } from '../../../../../components/Layouts/Layouts';
-import AutoSave from '../../../../../components/AutoSave/AutoSave';
-import notify from '../../../../../services/notify';
+import Pannel from '@/components/Pannel/Pannel';
+import Text from '@/components/Text/Text';
+import { Section } from '@/components/Layouts/Layouts';
+import AutoSave from '@/components/AutoSave/AutoSave';
+import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
+import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 
 export default function Page() {
   //

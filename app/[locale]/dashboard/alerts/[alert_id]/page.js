@@ -5,16 +5,16 @@ import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import API from '../../../../../services/API';
-import { Validation as FareValidation } from '../../../../../schemas/Fare/validation';
-import { Default as FareDefault } from '../../../../../schemas/Fare/default';
+import API from '@/services/API';
+import { Validation as FareValidation } from '@/schemas/Fare/validation';
+import { Default as FareDefault } from '@/schemas/Fare/default';
 import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
-import Pannel from '../../../../../components/Pannel/Pannel';
-import AutoSave from '../../../../../components/AutoSave/AutoSave';
-import notify from '../../../../../services/notify';
+import Pannel from '@/components/Pannel/Pannel';
+import AutoSave from '@/components/AutoSave/AutoSave';
+import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import HeaderTitle from '../../../../../components/lists/HeaderTitle';
+import HeaderTitle from '@/components/lists/HeaderTitle';
 
 const SectionTitle = styled('p', {
   fontSize: '20px',

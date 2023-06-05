@@ -4,22 +4,22 @@ import useSWR from 'swr';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import API from '../../../../../services/API';
-import { Validation as CalendarValidation } from '../../../../../schemas/Calendar/validation';
-import { Default as CalendarDefault } from '../../../../../schemas/Calendar/default';
+import API from '@/services/API';
+import { Validation as CalendarValidation } from '@/schemas/Calendar/validation';
+import { Default as CalendarDefault } from '@/schemas/Calendar/default';
 import { Tooltip, Switch, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
-import Pannel from '../../../../../components/Pannel/Pannel';
-import { Section } from '../../../../../components/Layouts/Layouts';
-import Text from '../../../../../components/Text/Text';
-import AutoSave from '../../../../../components/AutoSave/AutoSave';
-import notify from '../../../../../services/notify';
+import Pannel from '@/components/Pannel/Pannel';
+import { Section } from '@/components/Layouts/Layouts';
+import Text from '@/components/Text/Text';
+import AutoSave from '@/components/AutoSave/AutoSave';
+import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
-import HCalendar from '../../../../../components/HCalendar/HCalendar';
-import HCalendarToggle from '../../../../../components/HCalendarToggle/HCalendarToggle';
+import HCalendar from '@/components/HCalendar/HCalendar';
+import HCalendarToggle from '@/components/HCalendarToggle/HCalendarToggle';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
+import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 
 export default function Page() {
   //

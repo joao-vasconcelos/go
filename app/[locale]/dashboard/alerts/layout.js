@@ -4,18 +4,18 @@ import { styled } from '@stitches/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
-import API from '../../../../services/API';
-import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
-import Pannel from '../../../../components/Pannel/Pannel';
+import API from '@/services/API';
+import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
+import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
 import { TextInput, ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots } from '@tabler/icons-react';
-import notify from '../../../../services/notify';
-import NoDataLabel from '../../../../components/NoDataLabel';
-import ErrorDisplay from '../../../../components/ErrorDisplay';
+import notify from '@/services/notify';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import ErrorDisplay from '@/components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
-import ListFooter from '../../../../components/ListFooter/ListFooter';
-import AuthGate from '../../../../components/AuthGate/AuthGate';
+import ListFooter from '@/components/ListFooter/ListFooter';
+import AuthGate from '@/components/AuthGate/AuthGate';
 
 const SearchField = styled(TextInput, {
   width: '100%',

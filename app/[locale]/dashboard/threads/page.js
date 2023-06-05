@@ -3,19 +3,19 @@
 import { useMemo, useState } from 'react';
 import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
-import API from '../../../../services/API';
+import API from '@/services/API';
 import { useDisclosure } from '@mantine/hooks';
-import { Default as ThreadDefault } from '../../../../schemas/Thread/default';
+import { Default as ThreadDefault } from '@/schemas/Thread/default';
 import { Modal, Button, MultiSelect, Textarea } from '@mantine/core';
 import { Select, SimpleGrid, TextInput } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { useForm } from '@mantine/form';
 import { IconCalendarPlus } from '@tabler/icons-react';
-import notify from '../../../../services/notify';
-import Loader from '../../../../components/Loader/Loader';
+import notify from '@/services/notify';
+import Loader from '@/components/Loader/Loader';
 import { useSession } from 'next-auth/react';
-import AuthGate from '../../../../components/AuthGate/AuthGate';
-import { OneFullColumn } from '../../../../components/Layouts/Layouts';
+import AuthGate from '@/components/AuthGate/AuthGate';
+import { OneFullColumn } from '@/components/Layouts/Layouts';
 
 export default function Page() {
   //

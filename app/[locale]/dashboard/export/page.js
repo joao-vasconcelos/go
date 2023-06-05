@@ -1,17 +1,17 @@
 'use client';
 
 import useSWR from 'swr';
-import { ThreeEvenColumns } from '../../../../components/Layouts/Layouts';
-import Pannel from '../../../../components/Pannel/Pannel';
-import Text from '../../../../components/Text/Text';
+import { ThreeEvenColumns } from '@/components/Layouts/Layouts';
+import Pannel from '@/components/Pannel/Pannel';
+import Text from '@/components/Text/Text';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '../../../../components/AuthGate/AuthGate';
+import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import { IconArrowBigDownLinesFilled } from '@tabler/icons-react';
 import { SimpleGrid, TextInput, Select, MultiSelect, Button, Divider } from '@mantine/core';
-import { Section } from '../../../../components/Layouts/Layouts';
+import { Section } from '@/components/Layouts/Layouts';
 import { useState, useMemo } from 'react';
-import API from '../../../../services/API';
+import API from '@/services/API';
 
 export default function Page() {
   //

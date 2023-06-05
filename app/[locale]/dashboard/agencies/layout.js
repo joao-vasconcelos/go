@@ -2,21 +2,21 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import useSearch from '../../../../hooks/useSearch';
+import useSearch from '@/hooks/useSearch';
 import useSWR from 'swr';
-import API from '../../../../services/API';
-import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
-import Pannel from '../../../../components/Pannel/Pannel';
+import API from '@/services/API';
+import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
+import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots } from '@tabler/icons-react';
-import notify from '../../../../services/notify';
-import NoDataLabel from '../../../../components/NoDataLabel';
-import ErrorDisplay from '../../../../components/ErrorDisplay';
+import notify from '@/services/notify';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import ErrorDisplay from '@/components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
-import ListFooter from '../../../../components/ListFooter/ListFooter';
-import AuthGate from '../../../../components/AuthGate/AuthGate';
-import SearchField from '../../../../components/SearchField/SearchField';
+import ListFooter from '@/components/ListFooter/ListFooter';
+import AuthGate from '@/components/AuthGate/AuthGate';
+import SearchField from '@/components/SearchField/SearchField';
 
 export default function Layout({ children }) {
   //
@@ -26,7 +26,6 @@ export default function Layout({ children }) {
 
   const router = useRouter();
   const t = useTranslations('agencies');
-
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
@@ -70,7 +69,7 @@ export default function Layout({ children }) {
             loading={allAgenciesLoading}
             header={
               <>
-                <SearchField onChange={setSearchQuery} />
+                <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
                     <ActionIcon variant='light' size='lg' loading={allAgenciesLoading || isCreating}>

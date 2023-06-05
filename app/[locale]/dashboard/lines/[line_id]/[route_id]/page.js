@@ -4,23 +4,23 @@ import useSWR from 'swr';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import API from '../../../../../../services/API';
-import { Validation as RouteValidation } from '../../../../../../schemas/Route/validation';
-import { Default as RouteDefault } from '../../../../../../schemas/Route/default';
+import API from '@/services/API';
+import { Validation as RouteValidation } from '@/schemas/Route/validation';
+import { Default as RouteDefault } from '@/schemas/Route/default';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
-import Pannel from '../../../../../../components/Pannel/Pannel';
-import Text from '../../../../../../components/Text/Text';
-import { Section } from '../../../../../../components/Layouts/Layouts';
-import AutoSave from '../../../../../../components/AutoSave/AutoSave';
-import notify from '../../../../../../services/notify';
+import Pannel from '@/components/Pannel/Pannel';
+import Text from '@/components/Text/Text';
+import { Section } from '@/components/Layouts/Layouts';
+import AutoSave from '@/components/AutoSave/AutoSave';
+import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import LineDisplay from '../../../../../../components/LineDisplay/LineDisplay';
-import PatternCard from '../../../../../../components/PatternCard/PatternCard';
+import LineDisplay from '@/components/LineDisplay/LineDisplay';
+import PatternCard from '@/components/PatternCard/PatternCard';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '../../../../../../components/AuthGate/AuthGate';
+import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 
 export default function Page() {
   //

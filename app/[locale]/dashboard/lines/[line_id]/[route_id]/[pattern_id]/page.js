@@ -4,24 +4,24 @@ import useSWR from 'swr';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import API from '../../../../../../../services/API';
-import { Validation as PatternValidation } from '../../../../../../../schemas/Pattern/validation';
-import { Default as PatternDefault } from '../../../../../../../schemas/Pattern/default';
+import API from '@/services/API';
+import { Validation as PatternValidation } from '@/schemas/Pattern/validation';
+import { Default as PatternDefault } from '@/schemas/Pattern/default';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
-import Pannel from '../../../../../../../components/Pannel/Pannel';
-import Text from '../../../../../../../components/Text/Text';
-import { Section } from '../../../../../../../components/Layouts/Layouts';
-import AutoSave from '../../../../../../../components/AutoSave/AutoSave';
-import notify from '../../../../../../../services/notify';
+import Pannel from '@/components/Pannel/Pannel';
+import Text from '@/components/Text/Text';
+import { Section } from '@/components/Layouts/Layouts';
+import AutoSave from '@/components/AutoSave/AutoSave';
+import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import LineDisplay from '../../../../../../../components/LineDisplay/LineDisplay';
-import StopSequenceTable from '../../../../../../../components/StopSequenceTable/StopSequenceTable';
-import SchedulesTable from '../../../../../../../components/SchedulesTable/SchedulesTable';
-import calculateDistanceBetweenStops from '../../../../../../../services/calculateDistanceBetweenStops';
+import LineDisplay from '@/components/LineDisplay/LineDisplay';
+import StopSequenceTable from '@/components/StopSequenceTable/StopSequenceTable';
+import SchedulesTable from '@/components/SchedulesTable/SchedulesTable';
+import calculateDistanceBetweenStops from '@/services/calculateDistanceBetweenStops';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '../../../../../../../components/AuthGate/AuthGate';
+import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 
 export default function Page() {
   //

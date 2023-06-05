@@ -10,7 +10,7 @@ import ListItem from './listItem';
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots, IconPencil } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
-import NoDataLabel from '../../../../components/NoDataLabel';
+import NoDataLabel from '../../../../components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '../../../../components/ListFooter/ListFooter';

@@ -5,10 +5,10 @@ import { useState, useMemo } from 'react';
 import { useMap, Source, Layer } from 'react-map-gl';
 import { IconArrowsMinimize, IconBrandGoogleMaps } from '@tabler/icons-react';
 import { Tooltip, ActionIcon, SegmentedControl } from '@mantine/core';
-import OSMMap from '../../../../components/OSMMap/OSMMap';
-import OSMMapDefaults from '../../../../components/OSMMap/OSMMap.config';
-import Pannel from '../../../../components/Pannel/Pannel';
-import Text from '../../../../components/Text/Text';
+import OSMMap from '@/components/OSMMap/OSMMap';
+import OSMMapDefaults from '@/components/OSMMap/OSMMap.config';
+import Pannel from '@/components/Pannel/Pannel';
+import Text from '@/components/Text/Text';
 import { useTranslations } from 'next-intl';
 
 export default function Page() {

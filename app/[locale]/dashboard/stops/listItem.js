@@ -1,7 +1,7 @@
 import { useRouter, useParams } from 'next/navigation';
-import BaseListItem from '../../../../components/BaseListItem/BaseListItem';
-import Text from '../../../../components/Text/Text';
-import Badge from '../../../../components/Badge/Badge';
+import BaseListItem from '@/components/BaseListItem/BaseListItem';
+import Text from '@/components/Text/Text';
+import Badge from '@/components/Badge/Badge';
 import { Group } from '@mantine/core';
 
 export default function ListItem({ style, _id, name, code, latitude, longitude }) {

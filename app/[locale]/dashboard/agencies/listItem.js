@@ -1,7 +1,7 @@
 import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import BaseListItem from '../../../../components/BaseListItem/BaseListItem';
-import Text from '../../../../components/Text/Text';
+import BaseListItem from '@/components/BaseListItem/BaseListItem';
+import Text from '@/components/Text/Text';
 
 export default function ListItem({ _id, name }) {
   //

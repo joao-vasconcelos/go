@@ -2,21 +2,21 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import useSearch from '../../../../hooks/useSearch';
+import useSearch from '@/hooks/useSearch';
 import useSWR from 'swr';
-import API from '../../../../services/API';
-import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
-import Pannel from '../../../../components/Pannel/Pannel';
+import API from '@/services/API';
+import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
+import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots } from '@tabler/icons-react';
-import notify from '../../../../services/notify';
-import NoDataLabel from '../../../../components/NoDataLabel';
-import ErrorDisplay from '../../../../components/ErrorDisplay';
+import notify from '@/services/notify';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import ErrorDisplay from '@/components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
-import ListFooter from '../../../../components/ListFooter/ListFooter';
-import AuthGate from '../../../../components/AuthGate/AuthGate';
-import SearchField from '../../../../components/SearchField/SearchField';
+import ListFooter from '@/components/ListFooter/ListFooter';
+import AuthGate from '@/components/AuthGate/AuthGate';
+import SearchField from '@/components/SearchField/SearchField';
 
 export default function Layout({ children }) {
   //
