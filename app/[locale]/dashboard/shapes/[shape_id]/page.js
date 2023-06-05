@@ -4,23 +4,23 @@ import useSWR from 'swr';
 import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import API from '../../../../../services/API';
+import API from '@/services/API';
 import bbox from '@turf/bbox';
-import OSMMap from '../../../../../components/OSMMap/OSMMap';
+import OSMMap from '@/components/OSMMap/OSMMap';
 import { useMap, Source, Layer } from 'react-map-gl';
-import { Validation as ShapeValidation } from '../../../../../schemas/Shape/validation';
-import { Default as ShapeDefault } from '../../../../../schemas/Shape/default';
+import { Validation as ShapeValidation } from '@/schemas/Shape/validation';
+import { Default as ShapeDefault } from '@/schemas/Shape/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconArrowUpRight, IconTrash, IconPlaylistX } from '@tabler/icons-react';
-import Pannel from '../../../../../components/Pannel/Pannel';
-import Text from '../../../../../components/Text/Text';
-import { Section } from '../../../../../components/Layouts/Layouts';
-import AutoSave from '../../../../../components/AutoSave/AutoSave';
-import notify from '../../../../../services/notify';
+import Pannel from '@/components/Pannel/Pannel';
+import Text from '@/components/Text/Text';
+import { Section } from '@/components/Layouts/Layouts';
+import AutoSave from '@/components/AutoSave/AutoSave';
+import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
-import StatCard from '../../../../../components/StatCard/StatCard';
-import ImportShapeFromGTFS from '../../../../../components/ImportShapeFromGTFS/ImportShapeFromGTFS';
+import StatCard from '@/components/StatCard/StatCard';
+import ImportShapeFromGTFS from '@/components/ImportShapeFromGTFS/ImportShapeFromGTFS';
 
 export default function Page() {
   //
@@ -152,7 +152,6 @@ export default function Page() {
   const mapData = useMemo(() => {
     try {
       if (shapeData && shapeData.geojson) {
-        console.log(shapeData.geojson);
         // Calculate the bounding box of the feature
         const [minLng, minLat, maxLng, maxLat] = bbox(shapeData.geojson);
         // Calculate the bounding box of the feature
