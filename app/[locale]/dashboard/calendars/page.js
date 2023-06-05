@@ -1,3 +1,5 @@
+'use client';
+
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import { useTranslations } from 'next-intl';
 
