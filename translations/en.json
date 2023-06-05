@@ -1343,7 +1343,29 @@
             }
         }
     },
-    "ImportShapeFromGTFS": {},
+    "ImportShapeFromGTFS": {
+        "title": "These are the Shapes found in the uploaded GTFS:",
+        "clear": {
+            "title": "Clear Table"
+        },
+        "import": {
+            "success": "Shape points imported! ({shape_id})"
+        },
+        "table": {
+            "header": {
+                "route_id": "Route ID",
+                "trip_headsign": "Headsign",
+                "shape_id": "Shape ID",
+                "import": "Import"
+            },
+            "body": {
+                "import": {
+                    "title": "Import Shape Points",
+                    "description": "This will immediately replace all points for this shape. This cannot be undone."
+                }
+            }
+        }
+    },
     "GTFSParser": {
         "idle": {
             "title": "Drag here the GTFS archive exported from Remix, or click to select from a folder.",

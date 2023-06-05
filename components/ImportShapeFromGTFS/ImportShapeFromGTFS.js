@@ -1,8 +1,11 @@
 'use client';
 
+import styles from './ImportShapeFromGTFS.module.css';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import GTFSParser from '@/components/GTFSParser/GTFSParser';
+import { Button, Tooltip } from '@mantine/core';
+import notify from '@/services/notify';
 
 //
 
@@ -18,11 +21,7 @@ export default function ImportShapeFromGTFS({ onImport }) {
   const [parseResult, setParseResult] = useState();
 
   //
-  // D. Handle actions
-
-  const handleShapeImport = (trip) => {
-    onImport(trip.shape.points);
-  };
+  // B. Handle actions
 
   const handleParse = (gtfsAsJson) => {
     try {
@@ -43,22 +42,67 @@ export default function ImportShapeFromGTFS({ onImport }) {
     }
   };
 
-  //
-  // E. Render components
+  const handleClearTable = () => {
+    setParseResult();
+    setIsParsing();
+    setHasParseError();
+  };
 
-  const ParseResultTable = () => (
-    <>
-      {parseResult.map((trip) => (
-        <div key={trip.trip_id} onClick={() => handleShapeImport(trip)}>
-          {trip.shape_id}
-          {trip.trip_headsign}
-        </div>
-      ))}
-      <div onClick={() => setParseResult()}>Clear</div>
-    </>
+  const handleShapeImport = (trip) => {
+    onImport(trip.shape.points);
+    // setParseResult();
+    // setIsParsing();
+    // setHasParseError();
+    notify('shape-import', 'success', t('import.success', { shape_id: trip.shape_id }));
+  };
+
+  //
+  // C. Render components
+
+  const TableHeader = () => (
+    <div className={styles.tableHeader}>
+      <div className={styles.tableHeaderColumn}>{t('table.header.route_id')}</div>
+      <div className={styles.tableHeaderColumn}>{t('table.header.trip_headsign')}</div>
+      <div className={styles.tableHeaderColumn}>{t('table.header.shape_id')}</div>
+      <div className={styles.tableHeaderColumn}>{t('table.header.import')}</div>
+    </div>
   );
 
-  return parseResult ? <ParseResultTable /> : <GTFSParser onParse={handleParse} />;
+  const TableBody = () => (
+    <div className={styles.tableBody}>
+      {parseResult.map((trip) => (
+        <div className={styles.tableBodyRow} key={trip.trip_id}>
+          <div className={styles.tableBodyColumn}>{trip.route_id}</div>
+          <div className={styles.tableBodyColumn}>{trip.trip_headsign}</div>
+          <div className={styles.tableBodyColumn}>{trip.shape_id}</div>
+          <div className={styles.tableBodyColumn}>
+            <Tooltip label={t('table.body.import.description')} color='red' width={220} multiline withArrow>
+              <Button size='xs' onClick={() => handleShapeImport(trip)}>
+                {t('table.body.import.title')}
+              </Button>
+            </Tooltip>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const ParsingResults = () => (
+    <div className={styles.container}>
+      <div className={styles.title}>{t('title')}</div>
+      <div className={styles.tableContainer}>
+        <TableHeader />
+        <TableBody />
+      </div>
+      <div>
+        <Button size='xs' variant='light' color='gray' onClick={handleClearTable}>
+          {t('clear.title')}
+        </Button>
+      </div>
+    </div>
+  );
+
+  return parseResult ? <ParsingResults /> : <GTFSParser onParse={handleParse} />;
 
   //
 }
