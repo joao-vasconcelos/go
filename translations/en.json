@@ -55,7 +55,7 @@
                 "placeholder": "41"
             },
             "lang": {
-                "label": "Primary Agency Language",
+                "label": "Primary Language",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
@@ -267,7 +267,7 @@
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found",
                 "options": {
-                    "0": "Pay to the Driver (navegante® a bordo)",
+                    "0": "Pay to the driver (navegante® a bordo)",
                     "1": "Pay before boarding (navegante® pré-pago, navegante®)"
                 }
             },
@@ -551,8 +551,7 @@
                 "description": "Something about this section",
                 "cards": {
                     "extension": "Shape Extension",
-                    "points_count": "Number of Shape Points",
-                    "associated_pattern": "Used by Pattern"
+                    "points_count": "Number of points"
                 }
             },
             "update": {
