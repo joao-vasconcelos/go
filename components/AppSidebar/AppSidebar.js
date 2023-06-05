@@ -1,77 +1,30 @@
-'use client';
-
 import styles from './AppSidebar.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { styled } from '@stitches/react';
+import { useTranslations } from 'next-intl';
 import { Tooltip, ActionIcon } from '@mantine/core';
-import { IconChartPie, IconFileZip, IconBusStop, IconBuildingCommunity, IconMessageChatbot, IconShape2, IconCoins, IconCalendarDue, IconLogin, IconArrowLoopRight, IconUsers, IconAlertTriangle } from '@tabler/icons-react';
-
-const NavButton = styled(ActionIcon, {
-  color: '$gray12',
-  fontSize: '26px',
-  '&:hover': {
-    backgroundColor: '$gray2',
-  },
-  '&:active': {
-    backgroundColor: '$gray4',
-  },
-  variants: {
-    active: {
-      true: {
-        backgroundColor: '$primary5',
-        color: '$gray12',
-        '&:hover': {
-          backgroundColor: '$primary5',
-          color: '$gray12',
-        },
-      },
-    },
-    disabled: {
-      true: {
-        backgroundColor: '$gray2',
-        color: '$gray9',
-        cursor: 'default',
-        '&:active': {
-          backgroundColor: '$gray2',
-          color: '$gray9',
-          transform: 'none',
-        },
-      },
-    },
-    danger: {
-      true: {
-        color: '$danger5',
-        '&:hover': {
-          backgroundColor: '$danger5',
-          color: '$gray0',
-        },
-        '&:active': {
-          backgroundColor: '$danger6',
-        },
-      },
-    },
-  },
-});
+import { IconChartPie, IconAlertTriangle, IconBusStop, IconArrowLoopRight, IconCalendarDue, IconShape2, IconCoins, IconBuildingCommunity, IconMessageChatbot, IconFileZip, IconUsers } from '@tabler/icons-react';
+import AuthGate from '../AuthGate/AuthGate';
 
 export default function AppSidebar() {
   //
 
-  const links = [
-    // { href: 'statistics', label: 'Estatísticas', icon: <IconChartPie />, disabled: true },
-    // { href: 'alerts', label: 'Alertas', icon: <IconAlertTriangle />, disabled: true },
-    { href: 'stops', label: 'Paragens', icon: <IconBusStop /> },
-    { href: 'lines', label: 'Linhas', icon: <IconArrowLoopRight /> },
-    { href: 'calendars', label: 'Calendários', icon: <IconCalendarDue /> },
-    { href: 'shapes', label: 'Shapes', icon: <IconShape2 /> },
-    { href: 'fares', label: 'Tarifários', icon: <IconCoins /> },
-    { href: 'agencies', label: 'Agências', icon: <IconBuildingCommunity /> },
-    // { href: 'threads', label: 'Conversas', icon: <IconMessageChatbot />, disabled: true },
-    { href: 'export', label: 'Exportar GTFS', icon: <IconFileZip /> },
-    { href: 'users', label: 'Utilizadores', icon: <IconUsers /> },
-  ];
-
   const pathname = usePathname();
+  const t = useTranslations('AppSidebar');
+
+  const links = [
+    { href: 'statistics', label: t('statistics'), icon: <IconChartPie />, auth_scope: 'statistics', auth_permission: 'view' },
+    { href: 'alerts', label: t('alerts'), icon: <IconAlertTriangle />, auth_scope: 'alerts', auth_permission: 'view' },
+    { href: 'stops', label: t('stops'), icon: <IconBusStop />, auth_scope: 'stops', auth_permission: 'view' },
+    { href: 'lines', label: t('lines'), icon: <IconArrowLoopRight />, auth_scope: 'lines', auth_permission: 'view' },
+    { href: 'calendars', label: t('calendars'), icon: <IconCalendarDue />, auth_scope: 'calendars', auth_permission: 'view' },
+    { href: 'shapes', label: t('shapes'), icon: <IconShape2 />, auth_scope: 'shapes', auth_permission: 'view' },
+    { href: 'fares', label: t('fares'), icon: <IconCoins />, auth_scope: 'fares', auth_permission: 'view' },
+    { href: 'agencies', label: t('agencies'), icon: <IconBuildingCommunity />, auth_scope: 'agencies', auth_permission: 'view' },
+    { href: 'threads', label: t('threads'), icon: <IconMessageChatbot />, auth_scope: 'threads', auth_permission: 'view' },
+    { href: 'export', label: t('export'), icon: <IconFileZip />, auth_scope: 'export', auth_permission: 'view' },
+    { href: 'users', label: t('users'), icon: <IconUsers />, auth_scope: 'users', auth_permission: 'view' },
+  ];
 
   const isActivePage = (href) => {
     if (href === '' && pathname === '') {
@@ -87,25 +40,17 @@ export default function AppSidebar() {
     <div className={styles.container}>
       <div className={styles.navWrapper}>
         {links.map((item) => {
-          if (item.disabled) {
-            return (
-              <Tooltip key={item.href} label={item.label} color='gray' position='right'>
-                <NavButton active={isActivePage(item.href)} color='dark' size='xl' disabled>
-                  {item.icon}
-                </NavButton>
-              </Tooltip>
-            );
-          } else {
-            return (
-              <Tooltip key={item.href} label={item.label} color='gray' position='right'>
+          return (
+            <AuthGate key={item.href} scope={item.auth_scope} permission={item.auth_permission}>
+              <Tooltip label={item.label} color='gray' position='right'>
                 <Link href={'/dashboard/' + item.href}>
-                  <NavButton active={isActivePage(item.href)} color='dark' size='xl'>
+                  <ActionIcon className={`${styles.navButton} ${isActivePage(item.href) && styles.selected}`} size='xl'>
                     {item.icon}
-                  </NavButton>
+                  </ActionIcon>
                 </Link>
               </Tooltip>
-            );
-          }
+            </AuthGate>
+          );
         })}
       </div>
     </div>

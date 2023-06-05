@@ -32,17 +32,17 @@ export default async function importStops(req, res) {
 
   for (const stop of allStops) {
     await StopModel.findOneAndUpdate(
-      { stop_code: stop.stop_id },
+      { code: stop.stop_id },
       {
         ...StopDefault,
-        stop_code: stop.stop_id,
-        stop_lat: stop.stop_lat,
-        stop_lon: stop.stop_lon,
-        stop_name: stop.stop_name,
+        code: stop.stop_id,
+        latitude: stop.stop_lat,
+        longitude: stop.stop_lon,
+        name: stop.stop_name,
       },
       { new: true, upsert: true }
     );
-    console.log('saved stop ', stop.stop_id);
+    console.log('Saved Stop ', stop.stop_id);
   }
 
   return await res.status(200).json({ message: 'Done import.' });

@@ -33,7 +33,7 @@ export default async function linesEdit(req, res) {
     req.body = LineValidation.cast(req.body);
   } catch (err) {
     console.log(err);
-    return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
+    return await res.status(400).json({ message: err.message });
   }
 
   // 3. Try to connect to mongodb
@@ -46,14 +46,26 @@ export default async function linesEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['line_code'].
-    const foundDocumentWithLineId = await LineModel.exists({ line_code: req.body.line_code });
+    // The values that need to be unique are ['code'].
+    const foundDocumentWithLineId = await LineModel.exists({ code: req.body.code });
     if (foundDocumentWithLineId && foundDocumentWithLineId._id != req.query._id) {
       throw new Error('Uma Linha com o mesmo Código já existe.');
     }
   } catch (err) {
     console.log(err);
     return await res.status(409).json({ message: err.message });
+  }
+
+  // 5. Update nested routes with correct code
+  try {
+    for (const [routeIndex, routeData] of req.body.routes.entries()) {
+      const routeDocument = await RouteModel.findOne({ _id: routeData._id });
+      routeDocument.code = `${req.body.code}_${routeIndex}`;
+      await RouteModel.findOneAndUpdate({ _id: routeData._id }, routeDocument);
+    }
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: err.message });
   }
 
   // 2. Try to update the correct document

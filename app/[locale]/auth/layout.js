@@ -1,25 +1,42 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Loader from '../../../components/Loader/Loader';
 import styles from './layout.module.css';
-import Image from 'next/image';
 import appBackground from '../../../public/background.jpg';
-import carrisMetropolitanaLogo from '../../../public/carris-metropolitana.svg';
-import { SessionProvider } from 'next-auth/react';
+import { CMLogo } from '../../../components/AppLogos/AppLogos';
 
-// {children} will be a page or nested layout
-export default function AuthLayout({ children, session }) {
+export default async function AuthLayout({ children }) {
   //
 
-  return (
-    <SessionProvider session={session}>
-      <div className={styles.container} style={{ backgroundImage: `url(${appBackground.src})` }}>
-        <div className={styles.loginForm}>
-          <div className={styles.logoWrapper}>
-            <Image className={styles.logoImg} priority src={carrisMetropolitanaLogo} alt={'Carris Metropolitana'} />
-          </div>
-          <div className={styles.formWrapper}>{children}</div>
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { status } = useSession();
+
+  useEffect(() => {
+    // Periodically check if user has a valid session.
+    const checkAuthInterval = setInterval(() => {
+      if (status === 'authenticated') {
+        if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
+        else router.push('/dashboard/');
+      }
+    }, 500);
+    // Clear the interval on unmount (from React API)
+    return () => clearInterval(checkAuthInterval);
+  }, [router, searchParams, status]);
+
+  return status === 'unauthenticated' ? (
+    <div className={styles.container} style={{ backgroundImage: `url(${appBackground.src})` }}>
+      <div className={styles.loginForm}>
+        <div className={styles.logoWrapper}>
+          <CMLogo />
         </div>
+        <div className={styles.formWrapper}>{children}</div>
       </div>
-    </SessionProvider>
+    </div>
+  ) : (
+    <Loader visible full />
   );
 }

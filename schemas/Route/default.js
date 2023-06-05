@@ -6,8 +6,8 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  route_code: '',
+  code: '',
   parent_line: null,
-  route_name: '',
+  name: '',
   patterns: [],
 };

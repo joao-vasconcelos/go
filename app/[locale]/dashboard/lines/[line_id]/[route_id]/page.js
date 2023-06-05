@@ -1,37 +1,26 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../../services/API';
 import { Validation as RouteValidation } from '../../../../../../schemas/Route/validation';
 import { Default as RouteDefault } from '../../../../../../schemas/Route/default';
-import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text } from '@mantine/core';
+import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '../../../../../../components/Pannel/Pannel';
-import SaveButtons from '../../../../../../components/SaveButtons';
+import Text from '../../../../../../components/Text/Text';
+import { Section } from '../../../../../../components/Layouts/Layouts';
+import AutoSave from '../../../../../../components/AutoSave/AutoSave';
 import notify from '../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import Line from '../../../../../../components/line/Line';
-import PatternCard from './PatternCard';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
-
-const Section = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '$lg',
-  gap: '$md',
-  width: '100%',
-  maxHeight: '100%',
-});
+import LineDisplay from '../../../../../../components/LineDisplay/LineDisplay';
+import PatternCard from '../../../../../../components/PatternCard/PatternCard';
+import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -40,18 +29,20 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('routes');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
-
   const [isCreatingPattern, setIsCreatingPattern] = useState(false);
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
   const { line_id, route_id } = useParams();
 
   //
   // B. Fetch data
 
-  const { data: lineData, error: lineError, isLoading: lineLoading, isValidating: lineValidating, mutate: lineMutate } = useSWR(line_id && `/api/lines/${line_id}`);
-  const { data: routeData, error: routeError, isLoading: routeLoading } = useSWR(route_id && `/api/routes/${route_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
+  const { data: routeData, error: routeError, isLoading: routeLoading, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -86,6 +77,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'routes', resourceId: route_id, operation: 'edit', method: 'PUT', body: form.values });
+      routeMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -94,29 +86,25 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [route_id, form]);
+  }, [route_id, form, routeMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar Rota?
-        </Text>
-      ),
+      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar esta Rota sempre?</Text>,
-      labels: { confirm: 'Eliminar Rota', cancel: 'Não Eliminar' },
+      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(route_id, 'loading', 'A eliminar Rota...');
+          notify(route_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'routes', resourceId: route_id, operation: 'delete', method: 'DELETE' });
           router.push(`/dashboard/lines/${line_id}`);
-          notify(route_id, 'success', 'Rota eliminada!');
+          notify(route_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
-          notify(route_id, 'error', err.message || 'Occoreu um erro.');
+          notify(route_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -126,7 +114,7 @@ export default function Page() {
     try {
       setIsCreatingPattern(true);
       notify('new-pattern', 'loading', 'A criar Pattern...');
-      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { parent_route: route_id } });
+      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { parent_route: route_id, direction: form.values.patterns.length } });
       form.insertListItem('patterns', response);
       notify('new-pattern', 'success', 'Pattern criado com sucesso.');
       setIsCreatingPattern(false);
@@ -138,6 +126,7 @@ export default function Page() {
   };
 
   const handlePatternsReorder = async ({ destination, source }) => {
+    if (!source || !destination || isReadOnly) return;
     form.reorderListItem('patterns', { from: source.index, to: destination.index });
   };
 
@@ -153,7 +142,7 @@ export default function Page() {
       loading={routeLoading}
       header={
         <>
-          <SaveButtons
+          <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={routeLoading}
@@ -163,51 +152,54 @@ export default function Page() {
             onValidate={() => handleValidate()}
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
+            closeType='back'
           />
-          <Line
-            short_name={(lineData && lineData.line_short_name) || '•••'}
-            long_name={`${(lineData && lineData.line_long_name) || 'Loading...'} (${form.values.route_name || 'Rota sem nome'})`}
-            color={(lineData && lineData.line_color) || ''}
-            text_color={(lineData && lineData.line_text_color) || ''}
-          />
+          <LineDisplay short_name={lineData && lineData.short_name} long_name={form.values.name || t('untitled')} color={lineData && lineData.color} text_color={lineData && lineData.text_color} />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label='Eliminar Linha' color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <AuthGate scope='lines' permission='delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Detalhes da Rota</SectionTitle>
+          <Text size='h2'>{t('sections.config.title')}</Text>
+          <SimpleGrid cols={4}>
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly />
+          </SimpleGrid>
           <SimpleGrid cols={1}>
-            <TextInput placeholder='Nome da Rota' label='Nome da Rota' {...form.getInputProps('route_name')} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
         <Divider />
         <Section>
-          <SectionTitle>Patterns</SectionTitle>
+          <Text size='h2'>{t('sections.patterns.title')}</Text>
           <DragDropContext onDragEnd={handlePatternsReorder}>
             <Droppable droppableId='droppable'>
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                   {form.values.patterns.map((item, index) => (
-                    <PatternCard key={index} index={index} onOpen={handleOpenPattern} pattern_id={item._id} headsign={item.headsign} />
+                    <PatternCard key={index} index={index} onOpen={handleOpenPattern} _id={item._id} code={item.code} direction={item.direction} headsign={item.headsign} />
                   ))}
                   {provided.placeholder}
                 </div>
               )}
             </Droppable>
           </DragDropContext>
-          <Button onClick={handleCreatePattern} loading={isCreatingPattern} disabled={form.values.patterns.length > 1}>
-            Add Pattern
-          </Button>
+          <AuthGate scope='lines' permission='create_edit'>
+            <Button onClick={handleCreatePattern} loading={isCreatingPattern} disabled={form.values.patterns.length > 1}>
+              {t('form.patterns.create.title')}
+            </Button>
+          </AuthGate>
         </Section>
       </form>
     </Pannel>

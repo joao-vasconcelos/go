@@ -1,6 +1,5 @@
 'use client';
 
-import { styled } from '@stitches/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
@@ -8,16 +7,16 @@ import API from '../../../../services/API';
 import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
-import { TextInput, ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-react';
+import { ActionIcon, Menu } from '@mantine/core';
+import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
-import FooterText from '../../../../components/lists/FooterText';
-
-const SearchField = styled(TextInput, {
-  width: '100%',
-});
+import { useTranslations } from 'next-intl';
+import ListFooter from '../../../../components/ListFooter/ListFooter';
+import AuthGate from '../../../../components/AuthGate/AuthGate';
+import SearchField from '../../../../components/SearchField/SearchField';
+import useSearch from '../../../../hooks/useSearch';
 
 export default function Layout({ children }) {
   //
@@ -26,32 +25,36 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
-
+  const t = useTranslations('threads');
+  const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
   //
   // B. Fetch data
 
-  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading, isValidating: agenciesValidating } = useSWR('/api/agencies');
+  const { data: allThreadsData, error: allThreadsError, isLoading: allThreadsLoading, isValidating: allThreadsValidating, mutate: allThreadsMutate } = useSWR('/api/threads');
+
+  //
+  // C. Search
+
+  const filteredThreadsData = useSearch(searchQuery, allThreadsData, { keys: ['subject', 'theme'] });
 
   //
   // C. Handle actions
 
-  const handleCreateAgency = async () => {
+  const handleCreateThread = async () => {
     try {
       setIsCreating(true);
-      const response = await API({
-        service: 'agencies',
-        operation: 'create',
-        method: 'GET',
-      });
-      router.push(`/dashboard/agencies/${response._id}`);
-      notify('new', 'success', 'Agência criada com sucesso.');
+      notify('new', 'loading', t('operations.create.loading'));
+      const response = await API({ service: 'threads', operation: 'create', method: 'GET' });
+      allThreadsMutate();
+      router.push(`/dashboard/threads/${response._id}`);
+      notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
+      notify('new', 'error', err.message || t('operations.create.error'));
       setIsCreating(false);
       console.log(err);
-      notify('new', 'error', err.message);
     }
   };
 
@@ -59,37 +62,39 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <TwoUnevenColumns
-      first={
-        <Pannel
-          loading={agenciesLoading}
-          header={
-            <>
-              <SearchField placeholder='Procurar...' width={'100%'} />
-              <Menu shadow='md' position='bottom-end'>
-                <Menu.Target>
-                  <ActionIcon variant='light' size='lg' loading={agenciesLoading || isCreating}>
-                    <IconDots size='20px' />
-                  </ActionIcon>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>Importar</Menu.Label>
-                  <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateAgency}>
-                    Nova Agência
-                  </Menu.Item>
-                  <Menu.Label>Exportar</Menu.Label>
-                  <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download agency.txt</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </>
-          }
-          footer={agenciesData && (agenciesData.length === 1 ? <FooterText text={`Encontrada 1 Agência`} /> : <FooterText text={`Encontradas ${agenciesData.length} Agências`} />)}
-        >
-          <ErrorDisplay error={agenciesError} loading={agenciesValidating} />
-          {agenciesData && agenciesData.length > 0 ? agenciesData.map((item) => <ListItem key={item._id} _id={item._id} agency_code={item.agency_code} agency_name={item.agency_name} />) : <NoDataLabel />}
-        </Pannel>
-      }
-      second={children}
-    />
+    <AuthGate scope='threads' permission='view' redirect>
+      <TwoUnevenColumns
+        first={
+          <Pannel
+            loading={allThreadsLoading}
+            header={
+              <>
+                <SearchField placeholder='Procurar...' width={'100%'} />
+                <Menu shadow='md' position='bottom-end'>
+                  <Menu.Target>
+                    <ActionIcon variant='light' size='lg' loading={allThreadsLoading || isCreating}>
+                      <IconDots size='20px' />
+                    </ActionIcon>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <AuthGate permission='threads_create'>
+                      <Menu.Label>Importar</Menu.Label>
+                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateThread}>
+                        {t('operations.create.title')}
+                      </Menu.Item>
+                    </AuthGate>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            }
+            footer={filteredThreadsData && <ListFooter>{t('list.footer', { count: filteredThreadsData.length })}</ListFooter>}
+          >
+            <ErrorDisplay error={allThreadsError} loading={allThreadsValidating} />
+            {filteredThreadsData && filteredThreadsData.length > 0 ? filteredThreadsData.map((item) => <ListItem key={item._id} _id={item._id} subject={item.subject} />) : <NoDataLabel />}
+          </Pannel>
+        }
+        second={children}
+      />
+    </AuthGate>
   );
 }

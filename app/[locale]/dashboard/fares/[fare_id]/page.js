@@ -1,35 +1,23 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../services/API';
 import { Validation as FareValidation } from '../../../../../schemas/Fare/validation';
 import { Default as FareDefault } from '../../../../../schemas/Fare/default';
-import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect } from '@mantine/core';
+import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../components/Pannel/Pannel';
-import SaveButtons from '../../../../../components/SaveButtons';
+import Text from '../../../../../components/Text/Text';
+import { Section } from '../../../../../components/Layouts/Layouts';
+import AutoSave from '../../../../../components/AutoSave/AutoSave';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import HeaderTitle from '../../../../../components/lists/HeaderTitle';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
-
-const Section = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '$lg',
-  gap: '$md',
-  width: '100%',
-  maxHeight: '100%',
-});
+import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -38,16 +26,20 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('fares');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'fares', 'create_edit');
 
   const { fare_id } = useParams();
 
   //
   // B. Fetch data
 
+  const { mutate: allFaresMutate } = useSWR('/api/fares');
   const { data: fareData, error: fareError, isLoading: fareLoading } = useSWR(fare_id && `/api/fares/${fare_id}`, { onSuccess: (data) => keepFormUpdated(data) });
-  const { data: agenciesData } = useSWR('/api/agencies');
 
   //
   // C. Setup form
@@ -82,6 +74,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'fares', resourceId: fare_id, operation: 'edit', method: 'PUT', body: form.values });
+      allFaresMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -90,29 +83,29 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [fare_id, form]);
+  }, [fare_id, form, allFaresMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar Tarifário?
-        </Text>
-      ),
+      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar este Tarifário para sempre?</Text>,
-      labels: { confirm: 'Eliminar Tarifário', cancel: 'Não Eliminar' },
+      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(fare_id, 'loading', 'A eliminar Tarifário...');
+          setIsDeleting(true);
+          notify(fare_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'fares', resourceId: fare_id, operation: 'delete', method: 'DELETE' });
+          allFaresMutate();
           router.push('/dashboard/fares');
-          notify(fare_id, 'success', 'Tarifário eliminado!');
+          notify(fare_id, 'success', t('operations.delete.success'));
+          setIsDeleting(false);
         } catch (err) {
           console.log(err);
-          notify(fare_id, 'error', err.message || 'Occoreu um erro.');
+          setIsDeleting(false);
+          notify(fare_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -123,10 +116,10 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={fareLoading}
+      loading={fareLoading || isDeleting}
       header={
         <>
-          <SaveButtons
+          <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={fareLoading}
@@ -137,66 +130,65 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <HeaderTitle text={form.values.fare_long_name || 'Tarifário Sem Nome'} />
-          <Tooltip label='Eliminar Tarifário' color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <Text size='h1' style={!form.values.long_name && 'untitled'} full>
+            {form.values.long_name || t('untitled')}
+          </Text>
+          <AuthGate scope='fares' permission='delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Configuração do Tarifário</SectionTitle>
+          <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={3}>
-            <TextInput label='Nome do Tarifário' placeholder='Tarifa 1' {...form.getInputProps('fare_long_name')} />
-            <TextInput label='Abreviatura' placeholder='1' {...form.getInputProps('fare_short_name')} />
-            <TextInput label='Código do Tarifário' placeholder='FARE_1' {...form.getInputProps('fare_code')} />
+            <TextInput label={t('form.long_name.label')} placeholder={t('form.long_name.placeholder')} {...form.getInputProps('long_name')} readOnly={isReadOnly} />
+            <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} readOnly={isReadOnly} />
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <NumberInput label='Preço' placeholder='3.50' precision={2} step={0.05} min={0.0} {...form.getInputProps('price')} />
-            <Select label='Moeda' placeholder='EUR' searchable nothingFound='Sem opções' data={[{ value: 'EUR', label: 'Euro' }]} {...form.getInputProps('currency_type')} />
+            <NumberInput label={t('form.price.label')} placeholder={t('form.price.placeholder')} precision={2} step={0.05} min={0.0} {...form.getInputProps('price')} readOnly={isReadOnly} />
+            <Select
+              label={t('form.currency_type.label')}
+              placeholder={t('form.currency_type.placeholder')}
+              nothingFound={t('form.currency_type.nothingFound')}
+              {...form.getInputProps('currency_type')}
+              data={[{ value: 'EUR', label: t('form.currency_type.options.EUR') }]}
+              readOnly={isReadOnly}
+              searchable
+            />
           </SimpleGrid>
           <SimpleGrid cols={2}>
             <Select
-              label='Modalidade de Pagamento'
-              placeholder='Escolha uma opção'
-              searchable
-              nothingFound='Sem opções'
-              data={[
-                { value: '0', label: 'Pagamento a Bordo (navegante® a bordo)' },
-                { value: '1', label: 'Pré-pagamento (navegante® pré-pago, navegante®)' },
-              ]}
+              label={t('form.payment_method.label')}
+              placeholder={t('form.payment_method.placeholder')}
+              nothingFound={t('form.payment_method.nothingFound')}
               {...form.getInputProps('payment_method')}
+              data={[
+                { value: '0', label: t('form.payment_method.options.0') },
+                { value: '1', label: t('form.payment_method.options.1') },
+              ]}
+              readOnly={isReadOnly}
+              searchable
             />
             <Select
-              label='Permite Transbordos'
-              placeholder='Sim / Não'
-              nothingFound='Sem opções'
-              data={[
-                { value: '0', label: 'Não, não são permitidos transbordos.' },
-                { value: '1', label: 'Sim, é permitido apenas 1 transbordo.' },
-                { value: '2', label: 'Sim, são permitidos apenas 2 transbordos.' },
-                { value: '', label: 'Sim, são permitidos transbordos ilimitados.' },
-              ]}
+              label={t('form.transfers.label')}
+              placeholder={t('form.transfers.placeholder')}
+              nothingFound={t('form.transfers.nothingFound')}
               {...form.getInputProps('transfers')}
-            />
-          </SimpleGrid>
-          <SimpleGrid cols={1}>
-            <MultiSelect
-              label='Agências'
-              placeholder='Agências relacionadas'
+              data={[
+                { value: '0', label: t('form.transfers.options.0') },
+                { value: '1', label: t('form.transfers.options.1') },
+                { value: '2', label: t('form.transfers.options.2') },
+                { value: 'unlimited', label: t('form.transfers.options.unlimited') },
+              ]}
+              readOnly={isReadOnly}
               searchable
-              nothingFound='Sem opções'
-              data={
-                agenciesData
-                  ? agenciesData.map((item) => {
-                      return { value: item._id, label: item.agency_name || 'Agência Sem Nome' };
-                    })
-                  : []
-              }
-              {...form.getInputProps('agencies')}
             />
           </SimpleGrid>
         </Section>

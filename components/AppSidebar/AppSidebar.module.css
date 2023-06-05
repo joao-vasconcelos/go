@@ -5,10 +5,16 @@
   flex-direction: column;
   gap: var(--size-xs);
   justify-content: space-between;
-  background-color: var(--gray0);
+  background-color: var(--reference-0);
   border-right: 1px solid var(--gray3);
   z-index: 25;
   overflow: scroll;
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: var(--gray1);
+  }
 }
 
 .navWrapper {
@@ -18,4 +24,30 @@
   align-items: center;
   gap: var(--size-md);
   padding: var(--size-lg);
+}
+
+.navButton {
+  color: var(--gray9);
+  font-size: 26px;
+}
+
+.navButton:hover {
+  background-color: var(--gray2);
+}
+
+.navButton:active {
+  background-color: var(--gray4);
+}
+
+.navButton.selected,
+.navButton:hover.selected {
+  background-color: var(--primary5);
+  color: var(--gray9);
+}
+
+@media (prefers-color-scheme: dark) {
+  .navButton.selected,
+  .navButton:hover.selected {
+    color: var(--gray0);
+  }
 }

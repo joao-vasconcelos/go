@@ -5,7 +5,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { Modal, SimpleGrid, Textarea, Select } from '@mantine/core';
 import dayjs from 'dayjs';
 
-export default function HCalendarToggle({ date, dateObj, activeDates = [], onToggle }) {
+export default function HCalendarToggle({ date, dateObj, activeDates = [], onToggle, readOnly }) {
   //
 
   //
@@ -19,6 +19,7 @@ export default function HCalendarToggle({ date, dateObj, activeDates = [], onTog
   const isActive = activeDates.includes(date);
 
   const handleClick = () => {
+    if (readOnly) return;
     onToggle(dateObj);
   };
 
@@ -50,7 +51,7 @@ export default function HCalendarToggle({ date, dateObj, activeDates = [], onTog
           <Textarea label='Notas sobre esta Data' minRows={5} value={dateObj.notes} readOnly />
         </SimpleGrid>
       </Modal>
-      <div className={`${styles.container} ${styles[`period${dateObj.period}`]} ${dateObj.notes && styles.hasNote} ${isActive && styles.isActive}`} onClick={handleClick} onContextMenu={handleContextMenu}>
+      <div className={`${styles.container} ${readOnly && styles.readOnly} ${styles[`period${dateObj.period}`]} ${dateObj.notes && styles.hasNote} ${isActive && styles.isActive}`} onClick={handleClick} onContextMenu={handleContextMenu}>
         {dayString}
       </div>
     </>

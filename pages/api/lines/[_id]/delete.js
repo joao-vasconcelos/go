@@ -1,6 +1,8 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
 import { Model as LineModel } from '../../../../schemas/Line/model';
+import { Model as RouteModel } from '../../../../schemas/Route/model';
+import { Model as PatternModel } from '../../../../schemas/Pattern/model';
 
 /* * */
 /* DELETE LINE */
@@ -27,9 +29,17 @@ export default async function linesDelete(req, res) {
 
   // 2. Try to update the correct document
   try {
-    const deletedDocument = await LineModel.findOneAndDelete({ _id: req.query._id });
-    if (!deletedDocument) return await res.status(404).json({ message: `Line with _id: ${req.query._id} not found.` });
-    return await res.status(200).send(deletedDocument);
+    const deletedLineDocument = await LineModel.findOneAndDelete({ _id: req.query._id });
+    if (!deletedLineDocument) return await res.status(404).json({ message: `Line with _id: ${req.query._id} not found.` });
+    // Delete Routes associated with this Line
+    const routeDocumentsToDelete = await RouteModel.find({ parent_line: req.query._id });
+    for (const routeToDelete of routeDocumentsToDelete) {
+      // Delete Route document
+      await RouteModel.findOneAndDelete({ _id: routeToDelete._id });
+      // Delete Patterns associated with the deleted Route
+      await PatternModel.deleteMany({ parent_route: routeToDelete._id });
+    }
+    return await res.status(200).send(deletedLineDocument);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot delete this Line.' });

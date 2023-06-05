@@ -45,8 +45,8 @@ export default async function agenciesEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['agency_code'].
-    const foundDocumentWithAgencyCode = await AgencyModel.exists({ agency_code: req.body.agency_code });
+    // The values that need to be unique are ['code'].
+    const foundDocumentWithAgencyCode = await AgencyModel.exists({ code: req.body.code });
     if (foundDocumentWithAgencyCode && foundDocumentWithAgencyCode._id != req.query._id) {
       throw new Error('Uma Agência com o mesmo Código já existe.');
     }

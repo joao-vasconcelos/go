@@ -1,21 +1,13 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { Button, SimpleGrid, Text } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 
 export default function AuthVerify() {
   //
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const { status } = useSession();
   const t = useTranslations('auth.verify');
-
-  if (status === 'authenticated') {
-    if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
-    else router.push('/dashboard/statistics');
-  }
 
   const handleSignInRetry = () => {
     router.push('/auth/signin');

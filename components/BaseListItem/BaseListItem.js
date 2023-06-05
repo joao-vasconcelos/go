@@ -1,11 +1,11 @@
 import styles from './BaseListItem.module.css';
 import { IconChevronRight } from '@tabler/icons-react';
 
-export default function BaseListItem({ children, onClick, isSelected, withChevron }) {
+export default function BaseListItem({ children, onClick, isSelected, withChevron, style }) {
   return (
-    <div className={`${styles.container} ${isSelected && styles.isSelected}`} onClick={onClick} selected={isSelected}>
+    <div className={`${styles.container} ${isSelected && styles.isSelected}`} onClick={onClick} selected={isSelected} style={style}>
       <div className={styles.wrapper}>{children}</div>
-      {withChevron && <IconChevronRight size={'20px'} opacity={0.25} />}
+      {withChevron && <IconChevronRight className={styles.chevron} />}
     </div>
   );
 }

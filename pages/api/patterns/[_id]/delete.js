@@ -32,11 +32,13 @@ export default async function patternsDelete(req, res) {
     // Because Pattern is related with Route,
     // when Pattern is deleted it should trigger an update in Route.
 
+    const documentToDelete = await PatternModel.findOne({ _id: req.query._id });
+
     const deletedDocument = await PatternModel.findOneAndDelete({ _id: req.query._id });
     if (!deletedDocument) return await res.status(404).json({ message: `Pattern with _id: ${req.query._id} not found.` });
 
-    const parentDocument = await RouteModel.findOne({ _id: deletedDocument.parent_route });
-    if (!parentDocument) return await res.status(404).json({ message: `Route with _id: ${deletedDocument.parent_route} not found.` });
+    const parentDocument = await RouteModel.findOne({ _id: documentToDelete.parent_route });
+    if (!parentDocument) return await res.status(404).json({ message: `Route with _id: ${documentToDelete.parent_route} not found.` });
 
     let validPatternIds = [];
     for (const pattern_id of parentDocument.patterns) {
@@ -45,7 +47,7 @@ export default async function patternsDelete(req, res) {
     }
     parentDocument.patterns = validPatternIds;
 
-    const editedParentDocument = await RouteModel.findOneAndReplace({ _id: parentDocument._id }, parentDocument, { new: true });
+    const editedParentDocument = await RouteModel.findOneAndUpdate({ _id: parentDocument._id }, parentDocument, { new: true });
     if (!editedParentDocument) return await res.status(404).json({ message: `Route with _id: ${parentDocument._id} not found.` });
 
     return await res.status(200).send(deletedDocument);

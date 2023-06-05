@@ -1,64 +1,33 @@
-'use client';
-
-import { styled } from '@stitches/react';
 import { useRouter, useParams } from 'next/navigation';
 import BaseListItem from '../../../../components/BaseListItem/BaseListItem';
+import Text from '../../../../components/Text/Text';
+import Badge from '../../../../components/Badge/Badge';
 import { Group } from '@mantine/core';
 
-const Wrapper = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'start',
-  gap: '$sm',
-});
-
-const Title = styled('div', {
-  fontSize: '16px',
-  color: '$gray12',
-  fontWeight: '$bold',
-  variants: {
-    isUntitled: {
-      true: {
-        fontSize: '16px',
-        color: '$gray10',
-        fontWeight: '$regular',
-        fontStyle: 'italic',
-      },
-    },
-  },
-});
-
-const Badge = styled('div', {
-  fontFamily: 'monospace',
-  fontSize: '10px',
-  letterSpacing: '1px',
-  color: '$gray9',
-  border: '1px solid $gray6',
-  padding: '2px 6px',
-  borderRadius: '$md',
-});
-
-export default function ListItem({ _id, stop_code, stop_name, stop_lat, stop_lon }) {
+export default function ListItem({ style, _id, name, code, latitude, longitude }) {
   //
 
   const router = useRouter();
   const { stop_id } = useParams();
 
   const handleClick = () => {
+    if (stop_id === _id) return;
     router.push(`/dashboard/stops/${_id}`);
   };
 
   return (
-    <BaseListItem onClick={handleClick} isSelected={stop_id === _id} withChevron>
-      <Wrapper>
-        <Title isUntitled={!stop_name}>{stop_name || 'Paragem Sem Nome'}</Title>
-        <Group>
-          <Badge>{stop_code || '-'}</Badge>
+    <BaseListItem onClick={handleClick} isSelected={stop_id === _id} withChevron style={style}>
+      <Text size='subtitle' style={!name && 'untitled'}>
+        {name || 'Paragem Sem Nome'}
+      </Text>
+      <Group>
+        {code && <Badge>{code}</Badge>}
+        {latitude && longitude && (
           <Badge>
-            {stop_lat || '0.00'}, {stop_lon || '0.00'}
+            {latitude}, {longitude}
           </Badge>
-        </Group>
-      </Wrapper>
+        )}
+      </Group>
     </BaseListItem>
   );
 }

@@ -2,22 +2,26 @@
 
 import 'dayjs/locale/pt';
 import { SWRConfig } from 'swr';
-import { SessionProvider } from 'next-auth/react';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
+import { MapProvider } from 'react-map-gl';
 import styles from './layout.module.css';
-import Image from 'next/image';
-import carrisMetropolitanaIcon from '../../../public/appicon.svg';
+import Link from 'next/link';
 import AppHeader from '../../../components/AppHeader/AppHeader';
 import AppSidebar from '../../../components/AppSidebar/AppSidebar';
+import { CMIcon } from '../../../components/AppLogos/AppLogos';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
-export default function Layout({ children, session }) {
+export default function Layout({ children }) {
   //
+
+  const router = useRouter();
 
   // SWR CONFIGURATION
   const swrOptions = {
-    refreshInterval: 1000,
+    refreshInterval: 30000,
     fetcher: async (...args) => {
       const res = await fetch(...args);
       if (!res.ok) {
@@ -31,21 +35,30 @@ export default function Layout({ children, session }) {
     },
   };
 
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push('/auth/signin');
+    },
+  });
+
   return (
-    <SessionProvider session={session}>
-      <SWRConfig value={swrOptions}>
-        <DatesProvider settings={{ locale: 'pt' }}>
-          <Notifications />
-          <ModalsProvider>
+    <SWRConfig value={swrOptions}>
+      <DatesProvider settings={{ locale: 'pt' }}>
+        <Notifications />
+        <ModalsProvider>
+          <MapProvider>
             <div className={styles.pageWrapper}>
-              <Image priority className={styles.appIcon} src={carrisMetropolitanaIcon} alt={'Carris Metropolitana'} />
+              <Link href={'/'} className={styles.appIcon}>
+                <CMIcon />
+              </Link>
               <AppHeader />
               <AppSidebar />
               <div className={styles.content}>{children}</div>
             </div>
-          </ModalsProvider>
-        </DatesProvider>
-      </SWRConfig>
-    </SessionProvider>
+          </MapProvider>
+        </ModalsProvider>
+      </DatesProvider>
+    </SWRConfig>
   );
 }

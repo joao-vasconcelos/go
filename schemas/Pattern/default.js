@@ -6,13 +6,14 @@
 /* * */
 /* A. Default Values */
 export const Default = {
+  code: '',
   parent_route: null,
-  direction_code: null,
+  direction: null,
   headsign: '',
   shape: null,
   path: [
     {
-      stop_id: null,
+      stop: null,
       allow_pickup: true,
       allow_drop_off: true,
       distance_delta: 0,

@@ -1,63 +1,32 @@
-'use client';
-
-import { styled } from '@stitches/react';
 import { useRouter, useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import BaseListItem from '../../../../components/BaseListItem/BaseListItem';
+import Text from '../../../../components/Text/Text';
+import Badge from '../../../../components/Badge/Badge';
 import { Group } from '@mantine/core';
 
-const Wrapper = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'start',
-  gap: '$sm',
-});
-
-const Title = styled('div', {
-  fontSize: '16px',
-  color: '$gray12',
-  fontWeight: '$bold',
-  variants: {
-    isUntitled: {
-      true: {
-        fontSize: '16px',
-        color: '$gray10',
-        fontWeight: '$regular',
-        fontStyle: 'italic',
-      },
-    },
-  },
-});
-
-const Badge = styled('div', {
-  fontFamily: 'monospace',
-  fontSize: '10px',
-  letterSpacing: '1px',
-  color: '$gray9',
-  border: '1px solid $gray6',
-  padding: '2px 6px',
-  borderRadius: '$md',
-});
-
-export default function ListItem({ _id, municipality_code, municipality_name, district, dico }) {
+export default function ListItem({ _id, code, name, district, dico }) {
   //
 
   const router = useRouter();
   const { municipality_id } = useParams();
+  const t = useTranslations('municipalities');
 
   const handleClick = () => {
+    if (municipality_id === _id) return;
     router.push(`/dashboard/municipalities/${_id}`);
   };
 
   return (
     <BaseListItem onClick={handleClick} isSelected={municipality_id === _id} withChevron>
-      <Wrapper>
-        <Title isUntitled={!municipality_name}>{municipality_name || 'Município Sem Nome'}</Title>
-        <Group>
-          <Badge>{municipality_code}</Badge>
-          <Badge>{district}</Badge>
-          <Badge>{dico}</Badge>
-        </Group>
-      </Wrapper>
+      <Text size='title' style={!name && 'untitled'}>
+        {name || t('untitled')}
+      </Text>
+      <Group>
+        <Badge>{code}</Badge>
+        <Badge>{district}</Badge>
+        <Badge>{dico}</Badge>
+      </Group>
     </BaseListItem>
   );
 }

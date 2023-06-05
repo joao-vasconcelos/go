@@ -11,7 +11,7 @@ import { Default as FareDefault } from '../../../../../schemas/Fare/default';
 import { Tooltip, NumberInput, Select, SimpleGrid, TextInput, ActionIcon, Text, MultiSelect } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../components/Pannel/Pannel';
-import SaveButtons from '../../../../../components/SaveButtons';
+import AutoSave from '../../../../../components/AutoSave/AutoSave';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import HeaderTitle from '../../../../../components/lists/HeaderTitle';
@@ -126,7 +126,7 @@ export default function Page() {
       loading={fareLoading}
       header={
         <>
-          <SaveButtons
+          <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={fareLoading}

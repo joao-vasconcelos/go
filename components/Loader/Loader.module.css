@@ -15,8 +15,8 @@
   }
 }
 
-.overlay {
-  position: absolute;
+.full,
+.fixed {
   top: 0;
   left: 0;
   width: 100%;
@@ -27,4 +27,12 @@
   justify-content: center;
   backdrop-filter: blur(4px);
   background-color: var(--gray0-25);
+}
+
+.full {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
 }

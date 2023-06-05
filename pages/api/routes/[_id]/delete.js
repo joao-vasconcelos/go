@@ -2,6 +2,7 @@ import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
 import { Model as RouteModel } from '../../../../schemas/Route/model';
 import { Model as LineModel } from '../../../../schemas/Line/model';
+import { Model as PatternModel } from '../../../../schemas/Pattern/model';
 
 /* * */
 /* DELETE ROUTE */
@@ -31,8 +32,15 @@ export default async function routesDelete(req, res) {
     // Because Route is related with Line,
     // when Route is deleted it should trigger an update in Line.
 
+    const documentToDelete = await RouteModel.findOne({ _id: req.query._id });
+
     const deletedDocument = await RouteModel.findOneAndDelete({ _id: req.query._id });
     if (!deletedDocument) return await res.status(404).json({ message: `Route with _id: ${req.query._id} not found.` });
+
+    for (const pattern_id of documentToDelete.patterns) {
+      // Delete nested documents
+      await PatternModel.findOneAndDelete({ _id: pattern_id });
+    }
 
     const parentDocument = await LineModel.findOne({ _id: deletedDocument.parent_line });
     if (!parentDocument) return await res.status(404).json({ message: `Line with _id: ${deletedDocument.parent_line} not found.` });
@@ -44,7 +52,7 @@ export default async function routesDelete(req, res) {
     }
     parentDocument.routes = validRouteIds;
 
-    const editedParentDocument = await LineModel.findOneAndReplace({ _id: parentDocument._id }, parentDocument, { new: true });
+    const editedParentDocument = await LineModel.findOneAndUpdate({ _id: parentDocument._id }, parentDocument, { new: true });
     if (!editedParentDocument) return await res.status(404).json({ message: `Line with _id: ${parentDocument._id} not found.` });
 
     return await res.status(200).send(deletedDocument);

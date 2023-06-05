@@ -9,15 +9,16 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
-    pattern_code: {
+    code: {
       type: String,
       maxlength: 50,
+      unique: true,
     },
     parent_route: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Route',
     },
-    direction_code: {
+    direction: {
       type: Number,
     },
     headsign: {
@@ -27,10 +28,11 @@ export const Schema = new mongoose.Schema(
     shape: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Shape',
+      unique: true,
     },
     path: [
       {
-        stop_id: {
+        stop: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Stop',
         },
@@ -80,24 +82,17 @@ export const Schema = new mongoose.Schema(
         ],
         path_overrides: [
           {
-            stop_sequence: {
+            sequence_index: {
               type: Number,
             },
-            pickup_type: {
-              type: String,
-              maxlength: 6,
+            velocity: {
+              type: Number,
             },
-            drop_off_type: {
-              type: String,
-              maxlength: 6,
+            travel_time: {
+              type: Number,
             },
-            time_delta: {
-              type: String,
-              maxlength: 6,
-            },
-            wait_time: {
-              type: String,
-              maxlength: 6,
+            dwell_time: {
+              type: Number,
             },
           },
         ],

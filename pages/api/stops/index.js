@@ -27,7 +27,7 @@ export default async function stopsList(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await StopModel.find({}, 'stop_code stop_name stop_lat stop_lon');
+    const allDocuments = await StopModel.find({}, 'code name latitude longitude'); //.limit(500);
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);

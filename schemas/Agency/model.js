@@ -9,36 +9,36 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
-    agency_code: {
+    code: {
       type: String,
       maxlength: 10,
       unique: true,
     },
-    agency_name: {
+    name: {
       type: String,
       maxlength: 50,
     },
-    agency_timezone: {
+    timezone: {
       type: String,
       maxlength: 50,
     },
-    agency_lang: {
+    lang: {
       type: String,
       maxlength: 50,
     },
-    agency_phone: {
+    phone: {
       type: String,
       maxlength: 50,
     },
-    agency_email: {
+    email: {
       type: String,
       maxlength: 50,
     },
-    agency_url: {
+    url: {
       type: String,
       maxlength: 50,
     },
-    agency_fare_url: {
+    fare_url: {
       type: String,
       maxlength: 50,
     },

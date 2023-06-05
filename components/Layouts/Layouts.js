@@ -22,9 +22,15 @@ export function TwoUnevenColumns({ first, second }) {
 export function ThreeEvenColumns({ first, second, third }) {
   return (
     <div className={`${styles.baseLayout} ${styles.threeEvenColumns}`}>
-      {first && <div className={styles.innerWrapper}>{first}</div>}
-      {second && <div className={styles.innerWrapper}>{second}</div>}
-      {third && <div className={styles.innerWrapper}>{third}</div>}
+      <div className={styles.innerWrapper}>{first && first}</div>
+      <div className={styles.innerWrapper}>{second && second}</div>
+      <div className={styles.innerWrapper}>{third && third}</div>
     </div>
   );
+}
+
+//
+// SECTION
+export function Section({ children }) {
+  return <div className={styles.section}>{children}</div>;
 }

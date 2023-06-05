@@ -28,6 +28,23 @@ export default async function linesCreate(req, res) {
 
   // 2. Try to save a new document with req.body
   try {
+    const allLines = await LineModel.find();
+    for (const line of allLines) {
+      let agencyId;
+      if (line.code.startsWith('1')) agencyId = '644976034212abfd6e160d1a';
+      else if (line.code.startsWith('2')) agencyId = '645d7ee04ef63aec14fbf1eb';
+      else if (line.code.startsWith('3')) agencyId = '645d7f114ef63aec14fbf217';
+      else if (line.code.startsWith('4')) agencyId = '645d7f204ef63aec14fbf22a';
+      const result = await LineModel.findOneAndUpdate({ code: line.code }, { $unset: { agencies: '' }, $set: { agency: agencyId } }, { new: true });
+      console.log('Updated Line', line.code, 'with agency_id', agencyId, 'result', result);
+    }
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot update all Lines.' });
+  }
+
+  // 2. Try to save a new document with req.body
+  try {
     const createdDocument = await LineModel(LineDefault).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {

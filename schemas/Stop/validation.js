@@ -7,26 +7,23 @@ import * as yup from 'yup';
 
 /* * */
 /* A. YUP Validation Schema */
-export const Validation = yup.object({
-  //
+export const Validation = yup.object({});
+/*
   // General
-  stop_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  stop_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  stop_short_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  tts_stop_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  stop_lat: yup.number().default(0).required(),
-  stop_lon: yup.number().default(0).required(),
+  code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
+  name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
+  short_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
+  tts_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
+  latitude: yup.number().default(0).required(),
+  longitude: yup.number().default(0).required(),
   location_type: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   platform_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   parent_station: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  stop_url: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
+  url: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   public_visible: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
 
   // Operation
-  stop_area_1: yup.boolean(),
-  stop_area_2: yup.boolean(),
-  stop_area_3: yup.boolean(),
-  stop_area_4: yup.boolean(),
+  agencies: yup.array(),
 
   // Administrative
   address: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
@@ -102,8 +99,9 @@ export const Validation = yup.object({
   bike_parking: yup.boolean(),
   car_parking: yup.boolean(),
 
-  // Comments
-  stop_remarks: yup.string().max(10000, 'Field_ deve ter apenas ${max} caracteres.'),
+  // Notes
+  notes: yup.string().max(10000, 'Field_ deve ter apenas ${max} caracteres.'),
 
   //
 });
+*/

@@ -2,6 +2,7 @@ import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
 import { Validation as RouteValidation } from '../../../../schemas/Route/validation';
 import { Model as RouteModel } from '../../../../schemas/Route/model';
+import { Model as PatternModel } from '../../../../schemas/Pattern/model';
 
 /* * */
 /* EDIT ROUTE */
@@ -45,14 +46,28 @@ export default async function routesEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['_id'].
-    const foundDocumentWithRouteId = await RouteModel.exists({ _id: req.query._id });
+    // The values that need to be unique are ['code'].
+    const foundDocumentWithRouteId = await RouteModel.exists({ code: req.body.code });
     if (foundDocumentWithRouteId && foundDocumentWithRouteId._id != req.query._id) {
       throw new Error('Uma Rota com o mesmo Código já existe.');
     }
   } catch (err) {
     console.log(err);
     return await res.status(409).json({ message: err.message });
+  }
+
+  // 5. Update nested patterns with correct code
+  try {
+    for (const [patternIndex, patternData] of req.body.patterns.entries()) {
+      if (patternIndex > 1) throw new Error('Não podem existir mais do que dois Patterns numa Rota.');
+      const patternDocument = await PatternModel.findOne({ _id: patternData._id });
+      patternDocument.code = `${req.body.code}_${patternIndex}`;
+      patternDocument.direction = patternIndex;
+      await PatternModel.findOneAndUpdate({ _id: patternData._id }, patternDocument);
+    }
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: err.message });
   }
 
   // 2. Try to update the correct document

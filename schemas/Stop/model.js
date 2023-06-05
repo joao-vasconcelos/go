@@ -11,28 +11,28 @@ export const Schema = new mongoose.Schema(
   {
     //
     // General
-    stop_code: {
+    code: {
       type: String,
       maxlength: 6,
       unique: true,
     },
-    stop_name: {
+    name: {
       type: String,
       maxlength: 100,
     },
-    stop_short_name: {
+    short_name: {
       type: String,
       maxlength: 100,
     },
-    tts_stop_name: {
+    tts_name: {
       type: String,
       maxlength: 100,
     },
-    stop_lat: {
+    latitude: {
       type: Number,
       required: true,
     },
-    stop_lon: {
+    longitude: {
       type: Number,
       required: true,
     },
@@ -48,27 +48,17 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 100,
     },
-    stop_url: {
-      type: String,
-      maxlength: 100,
-    },
     public_visible: {
       type: Boolean,
     },
 
     // Operation
-    stop_area_1: {
-      type: Boolean,
-    },
-    stop_area_2: {
-      type: Boolean,
-    },
-    stop_area_3: {
-      type: Boolean,
-    },
-    stop_area_4: {
-      type: Boolean,
-    },
+    agencies: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Agency',
+      },
+    ],
 
     // Administrative
     address: {
@@ -92,8 +82,8 @@ export const Schema = new mongoose.Schema(
       maxlength: 100,
     },
     municipality: {
-      type: String,
-      maxlength: 100,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Municipality',
     },
     parish: {
       type: String,
@@ -306,7 +296,7 @@ export const Schema = new mongoose.Schema(
     },
 
     // Comments
-    stop_remarks: {
+    notes: {
       type: String,
       maxlength: 10000,
     },

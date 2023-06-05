@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import styles from './HCalendar.module.css';
 import dayjs from 'dayjs';
 import HCalendarSpacer from '../HCalendarSpacer/HCalendarSpacer';
@@ -12,16 +12,11 @@ export default function HCalendar({ availableDates, renderCardComponent, onMulti
   //
   // A. Setup variables
 
-  const [allDatesFormatted, setAllDatesFormatted] = useState();
-
-  //
-  // D. Render components
-
-  useEffect(() => {
+  const allDatesFormatted = useMemo(() => {
     //
 
     // 1. Exit if availableDates is not defined
-    if (!availableDates || !availableDates.length) return;
+    if (!availableDates || !availableDates.length) return [];
 
     // 2. Sort the array to ensure we get the whole range of dates in the database
     const sortedDates = availableDates.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
@@ -81,7 +76,7 @@ export default function HCalendar({ availableDates, renderCardComponent, onMulti
     const allDatesReadyForCalendar = allDatesPreparedForDisplay.sort((a, b) => (a.sort_key < b.sort_key ? -1 : a.sort_key > b.sort_key ? 1 : 0));
 
     // 8. Update state
-    setAllDatesFormatted(allDatesReadyForCalendar);
+    return allDatesReadyForCalendar;
 
     //
   }, [availableDates]);

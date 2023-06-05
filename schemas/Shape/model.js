@@ -9,16 +9,16 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
-    shape_code: {
+    code: {
       type: String,
       maxlength: 100,
       unique: true,
     },
-    shape_name: {
+    name: {
       type: String,
       maxlength: 100,
     },
-    shape_distance: {
+    extension: {
       type: String,
       maxlength: 100,
     },
@@ -46,11 +46,13 @@ export const Schema = new mongoose.Schema(
       type: {
         type: String,
         maxlength: 100,
+        default: 'Feature',
       },
       geometry: {
         type: {
           type: String,
           maxlength: 100,
+          default: 'LineString',
         },
         coordinates: [
           [
@@ -63,7 +65,20 @@ export const Schema = new mongoose.Schema(
       },
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    virtuals: {
+      associated_pattern: {
+        options: {
+          ref: 'Pattern',
+          localField: '_id',
+          foreignField: 'shape',
+          justOne: true,
+        },
+      },
+    },
+  }
 );
 
 /* * */

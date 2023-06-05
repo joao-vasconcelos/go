@@ -1,38 +1,27 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../../../services/API';
 import { Validation as PatternValidation } from '../../../../../../../schemas/Pattern/validation';
 import { Default as PatternDefault } from '../../../../../../../schemas/Pattern/default';
-import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Text, Select } from '@mantine/core';
+import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../../../components/Pannel/Pannel';
-import SaveButtons from '../../../../../../../components/SaveButtons';
+import Text from '../../../../../../../components/Text/Text';
+import { Section } from '../../../../../../../components/Layouts/Layouts';
+import AutoSave from '../../../../../../../components/AutoSave/AutoSave';
 import notify from '../../../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import Line from '../../../../../../../components/line/Line';
-import StopSequenceTable from './StopSequenceTable';
-import SchedulesTable from './SchedulesTable';
+import LineDisplay from '../../../../../../../components/LineDisplay/LineDisplay';
+import StopSequenceTable from '../../../../../../../components/StopSequenceTable/StopSequenceTable';
+import SchedulesTable from '../../../../../../../components/SchedulesTable/SchedulesTable';
 import calculateDistanceBetweenStops from '../../../../../../../services/calculateDistanceBetweenStops';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
-
-const Section = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '$lg',
-  gap: '$md',
-  width: '100%',
-  maxHeight: '100%',
-});
+import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -41,19 +30,21 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('patterns');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
-
   const [isCreatingStopSequence, setIsCreatingStopSequence] = useState();
   const [isCreatingSchedule, setIsCreatingSchedule] = useState();
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
   const { line_id, route_id, pattern_id } = useParams();
 
   //
   // B. Fetch data
 
-  const { data: shapesData, error: shapesError, isLoading: shapesLoading } = useSWR('/api/shapes');
-  const { data: lineData, error: lineError, isLoading: lineLoading, isValidating: lineValidating, mutate: lineMutate } = useSWR(line_id && `/api/lines/${line_id}`);
+  const { data: allShapesData } = useSWR('/api/shapes');
+  const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
   const { data: routeData, error: routeError, isLoading: routeLoading, isValidating: routeValidating, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
   const { data: patternData, error: patternError, isLoading: patternLoading } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
@@ -102,25 +93,21 @@ export default function Page() {
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar Pattern?
-        </Text>
-      ),
+      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar este Pattern para sempre?</Text>,
-      labels: { confirm: 'Eliminar Pattern', cancel: 'Não Eliminar' },
+      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(pattern_id, 'loading', 'A eliminar Pattern...');
+          notify(pattern_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'patterns', resourceId: pattern_id, operation: 'delete', method: 'DELETE' });
-          patternr.push(`/dashboard/lines/${line_id}`);
-          notify(pattern_id, 'success', 'Pattern eliminada!');
+          router.push(`/dashboard/lines/${line_id}/${route_id}`);
+          notify(pattern_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
-          notify(pattern_id, 'error', err.message || 'Occoreu um erro.');
+          notify(pattern_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -131,6 +118,7 @@ export default function Page() {
   };
 
   const handleStopSequenceReorder = async ({ source, destination }) => {
+    if (!source || !destination || isReadOnly) return;
     if (source.index === destination.index) return;
     openConfirmModal({
       title: (
@@ -250,7 +238,7 @@ export default function Page() {
       loading={patternLoading}
       header={
         <>
-          <SaveButtons
+          <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={patternLoading}
@@ -260,51 +248,60 @@ export default function Page() {
             onValidate={() => handleValidate()}
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
+            closeType='back'
           />
-          <Line
-            short_name={(lineData && lineData.line_short_name) || '•••'}
-            long_name={`${(lineData && lineData.line_long_name) || 'Loading...'} (${form.values.headsign || 'Pattern sem headsign'})`}
-            color={(lineData && lineData.line_color) || ''}
-            text_color={(lineData && lineData.line_text_color) || ''}
-          />
+          <LineDisplay short_name={lineData && lineData.short_name} long_name={form.values.headsign || t('untitled')} color={lineData && lineData.color} text_color={lineData && lineData.text_color} />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label='Eliminar Pattern' color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <AuthGate scope='lines' permission='delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Detalhes do Pattern</SectionTitle>
+          <Text size='h2'>{t('sections.config.title')}</Text>
+          <SimpleGrid cols={4}>
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly />
+          </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput placeholder='Headsign' label='Headsign' {...form.getInputProps('headsign')} />
+            <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} description={t('form.headsign.description')} {...form.getInputProps('headsign')} />
             <Select
-              label='Shape'
-              placeholder='Shape'
-              searchable
-              nothingFound='Sem opções'
-              w={'100%'}
+              label={t('form.shape.label')}
+              placeholder={t('form.shape.placeholder')}
+              nothingFound={t('form.shape.nothingFound')}
+              description={t.rich('form.shape.description', {
+                link: (chunks) =>
+                  form.values.shape && (
+                    <a href={`/dashboard/shapes/${form.values.shape}`} target='_blank'>
+                      {chunks}
+                    </a>
+                  ),
+              })}
               {...form.getInputProps('shape')}
               data={
-                shapesData
-                  ? shapesData.map((item) => {
-                      return { value: item._id, label: `[${item.shape_code}] ${item.shape_name || 'Shape sem Nome'}` };
+                allShapesData
+                  ? allShapesData.map((shape) => {
+                      return { value: shape._id, label: `[${shape.code}] ${shape.name || t('form.shape.untitled')}` };
                     })
                   : []
               }
+              searchable
+              clearable
             />
           </SimpleGrid>
         </Section>
         <Divider />
         <Section>
-          <SectionTitle>Paragens</SectionTitle>
+          <Text size='h2'>{t('sections.stops.title')}</Text>
           <Button onClick={handleCalculateStopDistances} disabled={isCreatingStopSequence} variant='light'>
             Calcular distâncias entre paragens
           </Button>
@@ -317,7 +314,7 @@ export default function Page() {
         </Section>
         <Divider />
         <Section>
-          <SectionTitle>Horários</SectionTitle>
+          <Text size='h2'>{t('sections.schedules.title')}</Text>
           <SimpleGrid cols={1}>
             <SchedulesTable form={form} onDelete={handleDeleteScheduleRow} />
             <Button onClick={handleCreateSchedule} loading={isCreatingSchedule}>

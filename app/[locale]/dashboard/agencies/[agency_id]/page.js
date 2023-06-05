@@ -1,35 +1,23 @@
 'use client';
 
 import useSWR from 'swr';
-import { styled } from '@stitches/react';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '../../../../../services/API';
 import { Validation as AgencyValidation } from '../../../../../schemas/Agency/validation';
 import { Default as AgencyDefault } from '../../../../../schemas/Agency/default';
-import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon, Text } from '@mantine/core';
+import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '../../../../../components/Pannel/Pannel';
-import SaveButtons from '../../../../../components/SaveButtons';
+import Text from '../../../../../components/Text/Text';
+import { Section } from '../../../../../components/Layouts/Layouts';
+import AutoSave from '../../../../../components/AutoSave/AutoSave';
 import notify from '../../../../../services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import HeaderTitle from '../../../../../components/lists/HeaderTitle';
-
-const SectionTitle = styled('p', {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  color: '$gray12',
-});
-
-const Section = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '$lg',
-  gap: '$md',
-  width: '100%',
-  maxHeight: '100%',
-});
+import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '../../../../../components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -38,14 +26,19 @@ export default function Page() {
   // A. Setup variables
 
   const router = useRouter();
+  const t = useTranslations('agencies');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'agencies', 'create_edit');
 
   const { agency_id } = useParams();
 
   //
   // B. Fetch data
 
+  const { mutate: allAgenciesMutate } = useSWR('/api/agencies');
   const { data: agencyData, error: agencyError, isLoading: agencyLoading } = useSWR(agency_id && `/api/agencies/${agency_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
@@ -81,6 +74,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'agencies', resourceId: agency_id, operation: 'edit', method: 'PUT', body: form.values });
+      allAgenciesMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -89,29 +83,29 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [agency_id, form]);
+  }, [agency_id, form, allAgenciesMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar Agência?
-        </Text>
-      ),
+      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Eliminar é irreversível. Tem a certeza que quer eliminar esta Agência para sempre?</Text>,
-      labels: { confirm: 'Eliminar Agência', cancel: 'Não Eliminar' },
+      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(agency_id, 'loading', 'A eliminar Agência...');
+          setIsDeleting(true);
+          notify(agency_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'agencies', resourceId: agency_id, operation: 'delete', method: 'DELETE' });
+          allAgenciesMutate();
           router.push('/dashboard/agencies');
-          notify(agency_id, 'success', 'Agência eliminada!');
+          notify(agency_id, 'success', t('operations.delete.success'));
+          setIsDeleting(false);
         } catch (err) {
           console.log(err);
-          notify(agency_id, 'error', err.message || 'Occoreu um erro.');
+          setIsDeleting(false);
+          notify(agency_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -122,10 +116,10 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={agencyLoading}
+      loading={agencyLoading || isDeleting}
       header={
         <>
-          <SaveButtons
+          <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
             isLoading={agencyLoading}
@@ -136,33 +130,45 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <HeaderTitle text={form.values.agency_name || 'Agência Sem Nome'} />
-          <Tooltip label='Eliminar Agência' color='red' position='bottom' withArrow>
-            <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-              <IconTrash size='20px' />
-            </ActionIcon>
-          </Tooltip>
+          <Text size='h1' style={!form.values.name && 'untitled'} full>
+            {form.values.name || t('untitled')}
+          </Text>
+          <AuthGate scope='agencies' permission='delete'>
+            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
+              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
+                <IconTrash size='20px' />
+              </ActionIcon>
+            </Tooltip>
+          </AuthGate>
         </>
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <SectionTitle>Configuração da Agência</SectionTitle>
+          <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={1}>
-            <TextInput placeholder='Nome do Operador' label='Nome da Agência' {...form.getInputProps('agency_name')} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={3}>
-            <TextInput placeholder='41' label='Código da Agência' {...form.getInputProps('agency_code')} />
-            <Select label='Idioma' placeholder='Idioma' searchable nothingFound='Sem opções' data={['Português (Portugal)']} {...form.getInputProps('agency_lang')} />
-            <Select label='Timezone' placeholder='Lisboa, Portugal' searchable nothingFound='Sem opções' data={['GMT:0 - Lisboa, Portugal']} {...form.getInputProps('agency_timezone')} />
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+            <Select
+              label={t('form.lang.label')}
+              placeholder={t('form.lang.placeholder')}
+              nothingFound={t('form.lang.nothingFound')}
+              data={[{ value: 'pt', label: 'Português (Portugal)' }]}
+              {...form.getInputProps('lang')}
+              searchable
+              readOnly={isReadOnly}
+            />
+            <Select label={t('form.timezone.label')} placeholder={t('form.timezone.placeholder')} nothingFound={t('form.timezone.nothingFound')} data={['Europe/Lisbon']} {...form.getInputProps('timezone')} searchable readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput placeholder='+351 912 345 678' label='Contacto Telefónico' {...form.getInputProps('agency_phone')} />
-            <TextInput placeholder='email@agencia.pt' label='Contacto Eletrónico' {...form.getInputProps('agency_email')} />
+            <TextInput label={t('form.phone.label')} placeholder={t('form.phone.placeholder')} {...form.getInputProps('phone')} readOnly={isReadOnly} />
+            <TextInput label={t('form.email.label')} placeholder={t('form.email.placeholder')} {...form.getInputProps('email')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <TextInput placeholder='https://...' label='Website Público' {...form.getInputProps('agency_url')} />
-            <TextInput placeholder='https://...' label='Website dos Tarifários' {...form.getInputProps('agency_fare_url')} />
+            <TextInput label={t('form.url.label')} placeholder={t('form.url.placeholder')} {...form.getInputProps('url')} readOnly={isReadOnly} />
+            <TextInput label={t('form.fare_url.label')} placeholder={t('form.fare_url.placeholder')} {...form.getInputProps('fare_url')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
       </form>

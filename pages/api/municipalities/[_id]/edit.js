@@ -45,10 +45,10 @@ export default async function municipalitiesEdit(req, res) {
 
   // 4. Check for uniqueness
   try {
-    // The values that need to be unique are ['municipality_code'].
-    const foundDocumentWithMunicipalityCode = await MunicipalityModel.exists({ municipality_code: req.body.municipality_code });
+    // The values that need to be unique are ['code'].
+    const foundDocumentWithMunicipalityCode = await MunicipalityModel.exists({ code: req.body.code });
     if (foundDocumentWithMunicipalityCode && foundDocumentWithMunicipalityCode._id != req.query._id) {
-      throw new Error('Um Tarifário com o mesmo Código já existe.');
+      throw new Error('Um Município com o mesmo Código já existe.');
     }
   } catch (err) {
     console.log(err);

@@ -7,9 +7,11 @@
   height: 100%;
   font-size: 12px;
   font-weight: 500;
-  color: var(--info9);
   cursor: pointer;
-  background-color: var(--gray3);
+}
+
+.readOnly {
+  cursor: default;
 }
 
 /* * */
@@ -17,8 +19,8 @@
 
 .hasNote:after {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 1px;
+  left: 1px;
   content: '';
   display: block;
   width: 0;
@@ -32,91 +34,103 @@
 /* PERÍODO ESCOLAR */
 
 .period1 {
-  color: #0759d3;
-  background-color: #e2edfe;
+  color: var(--period-1-text-idle);
+  background-color: var(--period-1-background-idle);
 }
-
 .period1.hasNote:after {
-  border-top-color: #68a3fa;
-}
-
-.period1.isActive {
-  color: #e2edfe;
-  background-color: #0759d3;
+  border-top-color: var(--period-1-note-idle);
 }
 
 .period1:hover {
-  color: #054098;
-  background-color: #a5c8fc;
+  color: var(--period-1-text-hover);
+  background-color: var(--period-1-background-hover);
+}
+.period1:hover.hasNote:after {
+  border-top-color: var(--period-1-note-hover);
 }
 
-.period1:hover.hasNote:after {
-  border-top-color: #3584f8;
+.period1.isActive {
+  color: var(--period-1-text-active);
+  background-color: var(--period-1-background-active);
+}
+.period1.isActive.hasNote:after {
+  border-top-color: var(--period-1-note-active);
 }
 
 .period1:hover.isActive {
-  color: #e2edfe;
-  background-color: #054098;
+  color: var(--period-1-text-active-hover);
+  background-color: var(--period-1-background-active-hover);
+}
+.period1:hover.isActive.hasNote:after {
+  border-top-color: var(--period-1-note-active-hover);
 }
 
 /* * */
 /* PERÍODO DE FÉRIAS ESCOLARES */
 
 .period2 {
-  color: #629c31;
-  background-color: #e1f1d3;
+  color: var(--period-2-text-idle);
+  background-color: var(--period-2-background-idle);
 }
-
 .period2.hasNote:after {
-  border-top-color: #a3d579;
-}
-
-.period2.isActive {
-  color: #e1f1d3;
-  background-color: #629c31;
+  border-top-color: var(--period-2-note-idle);
 }
 
 .period2:hover {
-  color: #477123;
-  background-color: #c2e3a6;
+  color: var(--period-2-text-hover);
+  background-color: var(--period-2-background-hover);
+}
+.period2:hover.hasNote:after {
+  border-top-color: var(--period-2-note-hover);
 }
 
-.period2:hover.hasNote:after {
-  border-top-color: #89c953;
+.period2.isActive {
+  color: var(--period-2-text-active);
+  background-color: var(--period-2-background-active);
+}
+.period2.isActive.hasNote:after {
+  border-top-color: var(--period-2-note-active);
 }
 
 .period2:hover.isActive {
-  color: #e1f1d3;
-  background-color: #477123;
+  color: var(--period-2-text-active-hover);
+  background-color: var(--period-2-background-active-hover);
+}
+.period2:hover.isActive.hasNote:after {
+  border-top-color: var(--period-2-note-active-hover);
 }
 
 /* * */
 /* PERÍODO DE VERÃO */
 
 .period3 {
-  color: #ab7500;
-  background-color: #ffeabd;
+  color: var(--period-3-text-idle);
+  background-color: var(--period-3-background-idle);
 }
-
 .period3.hasNote:after {
-  border-top-color: #ffc649;
-}
-
-.period3.isActive {
-  color: #ffeabd;
-  background-color: #ab7500;
+  border-top-color: var(--period-3-note-idle);
 }
 
 .period3:hover {
-  color: #926400;
-  background-color: #ffd883;
+  color: var(--period-3-text-hover);
+  background-color: var(--period-3-background-hover);
+}
+.period3:hover.hasNote:after {
+  border-top-color: var(--period-3-note-hover);
 }
 
-.period3:hover.hasNote:after {
-  border-top-color: #ffb618;
+.period3.isActive {
+  color: var(--period-3-text-active);
+  background-color: var(--period-3-background-active);
+}
+.period3.isActive.hasNote:after {
+  border-top-color: var(--period-3-note-active);
 }
 
 .period3:hover.isActive {
-  color: #ffeabd;
-  background-color: #926400;
+  color: var(--period-3-text-active-hover);
+  background-color: var(--period-3-background-active-hover);
+}
+.period3:hover.isActive.hasNote:after {
+  border-top-color: var(--period-3-note-active-hover);
 }

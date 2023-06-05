@@ -31,19 +31,19 @@ export default async function importRoutes(req, res) {
 
   for (const line of allLines) {
     try {
-      const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_short_name/${line.line_code}`);
+      const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_short_name/${line.code}`);
       const allRoutesForThisLine = await response.json();
 
       let createdRoutesIds = [];
 
       for (const routeObj of allRoutesForThisLine) {
         const createdRouteDoc = await RouteModel.findOneAndUpdate(
-          { route_code: routeObj.route_id },
+          { code: routeObj.route_id },
           {
             ...RouteDefault,
-            route_code: routeObj.route_id,
+            code: routeObj.route_id,
             parent_line: line._id,
-            route_name: routeObj.route_long_name,
+            name: routeObj.route_long_name,
           },
           { new: true, upsert: true }
         );
@@ -59,9 +59,9 @@ export default async function importRoutes(req, res) {
         { new: true }
       );
 
-      console.log('updated line', line.line_code);
-      console.log('delay of 500 miliseconds');
-      await delay(500);
+      console.log('Updated Line', line.code);
+      console.log('Delay of 250 miliseconds');
+      await delay(250);
     } catch (error) {
       console.log(error);
     }

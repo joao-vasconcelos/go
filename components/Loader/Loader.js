@@ -1,6 +1,6 @@
 import styles from './Loader.module.css';
 
-export default function Loader({ visible, full, size = 30 }) {
+export default function Loader({ visible, full, fixed, size = 30 }) {
   //
 
   if (!visible) return <div />;
@@ -11,7 +11,16 @@ export default function Loader({ visible, full, size = 30 }) {
   // If
   if (full) {
     return (
-      <div className={styles.overlay}>
+      <div className={styles.full}>
+        <Spinner />
+      </div>
+    );
+  }
+
+  // If
+  if (fixed) {
+    return (
+      <div className={styles.fixed}>
         <Spinner />
       </div>
     );

@@ -6,12 +6,14 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  line_code: '',
-  line_short_name: '',
-  line_long_name: '',
-  agencies: [],
-  line_color: '',
-  line_text_color: '#FFFFFF',
-  circular: 'false',
+  code: '',
+  short_name: '',
+  long_name: '',
+  color: '',
+  text_color: '#FFFFFF',
+  circular: false,
+  school: false,
+  fare: null,
+  agency: null,
   routes: [],
 };

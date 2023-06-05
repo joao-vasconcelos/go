@@ -9,35 +9,40 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
   {
-    line_code: {
+    code: {
       type: String,
       maxlength: 10,
       unique: true,
     },
-    line_short_name: {
+    short_name: {
       type: String,
       maxlength: 50,
     },
-    line_long_name: {
+    long_name: {
       type: String,
       maxlength: 50,
     },
-    agencies: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Agency',
-      },
-    ],
-    line_color: {
+    color: {
       type: String,
       maxlength: 50,
     },
-    line_text_color: {
+    text_color: {
       type: String,
       maxlength: 50,
     },
     circular: {
       type: Boolean,
+    },
+    school: {
+      type: Boolean,
+    },
+    fare: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Fare',
+    },
+    agency: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Agency',
     },
     routes: [
       {
