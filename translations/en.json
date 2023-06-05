@@ -205,7 +205,7 @@
             },
             "notes": {
                 "label": "Notes for this Date",
-                "placeholder": "In this day..."
+                "placeholder": "On this day..."
             }
         }
     },
