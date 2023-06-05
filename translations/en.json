@@ -393,7 +393,7 @@
                 "placeholder": "#FFFFFF"
             },
             "fare": {
-                "label": "Fare Rule for this Line",
+                "label": "Associated Fare",
                 "placeholder": "Choose Fare...",
                 "nothingFound": "No Results Found"
             },
@@ -494,7 +494,7 @@
             "shape": {
                 "label": "Associated Shape",
                 "placeholder": "Choose an option...",
-                "description": "This is the shape. <link>Open in new tab.</link>",
+                "description": "<link>Open in new tab.</link>",
                 "nothingFound": "No Results Found",
                 "untitled": "Untitled Shape"
             }
@@ -646,7 +646,7 @@
         },
         "form": {
             "code": {
-                "label": "Unique Stop Code",
+                "label": "Stop Code",
                 "placeholder": "012345"
             },
             "latitude": {
@@ -761,11 +761,11 @@
             },
             "last_infrastructure_maintenance": {
                 "label": "Last Infrastructure Maintenance",
-                "placeholder": "last_infrastructure_maintenance"
+                "placeholder": "2023-02-10"
             },
             "last_infrastructure_check": {
                 "label": "Last Infrastructure Check",
-                "placeholder": "last_infrastructure_check"
+                "placeholder": "2023-02-10"
             },
             "has_stop_sign": {
                 "label": "Has Stop Sign",
@@ -782,8 +782,8 @@
                 "nothingFound": "No Results Found"
             },
             "shelter_frame_area_cm": {
-                "label": "Shelter Frame Area (cm)",
-                "placeholder": "shelter_frame_area_cm"
+                "label": "Shelter Frame Area (H x W cm)",
+                "placeholder": "23 x 42 cm"
             },
             "has_pip_real_time": {
                 "label": "Has PIP Real Time",
@@ -792,7 +792,7 @@
             },
             "pip_real_time_code": {
                 "label": "PIP Real Time Code",
-                "placeholder": "pip_real_time_code"
+                "placeholder": "PIP372"
             },
             "has_h2oa_signage": {
                 "label": "Has H2OA Signage",
@@ -811,19 +811,19 @@
             },
             "last_schedules_maintenance": {
                 "label": "Last Schedules Maintenance",
-                "placeholder": "last_schedules_maintenance"
+                "placeholder": "2023-02-10"
             },
             "last_schedules_check": {
                 "label": "Last Schedules Check",
-                "placeholder": "last_schedules_check"
+                "placeholder": "2023-02-10"
             },
             "last_stop_sign_maintenance": {
                 "label": "Last Stop Sign Maintenance",
-                "placeholder": "last_stop_sign_maintenance"
+                "placeholder": "2023-02-10"
             },
             "last_stop_sign_check": {
                 "label": "Last Stop Sign Check",
-                "placeholder": "last_stop_sign_check"
+                "placeholder": "2023-02-10"
             },
             "has_sidewalk": {
                 "label": "Has Sidewalk",
@@ -871,58 +871,58 @@
             },
             "last_accessibility_check": {
                 "label": "Last Accessibility Check",
-                "placeholder": "last_accessibility_check"
+                "placeholder": "2023-02-10"
             },
             "near_health_clinic": {
-                "label": "near_health_clinic"
+                "label": "Health Clinic"
             },
             "near_hospital": {
-                "label": "near_hospital"
+                "label": "Hospital"
             },
             "near_university": {
-                "label": "near_university"
+                "label": "University"
             },
             "near_school": {
-                "label": "near_school"
+                "label": "School"
             },
             "near_police_station": {
-                "label": "near_police_station"
+                "label": "Police Station"
             },
             "near_fire_station": {
-                "label": "near_fire_station"
+                "label": "Fire Station"
             },
             "near_shopping": {
-                "label": "near_shopping"
+                "label": "Shopping"
             },
             "near_historic_building": {
-                "label": "near_historic_building"
+                "label": "Historic Building"
             },
             "near_transit_office": {
-                "label": "near_transit_office"
+                "label": "Transit Office"
             },
             "subway": {
-                "label": "subway"
+                "label": "Subway"
             },
             "light_rail": {
-                "label": "light_rail"
+                "label": "Light Rail"
             },
             "train": {
-                "label": "train"
+                "label": "Train"
             },
             "boat": {
-                "label": "boat"
+                "label": "Boat"
             },
             "airport": {
-                "label": "airport"
+                "label": "Airport"
             },
             "bike_sharing": {
-                "label": "bike_sharing"
+                "label": "Bike Sharing"
             },
             "bike_parking": {
-                "label": "bike_parking"
+                "label": "Bike Parking"
             },
             "car_parking": {
-                "label": "car_parking"
+                "label": "Car Parking"
             },
             "notes": {
                 "label": "Notes & Comments on this stop",
