@@ -56,6 +56,7 @@ export default async function exportGTFSv18(req, res) {
 
   try {
     // If in development, then prepare the directory
+    console.log('Building temp directory');
     if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') prepareTempDirectory();
   } catch (err) {
     console.log(err);
@@ -66,6 +67,7 @@ export default async function exportGTFSv18(req, res) {
   // 4. Try to connect to mongodb
 
   try {
+    console.log('Mongo DB connect');
     await mongodb.connect();
   } catch (err) {
     console.log(err);
@@ -76,6 +78,7 @@ export default async function exportGTFSv18(req, res) {
   // 5. Try to connect to mongodb
 
   try {
+    console.log('Building GTFS');
     await buildGTFSv18(req.body.agency_id, req.body.lines);
   } catch (err) {
     console.log(err);
@@ -86,6 +89,7 @@ export default async function exportGTFSv18(req, res) {
   // 6. Zip the generated files and return them to the client
 
   try {
+    console.log('Zipping stuff');
     const tempDirPath = getTempDirectoryPath();
     zipFiles(['agency.txt', 'routes.txt', 'calendar_dates.txt', 'trips.txt', 'stop_times.txt', 'shapes.txt', 'stops.txt'], 'output-gtfs.zip');
     res.writeHead(200, { 'Content-Type': 'application/zip', 'Content-Disposition': 'attachment; filename=output-gtfs.zip' });
