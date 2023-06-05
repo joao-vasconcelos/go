@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-intl/client';
 import { Button, SimpleGrid, Text } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 

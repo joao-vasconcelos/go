@@ -1,4 +1,5 @@
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next-intl/client';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import LineDisplay from '@/components/LineDisplay/LineDisplay';
 

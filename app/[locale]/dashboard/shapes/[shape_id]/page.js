@@ -2,7 +2,8 @@
 
 import useSWR from 'swr';
 import { useState, useCallback, useMemo } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next-intl/client';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import bbox from '@turf/bbox';

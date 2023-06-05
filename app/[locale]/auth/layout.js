@@ -2,7 +2,8 @@
 
 import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next-intl/client';
 import Loader from '../../../components/Loader/Loader';
 import styles from './layout.module.css';
 import appBackground from '../../../public/background.jpg';
