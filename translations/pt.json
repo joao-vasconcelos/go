@@ -1343,5 +1343,19 @@
             }
         }
     },
-    "ImportShapeFromGTFS": {}
+    "ImportShapeFromGTFS": {},
+    "GTFSParser": {
+        "idle": {
+            "title": "Drag here the GTFS archive exported from Remix, or click to select from a folder.",
+            "description": "Please choose only one archive that is no bigger than {max_file_size_value} {max_file_size_unit}."
+        },
+        "accept": {
+            "title": "Now let it go!",
+            "description": "Drop here to upload."
+        },
+        "reject": {
+            "title": "The selected file cannot be accepted.",
+            "description": "Are you sure you have the .zip file exported from Remix?"
+        }
+    }
 }
