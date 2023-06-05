@@ -46,11 +46,13 @@ export const Schema = new mongoose.Schema(
       type: {
         type: String,
         maxlength: 100,
+        default: 'Feature',
       },
       geometry: {
         type: {
           type: String,
           maxlength: 100,
+          default: 'LineString',
         },
         coordinates: [
           [

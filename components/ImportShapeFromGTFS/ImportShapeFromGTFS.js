@@ -22,6 +22,7 @@ export default function ImportShapeFromGTFS({ onImport }) {
   const t = useTranslations('ImportShapeFromGTFS');
   const [isUploading, setIsUploading] = useState(false);
   const [hasUploadError, setHasUploadError] = useState(false);
+  const [parseResult, setParseResult] = useState();
 
   //
   // C. Setup form
@@ -42,7 +43,15 @@ export default function ImportShapeFromGTFS({ onImport }) {
       const formData = new FormData();
       formData.append('file', files[0]);
       const res = await fetch('/api/parse/gtfs', { method: 'POST', body: formData });
-      console.log(res);
+      const data = await res.json();
+      const trips = [];
+      for (const routeResult of data) {
+        for (const trip of routeResult.trips) {
+          trips.push(trip);
+        }
+      }
+      console.log(trips);
+      setParseResult(trips);
       setIsUploading(false);
       setHasUploadError(false);
     } catch (err) {
@@ -51,10 +60,14 @@ export default function ImportShapeFromGTFS({ onImport }) {
     }
   };
 
+  const handleShapeImport = (trip) => {
+    onImport(trip.shape.points);
+  };
+
   //
   // E. Render components
 
-  return (
+  const UploadFileDropzone = () => (
     <Dropzone loading={isUploading} onDrop={handleUpload} onReject={(files) => console.log('rejected files', files)} maxSize={3 * 1024 ** 2} accept={MIME_TYPES.zip}>
       <Group position='center' spacing='xl' style={{ height: 100, pointerEvents: 'none' }}>
         <Dropzone.Accept>
@@ -78,4 +91,20 @@ export default function ImportShapeFromGTFS({ onImport }) {
       </Group>
     </Dropzone>
   );
+
+  const ParseResultTable = () => (
+    <>
+      {parseResult.map((trip) => (
+        <div key={trip.trip_id} onClick={() => handleShapeImport(trip)}>
+          {trip.shape_id}
+          {trip.trip_headsign}
+        </div>
+      ))}
+      <div onClick={() => setParseResult('')}>Clear</div>
+    </>
+  );
+
+  return parseResult ? <ParseResultTable /> : <UploadFileDropzone />;
+
+  //
 }

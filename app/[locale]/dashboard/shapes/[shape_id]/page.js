@@ -41,7 +41,7 @@ export default function Page() {
   // B. Fetch data
 
   const { mutate: allShapesMutate } = useSWR('/api/shapes');
-  const { data: shapeData, error: shapeError, isLoading: shapeLoading } = useSWR(shape_id && `/api/shapes/${shape_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: shapeData, error: shapeError, isLoading: shapeLoading, mutate: shapeMutate } = useSWR(shape_id && `/api/shapes/${shape_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -76,6 +76,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'shapes', resourceId: shape_id, operation: 'edit', method: 'PUT', body: form.values });
+      shapeMutate();
       allShapesMutate();
       form.resetDirty();
       setIsSaving(false);
@@ -85,7 +86,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [shape_id, form, allShapesMutate]);
+  }, [shape_id, form, shapeMutate, allShapesMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -141,12 +142,17 @@ export default function Page() {
     window.open(`/dashboard/lines/${line_id}/${route_id}/${pattern_id}`, '_blank');
   };
 
+  const handleImport = async (shapePoints) => {
+    form.setFieldValue('points', shapePoints);
+  };
+
   //
   // E. Transform data
 
   const mapData = useMemo(() => {
     try {
       if (shapeData && shapeData.geojson) {
+        console.log(shapeData.geojson);
         // Calculate the bounding box of the feature
         const [minLng, minLat, maxLng, maxLat] = bbox(shapeData.geojson);
         // Calculate the bounding box of the feature
@@ -160,13 +166,21 @@ export default function Page() {
         // Calculate the bounding box of the feature
         return shapeData.geojson;
       } else {
-        return { geometry: { type: 'LineString', coordinates: [] }, type: 'Feature' };
+        return { type: 'Feature', geometry: { type: 'LineString', coordinates: [] } };
       }
     } catch (error) {
       console.log(error);
     }
     //
   }, [shapeData, singleShapeMap]);
+
+  const shapeExtension = useMemo(() => {
+    if (shapeData && shapeData.extension) {
+      if (shapeData.extension > 1000) return `${shapeData.extension / 1000} km`;
+      else return `${shapeData.extension} meters`;
+    } else return '0 km';
+    //
+  }, [shapeData]);
 
   //
   // E. Render components
@@ -210,11 +224,13 @@ export default function Page() {
         </>
       }
     >
-      <OSMMap id='singleShape' height='400px' scrollZoom={false} mapStyle='map'>
-        <Source id='single-shape' type='geojson' data={mapData}>
-          <Layer id='single-shape' type='line' source='single-shape' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': '#000000', 'line-width': 6 }} />
-        </Source>
-      </OSMMap>
+      {mapData && (
+        <OSMMap id='singleShape' height='400px' scrollZoom={false} mapStyle='map'>
+          <Source id='single-shape' type='geojson' data={mapData}>
+            <Layer id='single-shape' type='line' source='single-shape' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': '#000000', 'line-width': 6 }} />
+          </Source>
+        </OSMMap>
+      )}
 
       <Divider />
 
@@ -239,7 +255,7 @@ export default function Page() {
           <Text size='h4'>{t('sections.statistics.description')}</Text>
         </div>
         <SimpleGrid cols={2}>
-          <StatCard title={t('sections.statistics.cards.extension')} value={form.values.extension} />
+          <StatCard title={t('sections.statistics.cards.extension')} value={shapeExtension} />
           <StatCard title={t('sections.statistics.cards.points_count')} value={form.values.points.length} />
         </SimpleGrid>
       </Section>
@@ -252,7 +268,7 @@ export default function Page() {
           <Text size='h4'>{t('sections.update.description')}</Text>
         </div>
         {/* <ImportShapeFromText onImport={(result) => form.setFieldValue('points', result)} /> */}
-        <ImportShapeFromGTFS onImport={(result) => form.setFieldValue('points', result)} />
+        <ImportShapeFromGTFS onImport={handleImport} />
       </Section>
     </Pannel>
   );
