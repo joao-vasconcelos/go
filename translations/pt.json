@@ -18,9 +18,9 @@
         }
     },
     "agencies": {
-        "untitled": "Agência sem título",
+        "untitled": "Operador sem título",
         "list": {
-            "no_selection": "Select an Agency",
+            "no_selection": "Selecione um Operador",
             "footer": "{count, plural, one {}=1 {Encontrado 1 Operador} other {Encontrados # Operadores}}"
         },
         "operations": {
@@ -37,7 +37,7 @@
                 "cancel": "Não Eliminar",
                 "loading": "A eliminar Operador...",
                 "success": "Operador eliminado.",
-                "error": "Um erro ocorreu ao eliminar esta Agência."
+                "error": "Um erro ocorreu ao eliminar este Operador."
             }
         },
         "sections": {
@@ -47,15 +47,15 @@
         },
         "form": {
             "name": {
-                "label": "Nome da Agência",
-                "placeholder": "A.C.M.E Transportes"
+                "label": "Nome do Operador",
+                "placeholder": "A.C.M.E. Transportes"
             },
             "code": {
-                "label": "Código da Agência",
+                "label": "Código do Operador",
                 "placeholder": "41"
             },
             "lang": {
-                "label": "Idioma Principal desta Agência",
+                "label": "Idioma Principal",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
@@ -65,15 +65,15 @@
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "phone": {
-                "label": "Contacto de Telefone Público",
+                "label": "Número de Telefone Público",
                 "placeholder": "+351 213 456 789"
             },
             "email": {
-                "label": "Endereço do Email Público",
+                "label": "Endereço de Email Público",
                 "placeholder": "contact@agency.com"
             },
             "url": {
-                "label": "URL do Site Público",
+                "label": "Website Público",
                 "placeholder": "https://agency.com"
             },
             "fare_url": {
@@ -98,9 +98,9 @@
             },
             "form": {
                 "agencies": {
-                    "label": "Exportar para esta Agência",
-                    "description": "Escolha uma Agência ou deixe em branco para todas.",
-                    "placeholder": "Escolha uma Agência...",
+                    "label": "Exportar para este Operador",
+                    "description": "Escolha um Operador para exportar o GTFS.",
+                    "placeholder": "Escolha um Operador...",
                     "nothingFound": "Nenhum Resultado Encontrado"
                 },
                 "lines": {
@@ -118,7 +118,7 @@
     "calendars": {
         "untitled": "Calendário sem título",
         "list": {
-            "no_selection": "Select a Calendar",
+            "no_selection": "Selecione um Calendário",
             "footer": "{count, plural, one {}=1 {Encontrado 1 Calendário} other {Encontrados # Calendários}}"
         },
         "operations": {
@@ -129,7 +129,7 @@
                 "error": "An error occurred while creating this Calendar."
             },
             "delete": {
-                "title": "Delete Calendar",
+                "title": "Eliminar Calendário",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Calendar forever?",
                 "confirm": "Delete Calendar Forever",
                 "cancel": "Não Eliminar",
@@ -162,14 +162,14 @@
         "title": "All Available Dates",
         "operations": {
             "close": {
-                "title": "Back to Calendars"
+                "title": "Voltar aos Calendários"
             },
             "manage": {
                 "title": "Manage Dates"
             },
             "update": {
-                "title": "Update",
-                "loading": "Updating...",
+                "title": "Atualizar",
+                "loading": "A atualizar...",
                 "success": "Dates were updated!",
                 "error": "An error occurred while updating Dates."
             },
@@ -178,7 +178,7 @@
                 "description": "Deleting is irreversible. Are you sure you want to delete these Dates forever?",
                 "confirm": "Delete Dates Forever",
                 "cancel": "Não Eliminar",
-                "loading": "Deleting...",
+                "loading": "A eliminar...",
                 "success": "Dates were deleted.",
                 "error": "An error occurred while deleting these Dates."
             }
@@ -188,48 +188,48 @@
                 "title": "Detalhes"
             },
             "dates": {
-                "title": "Dates for this Calendar"
+                "title": "Datas para este Calendário"
             }
         },
         "form": {
             "range": {
-                "title": "Date Range"
+                "title": "Intervalo de Datas"
             },
             "multiple": {
-                "title": "Single Dates"
+                "title": "Datas Individuais"
             },
             "period": {
-                "label": "Period",
+                "label": "Período",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "notes": {
-                "label": "Notes for this Date",
-                "placeholder": "In this day..."
+                "label": "Notas para esta Data",
+                "placeholder": "On this day..."
             }
         }
     },
     "fares": {
-        "untitled": "Untitled Fare",
+        "untitled": "Tarifa sem título",
         "list": {
-            "no_selection": "Select a Fare",
-            "footer": "Found {count, plural, =1 {1 Fare} other {# Fares}}"
+            "no_selection": "Selecione uma Tarifa",
+            "footer": "{count, plural, one {}=1 {Encontrada 1 Tarifa} other {Encontradas # Tarifas}}"
         },
         "operations": {
             "create": {
-                "title": "Create New Fare",
-                "loading": "Creating new Fare...",
-                "success": "A new Fare was created!",
-                "error": "An error occurred while creating this Fare."
+                "title": "Criar Tarifa",
+                "loading": "A criar Tarifa...",
+                "success": "Foi criada uma nova Tarifa!",
+                "error": "Ocorreu um erro ao criar esta Tarifa."
             },
             "delete": {
-                "title": "Delete Fare",
-                "description": "Deleting is irreversible. Are you sure you want to delete this Fare forever?",
-                "confirm": "Delete Fare Forever",
+                "title": "Eliminar Tarifa",
+                "description": "Eliminar é irreversível. Tem certeza de que deseja eliminar esta Tarifa para sempre?",
+                "confirm": "Eliminar Tarifa Definitivamente",
                 "cancel": "Não Eliminar",
-                "loading": "Deleting Fare...",
-                "success": "Fare was deleted.",
-                "error": "An error occurred while deleting this Fare."
+                "loading": "Eliminar Tarifa...",
+                "success": "Tarifa eliminada.",
+                "error": "Ocorreu um erro ao eliminar esta Tarifa."
             }
         },
         "sections": {
@@ -239,23 +239,23 @@
         },
         "form": {
             "long_name": {
-                "label": "Fare Name",
-                "placeholder": "Tarif 1"
+                "label": "Nome da Tarifa",
+                "placeholder": "Tarifa 1"
             },
             "short_name": {
-                "label": "Fare Short Name",
+                "label": "Abreviatura",
                 "placeholder": "T1"
             },
             "code": {
-                "label": "Fare Code",
+                "label": "Código da Tarifa",
                 "placeholder": "T1"
             },
             "price": {
-                "label": "Price",
+                "label": "Preço",
                 "placeholder": "2.50"
             },
             "currency_type": {
-                "label": "Currency",
+                "label": "Moeda",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
@@ -263,12 +263,12 @@
                 }
             },
             "payment_method": {
-                "label": "Payment Method",
+                "label": "Método de Pagamento",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
-                    "0": "Pay to the Driver (navegante® a bordo)",
-                    "1": "Pay before boarding (navegante® pré-pago, navegante®)"
+                    "0": "Pague ao motorista (navegante®️ a bordo)",
+                    "1": "Pague antes de embarcar (navegante®️ pré-pago, navegante®️)"
                 }
             },
             "transfers": {
@@ -287,12 +287,12 @@
     "municipalities": {
         "untitled": "Untitled Municipality",
         "list": {
-            "no_selection": "Select a Municipality",
-            "footer": "Found {count, plural, =1 {1 Municipality} other {# Municipalities}}"
+            "no_selection": "Selecione um Município",
+            "footer": "{count, plural, one {}=1 {Encontrado 1 Município} other {Encontrados # Municípios}}"
         },
         "operations": {
             "create": {
-                "title": "Create New Municipality",
+                "title": "Criar Município",
                 "loading": "Creating new Municipality...",
                 "success": "A new Municipality was created!",
                 "error": "An error occurred while creating this Municipality."
@@ -319,7 +319,7 @@
             },
             "name": {
                 "label": "Municipality Name",
-                "placeholder": "Tarif 1"
+                "placeholder": "Tarifa 1"
             },
             "district": {
                 "label": "District",
@@ -338,8 +338,8 @@
     "lines": {
         "untitled": "Untitled Line",
         "list": {
-            "no_selection": "Select a Line",
-            "footer": "Found {count, plural, =1 {1 Line} other {# Lines}}"
+            "no_selection": "Selecione uma Linha",
+            "footer": "{count, plural, one {}=1 {Encontrada 1 Linha} other {Encontradas # Linhas}}"
         },
         "operations": {
             "create": {
@@ -352,7 +352,7 @@
                 "title": "Open in Website"
             },
             "delete": {
-                "title": "Delete Line",
+                "title": "Eliminar Linha",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Line forever?",
                 "confirm": "Delete Line Forever",
                 "cancel": "Não Eliminar",
@@ -364,11 +364,11 @@
         "sections": {
             "config": {
                 "title": "Detalhes",
-                "description": "Something about this section"
+                "description": "Algo sobre esta secção"
             },
             "routes": {
                 "title": "Routes",
-                "description": "Something about this section"
+                "description": "Algo sobre esta secção"
             }
         },
         "form": {
@@ -470,15 +470,15 @@
         "sections": {
             "config": {
                 "title": "Detalhes",
-                "description": "Something about this section"
+                "description": "Algo sobre esta secção"
             },
             "stops": {
                 "title": "Paragens",
-                "description": "Something about this section"
+                "description": "Algo sobre esta secção"
             },
             "schedules": {
                 "title": "Schedules",
-                "description": "Something about this section"
+                "description": "Algo sobre esta secção"
             }
         },
         "form": {
@@ -496,46 +496,46 @@
                 "placeholder": "Escolha uma opção...",
                 "description": "This is the shape. <link>Open in new tab.</link>",
                 "nothingFound": "Nenhum Resultado Encontrado",
-                "untitled": "Untitled Shape"
+                "untitled": "Shape sem título"
             }
         }
     },
     "shapes": {
-        "untitled": "Untitled Shape",
+        "untitled": "Shape sem título",
         "list": {
-            "no_selection": "Select a Shape",
-            "footer": "Found {count, plural, =1 {1 Shape} other {# Shapes}}"
+            "no_selection": "Selecione uma Shape",
+            "footer": "{count, plural, one {}=1 {Encontrada 1 Shape} other {Encontradas # Shapes}}"
         },
         "operations": {
             "import": {
-                "title": "Create New Shape",
-                "loading": "Creating new Shape...",
-                "success": "A new Shape was created!",
-                "error": "An error occurred while creating this Shape."
+                "title": "Criar Shape",
+                "loading": "A criar Shape...",
+                "success": "Foi criada uma nova Shape!",
+                "error": "Ocorreu um erro ao criar esta Shape."
             },
             "create": {
-                "title": "Create New Shape",
-                "loading": "Creating new Shape...",
-                "success": "A new Shape was created!",
-                "error": "An error occurred while creating this Shape."
+                "title": "Criar Shape",
+                "loading": "A criar Shape...",
+                "success": "Foi criada uma nova Shape!",
+                "error": "Ocorreu um erro ao criar esta Shape."
             },
             "delete": {
-                "title": "Delete Shape",
-                "description": "Deleting is irreversible. Are you sure you want to delete this Shape forever?",
-                "confirm": "Delete Shape Forever",
+                "title": "Eliminar Shape",
+                "description": "Eliminar é irreversível. Tem certeza de que deseja eliminar esta Shape para sempre?",
+                "confirm": "Eliminar Shape Definitivamente",
                 "cancel": "Não Eliminar",
-                "loading": "Deleting Shape...",
-                "success": "Shape was deleted.",
-                "error": "An error occurred while deleting this Shape."
+                "loading": "A eliminar Shape...",
+                "success": "Shape eliminada.",
+                "error": "Ocorreu um erro ao eliminar esta Shape."
             },
             "delete_points": {
-                "title": "Delete Shape Points",
-                "description": "Deleting shape points is irreversible. However, this will not desassociate this shape with its pattern. If you do not re-import new points an error will be thrown if you try to export a GTFS with this line. Are you sure you want to delete this shapes points forever?",
-                "confirm": "Delete Shape Points Forever",
+                "title": "Eliminar Pontos da Shape",
+                "description": "Eliminar os pontos da Shape é irreversível. No entanto, esta operação não irá desassociar esta Shape do Pattern. Se novos pontos não forem importados irá ocorrer um erro ao exportar um GTFS. Tem a certeza que pretende eliminar os pontos desta Shape para sempre?",
+                "confirm": "Eliminar Pontos da Shape Definitivamente",
                 "cancel": "Não Eliminar",
-                "loading": "Deleting Shape Points...",
-                "success": "Shape Points were deleted.",
-                "error": "An error occurred while deleting this Shapes points."
+                "loading": "A eliminar Pontos da Shape...",
+                "success": "Pontos da Shape eliminados.",
+                "error": "Ocorreu um erro ao eliminar os pontos desta Shape."
             },
             "open_pattern": {
                 "title": "Open Pattern in New Tab"
@@ -543,25 +543,24 @@
         },
         "sections": {
             "config": {
-                "title": "Shape Details",
-                "description": "Something about this section"
+                "title": "Detalhes da Shape",
+                "description": "Algo sobre esta secção"
             },
             "statistics": {
-                "title": "Statistics",
-                "description": "Something about this section",
+                "title": "Estatísticas",
+                "description": "Algo sobre esta secção",
                 "cards": {
                     "extension": "Shape Extension in Kilometers",
-                    "points_count": "Number of Shape Points",
-                    "associated_pattern": "Used by Pattern"
+                    "points_count": "Número de pontos"
                 }
             },
             "update": {
                 "title": "Update Shape",
-                "description": "Something about this section"
+                "description": "Algo sobre esta secção"
             },
             "points": {
                 "title": "Shape GTFS Points",
-                "description": "Something about this section"
+                "description": "Algo sobre esta secção"
             }
         },
         "form": {
@@ -1068,7 +1067,7 @@
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
                     "delete": {
-                        "label": "Delete Agencies",
+                        "label": "Eliminar Operadores",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
@@ -1138,15 +1137,15 @@
                     "title": "Tarifas",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
                     "view": {
-                        "label": "View Fares",
+                        "label": "Ver Tarifas",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
                     "create_edit": {
-                        "label": "Create & Edit Fares",
+                        "label": "Criar & Editar Tarifas",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
                     "delete": {
-                        "label": "Delete Fares",
+                        "label": "Eliminar Tarifas",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
@@ -1339,7 +1338,7 @@
         }
     },
     "SearchField": {
-        "placeholder": "Search..."
+        "placeholder": "Procurar..."
     },
     "AutoSave": {
         "retry": {
@@ -1347,7 +1346,7 @@
         },
         "idle": {
             "close": {
-                "title": "Close"
+                "title": "Fechar"
             },
             "back": {
                 "title": "Go Back"
