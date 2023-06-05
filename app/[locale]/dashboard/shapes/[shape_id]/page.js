@@ -224,13 +224,11 @@ export default function Page() {
         </>
       }
     >
-      {mapData && (
-        <OSMMap id='singleShape' height='400px' scrollZoom={false} mapStyle='map'>
-          <Source id='single-shape' type='geojson' data={mapData}>
-            <Layer id='single-shape' type='line' source='single-shape' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': '#000000', 'line-width': 6 }} />
-          </Source>
-        </OSMMap>
-      )}
+      <OSMMap id='singleShape' height='400px' scrollZoom={false} mapStyle='map'>
+        <Source id='single-shape' type='geojson' data={mapData}>
+          <Layer id='single-shape' type='line' source='single-shape' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': '#000000', 'line-width': 6 }} />
+        </Source>
+      </OSMMap>
 
       <Divider />
 
