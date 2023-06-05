@@ -18,24 +18,25 @@
         }
     },
     "agencies": {
-        "untitled": "Agência sem nome",
+        "untitled": "Agência sem título",
         "list": {
-            "footer": "{count, plural, one {}=1 {Encontrada 1 Agência} other {Encontradas # Agências}}"
+            "no_selection": "Select an Agency",
+            "footer": "{count, plural, one {}=1 {Encontrado 1 Operador} other {Encontrados # Operadores}}"
         },
         "operations": {
             "create": {
-                "title": "Criar Agência",
-                "loading": "A criar Agência...",
-                "success": "Uma nova Agência foi criada!",
-                "error": "Um erro ocorreu ao criar esta Agência."
+                "title": "Criar Operador",
+                "loading": "A criar Operador...",
+                "success": "Foi criado um novo um Operador!",
+                "error": "Ocorreu um erro ao criar este Operador."
             },
             "delete": {
-                "title": "Eliminar Agência",
-                "description": "Eliminar é irreversível. Tem certeza de que deseja eliminar esta Agência para sempre?",
-                "confirm": "Eliminar Agência para sempre",
+                "title": "Eliminar Operador",
+                "description": "Eliminar é irreversível. Tem certeza de que deseja eliminar este Operador para sempre?",
+                "confirm": "Eliminar Operador para sempre",
                 "cancel": "Não Eliminar",
-                "loading": "A eliminar Agência...",
-                "success": "Agência eliminada.",
+                "loading": "A eliminar Operador...",
+                "success": "Operador eliminado.",
                 "error": "Um erro ocorreu ao eliminar esta Agência."
             }
         },
@@ -117,6 +118,7 @@
     "calendars": {
         "untitled": "Calendário sem título",
         "list": {
+            "no_selection": "Select a Calendar",
             "footer": "{count, plural, one {}=1 {Encontrado 1 Calendário} other {Encontrados # Calendários}}"
         },
         "operations": {
@@ -210,6 +212,7 @@
     "fares": {
         "untitled": "Untitled Fare",
         "list": {
+            "no_selection": "Select a Fare",
             "footer": "Found {count, plural, =1 {1 Fare} other {# Fares}}"
         },
         "operations": {
@@ -284,6 +287,7 @@
     "municipalities": {
         "untitled": "Untitled Municipality",
         "list": {
+            "no_selection": "Select a Municipality",
             "footer": "Found {count, plural, =1 {1 Municipality} other {# Municipalities}}"
         },
         "operations": {
@@ -334,6 +338,7 @@
     "lines": {
         "untitled": "Untitled Line",
         "list": {
+            "no_selection": "Select a Line",
             "footer": "Found {count, plural, =1 {1 Line} other {# Lines}}"
         },
         "operations": {
@@ -468,7 +473,7 @@
                 "description": "Something about this section"
             },
             "stops": {
-                "title": "Stops",
+                "title": "Paragens",
                 "description": "Something about this section"
             },
             "schedules": {
@@ -498,6 +503,7 @@
     "shapes": {
         "untitled": "Untitled Shape",
         "list": {
+            "no_selection": "Select a Shape",
             "footer": "Found {count, plural, =1 {1 Shape} other {# Shapes}}"
         },
         "operations": {
@@ -572,6 +578,7 @@
     "stops": {
         "untitled": "Untitled Stop",
         "list": {
+            "no_selection": "Select a Stop",
             "footer": "Found {count, plural, =1 {1 Stop} other {# Stops}}"
         },
         "page": {
@@ -966,8 +973,8 @@
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
-                    "stops": "Stops",
-                    "lines": "Lines",
+                    "stops": "Paragens",
+                    "lines": "Linhas",
                     "schedules": "Schedules"
                 }
             },
@@ -999,6 +1006,7 @@
     "users": {
         "untitled": "Untitled User",
         "list": {
+            "no_selection": "Select a User",
             "footer": "Found {count, plural, =1 {1 User} other {# Users}}"
         },
         "operations": {
@@ -1049,7 +1057,7 @@
             },
             "permissions": {
                 "agencies": {
-                    "title": "Agencies",
+                    "title": "Operadores",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
                     "view": {
                         "label": "View Agencies",
@@ -1086,7 +1094,7 @@
                     }
                 },
                 "users": {
-                    "title": "Users",
+                    "title": "Utilizadores",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
                     "view": {
                         "label": "View Users",
@@ -1127,7 +1135,7 @@
                     }
                 },
                 "fares": {
-                    "title": "Fares",
+                    "title": "Tarifas",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
                     "view": {
                         "label": "View Fares",
@@ -1143,7 +1151,7 @@
                     }
                 },
                 "stops": {
-                    "title": "Stops",
+                    "title": "Paragens",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
                     "view": {
                         "label": "View Stops",
@@ -1188,7 +1196,7 @@
                     }
                 },
                 "alerts": {
-                    "title": "Alerts",
+                    "title": "Alertas",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
                     "view": {
                         "label": "View Alerts",
@@ -1228,7 +1236,7 @@
                     }
                 },
                 "calendars": {
-                    "title": "Calendars",
+                    "title": "Calendários",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
                     "view": {
                         "label": "View Calendars",
@@ -1260,7 +1268,7 @@
                     }
                 },
                 "threads": {
-                    "title": "Threads",
+                    "title": "Mensagens",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
                     "view": {
                         "label": "View Threads",
@@ -1292,16 +1300,19 @@
     },
     "AppSidebar": {
         "statistics": "Statistics",
-        "alerts": "Alerts",
-        "stops": "Stops",
-        "lines": "Lines",
-        "calendars": "Calendars",
+        "alerts": "Alertas",
+        "stops": "Paragens",
+        "lines": "Linhas",
+        "calendars": "Calendários",
         "shapes": "Shapes",
-        "fares": "Fares",
-        "agencies": "Agencies",
-        "threads": "Threads",
-        "export": "Export",
-        "users": "Users"
+        "fares": "Tarifas",
+        "agencies": "Operadores",
+        "threads": "Mensagens",
+        "export": "Exportar",
+        "users": "Utilizadores"
+    },
+    "NoDataLabel": {
+        "title": "No Data Available"
     },
     "UserActivityBadge": {
         "was_active": "Active {value}",
