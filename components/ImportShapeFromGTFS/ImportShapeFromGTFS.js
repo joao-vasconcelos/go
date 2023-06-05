@@ -50,9 +50,9 @@ export default function ImportShapeFromGTFS({ onImport }) {
 
   const handleShapeImport = (trip) => {
     onImport(trip.shape.points);
-    // setParseResult();
-    // setIsParsing();
-    // setHasParseError();
+    setParseResult();
+    setIsParsing();
+    setHasParseError();
     notify('shape-import', 'success', t('import.success', { shape_id: trip.shape_id }));
   };
 
