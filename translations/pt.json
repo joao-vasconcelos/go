@@ -544,7 +544,7 @@
                 "title": "Statistics",
                 "description": "Something about this section",
                 "cards": {
-                    "extension": "Shape Extension in Kilometers",
+                    "extension": "Shape Extension",
                     "points_count": "Number of Shape Points",
                     "associated_pattern": "Used by Pattern"
                 }
