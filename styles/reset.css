@@ -27,9 +27,3 @@ textarea {
   user-select: text;
   -webkit-user-select: text;
 }
-
-.leaflet-container {
-  width: 100%;
-  height: 100vh;
-  z-index: 1;
-}
