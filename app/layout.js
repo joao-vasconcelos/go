@@ -11,7 +11,6 @@ import '../styles/defaults.css';
 import '../styles/colors.css';
 import { Inter } from 'next/font/google';
 import Providers from './providers';
-import { ServerStylesheet } from './stitches';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -22,9 +21,7 @@ export default function RootLayout({ children }) {
   return (
     <html className={inter.className}>
       <body>
-        <Providers>
-          <ServerStylesheet>{children}</ServerStylesheet>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

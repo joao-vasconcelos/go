@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/go",
-    "version": "2023.06.06-0240",
+    "version": "2023.06.06-0251",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -23,7 +23,6 @@
         "@mantine/next": "^6.0.13",
         "@mantine/notifications": "^6.0.13",
         "@next-auth/mongodb-adapter": "^1.1.3",
-        "@stitches/react": "^1.2.8",
         "@tabler/icons-react": "^2.21.0",
         "@turf/turf": "^6.5.0",
         "@vercel/analytics": "^1.0.1",
@@ -35,7 +34,6 @@
         "maplibre-gl": "^3.0.1",
         "mongodb": "^5.6.0",
         "mongoose": "^7.2.2",
-        "multer": "^1.4.5-lts.1",
         "next": "13.4.3",
         "next-auth": "^4.22.1",
         "next-intl": "^2.14.6",
