@@ -27,7 +27,7 @@ export default function RouteCard({ index, onOpen, _id, code, name }) {
               {name ? name : t('untitled')}
             </Text>
           </div>
-          <div className={styles.toolbar}>
+          <div className={styles.toolbar} onClick={() => onOpen(_id)}>
             <IconChevronRight size='20px' />
           </div>
         </div>

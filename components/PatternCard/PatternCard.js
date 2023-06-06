@@ -30,7 +30,7 @@ export default function PatternCard({ index, _id, code, direction, headsign, onO
               {headsign ? headsign : t('untitled')}
             </Text>
           </div>
-          <div className={styles.toolbar}>
+          <div className={styles.toolbar} onClick={() => onOpen(_id)}>
             <IconChevronRight size='20px' />
           </div>
         </div>
