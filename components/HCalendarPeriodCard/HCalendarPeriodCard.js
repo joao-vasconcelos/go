@@ -1,5 +1,6 @@
 'use client';
 
+import useSWR from 'swr';
 import styles from './HCalendarPeriodCard.module.css';
 import { useState } from 'react';
 import API from '../../services/API';
@@ -8,10 +9,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useTranslations } from 'next-intl';
 import { Modal, SimpleGrid, Textarea, Select, Button, LoadingOverlay } from '@mantine/core';
 import dayjs from 'dayjs';
-import Loader from '../Loader/Loader';
-import notify from '../../services/notify';
-import AuthGate, { isAllowed } from '../AuthGate/AuthGate';
-import { useSession } from 'next-auth/react';
+import AuthGate from '../AuthGate/AuthGate';
 
 export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
   //
@@ -34,12 +32,18 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
   });
 
   //
+  // C. Fetch data
+
+  const { mutate: allDatesMutate } = useSWR('/api/dates');
+
+  //
   // B. Render components
 
   const handleUpdate = async () => {
     try {
       setIsUpdating(true);
       await API({ service: 'dates', resourceId: dateObj._id, operation: 'edit', method: 'PUT', body: form.values });
+      allDatesMutate();
       setIsUpdating(false);
       setHasErrorUpdating(false);
       closeModal();
@@ -54,6 +58,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
     try {
       setIsUpdating(true);
       await API({ service: 'dates', resourceId: dateObj._id, operation: 'delete', method: 'DELETE' });
+      allDatesMutate();
       setIsUpdating(false);
       setHasErrorUpdating(false);
       closeModal();
