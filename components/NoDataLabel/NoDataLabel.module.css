@@ -3,7 +3,7 @@
   font-size: 20px;
   font-weight: bold;
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.05);
+  color: var(--gray3);
   letter-spacing: 1px;
 }
 
