@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import useSearch from '@/hooks/useSearch';
 import useSWR from 'swr';
 import API from '@/services/API';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
@@ -15,7 +16,6 @@ import ErrorDisplay from '@/components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '@/components/ListFooter/ListFooter';
 import AuthGate from '@/components/AuthGate/AuthGate';
-import useSearch from '@/hooks/useSearch';
 import SearchField from '@/components/SearchField/SearchField';
 
 export default function Layout({ children }) {
@@ -26,6 +26,7 @@ export default function Layout({ children }) {
 
   const router = useRouter();
   const t = useTranslations('alerts');
+
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
@@ -37,7 +38,7 @@ export default function Layout({ children }) {
   //
   // C. Search
 
-  const filteredAlertsData = useSearch(searchQuery, allAlertsData, { keys: ['name', 'code'] });
+  const filteredAlertsData = useSearch(searchQuery, allAlertsData);
 
   //
   // C. Handle actions
@@ -90,7 +91,11 @@ export default function Layout({ children }) {
             footer={filteredAlertsData && <ListFooter>{t('list.footer', { count: filteredAlertsData.length })}</ListFooter>}
           >
             <ErrorDisplay error={allAlertsError} loading={allAlertsValidating} />
-            {filteredAlertsData && filteredAlertsData.length > 0 ? filteredAlertsData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} />) : <NoDataLabel />}
+            {filteredAlertsData && filteredAlertsData.length > 0 ? (
+              filteredAlertsData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} long_name={item.long_name} price={item.price} currency_type={item.currency_type} />)
+            ) : (
+              <NoDataLabel />
+            )}
           </Pannel>
         }
         second={children}

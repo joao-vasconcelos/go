@@ -4,8 +4,9 @@ import { useTranslations } from 'next-intl';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import Text from '@/components/Text/Text';
 import Badge from '@/components/Badge/Badge';
+import { Group } from '@mantine/core';
 
-export default function ListItem({ _id, code, name }) {
+export default function ListItem({ _id, code, short_name, long_name, price, currency_type }) {
   //
 
   const router = useRouter();
@@ -19,10 +20,14 @@ export default function ListItem({ _id, code, name }) {
 
   return (
     <BaseListItem onClick={handleClick} isSelected={alert_id === _id} withChevron>
-      <Text size='title' style={!name && 'untitled'}>
-        {name || t('untitled')}
+      <Text size='title' style={!long_name && 'untitled'}>
+        {long_name || t('untitled')}
       </Text>
-      <Badge>{code}</Badge>
+      <Group>
+        <Badge>{code}</Badge>
+        <Badge>{short_name}</Badge>
+        <Badge>{`${price} ${currency_type}`}</Badge>
+      </Group>
     </BaseListItem>
   );
 }
