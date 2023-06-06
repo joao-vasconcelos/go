@@ -6,11 +6,17 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-  code: '',
-  short_name: '',
-  long_name: '',
-  price: 0,
-  currency_type: 'EUR',
-  payment_method: '0',
-  transfers: '0',
+  published: '',
+  title: '',
+  start_time: '',
+  end_time: '',
+  municipalities: [],
+  lines: [],
+  stops: [],
+  cause: null,
+  consequence: null,
+  description: '',
+  image: [],
+  link: '',
+  user: null,
 };
