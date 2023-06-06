@@ -70,7 +70,7 @@ export default function Layout({ children }) {
             loading={allUsersLoading}
             header={
               <>
-                <SearchField onChange={setSearchQuery} />
+                <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
                     <ActionIcon variant='light' size='lg' loading={allUsersLoading || isCreating}>
