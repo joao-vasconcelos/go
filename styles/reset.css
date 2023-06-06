@@ -20,7 +20,6 @@ a {
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
-  /* Internet Explorer 10+ */
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
