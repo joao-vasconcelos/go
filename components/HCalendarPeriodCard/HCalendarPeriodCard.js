@@ -87,7 +87,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
               searchable
             />
             <Textarea label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} minRows={5} {...form.getInputProps('notes')} readOnly={readOnly} />
-            <AuthGate permission='dates_edit'>
+            <AuthGate scope='dates' permission='create_edit'>
               <SimpleGrid cols={2}>
                 <Button size='lg' onClick={handleUpdate}>
                   {t('operations.update.title')}
