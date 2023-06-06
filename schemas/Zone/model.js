@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: FARE */
+/* DOCUMENT TYPE: AGENCY */
 /* Explanation needed. */
 /* * */
 
@@ -14,27 +14,31 @@ export const Schema = new mongoose.Schema(
       maxlength: 10,
       unique: true,
     },
-    short_name: {
+    name: {
       type: String,
       maxlength: 50,
     },
-    long_name: {
+    timezone: {
       type: String,
       maxlength: 50,
     },
-    price: {
-      type: Number,
-      maxlength: 50,
-    },
-    currency_type: {
+    lang: {
       type: String,
       maxlength: 50,
     },
-    payment_method: {
+    phone: {
       type: String,
       maxlength: 50,
     },
-    transfers: {
+    email: {
+      type: String,
+      maxlength: 50,
+    },
+    url: {
+      type: String,
+      maxlength: 50,
+    },
+    fare_url: {
       type: String,
       maxlength: 50,
     },
@@ -44,4 +48,4 @@ export const Schema = new mongoose.Schema(
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.Fare || mongoose.model('Fare', Schema);
+export const Model = mongoose?.models?.Agency || mongoose.model('Agency', Schema);

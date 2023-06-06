@@ -1,17 +1,16 @@
 /* * */
-/* DOCUMENT TYPE: AGENCY */
+/* DOCUMENT TYPE: FARE */
 /* Explanation needed. */
 /* * */
 
 /* * */
 /* A. Default Values */
 export const Default = {
-  agency_code: '',
-  agency_name: '',
-  agency_timezone: '',
-  agency_lang: '',
-  agency_phone: '',
-  agency_email: '',
-  agency_url: '',
-  agency_fare_url: '',
+  code: '',
+  short_name: '',
+  long_name: '',
+  price: 0,
+  currency_type: 'EUR',
+  payment_method: '0',
+  transfers: '0',
 };
