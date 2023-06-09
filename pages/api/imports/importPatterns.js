@@ -37,6 +37,9 @@ export default async function importPatterns(req, res) {
   const allRoutes = await RouteModel.find({});
 
   for (const route of allRoutes) {
+    // Skip if not A4
+    if (!route.code.startsWith('4')) continue;
+
     try {
       const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_id/${route.code}`);
       const routeInfo = await response.json();
@@ -84,7 +87,7 @@ export default async function importPatterns(req, res) {
           });
 
           if (!matchingCalendar || matchingCalendar.length === 0) {
-            matchingCalendar = await CalendarModel({ ...CalendarDefault, name: trip.service_id, code: trip.service_id, dates: trip.dates }).save();
+            matchingCalendar = await CalendarModel.findOneAndUpdate({ code: trip.service_id }, { ...CalendarDefault, name: trip.service_id, code: trip.service_id, dates: trip.dates });
             console.log('Created Calendar:', matchingCalendar.code);
           } else console.log('Used existing Calendar:', matchingCalendar.code);
 
