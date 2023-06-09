@@ -1,10 +1,7 @@
 import delay from '@/services/delay';
-import mongodb from '@/services/mongodb';
 import AdmZip from 'adm-zip';
 import formidable from 'formidable';
 import Papa from 'papaparse';
-import { Model as AgencyModel } from '@/schemas/Agency/model';
-import { IconChevronsDownLeft } from '@tabler/icons-react';
 
 /* * */
 /* PARSE GTFS ARCHIVE */
