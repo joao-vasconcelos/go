@@ -184,14 +184,11 @@ export default function Page() {
       const stopSequencePrev = form.values.path[index - 1];
       const stopSequenceCurrent = form.values.path[index];
 
-      const stopPrev = await API({ service: 'stops', resourceId: stopSequencePrev.stop_id, method: 'GET' });
-      const stopCurrent = await API({ service: 'stops', resourceId: stopSequenceCurrent.stop_id, method: 'GET' });
+      const stopPrev = await API({ service: 'stops', resourceId: stopSequencePrev.stop, method: 'GET' });
+      const stopCurrent = await API({ service: 'stops', resourceId: stopSequenceCurrent.stop, method: 'GET' });
 
-      const stopPrevCoordinates = [stopPrev.stop_lat, stopPrev.stop_lon];
-      const stopCurrentCoordinates = [stopCurrent.stop_lat, stopCurrent.stop_lon];
-
-      console.log('stopPrevCoordinates', stopPrevCoordinates);
-      console.log('stopCurrentCoordinates', stopCurrentCoordinates);
+      const stopPrevCoordinates = [stopPrev.longitude, stopPrev.latitude];
+      const stopCurrentCoordinates = [stopCurrent.longitude, stopCurrent.latitude];
 
       const distance = calculateDistanceBetweenStops(stopPrevCoordinates, stopCurrentCoordinates, patternShapeCoordinates);
 
