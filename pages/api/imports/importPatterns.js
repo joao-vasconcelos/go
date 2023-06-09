@@ -46,7 +46,7 @@ export default async function importPatterns(req, res) {
       for (const direction of routeInfo.directions) {
         //
 
-        const shapeId = await ShapeModel.findOneAndUpdate({ code: direction.shape[0].shape_id }, { code: direction.shape[0].shape_id, name: direction.shape[0].shape_id }, { new: true, upsert: true });
+        const shapeId = await ShapeModel.findOneAndUpdate({ code: direction.shape[0].shape_id }, { code: direction.shape[0].shape_id, name: direction.shape[0].shape_id, points: direction.shape }, { new: true, upsert: true });
         console.log('Shape_id', direction.shape[0].shape_id);
 
         // Manage Path
