@@ -42,7 +42,7 @@ export default function Layout({ children }) {
   const filteredStopsData = useSearch(searchQuery, allStopsData, { keys: ['code', 'name', 'latitude', 'longitude'] });
 
   //
-  // C. Handle actions
+  // D. Handle actions
 
   const handleCreate = async () => {
     try {
@@ -61,7 +61,7 @@ export default function Layout({ children }) {
   };
 
   //
-  // D. Render data
+  // E. Render data
 
   return (
     <AuthGate scope='stops' permission='view' redirect>

@@ -27,7 +27,7 @@ export default function Page() {
   const { data: allStopsData, error: allStopsError, isLoading: allStopsLoading, isValidating: allStopsValidating } = useSWR('/api/stops');
 
   //
-  // D. Handle actions
+  // C. Handle actions
 
   const handleMapReCenter = () => {
     allStopsMap.flyTo({ ...OSMMapDefaults.viewport, duration: 2000 });
