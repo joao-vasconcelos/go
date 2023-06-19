@@ -1,5 +1,5 @@
 /* * */
-/* DOCUMENT TYPE: ROUTE */
+/* DOCUMENT TYPE: LINE TYPE */
 /* Explanation needed. */
 /* * */
 
@@ -8,7 +8,7 @@
 export const Default = {
   code: '',
   name: '',
-  path_type: '',
-  parent_line: null,
-  patterns: [],
+  short_name: '',
+  color: '#000000',
+  text_color: '#FFFFFF',
 };

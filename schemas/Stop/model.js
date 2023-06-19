@@ -53,6 +53,12 @@ export const Schema = new mongoose.Schema(
     },
 
     // Operation
+    zones: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Zone',
+      },
+    ],
     agencies: [
       {
         type: mongoose.Schema.Types.ObjectId,

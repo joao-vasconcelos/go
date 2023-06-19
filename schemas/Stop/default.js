@@ -21,6 +21,7 @@ export const Default = {
   public_visible: true,
 
   // Operation
+  zones: [],
   agencies: [],
 
   // Administrative

@@ -8,10 +8,11 @@
 export const Default = {
   code: '',
   name: '',
-  timezone: '',
-  lang: '',
-  phone: '',
-  email: '',
-  url: '',
-  fare_url: '',
+  geofence: {
+    type: 'Feature',
+    geometry: {
+      coordinates: [],
+      type: 'Polygon',
+    },
+  },
 };

@@ -22,19 +22,21 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
-    color: {
-      type: String,
-      maxlength: 50,
-    },
-    text_color: {
-      type: String,
-      maxlength: 50,
+    transport_type: {
+      type: Boolean,
     },
     circular: {
       type: Boolean,
     },
     school: {
       type: Boolean,
+    },
+    continuous: {
+      type: Boolean,
+    },
+    line_type: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'LineType',
     },
     fare: {
       type: mongoose.Schema.Types.ObjectId,

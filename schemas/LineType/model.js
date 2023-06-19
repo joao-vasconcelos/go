@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: ROUTE */
+/* DOCUMENT TYPE: LINE TYPE */
 /* Explanation needed. */
 /* * */
 
@@ -11,31 +11,29 @@ export const Schema = new mongoose.Schema(
   {
     code: {
       type: String,
-      maxlength: 50,
+      maxlength: 10,
       unique: true,
     },
     name: {
       type: String,
       maxlength: 50,
     },
-    path_type: {
+    short_name: {
       type: String,
       maxlength: 50,
     },
-    parent_line: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Line',
+    color: {
+      type: String,
+      maxlength: 7,
     },
-    patterns: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Pattern',
-      },
-    ],
+    text_color: {
+      type: String,
+      maxlength: 7,
+    },
   },
   { timestamps: true }
 );
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.Route || mongoose.model('Route', Schema);
+export const Model = mongoose?.models?.LineType || mongoose.model('LineType', Schema);

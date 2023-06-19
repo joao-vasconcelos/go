@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: AGENCY */
+/* DOCUMENT TYPE: ZONE */
 /* Explanation needed. */
 /* * */
 
@@ -18,29 +18,26 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
-    timezone: {
-      type: String,
-      maxlength: 50,
-    },
-    lang: {
-      type: String,
-      maxlength: 50,
-    },
-    phone: {
-      type: String,
-      maxlength: 50,
-    },
-    email: {
-      type: String,
-      maxlength: 50,
-    },
-    url: {
-      type: String,
-      maxlength: 50,
-    },
-    fare_url: {
-      type: String,
-      maxlength: 50,
+    geofence: {
+      type: {
+        type: String,
+        maxlength: 100,
+        default: 'Feature',
+      },
+      geometry: {
+        type: {
+          type: String,
+          maxlength: 100,
+          default: 'Polygon',
+        },
+        coordinates: [
+          [
+            {
+              type: Number,
+            },
+          ],
+        ],
+      },
     },
   },
   { timestamps: true }
@@ -48,4 +45,4 @@ export const Schema = new mongoose.Schema(
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.Agency || mongoose.model('Agency', Schema);
+export const Model = mongoose?.models?.Zone || mongoose.model('Zone', Schema);
