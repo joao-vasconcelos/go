@@ -209,6 +209,57 @@
             }
         }
     },
+    "typologies": {
+        "untitled": "Untitled Typology",
+        "list": {
+            "no_selection": "Select a Typology",
+            "footer": "Found {count, plural, =1 {1 Typology} other {# Typologys}}"
+        },
+        "operations": {
+            "create": {
+                "title": "Create New Typology",
+                "loading": "Creating new Typology...",
+                "success": "A new Typology was created!",
+                "error": "An error occurred while creating this Typology."
+            },
+            "delete": {
+                "title": "Delete Typology",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Typology forever?",
+                "confirm": "Delete Typology Forever",
+                "cancel": "Não Eliminar",
+                "loading": "Deleting Typology...",
+                "success": "Typology was deleted.",
+                "error": "An error occurred while deleting this Typology."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Detalhes"
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Typology Code",
+                "placeholder": "LONGA"
+            },
+            "name": {
+                "label": "Typology Name",
+                "placeholder": "Linha Longa"
+            },
+            "short_name": {
+                "label": "Typology Short Name",
+                "placeholder": "L"
+            },
+            "color": {
+                "label": "Color",
+                "placeholder": "#000000"
+            },
+            "text_color": {
+                "label": "Text Color",
+                "placeholder": "#FFFFFF"
+            }
+        }
+    },
     "fares": {
         "untitled": "Tarifa sem título",
         "list": {
@@ -1177,6 +1228,22 @@
                         "label": "Can Edit and/or Delete Lines, Routes & Patterns from these Agencies",
                         "placeholder": "Escolha uma opção...",
                         "nothingFound": "Nenhum Resultado Encontrado"
+                    }
+                },
+                "typologies": {
+                    "title": "Typologies",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Typologies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Typologies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Typologies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
                 "fares": {
