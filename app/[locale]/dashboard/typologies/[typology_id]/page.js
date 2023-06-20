@@ -11,7 +11,7 @@ import OSMMap from '@/components/OSMMap/OSMMap';
 import { useMap, Source, Layer } from 'react-map-gl';
 import { Validation as TypologyValidation } from '@/schemas/Typology/validation';
 import { Default as TypologyDefault } from '@/schemas/Typology/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Textarea, JsonInput } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Textarea, JsonInput, ColorInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -176,28 +176,24 @@ export default function Page() {
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
-        <OSMMap id='singleTypology' height='400px' scrollZoom={false} mapStyle='map'>
-          <Source id='single-typology' type='geojson' data={form.values.geojson}>
-            <Layer id='single-typology' type='polygon' source='single-typology' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': '#000000', 'line-width': 6 }} />
-          </Source>
-        </OSMMap>
-
-        <Divider />
-
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
-            <TextInput label={t('form.name.label')} placeholder={t('form.long_name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+          </SimpleGrid>
+          <SimpleGrid cols={2}>
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
+            <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
 
         <Divider />
 
         <Section>
-          <Text size='h2'>{t('sections.geofence.title')}</Text>
-          <SimpleGrid cols={1}>
-            <JsonInput label={t('form.geojson.label')} placeholder={t('form.geojson.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} autosize minRows={5} maxRows={10} />
+          <Text size='h2'>{t('sections.appearance.title')}</Text>
+          <SimpleGrid cols={2}>
+            <ColorInput label={t('form.color.label')} placeholder={t('form.color.placeholder')} {...form.getInputProps('color')} readOnly={isReadOnly} />
+            <ColorInput label={t('form.text_color.label')} placeholder={t('form.text_color.placeholder')} {...form.getInputProps('text_color')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
       </form>
