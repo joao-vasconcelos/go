@@ -292,16 +292,16 @@
             }
         },
         "form": {
-            "long_name": {
-                "label": "Nome da Tarifa",
-                "placeholder": "Tarifa 1"
+            "code": {
+                "label": "Código da Tarifa",
+                "placeholder": "T1"
+            },
+            "name": {
+                "label": "Fare Name",
+                "placeholder": "Tarif 1"
             },
             "short_name": {
                 "label": "Abreviatura",
-                "placeholder": "T1"
-            },
-            "code": {
-                "label": "Código da Tarifa",
                 "placeholder": "T1"
             },
             "price": {
@@ -476,30 +476,26 @@
                 "label": "Código da Linha",
                 "placeholder": "1234"
             },
+            "name": {
+                "label": "Line Name",
+                "placeholder": "T1"
+            },
             "short_name": {
                 "label": "Número da Linha",
                 "placeholder": "1234"
             },
-            "long_name": {
-                "label": "Nome da Linha",
-                "placeholder": "T1"
-            },
-            "color": {
-                "label": "Cor da Linha",
-                "placeholder": "#ED1A44"
-            },
-            "text_color": {
-                "label": "Cor do Texto",
-                "placeholder": "#FFFFFF"
+            "typology": {
+                "label": "Line Type",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "fare": {
                 "label": "Fare Rule for this Line",
-                "placeholder": "Selecionar Tarifa...",
+                "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "agency": {
                 "label": "Operate by this Agencies",
-                "description": "Choose one operator for this line.",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
