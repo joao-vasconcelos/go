@@ -284,6 +284,52 @@
             }
         }
     },
+    "zones": {
+        "untitled": "Untitled Zone",
+        "list": {
+            "no_selection": "Select a Zone",
+            "footer": "Found {count, plural, =1 {1 Zone} other {# Zones}}"
+        },
+        "operations": {
+            "create": {
+                "title": "Create New Zone",
+                "loading": "Creating new Zone...",
+                "success": "A new Zone was created!",
+                "error": "An error occurred while creating this Zone."
+            },
+            "delete": {
+                "title": "Delete Zone",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Zone forever?",
+                "confirm": "Delete Zone Forever",
+                "cancel": "Não Eliminar",
+                "loading": "Deleting Zone...",
+                "success": "Zone was deleted.",
+                "error": "An error occurred while deleting this Zone."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Detalhes"
+            },
+            "geofence": {
+                "title": "Geofence"
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Zone Code",
+                "placeholder": "CMontijo"
+            },
+            "name": {
+                "label": "Zone Name",
+                "placeholder": "Montijo"
+            },
+            "geojson": {
+                "label": "Geofence",
+                "placeholder": "[0.000, 0.000]"
+            }
+        }
+    },
     "municipalities": {
         "untitled": "Município sem título",
         "list": {
@@ -1146,6 +1192,22 @@
                     },
                     "delete": {
                         "label": "Eliminar Tarifas",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
+                "zones": {
+                    "title": "Zones",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Zones",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Zones",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Zones",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
