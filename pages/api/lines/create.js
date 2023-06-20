@@ -30,13 +30,19 @@ export default async function linesCreate(req, res) {
   try {
     const allLines = await LineModel.find();
     for (const line of allLines) {
-      let agencyId;
-      if (line.code.startsWith('1')) agencyId = '644976034212abfd6e160d1a';
-      else if (line.code.startsWith('2')) agencyId = '645d7ee04ef63aec14fbf1eb';
-      else if (line.code.startsWith('3')) agencyId = '645d7f114ef63aec14fbf217';
-      else if (line.code.startsWith('4')) agencyId = '645d7f204ef63aec14fbf22a';
-      const result = await LineModel.findOneAndUpdate({ code: line.code }, { $unset: { agencies: '' }, $set: { agency: agencyId } }, { new: true });
-      console.log('Updated Line', line.code, 'with agency_id', agencyId, 'result', result);
+      //   let agencyId;
+      //   if (line.code.startsWith('1')) agencyId = '644976034212abfd6e160d1a';
+      //   else if (line.code.startsWith('2')) agencyId = '645d7ee04ef63aec14fbf1eb';
+      //   else if (line.code.startsWith('3')) agencyId = '645d7f114ef63aec14fbf217';
+      //   else if (line.code.startsWith('4')) agencyId = '645d7f204ef63aec14fbf22a';
+      //   const result = await LineModel.findOneAndUpdate({ code: line.code }, { $unset: { agencies: '' }, $set: { agency: agencyId } }, { new: true });
+      line.name = line.long_name;
+      line.transport_type = '3';
+      line.circular = false;
+      line.school = false;
+      await line.save();
+      //   const result = await LineModel.findOneAndReplace({ code: line.code }, line, { new: true });
+      console.log('Updated Line', line.code); //, 'with agency_id', agencyId, 'result', result);
     }
   } catch (err) {
     console.log(err);

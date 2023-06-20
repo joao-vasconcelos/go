@@ -292,16 +292,16 @@
             }
         },
         "form": {
-            "long_name": {
+            "code": {
+                "label": "Fare Code",
+                "placeholder": "T1"
+            },
+            "name": {
                 "label": "Fare Name",
                 "placeholder": "Tarif 1"
             },
             "short_name": {
                 "label": "Fare Short Name",
-                "placeholder": "T1"
-            },
-            "code": {
-                "label": "Fare Code",
                 "placeholder": "T1"
             },
             "price": {
@@ -476,30 +476,26 @@
                 "label": "Line Code",
                 "placeholder": "1234"
             },
+            "name": {
+                "label": "Line Name",
+                "placeholder": "T1"
+            },
             "short_name": {
                 "label": "Line Short Name",
                 "placeholder": "1234"
             },
-            "long_name": {
-                "label": "Line Long Name",
-                "placeholder": "T1"
-            },
-            "color": {
-                "label": "Line Color",
-                "placeholder": "#ED1A44"
-            },
-            "text_color": {
-                "label": "Line Text Color",
-                "placeholder": "#FFFFFF"
+            "typology": {
+                "label": "Line Type",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
             },
             "fare": {
                 "label": "Associated Fare",
-                "placeholder": "Choose Fare...",
+                "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
             "agency": {
                 "label": "Operated by this Agency",
-                "description": "Choose one operator for this line.",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },

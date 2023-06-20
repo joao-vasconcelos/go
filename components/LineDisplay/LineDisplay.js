@@ -8,15 +8,15 @@ export function LineBadge({ short_name, color, text_color }) {
   );
 }
 
-export function LineName({ long_name }) {
-  return <div className={styles.name}>{long_name}</div>;
+export function LineName({ name }) {
+  return <div className={styles.name}>{name}</div>;
 }
 
-export default function LineDisplay({ short_name, long_name, color, text_color }) {
+export default function LineDisplay({ short_name, name, color, text_color }) {
   return (
     <div className={styles.container}>
       <LineBadge short_name={short_name} color={color} text_color={text_color} />
-      <LineName long_name={long_name} />
+      <LineName name={name} />
     </div>
   );
 }

@@ -248,7 +248,7 @@ export default function Page() {
             onClose={async () => await handleClose()}
             closeType='back'
           />
-          <LineDisplay short_name={lineData && lineData.short_name} long_name={form.values.headsign || t('untitled')} color={lineData && lineData.color} text_color={lineData && lineData.text_color} />
+          <LineDisplay short_name={lineData && lineData.short_name} name={form.values.headsign || t('untitled')} color={lineData && lineData.color} text_color={lineData && lineData.text_color} />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />

@@ -14,16 +14,17 @@ export const Schema = new mongoose.Schema(
       maxlength: 10,
       unique: true,
     },
+    name: {
+      type: String,
+      maxlength: 500,
+    },
     short_name: {
       type: String,
       maxlength: 50,
     },
-    long_name: {
+    transport_type: {
       type: String,
       maxlength: 50,
-    },
-    transport_type: {
-      type: Boolean,
     },
     circular: {
       type: Boolean,
@@ -34,9 +35,9 @@ export const Schema = new mongoose.Schema(
     continuous: {
       type: Boolean,
     },
-    line_type: {
+    typology: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'LineType',
+      ref: 'Typology',
     },
     fare: {
       type: mongoose.Schema.Types.ObjectId,

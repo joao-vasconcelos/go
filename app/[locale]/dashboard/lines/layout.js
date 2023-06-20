@@ -8,7 +8,7 @@ import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots, IconPencil } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '@/components/ErrorDisplay';
@@ -37,7 +37,7 @@ export default function Layout({ children }) {
   //
   // C. Search
 
-  const filteredLinesData = useSearch(searchQuery, allLinesData, { keys: ['code', 'short_name', 'long_name'] });
+  const filteredLinesData = useSearch(searchQuery, allLinesData, { keys: ['code', 'short_name', 'name'] });
 
   //
   // C. Handle actions
@@ -83,6 +83,21 @@ export default function Layout({ children }) {
                         {t('operations.create.title')}
                       </Menu.Item>
                     </AuthGate>
+                    <AuthGate scope='typologies' permission='view'>
+                      <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/typologies')}>
+                        Edit Typologies
+                      </Menu.Item>
+                    </AuthGate>
+                    <AuthGate scope='zones' permission='view'>
+                      <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/zones')}>
+                        Edit Zones
+                      </Menu.Item>
+                    </AuthGate>
+                    <AuthGate scope='fares' permission='view'>
+                      <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/fares')}>
+                        Edit Fares
+                      </Menu.Item>
+                    </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
               </>
@@ -91,7 +106,7 @@ export default function Layout({ children }) {
           >
             <ErrorDisplay error={allLinesError} loading={allLinesValidating} />
             {filteredLinesData && filteredLinesData.length > 0 ? (
-              filteredLinesData.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} long_name={item.long_name} color={item.color} text_color={item.text_color} />)
+              filteredLinesData.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} name={item.name} color={item.typology?.color} text_color={item.typology?.text_color} />)
             ) : (
               <NoDataLabel />
             )}

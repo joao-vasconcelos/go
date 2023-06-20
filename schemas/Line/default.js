@@ -7,8 +7,8 @@
 /* A. Default Values */
 export const Default = {
   code: '',
+  name: '',
   short_name: '',
-  long_name: '',
   transport_type: '',
   circular: false,
   school: false,

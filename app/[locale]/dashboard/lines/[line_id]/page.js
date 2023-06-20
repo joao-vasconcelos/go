@@ -8,7 +8,7 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { Validation as LineValidation } from '@/schemas/Line/validation';
 import { Default as LineDefault } from '@/schemas/Line/default';
-import { Tooltip, Select, Button, ColorInput, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
+import { Tooltip, Select, Button, ColorInput, SimpleGrid, TextInput, ActionIcon, Divider, Switch } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '@/components/Pannel/Pannel';
@@ -22,6 +22,7 @@ import RouteCard from '@/components/RouteCard/RouteCard';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import { merge } from 'lodash';
 
 export default function Page() {
   //
@@ -45,8 +46,9 @@ export default function Page() {
 
   const { mutate: allLinesMutate } = useSWR('/api/lines');
   const { data: lineData, error: lineError, isLoading: lineLoading, mutate: lineMutate } = useSWR(line_id && `/api/lines/${line_id}`, { onSuccess: (data) => keepFormUpdated(data) });
-  const { data: allAgenciesData } = useSWR('/api/agencies');
+  const { data: allTypologiesData } = useSWR('/api/typologies');
   const { data: allFaresData } = useSWR('/api/fares');
+  const { data: allAgenciesData } = useSWR('/api/agencies');
 
   //
   // C. Setup form
@@ -61,13 +63,30 @@ export default function Page() {
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      form.setValues(data);
-      form.resetDirty(data);
+      const merged = merge({ ...LineDefault }, { ...data });
+      form.setValues(merged);
+      form.resetDirty(merged);
     }
   };
 
   //
   // D. Format data
+
+  const allTypologiesDataFormatted = useMemo(() => {
+    return allTypologiesData
+      ? allTypologiesData.map((item) => {
+          return { value: item._id, label: item.name || '-' };
+        })
+      : [];
+  }, [allTypologiesData]);
+
+  const allFaresDataFormatted = useMemo(() => {
+    return allFaresData
+      ? allFaresData.map((item) => {
+          return { value: item._id, label: `${item.name || '-'} (${item.currency_type} ${item.price})` };
+        })
+      : [];
+  }, [allFaresData]);
 
   const allAgenciesDataFormatted = useMemo(() => {
     return allAgenciesData
@@ -77,13 +96,9 @@ export default function Page() {
       : [];
   }, [allAgenciesData]);
 
-  const allFaresDataFormatted = useMemo(() => {
-    return allFaresData
-      ? allFaresData.map((item) => {
-          return { value: item._id, label: item.long_name || '-' };
-        })
-      : [];
-  }, [allFaresData]);
+  const selectedLineTypologyData = useMemo(() => {
+    return allTypologiesData && allTypologiesData.find((item) => item._id === form.values.typology);
+  }, [allTypologiesData, form.values.typology]);
 
   //
   // D. Handle actions
@@ -181,7 +196,7 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <LineDisplay short_name={form.values.short_name} long_name={form.values.long_name || t('untitled')} color={form.values.color} text_color={form.values.text_color} />
+          <LineDisplay short_name={form.values.short_name} name={form.values.name || t('untitled')} color={selectedLineTypologyData?.color} text_color={selectedLineTypologyData?.text_color} />
           <Tooltip label={t('operations.open_website.title')} color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />
@@ -205,36 +220,43 @@ export default function Page() {
               <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
               <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} readOnly={isReadOnly} />
             </SimpleGrid>
-            <TextInput label={t('form.long_name.label')} placeholder={t('form.long_name.placeholder')} {...form.getInputProps('long_name')} readOnly={isReadOnly} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <ColorInput label={t('form.color.label')} placeholder={t('form.color.placeholder')} {...form.getInputProps('color')} readOnly={isReadOnly} />
-            <ColorInput label={t('form.text_color.label')} placeholder={t('form.text_color.placeholder')} {...form.getInputProps('text_color')} readOnly={isReadOnly} />
-          </SimpleGrid>
-          <SimpleGrid cols={2}>
+            <Select label={t('form.typology.label')} placeholder={t('form.typology.placeholder')} nothingFound={t('form.typology.nothingFound')} {...form.getInputProps('typology')} data={allTypologiesDataFormatted} readOnly={isReadOnly} searchable />
             <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFound={t('form.fare.nothingFound')} {...form.getInputProps('fare')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
-          </SimpleGrid>
-          <SimpleGrid cols={1}>
+            <Select label={t('form.agency.label')} placeholder={t('form.agency.placeholder')} nothingFound={t('form.agency.nothingFound')} {...form.getInputProps('agency')} data={allAgenciesDataFormatted} readOnly={isReadOnly} searchable />
             <Select
-              label={t('form.agency.label')}
-              description={t('form.agency.description')}
-              placeholder={t('form.agency.placeholder')}
-              nothingFound={t('form.agency.nothingFound')}
-              {...form.getInputProps('agency')}
-              data={allAgenciesDataFormatted}
+              label={t('form.transport_type.label')}
+              placeholder={t('form.transport_type.placeholder')}
+              nothingFound={t('form.transport_type.nothingFound')}
+              {...form.getInputProps('transport_type')}
+              data={['bus', 'boat']}
               readOnly={isReadOnly}
               searchable
             />
           </SimpleGrid>
         </Section>
+
         <Divider />
+
+        <Section>
+          <SimpleGrid cols={3}>
+            <Switch label={t('form.circular.label')} size='md' {...form.getInputProps('circular', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.school.label')} size='md' {...form.getInputProps('school', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.continuous.label')} size='md' {...form.getInputProps('continuous', { type: 'checkbox' })} readOnly={isReadOnly} />
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
         <Section>
           <Text size='h2'>{t('sections.routes.title')}</Text>
           <DragDropContext onDragEnd={handleRoutesReorder}>
             <Droppable droppableId='droppable'>
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {form.values.routes.map((item, index) => (
+                  {lineData?.routes.map((item, index) => (
                     <RouteCard key={index} index={index} onOpen={handleOpenRoute} _id={item._id} code={item.code} name={item.name} />
                   ))}
                   {provided.placeholder}

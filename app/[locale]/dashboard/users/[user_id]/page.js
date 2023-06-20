@@ -60,7 +60,7 @@ export default function Page() {
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      const merged = merge(UserDefault, data);
+      const merged = merge({ ...UserDefault }, { ...data });
       form.setValues(merged);
       form.resetDirty(merged);
     }

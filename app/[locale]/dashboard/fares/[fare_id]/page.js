@@ -131,8 +131,8 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Text size='h1' style={!form.values.long_name && 'untitled'} full>
-            {form.values.long_name || t('untitled')}
+          <Text size='h1' style={!form.values.name && 'untitled'} full>
+            {form.values.name || t('untitled')}
           </Text>
           <AuthGate scope='fares' permission='delete'>
             <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
@@ -148,7 +148,7 @@ export default function Page() {
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={3}>
-            <TextInput label={t('form.long_name.label')} placeholder={t('form.long_name.placeholder')} {...form.getInputProps('long_name')} readOnly={isReadOnly} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
             <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} readOnly={isReadOnly} />
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
           </SimpleGrid>
