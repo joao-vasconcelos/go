@@ -23,8 +23,7 @@ export const Schema = new mongoose.Schema(
       maxlength: 50,
     },
     transport_type: {
-      type: String,
-      maxlength: 50,
+      type: Number,
     },
     circular: {
       type: Boolean,

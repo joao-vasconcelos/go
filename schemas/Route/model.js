@@ -19,8 +19,7 @@ export const Schema = new mongoose.Schema(
       maxlength: 50,
     },
     path_type: {
-      type: String,
-      maxlength: 50,
+      type: Number,
     },
     parent_line: {
       type: mongoose.Schema.Types.ObjectId,

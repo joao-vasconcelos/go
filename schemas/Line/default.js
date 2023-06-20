@@ -9,7 +9,7 @@ export const Default = {
   code: '',
   name: '',
   short_name: '',
-  transport_type: '',
+  transport_type: 3, // bus
   circular: false,
   school: false,
   continuous: false,

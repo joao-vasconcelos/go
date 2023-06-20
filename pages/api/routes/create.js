@@ -37,7 +37,7 @@ export default async function routesCreate(req, res) {
 
   // 2. Try to save a new document with req.body
   try {
-    const newRoute = { ...RouteDefault, parent_line: req.body.parent_line };
+    const newRoute = { ...RouteDefault, code: req.body.code, parent_line: req.body.parent_line };
     const createdDocument = await RouteModel(newRoute).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {

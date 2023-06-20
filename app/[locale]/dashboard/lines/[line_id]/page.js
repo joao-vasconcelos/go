@@ -8,7 +8,7 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { Validation as LineValidation } from '@/schemas/Line/validation';
 import { Default as LineDefault } from '@/schemas/Line/default';
-import { Tooltip, Select, Button, ColorInput, SimpleGrid, TextInput, ActionIcon, Divider, Switch } from '@mantine/core';
+import { Tooltip, Select, Button, SimpleGrid, TextInput, ActionIcon, Divider, Switch } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '@/components/Pannel/Pannel';
@@ -16,6 +16,7 @@ import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
 import AutoSave from '@/components/AutoSave/AutoSave';
 import notify from '@/services/notify';
+import { transport_type as transportTypeData } from '@/options/fixedOptions';
 import { openConfirmModal } from '@mantine/modals';
 import LineDisplay from '@/components/LineDisplay/LineDisplay';
 import RouteCard from '@/components/RouteCard/RouteCard';
@@ -157,7 +158,7 @@ export default function Page() {
     try {
       setIsCreatingRoute(true);
       notify('new-route', 'loading', t('form.routes.create.loading'));
-      const response = await API({ service: 'routes', operation: 'create', method: 'POST', body: { parent_line: line_id } });
+      const response = await API({ service: 'routes', operation: 'create', method: 'POST', body: { code: `${line.code}_${form.values.routes.length}`, parent_line: line_id } });
       form.insertListItem('routes', response);
       notify('new-route', 'success', t('form.routes.create.success'));
       setIsCreatingRoute(false);
@@ -216,10 +217,10 @@ export default function Page() {
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
-            <SimpleGrid cols={2}>
-              <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
-              <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} readOnly={isReadOnly} />
-            </SimpleGrid>
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+            <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} readOnly={isReadOnly} />
+          </SimpleGrid>
+          <SimpleGrid cols={1}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
@@ -231,7 +232,9 @@ export default function Page() {
               placeholder={t('form.transport_type.placeholder')}
               nothingFound={t('form.transport_type.nothingFound')}
               {...form.getInputProps('transport_type')}
-              data={['bus', 'boat']}
+              data={transportTypeData.map((item) => {
+                return { value: item, label: t(`form.transport_type.options.${item}.label`) };
+              })}
               readOnly={isReadOnly}
               searchable
             />

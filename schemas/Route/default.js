@@ -8,7 +8,7 @@
 export const Default = {
   code: '',
   name: '',
-  path_type: '',
+  path_type: 0,
   parent_line: null,
   patterns: [],
 };

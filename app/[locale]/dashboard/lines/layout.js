@@ -83,6 +83,11 @@ export default function Layout({ children }) {
                         {t('operations.create.title')}
                       </Menu.Item>
                     </AuthGate>
+                    <AuthGate scope='agencies' permission='view'>
+                      <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/agencies')}>
+                        Edit Agencies
+                      </Menu.Item>
+                    </AuthGate>
                     <AuthGate scope='typologies' permission='view'>
                       <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/typologies')}>
                         Edit Typologies
