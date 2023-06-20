@@ -213,7 +213,7 @@
         "untitled": "Untitled Typology",
         "list": {
             "no_selection": "Select a Typology",
-            "footer": "Found {count, plural, =1 {1 Typology} other {# Typologys}}"
+            "footer": "Found {count, plural, =1 {1 Typology} other {# Typologies}}"
         },
         "operations": {
             "create": {
@@ -235,6 +235,9 @@
         "sections": {
             "config": {
                 "title": "Details"
+            },
+            "appearance": {
+                "title": "Appearance"
             }
         },
         "form": {
