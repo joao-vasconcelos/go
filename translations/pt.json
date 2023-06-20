@@ -484,6 +484,62 @@
                 "label": "Número da Linha",
                 "placeholder": "1234"
             },
+            "circular": {
+                "label": "Circular Line"
+            },
+            "school": {
+                "label": "School Line"
+            },
+            "continuous": {
+                "label": "Allow pickup and dropoff anywhere"
+            },
+            "transport_type": {
+                "label": "Transport Type",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
+                "options": {
+                    "0": {
+                        "label": "Tram, Streetcar, Light rail",
+                        "description": "Any light rail or street level system within a metropolitan area."
+                    },
+                    "1": {
+                        "label": "Subway, Metro",
+                        "description": "Any underground rail system within a metropolitan area."
+                    },
+                    "2": {
+                        "label": "Rail",
+                        "description": "Used for intercity or long-distance travel."
+                    },
+                    "3": {
+                        "label": "Bus",
+                        "description": "Used for short- and long-distance bus routes."
+                    },
+                    "4": {
+                        "label": "Boat, Ferry",
+                        "description": "Used for short- and long-distance boat service."
+                    },
+                    "5": {
+                        "label": "Cable tram",
+                        "description": "Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco)."
+                    },
+                    "6": {
+                        "label": "Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway)",
+                        "description": "Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables."
+                    },
+                    "7": {
+                        "label": "Funicular",
+                        "description": "Any rail system designed for steep inclines."
+                    },
+                    "11": {
+                        "label": "Trolleybus",
+                        "description": "Electric buses that draw power from overhead wires using poles."
+                    },
+                    "12": {
+                        "label": "Monorail}",
+                        "description": "Railway in which the track consists of a single rail or a beam."
+                    }
+                }
+            },
             "typology": {
                 "label": "Line Type",
                 "placeholder": "Escolha uma opção...",
@@ -538,6 +594,25 @@
             "name": {
                 "label": "Nome da Rota",
                 "placeholder": "Origem - Destino (alternativa)"
+            },
+            "path_type": {
+                "label": "Path Type",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
+                "options": {
+                    "0": {
+                        "label": "Base Path",
+                        "description": "This should be the longest path option in the line."
+                    },
+                    "1": {
+                        "label": "Variant",
+                        "description": "A deviation from the base path at the beginning, middle or end of the line."
+                    },
+                    "2": {
+                        "label": "Parcial",
+                        "description": "Segment of the base path with no difference in stop sequence."
+                    }
+                }
             },
             "patterns": {
                 "create": {
