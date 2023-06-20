@@ -94,6 +94,19 @@ export const Schema = new mongoose.Schema(
         ],
       },
       //
+      // TYPOLOGIES
+      typologies: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
+      },
+      //
       // FARES
       fares: {
         view: {

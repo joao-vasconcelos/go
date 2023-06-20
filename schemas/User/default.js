@@ -39,6 +39,12 @@ export const Default = {
       delete: false,
       agencies: [],
     },
+    // TYPOLOGIES
+    typologies: {
+      view: false,
+      create_edit: false,
+      delete: false,
+    },
     // FARES
     fares: {
       view: false,

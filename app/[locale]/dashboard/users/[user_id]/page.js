@@ -334,6 +334,34 @@ export default function Page() {
 
         <Section>
           <div>
+            <Text size='h2'>{t('form.permissions.typologies.title')}</Text>
+            <Text size='h4'>{t('form.permissions.typologies.description')}</Text>
+          </div>
+          <SimpleGrid cols={3} mt='md'>
+            <Switch label={t('form.permissions.typologies.view.label')} description={t('form.permissions.typologies.view.description')} size='md' {...form.getInputProps('permissions.typologies.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch
+              size='md'
+              label={t('form.permissions.typologies.create_edit.label')}
+              description={t('form.permissions.typologies.create_edit.description')}
+              {...form.getInputProps('permissions.typologies.create_edit', { type: 'checkbox' })}
+              disabled={!form.values.permissions.typologies.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.typologies.delete.label')}
+              description={t('form.permissions.typologies.delete.description')}
+              {...form.getInputProps('permissions.typologies.delete', { type: 'checkbox' })}
+              disabled={!form.values.permissions.typologies.view}
+              readOnly={isReadOnly}
+            />
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
             <Text size='h2'>{t('form.permissions.fares.title')}</Text>
             <Text size='h4'>{t('form.permissions.fares.description')}</Text>
           </div>
