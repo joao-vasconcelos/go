@@ -8,7 +8,7 @@
 export const Default = {
   code: '',
   name: '',
-  geofence: {
+  geojson: {
     type: 'Feature',
     geometry: {
       coordinates: [],

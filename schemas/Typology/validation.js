@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 /* * */
-/* DOCUMENT TYPE: LINE TYPE */
+/* DOCUMENT TYPE: TYPOLOGY */
 /* Explanation needed. */
 /* * */
 

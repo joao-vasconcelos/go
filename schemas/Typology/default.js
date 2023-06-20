@@ -1,5 +1,5 @@
 /* * */
-/* DOCUMENT TYPE: LINE TYPE */
+/* DOCUMENT TYPE: TYPOLOGY */
 /* Explanation needed. */
 /* * */
 

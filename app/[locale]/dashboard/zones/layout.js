@@ -91,11 +91,7 @@ export default function Layout({ children }) {
             footer={filteredZonesData && <ListFooter>{t('list.footer', { count: filteredZonesData.length })}</ListFooter>}
           >
             <ErrorDisplay error={allZonesError} loading={allZonesValidating} />
-            {filteredZonesData && filteredZonesData.length > 0 ? (
-              filteredZonesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} long_name={item.long_name} price={item.price} currency_type={item.currency_type} />)
-            ) : (
-              <NoDataLabel />
-            )}
+            {filteredZonesData && filteredZonesData.length > 0 ? filteredZonesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

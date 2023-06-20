@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: LINE TYPE */
+/* DOCUMENT TYPE: TYPOLOGY */
 /* Explanation needed. */
 /* * */
 
@@ -36,4 +36,4 @@ export const Schema = new mongoose.Schema(
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.LineType || mongoose.model('LineType', Schema);
+export const Model = mongoose?.models?.Typology || mongoose.model('Typology', Schema);

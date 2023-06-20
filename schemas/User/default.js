@@ -45,6 +45,12 @@ export const Default = {
       create_edit: false,
       delete: false,
     },
+    // ZONES
+    zones: {
+      view: false,
+      create_edit: false,
+      delete: false,
+    },
     // STOPS
     stops: {
       view: false,

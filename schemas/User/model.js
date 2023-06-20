@@ -107,6 +107,19 @@ export const Schema = new mongoose.Schema(
         },
       },
       //
+      // ZONES
+      zones: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
+      },
+      //
       // STOPS
       stops: {
         view: {

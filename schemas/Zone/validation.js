@@ -8,6 +8,6 @@ import * as yup from 'yup';
 /* * */
 /* A. YUP Validation Schema */
 export const Validation = yup.object({
-  code: yup.string().required().max(2, 'ID da Zona deve ter apenas ${max} caracteres.'),
+  code: yup.string().required().max(10, 'ID da Zona deve ter apenas ${max} caracteres.'),
   name: yup.string().max(100, 'Nome da Zona não deve exceder os ${max} caracteres.'),
 });

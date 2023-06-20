@@ -18,7 +18,7 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
-    geofence: {
+    geojson: {
       type: {
         type: String,
         maxlength: 100,
