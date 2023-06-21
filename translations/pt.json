@@ -1592,5 +1592,51 @@
             "title": "O ficheiro selecionado não pode ser aceite.",
             "description": "Tem a certeza que selecionou o ficheiro .zip exportado do Remix?"
         }
+    },
+    "StopSequenceTable": {
+        "form": {
+            "sequence_index": {
+                "label": "Stop sequence",
+                "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+            },
+            "stop": {
+                "label": "Stop",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "allow_pickup": {
+                "label": "Allow Pickup",
+                "description": "Passengers can ENTER the vehicle at this stop."
+            },
+            "allow_drop_off": {
+                "label": "Allow Drop Off",
+                "description": "Passengers can EXIT the vehicle at this stop."
+            },
+            "distance_delta": {
+                "label": "Distance between stops",
+                "description": "Distance between previous and current stop.",
+                "placeholder": "0 meters"
+            },
+            "default_velocity": {
+                "label": "Average Speed",
+                "description": "Average speed on the segment between previous and current stop.",
+                "placeholder": "20 km/h"
+            },
+            "default_travel_time": {
+                "label": "Average Travel Time",
+                "description": "Average travel time calculated based on distance and average speed on the segment between previous and current stop.",
+                "placeholder": "20 km/h"
+            },
+            "default_dwell_time": {
+                "label": "Average Dwell Time",
+                "description": "Average time stopped at the current stop picking up and dropping off passengers.",
+                "placeholder": "20 km/h"
+            },
+            "zones": {
+                "label": "Accepted Zones",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            }
+        }
     }
 }
