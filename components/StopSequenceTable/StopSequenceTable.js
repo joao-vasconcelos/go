@@ -1,16 +1,49 @@
 'use client';
 
 import useSWR from 'swr';
+import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import styles from './StopSequenceTable.module.css';
 import { Select, ActionIcon, Flex, Checkbox, Tooltip, NumberInput, MultiSelect } from '@mantine/core';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { IconSortAscendingNumbers, IconX, IconArrowBarUp, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowBarToDown, IconArrowAutofitContent, IconTrash, IconClockHour4, IconGripVertical } from '@tabler/icons-react';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 
 export default function StopSequenceTable({ form, onReorder, onDelete }) {
   //
 
-  // Fetch stops
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
+
+  //
+  // B. Fetch data
+
   const { data: allStopsData } = useSWR('/api/stops');
+  const { data: allZonesData } = useSWR('/api/zones');
+
+  //
+  // D. Format data
+
+  const allStopsDataFormatted = useMemo(() => {
+    return allStopsData
+      ? allStopsData.map((item) => {
+          return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
+        })
+      : [];
+  }, [allStopsData]);
+
+  const allZonesDataFormatted = useMemo(() => {
+    return allZonesData
+      ? allZonesData.map((item) => {
+          return { value: item._id, label: item.name || '-' };
+        })
+      : [];
+  }, [allZonesData]);
 
   //
   // Formatters
@@ -58,20 +91,24 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
       <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
         <IconSortAscendingNumbers size='20px' />
       </div>
-      <div className={styles.tableHeaderCell}>Paragem</div>
+      <div className={styles.tableHeaderCell}>{t('form.stop.label')}</div>
       <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
-        <IconArrowBarToDown size='20px' />
+        <Tooltip label={t('form.allow_pickup.label')} withArrow>
+          <IconArrowBarToDown size='20px' />
+        </Tooltip>
       </div>
       <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
-        <IconArrowBarUp size='20px' />
+        <Tooltip label={t('form.allow_drop_off.label')} withArrow>
+          <IconArrowBarUp size='20px' />
+        </Tooltip>
       </div>
-      <div className={styles.tableHeaderCell}>Distância entre paragens</div>
+      <div className={styles.tableHeaderCell}>{t('form.distance_delta.label')}</div>
       <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell}>Velocidade Comercial no troço</div>
+      <div className={styles.tableHeaderCell}>{t('form.default_velocity.label')}</div>
       <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell}>default_travel_time</div>
-      <div className={styles.tableHeaderCell}>Dwell Time</div>
-      <div className={styles.tableHeaderCell}>apex</div>
+      <div className={styles.tableHeaderCell}>{t('form.default_travel_time.label')}</div>
+      <div className={styles.tableHeaderCell}>{t('form.default_dwell_time.label')}</div>
+      <div className={styles.tableHeaderCell}>{t('form.zones.label')}</div>
       <div className={styles.tableHeaderCell} />
     </div>
   );
@@ -115,36 +152,31 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                           </div>
                           <div className={styles.tableBodyCell}>
                             <Select
-                              aria-label='Paragem'
-                              placeholder='Paragem'
-                              searchable
-                              nothingFound='Sem opções'
-                              w={'100%'}
+                              aria-label={t('form.stop.label')}
+                              placeholder={t('form.stop.placeholder')}
+                              nothingFound={t('form.stop.nothingFound')}
                               {...form.getInputProps(`path.${index}.stop`)}
-                              data={
-                                allStopsData
-                                  ? allStopsData.map((item) => {
-                                      return { value: item._id, label: `[${item.code}] ${item.name || 'Stop sem Nome'}` };
-                                    })
-                                  : []
-                              }
+                              data={allStopsDataFormatted}
+                              readOnly={isReadOnly}
+                              searchable
+                              w='100%'
                             />
                           </div>
                           <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
-                            <Tooltip label='Permite embarque nesta paragem' position='bottom' withArrow>
-                              <Checkbox size='sm' {...form.getInputProps(`path.${index}.allow_pickup`, { type: 'checkbox' })} />
+                            <Tooltip label={t('form.allow_pickup.description')} position='bottom' withArrow>
+                              <Checkbox size='sm' {...form.getInputProps(`path.${index}.allow_pickup`, { type: 'checkbox' })} readOnly={isReadOnly} />
                             </Tooltip>
                           </div>
                           <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
-                            <Tooltip label='Permite desembarque nesta paragem' position='bottom' withArrow>
-                              <Checkbox size='sm' {...form.getInputProps(`path.${index}.allow_drop_off`, { type: 'checkbox' })} />
+                            <Tooltip label={t('form.allow_drop_off.description')} position='bottom' withArrow>
+                              <Checkbox size='sm' {...form.getInputProps(`path.${index}.allow_drop_off`, { type: 'checkbox' })} readOnly={isReadOnly} />
                             </Tooltip>
                           </div>
                           <div className={styles.tableBodyCell}>
-                            <Tooltip label='Distância percorrida desde a paragem anterior até à atual, em metros. (x metros são y km)' position='bottom' width='300px' multiline withArrow>
+                            <Tooltip label={t('form.distance_delta.description')} position='bottom' withArrow>
                               <NumberInput
-                                aria-label='distance_delta'
-                                placeholder='distance_delta'
+                                aria-label={t('form.distance_delta.label')}
+                                placeholder={t('form.distance_delta.placeholder')}
                                 defaultValue={0}
                                 min={0}
                                 step={10}
@@ -154,6 +186,7 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                                 icon={<IconArrowAutofitContent size='20px' />}
                                 {...form.getInputProps(`path.${index}.distance_delta`)}
                                 disabled={index === 0}
+                                readOnly={isReadOnly}
                                 value={index === 0 ? 0 : form.values.path[index].distance_delta}
                               />
                             </Tooltip>
@@ -162,10 +195,10 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                             <IconX size='20px' />
                           </div>
                           <div className={styles.tableBodyCell}>
-                            <Tooltip label='Velocidade comercial no troço.' position='bottom' withArrow>
+                            <Tooltip label={t('form.default_velocity.description')} position='bottom' withArrow>
                               <NumberInput
-                                aria-label='default_travel_time'
-                                placeholder='default_travel_time'
+                                aria-label={t('form.default_velocity.label')}
+                                placeholder={t('form.default_velocity.placeholder')}
                                 defaultValue={20}
                                 min={0}
                                 step={5}
@@ -183,10 +216,10 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                             <IconEqual size='30px' />
                           </div>
                           <div className={styles.tableBodyCell}>
-                            <Tooltip label='Tempo estimado de viagem no troço.' position='bottom' withArrow>
+                            <Tooltip label={t('form.default_travel_time.description')} position='bottom' width={350} multiline withArrow>
                               <NumberInput
-                                aria-label='default_travel_time'
-                                placeholder='default_travel_time'
+                                aria-label={t('form.default_travel_time.label')}
+                                placeholder={t('form.default_travel_time.placeholder')}
                                 formatter={formatSecondsToTime}
                                 icon={<IconClockHour4 size='18px' />}
                                 readOnly
@@ -197,10 +230,10 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                             </Tooltip>
                           </div>
                           <div className={styles.tableBodyCell}>
-                            <Tooltip label='Tempo estimado para entrada e saída de passagairos, em segundos. (${segundos} são ${segundos/60} minutos)' position='bottom' width='300px' multiline withArrow>
+                            <Tooltip label={t('form.default_dwell_time.description')} position='bottom' width={350} multiline withArrow>
                               <NumberInput
-                                aria-label='Default wait time'
-                                placeholder='Default wait time'
+                                aria-label={t('form.default_dwell_time.label')}
+                                placeholder={t('form.default_dwell_time.placeholder')}
                                 defaultValue={30}
                                 min={0}
                                 max={900}
@@ -215,13 +248,14 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
                           </div>
                           <div className={styles.tableBodyCell}>
                             <MultiSelect
-                              w='100%'
-                              aria-label='Passes aceites'
-                              placeholder='Passes aceites'
+                              aria-label={t('form.zones.label')}
+                              placeholder={t('form.zones.placeholder')}
+                              nothingFound={t('form.zones.nothingFound')}
+                              {...form.getInputProps(`path.${index}.zones`)}
+                              data={allZonesDataFormatted}
+                              readOnly={isReadOnly}
                               searchable
-                              nothingFound='Sem opções'
-                              data={['navegante Metropolitano', 'Alcochete', 'Almada', 'etc']}
-                              {...form.getInputProps(`path.${index}.apex`)}
+                              w='100%'
                             />
                           </div>
                           <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>

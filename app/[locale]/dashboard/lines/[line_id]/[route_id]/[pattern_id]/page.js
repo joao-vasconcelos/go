@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { useForm, yupResolver } from '@mantine/form';
@@ -23,6 +23,7 @@ import calculateDistanceBetweenStops from '@/services/calculateDistanceBetweenSt
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import { merge } from 'lodash';
 
 export default function Page() {
   //
@@ -47,7 +48,8 @@ export default function Page() {
   const { data: allShapesData } = useSWR('/api/shapes');
   const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
   const { data: routeData, error: routeError, isLoading: routeLoading, isValidating: routeValidating, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
-  const { data: patternData, error: patternError, isLoading: patternLoading } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: typologyData } = useSWR(lineData && lineData.typology && `/api/typologies/${lineData.typology}`);
+  const { data: patternData, error: patternError, isLoading: patternLoading, mutate: patternMutate } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -62,10 +64,22 @@ export default function Page() {
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      form.setValues(data);
-      form.resetDirty(data);
+      const merged = merge({ ...PatternDefault, ...data });
+      form.setValues(merged);
+      form.resetDirty(merged);
     }
   };
+
+  //
+  // D. Format data
+
+  const allShapesDataFormatted = useMemo(() => {
+    return allShapesData
+      ? allShapesData.map((item) => {
+          return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
+        })
+      : [];
+  }, [allShapesData]);
 
   //
   // D. Handle actions
@@ -82,6 +96,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'patterns', resourceId: pattern_id, operation: 'edit', method: 'PUT', body: form.values });
+      patternMutate();
       form.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -90,7 +105,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [pattern_id, form]);
+  }, [pattern_id, form, patternMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -248,7 +263,7 @@ export default function Page() {
             onClose={async () => await handleClose()}
             closeType='back'
           />
-          <LineDisplay short_name={lineData && lineData.short_name} name={form.values.headsign || t('untitled')} color={lineData && lineData.color} text_color={lineData && lineData.text_color} />
+          <LineDisplay short_name={lineData && lineData.short_name} name={form.values.headsign || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />
@@ -285,13 +300,7 @@ export default function Page() {
                   ),
               })}
               {...form.getInputProps('shape')}
-              data={
-                allShapesData
-                  ? allShapesData.map((shape) => {
-                      return { value: shape._id, label: `[${shape.code}] ${shape.name || t('form.shape.untitled')}` };
-                    })
-                  : []
-              }
+              data={allShapesDataFormatted}
               searchable
               clearable
             />
@@ -300,13 +309,17 @@ export default function Page() {
         <Divider />
         <Section>
           <Text size='h2'>{t('sections.stops.title')}</Text>
-          <Button onClick={handleCalculateStopDistances} disabled={isCreatingStopSequence} variant='light'>
-            Calcular distâncias entre paragens
-          </Button>
+        </Section>
+        <Divider />
+        <StopSequenceTable form={form} onReorder={handleStopSequenceReorder} onDelete={handleDeleteSequenceRow} />
+        <Divider />
+        <Section>
           <SimpleGrid cols={1}>
-            <StopSequenceTable form={form} onReorder={handleStopSequenceReorder} onDelete={handleDeleteSequenceRow} />
             <Button onClick={handleCreateStopSequence} loading={isCreatingStopSequence}>
               Add Stop to Sequence
+            </Button>
+            <Button onClick={handleCalculateStopDistances} disabled={isCreatingStopSequence} variant='light'>
+              Calcular distâncias entre paragens
             </Button>
           </SimpleGrid>
         </Section>
