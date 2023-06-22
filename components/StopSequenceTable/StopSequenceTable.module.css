@@ -17,7 +17,7 @@
 .tableRow,
 .tableHeaderRow {
   display: grid;
-  grid-template-columns: 40px 300px 40px 40px 200px 40px 180px 40px 180px 180px 500px;
+  grid-template-columns: 60px 300px 40px 40px 200px 40px 180px 40px 180px 180px 500px;
   align-items: center;
   gap: 5px;
 }
