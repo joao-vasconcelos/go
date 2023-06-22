@@ -158,7 +158,7 @@ export default function Page() {
     try {
       setIsCreatingRoute(true);
       notify('new-route', 'loading', t('form.routes.create.loading'));
-      const response = await API({ service: 'routes', operation: 'create', method: 'POST', body: { code: `${line.code}_${form.values.routes.length}`, parent_line: line_id } });
+      const response = await API({ service: 'routes', operation: 'create', method: 'POST', body: { code: `${lineData.code}_${form.values.routes.length}`, parent_line: line_id } });
       form.insertListItem('routes', response);
       notify('new-route', 'success', t('form.routes.create.success'));
       setIsCreatingRoute(false);

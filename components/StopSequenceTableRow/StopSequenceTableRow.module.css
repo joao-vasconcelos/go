@@ -1,0 +1,74 @@
+.container {
+  display: grid;
+  grid-template-columns: 40px 300px 40px 40px 200px 40px 180px 40px 180px 180px 500px;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--gray0);
+  transition: all 200ms ease;
+}
+
+.container:hover {
+  background-color: var(--gray1);
+}
+
+.column {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--size-sm);
+  font-size: 14px;
+  min-height: 20px;
+}
+
+.hcenter {
+  justify-content: center;
+}
+
+/* * */
+/* SEQUENCE INDEX */
+
+.sequenceIndex {
+  font-size: 18px;
+  color: var(--gray12);
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* * */
+/* SEQUENCE STOP */
+
+.sequenceStop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  padding: var(--size-sm);
+  background-color: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0);
+  transition: all 300ms ease;
+}
+
+.sequenceStop:hover {
+  background-color: var(--reference-0);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.sequenceStopName {
+  color: var(--reference-1);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.sequenceStopId {
+  color: var(--gray8);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  border: 1px solid var(--gray7);
+  border-radius: 999px;
+  padding: 2px 8px 3px 8px;
+}

@@ -10,10 +10,7 @@ export default function SchedulesTable({ form, onDelete }) {
   //
 
   // Fetch calendars
-  const { data: calendarsData, error: calendarsError, isLoading: calendarsLoading } = useSWR('/api/calendars');
-
-  //
-  // Formatters
+  const { data: allCalendarsData } = useSWR('/api/calendars');
 
   //
   // Render components
@@ -56,9 +53,9 @@ export default function SchedulesTable({ form, onDelete }) {
                   w={'100%'}
                   {...form.getInputProps(`schedules.${index}.calendars_on`)}
                   data={
-                    calendarsData
-                      ? calendarsData.map((calendar) => {
-                          return { value: calendar._id, label: `[${calendar.code}] ${calendar.name || 'Calendário sem Nome'}`, disabled: form.values.schedules[index].calendars_off.includes(calendar._id) };
+                    allCalendarsData
+                      ? allCalendarsData.map((calendar) => {
+                          return { value: calendar._id, label: `[${calendar.code}] ${calendar.name || '-'}`, disabled: form.values.schedules[index].calendars_off.includes(calendar._id) };
                         })
                       : []
                   }
@@ -73,9 +70,9 @@ export default function SchedulesTable({ form, onDelete }) {
                   w={'100%'}
                   {...form.getInputProps(`schedules.${index}.calendars_off`)}
                   data={
-                    calendarsData
-                      ? calendarsData.map((calendar) => {
-                          return { value: calendar._id, label: `[${calendar.code}] ${calendar.name || 'Calendário sem Nome'}`, disabled: form.values.schedules[index].calendars_on.includes(calendar._id) };
+                    allCalendarsData
+                      ? allCalendarsData.map((calendar) => {
+                          return { value: calendar._id, label: `[${calendar.code}] ${calendar.name || '-'}`, disabled: form.values.schedules[index].calendars_on.includes(calendar._id) };
                         })
                       : []
                   }
