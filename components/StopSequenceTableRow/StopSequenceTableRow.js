@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePatternFormContext } from '@/contexts/patternForm';
 import styles from './StopSequenceTableRow.module.css';
@@ -27,16 +27,6 @@ export default function StopSequenceTableRow({ rowIndex }) {
 
   const { data: stopData } = useSWR(form.values?.path[rowIndex]?.stop && `/api/stops/${form.values.path[rowIndex].stop}`);
   const { data: allZonesData } = useSWR('/api/zones');
-
-  //
-  // D. Setup row values
-
-  useEffect(() => {
-    // If zones is empty and there is a stop loaded
-    if (!form.values.path[rowIndex].zones.length && stopData) {
-      form.setValues(`path.${rowIndex}.zones`, stopData.zones);
-    }
-  }, [form, rowIndex, stopData]);
 
   //
   // D. Format data
@@ -137,11 +127,9 @@ export default function StopSequenceTableRow({ rowIndex }) {
         <NumberInput
           aria-label={t('distance_delta.label')}
           placeholder={t('distance_delta.placeholder')}
-          stepHoldDelay={500}
-          stepHoldInterval={100}
           formatter={formatMetersToDistance}
           icon={<IconArrowAutofitContent size='20px' />}
-          value={rowIndex === 0 ? 0 : form.values.path[rowIndex].distance_delta}
+          value={form.values.path[rowIndex].distance_delta}
           disabled={rowIndex === 0}
           readOnly
         />
@@ -170,7 +158,6 @@ export default function StopSequenceTableRow({ rowIndex }) {
           icon={<IconPlayerTrackNext size='18px' />}
           {...form.getInputProps(`path.${rowIndex}.default_velocity`)}
           disabled={rowIndex === 0}
-          value={rowIndex === 0 ? 0 : form.values.path[rowIndex].default_velocity}
         />
       </Tooltip>
     </div>

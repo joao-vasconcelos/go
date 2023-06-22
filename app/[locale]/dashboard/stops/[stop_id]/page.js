@@ -47,6 +47,7 @@ export default function Page() {
   const { data: stopData, error: stopError, isLoading: stopLoading } = useSWR(stop_id && `/api/stops/${stop_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: allAgenciesData } = useSWR('/api/agencies');
   const { data: allMunicipalitiesData } = useSWR('/api/municipalities');
+  const { data: allZonesData } = useSWR('/api/zones');
 
   //
   // C. Setup form
@@ -137,13 +138,19 @@ export default function Page() {
   //
   // E. Transform data
 
-  const municipalitiesFormattedForSelect = useMemo(() => {
-    return allMunicipalitiesData
-      ? allMunicipalitiesData.map((item) => {
-          return { value: item._id, label: item.name || '-' };
-        })
-      : [];
+  const allMunicipalitiesDataFormatted = useMemo(() => {
+    if (!allMunicipalitiesData) return [];
+    return allMunicipalitiesData.map((item) => {
+      return { value: item._id, label: item.name || '-' };
+    });
   }, [allMunicipalitiesData]);
+
+  const allZonesDataFormatted = useMemo(() => {
+    if (!allZonesData) return [];
+    return allZonesData.map((item) => {
+      return { value: item._id, label: item.name || '-' };
+    });
+  }, [allZonesData]);
 
   const mapData = useMemo(() => {
     // Create a GeoJSON object
@@ -281,6 +288,18 @@ export default function Page() {
 
         <Section>
           <div>
+            <Text size='h2'>{t('sections.zoning.title')}</Text>
+            <Text size='h4'>{t('sections.zoning.description')}</Text>
+          </div>
+          <SimpleGrid cols={1}>
+            <MultiSelect label={t('form.zones.label')} placeholder={t('form.zones.placeholder')} {...form.getInputProps('zones')} readOnly={isReadOnly} data={allZonesDataFormatted} />
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
             <Text size='h2'>{t('sections.admin.title')}</Text>
             <Text size='h4'>{t('sections.admin.description')}</Text>
           </div>
@@ -288,7 +307,7 @@ export default function Page() {
             <Text size='h3'>{t('sections.admin.description')}</Text>
             <Space h={20} />
             <SimpleGrid cols={3}>
-              <Select label={t('form.municipality.label')} placeholder={t('form.municipality.placeholder')} {...form.getInputProps('municipality')} readOnly={isReadOnly} data={municipalitiesFormattedForSelect} />
+              <Select label={t('form.municipality.label')} placeholder={t('form.municipality.placeholder')} {...form.getInputProps('municipality')} readOnly={isReadOnly} data={allMunicipalitiesDataFormatted} />
               <TextInput label={t('form.district.label')} placeholder={t('form.district.placeholder')} {...form.getInputProps('district')} readOnly />
               <TextInput label={t('form.region.label')} placeholder={t('form.region.placeholder')} {...form.getInputProps('region')} readOnly />
             </SimpleGrid>

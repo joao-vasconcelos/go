@@ -782,8 +782,8 @@
                 "title": "Details",
                 "description": "Info about this section"
             },
-            "areas": {
-                "title": "Areas using this Stop",
+            "zoning": {
+                "title": "Ticket Zoning",
                 "description": "Info about this section"
             },
             "admin": {
@@ -840,9 +840,9 @@
                 "label": "Text-to-Speech Name",
                 "placeholder": "Rua Marquês de Pombal Porta Oito"
             },
-            "agencies": {
-                "label": "Used by these Agencies",
-                "placeholder": "Choose Agencies...",
+            "zones": {
+                "label": "Default Zones for this Stop",
+                "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
             "address": {
