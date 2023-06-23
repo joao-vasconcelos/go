@@ -643,8 +643,12 @@
                 "title": "Details",
                 "description": "Something about this section"
             },
-            "stops": {
-                "title": "Stops",
+            "path": {
+                "title": "Path",
+                "description": "Something about this section"
+            },
+            "update_path": {
+                "title": "Update Path",
                 "description": "Something about this section"
             },
             "schedules": {
@@ -1553,6 +1557,29 @@
             },
             "back": {
                 "title": "Go Back"
+            }
+        }
+    },
+    "ImportPathFromGTFS": {
+        "title": "These are the Trips found in the uploaded GTFS:",
+        "clear": {
+            "title": "Clear Table"
+        },
+        "import": {
+            "success": "Path imported! ({trip_id})"
+        },
+        "table": {
+            "header": {
+                "route_id": "Route ID",
+                "trip_headsign": "Headsign",
+                "stop_count": "Stop Count",
+                "import": "Import"
+            },
+            "body": {
+                "import": {
+                    "title": "Import Path",
+                    "description": "This will immediately replace all stops for this pattern. This cannot be undone."
+                }
             }
         }
     },
