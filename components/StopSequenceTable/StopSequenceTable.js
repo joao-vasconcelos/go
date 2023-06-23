@@ -49,26 +49,10 @@ export default function StopSequenceTable() {
     </div>
   );
 
-  const StopSequenceFooter = () => (
-    <div className={styles.tableHeaderRow}>
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell}>AVG Vel Med</div>
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell}>∑ = sjnjds</div>
-      <div className={styles.tableHeaderCell}>tempo total parado</div>
-      <div className={styles.tableHeaderCell} />
-    </div>
-  );
-
   return (
     <div className={styles.container}>
       <StopSequenceHeader />
-      <div className={styles.rowWrapper}>{patternForm.values.path && patternForm.values.path.map((item, index) => <StopSequenceTableRow key={index} rowIndex={index} />)}</div>
+      <div className={styles.rowWrapper}>{patternForm.values.path && patternForm.values.path.map((item, index) => <StopSequenceTableRow key={index} rowIndex={index} item={item} />)}</div>
     </div>
   );
 
