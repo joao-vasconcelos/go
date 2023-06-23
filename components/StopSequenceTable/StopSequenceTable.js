@@ -19,39 +19,35 @@ export default function StopSequenceTable() {
   //
   // Render components
 
-  const StopSequenceHeader = () => (
-    <div className={styles.tableHeaderRow}>
-      <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
-        <Tooltip label={t('sequence_index.description')} withArrow>
-          <IconSortAscendingNumbers size='20px' />
-        </Tooltip>
-      </div>
-      <div className={styles.tableHeaderCell} style={{ paddingLeft: 20 }}>
-        {t('stop.label')}
-      </div>
-      <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
-        <Tooltip label={t('allow_pickup.label')} withArrow>
-          <IconArrowBarToDown size='20px' />
-        </Tooltip>
-      </div>
-      <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
-        <Tooltip label={t('allow_drop_off.label')} withArrow>
-          <IconArrowBarUp size='20px' />
-        </Tooltip>
-      </div>
-      <div className={styles.tableHeaderCell}>{t('distance_delta.label')}</div>
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell}>{t('default_velocity.label')}</div>
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell}>{t('default_travel_time.label')}</div>
-      <div className={styles.tableHeaderCell}>{t('default_dwell_time.label')}</div>
-      <div className={styles.tableHeaderCell}>{t('zones.label')}</div>
-    </div>
-  );
-
   return (
     <div className={styles.container}>
-      <StopSequenceHeader />
+      <div className={styles.tableHeaderRow}>
+        <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
+          <Tooltip label={t('sequence_index.description')} withArrow>
+            <IconSortAscendingNumbers size='20px' />
+          </Tooltip>
+        </div>
+        <div className={styles.tableHeaderCell} style={{ paddingLeft: 20 }}>
+          {t('stop.label')}
+        </div>
+        <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
+          <Tooltip label={t('allow_pickup.label')} withArrow>
+            <IconArrowBarToDown size='20px' />
+          </Tooltip>
+        </div>
+        <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
+          <Tooltip label={t('allow_drop_off.label')} withArrow>
+            <IconArrowBarUp size='20px' />
+          </Tooltip>
+        </div>
+        <div className={styles.tableHeaderCell}>{t('distance_delta.label')}</div>
+        <div className={styles.tableHeaderCell} />
+        <div className={styles.tableHeaderCell}>{t('default_velocity.label')}</div>
+        <div className={styles.tableHeaderCell} />
+        <div className={styles.tableHeaderCell}>{t('default_travel_time.label')}</div>
+        <div className={styles.tableHeaderCell}>{t('default_dwell_time.label')}</div>
+        <div className={styles.tableHeaderCell}>{t('zones.label')}</div>
+      </div>
       <div className={styles.rowWrapper}>{patternForm.values.path && patternForm.values.path.map((item, index) => <StopSequenceTableRow key={index} rowIndex={index} item={item} />)}</div>
     </div>
   );

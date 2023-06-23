@@ -1,41 +1,53 @@
 'use client';
 
 import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
 import styles from './SchedulesTable.module.css';
-import { usePatternFormContext } from '@/contexts/patternForm';
 import { ActionIcon, Flex, MultiSelect, Button } from '@mantine/core';
 import { TimeInput } from '@mantine/dates';
 import { IconTrash } from '@tabler/icons-react';
 
-export default function SchedulesTable({ form, onDelete }) {
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+export default function SchedulesTableRow({ form, onDelete }) {
   //
 
-  //
-  // A. Setup variables
-
-  const t = useTranslations('SchedulesTable');
-  const patternForm = usePatternFormContext();
-
-  // B. Fetch data
-
+  // Fetch calendars
   const { data: allCalendarsData } = useSWR('/api/calendars');
 
   //
   // Render components
 
-  const TableHeader = () => (
+  const StopSequenceHeader = () => (
     <div className={styles.tableHeaderRow}>
       <div className={styles.tableHeaderCell}>Hora de Início</div>
       <div className={styles.tableHeaderCell}>Calendários ON</div>
       <div className={styles.tableHeaderCell}>Calendários OFF</div>
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell} />
+    </div>
+  );
+
+  const StopSequenceFooter = () => (
+    <div className={styles.tableHeaderRow}>
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell} />
+      <div className={styles.tableHeaderCell} />
       <div className={styles.tableHeaderCell} />
     </div>
   );
 
   return (
     <div className={styles.container}>
-      <TableHeader />
+      <StopSequenceHeader />
       <div className={styles.rowWrapper}>
         {form.values.schedules.length > 0 ? (
           form.values.schedules.map((item, index) => (
@@ -78,6 +90,11 @@ export default function SchedulesTable({ form, onDelete }) {
                 />
               </div>
               <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
+                <Button size='xs' disabled>
+                  Ajustes
+                </Button>
+              </div>
+              <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
                 <Flex>
                   <ActionIcon size='lg' color='red' onClick={() => onDelete(index)}>
                     <IconTrash size='20px' />
@@ -94,6 +111,7 @@ export default function SchedulesTable({ form, onDelete }) {
           </div>
         )}
       </div>
+      <StopSequenceFooter />
     </div>
   );
 

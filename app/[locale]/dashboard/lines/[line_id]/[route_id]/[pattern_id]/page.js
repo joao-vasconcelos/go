@@ -232,14 +232,14 @@ export default function Page() {
                 label={t('form.shape.label')}
                 placeholder={t('form.shape.placeholder')}
                 nothingFound={t('form.shape.nothingFound')}
-                //   description={t.rich('patternForm.shape.description', {
-                //     link: (chunks) =>
-                //       patternForm.values.shape && (
-                //         <a href={`/dashboard/shapes/${patternForm.values.shape}`} target='_blank'>
-                //           {chunks}
-                //         </a>
-                //       ),
-                //   })}
+                description={t.rich('form.shape.description', {
+                  link: (chunks) =>
+                    patternForm.values.shape && (
+                      <a href={`/dashboard/shapes/${patternForm.values.shape}`} target='_blank'>
+                        {chunks}
+                      </a>
+                    ),
+                })}
                 {...patternForm.getInputProps('shape')}
                 data={allShapesDataFormatted}
                 searchable
@@ -271,7 +271,10 @@ export default function Page() {
           <Divider />
 
           <Section>
-            <Text size='h2'>{t('sections.schedules.title')}</Text>
+            <div>
+              <Text size='h2'>{t('sections.schedules.title')}</Text>
+              <Text size='h4'>{t('sections.schedules.description')}</Text>
+            </div>
             <SimpleGrid cols={1}>
               <SchedulesTable form={patternForm} onDelete={handleDeleteScheduleRow} />
               <Button onClick={handleCreateSchedule} loading={isCreatingSchedule}>

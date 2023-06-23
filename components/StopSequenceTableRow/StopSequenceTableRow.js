@@ -83,7 +83,7 @@ export function StopSequenceTableAllowPickupColumn({ rowIndex }) {
   const t = useTranslations('StopSequenceTableRow');
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
-  const form = usePatternFormContext();
+  const patternForm = usePatternFormContext();
 
   //
   // Render components
@@ -91,7 +91,7 @@ export function StopSequenceTableAllowPickupColumn({ rowIndex }) {
   return (
     <div className={`${styles.column} ${styles.hcenter}`}>
       <Tooltip label={t('allow_pickup.description')} position='bottom' withArrow>
-        <Checkbox size='sm' {...form.getInputProps(`path.${rowIndex}.allow_pickup`, { type: 'checkbox' })} readOnly={isReadOnly} />
+        <Checkbox size='sm' {...patternForm.getInputProps(`path.${rowIndex}.allow_pickup`, { type: 'checkbox' })} readOnly={isReadOnly} />
       </Tooltip>
     </div>
   );
@@ -115,7 +115,7 @@ export function StopSequenceTableAllowDropoffColumn({ rowIndex }) {
   const t = useTranslations('StopSequenceTableRow');
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
-  const form = usePatternFormContext();
+  const patternForm = usePatternFormContext();
 
   //
   // Render components
@@ -123,7 +123,7 @@ export function StopSequenceTableAllowDropoffColumn({ rowIndex }) {
   return (
     <div className={`${styles.column} ${styles.hcenter}`}>
       <Tooltip label={t('allow_drop_off.description')} position='bottom' withArrow>
-        <Checkbox size='sm' {...form.getInputProps(`path.${rowIndex}.allow_drop_off`, { type: 'checkbox' })} readOnly={isReadOnly} />
+        <Checkbox size='sm' {...patternForm.getInputProps(`path.${rowIndex}.allow_drop_off`, { type: 'checkbox' })} readOnly={isReadOnly} />
       </Tooltip>
     </div>
   );
@@ -204,7 +204,7 @@ export function StopSequenceTableVelocityColumn({ rowIndex }) {
   const t = useTranslations('StopSequenceTableRow');
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
-  const form = usePatternFormContext();
+  const patternForm = usePatternFormContext();
 
   //
   // Render components
@@ -222,7 +222,7 @@ export function StopSequenceTableVelocityColumn({ rowIndex }) {
           stepHoldInterval={100}
           formatter={(value) => `${value} km/h`}
           icon={<IconPlayerTrackNext size='18px' />}
-          {...form.getInputProps(`path.${rowIndex}.default_velocity`)}
+          {...patternForm.getInputProps(`path.${rowIndex}.default_velocity`)}
           disabled={rowIndex === 0}
           readOnly={isReadOnly}
         />
@@ -262,7 +262,7 @@ export function StopSequenceTableTravelTimeColumn({ rowIndex }) {
   // A. Setup variables
 
   const t = useTranslations('StopSequenceTableRow');
-  const form = usePatternFormContext();
+  const patternForm = usePatternFormContext();
 
   //
   // Formatters
@@ -302,8 +302,8 @@ export function StopSequenceTableTravelTimeColumn({ rowIndex }) {
           placeholder={t('default_travel_time.placeholder')}
           formatter={formatSecondsToTime}
           icon={<IconClockHour4 size='18px' />}
-          {...form.getInputProps(`path.${rowIndex}.default_travel_time`)}
-          value={calculateTravelTime(form.values.path[rowIndex].distance_delta, form.values.path[rowIndex].default_velocity)}
+          {...patternForm.getInputProps(`path.${rowIndex}.default_travel_time`)}
+          value={calculateTravelTime(patternForm.values.path[rowIndex].distance_delta, patternForm.values.path[rowIndex].default_velocity)}
           disabled={rowIndex === 0}
           readOnly
         />
@@ -330,7 +330,7 @@ export function StopSequenceTableDwellTimeColumn({ rowIndex }) {
   const t = useTranslations('StopSequenceTableRow');
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
-  const form = usePatternFormContext();
+  const patternForm = usePatternFormContext();
 
   //
   // Formatters
@@ -367,7 +367,7 @@ export function StopSequenceTableDwellTimeColumn({ rowIndex }) {
           stepHoldInterval={100}
           icon={<IconClockPause size='20px' />}
           formatter={formatSecondsToTime}
-          {...form.getInputProps(`path.${rowIndex}.default_dwell_time`)}
+          {...patternForm.getInputProps(`path.${rowIndex}.default_dwell_time`)}
           readOnly={isReadOnly}
         />
       </Tooltip>
@@ -393,7 +393,7 @@ export function StopSequenceTableZonesColumn({ rowIndex, stopId }) {
   const t = useTranslations('StopSequenceTableRow');
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
-  const form = usePatternFormContext();
+  const patternForm = usePatternFormContext();
 
   //
   // B. Fetch data
@@ -416,7 +416,7 @@ export function StopSequenceTableZonesColumn({ rowIndex, stopId }) {
 
   const handleResetZones = () => {
     if (stopData) {
-      form.setFieldValue(`path.${rowIndex}.zones`, stopData.zones);
+      patternForm.setFieldValue(`path.${rowIndex}.zones`, stopData.zones);
     }
   };
 
@@ -429,7 +429,7 @@ export function StopSequenceTableZonesColumn({ rowIndex, stopId }) {
         aria-label={t('zones.label')}
         placeholder={t('zones.placeholder')}
         nothingFound={t('zones.nothingFound')}
-        {...form.getInputProps(`path.${rowIndex}.zones`)}
+        {...patternForm.getInputProps(`path.${rowIndex}.zones`)}
         data={allZonesDataFormatted}
         icon={<IconTicket size={20} />}
         rightSection={
