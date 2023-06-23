@@ -643,8 +643,12 @@
                 "title": "Detalhes",
                 "description": "Algo sobre esta secção"
             },
-            "stops": {
-                "title": "Paragens",
+            "path": {
+                "title": "Path",
+                "description": "Algo sobre esta secção"
+            },
+            "update_path": {
+                "title": "Update Path",
                 "description": "Algo sobre esta secção"
             },
             "schedules": {
@@ -1553,6 +1557,29 @@
             },
             "back": {
                 "title": "Voltar"
+            }
+        }
+    },
+    "ImportPathFromGTFS": {
+        "title": "These are the Trips found in the uploaded GTFS:",
+        "clear": {
+            "title": "Limpar Tabela"
+        },
+        "import": {
+            "success": "Path imported! ({trip_id})"
+        },
+        "table": {
+            "header": {
+                "route_id": "Route ID",
+                "trip_headsign": "Bandeira",
+                "stop_count": "Stop Count",
+                "import": "Importar"
+            },
+            "body": {
+                "import": {
+                    "title": "Import Path",
+                    "description": "This will immediately replace all stops for this pattern. This cannot be undone."
+                }
             }
         }
     },
