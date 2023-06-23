@@ -24,6 +24,8 @@ import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import { merge } from 'lodash';
+import ImportPathFromGTFS from '@/components/ImportPathFromGTFS/ImportPathFromGTFS';
+import { parse } from 'papaparse';
 
 export default function Page() {
   //
@@ -35,7 +37,7 @@ export default function Page() {
   const t = useTranslations('patterns');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
-  const [isCreatingStopSequence, setIsCreatingStopSequence] = useState();
+  const [isImporting, setIsImporting] = useState();
   const [isCreatingSchedule, setIsCreatingSchedule] = useState();
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
@@ -152,12 +154,41 @@ export default function Page() {
     });
   };
 
+  const handleImportPath = async (importedPath) => {
+    console.log('importedPath', importedPath);
+    openConfirmModal({
+      title: (
+        <Text size={'lg'} fw={700}>
+          Replace path?
+        </Text>
+      ),
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text>Tem a certeza que pretende eliminar este horário?</Text>,
+      labels: { confirm: 'Sim, importar percurso', cancel: 'Manter como está' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          await API({ service: 'patterns', resourceId: pattern_id, operation: 'import', method: 'PUT', body: importedPath });
+          patternMutate();
+          patternForm.resetDirty();
+          setIsImporting(false);
+          setHasErrorSaving(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          setHasErrorSaving(err);
+        }
+      },
+    });
+  };
+
   //
   // E. Render components
 
   return (
     <Pannel
-      loading={patternLoading}
+      loading={patternLoading || isImporting}
       header={
         <>
           <AutoSave
@@ -221,13 +252,22 @@ export default function Page() {
 
           <Section>
             <div>
-              <Text size='h2'>{t('sections.stops.title')}</Text>
-              <Text size='h4'>{t('sections.stops.description')}</Text>
+              <Text size='h2'>{t('sections.path.title')}</Text>
+              <Text size='h4'>{t('sections.path.description')}</Text>
             </div>
+            <StopSequenceTable />
           </Section>
 
           <Divider />
-          <StopSequenceTable />
+
+          <Section>
+            <div>
+              <Text size='h2'>{t('sections.update_path.title')}</Text>
+              <Text size='h4'>{t('sections.update_path.description')}</Text>
+            </div>
+            <ImportPathFromGTFS onImport={handleImportPath} />
+          </Section>
+
           <Divider />
 
           <Section>

@@ -267,7 +267,6 @@ export default function Page() {
           <Text size='h2'>{t('sections.update.title')}</Text>
           <Text size='h4'>{t('sections.update.description')}</Text>
         </div>
-        {/* <ImportShapeFromText onImport={(result) => form.setFieldValue('points', result)} /> */}
         <ImportShapeFromGTFS onImport={handleImport} />
       </Section>
     </Pannel>
