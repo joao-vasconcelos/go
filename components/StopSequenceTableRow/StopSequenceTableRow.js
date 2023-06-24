@@ -18,7 +18,7 @@ import Loader from '../Loader/Loader';
 //
 // STOP SEQUENCE TABLE - INDEX COLUMN
 
-export function StopSequenceTableIndexColumn({ rowIndex }) {
+function StopSequenceTableIndexColumn({ rowIndex }) {
   return (
     <div className={`${styles.column} ${styles.hcenter}`}>
       <div className={styles.sequenceIndex}>{rowIndex}</div>
@@ -33,7 +33,7 @@ export function StopSequenceTableIndexColumn({ rowIndex }) {
 //
 // STOP SEQUENCE TABLE - STOP COLUMN
 
-export function StopSequenceTableStopColumn({ stopId }) {
+function StopSequenceTableStopColumn({ stopId }) {
   //
 
   //
@@ -74,7 +74,7 @@ export function StopSequenceTableStopColumn({ stopId }) {
 //
 // STOP SEQUENCE TABLE - ALLOW PICKUP COLUMN
 
-export function StopSequenceTableAllowPickupColumn({ rowIndex }) {
+function StopSequenceTableAllowPickupColumn({ rowIndex }) {
   //
 
   //
@@ -106,7 +106,7 @@ export function StopSequenceTableAllowPickupColumn({ rowIndex }) {
 //
 // STOP SEQUENCE TABLE - ALLOW DROPOFF COLUMN
 
-export function StopSequenceTableAllowDropoffColumn({ rowIndex }) {
+function StopSequenceTableAllowDropoffColumn({ rowIndex }) {
   //
 
   //
@@ -138,7 +138,7 @@ export function StopSequenceTableAllowDropoffColumn({ rowIndex }) {
 //
 // STOP SEQUENCE TABLE - DISTANCE DELTA COLUMN
 
-export function StopSequenceTableDistanceDeltaColumn({ rowIndex, distanceDelta }) {
+function StopSequenceTableDistanceDeltaColumn({ rowIndex, distanceDelta }) {
   //
 
   //
@@ -180,7 +180,7 @@ export function StopSequenceTableDistanceDeltaColumn({ rowIndex, distanceDelta }
 //
 // STOP SEQUENCE TABLE - DISTANCE TIMES VELOCITY COLUMN
 
-export function StopSequenceTableDistanceTimesVelocityColumn() {
+function StopSequenceTableDistanceTimesVelocityColumn() {
   return (
     <div className={styles.column}>
       <IconX size='20px' />
@@ -195,7 +195,7 @@ export function StopSequenceTableDistanceTimesVelocityColumn() {
 //
 // STOP SEQUENCE TABLE - VELOCITY COLUMN
 
-export function StopSequenceTableVelocityColumn({ rowIndex }) {
+function StopSequenceTableVelocityColumn({ rowIndex }) {
   //
 
   //
@@ -240,7 +240,7 @@ export function StopSequenceTableVelocityColumn({ rowIndex }) {
 //
 // STOP SEQUENCE TABLE - DISTANCE TIMES VELOCITY EQUALS TRAVEL TIME COLUMN
 
-export function StopSequenceTableDistanceTimesVelocityEqualsTravelTimeColumn() {
+function StopSequenceTableDistanceTimesVelocityEqualsTravelTimeColumn() {
   return (
     <div className={styles.column}>
       <IconEqual size='30px' />
@@ -255,7 +255,7 @@ export function StopSequenceTableDistanceTimesVelocityEqualsTravelTimeColumn() {
 //
 // STOP SEQUENCE TABLE - TRAVEL TIME COLUMN
 
-export function StopSequenceTableTravelTimeColumn({ rowIndex }) {
+function StopSequenceTableTravelTimeColumn({ rowIndex }) {
   //
 
   //
@@ -321,7 +321,7 @@ export function StopSequenceTableTravelTimeColumn({ rowIndex }) {
 //
 // STOP SEQUENCE TABLE - DWELL TIME COLUMN
 
-export function StopSequenceTableDwellTimeColumn({ rowIndex }) {
+function StopSequenceTableDwellTimeColumn({ rowIndex }) {
   //
 
   //
@@ -384,7 +384,7 @@ export function StopSequenceTableDwellTimeColumn({ rowIndex }) {
 //
 // STOP SEQUENCE TABLE - ZONES COLUMN
 
-export function StopSequenceTableZonesColumn({ rowIndex, stopId }) {
+function StopSequenceTableZonesColumn({ rowIndex, stopId }) {
   //
 
   //

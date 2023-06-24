@@ -25,7 +25,6 @@ import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import { merge } from 'lodash';
 import ImportPathFromGTFS from '@/components/ImportPathFromGTFS/ImportPathFromGTFS';
-import { parse } from 'papaparse';
 
 export default function Page() {
   //
@@ -133,25 +132,6 @@ export default function Page() {
 
   const handleCreateSchedule = async () => {
     patternForm.insertListItem('schedules', PatternDefault.schedules[0]);
-  };
-
-  const handleDeleteScheduleRow = async (index) => {
-    openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar horário?
-        </Text>
-      ),
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text>Tem a certeza que pretende eliminar este horário?</Text>,
-      labels: { confirm: 'Sim, eliminar horário', cancel: 'Manter como está' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        // PerpatternForm delete on confirm
-        patternForm.removeListItem('schedules', index);
-      },
-    });
   };
 
   const handleImportPath = async (importedPath) => {
@@ -275,12 +255,7 @@ export default function Page() {
               <Text size='h2'>{t('sections.schedules.title')}</Text>
               <Text size='h4'>{t('sections.schedules.description')}</Text>
             </div>
-            <SimpleGrid cols={1}>
-              <SchedulesTable form={patternForm} onDelete={handleDeleteScheduleRow} />
-              <Button onClick={handleCreateSchedule} loading={isCreatingSchedule}>
-                Adicionar novo Horário
-              </Button>
-            </SimpleGrid>
+            <SchedulesTable />
           </Section>
         </form>
       </PatternFormProvider>
