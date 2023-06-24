@@ -7,8 +7,9 @@ import { usePatternFormContext } from '@/contexts/patternForm';
 import { ActionIcon, Flex, MultiSelect, Button } from '@mantine/core';
 import { TimeInput } from '@mantine/dates';
 import { IconTrash } from '@tabler/icons-react';
+import SchedulesTableRow from '../SchedulesTableRow/SchedulesTableRow';
 
-export default function SchedulesTable({ form, onDelete }) {
+export default function SchedulesTable({ onDelete }) {
   //
 
   //
@@ -37,55 +38,8 @@ export default function SchedulesTable({ form, onDelete }) {
     <div className={styles.container}>
       <TableHeader />
       <div className={styles.rowWrapper}>
-        {form.values.schedules.length > 0 ? (
-          form.values.schedules.map((item, index) => (
-            <div className={styles.tableBodyRow} key={index}>
-              <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
-                <TimeInput withSeconds aria-label='star_time' {...form.getInputProps(`schedules.${index}.start_time`)} w={'100%'} />
-              </div>
-              <div className={styles.tableBodyCell}>
-                <MultiSelect
-                  aria-label='Calendário'
-                  placeholder='Calendário'
-                  searchable
-                  nothingFound='Sem opções'
-                  w={'100%'}
-                  {...form.getInputProps(`schedules.${index}.calendars_on`)}
-                  data={
-                    allCalendarsData
-                      ? allCalendarsData.map((calendar) => {
-                          return { value: calendar._id, label: `[${calendar.code}] ${calendar.name || '-'}`, disabled: form.values.schedules[index].calendars_off.includes(calendar._id) };
-                        })
-                      : []
-                  }
-                />
-              </div>
-              <div className={styles.tableBodyCell}>
-                <MultiSelect
-                  aria-label='Calendário'
-                  placeholder='Calendário'
-                  searchable
-                  nothingFound='Sem opções'
-                  w={'100%'}
-                  {...form.getInputProps(`schedules.${index}.calendars_off`)}
-                  data={
-                    allCalendarsData
-                      ? allCalendarsData.map((calendar) => {
-                          return { value: calendar._id, label: `[${calendar.code}] ${calendar.name || '-'}`, disabled: form.values.schedules[index].calendars_on.includes(calendar._id) };
-                        })
-                      : []
-                  }
-                />
-              </div>
-              <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
-                <Flex>
-                  <ActionIcon size='lg' color='red' onClick={() => onDelete(index)}>
-                    <IconTrash size='20px' />
-                  </ActionIcon>
-                </Flex>
-              </div>
-            </div>
-          ))
+        {patternForm.values.schedules.length > 0 ? (
+          patternForm.values.schedules.map((item, index) => <SchedulesTableRow key={index} rowIndex={index} onRemove={onDelete} />)
         ) : (
           <div className={styles.tableRow}>
             <div className={styles.rowWrapper}>

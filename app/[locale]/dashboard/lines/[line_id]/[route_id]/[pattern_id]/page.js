@@ -232,14 +232,14 @@ export default function Page() {
                 label={t('form.shape.label')}
                 placeholder={t('form.shape.placeholder')}
                 nothingFound={t('form.shape.nothingFound')}
-                description={t.rich('form.shape.description', {
-                  link: (chunks) =>
-                    patternForm.values.shape && (
-                      <a href={`/dashboard/shapes/${patternForm.values.shape}`} target='_blank'>
-                        {chunks}
-                      </a>
-                    ),
-                })}
+                // description={t.rich('form.shape.description', {
+                //   link: (chunks) =>
+                //     patternForm.values.shape && (
+                //       <a href={`/dashboard/shapes/${patternForm.values.shape}`} target='_blank'>
+                //         {chunks}
+                //       </a>
+                //     ),
+                // })}
                 {...patternForm.getInputProps('shape')}
                 data={allShapesDataFormatted}
                 searchable
