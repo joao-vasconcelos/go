@@ -1715,5 +1715,84 @@
             "label": "Remove Stop",
             "description": "Remove this stop from the path sequence."
         }
+    },
+    "SchedulesTable": {
+        "sequence_index": {
+            "label": "Stop sequence",
+            "description": "The sequence of stops in the path."
+        },
+        "stop": {
+            "label": "Stop",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        },
+        "allow_pickup": {
+            "label": "Allow Pickup",
+            "description": "Passengers can ENTER the vehicle at this stop."
+        },
+        "allow_drop_off": {
+            "label": "Allow Drop Off",
+            "description": "Passengers can EXIT the vehicle at this stop."
+        },
+        "distance_delta": {
+            "label": "Distance between stops",
+            "description": "Distance between previous and current stop.",
+            "placeholder": "0 meters"
+        },
+        "default_velocity": {
+            "label": "Average Speed",
+            "description": "Average speed on the segment between previous and current stop.",
+            "placeholder": "20 km/h"
+        },
+        "default_travel_time": {
+            "label": "Average Travel Time",
+            "description": "Average travel time calculated based on distance and average speed on the segment between previous and current stop.",
+            "placeholder": "20 km/h"
+        },
+        "default_dwell_time": {
+            "label": "Average Dwell Time",
+            "description": "Average time stopped at the current stop picking up and dropping off passengers.",
+            "placeholder": "20 km/h"
+        },
+        "zones": {
+            "label": "Accepted Zones",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        },
+        "remove": {
+            "label": "Remove Stop",
+            "description": "Remove this stop from the path sequence."
+        }
+    },
+    "SchedulesTableRow": {
+        "start_time": {
+            "label": "Start Time",
+            "placeholder": "00:00:00",
+            "description": "The start time for this trip."
+        },
+        "calendars_on": {
+            "label": "Calendars ON",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        },
+        "calendars_off": {
+            "label": "Calendars OFF",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        },
+        "calendar_desc": {
+            "label": "Calendar Description",
+            "placeholder": "Only on the first Sunday of the month",
+            "description": "Passengers can ENTER the vehicle at this stop."
+        },
+        "remove": {
+            "description": "Remove this schedule",
+            "modal": {
+                "title": "Are you sure you want to remove this schedule?",
+                "description": "Linhas, Rotas & Patterns",
+                "confirm": "Yes, remove this trip",
+                "cancel": "No, leave it as is"
+            }
+        }
     }
 }
