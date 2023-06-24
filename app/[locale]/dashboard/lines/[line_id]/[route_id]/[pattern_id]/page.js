@@ -9,7 +9,7 @@ import { PatternFormProvider, usePatternForm } from '@/contexts/patternForm';
 import API from '@/services/API';
 import { Validation as PatternValidation } from '@/schemas/Pattern/validation';
 import { Default as PatternDefault } from '@/schemas/Pattern/default';
-import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -37,7 +37,6 @@ export default function Page() {
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isImporting, setIsImporting] = useState();
-  const [isCreatingSchedule, setIsCreatingSchedule] = useState();
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
@@ -130,12 +129,7 @@ export default function Page() {
     });
   };
 
-  const handleCreateSchedule = async () => {
-    patternForm.insertListItem('schedules', PatternDefault.schedules[0]);
-  };
-
   const handleImportPath = async (importedPath) => {
-    console.log('importedPath', importedPath);
     openConfirmModal({
       title: (
         <Text size={'lg'} fw={700}>
