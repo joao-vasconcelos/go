@@ -11,7 +11,7 @@ export const Schema = new mongoose.Schema(
   {
     code: {
       type: String,
-      maxlength: 10,
+      maxlength: 5,
       unique: true,
     },
     name: {

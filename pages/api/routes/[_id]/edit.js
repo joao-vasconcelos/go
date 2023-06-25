@@ -58,12 +58,12 @@ export default async function routesEdit(req, res) {
 
   // 5. Update nested patterns with correct code
   try {
-    for (const [patternIndex, patternData] of req.body.patterns.entries()) {
+    for (const [patternIndex, patternId] of req.body.patterns.entries()) {
       if (patternIndex > 1) throw new Error('Não podem existir mais do que dois Patterns numa Rota.');
-      const patternDocument = await PatternModel.findOne({ _id: patternData._id });
+      const patternDocument = await PatternModel.findOne({ _id: patternId });
       patternDocument.code = `${req.body.code}_${patternIndex}`;
       patternDocument.direction = patternIndex;
-      await PatternModel.findOneAndUpdate({ _id: patternData._id }, patternDocument);
+      await PatternModel.findOneAndUpdate({ _id: patternId }, patternDocument);
     }
   } catch (err) {
     console.log(err);

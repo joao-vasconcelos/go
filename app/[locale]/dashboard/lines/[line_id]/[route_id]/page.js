@@ -119,8 +119,8 @@ export default function Page() {
     try {
       setIsCreatingPattern(true);
       notify('new-pattern', 'loading', 'A criar Pattern...');
-      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { code: `${route_id}_${form.values.patterns.length}`, parent_route: route_id, direction: form.values.patterns.length } });
-      form.insertListItem('patterns', response);
+      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { code: `${routeData.code}_${form.values.patterns.length}`, parent_route: route_id, direction: form.values.patterns.length } });
+      form.insertListItem('patterns', response._id);
       notify('new-pattern', 'success', 'Pattern criado com sucesso.');
       setIsCreatingPattern(false);
     } catch (err) {
@@ -203,8 +203,8 @@ export default function Page() {
             <Droppable droppableId='droppable'>
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {form.values.patterns.map((item, index) => (
-                    <PatternCard key={index} index={index} onOpen={handleOpenPattern} _id={item._id} code={item.code} direction={item.direction} headsign={item.headsign} />
+                  {form.values.patterns.map((patternId, index) => (
+                    <PatternCard key={index} index={index} onOpen={handleOpenPattern} _id={patternId} />
                   ))}
                   {provided.placeholder}
                 </div>
