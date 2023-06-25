@@ -30,7 +30,7 @@ export default async function linesGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await LineModel.findOne({ _id: req.query._id }).populate('routes');
+    const foundDocument = await LineModel.findOne({ _id: req.query._id });
     if (!foundDocument) return await res.status(404).json({ message: `Line with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {

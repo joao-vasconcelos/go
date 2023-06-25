@@ -59,8 +59,8 @@ export default async function linesEdit(req, res) {
   // 5. Update nested routes with correct code
   try {
     if (req.body.routes.length) {
-      for (const [routeIndex, routeData] of req.body.routes.entries()) {
-        const routeDocument = await RouteModel.findOne({ _id: routeData._id });
+      for (const [routeIndex, routeId] of req.body.routes.entries()) {
+        const routeDocument = await RouteModel.findOne({ _id: routeId });
         routeDocument.code = `${req.body.code}_${routeIndex}`;
         await routeDocument.save();
       }

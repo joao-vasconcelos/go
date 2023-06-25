@@ -16,11 +16,11 @@ export const Schema = new mongoose.Schema(
     },
     name: {
       type: String,
-      maxlength: 500,
+      maxlength: 100,
     },
     short_name: {
       type: String,
-      maxlength: 50,
+      maxlength: 5,
     },
     transport_type: {
       type: Number,

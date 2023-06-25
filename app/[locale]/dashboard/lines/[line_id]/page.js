@@ -74,27 +74,24 @@ export default function Page() {
   // D. Format data
 
   const allTypologiesDataFormatted = useMemo(() => {
-    return allTypologiesData
-      ? allTypologiesData.map((item) => {
-          return { value: item._id, label: item.name || '-' };
-        })
-      : [];
+    if (!allTypologiesData) return [];
+    return allTypologiesData.map((item) => {
+      return { value: item._id, label: item.name || '-' };
+    });
   }, [allTypologiesData]);
 
   const allFaresDataFormatted = useMemo(() => {
-    return allFaresData
-      ? allFaresData.map((item) => {
-          return { value: item._id, label: `${item.name || '-'} (${item.currency_type} ${item.price})` };
-        })
-      : [];
+    if (!allFaresData) return [];
+    return allFaresData.map((item) => {
+      return { value: item._id, label: `${item.name || '-'} (${item.currency_type} ${item.price})` };
+    });
   }, [allFaresData]);
 
   const allAgenciesDataFormatted = useMemo(() => {
-    return allAgenciesData
-      ? allAgenciesData.map((item) => {
-          return { value: item._id, label: item.name || '-' };
-        })
-      : [];
+    if (!allAgenciesData) return [];
+    return allAgenciesData.map((item) => {
+      return { value: item._id, label: item.name || '-' };
+    });
   }, [allAgenciesData]);
 
   const selectedLineTypologyData = useMemo(() => {
@@ -106,6 +103,7 @@ export default function Page() {
 
   const handleValidate = () => {
     form.validate();
+    console.log(form.errors);
   };
 
   const handleClose = async () => {
@@ -259,8 +257,8 @@ export default function Page() {
             <Droppable droppableId='droppable'>
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {lineData?.routes.map((item, index) => (
-                    <RouteCard key={index} index={index} onOpen={handleOpenRoute} _id={item._id} code={item.code} name={item.name} />
+                  {lineData?.routes.map((route_id, index) => (
+                    <RouteCard key={index} index={index} onOpen={handleOpenRoute} _id={route_id} />
                   ))}
                   {provided.placeholder}
                 </div>

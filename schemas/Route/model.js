@@ -16,7 +16,7 @@ export const Schema = new mongoose.Schema(
     },
     name: {
       type: String,
-      maxlength: 50,
+      maxlength: 100,
     },
     path_type: {
       type: Number,
