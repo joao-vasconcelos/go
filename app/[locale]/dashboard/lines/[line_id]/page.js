@@ -8,6 +8,7 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { Validation as LineValidation } from '@/schemas/Line/validation';
 import { Default as LineDefault } from '@/schemas/Line/default';
+import { Options as LineOptions } from '@/schemas/Line/options';
 import { Tooltip, Select, Button, SimpleGrid, TextInput, ActionIcon, Divider, Switch } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
@@ -16,7 +17,6 @@ import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
 import AutoSave from '@/components/AutoSave/AutoSave';
 import notify from '@/services/notify';
-import { transport_type as transportTypeData } from '@/options/fixedOptions';
 import { openConfirmModal } from '@mantine/modals';
 import LineDisplay from '@/components/LineDisplay/LineDisplay';
 import RouteCard from '@/components/RouteCard/RouteCard';
@@ -232,7 +232,7 @@ export default function Page() {
               placeholder={t('form.transport_type.placeholder')}
               nothingFound={t('form.transport_type.nothingFound')}
               {...form.getInputProps('transport_type')}
-              data={transportTypeData.map((item) => {
+              data={LineOptions.transport_type.map((item) => {
                 return { value: item, label: t(`form.transport_type.options.${item}.label`) };
               })}
               readOnly={isReadOnly}

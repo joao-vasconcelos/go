@@ -8,13 +8,13 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { Validation as RouteValidation } from '@/schemas/Route/validation';
 import { Default as RouteDefault } from '@/schemas/Route/default';
+import { Options as RouteOptions } from '@/schemas/Route/options';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
-import { path_type as pathTypeData } from '@/options/fixedOptions';
 import AutoSave from '@/components/AutoSave/AutoSave';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
@@ -188,7 +188,7 @@ export default function Page() {
               placeholder={t('form.path_type.placeholder')}
               nothingFound={t('form.path_type.nothingFound')}
               {...form.getInputProps('path_type')}
-              data={pathTypeData.map((item) => {
+              data={RouteOptions.path_type.map((item) => {
                 return { value: item, label: t(`form.path_type.options.${item}.label`) };
               })}
               readOnly={isReadOnly}
