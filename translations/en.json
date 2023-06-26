@@ -1702,7 +1702,7 @@
             },
             "label": "Calendar Description",
             "placeholder": "Only on the first Sunday of the month",
-            "description": "Passengers can ENTER the vehicle at this stop."
+            "description": "This field should be filled if this trip has a special calendar."
         },
         "remove": {
             "description": "Remove this schedule",
