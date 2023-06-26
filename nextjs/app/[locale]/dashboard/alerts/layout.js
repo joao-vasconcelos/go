@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import useSearch from 'go/hooks/useSearch';
 import useSWR from 'swr';
 import API from '@/services/API';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
@@ -16,7 +17,6 @@ import { useTranslations } from 'next-intl';
 import ListFooter from '@/components/ListFooter/ListFooter';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
-import useSearch from '@/hooks/useSearch';
 
 export default function Layout({ children }) {
   //
@@ -25,30 +25,31 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
-  const t = useTranslations('threads');
+  const t = useTranslations('alerts');
+
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
   //
   // B. Fetch data
 
-  const { data: allThreadsData, error: allThreadsError, isLoading: allThreadsLoading, isValidating: allThreadsValidating, mutate: allThreadsMutate } = useSWR('/api/threads');
+  const { data: allAlertsData, error: allAlertsError, isLoading: allAlertsLoading, isValidating: allAlertsValidating, mutate: allAlertsMutate } = useSWR('/api/alerts');
 
   //
   // C. Search
 
-  const filteredThreadsData = useSearch(searchQuery, allThreadsData, { keys: ['subject', 'theme'] });
+  const filteredAlertsData = useSearch(searchQuery, allAlertsData);
 
   //
   // C. Handle actions
 
-  const handleCreateThread = async () => {
+  const handleCreate = async () => {
     try {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
-      const response = await API({ service: 'threads', operation: 'create', method: 'GET' });
-      allThreadsMutate();
-      router.push(`/dashboard/threads/${response._id}`);
+      const response = await API({ service: 'alerts', operation: 'create', method: 'GET' });
+      allAlertsMutate();
+      router.push(`/dashboard/alerts/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
@@ -62,24 +63,24 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope='threads' permission='view' redirect>
+    <AuthGate scope='alerts' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={allThreadsLoading}
+            loading={allAlertsLoading}
             header={
               <>
-                <SearchField placeholder='Procurar...' width={'100%'} />
+                <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={allThreadsLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allAlertsLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <AuthGate permission='threads_create'>
-                      <Menu.Label>Importar</Menu.Label>
-                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateThread}>
+                    <Menu.Label>Importar</Menu.Label>
+                    <AuthGate scope='alerts' permission='create_edit'>
+                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
                     </AuthGate>
@@ -87,10 +88,14 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={filteredThreadsData && <ListFooter>{t('list.footer', { count: filteredThreadsData.length })}</ListFooter>}
+            footer={filteredAlertsData && <ListFooter>{t('list.footer', { count: filteredAlertsData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={allThreadsError} loading={allThreadsValidating} />
-            {filteredThreadsData && filteredThreadsData.length > 0 ? filteredThreadsData.map((item) => <ListItem key={item._id} _id={item._id} subject={item.subject} />) : <NoDataLabel />}
+            <ErrorDisplay error={allAlertsError} loading={allAlertsValidating} />
+            {filteredAlertsData && filteredAlertsData.length > 0 ? (
+              filteredAlertsData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} long_name={item.long_name} price={item.price} currency_type={item.currency_type} />)
+            ) : (
+              <NoDataLabel />
+            )}
           </Pannel>
         }
         second={children}

@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import useSearch from '@/hooks/useSearch';
+import useSearch from 'go/hooks/useSearch';
 import useSWR from 'swr';
 import API from '@/services/API';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots } from '@tabler/icons-react';
+import { IconCirclePlus, IconArrowBarToDown, IconDots } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '@/components/ErrorDisplay';
@@ -25,7 +25,7 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
-  const t = useTranslations('typologies');
+  const t = useTranslations('users');
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
@@ -33,23 +33,23 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: allTypologiesData, error: allTypologiesError, isLoading: allTypologiesLoading, isValidating: allTypologiesValidating, mutate: allTypologiesMutate } = useSWR('/api/typologies');
+  const { data: allUsersData, error: allUsersError, isLoading: allUsersLoading, isValidating: allUsersValidating, mutate: allUsersMutate } = useSWR('/api/users');
 
   //
   // C. Search
 
-  const filteredTypologiesData = useSearch(searchQuery, allTypologiesData);
+  const filteredUsersData = useSearch(searchQuery, allUsersData, { keys: ['name', 'email', 'phone'] });
 
   //
   // C. Handle actions
 
-  const handleCreate = async () => {
+  const handleCreateUser = async () => {
     try {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
-      const response = await API({ service: 'typologies', operation: 'create', method: 'GET' });
-      allTypologiesMutate();
-      router.push(`/dashboard/typologies/${response._id}`);
+      const response = await API({ service: 'users', operation: 'create', method: 'GET' });
+      allUsersMutate();
+      router.push(`/dashboard/users/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
@@ -63,35 +63,35 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope='typologies' permission='view' redirect>
+    <AuthGate scope='users' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={allTypologiesLoading}
+            loading={allUsersLoading}
             header={
               <>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={allTypologiesLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allUsersLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Label>Importar</Menu.Label>
-                    <AuthGate scope='typologies' permission='create_edit'>
-                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
-                        {t('operations.create.title')}
-                      </Menu.Item>
-                    </AuthGate>
+                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateUser}>
+                      {t('operations.create.title')}
+                    </Menu.Item>
+                    <Menu.Label>Exportar</Menu.Label>
+                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download CSV</Menu.Item>
                   </Menu.Dropdown>
                 </Menu>
               </>
             }
-            footer={filteredTypologiesData && <ListFooter>{t('list.footer', { count: filteredTypologiesData.length })}</ListFooter>}
+            footer={filteredUsersData && <ListFooter>{t('list.footer', { count: filteredUsersData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={allTypologiesError} loading={allTypologiesValidating} />
-            {filteredTypologiesData && filteredTypologiesData.length > 0 ? filteredTypologiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} />) : <NoDataLabel />}
+            <ErrorDisplay error={allUsersError} loading={allUsersValidating} />
+            {filteredUsersData && filteredUsersData.length > 0 ? filteredUsersData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} email={item.email} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

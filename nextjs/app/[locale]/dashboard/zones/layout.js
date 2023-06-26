@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import useSearch from '@/hooks/useSearch';
+import useSearch from 'go/hooks/useSearch';
 import useSWR from 'swr';
 import API from '@/services/API';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
@@ -25,7 +25,7 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
-  const t = useTranslations('alerts');
+  const t = useTranslations('zones');
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
@@ -33,12 +33,12 @@ export default function Layout({ children }) {
   //
   // B. Fetch data
 
-  const { data: allAlertsData, error: allAlertsError, isLoading: allAlertsLoading, isValidating: allAlertsValidating, mutate: allAlertsMutate } = useSWR('/api/alerts');
+  const { data: allZonesData, error: allZonesError, isLoading: allZonesLoading, isValidating: allZonesValidating, mutate: allZonesMutate } = useSWR('/api/zones');
 
   //
   // C. Search
 
-  const filteredAlertsData = useSearch(searchQuery, allAlertsData);
+  const filteredZonesData = useSearch(searchQuery, allZonesData);
 
   //
   // C. Handle actions
@@ -47,9 +47,9 @@ export default function Layout({ children }) {
     try {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
-      const response = await API({ service: 'alerts', operation: 'create', method: 'GET' });
-      allAlertsMutate();
-      router.push(`/dashboard/alerts/${response._id}`);
+      const response = await API({ service: 'zones', operation: 'create', method: 'GET' });
+      allZonesMutate();
+      router.push(`/dashboard/zones/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
@@ -63,23 +63,23 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope='alerts' permission='view' redirect>
+    <AuthGate scope='zones' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={allAlertsLoading}
+            loading={allZonesLoading}
             header={
               <>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={allAlertsLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allZonesLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Label>Importar</Menu.Label>
-                    <AuthGate scope='alerts' permission='create_edit'>
+                    <AuthGate scope='zones' permission='create_edit'>
                       <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
@@ -88,14 +88,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={filteredAlertsData && <ListFooter>{t('list.footer', { count: filteredAlertsData.length })}</ListFooter>}
+            footer={filteredZonesData && <ListFooter>{t('list.footer', { count: filteredZonesData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={allAlertsError} loading={allAlertsValidating} />
-            {filteredAlertsData && filteredAlertsData.length > 0 ? (
-              filteredAlertsData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} long_name={item.long_name} price={item.price} currency_type={item.currency_type} />)
-            ) : (
-              <NoDataLabel />
-            )}
+            <ErrorDisplay error={allZonesError} loading={allZonesValidating} />
+            {filteredZonesData && filteredZonesData.length > 0 ? filteredZonesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-intl/client';
+import useSearch from 'go/hooks/useSearch';
 import useSWR from 'swr';
 import API from '@/services/API';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
@@ -16,7 +17,6 @@ import { useTranslations } from 'next-intl';
 import ListFooter from '@/components/ListFooter/ListFooter';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
-import useSearch from '@/hooks/useSearch';
 
 export default function Layout({ children }) {
   //
@@ -25,30 +25,30 @@ export default function Layout({ children }) {
   // A. Setup variables
 
   const router = useRouter();
-  const t = useTranslations('municipalities');
+  const t = useTranslations('agencies');
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
   //
   // B. Fetch data
 
-  const { data: allMunicipalitiesData, error: allMunicipalitiesError, isLoading: allMunicipalitiesLoading, isValidating: allMunicipalitiesValidating, mutate: allMunicipalitiesMutate } = useSWR('/api/municipalities');
+  const { data: allAgenciesData, error: allAgenciesError, isLoading: allAgenciesLoading, isValidating: allAgenciesValidating, mutate: allAgenciesMutate } = useSWR('/api/agencies');
 
   //
   // C. Search
 
-  const filteredMunicipalitiesData = useSearch(searchQuery, allMunicipalitiesData, { keys: ['name', 'code'] });
+  const filteredAgenciesData = useSearch(searchQuery, allAgenciesData, { keys: ['name', 'code'] });
 
   //
-  // D. Handle actions
+  // C. Handle actions
 
   const handleCreate = async () => {
     try {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
-      const response = await API({ service: 'municipalities', operation: 'create', method: 'GET' });
-      allMunicipalitiesMutate();
-      router.push(`/dashboard/municipalities/${response._id}`);
+      const response = await API({ service: 'agencies', operation: 'create', method: 'GET' });
+      allAgenciesMutate();
+      router.push(`/dashboard/agencies/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
@@ -62,23 +62,23 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope='municipalities' permission='view' redirect>
+    <AuthGate scope='agencies' permission='view' redirect>
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={allMunicipalitiesLoading}
+            loading={allAgenciesLoading}
             header={
               <>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow='md' position='bottom-end'>
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={allMunicipalitiesLoading || isCreating}>
+                    <ActionIcon variant='light' size='lg' loading={allAgenciesLoading || isCreating}>
                       <IconDots size='20px' />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <AuthGate scope='municipalities' permission='create_edit'>
-                      <Menu.Label>Importar</Menu.Label>
+                    <Menu.Label>Importar</Menu.Label>
+                    <AuthGate scope='agencies' permission='create_edit'>
                       <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
@@ -87,14 +87,10 @@ export default function Layout({ children }) {
                 </Menu>
               </>
             }
-            footer={filteredMunicipalitiesData && <ListFooter>{t('list.footer', { count: filteredMunicipalitiesData.length })}</ListFooter>}
+            footer={filteredAgenciesData && <ListFooter>{t('list.footer', { count: filteredAgenciesData.length })}</ListFooter>}
           >
-            <ErrorDisplay error={allMunicipalitiesError} loading={allMunicipalitiesValidating} />
-            {filteredMunicipalitiesData && filteredMunicipalitiesData.length > 0 ? (
-              filteredMunicipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} dico={item.dico} />)
-            ) : (
-              <NoDataLabel />
-            )}
+            <ErrorDisplay error={allAgenciesError} loading={allAgenciesValidating} />
+            {filteredAgenciesData && filteredAgenciesData.length > 0 ? filteredAgenciesData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

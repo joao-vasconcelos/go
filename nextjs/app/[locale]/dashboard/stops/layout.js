@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import useSearch from '@/hooks/useSearch';
+import useSearch from 'go/hooks/useSearch';
 import useSWR from 'swr';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';

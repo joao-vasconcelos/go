@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
-import API from '../../../../services/API';
+import API from '../../../../../services/API';
 import { TwoUnevenColumns } from '../../../../components/Layouts/Layouts';
 import Pannel from '../../../../components/Pannel/Pannel';
 import ListItem from './listItem';
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots, IconPencil } from '@tabler/icons-react';
-import notify from '../../../../services/notify';
+import notify from '../../../../../services/notify';
 import NoDataLabel from '../../../../components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '../../../../components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
