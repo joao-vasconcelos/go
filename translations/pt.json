@@ -210,14 +210,14 @@
         }
     },
     "typologies": {
-        "untitled": "Untitled Typology",
+        "untitled": "Tipologia Sem Título",
         "list": {
-            "no_selection": "Select a Typology",
-            "footer": "Found {count, plural, =1 {1 Typology} other {# Typologies}}"
+            "no_selection": "Selecione uma Tipologia",
+            "footer": "Found {count, plural, =1 {1 Typology} other {# Typologys}}"
         },
         "operations": {
             "create": {
-                "title": "Create New Typology",
+                "title": "Criar Tipologia",
                 "loading": "Creating new Typology...",
                 "success": "A new Typology was created!",
                 "error": "An error occurred while creating this Typology."
@@ -645,11 +645,11 @@
             },
             "path": {
                 "title": "Percurso",
-                "description": "Sequência de paragens do percurso"
+                "description": "Algo sobre esta secção"
             },
             "update_path": {
                 "title": "Atualizar percurso",
-                "description": "Para atualizar a sequência de paragens de um percurso, importar o GTFS que resultou da alteração no Remix. O GTFS pode conter a rede completa ou apenas o percurso que se pretende atualizar. "
+                "description": "Algo sobre esta secção"
             },
             "schedules": {
                 "title": "Horários",
@@ -1622,30 +1622,28 @@
     },
     "StopSequenceTable": {
         "sequence_index": {
-            "label": "Stop sequence",
-            "description": "The sequence of stops in the path."
+            "label": "Sequência da paragem",
+            "description": "Sequência de paragens no percurso."
         },
         "stop": {
-            "label": "Stop",
-            "placeholder": "Escolha uma opção...",
-            "nothingFound": "Nenhum Resultado Encontrado"
+            "label": "Paragem"
         },
         "allow_pickup": {
-            "label": "Allow Pickup",
-            "description": "Passengers can ENTER the vehicle at this stop."
+            "label": "Permitir Embarque",
+            "description": "Os passageiros podem embarcar nesta paragem."
         },
         "allow_drop_off": {
-            "label": "Allow Drop Off",
-            "description": "Passengers can EXIT the vehicle at this stop."
+            "label": "Permitir Desembarque",
+            "description": "Os passageiros podem desembarcar nesta paragem."
         },
         "distance_delta": {
-            "label": "Distance between stops",
-            "description": "Distance between previous and current stop.",
-            "placeholder": "0 meters"
+            "label": "Distância entre paragens",
+            "description": "Distância entre a paragem atual e a seguinte.",
+            "placeholder": "0 metros"
         },
         "default_velocity": {
-            "label": "Average Speed",
-            "description": "Average speed on the segment between previous and current stop.",
+            "label": "Velocidade Média",
+            "description": "Velocidade média no troço entre a paragem atual e a seguinte.",
             "placeholder": "20 km/h"
         },
         "default_travel_time": {
@@ -1702,10 +1700,10 @@
             },
             "label": "Calendar Description",
             "placeholder": "Only on the first Sunday of the month",
-            "description": "This field should be filled if this trip has a special calendar."
+            "description": "Passengers can ENTER the vehicle at this stop."
         },
         "remove": {
-            "description": "Remove this schedule",
+            "description": "Remove this stop from the path sequence.",
             "modal": {
                 "title": "Are you sure you want to remove this schedule?",
                 "description": "Linhas, Rotas & Patterns",
@@ -1715,7 +1713,7 @@
         },
         "add": {
             "label": "Add a new trip",
-            "description": "Remove this schedule"
+            "description": "Remove this stop from the path sequence."
         }
     }
 }
