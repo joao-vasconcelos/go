@@ -11,7 +11,7 @@ export const Schema = new mongoose.Schema(
   {
     code: {
       type: String,
-      maxlength: 50,
+      maxlength: 25,
       unique: true,
     },
     parent_route: {

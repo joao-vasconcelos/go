@@ -60,7 +60,7 @@ function StopSequenceTableStopColumn({ stopId }) {
           <div className={styles.sequenceStopId}>{stopData.code}</div>
         </div>
       ) : (
-        <Loader visible />
+        <Loader size={20} visible />
       )}
     </div>
   );

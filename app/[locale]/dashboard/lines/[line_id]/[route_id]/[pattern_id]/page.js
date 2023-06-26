@@ -201,19 +201,21 @@ export default function Page() {
               <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...patternForm.getInputProps('code')} readOnly />
             </SimpleGrid>
             <SimpleGrid cols={2}>
-              <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} description={t('form.headsign.description')} {...patternForm.getInputProps('headsign')} />
+              <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} /* description={t('form.headsign.description')} */ {...patternForm.getInputProps('headsign')} />
               <Select
                 label={t('form.shape.label')}
                 placeholder={t('form.shape.placeholder')}
                 nothingFound={t('form.shape.nothingFound')}
-                // description={t.rich('form.shape.description', {
-                //   link: (chunks) =>
-                //     patternForm.values.shape && (
+                // description={
+                //   patternForm.values.shape &&
+                //   t.rich('form.shape.description', {
+                //     link: (chunks) => (
                 //       <a href={`/dashboard/shapes/${patternForm.values.shape}`} target='_blank'>
                 //         {chunks}
                 //       </a>
                 //     ),
-                // })}
+                //   })
+                // }
                 {...patternForm.getInputProps('shape')}
                 data={allShapesDataFormatted}
                 searchable
