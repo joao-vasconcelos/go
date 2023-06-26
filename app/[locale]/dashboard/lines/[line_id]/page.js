@@ -190,11 +190,6 @@ export default function Page() {
             onClose={async () => await handleClose()}
           />
           <LineDisplay short_name={form.values.short_name} name={form.values.name || t('untitled')} color={selectedLineTypologyData?.color} text_color={selectedLineTypologyData?.text_color} />
-          <Tooltip label={t('operations.open_website.title')} color='blue' position='bottom' withArrow>
-            <ActionIcon color='blue' variant='light' size='lg'>
-              <IconExternalLink size='20px' />
-            </ActionIcon>
-          </Tooltip>
           <AuthGate scope='lines' permission='delete'>
             <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
               <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
