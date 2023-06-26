@@ -84,17 +84,18 @@ export const Schema = new mongoose.Schema(
           type: String,
           maxlength: 500,
         },
-        resources: {
-          typology: {
-            type: String,
-            maxlength: 500,
+        vehicle_features: {
+          type: {
+            type: Number,
+            default: 0,
           },
           propulsion: {
-            type: String,
-            maxlength: 500,
+            type: Number,
+            default: 0,
           },
-          bicycles: {
+          allow_bicycles: {
             type: Boolean,
+            default: true,
           },
           passenger_counting: {
             type: Boolean,

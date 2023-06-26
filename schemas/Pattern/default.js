@@ -29,10 +29,10 @@ export const Default = {
       calendars_off: [],
       start_time: '',
       calendar_desc: '',
-      resources: {
-        typology: '',
-        propulsion: '',
-        bicycles: true,
+      vehicle_features: {
+        type: 0,
+        propulsion: 0,
+        allow_bicycles: true,
         passenger_counting: true,
         video_surveillance: true,
       },
