@@ -242,23 +242,23 @@
         },
         "form": {
             "code": {
-                "label": "Typology Code",
+                "label": "Código da Tipologia",
                 "placeholder": "LONGA"
             },
             "name": {
-                "label": "Typology Name",
+                "label": "Nome da Tipologia",
                 "placeholder": "Linha Longa"
             },
             "short_name": {
-                "label": "Typology Short Name",
+                "label": "Nome Curto da Tipologia",
                 "placeholder": "L"
             },
             "color": {
-                "label": "Color",
+                "label": "Cor",
                 "placeholder": "#000000"
             },
             "text_color": {
-                "label": "Text Color",
+                "label": "Cor do Texto",
                 "placeholder": "#FFFFFF"
             }
         }
@@ -297,8 +297,8 @@
                 "placeholder": "T1"
             },
             "name": {
-                "label": "Fare Name",
-                "placeholder": "Tarif 1"
+                "label": "Nome da Tarifa",
+                "placeholder": "Tarifa 1"
             },
             "short_name": {
                 "label": "Abreviatura",
@@ -326,33 +326,33 @@
                 }
             },
             "transfers": {
-                "label": "Allow Transfers",
+                "label": "Permitir Transferências",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
-                    "0": "Transfers are not allowed",
-                    "1": "Only 1 transfer is allowed",
-                    "2": "Up to 2 transfers are allowed",
-                    "unlimited": "Unlimited transfers are allowed"
+                    "0": "As transferências não são permitidas",
+                    "1": "Apenas 1 transferência é permitida",
+                    "2": "Só são permitidas até 2 tranferências.",
+                    "unlimited": "São permitidas transferências ilimitadas."
                 }
             }
         }
     },
     "zones": {
-        "untitled": "Untitled Zone",
+        "untitled": "Zona sem título",
         "list": {
-            "no_selection": "Select a Zone",
-            "footer": "Found {count, plural, =1 {1 Zone} other {# Zones}}"
+            "no_selection": "Selecione a zona",
+            "footer": "{count, plural, one {}=1 {Encontrada 1 Zona} other {Encontradas # Zonas}}"
         },
         "operations": {
             "create": {
-                "title": "Create New Zone",
-                "loading": "Creating new Zone...",
-                "success": "A new Zone was created!",
-                "error": "An error occurred while creating this Zone."
+                "title": "Criar Zona",
+                "loading": "A criar Zona...",
+                "success": "Foi criada uma nova Zona!",
+                "error": "Ocorreu um erro ao criar esta Zona."
             },
             "delete": {
-                "title": "Delete Zone",
+                "title": "Remover Zona",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Zone forever?",
                 "confirm": "Delete Zone Forever",
                 "cancel": "Não Eliminar",
@@ -468,7 +468,7 @@
             },
             "routes": {
                 "title": "Rotas",
-                "description": "Lista de base e variantes da linha"
+                "description": "Lista de base e variantes desta linha"
             }
         },
         "form": {
@@ -596,21 +596,18 @@
                 "placeholder": "Origem - Destino (alternativa)"
             },
             "path_type": {
-                "label": "Path Type",
+                "label": "Tipo de Percurso",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
                     "0": {
-                        "label": "Base Path",
-                        "description": "This should be the longest path option in the line."
+                        "label": "Base"
                     },
                     "1": {
-                        "label": "Variant",
-                        "description": "A deviation from the base path at the beginning, middle or end of the line."
+                        "label": "Variante"
                     },
                     "2": {
-                        "label": "Parcial",
-                        "description": "Segment of the base path with no difference in stop sequence."
+                        "label": "Parcelar"
                     }
                 }
             },
@@ -1626,9 +1623,7 @@
             "description": "Sequência de paragens no percurso."
         },
         "stop": {
-            "label": "Paragem",
-            "placeholder": "Escolha uma opção...",
-            "nothingFound": "Nenhum Resultado Encontrado"
+            "label": "Paragem"
         },
         "allow_pickup": {
             "label": "Permitir Embarque",
@@ -1679,26 +1674,26 @@
         },
         "calendars_on": {
             "header": {
-                "title": "Calendars ON",
-                "description": "Calendars where this trip has service."
+                "title": "Calendários ON",
+                "description": "Set of dates on which this schedule is running."
             },
-            "label": "Calendars ON",
+            "label": "Calendários ON",
             "placeholder": "Escolha uma opção...",
             "nothingFound": "Nenhum Resultado Encontrado"
         },
         "calendars_off": {
             "header": {
-                "title": "Calendars OFF",
-                "description": "Calendars where this trip does not have service."
+                "title": "Calendários OFF",
+                "description": "Set of dates to subtract from Calendars ON."
             },
-            "label": "Calendars OFF",
+            "label": "Calendários OFF",
             "placeholder": "Escolha uma opção...",
             "nothingFound": "Nenhum Resultado Encontrado"
         },
         "calendar_desc": {
             "header": {
                 "title": "Calendar Description",
-                "description": "Calendars where this trip does not have service."
+                "description": "Conjunto de datas a subtrair dos calendários ON."
             },
             "label": "Calendar Description",
             "placeholder": "Only on the first Sunday of the month",
