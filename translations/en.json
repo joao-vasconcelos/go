@@ -1626,9 +1626,7 @@
             "description": "The sequence of stops in the path."
         },
         "stop": {
-            "label": "Stop",
-            "placeholder": "Choose an option...",
-            "nothingFound": "No Results Found"
+            "label": "Stop"
         },
         "allow_pickup": {
             "label": "Allow Pickup",
