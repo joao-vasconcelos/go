@@ -1659,7 +1659,7 @@
             "placeholder": "20 km/h"
         },
         "zones": {
-            "label": "Accepted Zones",
+            "label": "Zone Allocation",
             "placeholder": "Choose an option...",
             "nothingFound": "No Results Found"
         },
