@@ -8,7 +8,7 @@ import Text from '../Text/Text';
 import { useTranslations } from 'next-intl';
 import Loader from '../Loader/Loader';
 
-export default function RouteCard({ index, onOpen, _id }) {
+export default function RouteCard({ index, _id, onOpen }) {
   //
 
   //

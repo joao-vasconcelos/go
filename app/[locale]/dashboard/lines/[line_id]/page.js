@@ -11,7 +11,6 @@ import { Default as LineDefault } from '@/schemas/Line/default';
 import { Options as LineOptions } from '@/schemas/Line/options';
 import { Tooltip, Select, Button, SimpleGrid, TextInput, ActionIcon, Divider, Switch } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
-import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
@@ -253,11 +252,11 @@ export default function Page() {
           </div>
           <div>
             {lineData?.routes.map((route_id, index) => (
-              <RouteCard key={index} index={index} onOpen={handleOpenRoute} _id={route_id} />
+              <RouteCard key={index} index={index} _id={route_id} onOpen={handleOpenRoute} />
             ))}
           </div>
           <AuthGate scope='lines' permission='create_edit'>
-            <Button onClick={handleAddRoute} loading={isCreatingRoute} disabled={form.isDirty()}>
+            <Button onClick={handleAddRoute} loading={isCreatingRoute} disabled={form.isDirty() || !form.isValid()}>
               {t('form.routes.create.title')}
             </Button>
           </AuthGate>
