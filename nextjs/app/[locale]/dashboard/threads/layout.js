@@ -16,7 +16,7 @@ import { useTranslations } from 'next-intl';
 import ListFooter from '@/components/ListFooter/ListFooter';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
-import useSearch from 'go/hooks/useSearch';
+import useSearch from '@/hooks/useSearch';
 
 export default function Layout({ children }) {
   //

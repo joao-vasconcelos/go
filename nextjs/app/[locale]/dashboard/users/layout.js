@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import useSearch from 'go/hooks/useSearch';
+import useSearch from '@/hooks/useSearch';
 import useSWR from 'swr';
 import API from '@/services/API';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
