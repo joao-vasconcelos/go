@@ -468,7 +468,7 @@
             },
             "routes": {
                 "title": "Rotas",
-                "description": "Algo sobre esta secção"
+                "description": "Lista de base e variantes da linha"
             }
         },
         "form": {
@@ -583,7 +583,7 @@
                 "title": "Detalhes"
             },
             "patterns": {
-                "title": "Patterns"
+                "title": "Percursos"
             }
         },
         "form": {
@@ -644,16 +644,16 @@
                 "description": "Algo sobre esta secção"
             },
             "path": {
-                "title": "Path",
-                "description": "Algo sobre esta secção"
+                "title": "Percurso",
+                "description": "Sequência de paragens do percurso"
             },
             "update_path": {
-                "title": "Update Path",
-                "description": "Algo sobre esta secção"
+                "title": "Atualizar percurso",
+                "description": "Para atualizar a sequência de paragens de um percurso, importar o GTFS que resultou da alteração no Remix. O GTFS pode conter a rede completa ou apenas o percurso que se pretende atualizar. "
             },
             "schedules": {
                 "title": "Horários",
-                "description": "Algo sobre esta secção"
+                "description": "Horários de partida e calendário(s) associado(s). \nCalendários ON - lista de calendários com conjunto de datas em que o horário é feito\nCalendários OFF - lista de calendários com conjunto de datas que devem ser retiradas dos calendários em Calendários ON\nDescrição do calendário - deve ser preenchido apenas se o horário for realizado numa frequência especial (ex: Primeiro domingo de cada mês)"
             }
         },
         "form": {
