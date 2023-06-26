@@ -209,6 +209,60 @@
             }
         }
     },
+    "typologies": {
+        "untitled": "Untitled Typology",
+        "list": {
+            "no_selection": "Select a Typology",
+            "footer": "Found {count, plural, =1 {1 Typology} other {# Typologies}}"
+        },
+        "operations": {
+            "create": {
+                "title": "Create New Typology",
+                "loading": "Creating new Typology...",
+                "success": "A new Typology was created!",
+                "error": "An error occurred while creating this Typology."
+            },
+            "delete": {
+                "title": "Delete Typology",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Typology forever?",
+                "confirm": "Delete Typology Forever",
+                "cancel": "Não Eliminar",
+                "loading": "Deleting Typology...",
+                "success": "Typology was deleted.",
+                "error": "An error occurred while deleting this Typology."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Detalhes"
+            },
+            "appearance": {
+                "title": "Appearance"
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Typology Code",
+                "placeholder": "LONGA"
+            },
+            "name": {
+                "label": "Typology Name",
+                "placeholder": "Linha Longa"
+            },
+            "short_name": {
+                "label": "Typology Short Name",
+                "placeholder": "L"
+            },
+            "color": {
+                "label": "Color",
+                "placeholder": "#000000"
+            },
+            "text_color": {
+                "label": "Text Color",
+                "placeholder": "#FFFFFF"
+            }
+        }
+    },
     "fares": {
         "untitled": "Tarifa sem título",
         "list": {
@@ -238,16 +292,16 @@
             }
         },
         "form": {
-            "long_name": {
-                "label": "Nome da Tarifa",
-                "placeholder": "Tarifa 1"
+            "code": {
+                "label": "Código da Tarifa",
+                "placeholder": "T1"
+            },
+            "name": {
+                "label": "Fare Name",
+                "placeholder": "Tarif 1"
             },
             "short_name": {
                 "label": "Abreviatura",
-                "placeholder": "T1"
-            },
-            "code": {
-                "label": "Código da Tarifa",
                 "placeholder": "T1"
             },
             "price": {
@@ -281,6 +335,52 @@
                     "2": "Up to 2 transfers are allowed",
                     "unlimited": "Unlimited transfers are allowed"
                 }
+            }
+        }
+    },
+    "zones": {
+        "untitled": "Untitled Zone",
+        "list": {
+            "no_selection": "Select a Zone",
+            "footer": "Found {count, plural, =1 {1 Zone} other {# Zones}}"
+        },
+        "operations": {
+            "create": {
+                "title": "Create New Zone",
+                "loading": "Creating new Zone...",
+                "success": "A new Zone was created!",
+                "error": "An error occurred while creating this Zone."
+            },
+            "delete": {
+                "title": "Delete Zone",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Zone forever?",
+                "confirm": "Delete Zone Forever",
+                "cancel": "Não Eliminar",
+                "loading": "Deleting Zone...",
+                "success": "Zone was deleted.",
+                "error": "An error occurred while deleting this Zone."
+            }
+        },
+        "sections": {
+            "config": {
+                "title": "Detalhes"
+            },
+            "geofence": {
+                "title": "Geofence"
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Zone Code",
+                "placeholder": "CMontijo"
+            },
+            "name": {
+                "label": "Zone Name",
+                "placeholder": "Montijo"
+            },
+            "geojson": {
+                "label": "Geofence",
+                "placeholder": "[0.000, 0.000]"
             }
         }
     },
@@ -368,7 +468,7 @@
             },
             "routes": {
                 "title": "Rotas",
-                "description": "Algo sobre esta secção"
+                "description": "Lista de base e variantes da linha"
             }
         },
         "form": {
@@ -376,30 +476,82 @@
                 "label": "Código da Linha",
                 "placeholder": "1234"
             },
+            "name": {
+                "label": "Line Name",
+                "placeholder": "T1"
+            },
             "short_name": {
                 "label": "Número da Linha",
                 "placeholder": "1234"
             },
-            "long_name": {
-                "label": "Nome da Linha",
-                "placeholder": "T1"
+            "circular": {
+                "label": "Circular Line"
             },
-            "color": {
-                "label": "Cor da Linha",
-                "placeholder": "#ED1A44"
+            "school": {
+                "label": "School Line"
             },
-            "text_color": {
-                "label": "Cor do Texto",
-                "placeholder": "#FFFFFF"
+            "continuous": {
+                "label": "Allow pickup and dropoff anywhere"
+            },
+            "transport_type": {
+                "label": "Transport Type",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
+                "options": {
+                    "0": {
+                        "label": "Tram, Streetcar, Light rail",
+                        "description": "Any light rail or street level system within a metropolitan area."
+                    },
+                    "1": {
+                        "label": "Subway, Metro",
+                        "description": "Any underground rail system within a metropolitan area."
+                    },
+                    "2": {
+                        "label": "Rail",
+                        "description": "Used for intercity or long-distance travel."
+                    },
+                    "3": {
+                        "label": "Bus",
+                        "description": "Used for short- and long-distance bus routes."
+                    },
+                    "4": {
+                        "label": "Boat, Ferry",
+                        "description": "Used for short- and long-distance boat service."
+                    },
+                    "5": {
+                        "label": "Cable tram",
+                        "description": "Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco)."
+                    },
+                    "6": {
+                        "label": "Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway)",
+                        "description": "Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables."
+                    },
+                    "7": {
+                        "label": "Funicular",
+                        "description": "Any rail system designed for steep inclines."
+                    },
+                    "11": {
+                        "label": "Trolleybus",
+                        "description": "Electric buses that draw power from overhead wires using poles."
+                    },
+                    "12": {
+                        "label": "Monorail}",
+                        "description": "Railway in which the track consists of a single rail or a beam."
+                    }
+                }
+            },
+            "typology": {
+                "label": "Line Type",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "fare": {
-                "label": "Tarifa Associada",
-                "placeholder": "Selecionar Tarifa...",
+                "label": "Fare Rule for this Line",
+                "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "agency": {
                 "label": "Operate by this Agencies",
-                "description": "Choose one operator for this line.",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
@@ -431,7 +583,7 @@
                 "title": "Detalhes"
             },
             "patterns": {
-                "title": "Patterns"
+                "title": "Percursos"
             }
         },
         "form": {
@@ -442,6 +594,25 @@
             "name": {
                 "label": "Nome da Rota",
                 "placeholder": "Origem - Destino (alternativa)"
+            },
+            "path_type": {
+                "label": "Path Type",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
+                "options": {
+                    "0": {
+                        "label": "Base Path",
+                        "description": "This should be the longest path option in the line."
+                    },
+                    "1": {
+                        "label": "Variant",
+                        "description": "A deviation from the base path at the beginning, middle or end of the line."
+                    },
+                    "2": {
+                        "label": "Parcial",
+                        "description": "Segment of the base path with no difference in stop sequence."
+                    }
+                }
             },
             "patterns": {
                 "create": {
@@ -472,13 +643,17 @@
                 "title": "Detalhes",
                 "description": "Algo sobre esta secção"
             },
-            "stops": {
-                "title": "Paragens",
-                "description": "Algo sobre esta secção"
+            "path": {
+                "title": "Percurso",
+                "description": "Sequência de paragens do percurso"
+            },
+            "update_path": {
+                "title": "Atualizar percurso",
+                "description": "Para atualizar a sequência de paragens de um percurso, importar o GTFS que resultou da alteração no Remix. O GTFS pode conter a rede completa ou apenas o percurso que se pretende atualizar. "
             },
             "schedules": {
                 "title": "Horários",
-                "description": "Algo sobre esta secção"
+                "description": "Horários de partida e calendário(s) associado(s). \nCalendários ON - lista de calendários com conjunto de datas em que o horário é feito\nCalendários OFF - lista de calendários com conjunto de datas que devem ser retiradas dos calendários em Calendários ON\nDescrição do calendário - deve ser preenchido apenas se o horário for realizado numa frequência especial (ex: Primeiro domingo de cada mês)"
             }
         },
         "form": {
@@ -494,7 +669,7 @@
             "shape": {
                 "label": "Shape Associada",
                 "placeholder": "Escolha uma opção...",
-                "description": "<link>Abrir numa nova janela.</link>",
+                "description": "This is the shape. <link>Open in new tab.</link>",
                 "nothingFound": "Nenhum Resultado Encontrado",
                 "untitled": "Shape sem título"
             }
@@ -611,8 +786,8 @@
                 "title": "Detalhes",
                 "description": "Info about this section"
             },
-            "areas": {
-                "title": "Areas using this Stop",
+            "zoning": {
+                "title": "Ticket Zoning",
                 "description": "Info about this section"
             },
             "admin": {
@@ -646,7 +821,7 @@
         },
         "form": {
             "code": {
-                "label": "Código da Paragem",
+                "label": "Unique Stop Code",
                 "placeholder": "012345"
             },
             "latitude": {
@@ -669,9 +844,9 @@
                 "label": "Nome Fonético",
                 "placeholder": "Rua Marquês de Pombal Porta Oito"
             },
-            "agencies": {
-                "label": "Used by these Agencies",
-                "placeholder": "Choose Agencies...",
+            "zones": {
+                "label": "Default Zones for this Stop",
+                "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "address": {
@@ -765,7 +940,7 @@
             },
             "last_infrastructure_check": {
                 "label": "Último Verificação da Infraestrutura",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_infrastructure_check"
             },
             "has_stop_sign": {
                 "label": "Tem Postalete",
@@ -782,8 +957,8 @@
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "shelter_frame_area_cm": {
-                "label": "Área da Moldura do Abrigo (H x W cm)",
-                "placeholder": "23 x 42 cm"
+                "label": "Shelter Frame Area (cm)",
+                "placeholder": "shelter_frame_area_cm"
             },
             "has_pip_real_time": {
                 "label": "Tem PIP Tempo Real",
@@ -792,7 +967,7 @@
             },
             "pip_real_time_code": {
                 "label": "Código do PIP Tempo Real",
-                "placeholder": "PIP372"
+                "placeholder": "pip_real_time_code"
             },
             "has_h2oa_signage": {
                 "label": "Tem Sinalética H2OA",
@@ -811,19 +986,19 @@
             },
             "last_schedules_maintenance": {
                 "label": "Última Atualização de Horários",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_schedules_maintenance"
             },
             "last_schedules_check": {
                 "label": "Última Verificação de Horários",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_schedules_check"
             },
             "last_stop_sign_maintenance": {
                 "label": "Última Manutenção do Postalete",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_stop_sign_maintenance"
             },
             "last_stop_sign_check": {
                 "label": "Última Verificação do Postalete",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_stop_sign_check"
             },
             "has_sidewalk": {
                 "label": "Tem Passeio",
@@ -871,58 +1046,58 @@
             },
             "last_accessibility_check": {
                 "label": "Última Verificação de Acessibilidade",
-                "placeholder": "2023-02-10"
+                "placeholder": "last_accessibility_check"
             },
             "near_health_clinic": {
-                "label": "Centro de Saúde"
+                "label": "near_health_clinic"
             },
             "near_hospital": {
-                "label": "Hospital"
+                "label": "near_hospital"
             },
             "near_university": {
-                "label": "Universidade"
+                "label": "near_university"
             },
             "near_school": {
-                "label": "Escola"
+                "label": "near_school"
             },
             "near_police_station": {
-                "label": "Esquadra"
+                "label": "near_police_station"
             },
             "near_fire_station": {
-                "label": "Bombeiros"
+                "label": "near_fire_station"
             },
             "near_shopping": {
-                "label": "Comércio"
+                "label": "near_shopping"
             },
             "near_historic_building": {
-                "label": "Zona Histórica"
+                "label": "near_historic_building"
             },
             "near_transit_office": {
-                "label": "Espaço navegante®"
+                "label": "near_transit_office"
             },
             "subway": {
-                "label": "Metro"
+                "label": "subway"
             },
             "light_rail": {
-                "label": "Metro de Superfície"
+                "label": "light_rail"
             },
             "train": {
-                "label": "Comboio"
+                "label": "train"
             },
             "boat": {
-                "label": "Barco"
+                "label": "boat"
             },
             "airport": {
-                "label": "Aeroporto"
+                "label": "airport"
             },
             "bike_sharing": {
-                "label": "Bicicletas Partilhadas"
+                "label": "bike_sharing"
             },
             "bike_parking": {
-                "label": "Estacionamento de Bicicletas"
+                "label": "bike_parking"
             },
             "car_parking": {
-                "label": "Estacionamento Automóvel"
+                "label": "car_parking"
             },
             "notes": {
                 "label": "Notas & Comentários sobre esta paragem",
@@ -1133,6 +1308,22 @@
                         "nothingFound": "Nenhum Resultado Encontrado"
                     }
                 },
+                "typologies": {
+                    "title": "Typologies",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Typologies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Typologies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Typologies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
                 "fares": {
                     "title": "Tarifas",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
@@ -1146,6 +1337,22 @@
                     },
                     "delete": {
                         "label": "Eliminar Tarifas",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
+                "zones": {
+                    "title": "Zones",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Zones",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Zones",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Zones",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
@@ -1353,6 +1560,29 @@
             }
         }
     },
+    "ImportPathFromGTFS": {
+        "title": "These are the Trips found in the uploaded GTFS:",
+        "clear": {
+            "title": "Limpar Tabela"
+        },
+        "import": {
+            "success": "Path imported! ({trip_id})"
+        },
+        "table": {
+            "header": {
+                "route_id": "Route ID",
+                "trip_headsign": "Bandeira",
+                "stop_count": "Stop Count",
+                "import": "Importar"
+            },
+            "body": {
+                "import": {
+                    "title": "Import Path",
+                    "description": "This will immediately replace all stops for this pattern. This cannot be undone."
+                }
+            }
+        }
+    },
     "ImportShapeFromGTFS": {
         "title": "Estas são as Shapes encontradas no GTFS carregado:",
         "clear": {
@@ -1388,6 +1618,104 @@
         "reject": {
             "title": "O ficheiro selecionado não pode ser aceite.",
             "description": "Tem a certeza que selecionou o ficheiro .zip exportado do Remix?"
+        }
+    },
+    "StopSequenceTable": {
+        "sequence_index": {
+            "label": "Stop sequence",
+            "description": "The sequence of stops in the path."
+        },
+        "stop": {
+            "label": "Stop",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        },
+        "allow_pickup": {
+            "label": "Allow Pickup",
+            "description": "Passengers can ENTER the vehicle at this stop."
+        },
+        "allow_drop_off": {
+            "label": "Allow Drop Off",
+            "description": "Passengers can EXIT the vehicle at this stop."
+        },
+        "distance_delta": {
+            "label": "Distance between stops",
+            "description": "Distance between previous and current stop.",
+            "placeholder": "0 meters"
+        },
+        "default_velocity": {
+            "label": "Average Speed",
+            "description": "Average speed on the segment between previous and current stop.",
+            "placeholder": "20 km/h"
+        },
+        "default_travel_time": {
+            "label": "Average Travel Time",
+            "description": "Average travel time calculated based on distance and average speed on the segment between previous and current stop.",
+            "placeholder": "20 km/h"
+        },
+        "default_dwell_time": {
+            "label": "Average Dwell Time",
+            "description": "Average time stopped at the current stop picking up and dropping off passengers.",
+            "placeholder": "20 km/h"
+        },
+        "zones": {
+            "label": "Accepted Zones",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        },
+        "remove": {
+            "label": "Remove Stop",
+            "description": "Remove this stop from the path sequence."
+        }
+    },
+    "SchedulesTable": {
+        "start_time": {
+            "header": {
+                "title": "Start Time"
+            },
+            "label": "Start Time",
+            "placeholder": "00:00",
+            "description": "The start time for this trip."
+        },
+        "calendars_on": {
+            "header": {
+                "title": "Calendars ON",
+                "description": "Calendars where this trip has service."
+            },
+            "label": "Calendars ON",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        },
+        "calendars_off": {
+            "header": {
+                "title": "Calendars OFF",
+                "description": "Calendars where this trip does not have service."
+            },
+            "label": "Calendars OFF",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        },
+        "calendar_desc": {
+            "header": {
+                "title": "Calendar Description",
+                "description": "Calendars where this trip does not have service."
+            },
+            "label": "Calendar Description",
+            "placeholder": "Only on the first Sunday of the month",
+            "description": "This field should be filled if this trip has a special calendar."
+        },
+        "remove": {
+            "description": "Remove this schedule",
+            "modal": {
+                "title": "Are you sure you want to remove this schedule?",
+                "description": "Linhas, Rotas & Patterns",
+                "confirm": "Yes, remove this trip",
+                "cancel": "No, leave it as is"
+            }
+        },
+        "add": {
+            "label": "Add a new trip",
+            "description": "Remove this schedule"
         }
     }
 }
