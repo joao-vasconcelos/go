@@ -34,7 +34,6 @@ yarn-error.log*
 
 # vercel
 .vercel
-package-lock.json
 
 # Tmp directory
 /tmp
