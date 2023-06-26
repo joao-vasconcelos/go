@@ -1,19 +1,15 @@
-name: Build & Publish Docker images
+name: Build & Publish Docker image
 
 on:
   push:
     branches:
-      - v2
+      - production
 
 jobs:
   run:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - name: api
-          - name: daemon
     permissions:
       contents: read
       packages: write
@@ -33,6 +29,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: ./${{ matrix.name }}
-          file: ./${{ matrix.name }}/Dockerfile
-          tags: ghcr.io/carrismetropolitana/schedules-api-${{ matrix.name }}:${{ github.head_ref || github.ref_name }}
+          context: ./nextjs
+          file: ./nextjs/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go:${{ github.head_ref || github.ref_name }}
