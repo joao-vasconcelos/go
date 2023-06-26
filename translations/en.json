@@ -601,16 +601,13 @@
                 "nothingFound": "No Results Found",
                 "options": {
                     "0": {
-                        "label": "Base Path",
-                        "description": "This should be the longest path option in the line."
+                        "label": "Base Path"
                     },
                     "1": {
-                        "label": "Variant",
-                        "description": "A deviation from the base path at the beginning, middle or end of the line."
+                        "label": "Variant"
                     },
                     "2": {
-                        "label": "Parcial",
-                        "description": "Segment of the base path with no difference in stop sequence."
+                        "label": "Parcial"
                     }
                 }
             },
@@ -1678,7 +1675,7 @@
         "calendars_on": {
             "header": {
                 "title": "Calendars ON",
-                "description": "Calendars where this trip has service."
+                "description": "Set of dates on which this schedule is running."
             },
             "label": "Calendars ON",
             "placeholder": "Choose an option...",
@@ -1687,7 +1684,7 @@
         "calendars_off": {
             "header": {
                 "title": "Calendars OFF",
-                "description": "Calendars where this trip does not have service."
+                "description": "Set of dates to subtract from Calendars ON."
             },
             "label": "Calendars OFF",
             "placeholder": "Choose an option...",
