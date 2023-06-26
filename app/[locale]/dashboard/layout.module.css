@@ -5,7 +5,7 @@
   display: grid;
   grid-template-rows: 50px 1fr;
   grid-template-columns: 85px 1fr;
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 .appIcon {

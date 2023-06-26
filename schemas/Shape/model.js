@@ -58,7 +58,6 @@ export const Schema = new mongoose.Schema(
           [
             {
               type: Number,
-              maxlength: 100,
             },
           ],
         ],

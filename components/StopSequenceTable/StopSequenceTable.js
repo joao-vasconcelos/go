@@ -1,16 +1,151 @@
 'use client';
 
 import useSWR from 'swr';
+import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import styles from './StopSequenceTable.module.css';
-import { Select, ActionIcon, Flex, Checkbox, Tooltip, NumberInput, MultiSelect } from '@mantine/core';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { IconSortAscendingNumbers, IconX, IconArrowBarUp, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowBarToDown, IconArrowAutofitContent, IconTrash, IconClockHour4, IconGripVertical } from '@tabler/icons-react';
+import { usePatternFormContext } from '@/contexts/patternForm';
+import { IconSortAscendingNumbers, IconArrowBarUp, IconArrowBarToDown } from '@tabler/icons-react';
+import { Checkbox, Tooltip, NumberInput, MultiSelect, ActionIcon } from '@mantine/core';
+import { IconX, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowAutofitContent, IconClockHour4, IconTicket, IconRotate2 } from '@tabler/icons-react';
+import { useSession } from 'next-auth/react';
+import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import Loader from '../Loader/Loader';
 
-export default function StopSequenceTable({ form, onReorder, onDelete }) {
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - INDEX COLUMN
+
+function StopSequenceTableIndexColumn({ rowIndex }) {
+  return (
+    <div className={`${styles.column} ${styles.hcenter}`}>
+      <div className={styles.sequenceIndex}>{rowIndex}</div>
+    </div>
+  );
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - STOP COLUMN
+
+function StopSequenceTableStopColumn({ stopId }) {
   //
 
-  // Fetch stops
-  const { data: allStopsData } = useSWR('/api/stops');
+  //
+  // B. Fetch data
+
+  const { data: stopData } = useSWR(stopId && `/api/stops/${stopId}`);
+
+  //
+  // Handle actions
+
+  const handleOpenStop = () => {
+    window.open(`/dashboard/stops/${stopId}`, '_blank');
+  };
+
+  //
+  // Render components
+
+  return (
+    <div className={`${styles.column}`}>
+      {stopData ? (
+        <div className={styles.sequenceStop} onClick={handleOpenStop}>
+          <div className={styles.sequenceStopName}>{stopData.name}</div>
+          <div className={styles.sequenceStopId}>{stopData.code}</div>
+        </div>
+      ) : (
+        <Loader size={20} visible />
+      )}
+    </div>
+  );
+
+  //
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - ALLOW PICKUP COLUMN
+
+function StopSequenceTableAllowPickupColumn({ rowIndex }) {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
+  const patternForm = usePatternFormContext();
+
+  //
+  // Render components
+
+  return (
+    <div className={`${styles.column} ${styles.hcenter}`}>
+      <Tooltip label={t('allow_pickup.description')} position='bottom' withArrow>
+        <Checkbox size='sm' {...patternForm.getInputProps(`path.${rowIndex}.allow_pickup`, { type: 'checkbox' })} readOnly={isReadOnly} />
+      </Tooltip>
+    </div>
+  );
+
+  //
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - ALLOW DROPOFF COLUMN
+
+function StopSequenceTableAllowDropoffColumn({ rowIndex }) {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
+  const patternForm = usePatternFormContext();
+
+  //
+  // Render components
+
+  return (
+    <div className={`${styles.column} ${styles.hcenter}`}>
+      <Tooltip label={t('allow_drop_off.description')} position='bottom' withArrow>
+        <Checkbox size='sm' {...patternForm.getInputProps(`path.${rowIndex}.allow_drop_off`, { type: 'checkbox' })} readOnly={isReadOnly} />
+      </Tooltip>
+    </div>
+  );
+
+  //
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - DISTANCE DELTA COLUMN
+
+function StopSequenceTableDistanceDeltaColumn({ rowIndex, distanceDelta }) {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
 
   //
   // Formatters
@@ -24,6 +159,114 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
       return distanceInMeters + ' metros';
     }
   };
+
+  //
+  // Handle actions
+
+  return (
+    <div className={styles.column}>
+      <Tooltip label={t('distance_delta.description')} position='bottom' withArrow>
+        <NumberInput aria-label={t('distance_delta.label')} placeholder={t('distance_delta.placeholder')} formatter={formatMetersToDistance} icon={<IconArrowAutofitContent size='20px' />} value={distanceDelta} disabled={rowIndex === 0} readOnly />
+      </Tooltip>
+    </div>
+  );
+
+  //
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - DISTANCE TIMES VELOCITY COLUMN
+
+function StopSequenceTableDistanceTimesVelocityColumn() {
+  return (
+    <div className={`${styles.column} ${styles.hcenter}`}>
+      <IconX size={20} />
+    </div>
+  );
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - VELOCITY COLUMN
+
+function StopSequenceTableVelocityColumn({ rowIndex }) {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
+  const patternForm = usePatternFormContext();
+
+  //
+  // Render components
+
+  return (
+    <div className={styles.column}>
+      <Tooltip label={t('default_velocity.description')} position='bottom' withArrow>
+        <NumberInput
+          aria-label={t('default_velocity.label')}
+          placeholder={t('default_velocity.placeholder')}
+          defaultValue={20}
+          min={0}
+          step={5}
+          stepHoldDelay={500}
+          stepHoldInterval={100}
+          formatter={(value) => `${value} km/h`}
+          icon={<IconPlayerTrackNext size='18px' />}
+          {...patternForm.getInputProps(`path.${rowIndex}.default_velocity`)}
+          disabled={rowIndex === 0}
+          readOnly={isReadOnly}
+        />
+      </Tooltip>
+    </div>
+  );
+
+  //
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - DISTANCE TIMES VELOCITY EQUALS TRAVEL TIME COLUMN
+
+function StopSequenceTableDistanceTimesVelocityEqualsTravelTimeColumn() {
+  return (
+    <div className={`${styles.column} ${styles.hcenter}`}>
+      <IconEqual size={25} />
+    </div>
+  );
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - TRAVEL TIME COLUMN
+
+function StopSequenceTableTravelTimeColumn({ rowIndex }) {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
+  const patternForm = usePatternFormContext();
+
+  //
+  // Formatters
 
   const formatSecondsToTime = (timeInSeconds) => {
     if (timeInSeconds < 60) {
@@ -52,204 +295,261 @@ export default function StopSequenceTable({ form, onReorder, onDelete }) {
   //
   // Render components
 
-  const StopSequenceHeader = () => (
-    <div className={styles.tableHeaderRow}>
-      <div className={styles.tableHeaderCell} />
-      <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
-        <IconSortAscendingNumbers size='20px' />
-      </div>
-      <div className={styles.tableHeaderCell}>Paragem</div>
-      <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
-        <IconArrowBarToDown size='20px' />
-      </div>
-      <div className={`${styles.tableHeaderCell} ${styles.hcenter}`}>
-        <IconArrowBarUp size='20px' />
-      </div>
-      <div className={styles.tableHeaderCell}>Distância entre paragens</div>
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell}>Velocidade Comercial no troço</div>
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell}>default_travel_time</div>
-      <div className={styles.tableHeaderCell}>Dwell Time</div>
-      <div className={styles.tableHeaderCell}>apex</div>
-      <div className={styles.tableHeaderCell} />
+  return (
+    <div className={styles.column}>
+      <Tooltip label={t('default_travel_time.description')} position='bottom' width={350} multiline withArrow>
+        <NumberInput
+          aria-label={t('default_travel_time.label')}
+          placeholder={t('default_travel_time.placeholder')}
+          formatter={formatSecondsToTime}
+          icon={<IconClockHour4 size='18px' />}
+          {...patternForm.getInputProps(`path.${rowIndex}.default_travel_time`)}
+          value={calculateTravelTime(patternForm.values.path[rowIndex].distance_delta, patternForm.values.path[rowIndex].default_velocity)}
+          disabled={rowIndex === 0}
+          readOnly
+        />
+      </Tooltip>
     </div>
   );
 
-  const StopSequenceFooter = () => (
-    <div className={styles.tableHeaderRow}>
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell}>AVG Vel Med</div>
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell}>∑ = sjnjds</div>
-      <div className={styles.tableHeaderCell}>tempo total parado</div>
-      <div className={styles.tableHeaderCell} />
-      <div className={styles.tableHeaderCell} />
-    </div>
-  );
+  //
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - DWELL TIME COLUMN
+
+function StopSequenceTableDwellTimeColumn({ rowIndex }) {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
+  const patternForm = usePatternFormContext();
+
+  //
+  // Formatters
+
+  const formatSecondsToTime = (timeInSeconds) => {
+    if (timeInSeconds < 60) {
+      return timeInSeconds + ' seg';
+    } else if (timeInSeconds < 3600) {
+      const minutes = Math.floor(timeInSeconds / 60);
+      const seconds = timeInSeconds % 60;
+      return `${minutes} min ${seconds} seg`;
+    } else {
+      const hours = Math.floor(timeInSeconds / 3600);
+      const minutes = Math.floor((timeInSeconds % 3600) / 60);
+      const seconds = timeInSeconds % 60;
+      return `${hours} h ${minutes} min ${seconds} seg`;
+    }
+  };
+
+  //
+  // Render components
 
   return (
-    <DragDropContext onDragEnd={onReorder}>
-      <Droppable droppableId='droppable'>
-        {(provided) => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
-            <div className={styles.container}>
-              <StopSequenceHeader />
-              <div className={styles.rowWrapper}>
-                {form.values.path.length > 0 ? (
-                  form.values.path.map((item, index) => (
-                    <Draggable key={index} draggableId={index.toString()} index={index}>
-                      {(provided) => (
-                        <div className={styles.tableBodyRow} ref={provided.innerRef} {...provided.draggableProps}>
-                          <div className={`${styles.tableCellGrip} ${styles.hcenter}`} {...provided.dragHandleProps}>
-                            <IconGripVertical size='20px' />
-                          </div>
-                          <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
-                            <div className={styles.sequenceIndex}>{index}</div>
-                          </div>
-                          <div className={styles.tableBodyCell}>
-                            <Select
-                              aria-label='Paragem'
-                              placeholder='Paragem'
-                              searchable
-                              nothingFound='Sem opções'
-                              w={'100%'}
-                              {...form.getInputProps(`path.${index}.stop`)}
-                              data={
-                                allStopsData
-                                  ? allStopsData.map((item) => {
-                                      return { value: item._id, label: `[${item.code}] ${item.name || 'Stop sem Nome'}` };
-                                    })
-                                  : []
-                              }
-                            />
-                          </div>
-                          <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
-                            <Tooltip label='Permite embarque nesta paragem' position='bottom' withArrow>
-                              <Checkbox size='sm' {...form.getInputProps(`path.${index}.allow_pickup`, { type: 'checkbox' })} />
-                            </Tooltip>
-                          </div>
-                          <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
-                            <Tooltip label='Permite desembarque nesta paragem' position='bottom' withArrow>
-                              <Checkbox size='sm' {...form.getInputProps(`path.${index}.allow_drop_off`, { type: 'checkbox' })} />
-                            </Tooltip>
-                          </div>
-                          <div className={styles.tableBodyCell}>
-                            <Tooltip label='Distância percorrida desde a paragem anterior até à atual, em metros. (x metros são y km)' position='bottom' width='300px' multiline withArrow>
-                              <NumberInput
-                                aria-label='distance_delta'
-                                placeholder='distance_delta'
-                                defaultValue={0}
-                                min={0}
-                                step={10}
-                                stepHoldDelay={500}
-                                stepHoldInterval={100}
-                                formatter={formatMetersToDistance}
-                                icon={<IconArrowAutofitContent size='20px' />}
-                                {...form.getInputProps(`path.${index}.distance_delta`)}
-                                disabled={index === 0}
-                                value={index === 0 ? 0 : form.values.path[index].distance_delta}
-                              />
-                            </Tooltip>
-                          </div>
-                          <div className={styles.tableBodyCell}>
-                            <IconX size='20px' />
-                          </div>
-                          <div className={styles.tableBodyCell}>
-                            <Tooltip label='Velocidade comercial no troço.' position='bottom' withArrow>
-                              <NumberInput
-                                aria-label='default_travel_time'
-                                placeholder='default_travel_time'
-                                defaultValue={20}
-                                min={0}
-                                step={5}
-                                stepHoldDelay={500}
-                                stepHoldInterval={100}
-                                formatter={(value) => `${value} km/h`}
-                                icon={<IconPlayerTrackNext size='18px' />}
-                                {...form.getInputProps(`path.${index}.default_velocity`)}
-                                disabled={index === 0}
-                                value={index === 0 ? 0 : form.values.path[index].default_velocity}
-                              />
-                            </Tooltip>
-                          </div>
-                          <div className={styles.tableBodyCell}>
-                            <IconEqual size='30px' />
-                          </div>
-                          <div className={styles.tableBodyCell}>
-                            <Tooltip label='Tempo estimado de viagem no troço.' position='bottom' withArrow>
-                              <NumberInput
-                                aria-label='default_travel_time'
-                                placeholder='default_travel_time'
-                                formatter={formatSecondsToTime}
-                                icon={<IconClockHour4 size='18px' />}
-                                readOnly
-                                {...form.getInputProps(`path.${index}.default_travel_time`)}
-                                disabled={index === 0}
-                                value={calculateTravelTime(form.values.path[index].distance_delta, form.values.path[index].default_velocity)}
-                              />
-                            </Tooltip>
-                          </div>
-                          <div className={styles.tableBodyCell}>
-                            <Tooltip label='Tempo estimado para entrada e saída de passagairos, em segundos. (${segundos} são ${segundos/60} minutos)' position='bottom' width='300px' multiline withArrow>
-                              <NumberInput
-                                aria-label='Default wait time'
-                                placeholder='Default wait time'
-                                defaultValue={30}
-                                min={0}
-                                max={900}
-                                step={10}
-                                stepHoldDelay={500}
-                                stepHoldInterval={100}
-                                icon={<IconClockPause size='20px' />}
-                                formatter={formatSecondsToTime}
-                                {...form.getInputProps(`path.${index}.default_dwell_time`)}
-                              />
-                            </Tooltip>
-                          </div>
-                          <div className={styles.tableBodyCell}>
-                            <MultiSelect
-                              w='100%'
-                              aria-label='Passes aceites'
-                              placeholder='Passes aceites'
-                              searchable
-                              nothingFound='Sem opções'
-                              data={['navegante Metropolitano', 'Alcochete', 'Almada', 'etc']}
-                              {...form.getInputProps(`path.${index}.apex`)}
-                            />
-                          </div>
-                          <div className={`${styles.tableBodyCell} ${styles.hcenter}`}>
-                            <Flex>
-                              <ActionIcon size='lg' color='red' onClick={() => onDelete(index)}>
-                                <IconTrash size='20px' />
-                              </ActionIcon>
-                            </Flex>
-                          </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))
-                ) : (
-                  <div className={styles.tableRow}>
-                    <div className={styles.rowWrapper}>
-                      <div className={styles.tableBodyCell}>Nenhuma Linha Selecionada</div>
-                    </div>
-                  </div>
-                )}
-                {provided.placeholder}
-              </div>
-              <StopSequenceFooter />
-            </div>
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <div className={styles.column}>
+      <Tooltip label={t('default_dwell_time.description')} position='bottom' width={350} multiline withArrow>
+        <NumberInput
+          aria-label={t('default_dwell_time.label')}
+          placeholder={t('default_dwell_time.placeholder')}
+          defaultValue={30}
+          min={0}
+          max={900}
+          step={10}
+          stepHoldDelay={500}
+          stepHoldInterval={100}
+          icon={<IconClockPause size='20px' />}
+          formatter={formatSecondsToTime}
+          {...patternForm.getInputProps(`path.${rowIndex}.default_dwell_time`)}
+          readOnly={isReadOnly}
+        />
+      </Tooltip>
+    </div>
+  );
+
+  //
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - ZONES COLUMN
+
+function StopSequenceTableZonesColumn({ rowIndex, stopId }) {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
+  const { data: session } = useSession();
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
+  const patternForm = usePatternFormContext();
+
+  //
+  // B. Fetch data
+
+  const { data: allZonesData } = useSWR('/api/zones');
+  const { data: stopData, isLoading: stopLoading } = useSWR(stopId && `/api/stops/${stopId}`);
+
+  //
+  // D. Format data
+
+  const allZonesDataFormatted = useMemo(() => {
+    if (!allZonesData) return [];
+    return allZonesData.map((item) => {
+      return { value: item._id, label: item.name || '-' };
+    });
+  }, [allZonesData]);
+
+  //
+  // Handle actions
+
+  const handleResetZones = () => {
+    if (stopData) {
+      patternForm.setFieldValue(`path.${rowIndex}.zones`, stopData.zones);
+    }
+  };
+
+  //
+  // Render components
+
+  return (
+    <div className={styles.column}>
+      <MultiSelect
+        aria-label={t('zones.label')}
+        placeholder={t('zones.placeholder')}
+        nothingFound={t('zones.nothingFound')}
+        {...patternForm.getInputProps(`path.${rowIndex}.zones`)}
+        data={allZonesDataFormatted}
+        icon={<IconTicket size={20} />}
+        rightSection={
+          <AuthGate scope='lines' permission='create_edit'>
+            <ActionIcon onClick={handleResetZones} loading={stopLoading} disabled={!stopData}>
+              <IconRotate2 size={20} />
+            </ActionIcon>
+          </AuthGate>
+        }
+        readOnly={isReadOnly}
+        searchable
+        w='100%'
+      />
+    </div>
+  );
+
+  //
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - TABLE ROW
+
+function StopSequenceTableRow({ rowIndex, item }) {
+  return (
+    <div className={`${styles.row} ${styles.bodyRow}`}>
+      <StopSequenceTableIndexColumn rowIndex={rowIndex} />
+      <StopSequenceTableStopColumn stopId={item.stop} />
+      <StopSequenceTableAllowPickupColumn rowIndex={rowIndex} />
+      <StopSequenceTableAllowDropoffColumn rowIndex={rowIndex} />
+      <StopSequenceTableDistanceDeltaColumn rowIndex={rowIndex} distanceDelta={item.distance_delta} />
+      <StopSequenceTableDistanceTimesVelocityColumn />
+      <StopSequenceTableVelocityColumn rowIndex={rowIndex} />
+      <StopSequenceTableDistanceTimesVelocityEqualsTravelTimeColumn />
+      <StopSequenceTableTravelTimeColumn rowIndex={rowIndex} />
+      <StopSequenceTableDwellTimeColumn rowIndex={rowIndex} />
+      <StopSequenceTableZonesColumn rowIndex={rowIndex} stopId={item.stop} />
+    </div>
+  );
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE - HEADER
+
+function StopSequenceTableHeader() {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
+
+  //
+  // Render components
+
+  return (
+    <div className={`${styles.row} ${styles.headerRow}`}>
+      <div className={`${styles.column} ${styles.hcenter}`}>
+        <Tooltip label={t('sequence_index.description')} withArrow>
+          <IconSortAscendingNumbers size='20px' />
+        </Tooltip>
+      </div>
+      <div className={styles.column} style={{ paddingLeft: 10 }}>
+        {t('stop.label')}
+      </div>
+      <div className={`${styles.column} ${styles.hcenter}`}>
+        <Tooltip label={t('allow_pickup.label')} withArrow>
+          <IconArrowBarToDown size='20px' />
+        </Tooltip>
+      </div>
+      <div className={`${styles.column} ${styles.hcenter}`}>
+        <Tooltip label={t('allow_drop_off.label')} withArrow>
+          <IconArrowBarUp size='20px' />
+        </Tooltip>
+      </div>
+      <div className={styles.column}>{t('distance_delta.label')}</div>
+      <div className={styles.column} />
+      <div className={styles.column}>{t('default_velocity.label')}</div>
+      <div className={styles.column} />
+      <div className={styles.column}>{t('default_travel_time.label')}</div>
+      <div className={styles.column}>{t('default_dwell_time.label')}</div>
+      <div className={styles.column}>{t('zones.label')}</div>
+    </div>
+  );
+
+  //
+}
+
+//
+//
+//
+
+//
+// STOP SEQUENCE TABLE
+
+export default function StopSequenceTable() {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
+  const patternForm = usePatternFormContext();
+
+  //
+  // Render components
+
+  return (
+    <div className={styles.container}>
+      <StopSequenceTableHeader />
+      <div className={styles.body}>{patternForm.values.path && patternForm.values.path.map((item, index) => <StopSequenceTableRow key={index} rowIndex={index} item={item} />)}</div>
+    </div>
   );
 
   //

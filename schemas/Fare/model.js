@@ -14,11 +14,11 @@ export const Schema = new mongoose.Schema(
       maxlength: 10,
       unique: true,
     },
-    short_name: {
+    name: {
       type: String,
       maxlength: 50,
     },
-    long_name: {
+    short_name: {
       type: String,
       maxlength: 50,
     },

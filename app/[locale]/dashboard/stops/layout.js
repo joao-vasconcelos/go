@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import useSearch from '@/hooks/useSearch';
 import useSWR from 'swr';
@@ -10,8 +10,9 @@ import API from '@/services/API';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
-import { ActionIcon, Menu } from '@mantine/core';
+import { ActionIcon, Menu, Select, Text } from '@mantine/core';
 import { IconCirclePlus, IconDots, IconPencil } from '@tabler/icons-react';
+import { openConfirmModal } from '@mantine/modals';
 import notify from '@/services/notify';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '@/components/ErrorDisplay';
@@ -30,11 +31,13 @@ export default function Layout({ children }) {
   const t = useTranslations('stops');
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
+  const [selectedMunicipality, setSelectedMunicipality] = useState();
 
   //
   // B. Fetch data
 
   const { data: allStopsData, error: allStopsError, isLoading: allStopsLoading, isValidating: allStopsValidating, mutate: allStopsMutate } = useSWR('/api/stops');
+  const { data: allMunicipalitiesData } = useSWR('/api/municipalities');
 
   //
   // C. Search
@@ -42,26 +45,52 @@ export default function Layout({ children }) {
   const filteredStopsData = useSearch(searchQuery, allStopsData, { keys: ['code', 'name', 'latitude', 'longitude'] });
 
   //
-  // C. Handle actions
+  // E. Transform data
+
+  const municipalitiesFormattedForSelect = useMemo(() => {
+    return allMunicipalitiesData
+      ? allMunicipalitiesData.map((item) => {
+          return { value: item._id, label: item.name || '-' };
+        })
+      : [];
+  }, [allMunicipalitiesData]);
+
+  //
+  // D. Handle actions
 
   const handleCreate = async () => {
-    try {
-      setIsCreating(true);
-      notify('new', 'loading', t('operations.create.loading'));
-      const response = await API({ service: 'stops', operation: 'create', method: 'GET' });
-      allStopsMutate();
-      router.push(`/dashboard/stops/${response._id}`);
-      notify('new', 'success', t('operations.create.success'));
-      setIsCreating(false);
-    } catch (err) {
-      notify('new', 'error', err.message || t('operations.create.error'));
-      setIsCreating(false);
-      console.log(err);
-    }
+    openConfirmModal({
+      title: <Text size='h2'>{t('operations.create.title')}</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: (
+        <div style={{ minHeight: 500 }}>
+          <Text size='h3'>Escolha um município</Text>
+          <Select data={municipalitiesFormattedForSelect} label='Municipios' placeholder='Escolha um' searchable />
+        </div>
+      ),
+      labels: { confirm: 'Criar paragem neste município', cancel: 'Cancelar' },
+      //   confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsCreating(true);
+          notify('new', 'loading', t('operations.create.loading'));
+          const response = await API({ service: 'stops', operation: 'create', method: 'POST' });
+          allStopsMutate();
+          router.push(`/dashboard/stops/${response._id}`);
+          notify('new', 'success', t('operations.create.success'));
+          setIsCreating(false);
+        } catch (err) {
+          notify('new', 'error', err.message || t('operations.create.error'));
+          setIsCreating(false);
+          console.log(err);
+        }
+      },
+    });
   };
 
   //
-  // D. Render data
+  // E. Render data
 
   return (
     <AuthGate scope='stops' permission='view' redirect>

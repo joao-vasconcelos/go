@@ -1,0 +1,38 @@
+name: Build & Publish Docker images
+
+on:
+  push:
+    branches:
+      - v2
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: api
+          - name: daemon
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Images
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: ./${{ matrix.name }}
+          file: ./${{ matrix.name }}/Dockerfile
+          tags: ghcr.io/carrismetropolitana/schedules-api-${{ matrix.name }}:${{ github.head_ref || github.ref_name }}

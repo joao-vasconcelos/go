@@ -37,8 +37,8 @@ export const Schema = new mongoose.Schema(
       required: true,
     },
     location_type: {
-      type: String,
-      maxlength: 100,
+      type: Number,
+      default: 0,
     },
     platform_code: {
       type: String,
@@ -46,13 +46,20 @@ export const Schema = new mongoose.Schema(
     },
     parent_station: {
       type: String,
-      maxlength: 100,
+      maxlength: 6,
     },
     public_visible: {
       type: Boolean,
+      default: true,
     },
 
     // Operation
+    zones: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Zone',
+      },
+    ],
     agencies: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -73,11 +80,19 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 100,
     },
-    region: {
+    region_code: {
       type: String,
       maxlength: 100,
     },
-    district: {
+    region_name: {
+      type: String,
+      maxlength: 100,
+    },
+    district_code: {
+      type: String,
+      maxlength: 100,
+    },
+    district_name: {
       type: String,
       maxlength: 100,
     },
@@ -85,7 +100,11 @@ export const Schema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Municipality',
     },
-    parish: {
+    parish_code: {
+      type: String,
+      maxlength: 100,
+    },
+    parish_name: {
       type: String,
       maxlength: 100,
     },

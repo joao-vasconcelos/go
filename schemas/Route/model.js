@@ -11,12 +11,15 @@ export const Schema = new mongoose.Schema(
   {
     code: {
       type: String,
-      maxlength: 50,
+      maxlength: 15,
       unique: true,
     },
     name: {
       type: String,
-      maxlength: 50,
+      maxlength: 100,
+    },
+    path_type: {
+      type: Number,
     },
     parent_line: {
       type: mongoose.Schema.Types.ObjectId,

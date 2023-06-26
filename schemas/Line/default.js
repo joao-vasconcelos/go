@@ -7,12 +7,13 @@
 /* A. Default Values */
 export const Default = {
   code: '',
+  name: '',
   short_name: '',
-  long_name: '',
-  color: '',
-  text_color: '#FFFFFF',
+  transport_type: 3, // bus
   circular: false,
   school: false,
+  continuous: false,
+  line_type: null,
   fare: null,
   agency: null,
   routes: [],

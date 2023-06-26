@@ -46,6 +46,11 @@
   font-weight: 500;
 }
 
+.h5 {
+  font-size: 12px;
+  font-weight: 500;
+}
+
 .fullWidth {
   width: 100%;
 }

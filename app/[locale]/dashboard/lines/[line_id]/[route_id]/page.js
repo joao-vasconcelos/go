@@ -8,7 +8,8 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { Validation as RouteValidation } from '@/schemas/Route/validation';
 import { Default as RouteDefault } from '@/schemas/Route/default';
-import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
+import { Options as RouteOptions } from '@/schemas/Route/options';
+import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '@/components/Pannel/Pannel';
@@ -22,6 +23,7 @@ import PatternCard from '@/components/PatternCard/PatternCard';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import { merge } from 'lodash';
 
 export default function Page() {
   //
@@ -44,6 +46,7 @@ export default function Page() {
 
   const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
   const { data: routeData, error: routeError, isLoading: routeLoading, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: typologyData } = useSWR(lineData && lineData.typology && `/api/typologies/${lineData.typology}`);
 
   //
   // C. Setup form
@@ -58,8 +61,9 @@ export default function Page() {
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      form.setValues(data);
-      form.resetDirty(data);
+      const merged = merge({ ...RouteDefault, ...data });
+      form.setValues(merged);
+      form.resetDirty(merged);
     }
   };
 
@@ -115,8 +119,8 @@ export default function Page() {
     try {
       setIsCreatingPattern(true);
       notify('new-pattern', 'loading', 'A criar Pattern...');
-      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { parent_route: route_id, direction: form.values.patterns.length } });
-      form.insertListItem('patterns', response);
+      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { code: `${routeData.code}_${form.values.patterns.length}`, parent_route: route_id, direction: form.values.patterns.length } });
+      form.insertListItem('patterns', response._id);
       notify('new-pattern', 'success', 'Pattern criado com sucesso.');
       setIsCreatingPattern(false);
     } catch (err) {
@@ -155,7 +159,7 @@ export default function Page() {
             onClose={async () => await handleClose()}
             closeType='back'
           />
-          <LineDisplay short_name={lineData && lineData.short_name} long_name={form.values.name || t('untitled')} color={lineData && lineData.color} text_color={lineData && lineData.text_color} />
+          <LineDisplay short_name={lineData && lineData.short_name} name={form.values.name || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />
@@ -177,8 +181,19 @@ export default function Page() {
           <SimpleGrid cols={4}>
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly />
           </SimpleGrid>
-          <SimpleGrid cols={1}>
+          <SimpleGrid cols={2}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
+            <Select
+              label={t('form.path_type.label')}
+              placeholder={t('form.path_type.placeholder')}
+              nothingFound={t('form.path_type.nothingFound')}
+              {...form.getInputProps('path_type')}
+              data={RouteOptions.path_type.map((item) => {
+                return { value: item, label: t(`form.path_type.options.${item}.label`) };
+              })}
+              readOnly={isReadOnly}
+              searchable
+            />
           </SimpleGrid>
         </Section>
         <Divider />
@@ -188,8 +203,8 @@ export default function Page() {
             <Droppable droppableId='droppable'>
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {form.values.patterns.map((item, index) => (
-                    <PatternCard key={index} index={index} onOpen={handleOpenPattern} _id={item._id} code={item.code} direction={item.direction} headsign={item.headsign} />
+                  {form.values.patterns.map((patternId, index) => (
+                    <PatternCard key={index} index={index} onOpen={handleOpenPattern} _id={patternId} />
                   ))}
                   {provided.placeholder}
                 </div>

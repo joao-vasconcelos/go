@@ -31,6 +31,11 @@ export default async function importLines(req, res) {
   const allLines = await response.json();
 
   for (const route of allLines) {
+    let agencyId;
+    if (route.route_id.startsWith('1')) agencyId = '644976034212abfd6e160d1a';
+    else if (route.route_id.startsWith('2')) agencyId = '645d7ee04ef63aec14fbf1eb';
+    else if (route.route_id.startsWith('3')) agencyId = '645d7f114ef63aec14fbf217';
+    else if (route.route_id.startsWith('4')) agencyId = '645d7f204ef63aec14fbf22a';
     await LineModel.findOneAndUpdate(
       { code: route.route_short_name },
       {
@@ -40,6 +45,7 @@ export default async function importLines(req, res) {
         long_name: route.route_long_name,
         color: route.route_color,
         text_color: route.route_text_color,
+        agency: agencyId,
       },
       { new: true, upsert: true }
     );

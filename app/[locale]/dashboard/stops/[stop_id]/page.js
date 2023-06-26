@@ -9,7 +9,7 @@ import { useMap, Source, Layer } from 'react-map-gl';
 import API from '@/services/API';
 import { Validation as StopValidation } from '@/schemas/Stop/validation';
 import { Default as StopDefault } from '@/schemas/Stop/default';
-import { Tooltip, Select, SimpleGrid, Switch, MultiSelect, TextInput, NumberInput, ActionIcon, Divider, Textarea } from '@mantine/core';
+import { Tooltip, Select, SimpleGrid, Switch, MultiSelect, TextInput, NumberInput, ActionIcon, Divider, Textarea, Alert, Space } from '@mantine/core';
 import { IconTrash, IconWorldLatitude, IconWorldLongitude, IconVolume, IconBrandGoogleMaps } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import { Section } from '@/components/Layouts/Layouts';
@@ -45,8 +45,9 @@ export default function Page() {
 
   const { mutate: allStopsMutate } = useSWR('/api/stops');
   const { data: stopData, error: stopError, isLoading: stopLoading } = useSWR(stop_id && `/api/stops/${stop_id}`, { onSuccess: (data) => keepFormUpdated(data) });
-  const { data: agenciesData } = useSWR('/api/agencies');
-  const { data: municipalitiesData } = useSWR('/api/municipalities');
+  const { data: allAgenciesData } = useSWR('/api/agencies');
+  const { data: allMunicipalitiesData } = useSWR('/api/municipalities');
+  const { data: allZonesData } = useSWR('/api/zones');
 
   //
   // C. Setup form
@@ -137,13 +138,19 @@ export default function Page() {
   //
   // E. Transform data
 
-  const municipalitiesFormattedForSelect = useMemo(() => {
-    return municipalitiesData
-      ? municipalitiesData.map((item) => {
-          return { value: item._id, label: item.name || '-' };
-        })
-      : [];
-  }, [municipalitiesData]);
+  const allMunicipalitiesDataFormatted = useMemo(() => {
+    if (!allMunicipalitiesData) return [];
+    return allMunicipalitiesData.map((item) => {
+      return { value: item._id, label: item.name || '-' };
+    });
+  }, [allMunicipalitiesData]);
+
+  const allZonesDataFormatted = useMemo(() => {
+    if (!allZonesData) return [];
+    return allZonesData.map((item) => {
+      return { value: item._id, label: item.name || '-' };
+    });
+  }, [allZonesData]);
 
   const mapData = useMemo(() => {
     // Create a GeoJSON object
@@ -281,25 +288,11 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.areas.title')}</Text>
-            <Text size='h4'>{t('sections.areas.description')}</Text>
+            <Text size='h2'>{t('sections.zoning.title')}</Text>
+            <Text size='h4'>{t('sections.zoning.description')}</Text>
           </div>
           <SimpleGrid cols={1}>
-            <MultiSelect
-              label={t('form.agencies.label')}
-              placeholder={t('form.agencies.placeholder')}
-              nothingFound={t('form.agencies.nothingFound')}
-              data={
-                agenciesData
-                  ? agenciesData.map((item) => {
-                      return { value: item._id, label: item.agency_name || '-' };
-                    })
-                  : []
-              }
-              {...form.getInputProps('agencies')}
-              readOnly={isReadOnly}
-              searchable
-            />
+            <MultiSelect label={t('form.zones.label')} placeholder={t('form.zones.placeholder')} {...form.getInputProps('zones')} readOnly={isReadOnly} data={allZonesDataFormatted} />
           </SimpleGrid>
         </Section>
 
@@ -310,15 +303,22 @@ export default function Page() {
             <Text size='h2'>{t('sections.admin.title')}</Text>
             <Text size='h4'>{t('sections.admin.description')}</Text>
           </div>
+          <div style={{ backgroundColor: 'blue' }}>
+            <Text size='h3'>{t('sections.admin.description')}</Text>
+            <Space h={20} />
+            <SimpleGrid cols={3}>
+              <Select label={t('form.municipality.label')} placeholder={t('form.municipality.placeholder')} {...form.getInputProps('municipality')} readOnly={isReadOnly} data={allMunicipalitiesDataFormatted} />
+              <TextInput label={t('form.district.label')} placeholder={t('form.district.placeholder')} {...form.getInputProps('district')} readOnly />
+              <TextInput label={t('form.region.label')} placeholder={t('form.region.placeholder')} {...form.getInputProps('region')} readOnly />
+            </SimpleGrid>
+          </div>
+          <SimpleGrid cols={3}>
+            <TextInput label={t('form.parish.label')} placeholder={t('form.parish.placeholder')} {...form.getInputProps('parish')} readOnly={isReadOnly} />
+          </SimpleGrid>
           <SimpleGrid cols={3}>
             <TextInput label={t('form.address.label')} placeholder={t('form.address.placeholder')} {...form.getInputProps('address')} readOnly={isReadOnly} />
             <TextInput label={t('form.postal_code.label')} placeholder={t('form.postal_code.placeholder')} {...form.getInputProps('postal_code')} readOnly={isReadOnly} />
             <TextInput label={t('form.locality.label')} placeholder={t('form.locality.placeholder')} {...form.getInputProps('locality')} readOnly={isReadOnly} />
-          </SimpleGrid>
-          <SimpleGrid cols={3}>
-            <TextInput label={t('form.region.label')} placeholder={t('form.region.placeholder')} {...form.getInputProps('region')} readOnly={isReadOnly} />
-            <TextInput label={t('form.municipality.label')} placeholder={t('form.municipality.placeholder')} {...form.getInputProps('municipality')} readOnly={isReadOnly} />
-            <TextInput label={t('form.parish.label')} placeholder={t('form.parish.placeholder')} {...form.getInputProps('parish')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
             <TextInput label={t('form.jurisdiction.label')} placeholder={t('form.jurisdiction.placeholder')} {...form.getInputProps('jurisdiction')} readOnly={isReadOnly} />

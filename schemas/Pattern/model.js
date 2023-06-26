@@ -11,7 +11,7 @@ export const Schema = new mongoose.Schema(
   {
     code: {
       type: String,
-      maxlength: 50,
+      maxlength: 25,
       unique: true,
     },
     parent_route: {
@@ -54,10 +54,10 @@ export const Schema = new mongoose.Schema(
         default_dwell_time: {
           type: Number,
         },
-        apex: [
+        zones: [
           {
-            type: String,
-            maxlength: 100,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Zone',
           },
         ],
       },
@@ -80,6 +80,29 @@ export const Schema = new mongoose.Schema(
             ref: 'Calendar',
           },
         ],
+        calendar_desc: {
+          type: String,
+          maxlength: 500,
+        },
+        resources: {
+          typology: {
+            type: String,
+            maxlength: 500,
+          },
+          propulsion: {
+            type: String,
+            maxlength: 500,
+          },
+          bicycles: {
+            type: Boolean,
+          },
+          passenger_counting: {
+            type: Boolean,
+          },
+          video_surveillance: {
+            type: Boolean,
+          },
+        },
         path_overrides: [
           {
             sequence_index: {

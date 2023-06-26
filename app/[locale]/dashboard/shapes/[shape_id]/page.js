@@ -22,6 +22,7 @@ import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import StatCard from '@/components/StatCard/StatCard';
 import ImportShapeFromGTFS from '@/components/ImportShapeFromGTFS/ImportShapeFromGTFS';
+import { merge } from 'lodash';
 
 export default function Page() {
   //
@@ -52,13 +53,14 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(ShapeValidation),
-    initialValues: shapeData || ShapeDefault,
+    initialValues: ShapeDefault,
   });
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      form.setValues(data);
-      form.resetDirty(data);
+      const merged = merge(ShapeDefault, data);
+      form.setValues(merged);
+      form.resetDirty(merged);
     }
   };
 
@@ -265,7 +267,6 @@ export default function Page() {
           <Text size='h2'>{t('sections.update.title')}</Text>
           <Text size='h4'>{t('sections.update.description')}</Text>
         </div>
-        {/* <ImportShapeFromText onImport={(result) => form.setFieldValue('points', result)} /> */}
         <ImportShapeFromGTFS onImport={handleImport} />
       </Section>
     </Pannel>

@@ -3,7 +3,7 @@ import Link from 'next-intl/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Tooltip, ActionIcon } from '@mantine/core';
-import { IconChartPie, IconAlertTriangle, IconBusStop, IconArrowLoopRight, IconCalendarDue, IconShape2, IconCoins, IconBuildingCommunity, IconMessageChatbot, IconFileZip, IconUsers } from '@tabler/icons-react';
+import { IconChartPie, IconAlertTriangle, IconBusStop, IconArrowLoopRight, IconCalendarDue, IconShape2, IconMessageChatbot, IconFileZip, IconUsers, IconMoodSearch } from '@tabler/icons-react';
 import AuthGate from '../AuthGate/AuthGate';
 
 export default function AppSidebar() {
@@ -19,11 +19,10 @@ export default function AppSidebar() {
     { href: 'lines', label: t('lines'), icon: <IconArrowLoopRight />, auth_scope: 'lines', auth_permission: 'view' },
     { href: 'calendars', label: t('calendars'), icon: <IconCalendarDue />, auth_scope: 'calendars', auth_permission: 'view' },
     { href: 'shapes', label: t('shapes'), icon: <IconShape2 />, auth_scope: 'shapes', auth_permission: 'view' },
-    { href: 'fares', label: t('fares'), icon: <IconCoins />, auth_scope: 'fares', auth_permission: 'view' },
-    { href: 'agencies', label: t('agencies'), icon: <IconBuildingCommunity />, auth_scope: 'agencies', auth_permission: 'view' },
     { href: 'threads', label: t('threads'), icon: <IconMessageChatbot />, auth_scope: 'threads', auth_permission: 'view' },
     { href: 'export', label: t('export'), icon: <IconFileZip />, auth_scope: 'export', auth_permission: 'view' },
     { href: 'users', label: t('users'), icon: <IconUsers />, auth_scope: 'users', auth_permission: 'view' },
+    // { href: 'feedback', label: t('feedback'), icon: <IconMoodSearch />, auth_scope: 'users', auth_permission: 'view' },
   ];
 
   const isActivePage = (href) => {

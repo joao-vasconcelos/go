@@ -34,10 +34,10 @@ export default async function linesDelete(req, res) {
     // Delete Routes associated with this Line
     const routeDocumentsToDelete = await RouteModel.find({ parent_line: req.query._id });
     for (const routeToDelete of routeDocumentsToDelete) {
-      // Delete Route document
-      await RouteModel.findOneAndDelete({ _id: routeToDelete._id });
       // Delete Patterns associated with the deleted Route
       await PatternModel.deleteMany({ parent_route: routeToDelete._id });
+      // Delete Route document
+      await RouteModel.findOneAndDelete({ _id: routeToDelete._id });
     }
     return await res.status(200).send(deletedLineDocument);
   } catch (err) {

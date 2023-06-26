@@ -20,6 +20,7 @@ import UserActivityBadge from '@/components/UserActivityBadge/UserActivityBadge'
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import { merge } from 'lodash';
 
 export default function Page() {
   //
@@ -54,13 +55,14 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(UserValidation),
-    initialValues: userData || UserDefault,
+    initialValues: UserDefault,
   });
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      form.setValues(data);
-      form.resetDirty(data);
+      const merged = merge({ ...UserDefault }, { ...data });
+      form.setValues(merged);
+      form.resetDirty(merged);
     }
   };
 
@@ -332,6 +334,34 @@ export default function Page() {
 
         <Section>
           <div>
+            <Text size='h2'>{t('form.permissions.typologies.title')}</Text>
+            <Text size='h4'>{t('form.permissions.typologies.description')}</Text>
+          </div>
+          <SimpleGrid cols={3} mt='md'>
+            <Switch label={t('form.permissions.typologies.view.label')} description={t('form.permissions.typologies.view.description')} size='md' {...form.getInputProps('permissions.typologies.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch
+              size='md'
+              label={t('form.permissions.typologies.create_edit.label')}
+              description={t('form.permissions.typologies.create_edit.description')}
+              {...form.getInputProps('permissions.typologies.create_edit', { type: 'checkbox' })}
+              disabled={!form.values.permissions.typologies.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.typologies.delete.label')}
+              description={t('form.permissions.typologies.delete.description')}
+              {...form.getInputProps('permissions.typologies.delete', { type: 'checkbox' })}
+              disabled={!form.values.permissions.typologies.view}
+              readOnly={isReadOnly}
+            />
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
             <Text size='h2'>{t('form.permissions.fares.title')}</Text>
             <Text size='h4'>{t('form.permissions.fares.description')}</Text>
           </div>
@@ -351,6 +381,34 @@ export default function Page() {
               description={t('form.permissions.fares.delete.description')}
               {...form.getInputProps('permissions.fares.delete', { type: 'checkbox' })}
               disabled={!form.values.permissions.fares.view}
+              readOnly={isReadOnly}
+            />
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size='h2'>{t('form.permissions.zones.title')}</Text>
+            <Text size='h4'>{t('form.permissions.zones.description')}</Text>
+          </div>
+          <SimpleGrid cols={3} mt='md'>
+            <Switch label={t('form.permissions.zones.view.label')} description={t('form.permissions.zones.view.description')} size='md' {...form.getInputProps('permissions.zones.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch
+              size='md'
+              label={t('form.permissions.zones.create_edit.label')}
+              description={t('form.permissions.zones.create_edit.description')}
+              {...form.getInputProps('permissions.zones.create_edit', { type: 'checkbox' })}
+              disabled={!form.values.permissions.zones.view}
+              readOnly={isReadOnly}
+            />
+            <Switch
+              size='md'
+              label={t('form.permissions.zones.delete.label')}
+              description={t('form.permissions.zones.delete.description')}
+              {...form.getInputProps('permissions.zones.delete', { type: 'checkbox' })}
+              disabled={!form.values.permissions.zones.view}
               readOnly={isReadOnly}
             />
           </SimpleGrid>

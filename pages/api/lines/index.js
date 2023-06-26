@@ -1,6 +1,7 @@
 import delay from '../../../services/delay';
 import mongodb from '../../../services/mongodb';
 import { Model as LineModel } from '../../../schemas/Line/model';
+import { Model as TypologyModel } from '../../../schemas/Typology/model';
 
 /* * */
 /* LIST ALL LINES */
@@ -27,7 +28,7 @@ export default async function linesList(req, res) {
 
   // 2. Try to list all documents
   try {
-    const allDocuments = await LineModel.find({});
+    const allDocuments = await LineModel.find({}).populate('typology');
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);

@@ -37,7 +37,7 @@ export default async function patternsCreate(req, res) {
 
   // 2. Try to save a new document with req.body
   try {
-    const newPattern = { ...PatternDefault, parent_route: req.body.parent_route, direction: req.body.direction };
+    const newPattern = { ...PatternDefault, code: req.body.code, parent_route: req.body.parent_route, direction: req.body.direction };
     const createdDocument = await PatternModel(newPattern).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {

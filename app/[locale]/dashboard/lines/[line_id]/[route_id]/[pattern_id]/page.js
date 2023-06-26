@@ -1,14 +1,15 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
-import { useForm, yupResolver } from '@mantine/form';
+import { yupResolver } from '@mantine/form';
+import { PatternFormProvider, usePatternForm } from '@/contexts/patternForm';
 import API from '@/services/API';
 import { Validation as PatternValidation } from '@/schemas/Pattern/validation';
 import { Default as PatternDefault } from '@/schemas/Pattern/default';
-import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
 import { IconExternalLink, IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -19,10 +20,11 @@ import { openConfirmModal } from '@mantine/modals';
 import LineDisplay from '@/components/LineDisplay/LineDisplay';
 import StopSequenceTable from '@/components/StopSequenceTable/StopSequenceTable';
 import SchedulesTable from '@/components/SchedulesTable/SchedulesTable';
-import calculateDistanceBetweenStops from '@/services/calculateDistanceBetweenStops';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import { merge } from 'lodash';
+import ImportPathFromGTFS from '@/components/ImportPathFromGTFS/ImportPathFromGTFS';
 
 export default function Page() {
   //
@@ -34,8 +36,7 @@ export default function Page() {
   const t = useTranslations('patterns');
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
-  const [isCreatingStopSequence, setIsCreatingStopSequence] = useState();
-  const [isCreatingSchedule, setIsCreatingSchedule] = useState();
+  const [isImporting, setIsImporting] = useState();
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
@@ -47,31 +48,44 @@ export default function Page() {
   const { data: allShapesData } = useSWR('/api/shapes');
   const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
   const { data: routeData, error: routeError, isLoading: routeLoading, isValidating: routeValidating, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
-  const { data: patternData, error: patternError, isLoading: patternLoading } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: typologyData } = useSWR(lineData && lineData.typology && `/api/typologies/${lineData.typology}`);
+  const { data: patternData, error: patternError, isLoading: patternLoading, mutate: patternMutate } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
-  // C. Setup form
+  // C. Setup patternForm
 
-  const form = useForm({
+  const patternForm = usePatternForm({
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(PatternValidation),
-    initialValues: patternData || PatternDefault,
+    initialValues: PatternDefault,
   });
 
   const keepFormUpdated = (data) => {
-    if (!form.isDirty()) {
-      form.setValues(data);
-      form.resetDirty(data);
+    if (!patternForm.isDirty()) {
+      const merged = merge({ ...PatternDefault, ...data });
+      patternForm.setValues(merged);
+      patternForm.resetDirty(merged);
     }
   };
+
+  //
+  // D. Format data
+
+  const allShapesDataFormatted = useMemo(() => {
+    return allShapesData
+      ? allShapesData.map((item) => {
+          return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
+        })
+      : [];
+  }, [allShapesData]);
 
   //
   // D. Handle actions
 
   const handleValidate = () => {
-    form.validate();
+    patternForm.validate();
   };
 
   const handleClose = async () => {
@@ -81,8 +95,9 @@ export default function Page() {
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      await API({ service: 'patterns', resourceId: pattern_id, operation: 'edit', method: 'PUT', body: form.values });
-      form.resetDirty();
+      await API({ service: 'patterns', resourceId: pattern_id, operation: 'edit', method: 'PUT', body: patternForm.values });
+      patternMutate();
+      patternForm.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
     } catch (err) {
@@ -90,7 +105,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [pattern_id, form]);
+  }, [pattern_id, patternForm, patternMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -114,119 +129,30 @@ export default function Page() {
     });
   };
 
-  const handleCreateStopSequence = async () => {
-    form.insertListItem('path', PatternDefault.path[0]);
-  };
-
-  const handleStopSequenceReorder = async ({ source, destination }) => {
-    if (!source || !destination || isReadOnly) return;
-    if (source.index === destination.index) return;
+  const handleImportPath = async (importedPath) => {
     openConfirmModal({
       title: (
         <Text size={'lg'} fw={700}>
-          Re-ordernar sequência de paragens?
-        </Text>
-      ),
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text>Atenção que ao re-ordenar as paragens pode causar erros no cálculo das distâncias, etc. Tem a certeza que pretende re-ordenar a sequência de paragens?</Text>,
-      labels: { confirm: 'Sim, re-ordenar paragens', cancel: 'Manter como está' },
-      confirmProps: { color: 'blue' },
-      onConfirm: async () => {
-        // Perform reorder on confirm
-        form.reorderListItem('path', { from: source.index, to: destination.index });
-        // Reset values of first stop to zero
-        // form.setValues('path.0.distance_delta', 0);
-        // form.setValues('path.0.default_velocity', 0);
-      },
-    });
-  };
-
-  const handleDeleteSequenceRow = async (index) => {
-    openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar paragem da sequência?
-        </Text>
-      ),
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text>Atenção que ao re-ordenar as paragens pode causar erros no cálculo das distâncias, etc. Tem a certeza que pretende re-ordenar a sequência de paragens?</Text>,
-      labels: { confirm: 'Sim, eliminar paragem', cancel: 'Manter como está' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        // Perform delete on confirm
-        form.removeListItem('path', index);
-      },
-    });
-  };
-
-  const handleCalculateStopDistances = async () => {
-    //
-
-    // console.log(patternData.path);
-    // return;
-
-    const patternShape = await API({ service: 'shapes', resourceId: form.values.shape, method: 'GET' });
-    const patternShapeCoordinates = patternShape.geojson.geometry.coordinates;
-
-    for (let index = 0; index < form.values.path.length; index++) {
-      //
-      // Skip the first iteration
-      if (index === 0) {
-        // The first stop is zero
-        form.setFieldValue(`path.${index}.distance_delta`, 0);
-        continue;
-        //
-      }
-
-      // Get the two stops
-      const stopSequencePrev = form.values.path[index - 1];
-      const stopSequenceCurrent = form.values.path[index];
-
-      const stopPrev = await API({ service: 'stops', resourceId: stopSequencePrev.stop_id, method: 'GET' });
-      const stopCurrent = await API({ service: 'stops', resourceId: stopSequenceCurrent.stop_id, method: 'GET' });
-
-      const stopPrevCoordinates = [stopPrev.stop_lat, stopPrev.stop_lon];
-      const stopCurrentCoordinates = [stopCurrent.stop_lat, stopCurrent.stop_lon];
-
-      console.log('stopPrevCoordinates', stopPrevCoordinates);
-      console.log('stopCurrentCoordinates', stopCurrentCoordinates);
-
-      const distance = calculateDistanceBetweenStops(stopPrevCoordinates, stopCurrentCoordinates, patternShapeCoordinates);
-
-      form.setFieldValue(`path.${index}.distance_delta`, distance);
-
-      console.log('distance', distance);
-    }
-
-    // getStopsDistance();
-    console.log('calculate stop distances');
-  };
-
-  //   const handleOpenStopSequence = (pattern_id) => {
-  //     router.push(`/dashboard/lines/${line_id}/${route_id}/${pattern_id}`);
-  //   };
-
-  const handleCreateSchedule = async () => {
-    form.insertListItem('schedules', PatternDefault.schedules[0]);
-  };
-
-  const handleDeleteScheduleRow = async (index) => {
-    openConfirmModal({
-      title: (
-        <Text size={'lg'} fw={700}>
-          Eliminar horário?
+          Replace path?
         </Text>
       ),
       centered: true,
       closeOnClickOutside: true,
       children: <Text>Tem a certeza que pretende eliminar este horário?</Text>,
-      labels: { confirm: 'Sim, eliminar horário', cancel: 'Manter como está' },
-      confirmProps: { color: 'red' },
+      labels: { confirm: 'Sim, importar percurso', cancel: 'Manter como está' },
       onConfirm: async () => {
-        // Perform delete on confirm
-        form.removeListItem('schedules', index);
+        try {
+          setIsImporting(true);
+          await API({ service: 'patterns', resourceId: pattern_id, operation: 'import', method: 'PUT', body: importedPath });
+          patternMutate();
+          patternForm.resetDirty();
+          setIsImporting(false);
+          setHasErrorSaving(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          setHasErrorSaving(err);
+        }
       },
     });
   };
@@ -236,12 +162,12 @@ export default function Page() {
 
   return (
     <Pannel
-      loading={patternLoading}
+      loading={patternLoading || isImporting}
       header={
         <>
           <AutoSave
-            isValid={form.isValid()}
-            isDirty={form.isDirty()}
+            isValid={patternForm.isValid()}
+            isDirty={patternForm.isDirty()}
             isLoading={patternLoading}
             isErrorValidating={patternError}
             isSaving={isSaving}
@@ -251,7 +177,7 @@ export default function Page() {
             onClose={async () => await handleClose()}
             closeType='back'
           />
-          <LineDisplay short_name={lineData && lineData.short_name} long_name={form.values.headsign || t('untitled')} color={lineData && lineData.color} text_color={lineData && lineData.text_color} />
+          <LineDisplay short_name={lineData && lineData.short_name} name={patternForm.values.headsign || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
           <Tooltip label='Ver no site' color='blue' position='bottom' withArrow>
             <ActionIcon color='blue' variant='light' size='lg'>
               <IconExternalLink size='20px' />
@@ -267,63 +193,68 @@ export default function Page() {
         </>
       }
     >
-      <form onSubmit={form.onSubmit(async () => await handleSave())}>
-        <Section>
-          <Text size='h2'>{t('sections.config.title')}</Text>
-          <SimpleGrid cols={4}>
-            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly />
-          </SimpleGrid>
-          <SimpleGrid cols={2}>
-            <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} description={t('form.headsign.description')} {...form.getInputProps('headsign')} />
-            <Select
-              label={t('form.shape.label')}
-              placeholder={t('form.shape.placeholder')}
-              nothingFound={t('form.shape.nothingFound')}
-              description={t.rich('form.shape.description', {
-                link: (chunks) =>
-                  form.values.shape && (
-                    <a href={`/dashboard/shapes/${form.values.shape}`} target='_blank'>
-                      {chunks}
-                    </a>
-                  ),
-              })}
-              {...form.getInputProps('shape')}
-              data={
-                allShapesData
-                  ? allShapesData.map((shape) => {
-                      return { value: shape._id, label: `[${shape.code}] ${shape.name || t('form.shape.untitled')}` };
-                    })
-                  : []
-              }
-              searchable
-              clearable
-            />
-          </SimpleGrid>
-        </Section>
-        <Divider />
-        <Section>
-          <Text size='h2'>{t('sections.stops.title')}</Text>
-          <Button onClick={handleCalculateStopDistances} disabled={isCreatingStopSequence} variant='light'>
-            Calcular distâncias entre paragens
-          </Button>
-          <SimpleGrid cols={1}>
-            <StopSequenceTable form={form} onReorder={handleStopSequenceReorder} onDelete={handleDeleteSequenceRow} />
-            <Button onClick={handleCreateStopSequence} loading={isCreatingStopSequence}>
-              Add Stop to Sequence
-            </Button>
-          </SimpleGrid>
-        </Section>
-        <Divider />
-        <Section>
-          <Text size='h2'>{t('sections.schedules.title')}</Text>
-          <SimpleGrid cols={1}>
-            <SchedulesTable form={form} onDelete={handleDeleteScheduleRow} />
-            <Button onClick={handleCreateSchedule} loading={isCreatingSchedule}>
-              Adicionar novo Horário
-            </Button>
-          </SimpleGrid>
-        </Section>
-      </form>
+      <PatternFormProvider form={patternForm}>
+        <form onSubmit={patternForm.onSubmit(async () => await handleSave())}>
+          <Section>
+            <Text size='h2'>{t('sections.config.title')}</Text>
+            <SimpleGrid cols={4}>
+              <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...patternForm.getInputProps('code')} readOnly />
+            </SimpleGrid>
+            <SimpleGrid cols={2}>
+              <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} /* description={t('form.headsign.description')} */ {...patternForm.getInputProps('headsign')} />
+              <Select
+                label={t('form.shape.label')}
+                placeholder={t('form.shape.placeholder')}
+                nothingFound={t('form.shape.nothingFound')}
+                // description={
+                //   patternForm.values.shape &&
+                //   t.rich('form.shape.description', {
+                //     link: (chunks) => (
+                //       <a href={`/dashboard/shapes/${patternForm.values.shape}`} target='_blank'>
+                //         {chunks}
+                //       </a>
+                //     ),
+                //   })
+                // }
+                {...patternForm.getInputProps('shape')}
+                data={allShapesDataFormatted}
+                searchable
+                clearable
+              />
+            </SimpleGrid>
+          </Section>
+
+          <Divider />
+
+          <Section>
+            <div>
+              <Text size='h2'>{t('sections.path.title')}</Text>
+              <Text size='h4'>{t('sections.path.description')}</Text>
+            </div>
+            <StopSequenceTable />
+          </Section>
+
+          <Divider />
+
+          <Section>
+            <div>
+              <Text size='h2'>{t('sections.update_path.title')}</Text>
+              <Text size='h4'>{t('sections.update_path.description')}</Text>
+            </div>
+            <ImportPathFromGTFS onImport={handleImportPath} />
+          </Section>
+
+          <Divider />
+
+          <Section>
+            <div>
+              <Text size='h2'>{t('sections.schedules.title')}</Text>
+              <Text size='h4'>{t('sections.schedules.description')}</Text>
+            </div>
+            <SchedulesTable />
+          </Section>
+        </form>
+      </PatternFormProvider>
     </Pannel>
   );
 }

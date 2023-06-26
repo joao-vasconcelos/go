@@ -20,7 +20,7 @@ export const Default = {
       default_velocity: 20,
       default_travel_time: 0,
       default_dwell_time: 30,
-      apex: [],
+      zones: [],
     },
   ],
   schedules: [
@@ -28,6 +28,14 @@ export const Default = {
       calendars_on: [],
       calendars_off: [],
       start_time: '',
+      calendar_desc: '',
+      resources: {
+        typology: '',
+        propulsion: '',
+        bicycles: true,
+        passenger_counting: true,
+        video_surveillance: true,
+      },
       path_overrides: [],
     },
   ],

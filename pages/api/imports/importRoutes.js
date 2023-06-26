@@ -30,6 +30,9 @@ export default async function importRoutes(req, res) {
   const allLines = await LineModel.find({});
 
   for (const line of allLines) {
+    // Skip if not A4
+    if (!line.code.startsWith('4')) continue;
+
     try {
       const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_short_name/${line.code}`);
       const allRoutesForThisLine = await response.json();

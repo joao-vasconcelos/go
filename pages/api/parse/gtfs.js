@@ -1,21 +1,12 @@
 import delay from '@/services/delay';
-import mongodb from '@/services/mongodb';
 import AdmZip from 'adm-zip';
 import formidable from 'formidable';
 import Papa from 'papaparse';
-import { Model as AgencyModel } from '@/schemas/Agency/model';
-import { IconChevronsDownLeft } from '@tabler/icons-react';
 
 /* * */
 /* PARSE GTFS ARCHIVE */
 /* This endpoint receives a GTFS archive and parses its contents into JSON. */
 /* * */
-
-// export const config = {
-//   api: {
-//     bodyParser: false, // Disallow body parsing, consume as stream
-//   },
-// };
 
 export const config = {
   api: {
@@ -41,19 +32,19 @@ export default async function parseGTFS(req, res) {
 
   try {
     //
-    const form = new formidable.IncomingForm({ multiples: true, keepExtensions: true });
+    const form = formidable({ keepExtensions: true });
     //
     form.parse(req, async (err, fields, files) => {
       // Abort if error
       if (err) return res.status(400).json({ message: err });
       // Setup AdmZip with archive location
-      const zipArchive = new AdmZip(files.file.filepath);
+      const zipArchive = new AdmZip(files.file[0].filepath);
       //
       const zipEntries = zipArchive.getEntries(); // an array of ZipEntry records
-
       //
       let gtfsRoutes = [];
       let gtfsTrips = [];
+      let gtfsStopTimes = [];
       let gtfsShapes = [];
 
       for (const zipEntry of zipEntries) {
@@ -69,9 +60,33 @@ export default async function parseGTFS(req, res) {
           gtfsTrips = jsonDataDeduped;
         }
         //
+        if (zipEntry.entryName === 'stop_times.txt') {
+          const jsonData = Papa.parse(zipEntry.getData().toString('utf8'), { header: true, skipEmptyLines: true, dynamicTyping: false });
+          jsonData.data.forEach((stopTimesData) => {
+            const tripId = stopTimesData.trip_id;
+            const pathSequence = {
+              stop_id: stopTimesData.stop_id,
+              stop_sequence: stopTimesData.stop_sequence,
+              arrival_time: stopTimesData.arrival_time,
+              departure_time: stopTimesData.departure_time,
+              shape_dist_traveled: stopTimesData.shape_dist_traveled,
+            };
+
+            const existingStopTime = gtfsStopTimes.find((stopTimes) => stopTimes.trip_id === tripId);
+
+            if (existingStopTime) {
+              existingStopTime.path.push(pathSequence);
+            } else {
+              gtfsStopTimes.push({
+                trip_id: tripId,
+                path: [pathSequence],
+              });
+            }
+          });
+        }
+        //
         if (zipEntry.entryName === 'shapes.txt') {
           const jsonData = Papa.parse(zipEntry.getData().toString('utf8'), { header: true, skipEmptyLines: true, dynamicTyping: false });
-          //   const jsonDataDeduped = jsonData.data.filter((arr, index, self) => index === self.findIndex((t) => t.route_id === arr.route_id && t.direction_id === arr.direction_id && t.shape_id === arr.shape_id));
           jsonData.data.forEach((shapeData) => {
             const shapeId = shapeData.shape_id;
             const point = {
@@ -109,10 +124,13 @@ export default async function parseGTFS(req, res) {
           if (trip.route_id === route.route_id) {
             // Find the shape associated with the trip
             let shape = gtfsShapes.find((shape) => shape.shape_id === trip.shape_id);
+            // Find the path associated with the trip
+            let stopTime = gtfsStopTimes.find((stopTime) => stopTime.trip_id === trip.trip_id);
             // Create a new trip object with shape information
             let tripWithShape = {
               ...trip,
               shape: shape,
+              path: stopTime.path,
             };
             trips.push(tripWithShape);
           }

@@ -11,30 +11,32 @@ export const Schema = new mongoose.Schema(
   {
     code: {
       type: String,
-      maxlength: 10,
+      maxlength: 5,
       unique: true,
+    },
+    name: {
+      type: String,
+      maxlength: 100,
     },
     short_name: {
       type: String,
-      maxlength: 50,
+      maxlength: 5,
     },
-    long_name: {
-      type: String,
-      maxlength: 50,
-    },
-    color: {
-      type: String,
-      maxlength: 50,
-    },
-    text_color: {
-      type: String,
-      maxlength: 50,
+    transport_type: {
+      type: Number,
     },
     circular: {
       type: Boolean,
     },
     school: {
       type: Boolean,
+    },
+    continuous: {
+      type: Boolean,
+    },
+    typology: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Typology',
     },
     fare: {
       type: mongoose.Schema.Types.ObjectId,

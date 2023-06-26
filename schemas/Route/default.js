@@ -7,7 +7,8 @@
 /* A. Default Values */
 export const Default = {
   code: '',
-  parent_line: null,
   name: '',
+  path_type: 0,
+  parent_line: null,
   patterns: [],
 };

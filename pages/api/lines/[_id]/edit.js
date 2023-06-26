@@ -2,7 +2,6 @@ import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
 import { Validation as LineValidation } from '../../../../schemas/Line/validation';
 import { Model as LineModel } from '../../../../schemas/Line/model';
-import { Model as RouteModel } from '../../../../schemas/Route/model';
 
 /* * */
 /* EDIT LINE */
@@ -54,18 +53,6 @@ export default async function linesEdit(req, res) {
   } catch (err) {
     console.log(err);
     return await res.status(409).json({ message: err.message });
-  }
-
-  // 5. Update nested routes with correct code
-  try {
-    for (const [routeIndex, routeData] of req.body.routes.entries()) {
-      const routeDocument = await RouteModel.findOne({ _id: routeData._id });
-      routeDocument.code = `${req.body.code}_${routeIndex}`;
-      await RouteModel.findOneAndUpdate({ _id: routeData._id }, routeDocument);
-    }
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: err.message });
   }
 
   // 2. Try to update the correct document
