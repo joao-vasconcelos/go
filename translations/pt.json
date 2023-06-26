@@ -218,18 +218,18 @@
         "operations": {
             "create": {
                 "title": "Criar Tipologia",
-                "loading": "Creating new Typology...",
-                "success": "A new Typology was created!",
-                "error": "An error occurred while creating this Typology."
+                "loading": "A criar Tipologia...",
+                "success": "Foi criada uma nova Tipologia!",
+                "error": "Ocorreu um erro ao criar esta Tipologia."
             },
             "delete": {
-                "title": "Delete Typology",
-                "description": "Deleting is irreversible. Are you sure you want to delete this Typology forever?",
-                "confirm": "Delete Typology Forever",
+                "title": "Eliminar Tipologia",
+                "description": "Eliminar é irreversível. Tem certeza de que deseja eliminar esta Tipologia para sempre?",
+                "confirm": "Eliminar Tipologia para Sempre",
                 "cancel": "Não Eliminar",
-                "loading": "Deleting Typology...",
-                "success": "Typology was deleted.",
-                "error": "An error occurred while deleting this Typology."
+                "loading": "A Eliminar Tipologia...",
+                "success": "Tipologia eliminada.",
+                "error": "Ocorreu um erro ao eliminar esta Tipologia."
             }
         },
         "sections": {
@@ -237,7 +237,7 @@
                 "title": "Detalhes"
             },
             "appearance": {
-                "title": "Appearance"
+                "title": "Aparência"
             }
         },
         "form": {
@@ -1626,7 +1626,9 @@
             "description": "Sequência de paragens no percurso."
         },
         "stop": {
-            "label": "Paragem"
+            "label": "Paragem",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
         },
         "allow_pickup": {
             "label": "Permitir Embarque",
@@ -1647,13 +1649,13 @@
             "placeholder": "20 km/h"
         },
         "default_travel_time": {
-            "label": "Average Travel Time",
-            "description": "Average travel time calculated based on distance and average speed on the segment between previous and current stop.",
+            "label": "Tempo Médio de Viagem",
+            "description": "Tempo médio de viagem, calculado com base na distância e na velocidade média considerada no troço entre a paragem atual e a seguinte.",
             "placeholder": "20 km/h"
         },
         "default_dwell_time": {
-            "label": "Average Dwell Time",
-            "description": "Average time stopped at the current stop picking up and dropping off passengers.",
+            "label": "Duração Média de Embarque",
+            "description": "Duração média da entrada e saída de passageiros nesta paragem.",
             "placeholder": "20 km/h"
         },
         "zones": {
@@ -1662,8 +1664,8 @@
             "nothingFound": "Nenhum Resultado Encontrado"
         },
         "remove": {
-            "label": "Remove Stop",
-            "description": "Remove this stop from the path sequence."
+            "label": "Eliminar Paragem",
+            "description": "Remover esta paragem da sequência de paragens deste percurso."
         }
     },
     "SchedulesTable": {
