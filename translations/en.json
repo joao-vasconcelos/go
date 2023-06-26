@@ -601,16 +601,13 @@
                 "nothingFound": "No Results Found",
                 "options": {
                     "0": {
-                        "label": "Base Path",
-                        "description": "This should be the longest path option in the line."
+                        "label": "Base Path"
                     },
                     "1": {
-                        "label": "Variant",
-                        "description": "A deviation from the base path at the beginning, middle or end of the line."
+                        "label": "Variant"
                     },
                     "2": {
-                        "label": "Parcial",
-                        "description": "Segment of the base path with no difference in stop sequence."
+                        "label": "Parcial"
                     }
                 }
             },
