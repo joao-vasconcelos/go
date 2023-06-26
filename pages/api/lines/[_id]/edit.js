@@ -2,7 +2,6 @@ import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
 import { Validation as LineValidation } from '../../../../schemas/Line/validation';
 import { Model as LineModel } from '../../../../schemas/Line/model';
-import { Model as RouteModel } from '../../../../schemas/Route/model';
 
 /* * */
 /* EDIT LINE */
