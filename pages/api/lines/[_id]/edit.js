@@ -56,20 +56,6 @@ export default async function linesEdit(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 5. Update nested routes with correct code
-  try {
-    if (req.body.routes.length) {
-      for (const [routeIndex, routeId] of req.body.routes.entries()) {
-        const routeDocument = await RouteModel.findOne({ _id: routeId });
-        routeDocument.code = `${req.body.code}_${routeIndex}`;
-        await routeDocument.save();
-      }
-    }
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: err.message });
-  }
-
   // 2. Try to update the correct document
   try {
     const editedDocument = await LineModel.findOneAndUpdate({ _id: req.query._id }, req.body, { new: true });

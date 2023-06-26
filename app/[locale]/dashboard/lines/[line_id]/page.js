@@ -156,8 +156,8 @@ export default function Page() {
     try {
       setIsCreatingRoute(true);
       notify('new-route', 'loading', t('form.routes.create.loading'));
-      const response = await API({ service: 'routes', operation: 'create', method: 'POST', body: { code: `${lineData.code}_${form.values.routes.length}`, parent_line: line_id } });
-      form.insertListItem('routes', response);
+      const response = await API({ service: 'routes', operation: 'create', method: 'POST', body: { code: `${form.values.code}_${form.values.routes.length}`, parent_line: line_id } });
+      form.insertListItem('routes', response._id);
       notify('new-route', 'success', t('form.routes.create.success'));
       setIsCreatingRoute(false);
     } catch (err) {
@@ -165,11 +165,6 @@ export default function Page() {
       setIsCreatingRoute(false);
       notify('new-route', 'error', err.message || t('form.routes.create.error'));
     }
-  };
-
-  const handleRoutesReorder = async ({ destination, source }) => {
-    if (!source || !destination || isReadOnly) return;
-    form.reorderListItem('routes', { from: source.index, to: destination.index });
   };
 
   const handleOpenRoute = (route_id) => {
@@ -252,21 +247,17 @@ export default function Page() {
         <Divider />
 
         <Section>
-          <Text size='h2'>{t('sections.routes.title')}</Text>
-          <DragDropContext onDragEnd={handleRoutesReorder}>
-            <Droppable droppableId='droppable'>
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {lineData?.routes.map((route_id, index) => (
-                    <RouteCard key={index} index={index} onOpen={handleOpenRoute} _id={route_id} />
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          <div>
+            <Text size='h2'>{t('sections.routes.title')}</Text>
+            <Text size='h4'>{t('sections.routes.description')}</Text>
+          </div>
+          <div>
+            {lineData?.routes.map((route_id, index) => (
+              <RouteCard key={index} index={index} onOpen={handleOpenRoute} _id={route_id} />
+            ))}
+          </div>
           <AuthGate scope='lines' permission='create_edit'>
-            <Button onClick={handleAddRoute} loading={isCreatingRoute}>
+            <Button onClick={handleAddRoute} loading={isCreatingRoute} disabled={form.isDirty()}>
               {t('form.routes.create.title')}
             </Button>
           </AuthGate>

@@ -25,30 +25,24 @@ export default function RouteCard({ index, onOpen, _id }) {
   // E. Render components
 
   return (
-    <Draggable draggableId={index.toString()} index={index}>
-      {(provided) => (
-        <div className={styles.container} ref={provided.innerRef} {...provided.draggableProps}>
-          <div className={styles.toolbar} {...provided.dragHandleProps}>
-            <IconGripVertical size='25px' />
-          </div>
-          {routeData && (
-            <div className={styles.wrapper} onClick={() => onOpen(_id)}>
-              <div className={styles.subtitle}>{routeData.code || '...'}</div>
-              <Text size='title' style={!routeData.name && 'untitled'}>
-                {routeData.name ? routeData.name : t('untitled')}
-              </Text>
-            </div>
-          )}
-          {routeData ? (
-            <div className={styles.toolbar} onClick={() => onOpen(_id)}>
-              <IconChevronRight size='20px' />
-            </div>
-          ) : (
-            <Loader visible />
-          )}
+    <div className={styles.container}>
+      <div className={styles.toolbar}>{index}</div>
+      {routeData && (
+        <div className={styles.wrapper} onClick={() => onOpen(_id)}>
+          <div className={styles.subtitle}>{routeData.code || '...'}</div>
+          <Text size='title' style={!routeData.name && 'untitled'}>
+            {routeData.name ? routeData.name : t('untitled')}
+          </Text>
         </div>
       )}
-    </Draggable>
+      {routeData ? (
+        <div className={styles.toolbar} onClick={() => onOpen(_id)}>
+          <IconChevronRight size='20px' />
+        </div>
+      ) : (
+        <Loader visible />
+      )}
+    </div>
   );
 
   //
