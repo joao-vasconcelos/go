@@ -148,9 +148,11 @@ export default function Page() {
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
-          <SimpleGrid cols={3}>
+          <SimpleGrid cols={2}>
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
             <TextInput label={t('form.prefix.label')} placeholder={t('form.prefix.placeholder')} {...form.getInputProps('prefix')} readOnly={isReadOnly} />
+          </SimpleGrid>
+          <SimpleGrid cols={1}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
