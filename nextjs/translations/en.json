@@ -417,6 +417,10 @@
                 "label": "Municipality Code (DiCo)",
                 "placeholder": "1510"
             },
+            "prefix": {
+                "label": "Municipality Prefix",
+                "placeholder": "14"
+            },
             "name": {
                 "label": "Municipality Name",
                 "placeholder": "Seixal"
