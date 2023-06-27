@@ -2,7 +2,6 @@ version: '3.9'
 
 volumes:
   certbotdata:
-  letsencrypt:
 
 networks:
   default:
@@ -30,7 +29,7 @@ services:
         max-file: '1'
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - letsencrypt:/etc/letsencrypt
+      - ./letsencrypt:/etc/letsencrypt
       - certbotdata:/var/www/certbot
     networks:
       - default
@@ -43,7 +42,7 @@ services:
     image: certbot/certbot
     restart: unless-stopped
     volumes:
-      - letsencrypt:/etc/letsencrypt
+      - ./letsencrypt:/etc/letsencrypt
       - certbotdata:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
@@ -56,4 +55,6 @@ services:
         max-file: '1'
     networks:
       - default
-    environment: '.env'
+    env_file:
+      - .env
+      - .env.production
