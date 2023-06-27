@@ -6,6 +6,7 @@ import * as fs from 'fs';
 import AdmZip from 'adm-zip';
 import { Model as AgencyModel } from '../../../schemas/Agency/model';
 import { Model as LineModel } from '../../../schemas/Line/model';
+import { Model as TypologyModel } from '../../../schemas/Typology/model';
 import { Model as RouteModel } from '../../../schemas/Route/model';
 import { Model as PatternModel } from '../../../schemas/Pattern/model';
 import { Model as StopModel } from '../../../schemas/Stop/model';
@@ -230,6 +231,18 @@ async function getAgencyData(agencyId) {
 //
 
 /* * */
+/* GET TYPOLOGY DATA */
+/* Fetch the database for the given typology_id. */
+async function getTypologyData(typologyId) {
+  return await TypologyModel.findOne({ _id: typologyId });
+}
+
+//
+//
+//
+//
+
+/* * */
 /* BUILD ROUTE OBJECT ENTRY */
 /* Build an agency object entry */
 function parseAgency(agency) {
@@ -278,7 +291,7 @@ async function getAllLinesData(filterParams) {
 /* * */
 /* PARSE ROUTE */
 /* Build a route object entry */
-function parseRoute(agency, line, route) {
+function parseRoute(agency, line, typology, route) {
   return {
     line_id: line.code,
     line_short_name: line.short_name,
@@ -293,9 +306,9 @@ function parseRoute(agency, line, route) {
     route_type: 3,
     path_type: 1,
     circular: line.circular ? 1 : 0,
-    school: 0,
-    route_color: line.color.slice(1),
-    route_text_color: line.text_color.slice(1),
+    school: line.school ? 1 : 0,
+    route_color: typology.color.slice(1),
+    route_text_color: typology.text_color.slice(1),
   };
 }
 
@@ -432,17 +445,21 @@ async function buildGTFSv18(agencyId, lineIds) {
     if (!lineData.routes) continue;
 
     // 3.2.
+    // Get additional info associated with this line
+    const typologyData = await getTypologyData(lineData.typology);
+
+    // 3.3.
     // Because GTFS has no lines files, directly loop
     // on all the routes for this line
     for (const routeData of lineData.routes) {
       //
-      // 3.2.1.
+      // 3.3.1.
       // Skip if this route has no patterns
       if (!routeData.patterns) continue;
 
       // 3.2.2.
       // Write the routes.txt entry for this route
-      const parsedRoute = parseRoute(agencyData, lineData, routeData);
+      const parsedRoute = parseRoute(agencyData, lineData, typologyData, routeData);
       writeCsvToFile('routes.txt', parsedRoute);
 
       // 3.2.3.
