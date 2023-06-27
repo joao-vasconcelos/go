@@ -42,7 +42,7 @@ export default async function patternsImport(req, res) {
     // Reset path stop
     documentToUpdate.path = [];
 
-    req.body = req.body.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence);
+    req.body = req.body.sort((a, b) => a.stop_sequence - b.stop_sequence);
     // Initiate variable to hold distance
     let prevDistance = 0;
     // Iterate on each path stop
