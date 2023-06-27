@@ -10,8 +10,7 @@ import Providers from './providers';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Home',
-  description: 'Welcome to Next.js',
+  title: 'GO | Gestor de Oferta',
 };
 
 export default function RootLayout({ children }) {
