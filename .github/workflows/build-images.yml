@@ -31,4 +31,4 @@ jobs:
           push: true
           context: ./nextjs
           file: ./nextjs/Dockerfile
-          tags: ghcr.io/joao-vasconcelos/go:${{ github.head_ref || github.ref_name }}
+          tags: ghcr.io/joao-vasconcelos/go:${{ github.ref_name }}
