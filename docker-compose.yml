@@ -4,7 +4,7 @@ volumes:
   certbotdata:
 
 networks:
-  backend-network:
+  default:
     driver: bridge
 
 services:
@@ -32,7 +32,7 @@ services:
       - ./options/letsencrypt:/etc/letsencrypt
       - certbotdata:/var/www/certbot
     networks:
-      - backend-network
+      - default
     ports:
       - 80:80
       - 443:443
@@ -46,8 +46,13 @@ services:
       - certbotdata:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
-  with-docker-multi-env-production:
-    build: .
-    image: with-docker-multi-env-production
-    ports:
-      - '3003:3000'
+  nextjs:
+    image: ghcr.io/joao-vasconcelos/go:production
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    networks:
+      - default
+    environment: '.env'
