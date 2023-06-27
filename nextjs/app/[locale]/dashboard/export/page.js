@@ -84,14 +84,14 @@ export default function Page() {
             <>
               <IconArrowBigDownLinesFilled size='22px' />
               <Text size='h2' full>
-                {t('gtfs_v18.title')}
+                Exportar Plano de Oferta (v18)
               </Text>
             </>
           }
         >
           <Section>
             <div>
-              <Text size='h2'>{t('gtfs_v18.sections.intro.title')}</Text>
+              <Text size='h2'>Exportar Plano de Oferta (v18)</Text>
               <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
             </div>
           </Section>
@@ -132,8 +132,116 @@ export default function Page() {
           </Section>
         </Pannel>
       }
-      second={<Pannel></Pannel>}
-      third={<Pannel></Pannel>}
+      second={
+        <Pannel
+          loading={isExportingV18}
+          header={
+            <>
+              <IconArrowBigDownLinesFilled size='22px' />
+              <Text size='h2' full>
+                Exportar Plano de Oferta (v29)
+              </Text>
+            </>
+          }
+        >
+          <Section>
+            <div>
+              <Text size='h2'>Exportar Plano de Oferta (v29)</Text>
+              <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
+            </div>
+          </Section>
+          <Divider />
+          <Section>
+            <Select
+              label={t('gtfs_v18.form.agencies.label')}
+              placeholder={t('gtfs_v18.form.agencies.placeholder')}
+              description={t('gtfs_v18.form.agencies.description')}
+              nothingFound={t('gtfs_v18.form.agencies.nothingFound')}
+              data={agenciesFormattedForSelect}
+              value={selectedAgencyId}
+              onChange={setSelectedAgencyId}
+              searchable
+              clearable
+            />
+            <MultiSelect
+              label={t('gtfs_v18.form.lines.label')}
+              placeholder={t('gtfs_v18.form.lines.placeholder')}
+              description={t('gtfs_v18.form.lines.description')}
+              nothingFound={t('gtfs_v18.form.lines.nothingFound')}
+              data={linesFormattedForSelect}
+              value={selectedLineIds}
+              onChange={setSelectedLineIds}
+              disabled={!selectedAgencyId}
+              searchable
+              clearable
+            />
+          </Section>
+          <Divider />
+          <Section>
+            <SimpleGrid cols={1}>
+              <Button onClick={handleExportGTFSv18} loading={isExportingV18} disabled={!selectedAgencyId}>
+                {t('gtfs_v18.operations.start.label')}
+              </Button>
+              <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
+            </SimpleGrid>
+          </Section>
+        </Pannel>
+      }
+      third={
+        <Pannel
+          loading={isExportingV18}
+          header={
+            <>
+              <IconArrowBigDownLinesFilled size='22px' />
+              <Text size='h2' full>
+                Exportar Afetação
+              </Text>
+            </>
+          }
+        >
+          <Section>
+            <div>
+              <Text size='h2'>Exportar Afetação</Text>
+              <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
+            </div>
+          </Section>
+          <Divider />
+          <Section>
+            <Select
+              label={t('gtfs_v18.form.agencies.label')}
+              placeholder={t('gtfs_v18.form.agencies.placeholder')}
+              description={t('gtfs_v18.form.agencies.description')}
+              nothingFound={t('gtfs_v18.form.agencies.nothingFound')}
+              data={agenciesFormattedForSelect}
+              value={selectedAgencyId}
+              onChange={setSelectedAgencyId}
+              searchable
+              clearable
+            />
+            <MultiSelect
+              label={t('gtfs_v18.form.lines.label')}
+              placeholder={t('gtfs_v18.form.lines.placeholder')}
+              description={t('gtfs_v18.form.lines.description')}
+              nothingFound={t('gtfs_v18.form.lines.nothingFound')}
+              data={linesFormattedForSelect}
+              value={selectedLineIds}
+              onChange={setSelectedLineIds}
+              disabled={!selectedAgencyId}
+              searchable
+              clearable
+            />
+          </Section>
+          <Divider />
+          <Section>
+            <SimpleGrid cols={1}>
+              <Button onClick={handleExportGTFSv18} loading={isExportingV18} disabled={!selectedAgencyId}>
+                {t('gtfs_v18.operations.start.label')}
+              </Button>
+              <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
+            </SimpleGrid>
+          </Section>
+        </Pannel>
+      }
     />
   );
 }
