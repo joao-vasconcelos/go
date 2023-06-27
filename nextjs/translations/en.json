@@ -414,24 +414,22 @@
         },
         "form": {
             "code": {
-                "label": "Municipality Code",
-                "placeholder": "T1"
+                "label": "Municipality Code (DiCo)",
+                "placeholder": "1510"
             },
             "name": {
                 "label": "Municipality Name",
-                "placeholder": "Tarif 1"
+                "placeholder": "Seixal"
             },
             "district": {
                 "label": "District",
-                "placeholder": "T1"
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
             },
-            "dico": {
-                "label": "DICO",
-                "placeholder": "T1"
-            },
-            "nuts_iii": {
-                "label": "NUTS III",
-                "placeholder": "T1"
+            "region": {
+                "label": "Region",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
             }
         }
     },

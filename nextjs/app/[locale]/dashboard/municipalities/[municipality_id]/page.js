@@ -8,7 +8,8 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { Validation as MunicipalityValidation } from '@/schemas/Municipality/validation';
 import { Default as MunicipalityDefault } from '@/schemas/Municipality/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon } from '@mantine/core';
+import { Options as MunicipalityOptions } from '@/schemas/Municipality/options';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Select } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -147,14 +148,14 @@ export default function Page() {
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
-          <SimpleGrid cols={2}>
+          <SimpleGrid cols={3}>
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+            <TextInput label={t('form.prefix.label')} placeholder={t('form.prefix.placeholder')} {...form.getInputProps('prefix')} readOnly={isReadOnly} />
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
-          <SimpleGrid cols={3}>
-            <TextInput label={t('form.district.label')} placeholder={t('form.district.placeholder')} {...form.getInputProps('district')} readOnly={isReadOnly} />
-            <TextInput label={t('form.dico.label')} placeholder={t('form.dico.placeholder')} {...form.getInputProps('dico')} readOnly={isReadOnly} />
-            <TextInput label={t('form.nuts_iii.label')} placeholder={t('form.nuts_iii.placeholder')} {...form.getInputProps('nuts_iii')} readOnly={isReadOnly} />
+          <SimpleGrid cols={2}>
+            <Select label={t('form.district.label')} placeholder={t('form.district.placeholder')} nothingFound={t('form.district.nothingFound')} {...form.getInputProps('district')} data={MunicipalityOptions.district} readOnly={isReadOnly} />
+            <Select label={t('form.region.label')} placeholder={t('form.region.placeholder')} nothingFound={t('form.region.nothingFound')} {...form.getInputProps('region')} data={MunicipalityOptions.region} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
       </form>

@@ -7,8 +7,8 @@
 /* A. Default Values */
 export const Default = {
   code: '',
+  prefix: '',
   name: '',
   district: '',
-  nuts_iii: '',
-  dico: '',
+  region: '',
 };

@@ -11,7 +11,12 @@ export const Schema = new mongoose.Schema(
   {
     code: {
       type: String,
-      maxlength: 10,
+      maxlength: 4,
+      unique: true,
+    },
+    prefix: {
+      type: String,
+      maxlength: 2,
       unique: true,
     },
     name: {
@@ -20,15 +25,11 @@ export const Schema = new mongoose.Schema(
     },
     district: {
       type: String,
-      maxlength: 50,
+      maxlength: 2,
     },
-    nuts_iii: {
+    region: {
       type: String,
-      maxlength: 50,
-    },
-    dico: {
-      type: String,
-      maxlength: 50,
+      maxlength: 5,
     },
   },
   { timestamps: true }
