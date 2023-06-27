@@ -30,6 +30,9 @@ export default async function linesCreate(req, res) {
   // 2. Try to save a new document with req.body
   try {
     const newDocument = { ...LineDefault, code: generator(5) };
+    while (await LineModel.exists({ code: newDocument.code })) {
+      newDocument.code = generator(5);
+    }
     const createdDocument = await LineModel(newDocument).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {

@@ -30,6 +30,9 @@ export default async function municipalitiesCreate(req, res) {
   // 2. Try to save a new document with req.body
   try {
     const newDocument = { ...MunicipalityDefault, code: generator(4, 'numeric') };
+    while (await MunicipalityModel.exists({ code: newDocument.code })) {
+      newDocument.code = generator(4, 'numeric');
+    }
     const createdDocument = await MunicipalityModel(newDocument).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
