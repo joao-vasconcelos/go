@@ -10,7 +10,7 @@ import API from '@/services/API';
 import { Validation as PatternValidation } from '@/schemas/Pattern/validation';
 import { Default as PatternDefault } from '@/schemas/Pattern/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
-import { IconExternalLink, IconTrash } from '@tabler/icons-react';
+import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
