@@ -156,8 +156,16 @@ export default function Page() {
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <Select label={t('form.district.label')} placeholder={t('form.district.placeholder')} nothingFound={t('form.district.nothingFound')} {...form.getInputProps('district')} data={MunicipalityOptions.district} readOnly={isReadOnly} />
-            <Select label={t('form.region.label')} placeholder={t('form.region.placeholder')} nothingFound={t('form.region.nothingFound')} {...form.getInputProps('region')} data={MunicipalityOptions.region} readOnly={isReadOnly} />
+            <Select
+              label={t('form.district.label')}
+              placeholder={t('form.district.placeholder')}
+              nothingFound={t('form.district.nothingFound')}
+              {...form.getInputProps('district')}
+              data={MunicipalityOptions.district}
+              readOnly={isReadOnly}
+              searchable
+            />
+            <Select label={t('form.region.label')} placeholder={t('form.region.placeholder')} nothingFound={t('form.region.nothingFound')} {...form.getInputProps('region')} data={MunicipalityOptions.region} readOnly={isReadOnly} searchable />
           </SimpleGrid>
         </Section>
       </form>

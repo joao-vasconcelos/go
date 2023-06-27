@@ -6,7 +6,7 @@ import Text from '@/components/Text/Text';
 import Badge from '@/components/Badge/Badge';
 import { Group } from '@mantine/core';
 
-export default function ListItem({ _id, code, name, district, dico }) {
+export default function ListItem({ _id, code, name, district, region }) {
   //
 
   const router = useRouter();
@@ -24,9 +24,9 @@ export default function ListItem({ _id, code, name, district, dico }) {
         {name || t('untitled')}
       </Text>
       <Group>
-        <Badge>{code}</Badge>
+        <Badge>{region}</Badge>
         <Badge>{district}</Badge>
-        <Badge>{dico}</Badge>
+        <Badge>{code}</Badge>
       </Group>
     </BaseListItem>
   );

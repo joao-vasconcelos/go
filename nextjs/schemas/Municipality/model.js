@@ -17,7 +17,6 @@ export const Schema = new mongoose.Schema(
     prefix: {
       type: String,
       maxlength: 2,
-      unique: true,
     },
     name: {
       type: String,

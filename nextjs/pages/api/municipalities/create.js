@@ -1,7 +1,8 @@
-import delay from '../../../services/delay';
-import mongodb from '../../../services/mongodb';
-import { Default as MunicipalityDefault } from '../../../schemas/Municipality/default';
-import { Model as MunicipalityModel } from '../../../schemas/Municipality/model';
+import delay from '@/services/delay';
+import mongodb from '@/services/mongodb';
+import generator from '@/services/generator';
+import { Default as MunicipalityDefault } from '@/schemas/Municipality/default';
+import { Model as MunicipalityModel } from '@/schemas/Municipality/model';
 
 /* * */
 /* CREATE MUNICIPALITY */
@@ -28,7 +29,8 @@ export default async function municipalitiesCreate(req, res) {
 
   // 2. Try to save a new document with req.body
   try {
-    const createdDocument = await MunicipalityModel(MunicipalityDefault).save();
+    const newDocument = { ...MunicipalityDefault, code: generator(4, 'numeric') };
+    const createdDocument = await MunicipalityModel(newDocument).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);

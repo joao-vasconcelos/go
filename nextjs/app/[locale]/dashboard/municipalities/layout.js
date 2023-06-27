@@ -91,7 +91,7 @@ export default function Layout({ children }) {
           >
             <ErrorDisplay error={allMunicipalitiesError} loading={allMunicipalitiesValidating} />
             {filteredMunicipalitiesData && filteredMunicipalitiesData.length > 0 ? (
-              filteredMunicipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} dico={item.dico} />)
+              filteredMunicipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} region={item.region} />)
             ) : (
               <NoDataLabel />
             )}

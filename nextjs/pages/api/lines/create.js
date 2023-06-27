@@ -1,8 +1,8 @@
-import delay from '../../../services/delay';
-import mongodb from '../../../services/mongodb';
-import { Default as LineDefault } from '../../../schemas/Line/default';
-import { Model as LineModel } from '../../../schemas/Line/model';
+import delay from '@/services/delay';
+import mongodb from '@/services/mongodb';
 import generator from '@/services/generator';
+import { Default as LineDefault } from '@/schemas/Line/default';
+import { Model as LineModel } from '@/schemas/Line/model';
 
 /* * */
 /* CREATE LINE */
