@@ -5,7 +5,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { yupResolver } from '@mantine/form';
-import { PatternFormProvider, usePatternForm } from '@/contexts/patternForm';
+import { FormProvider as PatternFormProvider, useForm as usePatternForm } from '@/schemas/Pattern/form';
 import API from '@/services/API';
 import { Validation as PatternValidation } from '@/schemas/Pattern/validation';
 import { Default as PatternDefault } from '@/schemas/Pattern/default';
@@ -23,7 +23,7 @@ import SchedulesTable from '@/components/SchedulesTable/SchedulesTable';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
-import { merge } from 'lodash';
+import { create } from 'lodash';
 import ImportPathFromGTFS from '@/components/ImportPathFromGTFS/ImportPathFromGTFS';
 
 export default function Page() {
@@ -64,9 +64,9 @@ export default function Page() {
 
   const keepFormUpdated = (data) => {
     if (!patternForm.isDirty()) {
-      const merged = merge({ ...PatternDefault, ...data });
-      patternForm.setValues(merged);
-      patternForm.resetDirty(merged);
+      const document = create({ ...PatternDefault }, { ...data });
+      patternForm.setValues(document);
+      patternForm.resetDirty(document);
     }
   };
 

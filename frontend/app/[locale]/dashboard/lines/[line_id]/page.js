@@ -4,13 +4,14 @@ import useSWR from 'swr';
 import { useState, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
-import { useForm, yupResolver } from '@mantine/form';
+import { yupResolver } from '@mantine/form';
+import { FormProvider as LineFormProvider, useForm as useLineForm } from '@/schemas/Line/form';
 import API from '@/services/API';
 import { Validation as LineValidation } from '@/schemas/Line/validation';
 import { Default as LineDefault } from '@/schemas/Line/default';
 import { Options as LineOptions } from '@/schemas/Line/options';
 import { Tooltip, Select, Button, SimpleGrid, TextInput, ActionIcon, Divider, Switch } from '@mantine/core';
-import { IconExternalLink, IconTrash } from '@tabler/icons-react';
+import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
@@ -22,7 +23,7 @@ import RouteCard from '@/components/RouteCard/RouteCard';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
-import { merge } from 'lodash';
+import { create } from 'lodash';
 
 export default function Page() {
   //
@@ -53,19 +54,19 @@ export default function Page() {
   //
   // C. Setup form
 
-  const form = useForm({
+  const lineForm = useLineForm({
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(LineValidation),
-    initialValues: lineData || LineDefault,
+    initialValues: LineDefault,
   });
 
   const keepFormUpdated = (data) => {
-    if (!form.isDirty()) {
-      const merged = merge({ ...LineDefault }, { ...data });
-      form.setValues(merged);
-      form.resetDirty(merged);
+    if (!lineForm.isDirty()) {
+      const document = create({ ...LineDefault }, { ...data });
+      lineForm.setValues(document);
+      lineForm.resetDirty(document);
     }
   };
 
@@ -94,15 +95,14 @@ export default function Page() {
   }, [allAgenciesData]);
 
   const selectedLineTypologyData = useMemo(() => {
-    return allTypologiesData && allTypologiesData.find((item) => item._id === form.values.typology);
-  }, [allTypologiesData, form.values.typology]);
+    return allTypologiesData && allTypologiesData.find((item) => item._id === lineForm.values.typology);
+  }, [allTypologiesData, lineForm.values.typology]);
 
   //
   // D. Handle actions
 
   const handleValidate = () => {
-    form.validate();
-    console.log(form.errors);
+    lineForm.validate();
   };
 
   const handleClose = async () => {
@@ -112,10 +112,10 @@ export default function Page() {
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      await API({ service: 'lines', resourceId: line_id, operation: 'edit', method: 'PUT', body: form.values });
+      await API({ service: 'lines', resourceId: line_id, operation: 'edit', method: 'PUT', body: lineForm.values });
       lineMutate();
       allLinesMutate();
-      form.resetDirty();
+      lineForm.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
     } catch (err) {
@@ -123,7 +123,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [line_id, form, lineMutate, allLinesMutate]);
+  }, [line_id, lineForm, lineMutate, allLinesMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -151,12 +151,12 @@ export default function Page() {
     });
   };
 
-  const handleAddRoute = async () => {
+  const handleCreateRoute = async () => {
     try {
       setIsCreatingRoute(true);
       notify('new-route', 'loading', t('form.routes.create.loading'));
-      const response = await API({ service: 'routes', operation: 'create', method: 'POST', body: { code: `${form.values.code}_${form.values.routes.length}`, parent_line: line_id } });
-      form.insertListItem('routes', response._id);
+      const response = await API({ service: 'routes', operation: 'create', method: 'POST', body: { parent_line: line_id } });
+      lineForm.insertListItem('routes', response._id);
       notify('new-route', 'success', t('form.routes.create.success'));
       setIsCreatingRoute(false);
     } catch (err) {
@@ -179,8 +179,8 @@ export default function Page() {
       header={
         <>
           <AutoSave
-            isValid={form.isValid()}
-            isDirty={form.isDirty()}
+            isValid={lineForm.isValid()}
+            isDirty={lineForm.isDirty()}
             isLoading={lineLoading}
             isErrorValidating={lineError}
             isSaving={isSaving}
@@ -189,7 +189,7 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <LineDisplay short_name={form.values.short_name} name={form.values.name || t('untitled')} color={selectedLineTypologyData?.color} text_color={selectedLineTypologyData?.text_color} />
+          <LineDisplay short_name={lineForm.values.short_name} name={lineForm.values.name || t('untitled')} color={selectedLineTypologyData?.color} text_color={selectedLineTypologyData?.text_color} />
           <AuthGate scope='lines' permission='delete'>
             <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
               <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
@@ -200,63 +200,73 @@ export default function Page() {
         </>
       }
     >
-      <form onSubmit={form.onSubmit(async () => await handleSave())}>
-        <Section>
-          <Text size='h2'>{t('sections.config.title')}</Text>
-          <SimpleGrid cols={2}>
-            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
-            <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...form.getInputProps('short_name')} readOnly={isReadOnly} />
-          </SimpleGrid>
-          <SimpleGrid cols={1}>
-            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
-          </SimpleGrid>
-          <SimpleGrid cols={2}>
-            <Select label={t('form.typology.label')} placeholder={t('form.typology.placeholder')} nothingFound={t('form.typology.nothingFound')} {...form.getInputProps('typology')} data={allTypologiesDataFormatted} readOnly={isReadOnly} searchable />
-            <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFound={t('form.fare.nothingFound')} {...form.getInputProps('fare')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
-            <Select label={t('form.agency.label')} placeholder={t('form.agency.placeholder')} nothingFound={t('form.agency.nothingFound')} {...form.getInputProps('agency')} data={allAgenciesDataFormatted} readOnly={isReadOnly} searchable />
-            <Select
-              label={t('form.transport_type.label')}
-              placeholder={t('form.transport_type.placeholder')}
-              nothingFound={t('form.transport_type.nothingFound')}
-              {...form.getInputProps('transport_type')}
-              data={LineOptions.transport_type.map((item) => {
-                return { value: item, label: t(`form.transport_type.options.${item}.label`) };
-              })}
-              readOnly={isReadOnly}
-              searchable
-            />
-          </SimpleGrid>
-        </Section>
+      <LineFormProvider form={lineForm}>
+        <form onSubmit={lineForm.onSubmit(async () => await handleSave())}>
+          <Section>
+            <Text size='h2'>{t('sections.config.title')}</Text>
+            <SimpleGrid cols={2}>
+              <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...lineForm.getInputProps('code')} readOnly={isReadOnly} />
+              <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...lineForm.getInputProps('short_name')} readOnly={isReadOnly} />
+            </SimpleGrid>
+            <SimpleGrid cols={1}>
+              <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...lineForm.getInputProps('name')} readOnly={isReadOnly} />
+            </SimpleGrid>
+            <SimpleGrid cols={2}>
+              <Select
+                label={t('form.typology.label')}
+                placeholder={t('form.typology.placeholder')}
+                nothingFound={t('form.typology.nothingFound')}
+                {...lineForm.getInputProps('typology')}
+                data={allTypologiesDataFormatted}
+                readOnly={isReadOnly}
+                searchable
+              />
+              <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFound={t('form.fare.nothingFound')} {...lineForm.getInputProps('fare')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
+              <Select label={t('form.agency.label')} placeholder={t('form.agency.placeholder')} nothingFound={t('form.agency.nothingFound')} {...lineForm.getInputProps('agency')} data={allAgenciesDataFormatted} readOnly={isReadOnly} searchable />
+              <Select
+                label={t('form.transport_type.label')}
+                placeholder={t('form.transport_type.placeholder')}
+                nothingFound={t('form.transport_type.nothingFound')}
+                {...lineForm.getInputProps('transport_type')}
+                data={LineOptions.transport_type.map((item) => {
+                  return { value: item, label: t(`form.transport_type.options.${item}.label`) };
+                })}
+                readOnly={isReadOnly}
+                searchable
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <SimpleGrid cols={3}>
-            <Switch label={t('form.circular.label')} size='md' {...form.getInputProps('circular', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.school.label')} size='md' {...form.getInputProps('school', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.continuous.label')} size='md' {...form.getInputProps('continuous', { type: 'checkbox' })} readOnly={isReadOnly} />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <SimpleGrid cols={3}>
+              <Switch label={t('form.circular.label')} size='md' {...lineForm.getInputProps('circular', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch label={t('form.school.label')} size='md' {...lineForm.getInputProps('school', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch label={t('form.continuous.label')} size='md' {...lineForm.getInputProps('continuous', { type: 'checkbox' })} readOnly={isReadOnly} />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('sections.routes.title')}</Text>
-            <Text size='h4'>{t('sections.routes.description')}</Text>
-          </div>
-          <div>
-            {lineData?.routes.map((route_id, index) => (
-              <RouteCard key={index} index={index} _id={route_id} onOpen={handleOpenRoute} />
-            ))}
-          </div>
-          <AuthGate scope='lines' permission='create_edit'>
-            <Button onClick={handleAddRoute} loading={isCreatingRoute} disabled={form.isDirty() || !form.isValid()}>
-              {t('form.routes.create.title')}
-            </Button>
-          </AuthGate>
-        </Section>
-      </form>
+          <Section>
+            <div>
+              <Text size='h2'>{t('sections.routes.title')}</Text>
+              <Text size='h4'>{t('sections.routes.description')}</Text>
+            </div>
+            <div>
+              {lineForm.values.routes.map((route_id, index) => (
+                <RouteCard key={index} _id={route_id} onClick={handleOpenRoute} />
+              ))}
+            </div>
+            <AuthGate scope='lines' permission='create_edit'>
+              <Button onClick={handleCreateRoute} loading={isCreatingRoute} disabled={lineForm.isDirty() || !lineForm.isValid()}>
+                {t('form.routes.create.title')}
+              </Button>
+            </AuthGate>
+          </Section>
+        </form>
+      </LineFormProvider>
     </Pannel>
   );
 }

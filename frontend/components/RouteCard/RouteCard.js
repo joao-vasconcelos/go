@@ -2,13 +2,12 @@
 
 import useSWR from 'swr';
 import styles from './RouteCard.module.css';
-import { Draggable } from '@hello-pangea/dnd';
-import { IconChevronRight, IconGripVertical } from '@tabler/icons-react';
+import { IconChevronRight } from '@tabler/icons-react';
 import Text from '../Text/Text';
 import { useTranslations } from 'next-intl';
 import Loader from '../Loader/Loader';
 
-export default function RouteCard({ index, _id, onOpen }) {
+export default function RouteCard({ _id, onClick }) {
   //
 
   //
@@ -24,24 +23,21 @@ export default function RouteCard({ index, _id, onOpen }) {
   //
   // E. Render components
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.toolbar}>{index}</div>
-      {routeData && (
-        <div className={styles.wrapper} onClick={() => onOpen(_id)}>
-          <div className={styles.subtitle}>{routeData.code || '...'}</div>
-          <Text size='title' style={!routeData.name && 'untitled'}>
-            {routeData.name ? routeData.name : t('untitled')}
-          </Text>
-        </div>
-      )}
-      {routeData ? (
-        <div className={styles.toolbar} onClick={() => onOpen(_id)}>
-          <IconChevronRight size='20px' />
-        </div>
-      ) : (
-        <Loader visible />
-      )}
+  return routeData ? (
+    <div className={styles.container} onClick={() => onClick(_id)}>
+      <div className={styles.routeInfo}>
+        <Text size='subtitle' style='muted'>
+          {routeData.code || '...'}
+        </Text>
+        <Text size='title' style={!routeData.name && 'untitled'}>
+          {routeData.name ? routeData.name : t('untitled')}
+        </Text>
+      </div>
+      <IconChevronRight size='20px' />
+    </div>
+  ) : (
+    <div className={styles.loading}>
+      <Loader visible />
     </div>
   );
 

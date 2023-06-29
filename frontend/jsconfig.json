@@ -8,8 +8,7 @@
       "@/hooks/*": ["hooks/*"],
       "@/services/*": ["services/*"],
       "@/schemas/*": ["schemas/*"],
-      "@/options/*": ["options/*"],
-      "@/contexts/*": ["contexts/*"]
+      "@/options/*": ["options/*"]
     }
   }
 }

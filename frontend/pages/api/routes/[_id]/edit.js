@@ -56,19 +56,19 @@ export default async function routesEdit(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 5. Update nested patterns with correct code
-  try {
-    for (const [patternIndex, patternId] of req.body.patterns.entries()) {
-      if (patternIndex > 1) throw new Error('Não podem existir mais do que dois Patterns numa Rota.');
-      const patternDocument = await PatternModel.findOne({ _id: patternId });
-      patternDocument.code = `${req.body.code}_${patternIndex}`;
-      patternDocument.direction = patternIndex;
-      await PatternModel.findOneAndUpdate({ _id: patternId }, patternDocument);
-    }
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: err.message });
-  }
+  //   // 5. Update nested patterns with correct code
+  //   try {
+  //     for (const [patternIndex, patternId] of req.body.patterns.entries()) {
+  //       if (patternIndex > 1) throw new Error('Não podem existir mais do que dois Patterns numa Rota.');
+  //       const patternDocument = await PatternModel.findOne({ _id: patternId });
+  //       patternDocument.code = `${req.body.code}_${patternIndex}`;
+  //       patternDocument.direction = patternIndex;
+  //       await PatternModel.findOneAndUpdate({ _id: patternId }, patternDocument);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     return await res.status(500).json({ message: err.message });
+  //   }
 
   // 2. Try to update the correct document
   try {

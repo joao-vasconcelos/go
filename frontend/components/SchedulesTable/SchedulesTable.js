@@ -4,12 +4,12 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import styles from './SchedulesTable.module.css';
-import { usePatternFormContext } from '@/contexts/patternForm';
+import { useFormContext as usePatternFormContext } from '@/schemas/Pattern/form';
 import { Default as PatternDefault } from '@/schemas/Pattern/default';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import { ActionIcon, MultiSelect, Tooltip, TextInput, Button } from '@mantine/core';
-import { IconClockPlay, IconCalendarCheck, IconCalendarOff, IconCalendarQuestion, IconBackspace, IconCalendarX, IconPlus } from '@tabler/icons-react';
+import { IconClockPlay, IconCalendarCheck, IconCalendarQuestion, IconBackspace, IconCalendarX, IconPlus } from '@tabler/icons-react';
 import { openConfirmModal } from '@mantine/modals';
 import Text from '../Text/Text';
 
