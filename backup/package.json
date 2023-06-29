@@ -1,0 +1,13 @@
+{
+    "name": "@carrismetropolitana/gocontrol",
+    "version": "2023.1.1",
+    "private": true,
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "dotenv": "^16.3.1",
+        "mongoose": "^7.3.1"
+    }
+}
