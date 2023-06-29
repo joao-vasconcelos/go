@@ -29,6 +29,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: ./nextjs
-          file: ./nextjs/Dockerfile
+          context: ./frontend
+          file: ./frontend/Dockerfile
           tags: ghcr.io/joao-vasconcelos/go:${{ github.ref_name }}
