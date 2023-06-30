@@ -27,8 +27,7 @@ const Schema = new mongoose.Schema(
     },
     shape: {
       extension: {
-        type: String,
-        maxlength: 100,
+        type: Number,
       },
       points: [
         {

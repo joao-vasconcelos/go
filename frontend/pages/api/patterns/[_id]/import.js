@@ -53,7 +53,7 @@ export default async function patternsImport(req, res) {
       // Calculate shape extension from geojson feature
       const extensionInKilometers = turf.length(patternDocumentToUpdate.shape.geojson, { units: 'kilometers' });
       const extensionInMeters = extensionInKilometers * 1000;
-      patternDocumentToUpdate.shape.extension = Math.round(extensionInMeters).toFixed(2);
+      patternDocumentToUpdate.shape.extension = parseInt(extensionInMeters);
     } catch (err) {
       console.log(err);
       return await res.status(500).json({ message: 'Could not handle points in Shape.' });
