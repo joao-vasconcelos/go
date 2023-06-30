@@ -265,7 +265,7 @@ export default function Page() {
               <StatCard title={t('sections.shape.cards.points_count')} value={patternForm.values?.shape?.points?.length} />
             </SimpleGrid>
           </Section>
-          <OSMMap id='patternShape' height={300} scrollZoom={false} mapStyle='map'>
+          <OSMMap id='patternShape' height={500} scrollZoom={false} mapStyle='map'>
             <Source id='pattern-shape' type='geojson' data={patternForm.values.shape.geojson}>
               <Layer id='pattern-shape' type='line' source='pattern-shape' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': typologyData ? typologyData.color : '#000000', 'line-width': 4 }} />
             </Source>
