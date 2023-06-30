@@ -55,14 +55,6 @@ export default async function patternsEdit(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 4. Reorder schedules
-  try {
-    req.body.schedules.sort((a, b) => a.start_time.localeCompare(b.start_time));
-  } catch (err) {
-    console.log(err);
-    return await res.status(409).json({ message: err.message });
-  }
-
   // 2. Try to update the correct document
   try {
     const editedDocument = await PatternModel.findOneAndUpdate({ _id: req.query._id }, req.body, { new: true });
