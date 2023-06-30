@@ -18,7 +18,7 @@ export default function GTFSParser({ onParse }) {
   const [isUploading, setIsUploading] = useState(false);
   const [hasUploadError, setHasUploadError] = useState(false);
 
-  const MAX_FILE_SIZE = 6500000; // 6.5 Megabytes
+  const MAX_FILE_SIZE = 16500000; // 6.5 Megabytes
 
   //
   // B. Handle actions

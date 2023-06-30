@@ -1,5 +1,6 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
+import * as turf from '@turf/turf';
 import { Default as PatternDefault } from '../../../../schemas/Pattern/default';
 import { Model as PatternModel } from '../../../../schemas/Pattern/model';
 import { Model as StopModel } from '../../../../schemas/Stop/model';
@@ -35,35 +36,77 @@ export default async function patternsImport(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4. Replace the path for this pattern
-  try {
-    // Get current pattern from db
-    const documentToUpdate = await PatternModel.findOne({ _id: req.query._id });
-    // Reset path stop
-    documentToUpdate.path = [];
+  //
 
-    req.body = req.body.sort((a, b) => a.stop_sequence - b.stop_sequence);
+  // Get current pattern from db
+  const patternDocumentToUpdate = await PatternModel.findOne({ _id: req.query._id });
+
+  //
+  // UPDATE SHAPE
+
+  if (req.body.shape && req.body.shape.length) {
+    try {
+      // Sort points to match sequence
+      patternDocumentToUpdate.shape.points = req.body.shape.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence);
+      // Create geojson feature using turf
+      patternDocumentToUpdate.shape.geojson = turf.lineString(patternDocumentToUpdate.shape.points.map((point) => [parseFloat(point.shape_pt_lon), parseFloat(point.shape_pt_lat)]));
+      // Calculate shape extension from geojson feature
+      const extensionInKilometers = turf.length(patternDocumentToUpdate.shape.geojson, { units: 'kilometers' });
+      const extensionInMeters = extensionInKilometers * 1000;
+      patternDocumentToUpdate.shape.extension = Math.round(extensionInMeters).toFixed(2);
+    } catch (err) {
+      console.log(err);
+      return await res.status(500).json({ message: 'Could not handle points in Shape.' });
+    }
+  } else {
+    try {
+      // Reset geojson and extension if shape has no points
+      patternDocumentToUpdate.shape = { ...PatternDefault.shape };
+      patternDocumentToUpdate.shape.extension = 0;
+    } catch (err) {
+      console.log(err);
+      return await res.status(500).json({ message: 'Could not handle no points in Shape.' });
+    }
+  }
+
+  //
+  // UPDATE PATH
+
+  try {
+    // Reset geojson and extension if shape has no points
+    req.body.path.sort((a, b) => a.stop_sequence - b.stop_sequence);
+    // Initiate temp variable to keep formatted path
+    let formattedPath = [];
     // Initiate variable to hold distance
     let prevDistance = 0;
     // Iterate on each path stop
-    for (const [pathIndex, pathItem] of req.body.entries()) {
+    for (const [pathIndex, pathItem] of req.body.path.entries()) {
       // Get _id of associated Stop document
       const associatedStopDocument = await StopModel.findOne({ code: pathItem.stop_id });
       // Calculate distance delta
-      const distanceDelta = pathIndex === 0 ? 0 : pathItem.shape_dist_traveled * 1000 - prevDistance;
-      prevDistance = pathItem.shape_dist_traveled;
+      const distanceDelta = pathIndex === 0 ? 0 : Number(pathItem.shape_dist_traveled) - prevDistance;
+      prevDistance = Number(pathItem.shape_dist_traveled);
       // Add this sequence item to the document path
-      documentToUpdate.path.push({
+      formattedPath.push({
         ...PatternDefault.path[0],
         distance_delta: distanceDelta,
         stop: associatedStopDocument._id,
         zones: associatedStopDocument.zones,
       });
     }
+
+    patternDocumentToUpdate.path = formattedPath;
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Could not handle no stops in Path.' });
+  }
+
+  // 4. Replace the path for this pattern
+  try {
     // Save changes to document
-    documentToUpdate.save();
+    patternDocumentToUpdate.save();
     // Return updated document
-    return await res.status(200).json(documentToUpdate);
+    return await res.status(200).json(patternDocumentToUpdate);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot update this Pattern.' });

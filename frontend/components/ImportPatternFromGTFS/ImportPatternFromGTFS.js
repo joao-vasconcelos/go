@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './ImportShapeFromGTFS.module.css';
+import styles from './ImportPatternFromGTFS.module.css';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import GTFSParser from '@/components/GTFSParser/GTFSParser';
@@ -9,13 +9,13 @@ import notify from '@/services/notify';
 
 //
 
-export default function ImportShapeFromGTFS({ onImport }) {
+export default function ImportPatternFromGTFS({ onImport }) {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('ImportShapeFromGTFS');
+  const t = useTranslations('ImportPatternFromGTFS');
   const [isParsing, setIsParsing] = useState(false);
   const [hasParseError, setHasParseError] = useState(false);
   const [parseResult, setParseResult] = useState();
@@ -48,12 +48,12 @@ export default function ImportShapeFromGTFS({ onImport }) {
     setHasParseError();
   };
 
-  const handleShapeImport = (trip) => {
-    onImport(trip.shape.points);
-    setParseResult();
-    setIsParsing();
-    setHasParseError();
-    notify('shape-import', 'success', t('import.success', { shape_id: trip.shape_id }));
+  const handlePathImport = (trip) => {
+    onImport({ shape: trip.shape.points, path: trip.path });
+    // setParseResult();
+    // setIsParsing();
+    // setHasParseError();
+    notify('pattern-import', 'success', t('import.success', { trip_id: trip.trip_id }));
   };
 
   //
@@ -63,7 +63,7 @@ export default function ImportShapeFromGTFS({ onImport }) {
     <div className={styles.tableHeader}>
       <div className={styles.tableHeaderColumn}>{t('table.header.route_id')}</div>
       <div className={styles.tableHeaderColumn}>{t('table.header.trip_headsign')}</div>
-      <div className={styles.tableHeaderColumn}>{t('table.header.shape_id')}</div>
+      <div className={styles.tableHeaderColumn}>{t('table.header.stop_count')}</div>
       <div className={styles.tableHeaderColumn}>{t('table.header.import')}</div>
     </div>
   );
@@ -74,10 +74,10 @@ export default function ImportShapeFromGTFS({ onImport }) {
         <div className={styles.tableBodyRow} key={trip.trip_id}>
           <div className={styles.tableBodyColumn}>{trip.route_id}</div>
           <div className={styles.tableBodyColumn}>{trip.trip_headsign}</div>
-          <div className={styles.tableBodyColumn}>{trip.shape_id}</div>
+          <div className={styles.tableBodyColumn}>{trip.path.length}</div>
           <div className={styles.tableBodyColumn}>
             <Tooltip label={t('table.body.import.description')} color='red' width={220} multiline withArrow>
-              <Button size='xs' onClick={() => handleShapeImport(trip)}>
+              <Button size='xs' onClick={() => handlePathImport(trip)}>
                 {t('table.body.import.title')}
               </Button>
             </Tooltip>

@@ -12,7 +12,17 @@ export const Validation = yup.object({
   parent_route: yup.string().required(),
   direction: yup.number().integer().required(),
   headsign: yup.string().required().max(50),
-  shape: yup.string().required(),
+  shape: yup.object({
+    extension: yup.number(),
+    //   points: yup.array(
+    //     yup.object({
+    //       shape_pt_lat: yup.string(),
+    //       shape_pt_lon: yup.string(),
+    //       shape_pt_sequence: yup.string(),
+    //       shape_dist_traveled: yup.string(),
+    //     })
+    //   ),
+  }),
   path: yup
     .array(
       yup.object({

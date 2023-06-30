@@ -79,12 +79,6 @@ export const Default = {
       publish: false,
       delete: false,
     },
-    // SHAPES
-    shapes: {
-      view: false,
-      create_edit: false,
-      delete: false,
-    },
     // CALENDARS
     calendars: {
       view: false,

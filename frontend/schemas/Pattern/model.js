@@ -26,9 +26,51 @@ export const Schema = new mongoose.Schema(
       maxlength: 50,
     },
     shape: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Shape',
-      unique: true,
+      extension: {
+        type: String,
+        maxlength: 100,
+      },
+      points: [
+        {
+          shape_pt_lat: {
+            type: String,
+            maxlength: 100,
+          },
+          shape_pt_lon: {
+            type: String,
+            maxlength: 100,
+          },
+          shape_pt_sequence: {
+            type: String,
+            maxlength: 100,
+          },
+          shape_dist_traveled: {
+            type: String,
+            maxlength: 100,
+          },
+        },
+      ],
+      geojson: {
+        type: {
+          type: String,
+          maxlength: 100,
+          default: 'Feature',
+        },
+        geometry: {
+          type: {
+            type: String,
+            maxlength: 100,
+            default: 'LineString',
+          },
+          coordinates: [
+            [
+              {
+                type: Number,
+              },
+            ],
+          ],
+        },
+      },
     },
     path: [
       {

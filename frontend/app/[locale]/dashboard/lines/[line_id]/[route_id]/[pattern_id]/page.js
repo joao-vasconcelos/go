@@ -1,16 +1,20 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { yupResolver } from '@mantine/form';
+import StatCard from '@/components/StatCard/StatCard';
+import bbox from '@turf/bbox';
 import { FormProvider as PatternFormProvider, useForm as usePatternForm } from '@/schemas/Pattern/form';
 import API from '@/services/API';
 import { Validation as PatternValidation } from '@/schemas/Pattern/validation';
 import { Default as PatternDefault } from '@/schemas/Pattern/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
+import OSMMap from '@/components/OSMMap/OSMMap';
+import { useMap, Source, Layer } from 'react-map-gl';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
@@ -24,7 +28,7 @@ import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import { create } from 'lodash';
-import ImportPathFromGTFS from '@/components/ImportPathFromGTFS/ImportPathFromGTFS';
+import ImportPatternFromGTFS from '@/components/ImportPatternFromGTFS/ImportPatternFromGTFS';
 
 export default function Page() {
   //
@@ -38,6 +42,7 @@ export default function Page() {
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isImporting, setIsImporting] = useState();
   const { data: session } = useSession();
+  const { patternShapeMap } = useMap();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
   const { line_id, route_id, pattern_id } = useParams();
@@ -45,11 +50,11 @@ export default function Page() {
   //
   // B. Fetch data
 
-  const { data: allShapesData } = useSWR('/api/shapes');
   const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
   const { data: routeData, error: routeError, isLoading: routeLoading, isValidating: routeValidating, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
   const { data: typologyData } = useSWR(lineData && lineData.typology && `/api/typologies/${lineData.typology}`);
   const { data: patternData, error: patternError, isLoading: patternLoading, mutate: patternMutate } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: patternStopsData, mutate: patternStopsMutate } = useSWR(pattern_id && `/api/patterns/${pattern_id}/stops`);
 
   //
   // C. Setup patternForm
@@ -73,13 +78,56 @@ export default function Page() {
   //
   // D. Format data
 
-  const allShapesDataFormatted = useMemo(() => {
-    return allShapesData
-      ? allShapesData.map((item) => {
-          return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
-        })
-      : [];
-  }, [allShapesData]);
+  //
+  // E. Transform data
+
+  useEffect(() => {
+    if (patternData?.shape?.geojson?.geometry?.coordinates?.length) {
+      // Calculate the bounding box of the feature
+      const [minLng, minLat, maxLng, maxLat] = bbox(patternData.shape.geojson);
+      patternShapeMap?.fitBounds(
+        [
+          [minLng, minLat],
+          [maxLng, maxLat],
+        ],
+        { padding: 50, duration: 2000 }
+      );
+    }
+    //
+  }, [patternData, patternShapeMap]);
+
+  const shapeExtension = useMemo(() => {
+    if (patternForm.values.shape.extension > 1000) return `${patternForm.values.shape.extension / 1000} km`;
+    else return `${patternForm.values.shape.extension} m`;
+  }, [patternForm.values.shape.extension]);
+
+  const patternStopsMapData = useMemo(() => {
+    // Create a GeoJSON object
+    const geoJSON = {
+      type: 'FeatureCollection',
+      features: [],
+    };
+    if (patternStopsData?.path?.length) {
+      for (const [pathSequenceIndex, pathSequence] of patternStopsData.path.entries()) {
+        geoJSON.features.push({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [pathSequence.stop.longitude, pathSequence.stop.latitude],
+          },
+          properties: {
+            index: pathSequenceIndex,
+            _id: pathSequence.stop._id,
+            code: pathSequence.stop.code,
+            name: pathSequence.stop.name,
+            latitude: pathSequence.stop.latitude,
+            longitude: pathSequence.stop.longitude,
+          },
+        });
+      }
+    }
+    return geoJSON;
+  }, [patternStopsData]);
 
   //
   // D. Handle actions
@@ -97,6 +145,7 @@ export default function Page() {
       setIsSaving(true);
       await API({ service: 'patterns', resourceId: pattern_id, operation: 'edit', method: 'PUT', body: patternForm.values });
       patternMutate();
+      patternStopsMutate();
       patternForm.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
@@ -129,11 +178,11 @@ export default function Page() {
     });
   };
 
-  const handleImportPath = async (importedPath) => {
+  const handleImport = async (importedPattern) => {
     openConfirmModal({
       title: (
         <Text size={'lg'} fw={700}>
-          Replace path?
+          Replace Path and Shape?
         </Text>
       ),
       centered: true,
@@ -143,8 +192,9 @@ export default function Page() {
       onConfirm: async () => {
         try {
           setIsImporting(true);
-          await API({ service: 'patterns', resourceId: pattern_id, operation: 'import', method: 'PUT', body: importedPath });
+          await API({ service: 'patterns', resourceId: pattern_id, operation: 'import', method: 'PUT', body: importedPattern });
           patternMutate();
+          patternStopsMutate();
           patternForm.resetDirty();
           setIsImporting(false);
           setHasErrorSaving(false);
@@ -191,33 +241,39 @@ export default function Page() {
       <PatternFormProvider form={patternForm}>
         <form onSubmit={patternForm.onSubmit(async () => await handleSave())}>
           <Section>
-            <Text size='h2'>{t('sections.config.title')}</Text>
+            <div>
+              <Text size='h2'>{t('sections.config.title')}</Text>
+              <Text size='h4'>{t('sections.config.description')}</Text>
+            </div>
             <SimpleGrid cols={4}>
               <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...patternForm.getInputProps('code')} readOnly />
             </SimpleGrid>
-            <SimpleGrid cols={2}>
-              <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} /* description={t('form.headsign.description')} */ {...patternForm.getInputProps('headsign')} />
-              <Select
-                label={t('form.shape.label')}
-                placeholder={t('form.shape.placeholder')}
-                nothingFound={t('form.shape.nothingFound')}
-                // description={
-                //   patternForm.values.shape &&
-                //   t.rich('form.shape.description', {
-                //     link: (chunks) => (
-                //       <a href={`/dashboard/shapes/${patternForm.values.shape}`} target='_blank'>
-                //         {chunks}
-                //       </a>
-                //     ),
-                //   })
-                // }
-                {...patternForm.getInputProps('shape')}
-                data={allShapesDataFormatted}
-                searchable
-                clearable
-              />
+            <SimpleGrid cols={1}>
+              <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} description={t('form.headsign.description')} {...patternForm.getInputProps('headsign')} />
             </SimpleGrid>
           </Section>
+
+          <Divider />
+
+          <Section>
+            <div>
+              <Text size='h2'>Shape</Text>
+              <Text size='h4'>{t('sections.config.description')}</Text>
+            </div>
+            <SimpleGrid cols={2}>
+              <StatCard title={t('sections.shape.cards.extension')} value={shapeExtension} />
+              <StatCard title={t('sections.shape.cards.points_count')} value={patternForm.values.shape.points.length} />
+            </SimpleGrid>
+          </Section>
+          <OSMMap id='patternShape' height={300} scrollZoom={false} mapStyle='map'>
+            <Source id='pattern-shape' type='geojson' data={patternForm.values.shape.geojson}>
+              <Layer id='pattern-shape' type='line' source='pattern-shape' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': typologyData ? typologyData.color : '#000000', 'line-width': 4 }} />
+            </Source>
+            <Source id='pattern-stops' type='geojson' data={patternStopsMapData}>
+              <Layer id='pattern-stops-circle' type='circle' source='pattern-stops' paint={{ 'circle-color': '#ffdd01', 'circle-radius': 8, 'circle-stroke-width': 1, 'circle-stroke-color': '#000000' }} />
+              <Layer id='pattern-stops-labels' type='symbol' source='pattern-stops' layout={{ 'text-field': ['get', 'index'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 10 }} />
+            </Source>
+          </OSMMap>
 
           <Divider />
 
@@ -233,20 +289,20 @@ export default function Page() {
 
           <Section>
             <div>
-              <Text size='h2'>{t('sections.update_path.title')}</Text>
-              <Text size='h4'>{t('sections.update_path.description')}</Text>
+              <Text size='h2'>{t('sections.schedules.title')}</Text>
+              <Text size='h4'>{t('sections.schedules.description')}</Text>
             </div>
-            <ImportPathFromGTFS onImport={handleImportPath} />
+            <SchedulesTable />
           </Section>
 
           <Divider />
 
           <Section>
             <div>
-              <Text size='h2'>{t('sections.schedules.title')}</Text>
-              <Text size='h4'>{t('sections.schedules.description')}</Text>
+              <Text size='h2'>{t('sections.update_path.title')}</Text>
+              <Text size='h4'>{t('sections.update_path.description')}</Text>
             </div>
-            <SchedulesTable />
+            <ImportPatternFromGTFS onImport={handleImport} />
           </Section>
         </form>
       </PatternFormProvider>

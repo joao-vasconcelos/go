@@ -187,22 +187,6 @@ export const Schema = new mongoose.Schema(
         },
       },
       //
-      // SHAPES
-      shapes: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        bulk_import: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-      },
-      //
       // CALENDARS
       calendars: {
         view: {

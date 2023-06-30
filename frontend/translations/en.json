@@ -642,6 +642,14 @@
                 "title": "Details",
                 "description": "Something about this section"
             },
+            "shape": {
+                "title": "Shape",
+                "description": "Something about this section",
+                "cards": {
+                    "extension": "Shape Extension",
+                    "points_count": "Number of points"
+                }
+            },
             "path": {
                 "title": "Path",
                 "description": "Something about this section"
@@ -671,80 +679,6 @@
                 "description": "<link>Open in new tab.</link>",
                 "nothingFound": "No Results Found",
                 "untitled": "Untitled Shape"
-            }
-        }
-    },
-    "shapes": {
-        "untitled": "Untitled Shape",
-        "list": {
-            "no_selection": "Select a Shape",
-            "footer": "Found {count, plural, =1 {1 Shape} other {# Shapes}}"
-        },
-        "operations": {
-            "import": {
-                "title": "Create New Shape",
-                "loading": "Creating new Shape...",
-                "success": "A new Shape was created!",
-                "error": "An error occurred while creating this Shape."
-            },
-            "create": {
-                "title": "Create New Shape",
-                "loading": "Creating new Shape...",
-                "success": "A new Shape was created!",
-                "error": "An error occurred while creating this Shape."
-            },
-            "delete": {
-                "title": "Delete Shape",
-                "description": "Deleting is irreversible. Are you sure you want to delete this Shape forever?",
-                "confirm": "Delete Shape Forever",
-                "cancel": "Do Not Delete",
-                "loading": "Deleting Shape...",
-                "success": "Shape was deleted.",
-                "error": "An error occurred while deleting this Shape."
-            },
-            "delete_points": {
-                "title": "Delete Shape Points",
-                "description": "Deleting shape points is irreversible. However, this will not desassociate this shape with its pattern. If you do not re-import new points an error will be thrown if you try to export a GTFS with this line. Are you sure you want to delete this shapes points forever?",
-                "confirm": "Delete Shape Points Forever",
-                "cancel": "Do Not Delete",
-                "loading": "Deleting Shape Points...",
-                "success": "Shape Points were deleted.",
-                "error": "An error occurred while deleting this Shapes points."
-            },
-            "open_pattern": {
-                "title": "Open Associated Pattern in New Tab"
-            }
-        },
-        "sections": {
-            "config": {
-                "title": "Shape Details",
-                "description": "Something about this section"
-            },
-            "statistics": {
-                "title": "Statistics",
-                "description": "Something about this section",
-                "cards": {
-                    "extension": "Shape Extension",
-                    "points_count": "Number of points"
-                }
-            },
-            "update": {
-                "title": "Update Shape",
-                "description": "Something about this section"
-            },
-            "points": {
-                "title": "Shape GTFS Points",
-                "description": "Something about this section"
-            }
-        },
-        "form": {
-            "name": {
-                "label": "Shape Name",
-                "placeholder": "Shape for Line 1234"
-            },
-            "code": {
-                "label": "Shape Code",
-                "placeholder": "shp_1234_1_0"
             }
         }
     },
@@ -1420,26 +1354,6 @@
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
-                "shapes": {
-                    "title": "Shapes",
-                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-                    "view": {
-                        "label": "View Shapes",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "create_edit": {
-                        "label": "Create & Edit Shapes",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "bulk_import": {
-                        "label": "Bulk Import Shapes",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "delete": {
-                        "label": "Delete Shapes",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    }
-                },
                 "calendars": {
                     "title": "Calendars",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
@@ -1559,7 +1473,7 @@
             }
         }
     },
-    "ImportPathFromGTFS": {
+    "ImportPatternFromGTFS": {
         "title": "These are the Trips found in the uploaded GTFS:",
         "clear": {
             "title": "Clear Table"
@@ -1578,29 +1492,6 @@
                 "import": {
                     "title": "Import Path",
                     "description": "This will immediately replace all stops for this pattern. This cannot be undone."
-                }
-            }
-        }
-    },
-    "ImportShapeFromGTFS": {
-        "title": "These are the Shapes found in the uploaded GTFS:",
-        "clear": {
-            "title": "Clear Table"
-        },
-        "import": {
-            "success": "Shape points imported! ({shape_id})"
-        },
-        "table": {
-            "header": {
-                "route_id": "Route ID",
-                "trip_headsign": "Headsign",
-                "shape_id": "Shape ID",
-                "import": "Import"
-            },
-            "body": {
-                "import": {
-                    "title": "Import Shape Points",
-                    "description": "This will immediately replace all points for this shape. This cannot be undone."
                 }
             }
         }

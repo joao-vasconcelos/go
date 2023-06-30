@@ -10,7 +10,17 @@ export const Default = {
   parent_route: null,
   direction: null,
   headsign: '',
-  shape: null,
+  shape: {
+    extension: 0,
+    points: [],
+    geojson: {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: [],
+      },
+    },
+  },
   path: [
     {
       stop: null,

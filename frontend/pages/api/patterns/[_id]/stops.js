@@ -1,16 +1,15 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
-import { Model as ShapeModel } from '../../../../schemas/Shape/model';
 import { Model as PatternModel } from '../../../../schemas/Pattern/model';
-import { Model as RouteModel } from '../../../../schemas/Route/model';
-import { Model as LineModel } from '../../../../schemas/Line/model';
+import { Model as ShapeModel } from '../../../../schemas/Shape/model';
+import { Model as StopModel } from '../../../../schemas/Stop/model';
 
 /* * */
-/* GET SHAPE BY ID */
+/* GET PATTERN BY ID */
 /* Explanation needed. */
 /* * */
 
-export default async function shapesGet(req, res) {
+export default async function patternsGet(req, res) {
   //
   await delay();
 
@@ -32,11 +31,11 @@ export default async function shapesGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await ShapeModel.findOne({ _id: req.query._id }).populate({ path: 'associated_pattern', populate: { path: 'parent_route', populate: { path: 'parent_line' } } });
-    if (!foundDocument) return await res.status(404).json({ message: `Shape with _id: ${req.query._id} not found.` });
+    const foundDocument = await PatternModel.findOne({ _id: req.query._id }).populate('path.stop');
+    if (!foundDocument) return await res.status(404).json({ message: `Pattern with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot fetch this Shape.' });
+    return await res.status(500).json({ message: 'Cannot fetch this Pattern.' });
   }
 }

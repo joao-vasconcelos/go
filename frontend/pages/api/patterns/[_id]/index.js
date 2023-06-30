@@ -31,7 +31,7 @@ export default async function patternsGet(req, res) {
 
   // 2. Try to fetch the correct document
   try {
-    const foundDocument = await PatternModel.findOne({ _id: req.query._id }); //.populate('shape'); //.populate('path.stop_id');
+    const foundDocument = await PatternModel.findOne({ _id: req.query._id }); //.populate('path.stop_id');
     if (!foundDocument) return await res.status(404).json({ message: `Pattern with _id: ${req.query._id} not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {
