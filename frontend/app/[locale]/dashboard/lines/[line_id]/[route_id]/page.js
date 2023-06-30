@@ -57,12 +57,12 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(RouteValidation),
-    initialValues: routeData || RouteDefault,
+    initialValues: create({ ...RouteDefault }, { ...routeData }),
   });
 
   const keepFormUpdated = (data) => {
     if (!routeForm.isDirty()) {
-      const document = create({ ...RouteDefault, ...data });
+      const document = create({ ...RouteDefault }, { ...data });
       routeForm.setValues(document);
       routeForm.resetDirty(document);
     }

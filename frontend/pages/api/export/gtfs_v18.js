@@ -107,9 +107,9 @@ export default async function exportGTFSv18(req, res) {
 /* PROVIDE TEMP DIRECTORY PATH */
 /* Return the path for the temporary directory based on current environment. */
 function getTempDirectoryPath() {
-  // If in development, then return the 'temp' folder in the current directory
+  // If in development, then return the 'tmp' folder in the current directory
   if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') return './tmp';
-  // If in production, return the server provided root 'temp' folder
+  // If in production, return the server provided root 'tmp' folder
   else return '/tmp/export';
   //
 }

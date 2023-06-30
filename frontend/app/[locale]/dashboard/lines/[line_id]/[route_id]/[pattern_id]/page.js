@@ -64,7 +64,7 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(PatternValidation),
-    initialValues: PatternDefault,
+    initialValues: create({ ...PatternDefault }, { ...patternData }),
   });
 
   const keepFormUpdated = (data) => {
@@ -246,10 +246,10 @@ export default function Page() {
               <Text size='h4'>{t('sections.config.description')}</Text>
             </div>
             <SimpleGrid cols={4}>
-              <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...patternForm.getInputProps('code')} readOnly />
+              <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...patternForm.getInputProps('code')} readOnly={isReadOnly} />
             </SimpleGrid>
             <SimpleGrid cols={1}>
-              <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} description={t('form.headsign.description')} {...patternForm.getInputProps('headsign')} />
+              <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} description={t('form.headsign.description')} {...patternForm.getInputProps('headsign')} readOnly={isReadOnly} />
             </SimpleGrid>
           </Section>
 
@@ -262,7 +262,7 @@ export default function Page() {
             </div>
             <SimpleGrid cols={2}>
               <StatCard title={t('sections.shape.cards.extension')} value={shapeExtension} />
-              <StatCard title={t('sections.shape.cards.points_count')} value={patternForm.values.shape.points.length} />
+              <StatCard title={t('sections.shape.cards.points_count')} value={patternForm.values?.shape?.points?.length} />
             </SimpleGrid>
           </Section>
           <OSMMap id='patternShape' height={300} scrollZoom={false} mapStyle='map'>

@@ -59,7 +59,7 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(LineValidation),
-    initialValues: LineDefault,
+    initialValues: create({ ...LineDefault }, { ...lineData }),
   });
 
   const keepFormUpdated = (data) => {
