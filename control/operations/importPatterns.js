@@ -1,9 +1,9 @@
-const ShapeModel = require('../schemas/Shape');
 const CalendarModel = require('../schemas/Calendar');
 const RouteModel = require('../schemas/Route');
 const PatternModel = require('../schemas/Pattern');
 const StopModel = require('../schemas/Stop');
 const delay = require('../services/delay');
+const generate = require('../services/generator');
 
 /* * */
 /* IMPORT PATTERNS */
@@ -35,8 +35,7 @@ module.exports = async function importPatterns() {
       const response = await fetch(`https://schedules-test.carrismetropolitana.pt/api/shapes/${directionApi.shape[0].shape_id}`);
       const shapeApi = await response.json();
       //
-      const shapeDocument = await ShapeModel.findOneAndUpdate({ code: shapeApi.code }, { code: shapeApi.code, name: shapeApi.code, extension: shapeApi.extension, points: shapeApi.points, geojson: shapeApi.geojson }, { new: true, upsert: true });
-      console.log(`Updated Shape ${shapeDocument.code}`);
+      const shapeForThisPattern = { extension: shapeApi.extension, points: shapeApi.points, geojson: shapeApi.geojson };
       //
 
       // PATH
@@ -105,7 +104,7 @@ module.exports = async function importPatterns() {
         parent_route: route._id,
         direction: Number(directionApi.direction_id),
         headsign: directionApi.headsign,
-        shape: shapeDocument._id,
+        shape: shapeForThisPattern,
         path: pathForThisPattern,
         schedules: schedulesForThisPattern,
       };
@@ -120,6 +119,9 @@ module.exports = async function importPatterns() {
     route.save();
 
     console.log(`Updated Route ${route.code}`);
+    console.log('-------------------------------------------');
+    console.log('-------------------------------------------');
+    console.log('-------------------------------------------');
     await delay(500); // 500 miliseconds of delay
     //
   }
