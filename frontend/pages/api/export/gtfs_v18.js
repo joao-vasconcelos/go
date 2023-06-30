@@ -11,7 +11,6 @@ import { Model as RouteModel } from '../../../schemas/Route/model';
 import { Model as PatternModel } from '../../../schemas/Pattern/model';
 import { Model as StopModel } from '../../../schemas/Stop/model';
 import { Model as CalendarModel } from '../../../schemas/Calendar/model';
-import { Model as ShapeModel } from '../../../schemas/Shape/model';
 
 /* * */
 /* EXPORT GTFS V18 */
@@ -590,11 +589,11 @@ async function buildGTFSv18(agencyId, lineIds) {
   // 4.
   // Fetch the referenced shapes and write the shapes.txt file
   for (const shapeId of referencedShapeIds) {
-    const shapeData = await ShapeModel.findOne({ _id: shapeId }, 'code points');
-    if (shapeData.points && shapeData.points.length) {
-      const parsedShape = parseShape(shapeData);
-      writeCsvToFile('shapes.txt', parsedShape);
-    }
+    const shapeData = [];
+    // if (shapeData.points && shapeData.points.length) {
+    //   const parsedShape = parseShape(shapeData);
+    //   writeCsvToFile('shapes.txt', parsedShape);
+    // }
   }
 
   // 5.
