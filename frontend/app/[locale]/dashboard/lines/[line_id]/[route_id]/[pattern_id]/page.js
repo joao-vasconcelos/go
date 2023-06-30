@@ -97,7 +97,7 @@ export default function Page() {
   }, [patternData, patternShapeMap]);
 
   const shapeExtension = useMemo(() => {
-    if (patternForm.values.shape.extension > 1000) return `${patternForm.values.shape.extension / 1000} km`;
+    if (patternForm.values.shape.extension > 1000) return `${(patternForm.values.shape.extension / 1000).toFixed(3)} km`;
     else return `${patternForm.values.shape.extension} m`;
   }, [patternForm.values.shape.extension]);
 
