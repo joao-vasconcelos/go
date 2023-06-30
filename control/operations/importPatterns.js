@@ -77,13 +77,17 @@ module.exports = async function importPatterns() {
         });
 
         if (!matchingCalendar || matchingCalendar.length === 0) {
-          matchingCalendar = await CalendarModel.findOneAndUpdate({ code: tripApi.service_id }, { code: tripApi.service_id, dates: tripApi.dates });
-          console.log(`Created Calendar with code ${matchingCalendar?.code}`);
-        } else console.log(`Used existing Calendar ${matchingCalendar?.code}`);
+          let newCalendarCode = tripApi.service_id || generate(4);
+          while (await CalendarModel.exists({ code: newCalendarCode })) {
+            newCalendarCode = generate(4);
+          }
+          matchingCalendar = await CalendarModel.findOneAndUpdate({ code: newCalendarCode }, { code: tripApi.service_id, dates: tripApi.dates }, { upsert: true, new: true });
+          console.log(`Created Calendar with code ${matchingCalendar.code}`);
+        } else console.log(`Used existing Calendar ${matchingCalendar.code}`);
 
         schedulesForThisPattern.push({
           start_time: tripApi.schedule[0].arrival_time_operation.substring(0, 5),
-          calendars_on: [matchingCalendar?._id],
+          calendars_on: [matchingCalendar._id],
           calendars_off: [],
           calendar_desc: tripApi.calendar_desc,
           vehicle_features: {
