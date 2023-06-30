@@ -25,6 +25,9 @@ module.exports = async function importPatterns() {
     const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_id/${route.code}`);
     const routeApi = await response.json();
 
+    // Skip if no directions
+    if (!routeApi.directions) continue;
+
     // Parse and add each pattern to the database
     let createdPatternsIds = [];
     for (const directionApi of routeApi.directions) {
