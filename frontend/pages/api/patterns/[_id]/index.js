@@ -1,8 +1,6 @@
 import delay from '../../../../services/delay';
 import mongodb from '../../../../services/mongodb';
 import { Model as PatternModel } from '../../../../schemas/Pattern/model';
-import { Model as ShapeModel } from '../../../../schemas/Shape/model';
-import { Model as StopModel } from '../../../../schemas/Stop/model';
 
 /* * */
 /* GET PATTERN BY ID */
