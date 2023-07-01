@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2.
+  // 3.
   // List all documents
 
   try {

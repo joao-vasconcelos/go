@@ -1,33 +1,39 @@
-import delay from '../../../../services/delay';
-import mongodb from '../../../../services/mongodb';
-import { Validation as ZoneValidation } from '../../../../schemas/Zone/validation';
-import { Model as ZoneModel } from '../../../../schemas/Zone/model';
+import delay from '@/services/delay';
+import checkAuthentication from '@/services/checkAuthentication';
+import mongodb from '@/services/mongodb';
+import { Validation as ZoneValidation } from '@/schemas/Zone/validation';
+import { Model as ZoneModel } from '@/schemas/Zone/model';
 
 /* * */
 /* EDIT ZONE */
 /* Explanation needed. */
 /* * */
 
-export default async function zonesEdit(req, res) {
+export default async function handler(req, res) {
   //
   await delay();
 
-  // 0. Refuse request if not PUT
+  // 0.
+  // Refuse request if not PUT
+
   if (req.method != 'PUT') {
     await res.setHeader('Allow', ['PUT']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1. Parse request body into JSON
+  // 1.
+  // Check for correct Authentication and valid Permissions
+
   try {
-    req.body = await JSON.parse(req.body);
+    await checkAuthentication({ scope: 'zones', permission: 'create_edit', req, res });
   } catch (err) {
     console.log(err);
-    await res.status(500).json({ message: 'JSON parse error.' });
-    return;
+    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 2. Validate req.body against schema
+  // 2.
+  // Validate req.body against schema
+
   try {
     req.body = ZoneValidation.cast(req.body);
   } catch (err) {
@@ -35,7 +41,9 @@ export default async function zonesEdit(req, res) {
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
-  // 3. Try to connect to mongodb
+  // 3.
+  // Connect to MongoDB
+
   try {
     await mongodb.connect();
   } catch (err) {
@@ -43,10 +51,12 @@ export default async function zonesEdit(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4. Check for uniqueness
+  // 4.
+  // Check for uniqueness
+
   try {
     // The values that need to be unique are ['code'].
-    const foundDocumentWithZoneCode = await ZoneModel.exists({ code: req.body.code });
+    const foundDocumentWithZoneCode = await ZoneModel.exists({ code: { $eq: req.body.code } });
     if (foundDocumentWithZoneCode && foundDocumentWithZoneCode._id != req.query._id) {
       throw new Error('Uma Zona com o mesmo Código já existe.');
     }
@@ -55,9 +65,11 @@ export default async function zonesEdit(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 2. Try to update the correct document
+  // 5.
+  // Update the correct document
+
   try {
-    const editedDocument = await ZoneModel.findOneAndUpdate({ _id: req.query._id }, req.body, { new: true });
+    const editedDocument = await ZoneModel.findOneAndUpdate({ _id: { $eq: req.query._id } }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Zone with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
