@@ -1,17 +1,14 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
-import bbox from '@turf/bbox';
-import OSMMap from '@/components/OSMMap/OSMMap';
-import { useMap, Source, Layer } from 'react-map-gl';
 import { Validation as TypologyValidation } from '@/schemas/Typology/validation';
 import { Default as TypologyDefault } from '@/schemas/Typology/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Textarea, JsonInput, ColorInput } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, ColorInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -22,7 +19,7 @@ import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
-import { merge } from 'lodash';
+import { create } from 'lodash';
 
 export default function Page() {
   //
@@ -37,7 +34,6 @@ export default function Page() {
   const [isDeleting, setIsDeleting] = useState(false);
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'typologies', 'create_edit');
-  const { singleTypologyMap } = useMap();
 
   const { typology_id } = useParams();
 
@@ -55,12 +51,12 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(TypologyValidation),
-    initialValues: TypologyDefault,
+    initialValues: create({ ...TypologyDefault }, { ...typologyData }),
   });
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      const merged = merge(TypologyDefault, data);
+      const merged = create({ ...TypologyDefault }, { ...data });
       form.setValues(merged);
       form.resetDirty(merged);
     }
@@ -119,29 +115,6 @@ export default function Page() {
       },
     });
   };
-
-  //
-  // E. Transform data
-
-  useEffect(() => {
-    try {
-      if (typologyData && typologyData.geojson) {
-        // Calculate the bounding box of the feature
-        const [minLng, minLat, maxLng, maxLat] = bbox(typologyData.geojson);
-        // Calculate the bounding box of the feature
-        singleTypologyMap?.fitBounds(
-          [
-            [minLng, minLat],
-            [maxLng, maxLat],
-          ],
-          { padding: 100, duration: 2000 }
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    //
-  }, [typologyData, singleTypologyMap]);
 
   //
   // E. Render components
