@@ -12,6 +12,7 @@ import { SimpleGrid, TextInput, Select, MultiSelect, Button, Divider } from '@ma
 import { Section } from '@/components/Layouts/Layouts';
 import { useState, useMemo } from 'react';
 import API from '@/services/API';
+import ExportResult from '@/components/ExportResult/ExportResult';
 
 export default function Page() {
   //
@@ -28,6 +29,7 @@ export default function Page() {
   //
   // B. Fetch data
 
+  const { data: exportsData, error: exportsError, isLoading: exportsLoading } = useSWR('/api/exports', { refreshInterval: 250 });
   const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading } = useSWR('/api/agencies');
   const { data: allLinesData, error: linesError, isLoading: linesLoading } = useSWR('/api/lines');
 
@@ -56,15 +58,7 @@ export default function Page() {
   const handleExportGTFSv18 = async () => {
     try {
       setIsExportingV18(true);
-      const archiveBlob = await API({ service: 'export', operation: 'gtfs_v18', method: 'POST', body: { agency_id: selectedAgencyId, lines: selectedLineIds }, parseType: 'blob' });
-      const objectURL = URL.createObjectURL(archiveBlob);
-      const zipDownload = document.createElement('a');
-      zipDownload.href = objectURL;
-      zipDownload.download = 'result-gtfs.zip';
-      document.body.appendChild(zipDownload);
-      zipDownload.click();
-
-      //   console.log(archive);
+      await API({ service: 'exports', operation: 'gtfs_v18', method: 'POST', body: { agency_id: selectedAgencyId, lines: selectedLineIds } });
       setIsExportingV18(false);
     } catch (err) {
       console.log(err);
@@ -79,57 +73,25 @@ export default function Page() {
     <ThreeEvenColumns
       first={
         <Pannel
-          loading={isExportingV18}
+          loading={exportsLoading}
           header={
             <>
               <IconArrowBigDownLinesFilled size='22px' />
               <Text size='h2' full>
-                Exportar Plano de Oferta (v18)
+                Previous Exports
               </Text>
             </>
           }
         >
           <Section>
             <div>
-              <Text size='h2'>Exportar Plano de Oferta (v18)</Text>
+              <Text size='h2'>Export Status</Text>
               <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
             </div>
           </Section>
           <Divider />
-          <Section>
-            <Select
-              label={t('gtfs_v18.form.agencies.label')}
-              placeholder={t('gtfs_v18.form.agencies.placeholder')}
-              description={t('gtfs_v18.form.agencies.description')}
-              nothingFound={t('gtfs_v18.form.agencies.nothingFound')}
-              data={agenciesFormattedForSelect}
-              value={selectedAgencyId}
-              onChange={setSelectedAgencyId}
-              searchable
-              clearable
-            />
-            <MultiSelect
-              label={t('gtfs_v18.form.lines.label')}
-              placeholder={t('gtfs_v18.form.lines.placeholder')}
-              description={t('gtfs_v18.form.lines.description')}
-              nothingFound={t('gtfs_v18.form.lines.nothingFound')}
-              data={linesFormattedForSelect}
-              value={selectedLineIds}
-              onChange={setSelectedLineIds}
-              disabled={!selectedAgencyId}
-              searchable
-              clearable
-            />
-          </Section>
+          <Section>{exportsData && exportsData.map((item) => <ExportResult key={item._id} item={item} />)}</Section>
           <Divider />
-          <Section>
-            <SimpleGrid cols={1}>
-              <Button onClick={handleExportGTFSv18} loading={isExportingV18} disabled={!selectedAgencyId}>
-                {t('gtfs_v18.operations.start.label')}
-              </Button>
-              <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
-            </SimpleGrid>
-          </Section>
         </Pannel>
       }
       second={

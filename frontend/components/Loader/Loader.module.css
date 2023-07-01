@@ -6,6 +6,13 @@
   animation: spin 1s linear infinite;
 }
 
+@media (prefers-color-scheme: dark) {
+  .spinner {
+    border-color: var(--gray5);
+    border-top-color: var(--gray7);
+  }
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

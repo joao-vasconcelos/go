@@ -45,21 +45,45 @@ module.exports = async function importPatterns() {
       // Parse the path for this pattern
       let pathForThisPattern = [];
       let prevDistance = 0;
+      let prevArrivalTime = '';
       for (const [tripScheduleIndex, tripScheduleStop] of directionApi.trips[0].schedule.entries()) {
         //
         // Get _id of associated Stop document
         const associatedStopDocument = await StopModel.findOne({ code: tripScheduleStop.stop_id });
+
         // Calculate distance delta
         const distanceDelta = tripScheduleIndex === 0 ? 0 : Number(tripScheduleStop.shape_dist_traveled) * 1000 - prevDistance;
         prevDistance = Number(tripScheduleStop.shape_dist_traveled);
+
+        let velocityInThisSegment = 0;
+        let travelTimeInThisSegment = 0;
+        if (tripScheduleIndex > 0) {
+          // Calculate the time difference in hours
+          var startTimeArr = tripScheduleStop.arrival_time_operation.split(':').map(Number);
+          var arrivalTimeArr = prevArrivalTime.split(':').map(Number);
+          var startSeconds = startTimeArr[0] * 3600 + startTimeArr[1] * 60 + startTimeArr[2];
+          var arrivalSeconds = arrivalTimeArr[0] * 3600 + arrivalTimeArr[1] * 60 + arrivalTimeArr[2];
+          // Add 24 hours if arrival is on the next day
+          if (arrivalSeconds < startSeconds) arrivalSeconds += 24 * 3600;
+          // Convert to hours (for km per HOUR)
+          travelTimeInThisSegment = (arrivalSeconds - startSeconds) / 3600;
+          // Convert distance to kilometers (for KM per hour)
+          const distanceInKm = distance / 1000;
+          // Calculate velocity (distance / time)
+          velocityInThisSegment = distanceInKm / travelTimeInThisSegment;
+        }
+
+        prevArrivalTime = tripScheduleStop.departure_time_operation;
+
+        console.log('tripScheduleStop.shape_dist_traveled', tripScheduleStop.shape_dist_traveled);
 
         pathForThisPattern.push({
           stop: associatedStopDocument._id,
           allow_pickup: true,
           allow_drop_off: true,
-          distance_delta: 100,
-          default_velocity: 20,
-          default_travel_time: 0,
+          distance_delta: distanceDelta,
+          default_velocity: velocityInThisSegment,
+          default_travel_time: travelTimeInThisSegment,
           default_dwell_time: 30,
           zones: associatedStopDocument.zones,
         });

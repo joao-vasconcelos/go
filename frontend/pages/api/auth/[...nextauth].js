@@ -5,7 +5,7 @@ import clientPromise from '../../../services/mongodb-adapter';
 import mongodb from '../../../services/mongodb';
 import { Model as UserModel } from '../../../schemas/User/model';
 
-export default NextAuth({
+export const authOptions = {
   debug: false,
   adapter: MongoDBAdapter(clientPromise),
   session: { strategy: 'jwt' },
@@ -58,4 +58,6 @@ export default NextAuth({
       }
     },
   },
-});
+};
+
+export default NextAuth(authOptions);

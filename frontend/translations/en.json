@@ -1605,5 +1605,36 @@
             "label": "Add a new trip",
             "description": "Remove this schedule"
         }
+    },
+    "ExportResult": {
+        "exported_by": "Exported by {name} {time}",
+        "type": {
+            "0": {
+                "label": "Unkown Type",
+                "description": "Something went wrong somewhere."
+            },
+            "1": {
+                "label": "GTFS v18",
+                "description": "For A1 and A2 until December 2023."
+            },
+            "2": {
+                "label": "GTFS v29",
+                "description": "For A3 and A4."
+            },
+            "3": {
+                "label": "GTFS v30",
+                "description": "For testing."
+            },
+            "4": {
+                "label": "Ticket Zoning",
+                "description": "For all areas."
+            }
+        },
+        "status": {
+            "0": "Starting",
+            "1": "Processing",
+            "2": "Completed",
+            "5": "Error"
+        }
     }
 }

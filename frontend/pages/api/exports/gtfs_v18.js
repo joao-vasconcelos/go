@@ -1,69 +1,84 @@
-import delay from '../../../services/delay';
-import mongodb from '../../../services/mongodb';
+import { authOptions } from 'pages/api/auth/[...nextauth]';
+import { getServerSession } from 'next-auth/next';
+import delay from '@/services/delay';
+import mongodb from '@/services/mongodb';
 import Papa from 'papaparse';
 import dayjs from 'dayjs';
 import * as fs from 'fs';
 import AdmZip from 'adm-zip';
-import { Model as AgencyModel } from '../../../schemas/Agency/model';
-import { Model as LineModel } from '../../../schemas/Line/model';
-import { Model as TypologyModel } from '../../../schemas/Typology/model';
-import { Model as RouteModel } from '../../../schemas/Route/model';
-import { Model as PatternModel } from '../../../schemas/Pattern/model';
-import { Model as StopModel } from '../../../schemas/Stop/model';
-import { Model as CalendarModel } from '../../../schemas/Calendar/model';
+import { Default as ExportDefault } from '@/schemas/Export/default';
+import { Model as ExportModel } from '@/schemas/Export/model';
+import { Model as AgencyModel } from '@/schemas/Agency/model';
+import { Model as LineModel } from '@/schemas/Line/model';
+import { Model as TypologyModel } from '@/schemas/Typology/model';
+import { Model as RouteModel } from '@/schemas/Route/model';
+import { Model as PatternModel } from '@/schemas/Pattern/model';
+import { Model as StopModel } from '@/schemas/Stop/model';
+import { Model as CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
 /* EXPORT GTFS V18 */
 /* This endpoint returns a zip file. */
 /* * */
 
-export default async function exportGTFSv18(req, res) {
+export default async function handler(req, res) {
   //
   await delay();
 
-  //
-  // 0. Refuse request if not POST
+  // 0.
+  // Refuse request if not POST
 
   if (req.method != 'POST') {
     await res.setHeader('Allow', ['POST']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  //
-  // 1. Parse request body into JSON
+  // 1.
+  // Define "semi-global"-scoped variables to be used later on in the function
+
+  let session;
+  let agencyData;
+  let exportSummary;
+
+  // 2.
+  // Check for correct Authentication and valid Permissions
+
+  try {
+    //
+    // 2.1.
+    // Fetch latest session data from the database
+    session = await getServerSession(req, res, authOptions);
+
+    // 2.2.
+    // Check if user is logged in. Cancel the request if not.
+    if (!session) {
+      return res.status(401).json({ message: 'You must be logged in to access this feature.' });
+    }
+
+    // 2.3.
+    // Check if the current user has permission to access this feature
+    if (!session?.user?.permissions?.export?.gtfs_v18) {
+      return res.status(401).json({ message: 'You do not have permission to access this feature.' });
+    }
+
+    //
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Could not verify Authentication.' });
+  }
+
+  // 3.
+  // Parse request body into JSON
 
   try {
     req.body = await JSON.parse(req.body);
   } catch (err) {
     console.log(err);
-    await res.status(500).json({ message: 'JSON parse error.' });
-    return;
+    return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
-  //
-  // 2. Validate form (TBD)
-
-  //   try {
-  //     req.body = await JSON.parse(req.body);
-  //   } catch (err) {
-  //     console.log(err);
-  //     await res.status(500).json({ message: 'JSON parse error.' });
-  //     return;
-  //   }
-
-  //
-  // 3. Create temporary directory
-
-  try {
-    // If in development, then prepare the directory
-    prepareTempDirectory();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'Could not create temporary directory.' });
-  }
-
-  //
-  // 4. Try to connect to mongodb
+  // 4.
+  // Connect to MongoDB
 
   try {
     await mongodb.connect();
@@ -72,30 +87,100 @@ export default async function exportGTFSv18(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  //
-  // 5. Try to connect to mongodb
+  // 5.
+  // Fetch Agency information for the current request.
+  // This is will be used to name the resulting file.
 
   try {
-    await buildGTFSv18(req.body.agency_id, req.body.lines);
+    agencyData = await AgencyModel.findOne({ _id: req.body.agency_id });
+    if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Error building GTFS v18 archive.' });
+    return await res.status(500).json({ message: 'Error fetching Agency data.' });
+  }
+
+  // 6.
+  // Create a new Export summary document.
+  // This will be used to keep track of progress
+  // and allows the client to download the resulting file at a later date.
+
+  try {
+    //
+    // 6.1.
+    // Create the Export document
+    // This will generate a new _id for the operation.
+    exportSummary = new ExportModel(ExportDefault);
+
+    // 6.2.
+    // Setup properties for this Export
+    exportSummary.type = 1; // 1 = GTFS v18
+    exportSummary.exported_by = session.user._id;
+    exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v18_today.zip`;
+    exportSummary.workdir = getWorkdir(exportSummary._id);
+
+    //6.3.
+    // Save the export document
+    await exportSummary.save();
+
+    // 6.4.
+    // Send the summary information to the client
+    // and close the connection.
+    await res.status(201).json(exportSummary);
+
+    //
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Could not create Export summary.' });
+  }
+
+  // 7.
+  // Even though the server has already sent a response to the client,
+  // start building the export file and keep track of progress.
+  // From here on, errors must be tracked with the database
+  // to keep the client informed about the operation status
+
+  try {
+    //
+    // 7.1.
+    // Update progress to indicate the two main tasks at hand
+    await update(exportSummary, { progress_current: 0, progress_total: 2 });
+
+    // 7.2.
+    // Initiate the main export operation
+    await buildGTFSv18(exportSummary, agencyData, req.body.lines);
+    await update(exportSummary, { progress_current: 1, progress_total: 2 });
+
+    // 7.3.
+    // Zip the workdir folder that contains the generated files.
+    // Name the resulting archive with the _id of this Export.
+    const outputZip = new AdmZip();
+    outputZip.addLocalFolder(exportSummary.workdir);
+    outputZip.writeZip(`${exportSummary.workdir}/${exportSummary._id}.zip`);
+    await update(exportSummary, { progress_current: 2, progress_total: 2 });
+
+    // 7.4.
+    // Update progress to indicate the requested operation is complete
+    await update(exportSummary, { status: 2 });
+
+    //
+  } catch (err) {
+    console.log(err);
+    await update(exportSummary, { status: 5 });
   }
 
   //
-  // 6. Zip the generated files and return them to the client
+}
 
-  try {
-    const tempDirPath = getTempDirectoryPath();
-    zipFiles(['agency.txt', 'routes.txt', 'calendar_dates.txt', 'trips.txt', 'stop_times.txt', 'shapes.txt', 'stops.txt'], 'output-gtfs.zip');
-    res.writeHead(200, { 'Content-Type': 'application/zip', 'Content-Disposition': 'attachment; filename=output-gtfs.zip' });
-    fs.createReadStream(`${tempDirPath}/output-gtfs.zip`).pipe(res);
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'Cannot compress files.' });
-  }
+//
+//
+//
+//
 
-  //
+/* * */
+/* UPDATE PROGRESS */
+/* Fetch the database for the given agency_id. */
+async function update(exportDocument, updates) {
+  await ExportModel.updateOne({ _id: exportDocument._id }, updates);
 }
 
 //
@@ -106,28 +191,19 @@ export default async function exportGTFSv18(req, res) {
 /* * */
 /* PROVIDE TEMP DIRECTORY PATH */
 /* Return the path for the temporary directory based on current environment. */
-function getTempDirectoryPath() {
-  // If in development, then return the 'tmp' folder in the current directory
-  if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') return './tmp';
-  // If in production, return the server provided root 'tmp' folder
-  else return '/tmp/export';
+function getWorkdir(exportId) {
   //
-}
-
-//
-//
-//
-//
-
-/* * */
-/* PREPARE TEMPORARY DIRECTORY */
-/* Delete and recreate the temp directory to hold the generated files. */
-function prepareTempDirectory() {
-  // Get directory path based on environment
-  const tempDirPath = getTempDirectoryPath();
-  // If the directory already exists, delete it with all the contents
-  if (fs.existsSync(tempDirPath)) fs.rmSync(tempDirPath, { recursive: true, force: true });
-  fs.mkdirSync(tempDirPath); // Create a fresh empty directory
+  let workdir = `${process.env.PWD}/tmp/exports/${exportId}`;
+  // If in development, then return the 'tmp' folder in the current directory
+  //   if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') workdir = `./tmp/exports/${exportId}`;
+  // If in production, return the server provided root 'tmp' folder
+  //   else workdir = `/tmp/exports/${exportId}`;
+  // Out of an abundance of caution, delete the directory and all its contents if it already exists
+  if (fs.existsSync(workdir)) fs.rmSync(workdir, { recursive: true, force: true });
+  // Create a fresh empty directory in the given path
+  fs.mkdirSync(workdir, { recursive: true });
+  // Return workdir to the caller
+  return workdir;
   //
 }
 
@@ -139,42 +215,17 @@ function prepareTempDirectory() {
 /* * */
 /* WRITE CSV TO FILE */
 /* Parse and append data to an existing file. */
-function writeCsvToFile(filename, data, papaparseOptions) {
-  // Get temporary directory path
-  const tempDirPath = getTempDirectoryPath();
+function writeCsvToFile(workdir, filename, data, papaparseOptions) {
   // If data is not an array, then wrap it in one
   if (!Array.isArray(data)) data = [data];
   // Check if the file already exists
-  const fileExists = fs.existsSync(`${tempDirPath}/${filename}`);
+  const fileExists = fs.existsSync(`${workdir}/${filename}`);
   // Use papaparse to produce the CSV string
   let csvData = Papa.unparse(data, { header: !fileExists, ...papaparseOptions });
   // Prepend a new line character to csvData string if it is not the first line on the file
   if (fileExists) csvData = '\n' + csvData;
   // Append the csv string to the file
-  fs.appendFileSync(`${tempDirPath}/${filename}`, csvData);
-}
-
-//
-//
-//
-//
-
-/* * */
-/* ZIP FILES */
-/* Build a ZIP archive of an array of filenames. */
-function zipFiles(arrayOfFileNames, outputZipFilename) {
-  // Get temporary directory path
-  const tempDirPath = getTempDirectoryPath();
-  // Create new ZIP variable
-  const outputZip = new AdmZip();
-  // Include all requested files
-  for (const filename of arrayOfFileNames) {
-    // Add the current filename to the zip archive
-    outputZip.addLocalFile(`${tempDirPath}/${filename}`);
-  }
-  // Build the ZIP archive
-  outputZip.writeZip(`${tempDirPath}/${outputZipFilename}`);
-  //
+  fs.appendFileSync(`${workdir}/${filename}`, csvData);
 }
 
 //
@@ -210,18 +261,6 @@ function incrementTime(timeString, increment) {
 /* Add zeros to start of string if length is less than 2. */
 function padZero(num) {
   return num.toString().padStart(2, '0');
-}
-
-//
-//
-//
-//
-
-/* * */
-/* GET AGENCY DATA */
-/* Fetch the database for the given agency_id. */
-async function getAgencyData(agencyId) {
-  return await AgencyModel.findOne({ _id: agencyId });
 }
 
 //
@@ -272,7 +311,6 @@ async function getAllLinesData(filterParams) {
     populate: {
       path: 'patterns',
       populate: [
-        { path: 'shape', select: 'code' },
         { path: 'path.stop', select: 'code' },
         { path: 'schedules.calendars_on', select: 'code' },
       ],
@@ -319,14 +357,14 @@ function parseRoute(agency, line, typology, route) {
 /* * */
 /* PARSE SHAPE */
 /* Build a shape object entry */
-function parseShape(shape) {
+function parseShape(code, points) {
   const parsedShape = [];
-  for (const shapePoint of shape.points) {
+  for (const shapePoint of points) {
     parsedShape.push({
-      shape_id: shape.code,
+      shape_id: code,
+      shape_pt_sequence: shapePoint.shape_pt_sequence,
       shape_pt_lat: shapePoint.shape_pt_lat,
       shape_pt_lon: shapePoint.shape_pt_lon,
-      shape_pt_sequence: shapePoint.shape_pt_sequence,
       shape_dist_traveled: shapePoint.shape_dist_traveled,
     });
   }
@@ -409,36 +447,46 @@ function parseStop(stop) {
 /* * */
 /* BUILD GTFS V18 */
 /* This builds the GTFS data model. */
-async function buildGTFSv18(agencyId, lineIds) {
+async function buildGTFSv18(progress, agencyData, lineIds) {
   //
+
+  // 0.
+  // Update progress
+  await update(progress, { status: 1, progress_current: 0, progress_total: 3 });
 
   // 0.
   // In order to build stops.txt, shapes.txt and calendar_dates.txt it is necessary
   // to initiate these variables outside all loops that hold the _ids
   // of the objects that are referenced in the other objects (trips, patterns)
   const referencedStopIds = new Set();
-  const referencedShapeIds = new Set();
   const referencedCalendarIds = new Set();
 
   // 1.
   // Retrieve the requested agency object
   // and write the entry for this agency in agency.txt file
-  const agencyData = await getAgencyData(agencyId);
   const parsedAgency = parseAgency(agencyData);
-  writeCsvToFile('agency.txt', parsedAgency);
+  writeCsvToFile(progress.workdir, 'agency.txt', parsedAgency);
+  //
+  await update(progress, { progress_current: 1 });
 
   // 2.
   // Retrieve only the lines that match the requested parameters,
   // or all of them for the given agency if lineIds is empty.
-  let linesFilterParams = { agency: agencyId };
+  let linesFilterParams = { agency: agencyData._id };
   if (lineIds.length) linesFilterParams._id = { $in: lineIds };
   const allLinesData = await getAllLinesData(linesFilterParams);
+  //
+  await update(progress, { progress_current: 0, progress_total: allLinesData.length - 1 });
 
   // 3.
   // Initiate the main loop that go through all lines
   // and progressively builds the GTFS files
-  for (const lineData of allLinesData) {
+  for (const [lineIndex, lineData] of allLinesData.entries()) {
     //
+    // 3.0.
+    // Update progress
+    await update(progress, { progress_current: lineIndex });
+
     // 3.1.
     // Skip if this line has no routes
     if (!lineData.routes) continue;
@@ -459,7 +507,7 @@ async function buildGTFSv18(agencyId, lineIds) {
       // 3.2.2.
       // Write the routes.txt entry for this route
       const parsedRoute = parseRoute(agencyData, lineData, typologyData, routeData);
-      writeCsvToFile('routes.txt', parsedRoute);
+      writeCsvToFile(progress.workdir, 'routes.txt', parsedRoute);
 
       // 3.2.3.
       // Iterate on all the patterns for the given route
@@ -470,8 +518,9 @@ async function buildGTFSv18(agencyId, lineIds) {
         if (!patternData.schedules || !patternData.path) continue;
 
         // 3.2.3.2.
-        // Append the shape_id of this pattern to the scoped variable
-        referencedShapeIds.add(patternData.shape._id);
+        // Write the shaoes.txt entry for this pattern
+        const parsedShape = parseShape(`shp_${patternData.code}`, patternData.shape.points);
+        writeCsvToFile(progress.workdir, 'shapes.txt', parsedShape);
 
         // 3.2.3.3.
         // Iterate on all the schedules for the given pattern
@@ -498,7 +547,7 @@ async function buildGTFSv18(agencyId, lineIds) {
 
             // 3.2.3.3.2.3.
             // Write the trips.txt entry for this trip
-            writeCsvToFile('trips.txt', {
+            writeCsvToFile(progress.workdir, 'trips.txt', {
               route_id: routeData.code,
               pattern_id: patternData.code,
               pattern_short_name: patternData.headsign,
@@ -551,7 +600,7 @@ async function buildGTFSv18(agencyId, lineIds) {
 
               // 3.2.3.3.2.6.6.
               // Write the stop_times.txt entry for this stop_time
-              writeCsvToFile('stop_times.txt', {
+              writeCsvToFile(progress.workdir, 'stop_times.txt', {
                 trip_id: thisTripId,
                 arrival_time: currentArrivalTime,
                 departure_time: departureTime,
@@ -586,32 +635,30 @@ async function buildGTFSv18(agencyId, lineIds) {
     // End of lines loop
   }
 
-  // 4.
-  // Fetch the referenced shapes and write the shapes.txt file
-  for (const shapeId of referencedShapeIds) {
-    const shapeData = [];
-    // if (shapeData.points && shapeData.points.length) {
-    //   const parsedShape = parseShape(shapeData);
-    //   writeCsvToFile('shapes.txt', parsedShape);
-    // }
-  }
-
   // 5.
+  // Update progress
+  await update(progress, { status: 1, progress_current: 2, progress_total: 3 });
+
+  // 6.
   // Fetch the referenced calendars and write the calendar_dates.txt file
   for (const calendarId of referencedCalendarIds) {
     const calendarData = await CalendarModel.findOne({ _id: calendarId });
     if (calendarData.dates && calendarData.dates.length) {
       const parsedCalendar = parseCalendar(calendarData);
-      writeCsvToFile('calendar_dates.txt', parsedCalendar);
+      writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
     }
   }
 
-  // 6.
+  // 6.q.
+  // Update progress
+  await update(progress, { status: 1, progress_current: 3, progress_total: 3 });
+
+  // 8.
   // Fetch the referenced stops and write the stops.txt file
   for (const stopId of referencedStopIds) {
     const stopData = await StopModel.findOne({ _id: stopId }, 'code name tts_name latitude longitude');
     const parsedStop = parseStop(stopData);
-    writeCsvToFile('stops.txt', parsedStop);
+    writeCsvToFile(progress.workdir, 'stops.txt', parsedStop);
   }
 
   //

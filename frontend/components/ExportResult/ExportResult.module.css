@@ -1,0 +1,210 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  border-width: 1px;
+  border-style: solid;
+  padding: var(--size-md);
+  border-radius: var(--size-xs);
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--size-md);
+  line-height: 1;
+  transition: all 200ms ease;
+}
+
+/* * */
+/* ICON WRAPPER */
+
+.iconWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+}
+
+/* * */
+/* INFO WRAPPER */
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--size-sm);
+}
+
+/* * */
+/* BADGES WRAPPER */
+
+.badgesWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: var(--size-sm);
+}
+
+/* * */
+/* BADGE */
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px;
+  line-height: 1;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  border-radius: 999px;
+}
+
+/* * */
+/* FILENAME */
+
+.filename {
+  line-height: 1;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--reference-1);
+}
+
+/* * */
+/* EXPORTED BY */
+
+.exportedBy {
+  display: flex;
+  line-height: 1;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: var(--gray7);
+}
+
+@media (prefers-color-scheme: dark) {
+  .exportedBy {
+    color: var(--gray8);
+  }
+}
+
+/* * */
+/* WAITING */
+
+.waiting {
+  border-color: var(--gray3);
+  background-color: transparent;
+}
+
+.waiting .badge {
+  color: var(--gray6);
+  background-color: var(--gray1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .waiting {
+    border-color: var(--gray5);
+  }
+  .waiting .badge {
+    color: var(--gray8);
+    background-color: var(--gray5);
+  }
+}
+
+/* * */
+/* IN PROGRESS */
+
+.inProgress {
+  border-color: var(--gray3);
+  background-color: transparent;
+}
+
+.inProgress .badge {
+  color: var(--gray6);
+  background-color: var(--gray1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .inProgress {
+    border-color: var(--gray5);
+  }
+  .inProgress .badge {
+    color: var(--gray8);
+    background-color: var(--gray5);
+  }
+}
+
+/* * */
+/* COMPLETED */
+
+.completed {
+  cursor: pointer;
+  border-color: var(--gray3);
+  background-color: var(--gray0);
+}
+
+.completed:hover {
+  border-color: var(--gray4);
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
+}
+
+.completed:active {
+  border-color: var(--gray8);
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
+}
+
+.completed .badge {
+  color: var(--success8);
+  background-color: var(--success1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .completed {
+    border-color: var(--gray6);
+    background-color: var(--gray4);
+  }
+  .completed:hover {
+    border-color: var(--gray7);
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
+  }
+  .completed .badge {
+    color: var(--success0);
+    background-color: var(--success8);
+  }
+}
+
+/* * */
+/* ERROR */
+
+.error {
+  border-color: var(--danger6);
+  background-color: var(--danger1);
+  opacity: 0.25;
+}
+
+.error:hover {
+  opacity: 0.75;
+}
+
+.error .badge {
+  color: var(--danger9);
+  background-color: var(--danger2);
+}
+
+.error .filename,
+.error .iconWrapper,
+.error .exportedBy {
+  color: var(--danger9);
+}
+
+@media (prefers-color-scheme: dark) {
+  .error {
+    border-color: var(--danger1);
+    background-color: var(--danger6);
+  }
+  .error .badge {
+    color: var(--danger2);
+    background-color: var(--danger9);
+  }
+}
