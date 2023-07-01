@@ -5,7 +5,7 @@ import { SWRConfig } from 'swr';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
-import { MapProvider } from 'react-map-gl';
+import { MapProvider } from 'react-map-gl/maplibre';
 import styles from './layout.module.css';
 import Link from 'next/link';
 import AppHeader from '@/components/AppHeader/AppHeader';
