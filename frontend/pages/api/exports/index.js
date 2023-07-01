@@ -1,9 +1,8 @@
-import { authOptions } from 'pages/api/auth/[...nextauth]';
-import { getServerSession } from 'next-auth/next';
-import delay from '../../../services/delay';
+import delay from '@/services/delay';
+import checkAuthentication from '@/services/checkAuthentication';
+import mongodb from '@/services/mongodb';
 import * as fs from 'fs';
-import mongodb from '../../../services/mongodb';
-import { Model as ExportModel } from '../../../schemas/Export/model';
+import { Model as ExportModel } from '@/schemas/Export/model';
 
 /* * */
 /* LIST ALL EXPORTS */
@@ -26,27 +25,10 @@ export default async function handler(req, res) {
   // Check for correct Authentication and valid Permissions
 
   try {
-    //
-    // 1.1.
-    // Fetch latest session data from the database
-    const session = await getServerSession(req, res, authOptions);
-
-    // 1.2.
-    // Check if user is logged in. Cancel the request if not.
-    if (!session) {
-      return res.status(401).json({ message: 'You must be logged in to access this feature.' });
-    }
-
-    // 1.3.
-    // Check if the current user has permission to access this feature
-    if (!session?.user?.permissions?.export?.view) {
-      return res.status(401).json({ message: 'You do not have permission to access this feature.' });
-    }
-
-    //
+    await checkAuthentication({ scope: 'export', permission: 'view', req, res });
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Could not verify Authentication.' });
+    return await res.status(500).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
   // 2.
@@ -68,7 +50,7 @@ export default async function handler(req, res) {
     //
     // 3.1.
     // List all Export documents
-    const allDocuments = await ExportModel.find({});
+    const allDocuments = await ExportModel.find();
 
     // 3.2.
     // Send them to the client immediately
