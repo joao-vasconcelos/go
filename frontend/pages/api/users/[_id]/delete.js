@@ -44,7 +44,7 @@ export default async function handler(req, res) {
   // Delete the correct document
 
   try {
-    const deletedDocument = await UserModel.findOneAndDelete({ _id: req.query._id });
+    const deletedDocument = await UserModel.findOneAndDelete({ _id: { $eq: req.query._id } });
     if (!deletedDocument) return await res.status(404).json({ message: `User with _id: ${req.query._id} not found.` });
     return await res.status(200).send(deletedDocument);
   } catch (err) {
