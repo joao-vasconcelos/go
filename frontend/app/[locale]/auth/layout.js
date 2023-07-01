@@ -7,6 +7,7 @@ import Loader from '@/components/Loader/Loader';
 import styles from './layout.module.css';
 import appBackground from 'public/background.jpg';
 import { CMLogo } from '@/components/AppLogos/AppLogos';
+import { useEffect } from 'react';
 
 export default async function AuthLayout({ children }) {
   //
@@ -21,7 +22,19 @@ export default async function AuthLayout({ children }) {
   //
   // B. Setup components
 
-  const FormWrapper = () => (
+  useEffect(() => {
+    if (status === 'authenticated') {
+      if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
+      else router.push('/dashboard/');
+    }
+  }, [status, searchParams]);
+
+  //
+  // C. Render components
+
+  return status === 'loading' || status === 'authenticated' ? (
+    <Loader visible full />
+  ) : (
     <div className={styles.container} style={{ backgroundImage: `url(${appBackground.src})` }}>
       <div className={styles.loginForm}>
         <div className={styles.logoWrapper}>
@@ -33,17 +46,4 @@ export default async function AuthLayout({ children }) {
   );
 
   //
-  // C. Render components
-
-  if (status === 'loading') {
-    return <Loader visible full />;
-    //
-  } else if (status === 'authenticated') {
-    if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
-    else router.push('/dashboard/');
-    //
-  } else if (status === 'unauthenticated') {
-    return <FormWrapper />;
-    //
-  }
 }
