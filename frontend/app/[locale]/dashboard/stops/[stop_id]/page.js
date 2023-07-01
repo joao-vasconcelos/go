@@ -5,7 +5,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { useForm, yupResolver } from '@mantine/form';
-import { useMap, Source, Layer } from 'react-map-gl';
+import { useMap, Source, Layer } from 'react-map-gl/maplibre';
 import API from '@/services/API';
 import { Validation as StopValidation } from '@/schemas/Stop/validation';
 import { Default as StopDefault } from '@/schemas/Stop/default';

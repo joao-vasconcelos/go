@@ -1,5 +1,5 @@
 import osmMapDefaults from './OSMMap.config';
-import Map, { NavigationControl } from 'react-map-gl';
+import Map, { NavigationControl } from 'react-map-gl/maplibre';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 

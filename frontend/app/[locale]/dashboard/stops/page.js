@@ -2,7 +2,7 @@
 
 import useSWR from 'swr';
 import { useState, useMemo } from 'react';
-import { useMap, Source, Layer } from 'react-map-gl';
+import { useMap, Source, Layer } from 'react-map-gl/maplibre';
 import { IconArrowsMinimize, IconBrandGoogleMaps } from '@tabler/icons-react';
 import { Tooltip, ActionIcon, SegmentedControl } from '@mantine/core';
 import OSMMap from '@/components/OSMMap/OSMMap';

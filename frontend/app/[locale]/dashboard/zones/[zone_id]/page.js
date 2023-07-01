@@ -8,7 +8,7 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import bbox from '@turf/bbox';
 import OSMMap from '@/components/OSMMap/OSMMap';
-import { useMap, Source, Layer } from 'react-map-gl';
+import { useMap, Source, Layer } from 'react-map-gl/maplibre';
 import { Validation as ZoneValidation } from '@/schemas/Zone/validation';
 import { Default as ZoneDefault } from '@/schemas/Zone/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Textarea, JsonInput } from '@mantine/core';

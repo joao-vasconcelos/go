@@ -14,7 +14,7 @@ import { Default as PatternDefault } from '@/schemas/Pattern/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import OSMMap from '@/components/OSMMap/OSMMap';
-import { useMap, Source, Layer } from 'react-map-gl';
+import { useMap, Source, Layer } from 'react-map-gl/maplibre';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
