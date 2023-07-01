@@ -75,15 +75,24 @@ export default async function handler(req, res) {
     await res.status(200).send(allDocuments);
 
     // 3.3.
-    // Read the '/tmp/exports/' directory contents,
-    // filter to keep only folders and map the names.
-    const savedExportFiles = fs.readdirSync(`${process.env.PWD}/tmp/exports/`, { withFileTypes: true });
+    // Set the workdir path
+    const workdir = `${process.env.PWD}/tmp/exports/`;
 
     // 3.4.
+    // Only continue if workdir exists.
+    // If no export was ever initiated, then it might not exist yet.
+    if (!fs.existsSync(workdir)) return;
+
+    // 3.5.
+    // Read the workdir directory contents,
+    // filter to keep only folders and map the names.
+    const savedExportFiles = fs.readdirSync(workdir, { withFileTypes: true });
+
+    // 3.6.
     // Filter Export documents to keep only the ones that are not errors
     const liveExportDocuments = allDocuments.filter((item) => item.status === 0 || item.status === 1 || item.status === 2).map((item) => String(item._id));
 
-    // 3.5.
+    // 3.7.
     // Compare the documents with the files
     // and remove the dangling files from the directory.
     for (const savedExport of savedExportFiles) {
