@@ -192,12 +192,8 @@ async function update(exportDocument, updates) {
 /* PROVIDE TEMP DIRECTORY PATH */
 /* Return the path for the temporary directory based on current environment. */
 function getWorkdir(exportId) {
-  //
-  let workdir = `${process.env.PWD}/tmp/exports/${exportId}`;
-  // If in development, then return the 'tmp' folder in the current directory
-  //   if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') workdir = `./tmp/exports/${exportId}`;
-  // If in production, return the server provided root 'tmp' folder
-  //   else workdir = `/tmp/exports/${exportId}`;
+  // Use the 'tmp' folder as the working directory
+  const workdir = `${process.env.PWD}/tmp/exports/${exportId}`;
   // Out of an abundance of caution, delete the directory and all its contents if it already exists
   if (fs.existsSync(workdir)) fs.rmSync(workdir, { recursive: true, force: true });
   // Create a fresh empty directory in the given path
