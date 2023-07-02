@@ -1,63 +1,64 @@
-FROM node:18-alpine
+# # # # # # # # #
 
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+
+# PHASE 1
+# Install dependencies only when needed.
+
+FROM node:18-alpine AS dependencies
+
 RUN apk add --no-cache libc6-compat
-WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json package-lock.json ./
+WORKDIR /home/app/
+
+COPY package.json ./
+COPY package-lock.json ./
+
 RUN npm ci
 
 
-# Rebuild the source code only when needed
-WORKDIR /app
-COPY /app/node_modules ./node_modules
+# # # # # # # # #
+
+
+# PHASE 2
+# Build the NextJS app.
+
+FROM dependencies AS builder
+
+WORKDIR /home/app/
+
+COPY --from=dependencies /home/app/node_modules ./node_modules
 COPY . .
 
+ARG NODE_ENV
+ENV NODE_ENV=”${NODE_ENV}”
+
+RUN npm run build
+
+
+# # # # # # # # #
+
+
+# PHASE 3
+# Setup the final Docker image with only the required files.
+
+FROM builder AS runner
+
+WORKDIR /app
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+COPY --from=builder /home/app/.next/standalone ./standalone
+COPY --from=builder /home/app/public /home/app/standalone/public
+COPY --from=builder /home/app/.next/static /home/app/standalone/.next/static
 
-# Change permission for exports folder
-RUN mkdir -p /app/exports
-RUN chown -R nextjs:nodejs /app/exports
-RUN chmod -R 755 /app/exports
-
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
-
-# RUN yarn build
-
-# If using npm comment out above and use below instead
-RUN npm run build
-
-# Production image, copy all the files and run next
-# FROM base AS runner
-# WORKDIR /app
-
-ENV NODE_ENV production
-
-# RUN addgroup --system --gid 1001 nodejs
-# RUN adduser --system --uid 1001 nextjs
-
-COPY /app/public ./public
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-
-
+RUN mkdir -p /home/app/exports
+RUN chown -R nextjs:nodejs /home/app/exports
+RUN chmod -R 755 /home/app/exports
 
 USER nextjs
 
-
 EXPOSE 3000
-
 ENV PORT 3000
 
-CMD ["node", "server.js"]
+CMD [“node”, “./standalone/server.js”]
