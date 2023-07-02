@@ -17,8 +17,8 @@ module.exports = async function importRoutes() {
   // Get route info for each line
   for (const line of allLines) {
     //
-    // Skip if not A4
-    if (!line.code.startsWith('4')) continue;
+    // Skip if not A1
+    if (!line.code.startsWith('1')) continue;
 
     // Get info for the route from API v1
     const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_short_name/${line.short_name}`);
