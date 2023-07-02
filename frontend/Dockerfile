@@ -1,10 +1,15 @@
+
+# # # # # # # # #
+
+FROM node:18-alpine AS base
+
 # # # # # # # # #
 
 
 # PHASE 1
 # Install dependencies only when needed.
 
-FROM node:18-alpine AS dependencies
+FROM base AS dependencies
 
 RUN apk add --no-cache libc6-compat
 
@@ -20,17 +25,14 @@ RUN npm ci
 
 
 # PHASE 2
-# Build the NextJS app.
+# Rebuild the source code only when needed.
 
-FROM dependencies AS builder
+FROM base AS builder
 
 WORKDIR /home/app/
 
 COPY --from=dependencies /home/app/node_modules ./node_modules
 COPY . .
-
-ARG NODE_ENV
-ENV NODE_ENV=”${NODE_ENV}”
 
 RUN npm run build
 
@@ -41,16 +43,19 @@ RUN npm run build
 # PHASE 3
 # Setup the final Docker image with only the required files.
 
-FROM builder AS runner
+FROM base AS runner
 
 WORKDIR /app
+
+ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /home/app/.next/standalone ./standalone
 COPY --from=builder /home/app/public /home/app/standalone/public
-COPY --from=builder /home/app/.next/static /home/app/standalone/.next/static
+
+COPY --from=builder --chown=nextjs:nodejs /home/app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /home/app/.next/static ./.next/static
 
 RUN mkdir -p /home/app/exports
 RUN chown -R nextjs:nodejs /home/app/exports
@@ -61,4 +66,4 @@ USER nextjs
 EXPOSE 3000
 ENV PORT 3000
 
-CMD [“node”, “./standalone/server.js”]
+CMD ["node", "server.js"]
