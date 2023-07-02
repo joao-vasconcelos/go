@@ -29,19 +29,19 @@ export default function Page() {
   //
   // B. Fetch data
 
-  const { data: exportsData, error: exportsError, isLoading: exportsLoading } = useSWR('/api/exports', { refreshInterval: 250 });
-  const { data: agenciesData, error: agenciesError, isLoading: agenciesLoading } = useSWR('/api/agencies');
+  const { data: allExportsData, error: allExportsError, isLoading: allExportsLoading, mutate: allExportsMutate } = useSWR('/api/exports', { refreshInterval: 250 });
+  const { data: allAgenciesData, error: allAgenciesError, isLoading: allAgenciesLoading } = useSWR('/api/agencies');
   const { data: allLinesData, error: linesError, isLoading: linesLoading } = useSWR('/api/lines');
 
   //
   // B. Format data
 
   const agenciesFormattedForSelect = useMemo(() => {
-    if (!agenciesData) return [];
-    return agenciesData.map((item) => {
+    if (!allAgenciesData) return [];
+    return allAgenciesData.map((item) => {
       return { value: item._id, label: item.name || '-' };
     });
-  }, [agenciesData]);
+  }, [allAgenciesData]);
 
   const linesFormattedForSelect = useMemo(() => {
     if (!allLinesData) return [];
@@ -59,6 +59,7 @@ export default function Page() {
     try {
       setIsExportingV18(true);
       await API({ service: 'exports', operation: 'gtfs_v18', method: 'POST', body: { agency_id: selectedAgencyId, lines: selectedLineIds } });
+      allExportsMutate();
       setIsExportingV18(false);
     } catch (err) {
       console.log(err);
@@ -73,7 +74,7 @@ export default function Page() {
     <ThreeEvenColumns
       first={
         <Pannel
-          loading={exportsLoading}
+          loading={allExportsLoading}
           header={
             <>
               <IconArrowBigDownLinesFilled size='22px' />
@@ -90,7 +91,7 @@ export default function Page() {
             </div>
           </Section>
           <Divider />
-          <Section>{exportsData && exportsData.map((item) => <ExportResult key={item._id} item={item} />)}</Section>
+          <Section>{allExportsData && allExportsData.map((item) => <ExportResult key={item._id} item={item} />)}</Section>
           <Divider />
         </Pannel>
       }
