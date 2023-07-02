@@ -32,6 +32,17 @@ export default async function handler(req, res) {
   }
 
   // 2.
+  // Parse request body into JSON
+
+  try {
+    req.body = await JSON.parse(req.body);
+  } catch (err) {
+    console.log(err);
+    await res.status(500).json({ message: 'JSON parse error.' });
+    return;
+  }
+
+  // 3.
   // Validate req.body against schema
 
   try {
@@ -41,7 +52,7 @@ export default async function handler(req, res) {
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
-  // 3.
+  // 4.
   // Connect to mongodb
 
   try {
@@ -51,7 +62,9 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4. Check for uniqueness
+  // 5.
+  // Check for uniqueness
+
   try {
     // The values that need to be unique are ['code'].
     const foundDocumentWithAgencyCode = await AgencyModel.exists({ code: { $eq: req.body.code } });
@@ -63,7 +76,9 @@ export default async function handler(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 2. Try to update the correct document
+  // 6.
+  // Update the correct document
+
   try {
     const editedDocument = await AgencyModel.findOneAndUpdate({ _id: { $eq: req.query._id } }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Agency with _id: ${req.query._id} not found.` });

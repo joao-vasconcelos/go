@@ -32,6 +32,17 @@ export default async function handler(req, res) {
   }
 
   // 2.
+  // Parse request body into JSON
+
+  try {
+    req.body = await JSON.parse(req.body);
+  } catch (err) {
+    console.log(err);
+    await res.status(500).json({ message: 'JSON parse error.' });
+    return;
+  }
+
+  // 3.
   // Validate req.body against schema
 
   try {
@@ -41,7 +52,7 @@ export default async function handler(req, res) {
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
-  // 3.
+  // 4.
   // Connect to MongoDB
 
   try {
@@ -51,7 +62,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4.
+  // 5.
   // Check for uniqueness
 
   try {
@@ -65,7 +76,7 @@ export default async function handler(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 5.
+  // 6.
   // Reset & Ensure permissions
 
   try {
@@ -90,7 +101,7 @@ export default async function handler(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 6.
+  // 7.
   // Update the correct document
 
   try {
