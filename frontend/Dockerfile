@@ -46,12 +46,13 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 
-USER nextjs
-
-
 # Change permission for exports folder
 RUN mkdir -p /app/exports
 RUN chown -R nextjs:nodejs /app/exports
+RUN chmod -R 755 /app/exports
+
+
+USER nextjs
 
 
 EXPOSE 3000
