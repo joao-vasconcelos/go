@@ -32,8 +32,8 @@ module.exports = async function importStops() {
     16: 'SETUBAL',
     17: 'SINTRA',
     18: 'VFX',
-    19: 'ALENTEJO',
-    20: 'OESTE',
+    19: 'COMP-IR',
+    20: 'COMP-IR',
     aml: 'AML',
   };
 
@@ -43,6 +43,9 @@ module.exports = async function importStops() {
 
   for (const stopApi of allStopsApi) {
     //
+
+    if (!stopApi.code.startsWith('20')) continue;
+
     // Find out Zones
     let zoneIdsForThisStop = [];
     let zoneCodesForThisStop = [zoneCodes.aml, zoneCodes[stopApi.code.substring(0, 2)]];
