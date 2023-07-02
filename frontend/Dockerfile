@@ -47,6 +47,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
+# Change permission for exports folder
+RUN chown -R nextjs:nodejs /app/exports
+
 EXPOSE 3000
 
 ENV PORT 3000
