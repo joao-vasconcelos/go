@@ -77,7 +77,7 @@ export default async function handler(req, res) {
   }
 
   // 6.
-  // Update the correct document
+  // Update the requested document
 
   try {
     const editedDocument = await AgencyModel.findOneAndUpdate({ _id: { $eq: req.query._id } }, req.body, { new: true });

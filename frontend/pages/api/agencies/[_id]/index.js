@@ -40,7 +40,9 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2. Try to fetch the correct document
+  // 3.
+  // Fetch the requested document
+
   try {
     const foundDocument = await AgencyModel.findOne({ _id: { $eq: req.query._id } });
     if (!foundDocument) return await res.status(404).json({ message: `Agency with _id: ${req.query._id} not found.` });

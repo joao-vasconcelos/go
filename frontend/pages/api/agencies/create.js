@@ -41,7 +41,9 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2. Try to save a new document with req.body
+  // 3.
+  // Save a new document with default values
+
   try {
     const createdDocument = await AgencyModel(AgencyDefault).save();
     return await res.status(201).json(createdDocument);

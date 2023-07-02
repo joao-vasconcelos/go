@@ -41,7 +41,7 @@ export default async function handler(req, res) {
   }
 
   // 3.
-  // Delete the correct document
+  // Delete the requested document
 
   try {
     const deletedDocument = await AgencyModel.findOneAndDelete({ _id: { $eq: req.query._id } });
