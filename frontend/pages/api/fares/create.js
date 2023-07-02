@@ -45,8 +45,11 @@ export default async function handler(req, res) {
   // Save a new document with default values
 
   try {
-    const createdDocument = await FareModel(FareDefault).save();
-    return await res.status(201).json(createdDocument);
+    const newDocument = { ...FareDefault, code: generator(5) };
+    while (await FareModel.exists({ code: newDocument.code })) {
+      newDocument.code = generator(5);
+    }
+    return await res.status(201).json(newDocument);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot create this Fare.' });
