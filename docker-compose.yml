@@ -54,7 +54,7 @@ services:
         max-size: '1m'
         max-file: '1'
     volumes:
-      - ./exports:/app/tmp/exports
+      - ./exports:/app/exports
     networks:
       - default
     env_file:
