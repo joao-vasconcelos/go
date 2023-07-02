@@ -17,7 +17,7 @@ module.exports = async function importLines() {
   for (const lineApi of allLinesApi) {
     //
     // Skip if not A1
-    if (!lineApi.code.startsWith('1')) continue;
+    // if (!lineApi.code.startsWith('1')) continue;
 
     // Find out the Agency
     const agencyCode = `4${lineApi.code.substring(0, 1)}`;

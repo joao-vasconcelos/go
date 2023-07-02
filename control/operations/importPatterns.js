@@ -19,7 +19,7 @@ module.exports = async function importPatterns() {
   for (const route of allRoutes) {
     //
     // Skip if not A1
-    if (!route.code.startsWith('1')) continue;
+    // if (!route.code.startsWith('1')) continue;
 
     // Get info for the Route from API v1
     const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_id/${route.code}`);
