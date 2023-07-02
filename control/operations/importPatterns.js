@@ -52,7 +52,8 @@ module.exports = async function importPatterns() {
         const associatedStopDocument = await StopModel.findOne({ code: tripScheduleStop.stop_id });
 
         // Calculate distance delta
-        const distanceDelta = tripScheduleIndex === 0 ? 0 : Number(tripScheduleStop.shape_dist_traveled) * 1000 - prevDistance;
+        const metersOrKm = 1;
+        const distanceDelta = tripScheduleIndex === 0 ? 0 : Number(tripScheduleStop.shape_dist_traveled) * metersOrKm - prevDistance;
         prevDistance = Number(tripScheduleStop.shape_dist_traveled);
 
         let velocityInThisSegment = 0;
@@ -67,15 +68,18 @@ module.exports = async function importPatterns() {
           if (arrivalSeconds < startSeconds) arrivalSeconds += 24 * 3600;
           // Convert to hours (for km per HOUR)
           travelTimeInThisSegment = (arrivalSeconds - startSeconds) / 3600;
+          if (travelTimeInThisSegment === 0) travelTimeInThisSegment = 1;
           // Convert distance to kilometers (for KM per hour)
-          const distanceInKm = distance / 1000;
+          const distanceInKm = distanceDelta / metersOrKm;
           // Calculate velocity (distance / time)
           velocityInThisSegment = distanceInKm / travelTimeInThisSegment;
         }
 
         prevArrivalTime = tripScheduleStop.departure_time_operation;
 
-        console.log('tripScheduleStop.shape_dist_traveled', tripScheduleStop.shape_dist_traveled);
+        // console.log('distanceDelta', distanceDelta);
+        // console.log('velocityInThisSegment', velocityInThisSegment);
+        // console.log('travelTimeInThisSegment', travelTimeInThisSegment);
 
         pathForThisPattern.push({
           stop: associatedStopDocument._id,
@@ -153,7 +157,7 @@ module.exports = async function importPatterns() {
     console.log('-------------------------------------------');
     console.log('-------------------------------------------');
     console.log('-------------------------------------------');
-    await delay(500); // 500 miliseconds of delay
+    await delay(250); // 250 miliseconds of delay
     //
   }
 
