@@ -52,14 +52,14 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /home/app/public /home/app/standalone/public
+COPY --from=builder /home/app/public ./public
 
 COPY --from=builder --chown=nextjs:nodejs /home/app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /home/app/.next/static ./.next/static
 
-RUN mkdir -p /home/app/exports
-RUN chown -R nextjs:nodejs /home/app/exports
-RUN chmod -R 755 /home/app/exports
+RUN mkdir -p ./exports
+RUN chown -R nextjs:nodejs ./exports
+RUN chmod -R 755 ./exports
 
 USER nextjs
 
