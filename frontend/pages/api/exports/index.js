@@ -58,7 +58,7 @@ export default async function handler(req, res) {
 
     // 3.3.
     // Set the workdir path
-    const workdir = `${process.env.PWD}/exports/`;
+    const workdir = `/exports/`;
 
     // 3.4.
     // Only continue if workdir exists.
