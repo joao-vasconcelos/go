@@ -27,6 +27,11 @@ COPY . .
 # If using npm comment out above and use below instead
 RUN npm run build
 
+# Change permission for exports folder
+RUN mkdir -p /app/exports
+RUN chown -R node /app/exports
+RUN chmod -R 755 /app/exports
+
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
@@ -44,12 +49,6 @@ COPY --from=builder /app/public ./public
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-
-# Change permission for exports folder
-RUN mkdir -p /app/exports
-RUN chown -R node /app/exports
-RUN chmod -R 755 /app/exports
 
 
 USER nextjs
