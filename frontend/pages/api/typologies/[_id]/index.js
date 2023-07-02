@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'zones', permission: 'view', req, res });
+    await checkAuthentication({ scope: 'typologies', permission: 'view', req, res });
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
