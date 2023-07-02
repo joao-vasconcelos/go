@@ -1,25 +1,40 @@
-import delay from '../../../../services/delay';
-import mongodb from '../../../../services/mongodb';
-import { Model as RouteModel } from '../../../../schemas/Route/model';
-import { Model as LineModel } from '../../../../schemas/Line/model';
-import { Model as PatternModel } from '../../../../schemas/Pattern/model';
+import delay from '@/services/delay';
+import checkAuthentication from '@/services/checkAuthentication';
+import mongodb from '@/services/mongodb';
+import { Model as RouteModel } from '@/schemas/Route/model';
+import { Model as LineModel } from '@/schemas/Line/model';
+import { Model as PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
 /* DELETE ROUTE */
 /* Explanation needed. */
 /* * */
 
-export default async function routesDelete(req, res) {
+export default async function handler(req, res) {
   //
   await delay();
 
-  // 0. Refuse request if not DELETE
+  // 0.
+  // Refuse request if not DELETE
+
   if (req.method != 'DELETE') {
     await res.setHeader('Allow', ['DELETE']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1. Try to connect to mongodb
+  // 1.
+  // Check for correct Authentication and valid Permissions
+
+  try {
+    await checkAuthentication({ scope: 'lines', permission: 'delete', req, res });
+  } catch (err) {
+    console.log(err);
+    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+  }
+
+  // 2.
+  // Connect to MongoDB
+
   try {
     await mongodb.connect();
   } catch (err) {
@@ -27,14 +42,17 @@ export default async function routesDelete(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
+  // 3.
+  // Delete the requested document
+
   try {
     //
     // Because Route is related with Line,
     // when Route is deleted it should trigger an update in Line.
 
-    const documentToDelete = await RouteModel.findOne({ _id: req.query._id });
+    const documentToDelete = await RouteModel.findOne({ _id: { $eq: req.query._id } });
 
-    const deletedDocument = await RouteModel.findOneAndDelete({ _id: req.query._id });
+    const deletedDocument = await RouteModel.findOneAndDelete({ _id: { $eq: req.query._id } });
     if (!deletedDocument) return await res.status(404).json({ message: `Route with _id: ${req.query._id} not found.` });
 
     for (const pattern_id of documentToDelete.patterns) {

@@ -10,25 +10,42 @@ import { Model as StopModel } from '../../../../schemas/Stop/model';
 /* Explanation needed. */
 /* * */
 
-export default async function patternsImport(req, res) {
+export default async function handler(req, res) {
   //
   await delay();
 
-  // 0. Refuse request if not PUT
+  // 0.
+  // Refuse request if not PUT
+
   if (req.method != 'PUT') {
     await res.setHeader('Allow', ['PUT']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1. Parse request body into JSON
+  // 1.
+  // Check for correct Authentication and valid Permissions
+
+  try {
+    await checkAuthentication({ scope: 'lines', permission: 'create_edit', req, res });
+  } catch (err) {
+    console.log(err);
+    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+  }
+
+  // 2.
+  // Parse request body into JSON
+
   try {
     req.body = await JSON.parse(req.body);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'JSON parse error.' });
+    await res.status(500).json({ message: 'JSON parse error.' });
+    return;
   }
 
-  // 3. Try to connect to mongodb
+  // 4.
+  // Connect to mongodb
+
   try {
     await mongodb.connect();
   } catch (err) {
@@ -39,7 +56,7 @@ export default async function patternsImport(req, res) {
   //
 
   // Get current pattern from db
-  const patternDocumentToUpdate = await PatternModel.findOne({ _id: req.query._id });
+  const patternDocumentToUpdate = await PatternModel.findOne({ _id: { $eq: req.query._id } });
 
   //
   // UPDATE SHAPE
