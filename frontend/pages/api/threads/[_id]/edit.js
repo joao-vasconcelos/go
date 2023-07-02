@@ -1,24 +1,39 @@
-import delay from '../../../../services/delay';
-import mongodb from '../../../../services/mongodb';
-import { Validation as ThreadValidation } from '../../../../schemas/Thread/validation';
-import { Model as ThreadModel } from '../../../../schemas/Thread/model';
+import delay from '@/services/delay';
+import checkAuthentication from '@/services/checkAuthentication';
+import mongodb from '@/services/mongodb';
+import { Validation as ThreadValidation } from '@/schemas/Thread/validation';
+import { Model as ThreadModel } from '@/schemas/Thread/model';
 
 /* * */
 /* EDIT THREAD */
 /* Explanation needed. */
 /* * */
 
-export default async function threadsEdit(req, res) {
+export default async function handler(req, res) {
   //
   await delay();
 
-  // 0. Refuse request if not PUT
+  // 0.
+  // Refuse request if not PUT
+
   if (req.method != 'PUT') {
     await res.setHeader('Allow', ['PUT']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1. Parse request body into JSON
+  // 1.
+  // Check for correct Authentication and valid Permissions
+
+  try {
+    await checkAuthentication({ scope: 'threads', permission: 'create_edit', req, res });
+  } catch (err) {
+    console.log(err);
+    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+  }
+
+  // 2.
+  // Parse request body into JSON
+
   try {
     req.body = await JSON.parse(req.body);
   } catch (err) {
@@ -27,7 +42,9 @@ export default async function threadsEdit(req, res) {
     return;
   }
 
-  // 2. Validate req.body against schema
+  // 3.
+  // Validate req.body against schema
+
   try {
     req.body = ThreadValidation.cast(req.body);
   } catch (err) {
@@ -35,7 +52,9 @@ export default async function threadsEdit(req, res) {
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
-  // 3. Try to connect to mongodb
+  // 4.
+  // Connect to mongodb
+
   try {
     await mongodb.connect();
   } catch (err) {
@@ -43,21 +62,25 @@ export default async function threadsEdit(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4. Check for uniqueness
+  // 5.
+  // Check for uniqueness
+
   try {
     // The values that need to be unique are ['agency_code'].
-    const foundDocumentWithThreadCode = await ThreadModel.exists({ agency_code: req.body.agency_code });
+    const foundDocumentWithThreadCode = await ThreadModel.exists({ agency_code: { $eq: req.body.agency_code } });
     if (foundDocumentWithThreadCode && foundDocumentWithThreadCode._id != req.query._id) {
-      throw new Error('Uma Agência com o mesmo Código já existe.');
+      throw new Error('Uma Conversa com o mesmo Código já existe.');
     }
   } catch (err) {
     console.log(err);
     return await res.status(409).json({ message: err.message });
   }
 
-  // 2. Try to update the correct document
+  // 6.
+  // Update the requested document
+
   try {
-    const editedDocument = await ThreadModel.findOneAndUpdate({ _id: req.query._id }, req.body, { new: true });
+    const editedDocument = await ThreadModel.findOneAndUpdate({ _id: { $eq: req.query._id } }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Thread with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
