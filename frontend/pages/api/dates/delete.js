@@ -1,23 +1,38 @@
-import delay from '../../../services/delay';
-import mongodb from '../../../services/mongodb';
-import { Model as DateModel } from '../../../schemas/Date/model';
+import delay from '@/services/delay';
+import checkAuthentication from '@/services/checkAuthentication';
+import mongodb from '@/services/mongodb';
+import { Model as DateModel } from '@/schemas/Date/model';
 
 /* * */
 /* DELETE DATES */
 /* Explanation needed. */
 /* * */
 
-export default async function datesDelete(req, res) {
+export default async function handler(req, res) {
   //
   await delay();
 
-  // 0. Refuse request if not POST
+  // 0.
+  // Refuse request if not POST
+
   if (req.method != 'POST') {
     await res.setHeader('Allow', ['POST']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1. Parse request body into JSON
+  // 1.
+  // Check for correct Authentication and valid Permissions
+
+  try {
+    await checkAuthentication({ scope: 'dates', permission: 'delete', req, res });
+  } catch (err) {
+    console.log(err);
+    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+  }
+
+  // 2.
+  // Parse request body into JSON
+
   try {
     req.body = await JSON.parse(req.body);
   } catch (err) {
@@ -26,7 +41,9 @@ export default async function datesDelete(req, res) {
     return;
   }
 
-  // 1. Try to connect to mongodb
+  // 3.
+  // Connect to mongodb
+
   try {
     await mongodb.connect();
   } catch (err) {
@@ -34,7 +51,9 @@ export default async function datesDelete(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2. Try to update the correct document
+  // 4.
+  // Delete requested documents
+
   try {
     let deletedDocuments = [];
     for (const dateObject of req.body) {
