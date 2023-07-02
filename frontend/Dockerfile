@@ -13,7 +13,7 @@ FROM base AS dependencies
 
 RUN apk add --no-cache libc6-compat
 
-WORKDIR /home/app/
+WORKDIR /app
 
 COPY package.json ./
 COPY package-lock.json ./
@@ -29,9 +29,9 @@ RUN npm ci
 
 FROM base AS builder
 
-WORKDIR /home/app/
+WORKDIR /app
 
-COPY --from=dependencies /home/app/node_modules ./node_modules
+COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 
 RUN npm run build
@@ -45,21 +45,17 @@ RUN npm run build
 
 FROM base AS runner
 
-WORKDIR /home/app
+WORKDIR /app
 
 ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /home/app/public ./public
+COPY --from=builder /app/public ./public
 
-COPY --from=builder --chown=nextjs:nodejs /home/app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /home/app/.next/static ./.next/static
-
-RUN mkdir -p ./exports
-RUN chown -R nextjs:nodejs ./exports
-RUN chmod -R 755 ./exports
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
