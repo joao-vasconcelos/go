@@ -45,6 +45,7 @@ module.exports = async function importLines() {
       circular: lineApi.continuous || false,
       school: false,
       continuous: false,
+      transport_type: 3,
       typology: typologyDocument?._id || null,
       fare: fareDocument?._id || null,
       agency: agencyDocument?._id || null,
