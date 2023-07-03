@@ -39,10 +39,13 @@ while true; do
         echo "- - - - - - - - -"
         echo $files_to_delete
         echo "- - - - - - - - -"
+    else
+        echo "No backups deleted: Found $files_count archives which is greater then the set $files_to_keep archives limit."
     fi
 
+
     # Log end of program
-    echo "Complete!"
+    echo "Complete! Next run in $frequency seconds :)"
 
     # Sleep until the next iteration
     sleep $frequency
