@@ -218,7 +218,7 @@ function StopSequenceTableVelocityColumn({ rowIndex }) {
           placeholder={t('default_velocity.placeholder')}
           defaultValue={20}
           min={0}
-          step={5}
+          step={1}
           stepHoldDelay={500}
           stepHoldInterval={100}
           formatter={(value) => `${value} km/h`}
