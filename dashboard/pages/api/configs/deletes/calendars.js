@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as LineModel } from '@/schemas/Line/model';
+import { Model as CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
 /* IMPORT LINES */
@@ -45,9 +45,9 @@ export default async function handler(req, res) {
 
   try {
     //
-    // Get info for all Lines from API v2
-    const result = await LineModel.deleteMany();
-    console.log(`Deleted Lines: ${result.deletedCount}`);
+    // Get info for all Calendars from API v2
+    const result = await CalendarModel.deleteMany();
+    console.log(`Deleted Calendars: ${result.deletedCount}`);
 
     //
   } catch (err) {

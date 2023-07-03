@@ -109,6 +109,30 @@ export default function Page() {
     });
   };
 
+  const handleStartImportStops = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Import Stops</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, import Stops', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('import-stops', 'loading', 'Loading');
+          await API({ service: 'configs/imports/stops', method: 'GET' });
+          notify('import-stops', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('import-stops', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
   //
   // D. Handle deletes
 
@@ -136,9 +160,101 @@ export default function Page() {
     });
   };
 
-  const handleDeleteRoutes = async () => {};
+  const handleDeleteRoutes = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Delete Routes</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, delete all Routes', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('delete-routes', 'loading', 'Loading');
+          await API({ service: 'configs/deletes/routes', method: 'GET' });
+          notify('delete-routes', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('delete-routes', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
 
-  const handleDeletePatterns = async () => {};
+  const handleDeletePatterns = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Delete Patterns</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, delete all Patterns', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('delete-patterns', 'loading', 'Loading');
+          await API({ service: 'configs/deletes/patterns', method: 'GET' });
+          notify('delete-patterns', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('delete-patterns', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
+  const handleDeleteCalendars = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Delete Calendars</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, delete all Calendars', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('delete-calendars', 'loading', 'Loading');
+          await API({ service: 'configs/deletes/calendars', method: 'GET' });
+          notify('delete-calendars', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('delete-calendars', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
+  const handleDeleteStops = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Delete Stops</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, delete all Stops', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('delete-stops', 'loading', 'Loading');
+          await API({ service: 'configs/deletes/stops', method: 'GET' });
+          notify('delete-stops', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('delete-stops', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
 
   //
   // E. Render components
@@ -151,16 +267,23 @@ export default function Page() {
           <Button onClick={handleStartImportLines}>Import Lines</Button>
           <Button onClick={handleStartImportRoutes}>Import Routes</Button>
           <Button onClick={handleStartImportPatterns}>Import Patterns</Button>
+          <Button onClick={handleStartImportStops}>Import Stops</Button>
         </SimpleGrid>
         <SimpleGrid cols={3}>
           <Button onClick={handleDeleteLines} color='red'>
             Delete All Lines
           </Button>
-          <Button onClick={handleDeleteRoutes} color='red' disabled>
+          <Button onClick={handleDeleteRoutes} color='red'>
             Delete All Routes
           </Button>
-          <Button onClick={handleDeletePatterns} color='red' disabled>
+          <Button onClick={handleDeletePatterns} color='red'>
             Delete All Patterns
+          </Button>
+          <Button onClick={handleDeleteCalendars} color='red'>
+            Delete All Calendars
+          </Button>
+          <Button onClick={handleDeleteStops} color='red'>
+            Delete All Stops
           </Button>
         </SimpleGrid>
       </Section>
