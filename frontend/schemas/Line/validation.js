@@ -9,7 +9,7 @@ import * as yup from 'yup';
 /* A. YUP Validation Schema */
 export const Validation = yup.object({
   code: yup.string().required().max(5),
-  name: yup.string().required().max(100),
+  name: yup.string().required().max(150),
   short_name: yup.string().required().max(5),
   transport_type: yup.number().integer().required(),
   circular: yup.boolean(),

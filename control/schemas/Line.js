@@ -16,7 +16,7 @@ const Schema = new mongoose.Schema(
     },
     name: {
       type: String,
-      maxlength: 100,
+      maxlength: 150,
     },
     short_name: {
       type: String,

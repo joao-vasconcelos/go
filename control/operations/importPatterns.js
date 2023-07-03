@@ -19,7 +19,7 @@ module.exports = async function importPatterns() {
   for (const route of allRoutes) {
     //
     // Skip if not A1
-    // if (!route.code.startsWith('1')) continue;
+    if (!route.code.startsWith('1')) continue;
 
     // Get info for the Route from API v1
     const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_id/${route.code}`);
@@ -112,7 +112,7 @@ module.exports = async function importPatterns() {
           while (await CalendarModel.exists({ code: newCalendarCode })) {
             newCalendarCode = generate(4);
           }
-          matchingCalendar = await CalendarModel.findOneAndUpdate({ code: newCalendarCode }, { code: tripApi.service_id, dates: tripApi.dates }, { upsert: true, new: true });
+          matchingCalendar = await CalendarModel.findOneAndUpdate({ code: newCalendarCode }, { code: newCalendarCode, dates: tripApi.dates }, { upsert: true, new: true });
           console.log(`Created Calendar with code ${matchingCalendar.code}`);
         } else console.log(`Used existing Calendar ${matchingCalendar.code}`);
 
