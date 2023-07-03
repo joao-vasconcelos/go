@@ -6,7 +6,12 @@ on:
       - production
 
 jobs:
-  run:
+  #
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  go-frontend:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -32,6 +37,28 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           tags: ghcr.io/joao-vasconcelos/go-frontend:${{ github.ref_name }}
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  go-backupd:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker Image - backupd
         uses: docker/build-push-action@v4
