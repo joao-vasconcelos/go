@@ -12,7 +12,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
 
   go-frontend:
-    name: 'Docker Build (frontend)'
+    name: 'Build Docker Image (frontend)'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -43,7 +43,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
 
   go-backupd:
-    name: 'Docker Build (backupd)'
+    name: 'Build Docker Image (backupd)'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
