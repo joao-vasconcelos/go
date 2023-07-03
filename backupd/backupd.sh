@@ -35,7 +35,10 @@ while true; do
     if [ "$files_count" -gt "$files_to_keep" ]; then
         files_to_delete=$(echo "$sorted_files" | tail -n +$((files_to_keep + 1)))
         echo "$files_to_delete" | xargs rm
-        echo "Deleted backup archives: $files_to_delete"
+        echo "Deleted backup archives:"
+        echo "- - - - - - - - -"
+        echo $files_to_delete
+        echo "- - - - - - - - -"
     fi
 
     # Log end of program
