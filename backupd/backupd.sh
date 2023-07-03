@@ -4,7 +4,7 @@
 backup_dir="/backups"
 
 # Define the command to run mongodump
-mongodump_cmd="mongodump --uri '$MONGODB_CONNECTION_STRING' --out $backup_dir"
+mongodump_cmd="mongodump --uri '$(echo $MONGODB_CONNECTION_STRING | sed 's/@/\\@/g')' --out $backup_dir"
 
 # Infinite loop to run mongodump every minute
 while true; do
