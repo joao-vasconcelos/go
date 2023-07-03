@@ -35,11 +35,11 @@ const mongodb = require('./services/mongodb');
     // console.log('Starting importing Stops...');
     // await importStops();
 
-    // console.log('Starting importing Lines...');
-    // await importLines();
+    console.log('Starting importing Lines...');
+    await importLines();
 
-    // console.log('Starting importing Routes...');
-    // await importRoutes();
+    console.log('Starting importing Routes...');
+    await importRoutes();
 
     console.log('Starting importing Patterns...');
     await importPatterns();
