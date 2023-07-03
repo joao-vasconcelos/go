@@ -35,7 +35,7 @@ export default function Page() {
   // C. Setup form
 
   //
-  // D. Handle actions
+  // D. Handle imports
 
   const handleStartImportLines = async () => {
     openConfirmModal({
@@ -110,6 +110,37 @@ export default function Page() {
   };
 
   //
+  // D. Handle deletes
+
+  const handleDeleteLines = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Delete Lines</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, delete all Lines', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('delete-lines', 'loading', 'Loading');
+          await API({ service: 'configs/deletes/lines', method: 'GET' });
+          notify('delete-lines', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('delete-lines', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
+  const handleDeleteRoutes = async () => {};
+
+  const handleDeletePatterns = async () => {};
+
+  //
   // E. Render components
 
   return (
@@ -120,6 +151,17 @@ export default function Page() {
           <Button onClick={handleStartImportLines}>Import Lines</Button>
           <Button onClick={handleStartImportRoutes}>Import Routes</Button>
           <Button onClick={handleStartImportPatterns}>Import Patterns</Button>
+        </SimpleGrid>
+        <SimpleGrid cols={3}>
+          <Button onClick={handleDeleteLines} color='red'>
+            Delete All Lines
+          </Button>
+          <Button onClick={handleDeleteRoutes} color='red' disabled>
+            Delete All Routes
+          </Button>
+          <Button onClick={handleDeletePatterns} color='red' disabled>
+            Delete All Patterns
+          </Button>
         </SimpleGrid>
       </Section>
     </Pannel>
