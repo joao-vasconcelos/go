@@ -263,13 +263,13 @@ export default function Page() {
     <Pannel>
       <Section>
         <Text size='h2'>Imports</Text>
-        <SimpleGrid cols={3}>
+        <SimpleGrid cols={4}>
           <Button onClick={handleStartImportLines}>Import Lines</Button>
           <Button onClick={handleStartImportRoutes}>Import Routes</Button>
-          <Button onClick={handleStartImportPatterns}>Import Patterns</Button>
+          <Button onClick={handleStartImportPatterns}>Import Patterns & Calendars</Button>
           <Button onClick={handleStartImportStops}>Import Stops</Button>
         </SimpleGrid>
-        <SimpleGrid cols={3}>
+        <SimpleGrid cols={5}>
           <Button onClick={handleDeleteLines} color='red'>
             Delete All Lines
           </Button>
