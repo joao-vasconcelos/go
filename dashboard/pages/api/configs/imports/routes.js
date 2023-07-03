@@ -53,7 +53,7 @@ export default async function handler(req, res) {
     for (const line of allLines) {
       //
       // Skip if not A1
-      if (!line.code.startsWith('2')) continue;
+      //   if (!line.code.startsWith('2')) continue;
 
       // Get info for the route from API v1
       const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_short_name/${line.short_name}`);

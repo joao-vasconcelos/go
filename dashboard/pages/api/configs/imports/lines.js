@@ -55,7 +55,7 @@ export default async function handler(req, res) {
     for (const lineApi of allLinesApi) {
       //
       // Skip if not A2
-      if (!lineApi.code.startsWith('2')) continue;
+      //   if (!lineApi.code.startsWith('2')) continue;
 
       // Find out the Agency
       const agencyCode = `4${lineApi.code.substring(0, 1)}`;

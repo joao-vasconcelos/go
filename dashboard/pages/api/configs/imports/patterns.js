@@ -56,7 +56,7 @@ export default async function handler(req, res) {
       //
       // Skip if not A1
       // if (!route.code.startsWith('2')) continue;
-      if (parseInt(route.code.substring(0, 4)) < 2794) continue;
+      //   if (parseInt(route.code.substring(0, 4)) < 2794) continue;
 
       // Get info for the Route from API v1
       const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_id/${route.code}`);
