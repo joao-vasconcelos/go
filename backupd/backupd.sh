@@ -1,17 +1,47 @@
 #!/bin/sh
 
+# BACKUP DIRECTORY
+directory="/backups"
+
+# BACKUP FREQUENCY
+# Run every 6 hours (21600 seconds)
+frequency=21600
+
+# BACKUP HISTORYS
+# Only keep the 10 most recent files
+files_to_keep=2
+
 # Infinite loop to run mongodump every minute
 while true; do
 
-    # Run mongodump command
-    # mongodump --uri="$MONGODB_CONNECTION_STRING" --archive="/backups/go-backup-$(date +\%Y\%m\%d\%H\%M\%S)" #--out="/backups"
+    # Backup the database to an archive
+    echo "Starting backup..."
+    mongodump --uri="$MONGODB_CONNECTION_STRING" --archive="$directory/go-backup-$(date +\%Y\%m\%d\%H\%M\%S)"
+    echo "Backup complete!"
 
-    mongorestore --uri="$MONGODB_CONNECTION_STRING" --drop --preserveUUID --archive="/backups/go-backup-20230703153032"
+    # Restore the database from backup
+    # echo "Starting restore..."
+    # mongorestore --uri="$MONGODB_CONNECTION_STRING" --drop --preserveUUID --archive="$directory/go-backup-20230703153032"
+    # echo "Restore complete!"
 
-    # Log
-    echo "Done."
+    # Only keep the most recent files
+    echo "Preparing to remove older backups. Will only keep the $files_to_keep most recent backup archives."
+    
+    # Sort the files by modification time (most recent first) and count how many were found
+    sorted_files=$(find "$directory" -maxdepth 1 -type f -printf "%p\n" | sort -r -k1 | awk '{print $1}') 
+    files_count=$(echo "$sorted_files" | wc -l)
+    
+    # Delete the extra files if the count exceeds the threshold
+    if [ "$files_count" -gt "$files_to_keep" ]; then
+        files_to_delete=$(echo "$sorted_files" | tail -n +$((files_to_keep + 1)))
+        echo "$files_to_delete" | xargs rm
+        echo "Deleted backup archives: $files_to_delete"
+    fi
 
-    # Sleep for 30 minutes (1800 seconds)
-    sleep 1800
+    # Log end of program
+    echo "Complete!"
+
+    # Sleep until the next iteration
+    sleep $frequency
 
 done
