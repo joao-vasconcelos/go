@@ -6,7 +6,7 @@ while true; do
     # Run mongodump command
     # mongodump --uri="$MONGODB_CONNECTION_STRING" --archive="/backups/go-backup-$(date +\%Y\%m\%d\%H\%M\%S)" #--out="/backups"
 
-    mongoimport --uri="$MONGODB_CONNECTION_STRING" --drop --preserveUUID --archive="/backups/go-backup-20230703153032"
+    mongoimport --uri="$MONGODB_CONNECTION_STRING" --archive="/backups/go-backup-20230703153032"
 
     # Log
     echo "Done."
