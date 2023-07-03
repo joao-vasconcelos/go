@@ -19,7 +19,8 @@ module.exports = async function importPatterns() {
   for (const route of allRoutes) {
     //
     // Skip if not A1
-    if (!route.code.startsWith('2')) continue;
+    // if (!route.code.startsWith('2')) continue;
+    if (parseInt(route.code.substring(0, 4)) < 2794) continue;
 
     // Get info for the Route from API v1
     const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_id/${route.code}`);
@@ -99,13 +100,17 @@ module.exports = async function importPatterns() {
       let schedulesForThisPattern = [];
       for (const tripApi of directionApi.trips) {
         //
-        const allCalendars = await CalendarModel.find({});
+        console.log('fetching calendars');
+        const allCalendars = await CalendarModel.find();
+        console.log('fetched calendars', allCalendars.length);
+
         const calendarForThisTripAsStrings = tripApi.dates.join(',');
 
         let matchingCalendar = allCalendars.find((calendar) => {
           const calendarStrings = calendar.dates.join(',');
           return calendarStrings === calendarForThisTripAsStrings;
         });
+        console.log('done finding matching calendars');
 
         if (!matchingCalendar || matchingCalendar.length === 0) {
           let newCalendarCode = tripApi.service_id || generate(4);
@@ -151,7 +156,7 @@ module.exports = async function importPatterns() {
 
     // Update parent route with created patterns
     route.patterns = createdPatternsIds;
-    route.save();
+    await route.save();
 
     console.log(`Updated Route ${route.code}`);
     console.log('-------------------------------------------');
