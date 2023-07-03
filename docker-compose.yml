@@ -103,8 +103,8 @@ services:
         max-file: '1'
     volumes:
       - ./backups/:/backups
+    networks:
+      - default
     env_file:
       - .env
       - .env.production
-    networks:
-      - backend-network
