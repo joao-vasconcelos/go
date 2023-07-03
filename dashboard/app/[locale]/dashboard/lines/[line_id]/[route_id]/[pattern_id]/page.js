@@ -154,7 +154,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [pattern_id, patternForm, patternMutate]);
+  }, [pattern_id, patternForm, patternMutate, patternStopsMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({

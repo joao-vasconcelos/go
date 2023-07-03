@@ -97,5 +97,9 @@ export const Default = {
       create_edit: false,
       delete: false,
     },
+    // CONFIGS
+    configs: {
+      admin: false,
+    },
   },
 };

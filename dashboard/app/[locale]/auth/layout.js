@@ -27,7 +27,7 @@ export default async function AuthLayout({ children }) {
       if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
       else router.push('/dashboard/');
     }
-  }, [status, searchParams]);
+  }, [router, status, searchParams]);
 
   //
   // C. Render components

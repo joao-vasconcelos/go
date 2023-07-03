@@ -225,6 +225,13 @@ export const Schema = new mongoose.Schema(
           type: Boolean,
         },
       },
+      //
+      // CONFIGS
+      configs: {
+        admin: {
+          type: Boolean,
+        },
+      },
     },
   },
   { timestamps: true }

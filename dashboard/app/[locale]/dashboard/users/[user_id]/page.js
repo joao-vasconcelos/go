@@ -55,7 +55,7 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(UserValidation),
-    initialValues: UserDefault,
+    initialValues: merge({ ...UserDefault }, { ...userData }),
   });
 
   const keepFormUpdated = (data) => {
@@ -621,6 +621,18 @@ export default function Page() {
               disabled={!form.values.permissions.threads.view}
               readOnly={isReadOnly}
             />
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size='h2'>{t('form.permissions.configs.title')}</Text>
+            <Text size='h4'>{t('form.permissions.configs.description')}</Text>
+          </div>
+          <SimpleGrid cols={3} mt='md'>
+            <Switch label={t('form.permissions.configs.admin.label')} description={t('form.permissions.configs.admin.description')} size='md' {...form.getInputProps('permissions.configs.admin', { type: 'checkbox' })} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
       </form>
