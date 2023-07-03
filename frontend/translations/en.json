@@ -1414,7 +1414,7 @@
             "logout": "Logout"
         },
         "version": {
-            "label": "Version"
+            "label": "Version {version}"
         }
     },
     "AppSidebar": {

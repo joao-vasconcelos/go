@@ -43,9 +43,7 @@ export default function LocaleSwitcher() {
           {t('auth.logout')}
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Label>
-          {t('version.label')} {pjson.version}
-        </Menu.Label>
+        <Menu.Label>{t('version.label', { version: pjson.version })}</Menu.Label>
       </Menu.Dropdown>
     </Menu>
   );
