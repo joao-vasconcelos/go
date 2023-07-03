@@ -8,8 +8,8 @@ directory="/backups"
 frequency=21600
 
 # BACKUP HISTORYS
-# Only keep the 10 most recent files
-files_to_keep=2
+# Only keep the 30 most recent files
+files_to_keep=30
 
 # Infinite loop to run mongodump every minute
 while true; do

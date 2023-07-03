@@ -1,4 +1,4 @@
-name: Build & Publish Docker image
+name: Build & Publish Docker Images
 
 on:
   push:
@@ -12,6 +12,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
 
   go-frontend:
+    name: 'Docker Build (frontend)'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -42,6 +43,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
 
   go-backupd:
+    name: 'Docker Build (backupd)'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
