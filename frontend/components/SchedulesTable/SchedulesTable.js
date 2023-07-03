@@ -123,7 +123,7 @@ function SchedulesTableCalendarsOnColumn({ rowIndex }) {
   const allCalendarsDataFormatted = useMemo(() => {
     if (!allCalendarsData) return [];
     return allCalendarsData.map((item) => {
-      return { value: item._id, label: item.name || '-', disabled: patternForm.values.schedules[rowIndex].calendars_off.includes(item._id) };
+      return { value: item._id, label: `[${item.code}] ${item.name || '-'}`, disabled: patternForm.values.schedules[rowIndex].calendars_off.includes(item._id) };
     });
   }, [allCalendarsData, patternForm.values.schedules, rowIndex]);
 
@@ -178,7 +178,7 @@ function SchedulesTableCalendarsOffColumn({ rowIndex }) {
   const allCalendarsDataFormatted = useMemo(() => {
     if (!allCalendarsData) return [];
     return allCalendarsData.map((item) => {
-      return { value: item._id, label: item.name || '-', disabled: patternForm.values.schedules[rowIndex].calendars_on.includes(item._id) };
+      return { value: item._id, label: `[${item.code}] ${item.name || '-'}`, disabled: patternForm.values.schedules[rowIndex].calendars_on.includes(item._id) };
     });
   }, [allCalendarsData, patternForm.values.schedules, rowIndex]);
 
