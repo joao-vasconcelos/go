@@ -78,6 +78,23 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
+  backupd:
+    image: ghcr.io/joao-vasconcelos/go-backupd:production
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - ./backups/:/backups
+    networks:
+      - default
+    env_file:
+      - .env.production
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
   frontend:
     image: ghcr.io/joao-vasconcelos/go-frontend:production
     restart: unless-stopped
@@ -93,16 +110,13 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  backupd:
-    image: ghcr.io/joao-vasconcelos/go-backupd:production
-    restart: unless-stopped
-    logging:
-      options:
-        max-size: '1m'
-        max-file: '1'
-    volumes:
-      - ./backups/:/backups
-    networks:
-      - default
-    env_file:
-      - .env.production
+  # mongox:
+  #   image: mongo-express
+  #   logging:
+  #     options:
+  #       max-size: '1m'
+  #       max-file: '1'
+  #   networks:
+  #     - default
+  #   environment:
+  #     - ME_CONFIG_MONGODB_URL=mongodb://mongodbuser:mongodbpassword@mongodb:27017/production?authSource=admin
