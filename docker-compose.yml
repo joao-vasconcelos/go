@@ -95,8 +95,8 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  frontend:
-    image: ghcr.io/joao-vasconcelos/go-frontend:production
+  dashboard:
+    image: ghcr.io/joao-vasconcelos/go-dashboard:production
     restart: unless-stopped
     logging:
       options:
