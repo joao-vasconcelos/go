@@ -2,6 +2,7 @@ version: '3.9'
 
 volumes:
   certbotdata:
+  godb:
 
 networks:
   default:
@@ -9,6 +10,10 @@ networks:
 
 services:
   #
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
   watchtower:
     image: containrrr/watchtower
     volumes:
@@ -19,6 +24,9 @@ services:
       - WATCHTOWER_INCLUDE_STOPPED=TRUE
       - WATCHTOWER_REVIVE_STOPPED=TRUE
       - WATCHTOWER_ROLLING_RESTART=TRUE
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
 
   nginx:
     image: nginx:stable
@@ -38,6 +46,9 @@ services:
       - 443:443
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
   certbot:
     image: certbot/certbot
     restart: unless-stopped
@@ -46,8 +57,29 @@ services:
       - certbotdata:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  godb:
+    image: mongo
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - godb:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=godbuser
+      - MONGO_INITDB_ROOT_PASSWORD=godbpassword
+    networks:
+      - default
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
   frontend:
-    image: ghcr.io/joao-vasconcelos/go:production
+    image: ghcr.io/joao-vasconcelos/go-frontend:production
     restart: unless-stopped
     logging:
       options:
@@ -58,3 +90,21 @@ services:
     env_file:
       - .env
       - .env.production
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  backupd:
+    image: ghcr.io/joao-vasconcelos/go-backupd:production
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - ./backups/:/backups
+    env_file:
+      - .env
+      - .env.production
+    networks:
+      - backend-network

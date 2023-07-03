@@ -25,10 +25,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push Images
+      - name: Build Docker Image - frontend
         uses: docker/build-push-action@v4
         with:
           push: true
           context: ./frontend
           file: ./frontend/Dockerfile
-          tags: ghcr.io/joao-vasconcelos/go:${{ github.ref_name }}
+          tags: ghcr.io/joao-vasconcelos/go-frontend:${{ github.ref_name }}
+
+      - name: Build Docker Image - backupd
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: ./backupd
+          file: ./backupd/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go-backupd:${{ github.ref_name }}
