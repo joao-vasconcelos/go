@@ -1,9 +1,10 @@
-import delay from '../../../../services/delay';
-import mongodb from '../../../../services/mongodb';
+import delay from '@/services/delay';
+import checkAuthentication from '@/services/checkAuthentication';
+import mongodb from '@/services/mongodb';
 import * as turf from '@turf/turf';
-import { Default as PatternDefault } from '../../../../schemas/Pattern/default';
-import { Model as PatternModel } from '../../../../schemas/Pattern/model';
-import { Model as StopModel } from '../../../../schemas/Stop/model';
+import { Default as PatternDefault } from '@/schemas/Pattern/default';
+import { Model as PatternModel } from '@/schemas/Pattern/model';
+import { Model as StopModel } from '@/schemas/Stop/model';
 
 /* * */
 /* IMPORT PATTERN */
