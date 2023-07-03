@@ -1,2 +1,0 @@
-# Run mongodump every day at 2 AM
-* * * * * root mongodump --uri $MONGODB_CONNECTION_STRING --out /backups/$(date +\%Y\%m\%d\%H\%M\%S)

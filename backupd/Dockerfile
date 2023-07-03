@@ -1,11 +1,9 @@
 FROM mongo:latest
 
-RUN apt-get update && apt-get install -y cron
+WORKDIR /backupd
 
-COPY crontab /etc/cron.d/backup-cron
+COPY ./backupd.sh ./backupd.sh
 
-RUN chmod 0644 /etc/cron.d/backup-cron
+RUN chmod 0644 ./backupd.sh
 
-RUN touch /var/log/cron.log
-
-CMD cron && tail -f /var/log/cron.log
+CMD ["sh", "backupd.sh"]
