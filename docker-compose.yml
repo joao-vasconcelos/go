@@ -88,7 +88,6 @@ services:
     networks:
       - default
     env_file:
-      - .env
       - .env.production
 
   # # # # # # # # # # # # # # # # # # # # #
@@ -106,5 +105,4 @@ services:
     networks:
       - default
     env_file:
-      - .env
       - .env.production
