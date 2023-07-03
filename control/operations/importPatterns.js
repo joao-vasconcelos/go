@@ -85,9 +85,9 @@ module.exports = async function importPatterns() {
           stop: associatedStopDocument._id,
           allow_pickup: true,
           allow_drop_off: true,
-          distance_delta: distanceDelta,
-          default_velocity: velocityInThisSegment,
-          default_travel_time: travelTimeInThisSegment,
+          distance_delta: parseInt(distanceDelta),
+          default_velocity: parseInt(velocityInThisSegment),
+          default_travel_time: parseInt(travelTimeInThisSegment),
           default_dwell_time: 30,
           zones: associatedStopDocument.zones,
         });
