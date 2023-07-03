@@ -18,7 +18,7 @@ module.exports = async function importRoutes() {
   for (const line of allLines) {
     //
     // Skip if not A1
-    // if (!line.code.startsWith('1')) continue;
+    if (!line.code.startsWith('2')) continue;
 
     // Get info for the route from API v1
     const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_short_name/${line.short_name}`);
@@ -43,10 +43,10 @@ module.exports = async function importRoutes() {
 
     // Add the created Route objects to the current line, and save the updated document
     line.routes = createdRoutesIds;
-    line.save();
+    await line.save();
 
     console.log(`Updated Line ${line.code}`);
-    await delay(500); // 1000 miliseconds of delay
+    await delay(250); // 250 miliseconds of delay
     //
   }
 
