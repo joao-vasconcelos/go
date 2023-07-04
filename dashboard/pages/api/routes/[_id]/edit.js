@@ -3,7 +3,7 @@ import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { Validation as RouteValidation } from '@/schemas/Route/validation';
 import { Model as RouteModel } from '@/schemas/Route/model';
-import { Model as PatternModel } from '@/schemas/Pattern/model';
+import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
 /* EDIT ROUTE */
