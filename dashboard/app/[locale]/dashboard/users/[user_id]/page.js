@@ -100,7 +100,7 @@ export default function Page() {
   const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
-      await API({ service: 'users', resourceId: user_id, operation: 'edit', method: 'PUT', body: form.values });
+      await API({ service: 'users', resourceId: user_id, operation: 'edit', method: 'PUT', body: userForm.values });
       userMutate();
       allUsersMutate();
       userForm.resetDirty();
