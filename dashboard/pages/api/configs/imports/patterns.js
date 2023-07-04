@@ -97,7 +97,7 @@ export default async function handler(req, res) {
           if (route.code.startsWith('4')) metersOrKm = 1000; // A3 is in kilometers
 
           const distanceDelta = tripScheduleIndex === 0 ? 0 : Number(tripScheduleStop.shape_dist_traveled) * metersOrKm - prevDistance;
-          prevDistance = Number(tripScheduleStop.shape_dist_traveled);
+          prevDistance = Number(tripScheduleStop.shape_dist_traveled) * metersOrKm;
 
           let velocityInThisSegment = 0;
           let travelTimeInThisSegment = 0;
