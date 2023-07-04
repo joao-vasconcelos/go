@@ -56,7 +56,7 @@ export default async function handler(req, res) {
       //
       // Skip if not A1
       // if (!route.code.startsWith('2')) continue;
-      if (parseInt(route.code.substring(0, 4)) < 1616) continue;
+      //   if (parseInt(route.code.substring(0, 4)) < 1616) continue;
 
       // Get info for the Route from API v1
       const response = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_id/${route.code}`);
@@ -89,7 +89,12 @@ export default async function handler(req, res) {
           const associatedStopDocument = await StopModel.findOne({ code: tripScheduleStop.stop_id });
 
           // Calculate distance delta
-          const metersOrKm = 1;
+          let metersOrKm = 1;
+          if (route.code.startsWith('1')) metersOrKm = 1000; // A1 is in kilometers
+          if (route.code.startsWith('2')) metersOrKm = 1; // A2 is in meters
+          if (route.code.startsWith('3')) metersOrKm = 1000; // A3 is in kilometers
+          if (route.code.startsWith('4')) metersOrKm = 1000; // A3 is in kilometers
+
           const distanceDelta = tripScheduleIndex === 0 ? 0 : Number(tripScheduleStop.shape_dist_traveled) * metersOrKm - prevDistance;
           prevDistance = Number(tripScheduleStop.shape_dist_traveled);
 
