@@ -15,14 +15,14 @@ files_to_keep=30
 while true; do
 
     # Backup the database to an archive
-    # echo "Starting backup..."
-    # mongodump --uri="$MONGODB_CONNECTION_STRING" --gzip --archive="$directory/go-backup-$(date +\%Y\%m\%d\%H\%M\%S)"
-    # echo "Backup complete!"
+    echo "Starting backup..."
+    mongodump --uri="$MONGODB_CONNECTION_STRING" --gzip --archive="$directory/go-backup-$(date +\%Y\%m\%d\%H\%M\%S)"
+    echo "Backup complete!"
 
     # Restore the database from backup
-    echo "Starting restore..."
-    mongorestore --uri="$MONGODB_CONNECTION_STRING" --drop --preserveUUID --gzip --archive="$directory/go-backup-20230704163417"
-    echo "Restore complete!"
+    # echo "Starting restore..."
+    # mongorestore --uri="$MONGODB_CONNECTION_STRING" --drop --preserveUUID --gzip --archive="$directory/go-backup-20230704163417"
+    # echo "Restore complete!"
 
     # Only keep the most recent files
     echo "Preparing to remove older backups. Will only keep the $files_to_keep most recent backup archives."
