@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import styles from './SchedulesTable.module.css';
 import { useFormContext as usePatternFormContext } from '@/schemas/Pattern/form';
-import { Default as PatternDefault } from '@/schemas/Pattern/default';
+import { PatternScheduleDefault } from '@/schemas/Pattern/default';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import { ActionIcon, MultiSelect, Tooltip, TextInput, Button } from '@mantine/core';
@@ -327,7 +327,7 @@ function SchedulesTableAddTrip() {
   // A. Handle actions
 
   const handleAddTrip = () => {
-    patternForm.insertListItem('schedules', { ...PatternDefault.schedules[0] });
+    patternForm.insertListItem('schedules', { ...PatternScheduleDefault });
   };
 
   //

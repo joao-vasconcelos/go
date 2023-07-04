@@ -9,8 +9,8 @@ import StatCard from '@/components/StatCard/StatCard';
 import bbox from '@turf/bbox';
 import { FormProvider as PatternFormProvider, useForm as usePatternForm } from '@/schemas/Pattern/form';
 import API from '@/services/API';
-import { Validation as PatternValidation } from '@/schemas/Pattern/validation';
-import { Default as PatternDefault } from '@/schemas/Pattern/default';
+import { PatternValidation } from '@/schemas/Pattern/validation';
+import { PatternDefault } from '@/schemas/Pattern/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import OSMMap from '@/components/OSMMap/OSMMap';
@@ -27,7 +27,7 @@ import SchedulesTable from '@/components/SchedulesTable/SchedulesTable';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
-import { create } from 'lodash';
+import { merge } from 'lodash';
 import ImportPatternFromGTFS from '@/components/ImportPatternFromGTFS/ImportPatternFromGTFS';
 
 export default function Page() {
@@ -64,14 +64,14 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(PatternValidation),
-    initialValues: create({ ...PatternDefault }, { ...patternData }),
+    initialValues: merge({ ...PatternDefault }, { ...patternData }),
   });
 
   const keepFormUpdated = (data) => {
     if (!patternForm.isDirty()) {
-      const document = create({ ...PatternDefault }, { ...data });
-      patternForm.setValues(document);
-      patternForm.resetDirty(document);
+      const merged = merge({ ...PatternDefault }, { ...data });
+      patternForm.setValues(merged);
+      patternForm.resetDirty(merged);
     }
   };
 
@@ -97,9 +97,10 @@ export default function Page() {
   }, [patternData, patternShapeMap]);
 
   const shapeExtension = useMemo(() => {
-    if (patternForm.values.shape.extension > 1000) return `${(patternForm.values.shape.extension / 1000).toFixed(3)} km`;
+    if (!patternForm.values?.shape?.extension) return '(no shape)';
+    if (patternForm.values?.shape?.extension > 1000) return `${(patternForm.values.shape.extension / 1000).toFixed(3)} km`;
     else return `${patternForm.values.shape.extension} m`;
-  }, [patternForm.values.shape.extension]);
+  }, [patternForm.values]);
 
   const patternStopsMapData = useMemo(() => {
     // Create a GeoJSON object
@@ -107,7 +108,7 @@ export default function Page() {
       type: 'FeatureCollection',
       features: [],
     };
-    if (patternStopsData?.path?.length) {
+    if (patternStopsData?.path?.length > 1) {
       for (const [pathSequenceIndex, pathSequence] of patternStopsData.path.entries()) {
         geoJSON.features.push({
           type: 'Feature',
@@ -168,6 +169,7 @@ export default function Page() {
         try {
           notify(pattern_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'patterns', resourceId: pattern_id, operation: 'delete', method: 'DELETE' });
+          routeMutate();
           router.push(`/dashboard/lines/${line_id}/${route_id}`);
           notify(pattern_id, 'success', t('operations.delete.success'));
         } catch (err) {
@@ -262,17 +264,21 @@ export default function Page() {
             </div>
             <SimpleGrid cols={2}>
               <StatCard title={t('sections.shape.cards.extension')} value={shapeExtension} />
-              <StatCard title={t('sections.shape.cards.points_count')} value={patternForm.values?.shape?.points?.length} />
+              <StatCard title={t('sections.shape.cards.points_count')} value={patternForm.values?.shape?.points?.length || '(no shape)'} />
             </SimpleGrid>
           </Section>
           <OSMMap id='patternShape' height={500} scrollZoom={false} mapStyle='map'>
-            <Source id='pattern-shape' type='geojson' data={patternForm.values.shape.geojson}>
-              <Layer id='pattern-shape' type='line' source='pattern-shape' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': typologyData ? typologyData.color : '#000000', 'line-width': 4 }} />
-            </Source>
-            <Source id='pattern-stops' type='geojson' data={patternStopsMapData}>
-              <Layer id='pattern-stops-circle' type='circle' source='pattern-stops' paint={{ 'circle-color': '#ffdd01', 'circle-radius': 8, 'circle-stroke-width': 1, 'circle-stroke-color': '#000000' }} />
-              <Layer id='pattern-stops-labels' type='symbol' source='pattern-stops' layout={{ 'text-field': ['get', 'index'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 10 }} />
-            </Source>
+            {patternForm.values?.shape?.geojson && (
+              <Source id='pattern-shape' type='geojson' data={patternForm.values.shape.geojson}>
+                <Layer id='pattern-shape' type='line' source='pattern-shape' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': typologyData ? typologyData.color : '#000000', 'line-width': 4 }} />
+              </Source>
+            )}
+            {patternStopsMapData && (
+              <Source id='pattern-stops' type='geojson' data={patternStopsMapData}>
+                <Layer id='pattern-stops-circle' type='circle' source='pattern-stops' paint={{ 'circle-color': '#ffdd01', 'circle-radius': 8, 'circle-stroke-width': 1, 'circle-stroke-color': '#000000' }} />
+                <Layer id='pattern-stops-labels' type='symbol' source='pattern-stops' layout={{ 'text-field': ['get', 'index'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 10 }} />
+              </Source>
+            )}
           </OSMMap>
 
           <Divider />

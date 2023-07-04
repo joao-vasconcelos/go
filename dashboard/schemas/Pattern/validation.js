@@ -7,7 +7,8 @@ import * as yup from 'yup';
 
 /* * */
 /* A. YUP Validation Schema */
-export const Validation = yup.object({
+
+export const PatternValidation = yup.object({
   code: yup.string().required().max(25),
   parent_route: yup.string().required(),
   direction: yup.number().integer().required(),

@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Validation as PatternValidation } from '@/schemas/Pattern/validation';
-import { Model as PatternModel } from '@/schemas/Pattern/model';
+import { PatternValidation } from '@/schemas/Pattern/validation';
+import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
 /* EDIT PATTERN */

@@ -2,8 +2,8 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import * as turf from '@turf/turf';
-import { Default as PatternDefault } from '@/schemas/Pattern/default';
-import { Model as PatternModel } from '@/schemas/Pattern/model';
+import { PatternDefault, PatternShapeDefault, PatternPathDefault } from '@/schemas/Pattern/default';
+import { PatternModel } from '@/schemas/Pattern/model';
 import { Model as StopModel } from '@/schemas/Stop/model';
 
 /* * */
@@ -64,6 +64,8 @@ export default async function handler(req, res) {
 
   if (req.body.shape && req.body.shape.length) {
     try {
+      // Initiate pattern shape
+      patternDocumentToUpdate.shape = { ...PatternShapeDefault };
       // Sort points to match sequence
       patternDocumentToUpdate.shape.points = req.body.shape.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence);
       // Create geojson feature using turf
@@ -79,8 +81,7 @@ export default async function handler(req, res) {
   } else {
     try {
       // Reset geojson and extension if shape has no points
-      patternDocumentToUpdate.shape = { ...PatternDefault.shape };
-      patternDocumentToUpdate.shape.extension = 0;
+      patternDocumentToUpdate.shape = { ...PatternShapeDefault };
     } catch (err) {
       console.log(err);
       return await res.status(500).json({ message: 'Could not handle no points in Shape.' });
@@ -106,7 +107,7 @@ export default async function handler(req, res) {
       prevDistance = Number(pathItem.shape_dist_traveled);
       // Add this sequence item to the document path
       formattedPath.push({
-        ...PatternDefault.path[0],
+        ...PatternPathDefault,
         distance_delta: distanceDelta,
         stop: associatedStopDocument._id,
         zones: associatedStopDocument.zones,

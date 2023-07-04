@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as PatternModel } from '@/schemas/Pattern/model';
+import { PatternModel } from '@/schemas/Pattern/model';
 import { Model as StopModel } from '@/schemas/Stop/model';
 
 /* * */

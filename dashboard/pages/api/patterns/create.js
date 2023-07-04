@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Default as PatternDefault } from '@/schemas/Pattern/default';
-import { Model as PatternModel } from '@/schemas/Pattern/model';
+import { PatternDefault } from '@/schemas/Pattern/default';
+import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
 /* CREATE PATTERN */
