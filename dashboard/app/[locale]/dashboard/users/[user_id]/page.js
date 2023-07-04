@@ -4,7 +4,8 @@ import useSWR from 'swr';
 import { useState, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
-import { useForm, yupResolver } from '@mantine/form';
+import { UserFormProvider, useUserForm } from '@/schemas/User/form';
+import { yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { Validation as UserValidation } from '@/schemas/User/validation';
 import { Default as UserDefault } from '@/schemas/User/default';
@@ -20,7 +21,7 @@ import UserActivityBadge from '@/components/UserActivityBadge/UserActivityBadge'
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
-import { merge } from 'lodash';
+import populate from '@/services/populate';
 
 export default function Page() {
   //
@@ -50,19 +51,19 @@ export default function Page() {
   //
   // C. Setup form
 
-  const form = useForm({
+  const userForm = useUserForm({
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(UserValidation),
-    initialValues: merge({ ...UserDefault }, { ...userData }),
+    initialValues: populate(UserDefault, userData),
   });
 
   const keepFormUpdated = (data) => {
-    if (!form.isDirty()) {
-      const merged = merge({ ...UserDefault }, { ...data });
-      form.setValues(merged);
-      form.resetDirty(merged);
+    if (!userForm.isDirty()) {
+      const populated = populate(UserDefault, data);
+      userForm.setValues(populated);
+      userForm.resetDirty(populated);
     }
   };
 
@@ -89,7 +90,7 @@ export default function Page() {
   // D. Handle actions
 
   const handleValidate = () => {
-    form.validate();
+    userForm.validate();
   };
 
   const handleClose = async () => {
@@ -102,7 +103,7 @@ export default function Page() {
       await API({ service: 'users', resourceId: user_id, operation: 'edit', method: 'PUT', body: form.values });
       userMutate();
       allUsersMutate();
-      form.resetDirty();
+      userForm.resetDirty();
       setIsSaving(false);
       setHasErrorSaving(false);
     } catch (err) {
@@ -110,7 +111,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [user_id, form, userMutate, allUsersMutate]);
+  }, [user_id, userForm, userMutate, allUsersMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -147,8 +148,8 @@ export default function Page() {
       header={
         <>
           <AutoSave
-            isValid={form.isValid()}
-            isDirty={form.isDirty()}
+            isValid={userForm.isValid()}
+            isDirty={userForm.isDirty()}
             isLoading={userLoading}
             isErrorValidating={userError}
             isSaving={isSaving}
@@ -157,8 +158,8 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Text size='h1' style={!form.values.name && 'untitled'} full>
-            {form.values.name || t('untitled')}
+          <Text size='h1' style={!userForm.values.name && 'untitled'} full>
+            {userForm.values.name || t('untitled')}
           </Text>
           <AuthGate scope='users' permission='delete'>
             <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
@@ -170,472 +171,480 @@ export default function Page() {
         </>
       }
     >
-      <form onSubmit={form.onSubmit(async () => await handleSave())}>
-        <Section>
-          <div>
-            <Text size='h2'>{t('sections.config.title')}</Text>
-            <Text size='h4'>{t('sections.config.description')}</Text>
-            <UserActivityBadge last_active={userData?.last_active} />
-          </div>
-          <SimpleGrid cols={1}>
-            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
-          </SimpleGrid>
-          <SimpleGrid cols={2}>
-            <TextInput label={t('form.email.label')} placeholder={t('form.email.placeholder')} {...form.getInputProps('email')} readOnly={isReadOnly} />
-            <TextInput label={t('form.phone.label')} placeholder={t('form.phone.placeholder')} {...form.getInputProps('phone')} readOnly={isReadOnly} />
-          </SimpleGrid>
-        </Section>
+      <UserFormProvider form={userForm}>
+        <form onSubmit={userForm.onSubmit(async () => await handleSave())}>
+          <Section>
+            <div>
+              <Text size='h2'>{t('sections.config.title')}</Text>
+              <Text size='h4'>{t('sections.config.description')}</Text>
+              <UserActivityBadge last_active={userData?.last_active} />
+            </div>
+            <SimpleGrid cols={1}>
+              <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...userForm.getInputProps('name')} readOnly={isReadOnly} />
+            </SimpleGrid>
+            <SimpleGrid cols={2}>
+              <TextInput label={t('form.email.label')} placeholder={t('form.email.placeholder')} {...userForm.getInputProps('email')} readOnly={isReadOnly} />
+              <TextInput label={t('form.phone.label')} placeholder={t('form.phone.placeholder')} {...userForm.getInputProps('phone')} readOnly={isReadOnly} />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.agencies.title')}</Text>
-            <Text size='h4'>{t('form.permissions.agencies.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.agencies.view.label')} description={t('form.permissions.agencies.view.description')} size='md' {...form.getInputProps('permissions.agencies.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.agencies.create_edit.label')}
-              description={t('form.permissions.agencies.create_edit.description')}
-              {...form.getInputProps('permissions.agencies.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.agencies.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.agencies.delete.label')}
-              description={t('form.permissions.agencies.delete.description')}
-              {...form.getInputProps('permissions.agencies.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.agencies.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.agencies.title')}</Text>
+              <Text size='h4'>{t('form.permissions.agencies.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch label={t('form.permissions.agencies.view.label')} description={t('form.permissions.agencies.view.description')} size='md' {...userForm.getInputProps('permissions.agencies.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size='md'
+                label={t('form.permissions.agencies.create_edit.label')}
+                description={t('form.permissions.agencies.create_edit.description')}
+                {...userForm.getInputProps('permissions.agencies.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.agencies.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.agencies.delete.label')}
+                description={t('form.permissions.agencies.delete.description')}
+                {...userForm.getInputProps('permissions.agencies.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.agencies.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.export.title')}</Text>
-            <Text size='h4'>{t('form.permissions.export.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.export.view.label')} description={t('form.permissions.export.view.description')} size='md' {...form.getInputProps('permissions.export.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.export.gtfs_v18.label')}
-              description={t('form.permissions.export.gtfs_v18.description')}
-              {...form.getInputProps('permissions.export.gtfs_v18', { type: 'checkbox' })}
-              disabled={!form.values.permissions.export.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.export.gtfs_v29.label')}
-              description={t('form.permissions.export.gtfs_v29.description')}
-              {...form.getInputProps('permissions.export.gtfs_v29', { type: 'checkbox' })}
-              disabled={!form.values.permissions.export.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-          <SimpleGrid cols={1} mt='md'>
-            <MultiSelect
-              label={t('form.permissions.export.agencies.label')}
-              placeholder={t('form.permissions.export.agencies.placeholder')}
-              nothingFound={t('form.permissions.export.agencies.nothingFound')}
-              {...form.getInputProps('permissions.export.agencies')}
-              data={agenciesFormattedForSelect}
-              disabled={!form.values.permissions.export.view}
-              readOnly={isReadOnly}
-              searchable
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.export.title')}</Text>
+              <Text size='h4'>{t('form.permissions.export.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch label={t('form.permissions.export.view.label')} description={t('form.permissions.export.view.description')} size='md' {...userForm.getInputProps('permissions.export.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size='md'
+                label={t('form.permissions.export.gtfs_v18.label')}
+                description={t('form.permissions.export.gtfs_v18.description')}
+                {...userForm.getInputProps('permissions.export.gtfs_v18', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.export.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.export.gtfs_v29.label')}
+                description={t('form.permissions.export.gtfs_v29.description')}
+                {...userForm.getInputProps('permissions.export.gtfs_v29', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.export.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+            <SimpleGrid cols={1} mt='md'>
+              <MultiSelect
+                label={t('form.permissions.export.agencies.label')}
+                placeholder={t('form.permissions.export.agencies.placeholder')}
+                nothingFound={t('form.permissions.export.agencies.nothingFound')}
+                {...userForm.getInputProps('permissions.export.agencies')}
+                data={agenciesFormattedForSelect}
+                disabled={!userForm.values.permissions.export.view}
+                readOnly={isReadOnly}
+                searchable
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.users.title')}</Text>
-            <Text size='h4'>{t('form.permissions.users.description')}</Text>
-          </div>
-          <SimpleGrid cols={4} mt='md'>
-            <Switch label={t('form.permissions.users.view.label')} description={t('form.permissions.users.view.description')} size='md' {...form.getInputProps('permissions.users.view', { type: 'checkbox' })} />
-            <Switch
-              size='md'
-              label={t('form.permissions.users.create_edit.label')}
-              description={t('form.permissions.users.create_edit.description')}
-              {...form.getInputProps('permissions.users.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.users.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.users.delete.label')}
-              description={t('form.permissions.users.delete.description')}
-              {...form.getInputProps('permissions.users.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.users.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.users.export.label')}
-              description={t('form.permissions.users.export.description')}
-              {...form.getInputProps('permissions.users.export', { type: 'checkbox' })}
-              disabled={!form.values.permissions.users.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.users.title')}</Text>
+              <Text size='h4'>{t('form.permissions.users.description')}</Text>
+            </div>
+            <SimpleGrid cols={4} mt='md'>
+              <Switch label={t('form.permissions.users.view.label')} description={t('form.permissions.users.view.description')} size='md' {...userForm.getInputProps('permissions.users.view', { type: 'checkbox' })} />
+              <Switch
+                size='md'
+                label={t('form.permissions.users.create_edit.label')}
+                description={t('form.permissions.users.create_edit.description')}
+                {...userForm.getInputProps('permissions.users.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.users.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.users.delete.label')}
+                description={t('form.permissions.users.delete.description')}
+                {...userForm.getInputProps('permissions.users.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.users.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.users.export.label')}
+                description={t('form.permissions.users.export.description')}
+                {...userForm.getInputProps('permissions.users.export', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.users.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.lines.title')}</Text>
-            <Text size='h4'>{t('form.permissions.lines.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.lines.view.label')} description={t('form.permissions.lines.view.description')} size='md' {...form.getInputProps('permissions.lines.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.lines.create_edit.label')}
-              description={t('form.permissions.lines.create_edit.description')}
-              {...form.getInputProps('permissions.lines.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.lines.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.lines.delete.label')}
-              description={t('form.permissions.lines.delete.description')}
-              {...form.getInputProps('permissions.lines.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.lines.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-          <SimpleGrid cols={1} mt='md'>
-            <MultiSelect
-              label={t('form.permissions.lines.agencies.label')}
-              placeholder={t('form.permissions.lines.agencies.placeholder')}
-              nothingFound={t('form.permissions.lines.agencies.nothingFound')}
-              {...form.getInputProps('permissions.lines.agencies')}
-              data={agenciesFormattedForSelect}
-              disabled={!form.values.permissions.lines.view}
-              readOnly={isReadOnly}
-              searchable
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.lines.title')}</Text>
+              <Text size='h4'>{t('form.permissions.lines.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch label={t('form.permissions.lines.view.label')} description={t('form.permissions.lines.view.description')} size='md' {...userForm.getInputProps('permissions.lines.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size='md'
+                label={t('form.permissions.lines.create_edit.label')}
+                description={t('form.permissions.lines.create_edit.description')}
+                {...userForm.getInputProps('permissions.lines.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.lines.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.lines.delete.label')}
+                description={t('form.permissions.lines.delete.description')}
+                {...userForm.getInputProps('permissions.lines.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.lines.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+            <SimpleGrid cols={1} mt='md'>
+              <MultiSelect
+                label={t('form.permissions.lines.agencies.label')}
+                placeholder={t('form.permissions.lines.agencies.placeholder')}
+                nothingFound={t('form.permissions.lines.agencies.nothingFound')}
+                {...userForm.getInputProps('permissions.lines.agencies')}
+                data={agenciesFormattedForSelect}
+                disabled={!userForm.values.permissions.lines.view}
+                readOnly={isReadOnly}
+                searchable
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.typologies.title')}</Text>
-            <Text size='h4'>{t('form.permissions.typologies.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.typologies.view.label')} description={t('form.permissions.typologies.view.description')} size='md' {...form.getInputProps('permissions.typologies.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.typologies.create_edit.label')}
-              description={t('form.permissions.typologies.create_edit.description')}
-              {...form.getInputProps('permissions.typologies.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.typologies.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.typologies.delete.label')}
-              description={t('form.permissions.typologies.delete.description')}
-              {...form.getInputProps('permissions.typologies.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.typologies.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.typologies.title')}</Text>
+              <Text size='h4'>{t('form.permissions.typologies.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch
+                label={t('form.permissions.typologies.view.label')}
+                description={t('form.permissions.typologies.view.description')}
+                size='md'
+                {...userForm.getInputProps('permissions.typologies.view', { type: 'checkbox' })}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.typologies.create_edit.label')}
+                description={t('form.permissions.typologies.create_edit.description')}
+                {...userForm.getInputProps('permissions.typologies.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.typologies.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.typologies.delete.label')}
+                description={t('form.permissions.typologies.delete.description')}
+                {...userForm.getInputProps('permissions.typologies.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.typologies.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.fares.title')}</Text>
-            <Text size='h4'>{t('form.permissions.fares.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.fares.view.label')} description={t('form.permissions.fares.view.description')} size='md' {...form.getInputProps('permissions.fares.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.fares.create_edit.label')}
-              description={t('form.permissions.fares.create_edit.description')}
-              {...form.getInputProps('permissions.fares.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.fares.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.fares.delete.label')}
-              description={t('form.permissions.fares.delete.description')}
-              {...form.getInputProps('permissions.fares.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.fares.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.fares.title')}</Text>
+              <Text size='h4'>{t('form.permissions.fares.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch label={t('form.permissions.fares.view.label')} description={t('form.permissions.fares.view.description')} size='md' {...userForm.getInputProps('permissions.fares.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size='md'
+                label={t('form.permissions.fares.create_edit.label')}
+                description={t('form.permissions.fares.create_edit.description')}
+                {...userForm.getInputProps('permissions.fares.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.fares.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.fares.delete.label')}
+                description={t('form.permissions.fares.delete.description')}
+                {...userForm.getInputProps('permissions.fares.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.fares.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.zones.title')}</Text>
-            <Text size='h4'>{t('form.permissions.zones.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.zones.view.label')} description={t('form.permissions.zones.view.description')} size='md' {...form.getInputProps('permissions.zones.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.zones.create_edit.label')}
-              description={t('form.permissions.zones.create_edit.description')}
-              {...form.getInputProps('permissions.zones.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.zones.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.zones.delete.label')}
-              description={t('form.permissions.zones.delete.description')}
-              {...form.getInputProps('permissions.zones.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.zones.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.zones.title')}</Text>
+              <Text size='h4'>{t('form.permissions.zones.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch label={t('form.permissions.zones.view.label')} description={t('form.permissions.zones.view.description')} size='md' {...userForm.getInputProps('permissions.zones.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size='md'
+                label={t('form.permissions.zones.create_edit.label')}
+                description={t('form.permissions.zones.create_edit.description')}
+                {...userForm.getInputProps('permissions.zones.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.zones.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.zones.delete.label')}
+                description={t('form.permissions.zones.delete.description')}
+                {...userForm.getInputProps('permissions.zones.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.zones.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.stops.title')}</Text>
-            <Text size='h4'>{t('form.permissions.stops.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.stops.view.label')} description={t('form.permissions.stops.view.description')} size='md' {...form.getInputProps('permissions.stops.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.stops.propose.label')}
-              description={t('form.permissions.stops.propose.description')}
-              {...form.getInputProps('permissions.stops.propose', { type: 'checkbox' })}
-              disabled={!form.values.permissions.stops.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.stops.create_edit.label')}
-              description={t('form.permissions.stops.create_edit.description')}
-              {...form.getInputProps('permissions.stops.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.stops.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.stops.edit_code.label')}
-              description={t('form.permissions.stops.edit_code.description')}
-              {...form.getInputProps('permissions.stops.edit_code', { type: 'checkbox' })}
-              disabled={!form.values.permissions.stops.view || !form.values.permissions.stops.create_edit}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.stops.delete.label')}
-              description={t('form.permissions.stops.delete.description')}
-              {...form.getInputProps('permissions.stops.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.stops.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-          <SimpleGrid cols={1} mt='md'>
-            <MultiSelect
-              label={t('form.permissions.stops.municipalities.label')}
-              placeholder={t('form.permissions.stops.municipalities.placeholder')}
-              nothingFound={t('form.permissions.stops.municipalities.nothingFound')}
-              {...form.getInputProps('permissions.stops.municipalities')}
-              data={municipalitiesFormattedForSelect}
-              disabled={!form.values.permissions.stops.view}
-              readOnly={isReadOnly}
-              searchable
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.stops.title')}</Text>
+              <Text size='h4'>{t('form.permissions.stops.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch label={t('form.permissions.stops.view.label')} description={t('form.permissions.stops.view.description')} size='md' {...userForm.getInputProps('permissions.stops.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size='md'
+                label={t('form.permissions.stops.propose.label')}
+                description={t('form.permissions.stops.propose.description')}
+                {...userForm.getInputProps('permissions.stops.propose', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.stops.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.stops.create_edit.label')}
+                description={t('form.permissions.stops.create_edit.description')}
+                {...userForm.getInputProps('permissions.stops.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.stops.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.stops.edit_code.label')}
+                description={t('form.permissions.stops.edit_code.description')}
+                {...userForm.getInputProps('permissions.stops.edit_code', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.stops.view || !userForm.values.permissions.stops.create_edit}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.stops.delete.label')}
+                description={t('form.permissions.stops.delete.description')}
+                {...userForm.getInputProps('permissions.stops.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.stops.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+            <SimpleGrid cols={1} mt='md'>
+              <MultiSelect
+                label={t('form.permissions.stops.municipalities.label')}
+                placeholder={t('form.permissions.stops.municipalities.placeholder')}
+                nothingFound={t('form.permissions.stops.municipalities.nothingFound')}
+                {...userForm.getInputProps('permissions.stops.municipalities')}
+                data={municipalitiesFormattedForSelect}
+                disabled={!userForm.values.permissions.stops.view}
+                readOnly={isReadOnly}
+                searchable
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.municipalities.title')}</Text>
-            <Text size='h4'>{t('form.permissions.municipalities.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch
-              label={t('form.permissions.municipalities.view.label')}
-              description={t('form.permissions.municipalities.view.description')}
-              size='md'
-              {...form.getInputProps('permissions.municipalities.view', { type: 'checkbox' })}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.municipalities.create_edit.label')}
-              description={t('form.permissions.municipalities.create_edit.description')}
-              {...form.getInputProps('permissions.municipalities.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.municipalities.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.municipalities.delete.label')}
-              description={t('form.permissions.municipalities.delete.description')}
-              {...form.getInputProps('permissions.municipalities.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.municipalities.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.municipalities.title')}</Text>
+              <Text size='h4'>{t('form.permissions.municipalities.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch
+                label={t('form.permissions.municipalities.view.label')}
+                description={t('form.permissions.municipalities.view.description')}
+                size='md'
+                {...userForm.getInputProps('permissions.municipalities.view', { type: 'checkbox' })}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.municipalities.create_edit.label')}
+                description={t('form.permissions.municipalities.create_edit.description')}
+                {...userForm.getInputProps('permissions.municipalities.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.municipalities.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.municipalities.delete.label')}
+                description={t('form.permissions.municipalities.delete.description')}
+                {...userForm.getInputProps('permissions.municipalities.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.municipalities.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.alerts.title')}</Text>
-            <Text size='h4'>{t('form.permissions.alerts.description')}</Text>
-          </div>
-          <SimpleGrid cols={4} mt='md'>
-            <Switch label={t('form.permissions.alerts.view.label')} description={t('form.permissions.alerts.view.description')} size='md' {...form.getInputProps('permissions.alerts.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.alerts.create_edit.label')}
-              description={t('form.permissions.alerts.create_edit.description')}
-              {...form.getInputProps('permissions.alerts.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.alerts.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.alerts.publish.label')}
-              description={t('form.permissions.alerts.publish.description')}
-              {...form.getInputProps('permissions.alerts.publish', { type: 'checkbox' })}
-              disabled={!form.values.permissions.alerts.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.alerts.delete.label')}
-              description={t('form.permissions.alerts.delete.description')}
-              {...form.getInputProps('permissions.alerts.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.alerts.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.alerts.title')}</Text>
+              <Text size='h4'>{t('form.permissions.alerts.description')}</Text>
+            </div>
+            <SimpleGrid cols={4} mt='md'>
+              <Switch label={t('form.permissions.alerts.view.label')} description={t('form.permissions.alerts.view.description')} size='md' {...userForm.getInputProps('permissions.alerts.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size='md'
+                label={t('form.permissions.alerts.create_edit.label')}
+                description={t('form.permissions.alerts.create_edit.description')}
+                {...userForm.getInputProps('permissions.alerts.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.alerts.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.alerts.publish.label')}
+                description={t('form.permissions.alerts.publish.description')}
+                {...userForm.getInputProps('permissions.alerts.publish', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.alerts.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.alerts.delete.label')}
+                description={t('form.permissions.alerts.delete.description')}
+                {...userForm.getInputProps('permissions.alerts.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.alerts.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.calendars.title')}</Text>
-            <Text size='h4'>{t('form.permissions.calendars.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.calendars.view.label')} description={t('form.permissions.calendars.view.description')} size='md' {...form.getInputProps('permissions.calendars.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.calendars.create_edit.label')}
-              description={t('form.permissions.calendars.create_edit.description')}
-              {...form.getInputProps('permissions.calendars.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.calendars.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.calendars.delete.label')}
-              description={t('form.permissions.calendars.delete.description')}
-              {...form.getInputProps('permissions.calendars.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.calendars.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.calendars.title')}</Text>
+              <Text size='h4'>{t('form.permissions.calendars.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch label={t('form.permissions.calendars.view.label')} description={t('form.permissions.calendars.view.description')} size='md' {...userForm.getInputProps('permissions.calendars.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size='md'
+                label={t('form.permissions.calendars.create_edit.label')}
+                description={t('form.permissions.calendars.create_edit.description')}
+                {...userForm.getInputProps('permissions.calendars.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.calendars.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.calendars.delete.label')}
+                description={t('form.permissions.calendars.delete.description')}
+                {...userForm.getInputProps('permissions.calendars.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.calendars.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.dates.title')}</Text>
-            <Text size='h4'>{t('form.permissions.dates.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.dates.view.label')} description={t('form.permissions.dates.view.description')} size='md' {...form.getInputProps('permissions.dates.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.dates.create_edit.label')}
-              description={t('form.permissions.dates.create_edit.description')}
-              {...form.getInputProps('permissions.dates.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.dates.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.dates.delete.label')}
-              description={t('form.permissions.dates.delete.description')}
-              {...form.getInputProps('permissions.dates.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.dates.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.dates.title')}</Text>
+              <Text size='h4'>{t('form.permissions.dates.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch label={t('form.permissions.dates.view.label')} description={t('form.permissions.dates.view.description')} size='md' {...userForm.getInputProps('permissions.dates.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size='md'
+                label={t('form.permissions.dates.create_edit.label')}
+                description={t('form.permissions.dates.create_edit.description')}
+                {...userForm.getInputProps('permissions.dates.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.dates.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.dates.delete.label')}
+                description={t('form.permissions.dates.delete.description')}
+                {...userForm.getInputProps('permissions.dates.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.dates.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.threads.title')}</Text>
-            <Text size='h4'>{t('form.permissions.threads.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.threads.view.label')} description={t('form.permissions.threads.view.description')} size='md' {...form.getInputProps('permissions.threads.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch
-              size='md'
-              label={t('form.permissions.threads.create_edit.label')}
-              description={t('form.permissions.threads.create_edit.description')}
-              {...form.getInputProps('permissions.threads.create_edit', { type: 'checkbox' })}
-              disabled={!form.values.permissions.threads.view}
-              readOnly={isReadOnly}
-            />
-            <Switch
-              size='md'
-              label={t('form.permissions.threads.delete.label')}
-              description={t('form.permissions.threads.delete.description')}
-              {...form.getInputProps('permissions.threads.delete', { type: 'checkbox' })}
-              disabled={!form.values.permissions.threads.view}
-              readOnly={isReadOnly}
-            />
-          </SimpleGrid>
-        </Section>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.threads.title')}</Text>
+              <Text size='h4'>{t('form.permissions.threads.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch label={t('form.permissions.threads.view.label')} description={t('form.permissions.threads.view.description')} size='md' {...userForm.getInputProps('permissions.threads.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size='md'
+                label={t('form.permissions.threads.create_edit.label')}
+                description={t('form.permissions.threads.create_edit.description')}
+                {...userForm.getInputProps('permissions.threads.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.threads.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.threads.delete.label')}
+                description={t('form.permissions.threads.delete.description')}
+                {...userForm.getInputProps('permissions.threads.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.threads.view}
+                readOnly={isReadOnly}
+              />
+            </SimpleGrid>
+          </Section>
 
-        <Divider />
+          <Divider />
 
-        <Section>
-          <div>
-            <Text size='h2'>{t('form.permissions.configs.title')}</Text>
-            <Text size='h4'>{t('form.permissions.configs.description')}</Text>
-          </div>
-          <SimpleGrid cols={3} mt='md'>
-            <Switch label={t('form.permissions.configs.admin.label')} description={t('form.permissions.configs.admin.description')} size='md' {...form.getInputProps('permissions.configs.admin', { type: 'checkbox' })} readOnly={isReadOnly} />
-          </SimpleGrid>
-        </Section>
-      </form>
+          <Section>
+            <div>
+              <Text size='h2'>{t('form.permissions.configs.title')}</Text>
+              <Text size='h4'>{t('form.permissions.configs.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt='md'>
+              <Switch label={t('form.permissions.configs.admin.label')} description={t('form.permissions.configs.admin.description')} size='md' {...userForm.getInputProps('permissions.configs.admin', { type: 'checkbox' })} readOnly={isReadOnly} />
+            </SimpleGrid>
+          </Section>
+        </form>
+      </UserFormProvider>
     </Pannel>
   );
 }
