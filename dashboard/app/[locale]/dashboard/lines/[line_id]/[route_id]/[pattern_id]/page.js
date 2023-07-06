@@ -27,8 +27,8 @@ import SchedulesTable from '@/components/SchedulesTable/SchedulesTable';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
-import { merge } from 'lodash';
 import ImportPatternFromGTFS from '@/components/ImportPatternFromGTFS/ImportPatternFromGTFS';
+import populate from '@/services/populate';
 
 export default function Page() {
   //
@@ -64,12 +64,12 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(PatternValidation),
-    initialValues: merge({ ...PatternDefault }, { ...patternData }),
+    initialValues: populate(PatternDefault, patternData),
   });
 
   const keepFormUpdated = (data) => {
     if (!patternForm.isDirty()) {
-      const merged = merge({ ...PatternDefault }, { ...data });
+      const merged = populate(PatternDefault, data);
       patternForm.setValues(merged);
       patternForm.resetDirty(merged);
     }
