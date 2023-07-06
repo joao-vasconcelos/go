@@ -28,7 +28,6 @@ import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import ImportPatternFromGTFS from '@/components/ImportPatternFromGTFS/ImportPatternFromGTFS';
-import populate from '@/services/populate';
 
 export default function Page() {
   //
@@ -64,14 +63,13 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(PatternValidation),
-    initialValues: populate(PatternDefault, patternData),
+    initialValues: PatternDefault,
   });
 
   const keepFormUpdated = (data) => {
     if (!patternForm.isDirty()) {
-      const merged = populate(PatternDefault, data);
-      patternForm.setValues(merged);
-      patternForm.resetDirty(merged);
+      patternForm.setValues(data);
+      patternForm.resetDirty(data);
     }
   };
 

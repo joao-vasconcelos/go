@@ -9,7 +9,7 @@ import appBackground from 'public/background.jpg';
 import { CMLogo } from '@/components/AppLogos/AppLogos';
 import { useEffect } from 'react';
 
-export default async function AuthLayout({ children }) {
+export default function AuthLayout({ children }) {
   //
 
   //
