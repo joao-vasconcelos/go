@@ -112,10 +112,8 @@ export default async function handler(req, res) {
             // Convert to hours (for km per HOUR)
             travelTimeInThisSegment = (arrivalSeconds - startSeconds) / 3600;
             if (travelTimeInThisSegment === 0) travelTimeInThisSegment = 1;
-            // Convert distance to kilometers (for KM per hour)
-            const distanceInKm = distanceDelta / metersOrKm;
             // Calculate velocity (distance / time)
-            velocityInThisSegment = distanceInKm / travelTimeInThisSegment;
+            velocityInThisSegment = distanceDelta / travelTimeInThisSegment;
           }
 
           prevArrivalTime = tripScheduleStop.departure_time_operation;
