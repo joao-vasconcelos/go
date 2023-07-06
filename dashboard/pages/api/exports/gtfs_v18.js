@@ -97,7 +97,7 @@ export default async function handler(req, res) {
     // Setup properties for this Export
     exportSummary.type = 1; // 1 = GTFS v18
     exportSummary.exported_by = session.user._id;
-    exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v18_today.zip`;
+    exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v18_${today()}.zip`;
     exportSummary.workdir = getWorkdir(exportSummary._id);
 
     //6.3.
@@ -239,6 +239,26 @@ function incrementTime(timeString, increment) {
 /* Add zeros to start of string if length is less than 2. */
 function padZero(num) {
   return num.toString().padStart(2, '0');
+}
+
+//
+//
+//
+//
+
+/* * */
+/* GET TODAY AS STRING */
+/* Output the current date and time in the format YYYYMMDDHHMM. */
+/* For example, if the current date is July 3, 2023, at 9:30 AM, the output will be 202307030930. */
+function today() {
+  var currentDate = new Date();
+  var year = currentDate.getFullYear();
+  var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+  var day = currentDate.getDate().toString().padStart(2, '0');
+  var hours = currentDate.getHours().toString().padStart(2, '0');
+  var minutes = currentDate.getMinutes().toString().padStart(2, '0');
+
+  return year + month + day + hours + minutes;
 }
 
 //
