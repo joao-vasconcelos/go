@@ -38,5 +38,5 @@ export const PatternValidation = yup.object({
       })
     )
     .min(2),
-  schedules: yup.array().min(1),
+  schedules: yup.array(),
 });
