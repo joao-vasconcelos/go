@@ -76,7 +76,7 @@ export default async function handler(req, res) {
     };
 
     // Fetch all Stops from API v2
-    const allStopsRes = await fetch('https://schedules-test.carrismetropolitana.pt/api/stops');
+    const allStopsRes = await fetch('https://api.carrismetropolitana.pt/stops');
     const allStopsApi = await allStopsRes.json();
 
     for (const stopApi of allStopsApi) {

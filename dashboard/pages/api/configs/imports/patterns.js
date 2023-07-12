@@ -73,7 +73,7 @@ export default async function handler(req, res) {
 
         // SHAPE
         // Get info for the Shape from API v2
-        const response = await fetch(`https://schedules-test.carrismetropolitana.pt/api/shapes/${directionApi.shape[0].shape_id}`);
+        const response = await fetch(`https://api.carrismetropolitana.pt/shapes/${directionApi.shape[0].shape_id}`);
         const shapeApi = await response.json();
         //
         const shapeForThisPattern = { extension: shapeApi.extension, points: shapeApi.points, geojson: shapeApi.geojson };

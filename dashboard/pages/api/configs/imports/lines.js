@@ -49,7 +49,7 @@ export default async function handler(req, res) {
   try {
     //
     // Get info for all Lines from API v2
-    const response = await fetch('https://schedules-test.carrismetropolitana.pt/api/lines');
+    const response = await fetch('https://api.carrismetropolitana.pt/lines');
     const allLinesApi = await response.json();
 
     for (const lineApi of allLinesApi) {
