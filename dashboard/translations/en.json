@@ -635,6 +635,11 @@
                 "loading": "Deleting Pattern...",
                 "success": "Pattern was deleted.",
                 "error": "An error occurred while deleting this Pattern."
+            },
+            "import": {
+                "loading": "Importing Pattern...",
+                "success": "Pattern was imported.",
+                "error": "An error occurred while importing this Pattern."
             }
         },
         "sections": {

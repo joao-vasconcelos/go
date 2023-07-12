@@ -63,7 +63,7 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(PatternValidation),
-    initialValues: PatternDefault,
+    initialValues: patternData || PatternDefault,
   });
 
   const keepFormUpdated = (data) => {
@@ -192,16 +192,19 @@ export default function Page() {
       onConfirm: async () => {
         try {
           setIsImporting(true);
+          notify('importing', 'loading', t('operations.import.loading'));
           await API({ service: 'patterns', resourceId: pattern_id, operation: 'import', method: 'PUT', body: importedPattern });
           patternMutate();
           patternStopsMutate();
           patternForm.resetDirty();
           setIsImporting(false);
           setHasErrorSaving(false);
+          notify('importing', 'success', t('operations.import.success'));
         } catch (err) {
           console.log(err);
           setIsImporting(false);
           setHasErrorSaving(err);
+          notify('importing', 'error', err.message || t('operations.import.error'));
         }
       },
     });
