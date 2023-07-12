@@ -3,6 +3,7 @@ import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { PatternDefault } from '@/schemas/Pattern/default';
 import { PatternModel } from '@/schemas/Pattern/model';
+import { Model as RouteModel } from '@/schemas/Route/model';
 
 /* * */
 /* CREATE PATTERN */
@@ -56,7 +57,15 @@ export default async function handler(req, res) {
   // Save a new document with default values
 
   try {
-    const newPattern = { ...PatternDefault, code: req.body.code, parent_route: req.body.parent_route, direction: req.body.direction };
+    // Get parent Route document
+    const parentRouteDocument = await RouteModel.findOne({ _id: { $eq: req.body.parent_route } });
+    // Set an available code for the new Route
+    let newPatternCode = `${parentRouteDocument.code}_${generate(3)}`;
+    while (await PatternModel.exists({ code: newPatternCode })) {
+      newPatternCode = `${parentRouteDocument.code}_${generate(3)}`;
+    }
+    // Create the new Route document
+    const newPattern = { ...PatternDefault, code: newPatternCode, parent_route: parentRouteDocument._id, direction: req.body.direction };
     const createdDocument = await PatternModel(newPattern).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
