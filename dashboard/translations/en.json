@@ -1401,6 +1401,14 @@
                         "label": "Delete Threads",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
+                },
+                "configs": {
+                    "title": "Configurations",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "admin": {
+                        "label": "Admin",
+                        "description": "This allows direct DB operations."
+                    }
                 }
             }
         }
@@ -1428,7 +1436,8 @@
         "agencies": "Agencies",
         "threads": "Threads",
         "export": "Export",
-        "users": "Users"
+        "users": "Users",
+        "configs": "DB Config"
     },
     "NoDataLabel": {
         "title": "No Data Available"
