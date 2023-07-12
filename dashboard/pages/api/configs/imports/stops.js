@@ -82,7 +82,7 @@ export default async function handler(req, res) {
     for (const stopApi of allStopsApi) {
       //
 
-      if (!stopApi.code.startsWith('20')) continue;
+      //   if (!stopApi.code.startsWith('20')) continue;
 
       // Find out Zones
       let zoneIdsForThisStop = [];
