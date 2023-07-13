@@ -21,8 +21,8 @@ export const Default = {
     // EXPORT
     export: {
       view: false,
-      v18: false,
-      v29: false,
+      gtfs_v18: false,
+      gtfs_v29: false,
       agencies: [],
     },
     // USERS
