@@ -664,7 +664,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
             // Remove the : from this schedules start_time to use it as the identifier for this trip.
             // Associate the route_code, direction, calendar_code and start_time of this schedule.
             const startTimeStripped = scheduleData.start_time.split(':').join('');
-            const thisTripId = `${routeData.code}_${patternData.direction}_${calendarData.code}_${startTimeStripped}`;
+            const thisTripCode = `${patternData.code}_${calendarData.code}_${startTimeStripped}`;
 
             // 3.2.4.3.2.3.
             // Write the trips.txt entry for this trip
@@ -674,7 +674,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
               pattern_short_name: patternData.headsign,
               service_id: calendarData.code,
               calendar_desc: calendarData.description,
-              trip_id: thisTripId,
+              trip_id: thisTripCode,
               trip_headsign: patternData.headsign,
               direction_id: patternData.direction,
               shape_id: thisShapeCode,
@@ -723,7 +723,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
               // 3.2.4.3.2.6.6.
               // Write the stop_times.txt entry for this stop_time
               writeCsvToFile(progress.workdir, 'stop_times.txt', {
-                trip_id: thisTripId,
+                trip_id: thisTripCode,
                 arrival_time: currentArrivalTime,
                 departure_time: departureTime,
                 stop_id: pathData.stop.code,
