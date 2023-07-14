@@ -23,7 +23,7 @@ export const PatternSchema = new mongoose.Schema(
     },
     headsign: {
       type: String,
-      maxlength: 50,
+      maxlength: 100,
     },
     shape: {
       extension: {
