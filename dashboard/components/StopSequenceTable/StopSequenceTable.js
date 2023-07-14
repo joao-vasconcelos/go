@@ -302,7 +302,8 @@ function StopSequenceTableTravelTimeColumn({ rowIndex }) {
           placeholder={t('default_travel_time.placeholder')}
           formatter={formatSecondsToTime}
           icon={<IconClockHour4 size='18px' />}
-          {...patternForm.getInputProps(`path.${rowIndex}.default_travel_time`)}
+          //   {...patternForm.getInputProps(`path.${rowIndex}.default_travel_time`)}
+          value={patternForm.values.path[rowIndex].default_travel_time}
           disabled={rowIndex === 0}
           readOnly
         />
