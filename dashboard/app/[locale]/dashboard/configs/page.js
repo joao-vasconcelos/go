@@ -160,6 +160,30 @@ export default function Page() {
     });
   };
 
+  const handleStartImportShapes = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Import Shapes</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, import Shapes', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('import-stops', 'loading', 'Loading');
+          await API({ service: 'configs/imports/shapes', method: 'GET' });
+          notify('import-stops', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('import-stops', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
   //
   // D. Handle deletes
 
@@ -295,6 +319,7 @@ export default function Page() {
           <Button onClick={handleStartImportRoutes}>Import Routes</Button>
           <Button onClick={handleStartImportPatterns}>Import Patterns & Calendars</Button>
           <Button onClick={handleStartImportStops}>Import Stops</Button>
+          <Button onClick={handleStartImportShapes}>Import Shapes</Button>
         </SimpleGrid>
       </Section>
       <Section>
