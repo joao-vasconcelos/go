@@ -32,20 +32,16 @@ export const PatternSchema = new mongoose.Schema(
       points: [
         {
           shape_pt_lat: {
-            type: String,
-            maxlength: 100,
+            type: Number,
           },
           shape_pt_lon: {
-            type: String,
-            maxlength: 100,
+            type: Number,
           },
           shape_pt_sequence: {
-            type: String,
-            maxlength: 100,
+            type: Number,
           },
           shape_dist_traveled: {
-            type: String,
-            maxlength: 100,
+            type: Number,
           },
         },
       ],

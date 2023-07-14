@@ -50,9 +50,9 @@ export default function ImportPatternFromGTFS({ onImport }) {
 
   const handlePathImport = (trip) => {
     onImport({ shape: trip.shape.points, path: trip.path });
-    setParseResult();
-    setIsParsing();
-    setHasParseError();
+    // setParseResult();
+    // setIsParsing();
+    // setHasParseError();
     notify('pattern-import', 'success', t('import.success', { trip_id: trip.trip_id }));
   };
 

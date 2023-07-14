@@ -9,6 +9,7 @@ import { Default as ExportDefault } from '@/schemas/Export/default';
 import { Model as ExportModel } from '@/schemas/Export/model';
 import { Model as AgencyModel } from '@/schemas/Agency/model';
 import { Model as LineModel } from '@/schemas/Line/model';
+import { Model as FareModel } from '@/schemas/Fare/model';
 import { Model as TypologyModel } from '@/schemas/Typology/model';
 import { Model as RouteModel } from '@/schemas/Route/model';
 import { Model as Municipality } from '@/schemas/Municipality/model';
@@ -269,6 +270,18 @@ function today() {
 //
 
 /* * */
+/* GET FARE DATA */
+/* Fetch the database for the given fare_id. */
+async function getFareData(fareId) {
+  return await FareModel.findOne({ _id: fareId });
+}
+
+//
+//
+//
+//
+
+/* * */
 /* GET TYPOLOGY DATA */
 /* Fetch the database for the given typology_id. */
 async function getTypologyData(typologyId) {
@@ -355,6 +368,39 @@ function parseRoute(agency, line, typology, route) {
 //
 
 /* * */
+/* PARSE FARE RULE */
+/* Build a route object entry */
+function parseFareRule(route, fare) {
+  return {
+    route_id: route.code,
+    fare_id: fare.code,
+  };
+}
+
+//
+//
+//
+//
+
+/* * */
+/* PARSE FARE */
+/* Build a route object entry */
+function parseFare(fare) {
+  return {
+    fare_id: fare.code,
+    price: fare.price,
+    currency_type: fare.currency_type,
+    payment_method: fare.payment_method,
+    transfers: fare.transfers,
+  };
+}
+
+//
+//
+//
+//
+
+/* * */
 /* GET LINE TYPE */
 /* For a given typology code return the corresponding type key */
 function getLineType(typologyCode) {
@@ -385,12 +431,17 @@ function getLineType(typologyCode) {
 function parseShape(code, points) {
   const parsedShape = [];
   for (const shapePoint of points) {
+    // Prepare variables
+    const shapePtLat = shapePoint.shape_pt_lat.toFixed(6);
+    const shapePtLon = shapePoint.shape_pt_lon.toFixed(6);
+    const shapeDistTraveled = ((shapePoint.shape_dist_traveled || 0) / 1000).toFixed(15);
+    // Build shape point
     parsedShape.push({
       shape_id: code,
       shape_pt_sequence: shapePoint.shape_pt_sequence,
-      shape_pt_lat: shapePoint.shape_pt_lat,
-      shape_pt_lon: shapePoint.shape_pt_lon,
-      shape_dist_traveled: shapePoint.shape_dist_traveled ? parseInt(shapePoint.shape_dist_traveled) / 1000 : 0,
+      shape_pt_lat: shapePtLat,
+      shape_pt_lon: shapePtLon,
+      shape_dist_traveled: shapeDistTraveled,
     });
   }
   return parsedShape;
@@ -519,6 +570,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
   // In order to build stops.txt, shapes.txt and calendar_dates.txt it is necessary
   // to initiate these variables outside all loops that hold the _ids
   // of the objects that are referenced in the other objects (trips, patterns)
+  const referencedFareIds = new Set();
   const referencedStopIds = new Set();
   const referencedCalendarIds = new Set();
 
@@ -554,6 +606,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
     // 3.2.
     // Get additional info associated with this line
+    const fareData = await getFareData(lineData.fare);
     const typologyData = await getTypologyData(lineData.typology);
 
     // 3.3.
@@ -571,43 +624,49 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
       writeCsvToFile(progress.workdir, 'routes.txt', parsedRoute);
 
       // 3.2.3.
+      // Write the fare_rules.txt entry for this route
+      const parsedFareRule = parseFareRule(routeData, fareData);
+      writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
+      referencedFareIds.add(fareData._id);
+
+      // 3.2.4.
       // Iterate on all the patterns for the given route
       for (const patternData of routeData.patterns) {
         //
-        // 3.2.3.1.
+        // 3.2.4.1.
         // Skip if this pattern has no schedules or no path
         if (!patternData.schedules || !patternData.path) continue;
 
-        // 3.2.3.2.
+        // 3.2.4.2.
         // Write the shaoes.txt entry for this pattern
         const thisShapeCode = `shp_${patternData.code}`;
         const parsedShape = parseShape(thisShapeCode, patternData.shape.points);
         writeCsvToFile(progress.workdir, 'shapes.txt', parsedShape);
 
-        // 3.2.3.3.
+        // 3.2.4.3.
         // Iterate on all the schedules for the given pattern
         for (const scheduleData of patternData.schedules) {
           //
-          // 3.2.3.3.1.
+          // 3.2.4.3.1.
           // Skip if this schedule has no associated calendars
           if (!scheduleData.calendars_on) continue;
 
-          // 3.2.3.3.2.
+          // 3.2.4.3.2.
           // The rule for this GTFS version is to create as many trips as associated calendars.
           // For this, iterate on all the calendars associated with this schedule and build the trips.
           for (const calendarData of scheduleData.calendars_on) {
             //
-            // 3.2.3.3.2.1.
+            // 3.2.4.3.2.1.
             // Append the calendar_ids of this schedule to the scoped variable
             referencedCalendarIds.add(calendarData._id);
 
-            // 3.2.3.3.2.2.
+            // 3.2.4.3.2.2.
             // Remove the : from this schedules start_time to use it as the identifier for this trip.
             // Associate the route_code, direction, calendar_code and start_time of this schedule.
             const startTimeStripped = scheduleData.start_time.split(':').join('');
             const thisTripId = `${routeData.code}_${patternData.direction}_${calendarData.code}_${startTimeStripped}`;
 
-            // 3.2.3.3.2.3.
+            // 3.2.4.3.2.3.
             // Write the trips.txt entry for this trip
             writeCsvToFile(progress.workdir, 'trips.txt', {
               route_id: routeData.code,
@@ -622,46 +681,46 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
               calendar_desc: scheduleData.calendar_desc,
             });
 
-            // 3.2.3.3.2.4.
+            // 3.2.4.3.2.4.
             // Calculate the arrival_time for each stop
             // Start by collecting the arrival time of the first stop in the path
             // and hold it outside the path loop to keep updating it relative to each iteration
             let currentArrivalTime = scheduleData.start_time;
 
-            // 3.2.3.3.2.5.
+            // 3.2.4.3.2.5.
             // Calculate the accumulated trip distance for each stop
             // Trip distance is incremented relative to each iteration
             // so hold the variable outside the path loop, and initiate it with zero
             let currentTripDistance = 0;
 
-            // 3.2.3.3.2.6.
+            // 3.2.4.3.2.6.
             // Iterate on all the calendars associated with this schedule
             for (const [pathIndex, pathData] of patternData.path.entries()) {
               //
-              // 3.2.3.3.2.6.1.
+              // 3.2.4.3.2.6.1.
               // Skip if this pathStop has no associated stop
               if (!pathData.stop) continue;
 
-              // 3.2.3.3.2.6.2.
+              // 3.2.4.3.2.6.2.
               // Append the stop_ids of this path to the scoped variable
               referencedStopIds.add(pathData.stop._id);
 
-              // 3.2.3.3.2.6.3.
+              // 3.2.4.3.2.6.3.
               // Increment the arrival_time for this stop with the travel time for this path segment
               // If the schedule has a travel time override, then use that instead of the default (not yet implemented)
               // In the first iteration, the travel time is zero, so we get the start_time as the current trip time.
               currentArrivalTime = incrementTime(currentArrivalTime, pathData.default_travel_time);
 
-              // 3.2.3.3.2.6.4.
+              // 3.2.4.3.2.6.4.
               // Increment the arrival_time for this stop with the dwell time
               // If the schedule has a dwell time override, then use that instead of the default (not yet implemented)
               const departureTime = incrementTime(currentArrivalTime, pathData.default_dwell_time);
 
-              // 3.2.3.3.2.6.5.
+              // 3.2.4.3.2.6.5.
               // Increment the traveled distance for this path segment with the distance delta
               currentTripDistance = currentTripDistance + pathData.distance_delta;
 
-              // 3.2.3.3.2.6.6.
+              // 3.2.4.3.2.6.6.
               // Write the stop_times.txt entry for this stop_time
               writeCsvToFile(progress.workdir, 'stop_times.txt', {
                 trip_id: thisTripId,
@@ -671,11 +730,11 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
                 stop_sequence: pathIndex,
                 pickup_type: pathData.allow_pickup ? 0 : 1,
                 drop_off_type: pathData.allow_drop_off ? 0 : 1,
-                shape_dist_traveled: currentTripDistance / 1000,
+                shape_dist_traveled: (currentTripDistance / 1000).toFixed(15),
                 timepoint: 1,
               });
 
-              // 3.2.3.3.2.6.6.
+              // 3.2.4.3.2.6.6.
               // The current trip time should now be equal to the departure time, so that the next iteration
               // also takes into the account the dwell time on the current stop.
               currentArrivalTime = departureTime;
@@ -722,6 +781,18 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
     const stopData = await StopModel.findOne({ _id: stopId }).populate('municipality');
     const parsedStop = parseStop(stopData);
     writeCsvToFile(progress.workdir, 'stops.txt', parsedStop);
+  }
+
+  // 6.q.
+  // Update progress
+  await update(progress, { status: 1, progress_current: 4, progress_total: 3 });
+
+  // 8.
+  // Fetch the referenced fares and write the fare_attributes.txt file
+  for (const fareId of referencedFareIds) {
+    const fareData = await FareModel.findOne({ _id: fareId });
+    const parsedFare = parseFare(fareData);
+    writeCsvToFile(progress.workdir, 'fare_attributes.txt', parsedFare);
   }
 
   //

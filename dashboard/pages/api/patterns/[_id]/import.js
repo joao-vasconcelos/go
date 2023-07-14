@@ -5,6 +5,7 @@ import * as turf from '@turf/turf';
 import { PatternShapeDefault, PatternPathDefault } from '@/schemas/Pattern/default';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { Model as StopModel } from '@/schemas/Stop/model';
+import calculateTravelTime from '@/services/calculateTravelTime';
 
 /* * */
 /* IMPORT PATTERN */
@@ -105,9 +106,12 @@ export default async function handler(req, res) {
       // Calculate distance delta
       const distanceDelta = pathIndex === 0 ? 0 : Number(pathItem.shape_dist_traveled) - prevDistance;
       prevDistance = Number(pathItem.shape_dist_traveled);
+      // Calculate travel time
+      const travelTime = calculateTravelTime(distanceDelta, PatternPathDefault.default_velocity);
       // Add this sequence item to the document path
       formattedPath.push({
         ...PatternPathDefault,
+        default_travel_time: travelTime,
         distance_delta: distanceDelta,
         stop: associatedStopDocument._id,
         zones: associatedStopDocument.zones,

@@ -11,6 +11,7 @@ import { IconX, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowAutofit
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import Loader from '../Loader/Loader';
+import calculateTravelTime from '@/services/calculateTravelTime';
 
 //
 //
@@ -285,15 +286,6 @@ function StopSequenceTableTravelTimeColumn({ rowIndex }) {
 
   //
   // Update state
-
-  const calculateTravelTime = (distanceInMeters, speedInKmPerHour) => {
-    if (speedInKmPerHour === 0 || distanceInMeters === 0) {
-      return 0;
-    }
-    const speedInMetersPerSecond = (speedInKmPerHour * 1000) / 3600;
-    const travelTimeInSeconds = parseInt(distanceInMeters / speedInMetersPerSecond);
-    return travelTimeInSeconds || 0;
-  };
 
   useEffect(() => {
     patternForm.setFieldValue(`path.${rowIndex}.default_travel_time`, calculateTravelTime(patternForm.values.path[rowIndex].distance_delta, patternForm.values.path[rowIndex].default_velocity));
