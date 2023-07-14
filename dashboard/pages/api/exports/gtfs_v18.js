@@ -627,7 +627,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
       // Write the fare_rules.txt entry for this route
       const parsedFareRule = parseFareRule(routeData, fareData);
       writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
-      referencedFareIds.add(fareData._id);
+      referencedFareIds.add(parsedRoute.fare);
 
       // 3.2.4.
       // Iterate on all the patterns for the given route
