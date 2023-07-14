@@ -22,15 +22,15 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
   useEffect(() => {
     // Trigger the onSave action on a set interval
     const autoSaveInterval = setInterval(() => {
-      // If form is valid, has changed, is not currently saving or validating,
+      // If form is valid, has changed, is not currently saving,
       // did not have an error saving and has a valid action to perform.
-      if (isValid && isDirty && !isSaving && !isValidating && !isErrorSaving && onSave) {
+      if (isValid && isDirty && !isSaving && !isErrorSaving && onSave) {
         onSave();
       }
     }, interval);
     // Clear the interval on unmount (from React API)
     return () => clearInterval(autoSaveInterval);
-  }, [isValid, isDirty, isSaving, isErrorSaving, onSave, interval, isValidating]);
+  }, [isValid, isDirty, isSaving, isErrorSaving, onSave, interval]);
 
   //
   // B. RETRY (IS SAVING AFTER ERROR)
