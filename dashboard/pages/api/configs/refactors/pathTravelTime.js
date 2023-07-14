@@ -47,11 +47,13 @@ export default async function handler(req, res) {
   try {
     //
     // Fetch all Patterns from database
-    const allPatterns = await PatternModel.find();
+    const allPatternCodes = await PatternModel.find({}, 'code');
 
     // For each pattern
-    for (const pattern of allPatterns) {
+    for (const patternCode of allPatternCodes) {
       //
+      const pattern = await PatternModel.findOne({ code: patternCode.code });
+
       let updatedPath = [];
       // For each stop time in the path
       for (const path of pattern.path) {
@@ -65,7 +67,7 @@ export default async function handler(req, res) {
 
       pattern.path = updatedPath;
 
-      await PatternModel.findOneAndUpdate({ _id: pattern._id }, pattern, { new: true });
+      await pattern.save();
 
       //
     }
