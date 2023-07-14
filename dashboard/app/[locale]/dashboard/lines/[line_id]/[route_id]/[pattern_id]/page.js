@@ -225,9 +225,9 @@ export default function Page() {
             isErrorValidating={patternError}
             isSaving={isSaving}
             isErrorSaving={hasErrorSaving}
-            onValidate={() => handleValidate()}
-            onSave={async () => await handleSave()}
-            onClose={async () => await handleClose()}
+            onValidate={handleValidate}
+            onSave={handleSave}
+            onClose={handleClose}
             closeType='back'
           />
           <LineDisplay short_name={lineData && lineData.short_name} name={patternForm.values.headsign || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />

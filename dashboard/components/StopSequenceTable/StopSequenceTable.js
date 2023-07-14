@@ -287,9 +287,9 @@ function StopSequenceTableTravelTimeColumn({ rowIndex }) {
   //
   // Update state
 
-  useEffect(() => {
-    patternForm.setFieldValue(`path.${rowIndex}.default_travel_time`, calculateTravelTime(patternForm.values.path[rowIndex].distance_delta, patternForm.values.path[rowIndex].default_velocity));
-  }, [patternForm, rowIndex]);
+  //   useEffect(() => {
+  //     patternForm.setFieldValue(`path.${rowIndex}.default_travel_time`, calculateTravelTime(patternForm.values.path[rowIndex].distance_delta, patternForm.values.path[rowIndex].default_velocity));
+  //   }, [patternForm, rowIndex]);
 
   //
   // Render components
