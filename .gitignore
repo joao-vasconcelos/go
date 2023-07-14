@@ -33,5 +33,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-# Tmp directory
+# Tmp directories
 */tmp
+*/exported_files

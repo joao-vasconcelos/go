@@ -11,8 +11,10 @@ import { Model as AgencyModel } from '@/schemas/Agency/model';
 import { Model as LineModel } from '@/schemas/Line/model';
 import { Model as TypologyModel } from '@/schemas/Typology/model';
 import { Model as RouteModel } from '@/schemas/Route/model';
-import { Model as PatternModel } from '@/schemas/Pattern/model';
+import { Model as Municipality } from '@/schemas/Municipality/model';
+import { PatternModel } from '@/schemas/Pattern/model';
 import { Model as StopModel } from '@/schemas/Stop/model';
+import { Model as DateModel } from '@/schemas/Date/model';
 import { Model as CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
@@ -175,7 +177,7 @@ async function update(exportDocument, updates) {
 /* Return the path for the temporary directory based on current environment. */
 function getWorkdir(exportId) {
   // Use the 'tmp' folder as the working directory
-  const workdir = `${process.env.PWD}/exports/${exportId}`;
+  const workdir = `${process.env.PWD}/exported_files/${exportId}`;
   // Out of an abundance of caution, delete the directory and all its contents if it already exists
   if (fs.existsSync(workdir)) fs.rmSync(workdir, { recursive: true, force: true });
   // Create a fresh empty directory in the given path
@@ -213,17 +215,17 @@ function writeCsvToFile(workdir, filename, data, papaparseOptions) {
 
 /* * */
 /* PARSE AND SUM TIME STRING */
-/* Parse a GTFS-standard time string in the format HH:MM:SS and sum it */
+/* Parse a GTFS-standard time string in the format HH:MM and sum it */
 /* with a given increment in seconds. Return a string in the same format. */
 function incrementTime(timeString, increment) {
   // Parse the time string into hours, minutes, and seconds
-  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+  const [hours, minutes] = timeString.split(':').map(Number);
   // Calculate the new total seconds
-  const totalSeconds = hours * 3600 + minutes * 60 + seconds + increment;
+  const totalSeconds = hours * 3600 + minutes * 60 + increment;
   // Calculate the new hours, minutes, and seconds
   const newHours = Math.floor(totalSeconds / 3600) % 24;
   const newMinutes = Math.floor(totalSeconds / 60) % 60;
-  const newSeconds = totalSeconds % 60;
+  const newSeconds = 0;
   // Format the new time string
   return `${padZero(newHours)}:${padZero(newMinutes)}:${padZero(newSeconds)}`;
   //
@@ -284,11 +286,11 @@ async function getTypologyData(typologyId) {
 function parseAgency(agency) {
   return {
     agency_id: agency.code,
-    agency_name: agency.name,
-    agency_url: agency.url || 'https://www.carrismetropolitana.pt',
-    agency_timezone: agency.timezone,
-    agency_lang: agency.lang,
-    agency_phone: agency.phone,
+    agency_name: 'Carris Metropolitana' || agency.name,
+    agency_url: 'https://www.carrismetropolitana.pt' || agency.url,
+    agency_timezone: 'Europe/Lisbon' || agency.timezone,
+    agency_lang: 'pt' || agency.lang,
+    agency_phone: '210410400' || agency.phone,
     agency_fare_url: agency.fare_url,
     agency_email: agency.email,
   };
@@ -330,8 +332,8 @@ function parseRoute(agency, line, typology, route) {
   return {
     line_id: line.code,
     line_short_name: line.short_name,
-    line_long_name: line.long_name,
-    line_type: 0,
+    line_long_name: line.name,
+    line_type: getLineType(typology.code),
     route_id: route.code,
     agency_id: agency.code,
     route_origin: 'line.origin',
@@ -353,6 +355,31 @@ function parseRoute(agency, line, typology, route) {
 //
 
 /* * */
+/* GET LINE TYPE */
+/* For a given typology code return the corresponding type key */
+function getLineType(typologyCode) {
+  switch (typologyCode) {
+    case 'PROXIMA':
+      return 1;
+    case 'LONGA':
+      return 2;
+    case 'RAPIDA':
+      return 3;
+    case 'INTER-REG':
+      return 4;
+    case 'MAR':
+      return 5;
+    default:
+      return 0;
+  }
+}
+
+//
+//
+//
+//
+
+/* * */
 /* PARSE SHAPE */
 /* Build a shape object entry */
 function parseShape(code, points) {
@@ -363,7 +390,7 @@ function parseShape(code, points) {
       shape_pt_sequence: shapePoint.shape_pt_sequence,
       shape_pt_lat: shapePoint.shape_pt_lat,
       shape_pt_lon: shapePoint.shape_pt_lon,
-      shape_dist_traveled: shapePoint.shape_dist_traveled,
+      shape_dist_traveled: shapePoint.shape_dist_traveled ? parseInt(shapePoint.shape_dist_traveled) / 1000 : 0,
     });
   }
   return parsedShape;
@@ -377,19 +404,55 @@ function parseShape(code, points) {
 /* * */
 /* PARSE CALENDAR */
 /* Build a calendar_dates object entry */
-function parseCalendar(calendar) {
+async function parseCalendar(calendar) {
+  // Initiate an new variable
   const parsedCalendar = [];
+  // For each date in the calendar
   for (const calendarDate of calendar.dates) {
+    // Get Date document for this calendar date
+    const dateDocument = await DateModel.findOne({ date: calendarDate });
+    // Skip if no date is found
+    if (!dateDocument) continue;
+    // Get the day_type for the current date
+    let dayType = getDayType(calendarDate, calendar.is_holiday);
+    // Build the date entry
     parsedCalendar.push({
       service_id: calendar.code,
       holiday: calendar.is_holiday ? 1 : 0,
-      period: 999,
-      day_type: 999,
+      period: dateDocument.period,
+      day_type: dayType,
       date: calendarDate,
       exception_type: 1,
     });
+    //
   }
+  // Return this calendar
   return parsedCalendar;
+  //
+}
+
+//
+//
+//
+//
+
+/* * */
+/* GET DAY TYPE FOR DATE */
+/* Return 1, 2 or 3 for a given date */
+function getDayType(date, isHoliday) {
+  // Return 3 immediately if it is a holiday
+  if (isHoliday) return 3;
+  // Create a dayjs object
+  const dateObj = dayjs(date, 'YYYYMMDD');
+  // Get the weekday using dayjs
+  const dayOfWeek = dateObj.day();
+  // If it Weekday
+  if (dayOfWeek >= 1 && dayOfWeek <= 5) return 1;
+  // Saturday
+  else if (dayOfWeek === 6) return 2;
+  // Sunday
+  else return 3;
+  //
 }
 
 //
@@ -432,8 +495,8 @@ function parseStop(stop) {
     preservation_state: '',
     equipment: '',
     observations: '',
-    region: '',
-    municipality: '',
+    region: stop.municipality.region || '',
+    municipality: stop.municipality.code || '',
   };
 }
 
@@ -444,7 +507,7 @@ function parseStop(stop) {
 
 /* * */
 /* BUILD GTFS V18 */
-/* This builds the GTFS data model. */
+/* This builds the GTFS archive. */
 async function buildGTFSv18(progress, agencyData, lineIds) {
   //
 
@@ -517,7 +580,8 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
         // 3.2.3.2.
         // Write the shaoes.txt entry for this pattern
-        const parsedShape = parseShape(`shp_${patternData.code}`, patternData.shape.points);
+        const thisShapeCode = `shp_${patternData.code}`;
+        const parsedShape = parseShape(thisShapeCode, patternData.shape.points);
         writeCsvToFile(progress.workdir, 'shapes.txt', parsedShape);
 
         // 3.2.3.3.
@@ -554,7 +618,8 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
               trip_id: thisTripId,
               trip_headsign: patternData.headsign,
               direction_id: patternData.direction,
-              shape_id: patternData.shape.code,
+              shape_id: thisShapeCode,
+              calendar_desc: scheduleData.calendar_desc,
             });
 
             // 3.2.3.3.2.4.
@@ -585,6 +650,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
               // Increment the arrival_time for this stop with the travel time for this path segment
               // If the schedule has a travel time override, then use that instead of the default (not yet implemented)
               // In the first iteration, the travel time is zero, so we get the start_time as the current trip time.
+              console.log('pathData.default_travel_time', pathData.default_travel_time);
               currentArrivalTime = incrementTime(currentArrivalTime, pathData.default_travel_time);
 
               // 3.2.3.3.2.6.4.
@@ -593,7 +659,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
               const departureTime = incrementTime(currentArrivalTime, pathData.default_dwell_time);
 
               // 3.2.3.3.2.6.5.
-              // Increment the travelled distance for this path segment with the distance delta
+              // Increment the traveled distance for this path segment with the distance delta
               currentTripDistance = currentTripDistance + pathData.distance_delta;
 
               // 3.2.3.3.2.6.6.
@@ -606,7 +672,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
                 stop_sequence: pathIndex,
                 pickup_type: pathData.allow_pickup ? 0 : 1,
                 drop_off_type: pathData.allow_drop_off ? 0 : 1,
-                shape_dist_traveled: currentTripDistance,
+                shape_dist_traveled: currentTripDistance / 1000,
                 timepoint: 1,
               });
 
@@ -642,7 +708,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
   for (const calendarId of referencedCalendarIds) {
     const calendarData = await CalendarModel.findOne({ _id: calendarId });
     if (calendarData.dates && calendarData.dates.length) {
-      const parsedCalendar = parseCalendar(calendarData);
+      const parsedCalendar = await parseCalendar(calendarData);
       writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
     }
   }
@@ -654,7 +720,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
   // 8.
   // Fetch the referenced stops and write the stops.txt file
   for (const stopId of referencedStopIds) {
-    const stopData = await StopModel.findOne({ _id: stopId }, 'code name tts_name latitude longitude');
+    const stopData = await StopModel.findOne({ _id: stopId }).populate('municipality');
     const parsedStop = parseStop(stopData);
     writeCsvToFile(progress.workdir, 'stops.txt', parsedStop);
   }

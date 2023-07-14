@@ -2,7 +2,7 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import * as turf from '@turf/turf';
-import { PatternDefault, PatternShapeDefault, PatternPathDefault } from '@/schemas/Pattern/default';
+import { PatternShapeDefault, PatternPathDefault } from '@/schemas/Pattern/default';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { Model as StopModel } from '@/schemas/Stop/model';
 

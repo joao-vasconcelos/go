@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import styles from './StopSequenceTable.module.css';
 import { useFormContext as usePatternFormContext } from '@/schemas/Pattern/form';
@@ -283,14 +283,21 @@ function StopSequenceTableTravelTimeColumn({ rowIndex }) {
     }
   };
 
-  function calculateTravelTime(distanceInMeters, speedInKmPerHour) {
+  //
+  // Update state
+
+  const calculateTravelTime = (distanceInMeters, speedInKmPerHour) => {
     if (speedInKmPerHour === 0 || distanceInMeters === 0) {
       return 0;
     }
     const speedInMetersPerSecond = (speedInKmPerHour * 1000) / 3600;
-    const travelTimeInSeconds = distanceInMeters / speedInMetersPerSecond;
+    const travelTimeInSeconds = parseInt(distanceInMeters / speedInMetersPerSecond);
     return travelTimeInSeconds || 0;
-  }
+  };
+
+  useEffect(() => {
+    patternForm.setFieldValue(`path.${rowIndex}.default_travel_time`, calculateTravelTime(patternForm.values.path[rowIndex].distance_delta, patternForm.values.path[rowIndex].default_velocity));
+  }, [patternForm, rowIndex]);
 
   //
   // Render components
@@ -304,7 +311,6 @@ function StopSequenceTableTravelTimeColumn({ rowIndex }) {
           formatter={formatSecondsToTime}
           icon={<IconClockHour4 size='18px' />}
           {...patternForm.getInputProps(`path.${rowIndex}.default_travel_time`)}
-          value={calculateTravelTime(patternForm.values.path[rowIndex].distance_delta, patternForm.values.path[rowIndex].default_velocity)}
           disabled={rowIndex === 0}
           readOnly
         />
@@ -539,7 +545,6 @@ export default function StopSequenceTable() {
   //
   // A. Setup variables
 
-  const t = useTranslations('StopSequenceTable');
   const patternForm = usePatternFormContext();
 
   //

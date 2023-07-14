@@ -93,7 +93,7 @@ export default async function parseGTFS(req, res) {
               shape_pt_lat: shapeData.shape_pt_lat,
               shape_pt_lon: shapeData.shape_pt_lon,
               shape_pt_sequence: shapeData.shape_pt_sequence,
-              shape_dist_traveled: shapeData.shape_dist_travelled,
+              shape_dist_traveled: shapeData.shape_dist_traveled,
             };
 
             const existingShape = gtfsShapes.find((shape) => shape.shape_id === shapeId);

@@ -50,7 +50,7 @@ export default function Page() {
   // B. Fetch data
 
   const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
-  const { data: routeData, error: routeError, isLoading: routeLoading, isValidating: routeValidating, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
+  const { mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
   const { data: typologyData } = useSWR(lineData && lineData.typology && `/api/typologies/${lineData.typology}`);
   const { data: patternData, error: patternError, isLoading: patternLoading, mutate: patternMutate } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: patternStopsData, mutate: patternStopsMutate } = useSWR(pattern_id && `/api/patterns/${pattern_id}/stops`);

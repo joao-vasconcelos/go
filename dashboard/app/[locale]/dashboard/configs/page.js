@@ -35,6 +35,33 @@ export default function Page() {
   // C. Setup form
 
   //
+  // D. Handle refactors
+
+  const handleRefactorPatternPathTravelTime = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Calculate Travel Time for All Patterns?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, calculate travel times', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('path-travel-time', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/pathTravelTime', method: 'GET' });
+          notify('path-travel-time', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('path-travel-time', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
+  //
   // D. Handle imports
 
   const handleStartImportLines = async () => {
@@ -269,6 +296,15 @@ export default function Page() {
           <Button onClick={handleStartImportPatterns}>Import Patterns & Calendars</Button>
           <Button onClick={handleStartImportStops}>Import Stops</Button>
         </SimpleGrid>
+      </Section>
+      <Section>
+        <Text size='h2'>Refactors</Text>
+        <SimpleGrid cols={4}>
+          <Button onClick={handleRefactorPatternPathTravelTime}>Update Travel Times</Button>
+        </SimpleGrid>
+      </Section>
+      <Section>
+        <Text size='h2'>Deletes</Text>
         <SimpleGrid cols={5}>
           <Button onClick={handleDeleteLines} color='red'>
             Delete All Lines
