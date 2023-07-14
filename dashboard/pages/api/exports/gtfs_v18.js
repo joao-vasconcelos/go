@@ -495,8 +495,8 @@ function parseStop(stop) {
     preservation_state: '',
     equipment: '',
     observations: '',
-    region: stop.municipality.region || '',
-    municipality: stop.municipality.code || '',
+    region: stop.municipality?.region || '',
+    municipality: stop.municipality?.code || '',
   };
 }
 
