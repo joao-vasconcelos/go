@@ -627,7 +627,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
       // Write the fare_rules.txt entry for this route
       const parsedFareRule = parseFareRule(routeData, fareData);
       writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
-      referencedFareIds.add(routeData.fare);
+      referencedFareIds.add(fareData._id);
 
       // 3.2.4.
       // Iterate on all the patterns for the given route
@@ -789,8 +789,11 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
   // 8.
   // Fetch the referenced fares and write the fare_attributes.txt file
+  console.log('referencedFareIds.length', referencedFareIds.length);
   for (const fareId of referencedFareIds) {
+    console.log('fareId', fareId);
     const fareData = await FareModel.findOne({ _id: fareId });
+    console.log('fareId', fareId);
     const parsedFare = parseFare(fareData);
     writeCsvToFile(progress.workdir, 'fare_attributes.txt', parsedFare);
   }
