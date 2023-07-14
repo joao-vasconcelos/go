@@ -52,13 +52,14 @@ export default async function handler(req, res) {
     for (const patternDoc of allPatterns) {
       //
       // Skip if not A1
-      // if (!route.code.startsWith('2')) continue;
-      //   if (parseInt(route.code.substring(0, 4)) < 1616) continue;
+      if (!patternDoc.code.startsWith('4')) continue;
+      // if (parseInt(route.code.substring(0, 4)) < 1616) continue;
 
       try {
         //
 
         const pattern = await PatternModel.findOne({ code: patternDoc.code });
+        console.log('Importing pattern shape with code', patternDoc.code);
 
         // Get info for the Pattern from API v1
         const response = await fetch(`https://api.carrismetropolitana.pt/patterns/${pattern.code}`);
