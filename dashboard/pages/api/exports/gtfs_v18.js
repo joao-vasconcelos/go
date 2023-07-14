@@ -564,7 +564,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
   // 0.
   // Update progress
-  await update(progress, { status: 1, progress_current: 0, progress_total: 3 });
+  await update(progress, { status: 1, progress_current: 0, progress_total: 4 });
 
   // 0.
   // In order to build stops.txt, shapes.txt and calendar_dates.txt it is necessary
@@ -627,7 +627,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
       // Write the fare_rules.txt entry for this route
       const parsedFareRule = parseFareRule(routeData, fareData);
       writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
-      referencedFareIds.add(parsedRoute.fare);
+      referencedFareIds.add(routeData.fare);
 
       // 3.2.4.
       // Iterate on all the patterns for the given route
@@ -759,7 +759,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
   // 5.
   // Update progress
-  await update(progress, { status: 1, progress_current: 2, progress_total: 3 });
+  await update(progress, { status: 1, progress_current: 2, progress_total: 4 });
 
   // 6.
   // Fetch the referenced calendars and write the calendar_dates.txt file
@@ -773,7 +773,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
   // 6.q.
   // Update progress
-  await update(progress, { status: 1, progress_current: 3, progress_total: 3 });
+  await update(progress, { status: 1, progress_current: 3, progress_total: 4 });
 
   // 8.
   // Fetch the referenced stops and write the stops.txt file
@@ -785,7 +785,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
   // 6.q.
   // Update progress
-  await update(progress, { status: 1, progress_current: 4, progress_total: 3 });
+  await update(progress, { status: 1, progress_current: 4, progress_total: 4 });
 
   // 8.
   // Fetch the referenced fares and write the fare_attributes.txt file
