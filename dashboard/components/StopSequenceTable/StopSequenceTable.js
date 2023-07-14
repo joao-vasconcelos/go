@@ -211,6 +211,14 @@ function StopSequenceTableVelocityColumn({ rowIndex }) {
   //
   // Render components
 
+  const handleUpdateVelocity = (value) => {
+    patternForm.setFieldValue(`path.${rowIndex}.default_velocity`, value);
+    patternForm.setFieldValue(`path.${rowIndex}.default_travel_time`, calculateTravelTime(patternForm.values.path[rowIndex].distance_delta, patternForm.values.path[rowIndex].default_velocity));
+  };
+
+  //
+  // Render components
+
   return (
     <div className={styles.column}>
       <Tooltip label={t('default_velocity.description')} position='bottom' withArrow>
@@ -225,6 +233,7 @@ function StopSequenceTableVelocityColumn({ rowIndex }) {
           formatter={(value) => `${value} km/h`}
           icon={<IconPlayerTrackNext size='18px' />}
           {...patternForm.getInputProps(`path.${rowIndex}.default_velocity`)}
+          onChange={handleUpdateVelocity}
           disabled={rowIndex === 0}
           readOnly={isReadOnly}
         />
