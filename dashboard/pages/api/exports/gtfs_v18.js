@@ -270,30 +270,6 @@ function today() {
 //
 
 /* * */
-/* GET FARE DATA */
-/* Fetch the database for the given fare_id. */
-async function getFareData(fareId) {
-  return await FareModel.findOne({ _id: fareId });
-}
-
-//
-//
-//
-//
-
-/* * */
-/* GET TYPOLOGY DATA */
-/* Fetch the database for the given typology_id. */
-async function getTypologyData(typologyId) {
-  return await TypologyModel.findOne({ _id: typologyId });
-}
-
-//
-//
-//
-//
-
-/* * */
 /* BUILD ROUTE OBJECT ENTRY */
 /* Build an agency object entry */
 function parseAgency(agency) {
@@ -570,9 +546,9 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
   // In order to build stops.txt, shapes.txt and calendar_dates.txt it is necessary
   // to initiate these variables outside all loops that hold the _ids
   // of the objects that are referenced in the other objects (trips, patterns)
-  const referencedFareIds = new Set();
-  const referencedStopIds = new Set();
-  const referencedCalendarIds = new Set();
+  const referencedFareCodes = new Set();
+  const referencedStopCodes = new Set();
+  const referencedCalendarCodes = new Set();
 
   // 1.
   // Retrieve the requested agency object
@@ -606,8 +582,8 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
     // 3.2.
     // Get additional info associated with this line
-    const fareData = await getFareData(lineData.fare);
-    const typologyData = await getTypologyData(lineData.typology);
+    const fareData = await FareModel.findOne({ _id: lineData.fare });
+    const typologyData = await TypologyModel.findOne({ _id: lineData.typology });
 
     // 3.3.
     // Because GTFS has no lines files, directly loop
@@ -625,9 +601,10 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
       // 3.2.3.
       // Write the fare_rules.txt entry for this route
+      console.log(fareData);
       const parsedFareRule = parseFareRule(routeData, fareData);
       writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
-      referencedFareIds.add(fareData._id);
+      referencedFareCodes.add(fareData.code);
 
       // 3.2.4.
       // Iterate on all the patterns for the given route
@@ -658,7 +635,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
             //
             // 3.2.4.3.2.1.
             // Append the calendar_ids of this schedule to the scoped variable
-            referencedCalendarIds.add(calendarData._id);
+            referencedCalendarCodes.add(calendarData.code);
 
             // 3.2.4.3.2.2.
             // Remove the : from this schedules start_time to use it as the identifier for this trip.
@@ -703,7 +680,7 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
               // 3.2.4.3.2.6.2.
               // Append the stop_ids of this path to the scoped variable
-              referencedStopIds.add(pathData.stop._id);
+              referencedStopCodes.add(pathData.stop.code);
 
               // 3.2.4.3.2.6.3.
               // Increment the arrival_time for this stop with the travel time for this path segment
@@ -763,8 +740,8 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
   // 6.
   // Fetch the referenced calendars and write the calendar_dates.txt file
-  for (const calendarId of referencedCalendarIds) {
-    const calendarData = await CalendarModel.findOne({ _id: calendarId });
+  for (const calendarCode of referencedCalendarCodes) {
+    const calendarData = await CalendarModel.findOne({ code: calendarCode });
     if (calendarData.dates && calendarData.dates.length) {
       const parsedCalendar = await parseCalendar(calendarData);
       writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
@@ -777,8 +754,8 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
   // 8.
   // Fetch the referenced stops and write the stops.txt file
-  for (const stopId of referencedStopIds) {
-    const stopData = await StopModel.findOne({ _id: stopId }).populate('municipality');
+  for (const stopCode of referencedStopCodes) {
+    const stopData = await StopModel.findOne({ code: stopCode }).populate('municipality');
     const parsedStop = parseStop(stopData);
     writeCsvToFile(progress.workdir, 'stops.txt', parsedStop);
   }
@@ -789,11 +766,8 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
   // 8.
   // Fetch the referenced fares and write the fare_attributes.txt file
-  console.log('referencedFareIds.length', referencedFareIds.length);
-  for (const fareId of referencedFareIds) {
-    console.log('fareId', fareId);
-    const fareData = await FareModel.findOne({ _id: fareId });
-    console.log('fareId', fareId);
+  for (const fareCode of referencedFareCodes) {
+    const fareData = await FareModel.findOne({ code: fareCode });
     const parsedFare = parseFare(fareData);
     writeCsvToFile(progress.workdir, 'fare_attributes.txt', parsedFare);
   }
