@@ -650,7 +650,6 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
               // Increment the arrival_time for this stop with the travel time for this path segment
               // If the schedule has a travel time override, then use that instead of the default (not yet implemented)
               // In the first iteration, the travel time is zero, so we get the start_time as the current trip time.
-              console.log('pathData.default_travel_time', pathData.default_travel_time);
               currentArrivalTime = incrementTime(currentArrivalTime, pathData.default_travel_time);
 
               // 3.2.3.3.2.6.4.
