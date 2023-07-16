@@ -538,9 +538,6 @@ function parseStop(stop) {
 async function buildGTFSv18(progress, agencyData, lineIds) {
   //
 
-  const findWeird = await PatternModel.find({ 'schedules.start_time': { $in: '20:34' } });
-  console.log('findWeird', findWeird);
-
   // 0.
   // Update progress
   await update(progress, { status: 1, progress_current: 0, progress_total: 4 });
