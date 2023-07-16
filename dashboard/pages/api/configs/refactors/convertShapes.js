@@ -55,7 +55,7 @@ export default async function handler(req, res) {
 
       const isShapeInKm = pattern.shape.points[pattern.shape.points.length - 1].shape_dist_traveled / 1000;
 
-      if (isShapeInKm < 0) {
+      if (isShapeInKm < 1) {
         console.log('is in km', patternCode.code);
         // pattern.shape.points.forEach((element) => {
         //   return { ...element, shape_dist_traveled: element.shape_dist_traveled * 1000 };
