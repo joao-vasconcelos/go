@@ -645,6 +645,11 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
             const startTimeStripped = scheduleData.start_time.split(':').join('');
             const thisTripCode = `${patternData.code}_${calendarData.code}_${startTimeStripped}`;
 
+            if (thisTripCode === '4600_0_1_VER_SAB_2034') {
+              console.log('HERE WEIRD');
+              console.log(patternData);
+            }
+
             // 3.2.4.3.2.3.
             // Write the trips.txt entry for this trip
             writeCsvToFile(progress.workdir, 'trips.txt', {
