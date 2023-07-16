@@ -224,7 +224,7 @@ function incrementTime(timeString, increment) {
   // Calculate the new total seconds
   const totalSeconds = hours * 3600 + minutes * 60 + increment;
   // Calculate the new hours, minutes, and seconds
-  const newHours = Math.floor(totalSeconds / 3600) % 24;
+  const newHours = Math.floor(totalSeconds / 3600);
   const newMinutes = Math.floor(totalSeconds / 60) % 60;
   const newSeconds = 0;
   // Format the new time string
@@ -601,7 +601,6 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
       // 3.2.3.
       // Write the fare_rules.txt entry for this route
-      console.log(fareData);
       const parsedFareRule = parseFareRule(routeData, fareData);
       writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
       referencedFareCodes.add(fareData.code);
