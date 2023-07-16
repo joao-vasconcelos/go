@@ -57,12 +57,14 @@ export default async function handler(req, res) {
 
       if (isShapeInKm < 1) {
         console.log('is in km', patternCode.code);
-        pattern.shape.points.forEach((element) => {
+        const newShapePoints = pattern.shape.points.map((element) => {
           return { ...element, shape_dist_traveled: element.shape_dist_traveled * 1000 };
         });
-      }
 
-      await pattern.save();
+        pattern.shape.points = newShapePoints;
+
+        await pattern.save();
+      }
 
       //
     }
