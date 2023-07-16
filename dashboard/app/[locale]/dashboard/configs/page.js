@@ -61,6 +61,30 @@ export default function Page() {
     });
   };
 
+  const handleRefactorConvertPatternShapesToMeters = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Convert all shapes to meters?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, convert shapes to meters', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('convert-shapes-to-meters', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/convertShapes', method: 'GET' });
+          notify('convert-shapes-to-meters', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('convert-shapes-to-meters', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
   //
   // D. Handle imports
 
@@ -326,6 +350,7 @@ export default function Page() {
         <Text size='h2'>Refactors</Text>
         <SimpleGrid cols={4}>
           <Button onClick={handleRefactorPatternPathTravelTime}>Update Travel Times</Button>
+          <Button onClick={handleRefactorConvertPatternShapesToMeters}>Convert Shapes to Meters</Button>
         </SimpleGrid>
       </Section>
       <Section>
