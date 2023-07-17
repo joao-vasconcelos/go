@@ -41,4 +41,4 @@ export const ExportSchema = new mongoose.Schema({
 
 /* * */
 /* C. Mongoose Model */
-export const ExportModel = mongoose?.models?.Export || mongoose.model('Export', Schema);
+export const ExportModel = mongoose?.models?.Export || mongoose.model('Export', ExportSchema);
