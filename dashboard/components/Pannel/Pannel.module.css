@@ -1,8 +1,11 @@
+/* * */
+/* CONTAINER */
+
 .container {
   display: flex;
   flex-direction: column;
-  background-color: var(--reference-0);
-  border: 1px solid var(--gray4);
+  background-color: var(--color-reference-0);
+  border: 1px solid var(--color-gray-2);
   border-radius: 5px;
   position: absolute;
   left: 0;
@@ -13,9 +16,12 @@
 
 @media (prefers-color-scheme: dark) {
   .container {
-    background-color: var(--gray2);
+    background-color: var(--color-gray-1);
   }
 }
+
+/* * */
+/* BODY */
 
 .body {
   display: flex;
@@ -24,6 +30,9 @@
   height: 100%;
   overflow-y: auto;
 }
+
+/* * */
+/* HEADER & FOOTER */
 
 .header,
 .footer {
@@ -36,9 +45,9 @@
 }
 
 .header {
-  border-bottom: 1px solid var(--gray4);
+  border-bottom: 1px solid var(--color-gray-2);
 }
 
 .footer {
-  border-top: 1px solid var(--gray4);
+  border-top: 1px solid var(--color-gray-2);
 }

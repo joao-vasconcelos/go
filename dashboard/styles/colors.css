@@ -1,4 +1,54 @@
 :root {
+  /* REFERENCE */
+  --color-reference-0: #ffffff;
+  --color-reference-1: #1f2328;
+  /* GRAYS */
+  --color-gray-0: #f6f8fa;
+  --color-gray-1: #eaeef2;
+  --color-gray-2: #d0d7de;
+  --color-gray-3: #afb8c1;
+  --color-gray-4: #8c959f;
+  --color-gray-5: #6e7781;
+  --color-gray-6: #57606a;
+  --color-gray-7: #424a53;
+  --color-gray-8: #32383f;
+  --color-gray-9: #24292f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* REFERENCE */
+    --color-reference-1: #cdd9e5;
+    --color-reference-0: #1c2128;
+    /* GRAYS */
+    --color-gray-0: #1c2128;
+    --color-gray-1: #22272e;
+    --color-gray-2: #373e47;
+    --color-gray-3: #444c56;
+    --color-gray-4: #545d68;
+    --color-gray-5: #636e7b;
+    --color-gray-6: #768390;
+    --color-gray-7: #909dab;
+    --color-gray-8: #adbac7;
+    --color-gray-9: #cdd9e5;
+  }
+}
+
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+
+:root {
   /* ACCENT */
   --primary1: #ffffc8;
   --primary2: #ffff8c;

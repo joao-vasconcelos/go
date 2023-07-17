@@ -6,13 +6,9 @@ import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
 import { MapProvider } from 'react-map-gl/maplibre';
-import styles from './layout.module.css';
-import Link from 'next/link';
-import AppHeader from '@/components/AppHeader/AppHeader';
-import AppSidebar from '@/components/AppSidebar/AppSidebar';
-import { CMIcon } from '@/components/AppLogos/AppLogos';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import AppWrapper from '@/components/AppWrapper/AppWrapper';
 
 export default function Layout({ children }) {
   //
@@ -48,14 +44,7 @@ export default function Layout({ children }) {
         <Notifications />
         <ModalsProvider>
           <MapProvider>
-            <div className={styles.pageWrapper}>
-              <Link href={'/'} className={styles.appIcon}>
-                <CMIcon />
-              </Link>
-              <AppHeader />
-              <AppSidebar />
-              <div className={styles.content}>{children}</div>
-            </div>
+            <AppWrapper>{children}</AppWrapper>
           </MapProvider>
         </ModalsProvider>
       </DatesProvider>
