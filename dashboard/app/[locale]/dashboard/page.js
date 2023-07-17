@@ -1,5 +1,6 @@
 import { OneFullColumn } from '@/components/Layouts/Layouts';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 
 export default function Page() {
-  return <OneFullColumn first={<p>some statistics will be on this page</p>} />;
+  return <OneFullColumn first={<NoDataLabel text={'Coming Soon'} fill />} />;
 }
