@@ -36,27 +36,24 @@
 /* NAV BUTTONS */
 
 .navButton {
-  color: var(--gray9);
+  color: var(--color-gray-9);
   font-size: 26px;
 }
 
-.navButton:hover {
-  background-color: var(--gray2);
-}
-
+.navButton:hover,
 .navButton:active {
-  background-color: var(--gray4);
+  background-color: var(--color-gray-0);
 }
 
 .navButton.selected,
 .navButton:hover.selected {
-  background-color: var(--primary5);
-  color: var(--gray9);
+  background-color: var(--carris-metropolitana);
+  color: var(--color-gray-9);
 }
 
 @media (prefers-color-scheme: dark) {
   .navButton.selected,
   .navButton:hover.selected {
-    color: var(--gray0);
+    color: var(--color-gray-0);
   }
 }

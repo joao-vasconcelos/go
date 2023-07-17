@@ -1,4 +1,6 @@
 :root {
+  /* BRAND */
+  --carris-metropolitana: #ffdd00;
   /* REFERENCE */
   --color-reference-0: #ffffff;
   --color-reference-1: #1f2328;
@@ -19,12 +21,12 @@
   :root {
     /* REFERENCE */
     --color-reference-1: #cdd9e5;
-    --color-reference-0: #1c2128;
+    --color-reference-0: #171b21;
     /* GRAYS */
     --color-gray-0: #1c2128;
     --color-gray-1: #22272e;
     --color-gray-2: #373e47;
-    --color-gray-3: #444c56;
+    --color-gray-3: #2b3038;
     --color-gray-4: #545d68;
     --color-gray-5: #636e7b;
     --color-gray-6: #768390;
