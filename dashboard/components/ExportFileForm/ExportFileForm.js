@@ -32,7 +32,7 @@ function ExportGTFSv18() {
   const [selectedLineIdsToExclude, setSelectedLineIdsToExclude] = useState([]);
   const [selectedPlanStartDate, setSelectedPlanStartDate] = useState();
   const [selectedPlanEndDate, setSelectedPlanEndDate] = useState();
-  const [shouldConcatenateCalendars, setShouldConcatenateCalendars] = useState(true);
+  const [shouldConcatenateCalendars, setShouldConcatenateCalendars] = useState();
 
   const [isCreatingExport, setIsCreatingExport] = useState(false);
 
