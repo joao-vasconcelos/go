@@ -2,7 +2,7 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import * as fs from 'fs';
-import { Model as ExportModel } from '@/schemas/Export/model';
+import { ExportModel } from '@/schemas/Export/model';
 
 /* * */
 /* LIST ALL EXPORTS */
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'export', permission: 'view', req, res });
+    await checkAuthentication({ scope: 'exports', permission: 'view', req, res });
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: err.message || 'Could not verify Authentication.' });

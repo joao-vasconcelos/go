@@ -5,8 +5,8 @@ import Papa from 'papaparse';
 import dayjs from 'dayjs';
 import * as fs from 'fs';
 import AdmZip from 'adm-zip';
-import { Default as ExportDefault } from '@/schemas/Export/default';
-import { Model as ExportModel } from '@/schemas/Export/model';
+import { ExportDefault } from '@/schemas/Export/default';
+import { ExportModel } from '@/schemas/Export/model';
 import { Model as AgencyModel } from '@/schemas/Agency/model';
 import { Model as LineModel } from '@/schemas/Line/model';
 import { Model as FareModel } from '@/schemas/Fare/model';
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
   // Check for correct Authentication and valid Permissions
 
   try {
-    session = await checkAuthentication({ scope: 'export', permission: 'gtfs_v18', req, res });
+    session = await checkAuthentication({ scope: 'exports', permission: 'gtfs_v18', req, res });
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });

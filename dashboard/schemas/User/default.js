@@ -18,11 +18,12 @@ export const Default = {
       create_edit: false,
       delete: false,
     },
-    // EXPORT
-    export: {
+    // EXPORTS
+    exports: {
       view: false,
       gtfs_v18: false,
       gtfs_v29: false,
+      gtfs_v30: false,
       agencies: [],
     },
     // USERS
@@ -30,7 +31,6 @@ export const Default = {
       view: false,
       create_edit: false,
       delete: false,
-      export: false,
     },
     // USERS
     lines: {

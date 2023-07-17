@@ -410,7 +410,7 @@ export default function ExportFileForm() {
     if (!ExportOptions.export_type) return [];
     return ExportOptions.export_type
       .filter((type) => {
-        return isAllowed(session, 'export', type);
+        return isAllowed(session, 'exports', type);
       })
       .map((type) => {
         return { value: type, label: exportOptionsTranslations(`export_type.${type}.label`) };

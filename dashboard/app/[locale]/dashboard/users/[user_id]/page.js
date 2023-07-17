@@ -154,9 +154,9 @@ export default function Page() {
             isErrorValidating={userError}
             isSaving={isSaving}
             isErrorSaving={hasErrorSaving}
-            onValidate={() => handleValidate()}
-            onSave={async () => await handleSave()}
-            onClose={async () => await handleClose()}
+            onValidate={handleValidate}
+            onSave={handleSave}
+            onClose={handleClose}
           />
           <Text size='h1' style={!userForm.values.name && 'untitled'} full>
             {userForm.values.name || t('untitled')}
@@ -220,36 +220,46 @@ export default function Page() {
 
           <Section>
             <div>
-              <Text size='h2'>{t('form.permissions.export.title')}</Text>
-              <Text size='h4'>{t('form.permissions.export.description')}</Text>
+              <Text size='h2'>{t('form.permissions.exports.title')}</Text>
+              <Text size='h4'>{t('form.permissions.exports.description')}</Text>
             </div>
+            <SimpleGrid cols={1} mt='md'>
+              <Switch label={t('form.permissions.exports.view.label')} description={t('form.permissions.exports.view.description')} size='md' {...userForm.getInputProps('permissions.exports.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+            </SimpleGrid>
             <SimpleGrid cols={3} mt='md'>
-              <Switch label={t('form.permissions.export.view.label')} description={t('form.permissions.export.view.description')} size='md' {...userForm.getInputProps('permissions.export.view', { type: 'checkbox' })} readOnly={isReadOnly} />
               <Switch
                 size='md'
-                label={t('form.permissions.export.gtfs_v18.label')}
-                description={t('form.permissions.export.gtfs_v18.description')}
-                {...userForm.getInputProps('permissions.export.gtfs_v18', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.export.view}
+                label={t('form.permissions.exports.gtfs_v18.label')}
+                description={t('form.permissions.exports.gtfs_v18.description')}
+                {...userForm.getInputProps('permissions.exports.gtfs_v18', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.exports.view}
                 readOnly={isReadOnly}
               />
               <Switch
                 size='md'
-                label={t('form.permissions.export.gtfs_v29.label')}
-                description={t('form.permissions.export.gtfs_v29.description')}
-                {...userForm.getInputProps('permissions.export.gtfs_v29', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.export.view}
+                label={t('form.permissions.exports.gtfs_v29.label')}
+                description={t('form.permissions.exports.gtfs_v29.description')}
+                {...userForm.getInputProps('permissions.exports.gtfs_v29', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.exports.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size='md'
+                label={t('form.permissions.exports.gtfs_v30.label')}
+                description={t('form.permissions.exports.gtfs_v30.description')}
+                {...userForm.getInputProps('permissions.exports.gtfs_v30', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.exports.view}
                 readOnly={isReadOnly}
               />
             </SimpleGrid>
             <SimpleGrid cols={1} mt='md'>
               <MultiSelect
-                label={t('form.permissions.export.agencies.label')}
-                placeholder={t('form.permissions.export.agencies.placeholder')}
-                nothingFound={t('form.permissions.export.agencies.nothingFound')}
-                {...userForm.getInputProps('permissions.export.agencies')}
+                label={t('form.permissions.exports.agencies.label')}
+                placeholder={t('form.permissions.exports.agencies.placeholder')}
+                nothingFound={t('form.permissions.exports.agencies.nothingFound')}
+                {...userForm.getInputProps('permissions.exports.agencies')}
                 data={agenciesFormattedForSelect}
-                disabled={!userForm.values.permissions.export.view}
+                disabled={!userForm.values.permissions.exports.view}
                 readOnly={isReadOnly}
                 searchable
               />
@@ -263,7 +273,7 @@ export default function Page() {
               <Text size='h2'>{t('form.permissions.users.title')}</Text>
               <Text size='h4'>{t('form.permissions.users.description')}</Text>
             </div>
-            <SimpleGrid cols={4} mt='md'>
+            <SimpleGrid cols={3} mt='md'>
               <Switch label={t('form.permissions.users.view.label')} description={t('form.permissions.users.view.description')} size='md' {...userForm.getInputProps('permissions.users.view', { type: 'checkbox' })} />
               <Switch
                 size='md'
@@ -278,14 +288,6 @@ export default function Page() {
                 label={t('form.permissions.users.delete.label')}
                 description={t('form.permissions.users.delete.description')}
                 {...userForm.getInputProps('permissions.users.delete', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.users.view}
-                readOnly={isReadOnly}
-              />
-              <Switch
-                size='md'
-                label={t('form.permissions.users.export.label')}
-                description={t('form.permissions.users.export.description')}
-                {...userForm.getInputProps('permissions.users.export', { type: 'checkbox' })}
                 disabled={!userForm.values.permissions.users.view}
                 readOnly={isReadOnly}
               />

@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 
 /* * */
 /* A. Mongoose Schema */
-export const Schema = new mongoose.Schema({
+export const ExportSchema = new mongoose.Schema({
   type: {
     type: Number,
   },
@@ -41,4 +41,4 @@ export const Schema = new mongoose.Schema({
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.Export || mongoose.model('Export', Schema);
+export const ExportModel = mongoose?.models?.Export || mongoose.model('Export', Schema);

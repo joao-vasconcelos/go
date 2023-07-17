@@ -85,11 +85,12 @@ export default async function handler(req, res) {
       req.body.permissions.agencies.create_edit = false;
       req.body.permissions.agencies.delete = false;
     }
-    // Export
-    if (!req.body.permissions.export.view) {
-      req.body.permissions.export.gtfs_v18 = false;
-      req.body.permissions.export.gtfs_v29 = false;
-      req.body.permissions.export.agencies = [];
+    // Exports
+    if (!req.body.permissions.exports.view) {
+      req.body.permissions.exports.gtfs_v18 = false;
+      req.body.permissions.exports.gtfs_v29 = false;
+      req.body.permissions.exports.gtfs_v30 = false;
+      req.body.permissions.exports.agencies = [];
     }
     // Users
     if (!req.body.permissions.users.view) {

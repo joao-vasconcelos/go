@@ -5,7 +5,7 @@
 
 /* * */
 /* A. Default Values */
-export const Default = {
+export const ExportDefault = {
   type: 0,
   status: 0,
   progress_current: 0,

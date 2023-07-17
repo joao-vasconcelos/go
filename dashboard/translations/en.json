@@ -82,7 +82,7 @@
             }
         }
     },
-    "export": {
+    "exports": {
         "gtfs_v18": {
             "title": "Export Intended Offer (v18)",
             "sections": {
@@ -1170,11 +1170,11 @@
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
-                "export": {
+                "exports": {
                     "title": "GTFS Export",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
                     "view": {
-                        "label": "View Export Page",
+                        "label": "View & Download Exports",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
                     "gtfs_v18": {
@@ -1183,6 +1183,10 @@
                     },
                     "gtfs_v29": {
                         "label": "Export GTFS v29",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "gtfs_v30": {
+                        "label": "Export GTFS v30",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
                     "agencies": {
@@ -1204,10 +1208,6 @@
                     },
                     "delete": {
                         "label": "Delete Users",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "export": {
-                        "label": "Export Users",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
@@ -1426,7 +1426,7 @@
         "fares": "Fares",
         "agencies": "Agencies",
         "threads": "Threads",
-        "export": "Export",
+        "exports": "Export",
         "users": "Users",
         "configs": "DB Config"
     },

@@ -40,8 +40,8 @@ export const Schema = new mongoose.Schema(
         },
       },
       //
-      // EXPORT
-      export: {
+      // EXPORTS
+      exports: {
         view: {
           type: Boolean,
         },
@@ -49,6 +49,9 @@ export const Schema = new mongoose.Schema(
           type: Boolean,
         },
         gtfs_v29: {
+          type: Boolean,
+        },
+        gtfs_v30: {
           type: Boolean,
         },
         agencies: [
@@ -68,9 +71,6 @@ export const Schema = new mongoose.Schema(
           type: Boolean,
         },
         delete: {
-          type: Boolean,
-        },
-        export: {
           type: Boolean,
         },
       },

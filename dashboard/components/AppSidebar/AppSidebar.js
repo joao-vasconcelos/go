@@ -19,7 +19,7 @@ export default function AppSidebar() {
     { href: 'lines', label: t('lines'), icon: <IconArrowLoopRight />, auth_scope: 'lines', auth_permission: 'view' },
     { href: 'calendars', label: t('calendars'), icon: <IconCalendarDue />, auth_scope: 'calendars', auth_permission: 'view' },
     { href: 'threads', label: t('threads'), icon: <IconMessageChatbot />, auth_scope: 'threads', auth_permission: 'view' },
-    { href: 'export', label: t('export'), icon: <IconFileZip />, auth_scope: 'export', auth_permission: 'view' },
+    { href: 'exports', label: t('exports'), icon: <IconFileZip />, auth_scope: 'exports', auth_permission: 'view' },
     { href: 'users', label: t('users'), icon: <IconUsers />, auth_scope: 'users', auth_permission: 'view' },
     { href: 'configs', label: t('configs'), icon: <IconDatabaseCog />, auth_scope: 'configs', auth_permission: 'admin' },
     // { href: 'feedback', label: t('feedback'), icon: <IconMoodSearch />, auth_scope: 'users', auth_permission: 'view' },
