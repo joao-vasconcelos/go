@@ -18,6 +18,17 @@ export function TwoUnevenColumns({ first, second }) {
 }
 
 //
+// TWO EVEN COLUMNS
+export function TwoEvenColumns({ first, second }) {
+  return (
+    <div className={`${styles.baseLayout} ${styles.twoEvenColumns}`}>
+      <div className={styles.innerWrapper}>{first}</div>
+      <div className={styles.innerWrapper}>{second}</div>
+    </div>
+  );
+}
+
+//
 // THREE EVEN COLUMNS
 export function ThreeEvenColumns({ first, second, third }) {
   return (

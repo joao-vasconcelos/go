@@ -23,6 +23,9 @@ export default function ExportedFilesList() {
 
   const { data: allExportsData, isLoading: allExportsLoading } = useSWR('/api/exports', { refreshInterval: 250 });
 
+  //
+  // C. Render components
+
   return (
     <Pannel
       loading={allExportsLoading}

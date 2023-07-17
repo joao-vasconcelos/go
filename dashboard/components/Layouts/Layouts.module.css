@@ -27,6 +27,10 @@
   grid-template-columns: 350px 1fr;
 }
 
+.twoEvenColumns {
+  grid-template-columns: 1fr 1fr;
+}
+
 .threeEvenColumns {
   grid-template-columns: 1fr 1fr 1fr;
 }

@@ -9,7 +9,7 @@
 //
 //
 
-export const Options = {
+export const ExportOptions = {
   //
 
   /*
@@ -22,7 +22,7 @@ export const Options = {
    * 4 - Ticket Zoning
    */
 
-  type: [0, 1, 2, 3, 4],
+  export_type: ['gtfs_v18', 'gtfs_v29', 'gtfs_v30'],
 
   /*
    * STATUS

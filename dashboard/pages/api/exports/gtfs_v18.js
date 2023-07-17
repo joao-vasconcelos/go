@@ -131,11 +131,20 @@ export default async function handler(req, res) {
     await update(exportSummary, { progress_current: 0, progress_total: 2 });
 
     // 7.2.
-    // Initiate the main export operation
-    await buildGTFSv18(exportSummary, agencyData, req.body.lines);
-    await update(exportSummary, { progress_current: 1, progress_total: 2 });
+    // Initiate the export options object with data from the client
+    const exportOptions = {
+      lines_included: req.body.lines_included || [],
+      lines_excluded: req.body.lines_excluded || [],
+      start_date: req.body.start_date,
+      end_date: req.body.end_date,
+    };
 
     // 7.3.
+    // Initiate the main export operation
+    await buildGTFSv18(exportSummary, agencyData, exportOptions);
+    await update(exportSummary, { progress_current: 1, progress_total: 2 });
+
+    // 7.4.
     // Zip the workdir folder that contains the generated files.
     // Name the resulting archive with the _id of this Export.
     const outputZip = new AdmZip();
@@ -143,7 +152,7 @@ export default async function handler(req, res) {
     outputZip.writeZip(`${exportSummary.workdir}/${exportSummary._id}.zip`);
     await update(exportSummary, { progress_current: 2, progress_total: 2 });
 
-    // 7.4.
+    // 7.5.
     // Update progress to indicate the requested operation is complete
     await update(exportSummary, { status: 2 });
 
@@ -291,22 +300,19 @@ function parseAgency(agency) {
 //
 
 /* * */
-/* GET ALL LINES DATA */
-/* Fetch the database for the given agency_id. */
-async function getAllLinesData(filterParams) {
-  // Populate nested fields all at once to avoid incresing lengthy db calls
-  const populateParams = {
-    path: 'routes',
-    populate: {
-      path: 'patterns',
-      populate: [
-        { path: 'path.stop', select: 'code' },
-        { path: 'schedules.calendars_on', select: 'code' },
-      ],
-    },
+/* BUILD ROUTE OBJECT ENTRY */
+/* Build an agency object entry */
+function parseFeedInfo(agency, options) {
+  return {
+    feed_publisher_name: agency.name,
+    feed_publisher_url: agency.url,
+    feed_lang: 'pt',
+    default_lang: 'en',
+    feed_contact_url: 'https://github.com/carrismetropolitana/gtfs',
+    feed_version: today(),
+    feed_start_date: options.start_date,
+    feed_end_date: options.end_date,
   };
-  // Request database with the given params
-  return await LineModel.find(filterParams).populate(populateParams);
 }
 
 //
@@ -431,11 +437,18 @@ function parseShape(code, points) {
 /* * */
 /* PARSE CALENDAR */
 /* Build a calendar_dates object entry */
-async function parseCalendar(calendar) {
+async function parseCalendar(calendar, startDate, endDate) {
   // Initiate an new variable
   const parsedCalendar = [];
   // For each date in the calendar
   for (const calendarDate of calendar.dates) {
+    // Tranform the current, start and end dates
+    // into integers to allow for easy comparison
+    const calendarDateInt = parseInt(calendarDate);
+    const startDateInt = parseInt(startDate);
+    const endDateInt = parseInt(endDate);
+    // Skip adding the current date if it is not between the requested start and end dates
+    if (calendarDateInt < startDateInt || calendarDateInt > endDateInt) continue;
     // Get Date document for this calendar date
     const dateDocument = await DateModel.findOne({ date: calendarDate });
     // Skip if no date is found
@@ -535,12 +548,12 @@ function parseStop(stop) {
 /* * */
 /* BUILD GTFS V18 */
 /* This builds the GTFS archive. */
-async function buildGTFSv18(progress, agencyData, lineIds) {
+async function buildGTFSv18(progress, agencyData, exportOptions) {
   //
 
   // 0.
   // Update progress
-  await update(progress, { status: 1, progress_current: 0, progress_total: 4 });
+  await update(progress, { status: 1, progress_current: 1, progress_total: 8 });
 
   // 0.
   // In order to build stops.txt, shapes.txt and calendar_dates.txt it is necessary
@@ -559,12 +572,25 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
   await update(progress, { progress_current: 1 });
 
   // 2.
-  // Retrieve only the lines that match the requested parameters,
-  // or all of them for the given agency if lineIds is empty.
-  let linesFilterParams = { agency: agencyData._id };
-  if (lineIds.length) linesFilterParams._id = { $in: lineIds };
-  const allLinesData = await getAllLinesData(linesFilterParams);
-  //
+  // Retrieve only the lines that match the requested export options,
+  // or all of them for the given agency if 'lines_included' and 'lines_excluded' are empty.
+
+  const linesFilterParams = { agency: agencyData._id };
+
+  if (exportOptions.lines_included.length) linesFilterParams._id = { $in: exportOptions.lines_included };
+  else if (exportOptions.lines_excluded.length) linesFilterParams._id = { $nin: exportOptions.lines_excluded };
+
+  const allLinesData = await LineModel.find(linesFilterParams).populate({
+    path: 'routes',
+    populate: {
+      path: 'patterns',
+      populate: [
+        { path: 'path.stop', select: 'code' },
+        { path: 'schedules.calendars_on', select: 'code' },
+      ],
+    },
+  });
+
   await update(progress, { progress_current: 0, progress_total: allLinesData.length - 1 });
 
   // 3.
@@ -740,23 +766,23 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
 
   // 5.
   // Update progress
-  await update(progress, { status: 1, progress_current: 2, progress_total: 4 });
+  await update(progress, { status: 1, progress_current: 5, progress_total: 8 });
 
-  // 6.
+  // 5.1.
   // Fetch the referenced calendars and write the calendar_dates.txt file
   for (const calendarCode of referencedCalendarCodes) {
     const calendarData = await CalendarModel.findOne({ code: calendarCode });
     if (calendarData.dates && calendarData.dates.length) {
-      const parsedCalendar = await parseCalendar(calendarData);
+      const parsedCalendar = await parseCalendar(calendarData, exportOptions.start_date, exportOptions.end_date);
       writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
     }
   }
 
-  // 6.q.
+  // 6.
   // Update progress
-  await update(progress, { status: 1, progress_current: 3, progress_total: 4 });
+  await update(progress, { status: 1, progress_current: 6, progress_total: 8 });
 
-  // 8.
+  // 6.1.
   // Fetch the referenced stops and write the stops.txt file
   for (const stopCode of referencedStopCodes) {
     const stopData = await StopModel.findOne({ code: stopCode }).populate('municipality');
@@ -764,17 +790,26 @@ async function buildGTFSv18(progress, agencyData, lineIds) {
     writeCsvToFile(progress.workdir, 'stops.txt', parsedStop);
   }
 
-  // 6.q.
+  // 7.
   // Update progress
-  await update(progress, { status: 1, progress_current: 4, progress_total: 4 });
+  await update(progress, { status: 1, progress_current: 7, progress_total: 8 });
 
-  // 8.
+  // 7.1.
   // Fetch the referenced fares and write the fare_attributes.txt file
   for (const fareCode of referencedFareCodes) {
     const fareData = await FareModel.findOne({ code: fareCode });
     const parsedFare = parseFare(fareData);
     writeCsvToFile(progress.workdir, 'fare_attributes.txt', parsedFare);
   }
+
+  // 8.
+  // Update progress
+  await update(progress, { status: 1, progress_current: 8, progress_total: 8 });
+
+  // 8.1.
+  // Create the feed_info file
+  const feedInfoData = parseFeedInfo(agencyData, exportOptions);
+  writeCsvToFile(progress.workdir, 'feed_info.txt', feedInfoData);
 
   //
 }
