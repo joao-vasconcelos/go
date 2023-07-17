@@ -1,25 +1,22 @@
 'use client';
 
 import useSWR from 'swr';
-import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import Text from '@/components/Text/Text';
-import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
-import { IconArrowBigDownLinesFilled } from '@tabler/icons-react';
-import { SimpleGrid, TextInput, Select, MultiSelect, Button, Divider } from '@mantine/core';
+import { IconCloudDownload } from '@tabler/icons-react';
+import { Divider } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
 import ExportResult from '@/components/ExportResult/ExportResult';
 import { Section } from '@/components/Layouts/Layouts';
-import styles from './ExportedFilesList.module.css';
+import NoDataLabel from '../NoDataLabel/NoDataLabel';
 
-export default function ExportedFilesList({ children }) {
+export default function ExportedFilesList() {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('export');
-  const { data: session } = useSession();
+  const t = useTranslations('ExportedFilesList');
 
   //
   // B. Fetch data
@@ -31,22 +28,28 @@ export default function ExportedFilesList({ children }) {
       loading={allExportsLoading}
       header={
         <>
-          <IconArrowBigDownLinesFilled size='22px' />
+          <IconCloudDownload size={22} />
           <Text size='h2' full>
-            Previous Exports
+            {t('title')}
           </Text>
         </>
       }
     >
       <Section>
-        <div>
-          <Text size='h2'>Export Status</Text>
-          <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
-        </div>
+        <Text size='h4' color='muted'>
+          {t('description')}
+        </Text>
       </Section>
       <Divider />
-      <Section>{allExportsData && allExportsData.map((item) => <ExportResult key={item._id} item={item} />)}</Section>
-      <Divider />
+      {allExportsData && allExportsData.length > 0 ? (
+        <Section>
+          {allExportsData.map((item) => (
+            <ExportResult key={item._id} item={item} />
+          ))}
+        </Section>
+      ) : (
+        <NoDataLabel text={t('no_data')} />
+      )}
     </Pannel>
   );
 }

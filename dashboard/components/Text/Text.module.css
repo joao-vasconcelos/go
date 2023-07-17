@@ -28,7 +28,7 @@
 .h1 {
   font-size: 22px;
   font-weight: 600;
-  color: var(--gray9);
+  color: var(--color-gray-9);
 }
 
 .h2 {
@@ -60,5 +60,5 @@
 }
 
 .muted {
-  color: var(--gray6);
+  color: var(--color-gray-6);
 }

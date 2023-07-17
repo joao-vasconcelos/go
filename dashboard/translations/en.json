@@ -1650,5 +1650,10 @@
             "2": "Completed",
             "5": "Error"
         }
+    },
+    "ExportedFilesList": {
+        "title": "Available Exports",
+        "description": "Here you can find all the previous exports by all users.",
+        "no_data": "No Exports Available"
     }
 }

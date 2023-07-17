@@ -1,11 +1,18 @@
+/* * */
+/* CONTAINER */
+
 .container {
   margin: auto;
   font-size: 20px;
   font-weight: bold;
   text-transform: uppercase;
-  color: var(--gray3);
   letter-spacing: 1px;
+  color: var(--color-reference-1);
+  opacity: 0.1;
 }
+
+/* * */
+/* IF SHOULD FILL CONTAINER */
 
 .fill {
   display: flex;
