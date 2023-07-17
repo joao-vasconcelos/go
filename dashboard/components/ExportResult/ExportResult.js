@@ -1,21 +1,34 @@
+'use client';
+
 import styles from './ExportResult.module.css';
 import { IconFileDownload, IconFileAlert } from '@tabler/icons-react';
 import Loader from '@/components/Loader/Loader';
 import { useTranslations, useFormatter, useNow } from 'next-intl';
 import API from '@/services/API';
 import useSWR from 'swr';
+import Badge from '../Badge/Badge';
 
 //
-// WAITING
+// EXPORTED BY AND CREATED AT
 
-function ExportResultWaiting({ item }) {
+function ExportedByWithTime({ exportedBy, createdAt }) {
   //
-
   const t = useTranslations('ExportResult');
   const format = useFormatter();
   const now = useNow({ updateInterval: 1000 });
 
-  const { data: userData } = useSWR(item.exported_by && `/api/users/${item.exported_by}`);
+  const { data: userData } = useSWR(exportedBy && `/api/users/${exportedBy}`);
+
+  return <div className={styles.exportedBy}>{t('exported_by', { name: (userData && userData.name) || '• • •', time: format.relativeTime(new Date(createdAt), now) })}</div>;
+}
+
+//
+// WAITING
+
+export function ExportResultWaiting({ item }) {
+  //
+
+  const t = useTranslations('ExportResult');
 
   return (
     <div className={`${styles.container} ${styles.waiting}`}>
@@ -28,7 +41,7 @@ function ExportResultWaiting({ item }) {
           <div className={styles.badge}>{t(`status.${item.status}`)}</div>
         </div>
         <div className={styles.filename}>{item.filename || 'Untitled File'}</div>
-        <div className={styles.exportedBy}>{t('exported_by', { name: (userData && userData.name) || '• • •', time: format.relativeTime(new Date(item.createdAt), now) })}</div>
+        <ExportedByWithTime exportedBy={item.exported_by} createdAt={item.createdAt} />
       </div>
     </div>
   );
@@ -37,14 +50,10 @@ function ExportResultWaiting({ item }) {
 //
 // IN PROGRESS
 
-function ExportResultInProgress({ item }) {
+export function ExportResultInProgress({ item }) {
   //
 
   const t = useTranslations('ExportResult');
-  const format = useFormatter();
-  const now = useNow({ updateInterval: 1000 });
-
-  const { data: userData } = useSWR(item.exported_by && `/api/users/${item.exported_by}`);
 
   return (
     <div className={`${styles.container} ${styles.inProgress}`}>
@@ -59,7 +68,7 @@ function ExportResultInProgress({ item }) {
           </div>
         </div>
         <div className={styles.filename}>{item.filename || 'Untitled File'}</div>
-        <div className={styles.exportedBy}>{t('exported_by', { name: (userData && userData.name) || '• • •', time: format.relativeTime(new Date(item.createdAt), now) })}</div>
+        <ExportedByWithTime exportedBy={item.exported_by} createdAt={item.createdAt} />
       </div>
     </div>
   );
@@ -68,14 +77,10 @@ function ExportResultInProgress({ item }) {
 //
 // COMPLETED
 
-function ExportResultCompleted({ item }) {
+export function ExportResultCompleted({ item }) {
   //
 
   const t = useTranslations('ExportResult');
-  const format = useFormatter();
-  const now = useNow({ updateInterval: 1000 });
-
-  const { data: userData } = useSWR(item.exported_by && `/api/users/${item.exported_by}`);
 
   const handleExportDownload = async () => {
     try {
@@ -102,7 +107,7 @@ function ExportResultCompleted({ item }) {
           <div className={`${styles.badge} ${styles.status}`}>{t(`status.${2 || item.status}`)}</div>
         </div>
         <div className={styles.filename}>{item.filename || 'Untitled File'}</div>
-        <div className={styles.exportedBy}>{t('exported_by', { name: (userData && userData.name) || '• • •', time: format.relativeTime(new Date(item.createdAt), now) })}</div>
+        <ExportedByWithTime exportedBy={item.exported_by} createdAt={item.createdAt} />
       </div>
     </div>
   );
@@ -111,14 +116,10 @@ function ExportResultCompleted({ item }) {
 //
 // ERROR
 
-function ExportResultError({ item }) {
+export function ExportResultError({ item }) {
   //
 
   const t = useTranslations('ExportResult');
-  const format = useFormatter();
-  const now = useNow({ updateInterval: 1000 });
-
-  const { data: userData } = useSWR(item.exported_by && `/api/users/${item.exported_by}`);
 
   return (
     <div className={`${styles.container} ${styles.error}`}>
@@ -131,23 +132,8 @@ function ExportResultError({ item }) {
           <div className={`${styles.badge} ${styles.status}`}>{t(`status.${2 || item.status}`)}</div>
         </div>
         <div className={styles.filename}>{item.filename || 'Untitled File'}</div>
-        <div className={styles.exportedBy}>{t('exported_by', { name: (userData && userData.name) || '• • •', time: format.relativeTime(new Date(item.createdAt), now) })}</div>
+        <ExportedByWithTime exportedBy={item.exported_by} createdAt={item.createdAt} />
       </div>
     </div>
   );
-}
-
-//
-// FULL COMPONENT
-
-export default function ExportResult({ item }) {
-  if (item.status === 0) {
-    return <ExportResultWaiting item={item} />;
-  } else if (item.status === 1) {
-    return <ExportResultInProgress item={item} />;
-  } else if (item.status === 2) {
-    return <ExportResultCompleted item={item} />;
-  } else {
-    return <ExportResultError item={item} />;
-  }
 }

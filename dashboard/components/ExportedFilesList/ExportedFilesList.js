@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { IconCloudDownload } from '@tabler/icons-react';
 import { Divider } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
-import ExportResult from '@/components/ExportResult/ExportResult';
+import { ExportResultWaiting, ExportResultInProgress, ExportResultCompleted, ExportResultError } from '@/components/ExportResult/ExportResult';
 import { Section } from '@/components/Layouts/Layouts';
 import NoDataLabel from '../NoDataLabel/NoDataLabel';
 
@@ -47,7 +47,12 @@ export default function ExportedFilesList() {
       {allExportsData && allExportsData.length > 0 ? (
         <Section>
           {allExportsData.map((item) => (
-            <ExportResult key={item._id} item={item} />
+            <div key={item._id}>
+              {item.status === 0 && <ExportResultWaiting item={item} />}
+              {item.status === 1 && <ExportResultInProgress item={item} />}
+              {item.status === 2 && <ExportResultCompleted item={item} />}
+              {item.status === 5 && <ExportResultError item={item} />}
+            </div>
           ))}
         </Section>
       ) : (
