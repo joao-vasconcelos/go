@@ -12,7 +12,7 @@ import { SimpleGrid, TextInput, Select, MultiSelect, Button, Divider } from '@ma
 import { Section } from '@/components/Layouts/Layouts';
 import { useState, useMemo } from 'react';
 import API from '@/services/API';
-import ExportResult from '@/components/ExportResult/ExportResult';
+import ExportedFilesList from '@/components/ExportedFilesList/ExportedFilesList';
 
 export default function Page() {
   //
@@ -29,7 +29,7 @@ export default function Page() {
   //
   // B. Fetch data
 
-  const { data: allExportsData, error: allExportsError, isLoading: allExportsLoading, mutate: allExportsMutate } = useSWR('/api/exports', { refreshInterval: 250 });
+  const { mutate: allExportsMutate } = useSWR('/api/exports');
   const { data: allAgenciesData, error: allAgenciesError, isLoading: allAgenciesLoading } = useSWR('/api/agencies');
   const { data: allLinesData, error: linesError, isLoading: linesLoading } = useSWR('/api/lines');
 
@@ -72,29 +72,7 @@ export default function Page() {
 
   return (
     <ThreeEvenColumns
-      first={
-        <Pannel
-          loading={allExportsLoading}
-          header={
-            <>
-              <IconArrowBigDownLinesFilled size='22px' />
-              <Text size='h2' full>
-                Previous Exports
-              </Text>
-            </>
-          }
-        >
-          <Section>
-            <div>
-              <Text size='h2'>Export Status</Text>
-              <Text size='h4'>{t('gtfs_v18.sections.intro.description')}</Text>
-            </div>
-          </Section>
-          <Divider />
-          <Section>{allExportsData && allExportsData.map((item) => <ExportResult key={item._id} item={item} />)}</Section>
-          <Divider />
-        </Pannel>
-      }
+      first={<ExportedFilesList />}
       second={
         <Pannel
           loading={isExportingV18}
