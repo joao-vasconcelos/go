@@ -493,7 +493,7 @@ function getDayType(date, isHoliday) {
 function parseStop(stop) {
   return {
     stop_id: stop.code,
-    stop_id_stepp: '',
+    stop_id_stepp: '0',
     stop_code: stop.code,
     stop_name: stop.name,
     stop_desc: '',
