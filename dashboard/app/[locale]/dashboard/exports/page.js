@@ -6,7 +6,7 @@ import ExportFileForm from '@/components/ExportFileForm/ExportFileForm';
 export default function Page() {
   return (
     <AuthGate scope='exports' permission='view' redirect>
-      <TwoEvenColumns first={<ExportedFilesList />} second={<ExportFileForm />} />;
+      <TwoEvenColumns first={<ExportedFilesList />} second={<ExportFileForm />} />
     </AuthGate>
   );
 }
