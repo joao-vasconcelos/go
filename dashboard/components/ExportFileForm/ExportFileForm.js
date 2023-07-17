@@ -48,10 +48,14 @@ function ExportGTFSv18() {
 
   const availableAgencies = useMemo(() => {
     if (!allAgenciesData) return [];
-    return allAgenciesData.map((agency) => {
-      const isAllowed = true; // !isAllowed(session, 'export', type)
-      return { value: agency._id, label: agency.name || '-', disabled: !isAllowed };
-    });
+    return allAgenciesData
+      .filter((agency) => {
+        const isAllowed = true; // !isAllowed(session, 'export', type)
+        return isAllowed;
+      })
+      .map((agency) => {
+        return { value: agency._id, label: agency.name || '-' };
+      });
   }, [allAgenciesData]);
 
   const availableLinesToInclude = useMemo(() => {
@@ -398,9 +402,13 @@ export default function ExportFileForm() {
 
   const availableExportTypes = useMemo(() => {
     if (!ExportOptions.export_type) return [];
-    return ExportOptions.export_type.map((type) => {
-      return { value: type, label: exportOptionsTranslations(`export_type.${type}.label`), disabled: !isAllowed(session, 'export', type) };
-    });
+    return ExportOptions.export_type
+      .filter((type) => {
+        return isAllowed(session, 'export', type);
+      })
+      .map((type) => {
+        return { value: type, label: exportOptionsTranslations(`export_type.${type}.label`) };
+      });
   }, [exportOptionsTranslations, session]);
 
   //
