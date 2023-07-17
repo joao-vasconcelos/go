@@ -168,7 +168,13 @@ function ExportGTFSv18() {
           />
         </SimpleGrid>
         <SimpleGrid cols={1}>
-          <Switch label={t('form.concatenate_calendars.label')} description={t('form.concatenate_calendars.description')} checked={shouldConcatenateCalendars} onChange={(event) => setShouldConcatenateCalendars(event.currentTarget.checked)} />
+          <Switch
+            label={t('form.concatenate_calendars.label')}
+            description={t('form.concatenate_calendars.description')}
+            checked={shouldConcatenateCalendars}
+            onChange={(event) => setShouldConcatenateCalendars(event.currentTarget.checked)}
+            disabled={!selectedAgencyId || !selectedPlanStartDate || !selectedPlanEndDate}
+          />
         </SimpleGrid>
       </Section>
       <Divider />
