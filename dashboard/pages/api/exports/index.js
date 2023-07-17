@@ -53,28 +53,32 @@ export default async function handler(req, res) {
     const allDocuments = await ExportModel.find();
 
     // 3.2.
-    // Send them to the client immediately
-    await res.status(200).send(allDocuments);
+    // Sort documents by creation date DESC
+    const sortedDocuments = allDocuments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     // 3.3.
+    // Send them to the client immediately
+    await res.status(200).send(sortedDocuments);
+
+    // 3.4.
     // Set the workdir path
     const workdir = `${process.env.PWD}/exports/`;
 
-    // 3.4.
+    // 3.5.
     // Only continue if workdir exists.
     // If no export was ever initiated, then it might not exist yet.
     if (!fs.existsSync(workdir)) return;
 
-    // 3.5.
+    // 3.6.
     // Read the workdir directory contents,
     // filter to keep only folders and map the names.
     const savedExportFiles = fs.readdirSync(workdir, { withFileTypes: true });
 
-    // 3.6.
+    // 3.7.
     // Filter Export documents to keep only the ones that are not errors
     const liveExportDocuments = allDocuments.filter((item) => item.status === 0 || item.status === 1 || item.status === 2).map((item) => String(item._id));
 
-    // 3.7.
+    // 3.8.
     // Compare the documents with the files
     // and remove the dangling files from the directory.
     for (const savedExport of savedExportFiles) {
