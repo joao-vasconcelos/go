@@ -44,8 +44,10 @@ export default async function handler(req, res) {
   // List all documents
 
   try {
-    const allDocuments = await StopModel.find({}, 'code name latitude longitude'); //.limit(500);
-    return await res.status(200).send(allDocuments);
+    const allDocuments = await StopModel.find({}, 'code name latitude longitude');
+    const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+    const sortedDocuments = allDocuments.sort((a, b) => collator.compare(a.code, b.code));
+    return await res.status(200).send(sortedDocuments);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot list Stops.' });
