@@ -24,9 +24,11 @@
 /* GREETING */
 
 .greeting {
-  color: var(--gray8);
+  color: var(--color-gray-4);
   font-size: var(--font-lg);
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1;
+  padding-top: 4px;
 }
 
 /* * */
