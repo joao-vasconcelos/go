@@ -682,13 +682,13 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
         // 3.2.4.2.
         // Write the afetacao.txt entry for this pattern
         const parsedZoning = await parseZoning(lineData, patternData);
-        writeCsvToFile(progress.workdir, 'afetacao.csv', parsedZoning);
+        if (parsedZoning.length) writeCsvToFile(progress.workdir, 'afetacao.csv', parsedZoning);
 
         // 3.2.4.3.
         // Write the shapes.txt entry for this pattern
         const thisShapeCode = `shp_${patternData.code}`;
         const parsedShape = parseShape(thisShapeCode, patternData.shape.points);
-        writeCsvToFile(progress.workdir, 'shapes.txt', parsedShape);
+        if (parsedShape.length) writeCsvToFile(progress.workdir, 'shapes.txt', parsedShape);
 
         // 3.2.4.4.
         // Iterate on all the schedules for the given pattern
@@ -826,7 +826,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
     const calendarData = await CalendarModel.findOne({ code: calendarCode });
     if (calendarData.dates && calendarData.dates.length) {
       const parsedCalendar = await parseCalendar(calendarData, exportOptions.start_date, exportOptions.end_date, exportOptions.concatenate_calendars);
-      writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
+      if (parsedCalendar.length) writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
     }
   }
 
