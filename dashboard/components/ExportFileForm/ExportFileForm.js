@@ -9,7 +9,7 @@ import { ExportOptions } from '@/schemas/Export/options';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import { IconCloudPlus } from '@tabler/icons-react';
-import { SimpleGrid, Select, MultiSelect, Button, Divider } from '@mantine/core';
+import { SimpleGrid, Select, MultiSelect, Button, Divider, Checkbox, Switch } from '@mantine/core';
 import { Section } from '@/components/Layouts/Layouts';
 import { useState, useMemo } from 'react';
 import API from '@/services/API';
@@ -32,12 +32,9 @@ function ExportGTFSv18() {
   const [selectedLineIdsToExclude, setSelectedLineIdsToExclude] = useState([]);
   const [selectedPlanStartDate, setSelectedPlanStartDate] = useState();
   const [selectedPlanEndDate, setSelectedPlanEndDate] = useState();
+  const [shouldConcatenateCalendars, setShouldConcatenateCalendars] = useState(true);
 
   const [isCreatingExport, setIsCreatingExport] = useState(false);
-
-  console.log('selectedAgencyId', selectedAgencyId);
-  console.log('selectedPlanStartDate', selectedPlanStartDate);
-  console.log('selectedPlanEndDate', selectedPlanEndDate);
 
   //
   // B. Fetch data
@@ -89,14 +86,16 @@ function ExportGTFSv18() {
           lines_excluded: selectedLineIdsToExclude,
           start_date: parseDate(selectedPlanStartDate),
           end_date: parseDate(selectedPlanEndDate),
+          concatenate_calendars: shouldConcatenateCalendars,
         },
       });
       allExportsMutate();
-      setSelectedAgencyId();
-      setSelectedLineIdsToInclude([]);
-      setSelectedLineIdsToExclude([]);
-      setSelectedPlanStartDate();
-      setSelectedPlanEndDate();
+      //   setSelectedAgencyId();
+      //   setSelectedLineIdsToInclude([]);
+      //   setSelectedLineIdsToExclude([]);
+      //   setSelectedPlanStartDate();
+      //   setSelectedPlanEndDate();
+      //   setShouldConcatenateCalendars();
       setIsCreatingExport(false);
     } catch (err) {
       console.log(err);
@@ -163,6 +162,9 @@ function ExportGTFSv18() {
             dropdownType='modal'
             clearable
           />
+        </SimpleGrid>
+        <SimpleGrid cols={1}>
+          <Switch label={t('form.concatenate_calendars.label')} description={t('form.concatenate_calendars.description')} checked={shouldConcatenateCalendars} onChange={(event) => setShouldConcatenateCalendars(event.currentTarget.checked)} />
         </SimpleGrid>
       </Section>
       <Divider />

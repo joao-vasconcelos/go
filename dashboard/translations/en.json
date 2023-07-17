@@ -1712,6 +1712,10 @@
             "end_date": {
                 "label": "Plan End Date",
                 "placeholder": "Select a date..."
+            },
+            "concatenate_calendars": {
+                "label": "Concatenate Calendars",
+                "description": "If this option is enabled, the exported feed will only contain calendars with dates between the start and end dates selected above."
             }
         }
     }
