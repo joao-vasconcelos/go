@@ -1771,8 +1771,12 @@
     },
     "AlertOptions": {
         "cause": {
+            "UNKNOWN_CAUSE": {
+                "label": "Unknown Cause",
+                "description": "For A3 and A4."
+            },
             "OTHER_CAUSE": {
-                "label": "GTFS Reference Plan (v29)",
+                "label": "Other Cause",
                 "description": "For A3 and A4."
             },
             "TECHNICAL_PROBLEM": {
