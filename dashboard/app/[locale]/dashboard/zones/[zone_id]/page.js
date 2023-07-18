@@ -294,13 +294,14 @@ export default function Page() {
               <Slider
                 {...form.getInputProps('border_width')}
                 min={0}
-                max={5}
+                max={6}
                 step={0.5}
                 precision={1}
                 marks={[
-                  { value: 1, label: '20%' },
-                  { value: 3, label: '50%' },
-                  { value: 5, label: '80%' },
+                  { value: 0, label: '0' },
+                  { value: 2, label: '2' },
+                  { value: 4, label: '4' },
+                  { value: 6, label: '6' },
                 ]}
                 readOnly={isReadOnly}
               />

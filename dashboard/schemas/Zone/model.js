@@ -22,12 +22,12 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 7,
     },
+    fill_opacity: {
+      type: Number,
+    },
     border_color: {
       type: String,
       maxlength: 7,
-    },
-    fill_opacity: {
-      type: Number,
     },
     border_opacity: {
       type: Number,
