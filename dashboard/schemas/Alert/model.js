@@ -48,7 +48,7 @@ export const AlertSchema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
-    consequence: {
+    effect: {
       type: String,
       maxlength: 50,
     },

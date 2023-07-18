@@ -15,7 +15,7 @@ export const AlertDefault = {
   lines: [],
   stops: [],
   cause: '',
-  consequence: '',
+  effect: '',
   description: '',
   images: [],
   url: '',

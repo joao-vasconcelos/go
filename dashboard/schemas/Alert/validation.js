@@ -17,7 +17,7 @@ export const AlertValidation = yup.object({
   lines: yup.array(yup.string()),
   stops: yup.array(yup.string()),
   cause: yup.string().max(50),
-  consequence: yup.string().max(50),
+  effect: yup.string().max(50),
   description: yup.string().max(2500),
   images: yup.array(),
   url: yup.string().max(500),

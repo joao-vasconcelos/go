@@ -44,7 +44,7 @@ export default function Page() {
   // B. Fetch data
 
   const { mutate: allAlertsMutate } = useSWR('/api/alerts');
-  const { data: alertData, error: alertError, isLoading: alertLoading } = useSWR(alert_id && `/api/alerts/${alert_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { error: alertError, isLoading: alertLoading } = useSWR(alert_id && `/api/alerts/${alert_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: allMunicipalitiesData } = useSWR('/api/municipalities');
   const { data: allLinesData } = useSWR('/api/lines');
   const { data: allStopsData } = useSWR('/api/stops');
