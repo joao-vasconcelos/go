@@ -1849,6 +1849,10 @@
                 "label": "Other",
                 "description": "For testing."
             },
+            "UNKNOWN_EFFECT": {
+                "label": "Unknown Effect",
+                "description": "For testing."
+            },
             "STOP_MOVED": {
                 "label": "Stop Moved",
                 "description": "For testing."
