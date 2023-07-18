@@ -2,10 +2,10 @@
 
 import useSWR from 'swr';
 import styles from './RouteCard.module.css';
-import { IconChevronRight } from '@tabler/icons-react';
-import Text from '../Text/Text';
 import { useTranslations } from 'next-intl';
-import Loader from '../Loader/Loader';
+import { IconChevronRight } from '@tabler/icons-react';
+import Text from '@/components/Text/Text';
+import Loader from '@/components/Loader/Loader';
 
 export default function RouteCard({ _id, onClick }) {
   //

@@ -12,7 +12,6 @@ import { Default as RouteDefault } from '@/schemas/Route/default';
 import { Options as RouteOptions } from '@/schemas/Route/options';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
-import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
@@ -196,18 +195,11 @@ export default function Page() {
           <Divider />
           <Section>
             <Text size='h2'>{t('sections.patterns.title')}</Text>
-            <DragDropContext onDragEnd={handlePatternsReorder}>
-              <Droppable droppableId='droppable'>
-                {(provided) => (
-                  <div {...provided.droppableProps} ref={provided.innerRef}>
-                    {routeForm.values.patterns.map((patternId, index) => (
-                      <PatternCard key={index} index={index} onOpen={handleOpenPattern} _id={patternId} />
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+            <div>
+              {routeForm.values.patterns.map((patternId, index) => (
+                <PatternCard key={index} _id={patternId} onClick={handleOpenPattern} />
+              ))}
+            </div>
             <AuthGate scope='lines' permission='create_edit'>
               <Button onClick={handleCreatePattern} loading={isCreatingPattern} disabled={routeForm.values.patterns.length > 1}>
                 {t('form.patterns.create.title')}
