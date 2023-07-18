@@ -62,7 +62,7 @@ export default async function handler(req, res) {
 
     // 3.4.
     // Set the workdir path
-    const workdir = `${process.env.PWD}/exports/`;
+    const workdir = `${process.env.PWD}/exported_files/`;
 
     // 3.5.
     // Only continue if workdir exists.
@@ -85,7 +85,7 @@ export default async function handler(req, res) {
       // Skip if the object matches a document in the database
       if (liveExportDocuments.includes(savedExport.name)) continue;
       // Remove the object otherwise
-      fs.rmSync(`${savedExport.path}/${savedExport.name}`, { recursive: true, force: true });
+      fs.rmSync(`${workdir}/${savedExport.name}`, { recursive: true, force: true });
     }
 
     //
