@@ -85,12 +85,6 @@ export default async function handler(req, res) {
         if (stopDocument) informedStopIds.add(stopDocument._id.toString());
       }
 
-      //
-      //
-      //
-
-      //   console.log(alertData.cause);
-
       // Format stop to match GO schema
       const formattedAlert = {
         // General
