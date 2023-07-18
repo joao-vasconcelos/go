@@ -91,11 +91,7 @@ export default function Layout({ children }) {
             footer={filteredAlertsData && <ListFooter>{t('list.footer', { count: filteredAlertsData.length })}</ListFooter>}
           >
             <ErrorDisplay error={allAlertsError} loading={allAlertsValidating} />
-            {filteredAlertsData && filteredAlertsData.length > 0 ? (
-              filteredAlertsData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} long_name={item.long_name} price={item.price} currency_type={item.currency_type} />)
-            ) : (
-              <NoDataLabel />
-            )}
+            {filteredAlertsData && filteredAlertsData.length > 0 ? filteredAlertsData.map((item) => <ListItem key={item._id} _id={item._id} title={item.title} published={item.published} created_by={item.created_by} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

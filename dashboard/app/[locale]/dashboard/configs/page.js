@@ -208,6 +208,30 @@ export default function Page() {
     });
   };
 
+  const handleStartImportAlerts = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Import Alerts</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, import Alerts', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('import-alerts', 'loading', 'Loading');
+          await API({ service: 'configs/imports/alerts', method: 'GET' });
+          notify('import-alerts', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('import-alerts', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
   //
   // D. Handle deletes
 
@@ -344,6 +368,7 @@ export default function Page() {
           <Button onClick={handleStartImportPatterns}>Import Patterns & Calendars</Button>
           <Button onClick={handleStartImportStops}>Import Stops</Button>
           <Button onClick={handleStartImportShapes}>Import Shapes</Button>
+          <Button onClick={handleStartImportAlerts}>Import Alerts</Button>
         </SimpleGrid>
       </Section>
       <Section>

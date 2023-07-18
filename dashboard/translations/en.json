@@ -92,6 +92,117 @@
             }
         }
     },
+    "alerts": {
+        "untitled": "Untitled Alert",
+        "list": {
+            "no_selection": "Select an Alert",
+            "footer": "Found {count, plural, =1 {1 Alert} other {# Agencies}}",
+            "created_by": "Created by {user_name}",
+            "published": {
+                "true": "Published",
+                "false": "Unpublished"
+            }
+        },
+        "operations": {
+            "create": {
+                "title": "Create New Alert",
+                "loading": "Creating new Alert...",
+                "success": "A new Alert was created!",
+                "error": "An error occurred while creating this Alert."
+            },
+            "delete": {
+                "title": "Delete Alert",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Alert forever?",
+                "confirm": "Delete Alert Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Alert...",
+                "success": "Alert was deleted.",
+                "error": "An error occurred while deleting this Alert."
+            }
+        },
+        "sections": {
+            "status": {
+                "title": "Status",
+                "description": "Something about this section"
+            },
+            "messages": {
+                "title": "What is this Alert about?",
+                "description": "Something about this section"
+            },
+            "cause_effect": {
+                "title": "Cause & Effect",
+                "description": "Something about this section"
+            },
+            "references": {
+                "title": "References",
+                "description": "Something about this section"
+            },
+            "active_period": {
+                "title": "Active Period",
+                "description": "Something about this section"
+            },
+            "media": {
+                "title": "Media",
+                "description": "Something about this section"
+            }
+        },
+        "form": {
+            "published": {
+                "label": "Published",
+                "description": "Make this alert visible or invisible."
+            },
+            "title": {
+                "label": "Short Title",
+                "placeholder": "Change planned on Line 1234...",
+                "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+            },
+            "description": {
+                "label": "Description",
+                "placeholder": "A little bit more",
+                "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+            },
+            "cause": {
+                "label": "Cause",
+                "description": "What caused this Alert?",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "effect": {
+                "label": "Effect",
+                "description": "What is the effect on your clients?",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "municipalities": {
+                "label": "Affected Municipalities",
+                "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "lines": {
+                "label": "Affected Lines",
+                "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "stops": {
+                "label": "Affected Stops",
+                "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
+            "active_period_start": {
+                "label": "Start",
+                "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                "placeholder": "Choose a date..."
+            },
+            "active_period_end": {
+                "label": "End",
+                "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                "placeholder": "Choose a date..."
+            }
+        }
+    },
     "exports": {
         "gtfs_v18": {
             "title": "Export Intended Offer (v18)",
@@ -1656,6 +1767,96 @@
         "add": {
             "label": "Add a new trip",
             "description": "Remove this schedule"
+        }
+    },
+    "AlertOptions": {
+        "cause": {
+            "OTHER_CAUSE": {
+                "label": "GTFS Reference Plan (v29)",
+                "description": "For A3 and A4."
+            },
+            "TECHNICAL_PROBLEM": {
+                "label": "Technical Problem",
+                "description": "For testing."
+            },
+            "STRIKE": {
+                "label": "Strike",
+                "description": "For testing."
+            },
+            "DEMONSTRATION": {
+                "label": "Demonstration",
+                "description": "For testing."
+            },
+            "ACCIDENT": {
+                "label": "Accident",
+                "description": "For testing."
+            },
+            "HOLIDAY": {
+                "label": "Holiday",
+                "description": "For testing."
+            },
+            "WEATHER": {
+                "label": "Weather",
+                "description": "For testing."
+            },
+            "MAINTENANCE": {
+                "label": "Maintenance",
+                "description": "For testing."
+            },
+            "CONSTRUCTION": {
+                "label": "Construction",
+                "description": "For testing."
+            },
+            "POLICE_ACTIVITY": {
+                "label": "Police Activity",
+                "description": "For testing."
+            },
+            "MEDICAL_EMERGENCY": {
+                "label": "Medical Emergency",
+                "description": "For testing."
+            }
+        },
+        "effect": {
+            "NO_SERVICE": {
+                "label": "No Service",
+                "description": "For testing."
+            },
+            "REDUCED_SERVICE": {
+                "label": "Reduced Service",
+                "description": "For testing."
+            },
+            "SIGNIFICANT_DELAYS": {
+                "label": "Significant Delays",
+                "description": "For testing."
+            },
+            "DETOUR": {
+                "label": "Detour",
+                "description": "For testing."
+            },
+            "ADDITIONAL_SERVICE": {
+                "label": "Additional Service",
+                "description": "For testing."
+            },
+            "MODIFIED_SERVICE": {
+                "label": "Modified Service",
+                "description": "For testing."
+            },
+            "OTHER_EFFECT": {
+                "label": "Other",
+                "description": "For testing."
+            },
+            "STOP_MOVED": {
+                "label": "Stop Moved",
+                "description": "For testing."
+            },
+            "NO_EFFECT": {
+                "label": "No Effect",
+                "description": "For testing."
+            },
+            "ACCESSIBILITY_ISSUE": {
+                "label": "Accessibility Issue",
+                "description": "For testing."
+            }
         }
     },
     "ExportOptions": {

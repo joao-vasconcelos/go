@@ -19,6 +19,7 @@ import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import populate from '@/services/populate';
 
 export default function Page() {
   //
@@ -50,13 +51,14 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(AgencyValidation),
-    initialValues: agencyData || AgencyDefault,
+    initialValues: populate(AgencyDefault, agencyData),
   });
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      form.setValues(data);
-      form.resetDirty(data);
+      const populated = populate(AgencyDefault, data);
+      form.setValues(populated);
+      form.resetDirty(populated);
     }
   };
 

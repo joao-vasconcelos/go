@@ -7,12 +7,19 @@ import * as yup from 'yup';
 
 /* * */
 /* A. YUP Validation Schema */
-export const Validation = yup.object({
-  code: yup.string().max(10, 'ID da Agência deve ter apenas ${max} caracteres.'),
-  short_name: yup.string().max(100, 'Nome da Agência não deve exceder os ${max} caracteres.'),
-  long_name: yup.string(),
-  price: yup.number().min(0),
-  currency_type: yup.string(),
-  payment_method: yup.string(),
-  transfers: yup.string(),
+export const AlertValidation = yup.object({
+  code: yup.string(),
+  published: yup.boolean(),
+  title: yup.string().max(250),
+  active_period_start: yup.date(),
+  active_period_end: yup.date(),
+  municipalities: yup.array(yup.string()),
+  lines: yup.array(yup.string()),
+  stops: yup.array(yup.string()),
+  cause: yup.string().max(50),
+  consequence: yup.string().max(50),
+  description: yup.string().max(2500),
+  images: yup.array(),
+  url: yup.string().max(500),
+  created_by: yup.string().max(500),
 });

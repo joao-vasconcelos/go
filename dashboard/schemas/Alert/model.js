@@ -7,36 +7,74 @@ import mongoose from 'mongoose';
 
 /* * */
 /* A. Mongoose Schema */
-export const Schema = new mongoose.Schema(
+export const AlertSchema = new mongoose.Schema(
   {
     code: {
       type: String,
-      maxlength: 10,
-      unique: true,
+      maxlength: 200,
     },
-    short_name: {
+    published: {
+      type: Boolean,
+    },
+    title: {
+      type: String,
+      maxlength: 250,
+    },
+    active_period_start: {
+      type: Date,
+    },
+    active_period_end: {
+      type: Date,
+    },
+    municipalities: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Municipality',
+      },
+    ],
+    lines: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Line',
+      },
+    ],
+    stops: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Stop',
+      },
+    ],
+    cause: {
       type: String,
       maxlength: 50,
     },
-    long_name: {
+    consequence: {
       type: String,
       maxlength: 50,
     },
-    price: {
-      type: Number,
-      maxlength: 50,
+    description: {
+      type: String,
+      maxlength: 2500,
     },
-    currency_type: {
+    images: [
+      {
+        media_type: {
+          type: String,
+          maxlength: 50,
+        },
+        image_url: {
+          type: String,
+          maxlength: 50,
+        },
+      },
+    ],
+    url: {
       type: String,
       maxlength: 50,
     },
-    payment_method: {
-      type: String,
-      maxlength: 50,
-    },
-    transfers: {
-      type: String,
-      maxlength: 50,
+    created_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
   },
   { timestamps: true }
@@ -44,4 +82,4 @@ export const Schema = new mongoose.Schema(
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.Fare || mongoose.model('Fare', Schema);
+export const AlertModel = mongoose?.models?.Alert || mongoose.model('Alert', AlertSchema);

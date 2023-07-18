@@ -5,21 +5,28 @@
 
 /* * */
 /* A. Default Values */
-export const Default = {
+export const AlertDefault = {
+  code: '',
   published: false,
   title: '',
-  start_time: '',
-  end_time: '',
+  active_period_start: null,
+  active_period_end: null,
   municipalities: [],
   lines: [],
   stops: [],
-  cause: null,
-  consequence: null,
+  cause: '',
+  consequence: '',
   description: '',
-  image: [],
-  link: '',
-  user: null,
+  images: [],
+  url: '',
+  created_by: undefined,
 };
+
+//
+//
+//
+//
+//
 
 const example = {
   id: 'CarrisMetropolitanaGTFSAlerts-5239',
