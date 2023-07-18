@@ -98,7 +98,6 @@ export default async function handler(req, res) {
         stops: Array.from(informedStopIds),
         cause: alertData.cause,
         effect: alertData.effect,
-        consequence: undefined,
         description: alertData.description_text[0].translation.text,
         images: [],
         url: alertData.url,
