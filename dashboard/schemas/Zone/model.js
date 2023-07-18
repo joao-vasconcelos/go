@@ -34,15 +34,7 @@ export const Schema = new mongoose.Schema(
           maxlength: 100,
           default: 'Polygon',
         },
-        coordinates: [
-          [
-            [
-              {
-                type: Number,
-              },
-            ],
-          ],
-        ],
+        coordinates: [mongoose.Schema.Types.Mixed],
       },
     },
   },
