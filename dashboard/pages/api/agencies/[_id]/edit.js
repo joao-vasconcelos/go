@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Validation as AgencyValidation } from '@/schemas/Agency/validation';
-import { Model as AgencyModel } from '@/schemas/Agency/model';
+import { AgencyValidation } from '@/schemas/Agency/validation';
+import { AgencyModel } from '@/schemas/Agency/model';
 
 /* * */
 /* EDIT AGENCY */

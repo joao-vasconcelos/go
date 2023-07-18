@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 
 /* * */
 /* A. Mongoose Schema */
-export const Schema = new mongoose.Schema(
+export const AgencySchema = new mongoose.Schema(
   {
     code: {
       type: String,
@@ -42,10 +42,13 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
+    price_per_km: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.Agency || mongoose.model('Agency', Schema);
+export const AgencyModel = mongoose?.models?.Agency || mongoose.model('Agency', AgencySchema);

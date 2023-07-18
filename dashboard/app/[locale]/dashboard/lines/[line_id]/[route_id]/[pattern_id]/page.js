@@ -51,6 +51,7 @@ export default function Page() {
 
   const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
   const { mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
+  const { data: agencyData } = useSWR(lineData && lineData.agency && `/api/agencies/${lineData.agency}`);
   const { data: typologyData } = useSWR(lineData && lineData.typology && `/api/typologies/${lineData.typology}`);
   const { data: patternData, error: patternError, isLoading: patternLoading, mutate: patternMutate } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: patternStopsData, mutate: patternStopsMutate } = useSWR(pattern_id && `/api/patterns/${pattern_id}/stops`);
@@ -99,6 +100,13 @@ export default function Page() {
     if (patternForm.values?.shape?.extension > 1000) return `${(patternForm.values.shape.extension / 1000).toFixed(3)} km`;
     else return `${patternForm.values.shape.extension} m`;
   }, [patternForm.values]);
+
+  const shapeCost = useMemo(() => {
+    if (!patternForm.values?.shape?.extension || !agencyData) return '(no shape)';
+    const shapeExtensionInKm = patternForm.values?.shape?.extension / 1000;
+    const shapeCostRaw = shapeExtensionInKm * agencyData.price_per_km;
+    return `${shapeCostRaw.toFixed(2)} €`;
+  }, [agencyData, patternForm.values]);
 
   const patternStopsMapData = useMemo(() => {
     // Create a GeoJSON object
@@ -260,12 +268,12 @@ export default function Page() {
 
           <Section>
             <div>
-              <Text size='h2'>Shape</Text>
-              <Text size='h4'>{t('sections.config.description')}</Text>
+              <Text size='h2'>{t('sections.shape.title')}</Text>
+              <Text size='h4'>{t('sections.shape.description')}</Text>
             </div>
             <SimpleGrid cols={2}>
               <StatCard title={t('sections.shape.cards.extension')} value={shapeExtension} />
-              <StatCard title={t('sections.shape.cards.points_count')} value={patternForm.values?.shape?.points?.length || '(no shape)'} />
+              <StatCard title={t('sections.shape.cards.cost')} value={shapeCost} />
             </SimpleGrid>
           </Section>
           <OSMMap id='patternShape' height={500} scrollZoom={false} mapStyle='map'>

@@ -42,7 +42,12 @@
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Details",
+                "description": "Something about this section"
+            },
+            "financials": {
+                "title": "Financials",
+                "description": "Something about this section"
             }
         },
         "form": {
@@ -79,6 +84,11 @@
             "fare_url": {
                 "label": "Website for Fares Information",
                 "placeholder": "https://agency.com/fares"
+            },
+            "price_per_km": {
+                "label": "Price per Km",
+                "description": "Set here the contracted price per km for this Agency.",
+                "placeholder": "1.29"
             }
         }
     },
@@ -638,7 +648,7 @@
                 "description": "Something about this section",
                 "cards": {
                     "extension": "Shape Extension",
-                    "points_count": "Number of points"
+                    "cost": "Cost for each trip"
                 }
             },
             "path": {

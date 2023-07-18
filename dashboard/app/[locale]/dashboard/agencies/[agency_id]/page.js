@@ -6,9 +6,9 @@ import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
-import { Validation as AgencyValidation } from '@/schemas/Agency/validation';
-import { Default as AgencyDefault } from '@/schemas/Agency/default';
-import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon } from '@mantine/core';
+import { AgencyValidation } from '@/schemas/Agency/validation';
+import { AgencyDefault } from '@/schemas/Agency/default';
+import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon, NumberInput, Divider } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -146,7 +146,10 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <Text size='h2'>{t('sections.config.title')}</Text>
+          <div>
+            <Text size='h2'>{t('sections.config.title')}</Text>
+            <Text size='h4'>{t('sections.config.description')}</Text>
+          </div>
           <SimpleGrid cols={1}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
@@ -170,6 +173,28 @@ export default function Page() {
           <SimpleGrid cols={2}>
             <TextInput label={t('form.url.label')} placeholder={t('form.url.placeholder')} {...form.getInputProps('url')} readOnly={isReadOnly} />
             <TextInput label={t('form.fare_url.label')} placeholder={t('form.fare_url.placeholder')} {...form.getInputProps('fare_url')} readOnly={isReadOnly} />
+          </SimpleGrid>
+        </Section>
+        <Divider />
+        <Section>
+          <div>
+            <Text size='h2'>{t('sections.financials.title')}</Text>
+            <Text size='h4'>{t('sections.financials.description')}</Text>
+          </div>
+          <SimpleGrid cols={2}>
+            <NumberInput
+              label={t('form.price_per_km.label')}
+              description={t('form.price_per_km.description')}
+              placeholder={t('form.price_per_km.placeholder')}
+              {...form.getInputProps('price_per_km')}
+              precision={2}
+              min={0}
+              step={0.01}
+              stepHoldDelay={500}
+              stepHoldInterval={100}
+              formatter={(value) => (!Number.isNaN(parseFloat(value)) ? `€ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '€ ')}
+              readOnly={isReadOnly}
+            />
           </SimpleGrid>
         </Section>
       </form>

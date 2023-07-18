@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Default as AgencyDefault } from '@/schemas/Agency/default';
-import { Model as AgencyModel } from '@/schemas/Agency/model';
+import { AgencyDefault } from '@/schemas/Agency/default';
+import { AgencyModel } from '@/schemas/Agency/model';
 
 /* * */
 /* CREATE AGENCY */

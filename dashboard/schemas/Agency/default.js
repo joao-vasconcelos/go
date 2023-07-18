@@ -5,7 +5,7 @@
 
 /* * */
 /* A. Default Values */
-export const Default = {
+export const AgencyDefault = {
   code: '',
   name: '',
   timezone: '',
@@ -14,4 +14,5 @@ export const Default = {
   email: '',
   url: '',
   fare_url: '',
+  price_per_km: 0,
 };

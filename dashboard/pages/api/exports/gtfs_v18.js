@@ -7,7 +7,7 @@ import * as fs from 'fs';
 import AdmZip from 'adm-zip';
 import { ExportDefault } from '@/schemas/Export/default';
 import { ExportModel } from '@/schemas/Export/model';
-import { Model as AgencyModel } from '@/schemas/Agency/model';
+import { AgencyModel } from '@/schemas/Agency/model';
 import { Model as LineModel } from '@/schemas/Line/model';
 import { Model as FareModel } from '@/schemas/Fare/model';
 import { Model as TypologyModel } from '@/schemas/Typology/model';

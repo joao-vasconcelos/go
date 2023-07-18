@@ -1,7 +1,7 @@
-import delay from '../../../../services/delay';
+import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
-import mongodb from '../../../../services/mongodb';
-import { Model as AgencyModel } from '../../../../schemas/Agency/model';
+import mongodb from '@/services/mongodb';
+import { AgencyModel } from '@/schemas/Agency/model';
 
 /* * */
 /* GET AGENCY BY ID */
