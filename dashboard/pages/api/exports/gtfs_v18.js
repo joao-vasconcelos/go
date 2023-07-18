@@ -623,7 +623,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
 
   const allLinesData = await LineModel.find(linesFilterParams);
 
-  await update(progress, { progress_current: 0, progress_total: allLinesData.length - 1 });
+  await update(progress, { progress_current: 0, progress_total: allLinesData.length });
 
   // 3.
   // Initiate the main loop that go through all lines
@@ -632,7 +632,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
     //
     // 3.0.
     // Update progress
-    await update(progress, { progress_current: lineIndex });
+    await update(progress, { progress_current: lineIndex + 1 });
 
     // 3.1.
     // Skip if this line has no routes
