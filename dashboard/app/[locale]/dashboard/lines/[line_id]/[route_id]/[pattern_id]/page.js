@@ -51,6 +51,7 @@ export default function Page() {
 
   const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
   const { mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
+  const { data: allZonesData } = useSWR('/api/zones');
   const { data: agencyData } = useSWR(lineData && lineData.agency && `/api/agencies/${lineData.agency}`);
   const { data: typologyData } = useSWR(lineData && lineData.typology && `/api/typologies/${lineData.typology}`);
   const { data: patternData, error: patternError, isLoading: patternLoading, mutate: patternMutate } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
@@ -135,6 +136,29 @@ export default function Page() {
     }
     return geoJSON;
   }, [patternStopsData]);
+
+  const allZonesMapData = useMemo(() => {
+    // Create a GeoJSON object
+    const geoJSON = {
+      type: 'FeatureCollection',
+      features: [],
+    };
+    if (allZonesData) {
+      for (const zone of allZonesData) {
+        if (zone?.geojson.geometry.coordinates?.length > 0) {
+          geoJSON.features.push({
+            ...zone.geojson,
+            properties: {
+              name: zone.name,
+              code: zone.code,
+              color: zone.color,
+            },
+          });
+        }
+      }
+    }
+    return geoJSON;
+  }, [allZonesData]);
 
   //
   // D. Handle actions
@@ -277,6 +301,12 @@ export default function Page() {
             </SimpleGrid>
           </Section>
           <OSMMap id='patternShape' height={500} scrollZoom={false} mapStyle='map'>
+            {allZonesMapData && (
+              <Source id='all-zones' type='geojson' data={allZonesMapData}>
+                <Layer id='all-zones-polygons' type='fill' source='all-zones' layout={{}} paint={{ 'fill-color': ['get', 'color'], 'fill-opacity': 0.25 }} />
+                <Layer id='all-zones-labels' type='symbol' source='all-zones' layout={{ 'text-field': ['get', 'name'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 14 }} />
+              </Source>
+            )}
             {patternForm.values?.shape?.geojson && (
               <Source id='pattern-shape' type='geojson' data={patternForm.values.shape.geojson}>
                 <Layer id='pattern-shape' type='line' source='pattern-shape' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': typologyData ? typologyData.color : '#000000', 'line-width': 4 }} />
