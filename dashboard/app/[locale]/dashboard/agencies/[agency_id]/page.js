@@ -192,7 +192,7 @@ export default function Page() {
               step={0.01}
               stepHoldDelay={500}
               stepHoldInterval={100}
-              parser={(value) => (isNaN(Number(value)) ? 0 : Number(value))}
+              parser={(value) => value.replace(/\€\s?|(,*)/g, '')}
               formatter={(value) => (!Number.isNaN(parseFloat(value)) ? `€ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '€ ')}
               readOnly={isReadOnly}
             />
