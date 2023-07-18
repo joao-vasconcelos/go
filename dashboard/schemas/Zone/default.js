@@ -8,7 +8,11 @@
 export const Default = {
   code: '',
   name: '',
-  color: '#ffffff',
+  fill_color: '#ffffff',
+  border_color: '#ffffff',
+  fill_opacity: 0.5,
+  border_opacity: 0.5,
+  border_width: 3,
   geojson: {
     type: 'Feature',
     geometry: {

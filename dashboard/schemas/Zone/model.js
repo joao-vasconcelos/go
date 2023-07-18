@@ -18,9 +18,22 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
-    color: {
+    fill_color: {
       type: String,
       maxlength: 7,
+    },
+    border_color: {
+      type: String,
+      maxlength: 7,
+    },
+    fill_opacity: {
+      type: Number,
+    },
+    border_opacity: {
+      type: Number,
+    },
+    border_width: {
+      type: Number,
     },
     geojson: {
       type: {

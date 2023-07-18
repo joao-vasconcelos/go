@@ -151,7 +151,11 @@ export default function Page() {
             properties: {
               name: zone.name,
               code: zone.code,
-              color: zone.color,
+              fill_color: zone.fill_color,
+              fill_opacity: zone.fill_opacity,
+              border_color: zone.border_color,
+              border_opacity: zone.border_opacity,
+              border_width: zone.border_width,
             },
           });
         }
@@ -303,7 +307,8 @@ export default function Page() {
           <OSMMap id='patternShape' height={500} scrollZoom={false} mapStyle='map'>
             {allZonesMapData && (
               <Source id='all-zones' type='geojson' data={allZonesMapData}>
-                <Layer id='all-zones-polygons' type='fill' source='all-zones' layout={{}} paint={{ 'fill-color': ['get', 'color'], 'fill-opacity': 0.25 }} />
+                <Layer id='all-zones-polygons' type='fill' source='all-zones' layout={{}} paint={{ 'fill-color': ['get', 'fill_color'], 'fill-opacity': ['get', 'fill_opacity'] }} />
+                <Layer id='all-zones-borders' type='line' layout={{}} source='all-zones' paint={{ 'line-color': ['get', 'border_color'], 'line-opacity': ['get', 'border_opacity'], 'line-width': ['get', 'border_width'] }} />
                 <Layer id='all-zones-labels' type='symbol' source='all-zones' layout={{ 'text-field': ['get', 'name'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 14 }} />
               </Source>
             )}

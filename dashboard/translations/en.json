@@ -355,14 +355,38 @@
                 "loading": "Deleting Zone...",
                 "success": "Zone was deleted.",
                 "error": "An error occurred while deleting this Zone."
+            },
+            "import_geojson": {
+                "title": "Import Geojson",
+                "description": "Importing is irreversible. Are you sure you want to replace the Geojson representation for this Zone?",
+                "confirm": "Import Geojson",
+                "cancel": "Do Not Import",
+                "loading": "Updating Geojson...",
+                "success": "Geojson was updated.",
+                "error": "An error occurred while updating the Geojson for this Zone."
+            },
+            "delete_geojson": {
+                "title": "Delete Geojson",
+                "description": "Deleting is irreversible. Are you sure you want to delete the Geojson representation for this Zone forever?",
+                "confirm": "Delete Geojson",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Geojson...",
+                "success": "Geojson was deleted.",
+                "error": "An error occurred while deleting the Geojson for this Zone."
             }
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Details",
+                "description": "Something about this section"
             },
-            "geofence": {
-                "title": "Geofence"
+            "map_representation": {
+                "title": "Map Settings",
+                "description": "Something about this section"
+            },
+            "geojson": {
+                "title": "Update Geojson",
+                "description": "Something about this section"
             }
         },
         "form": {
@@ -374,9 +398,27 @@
                 "label": "Zone Name",
                 "placeholder": "Montijo"
             },
+            "fill_color": {
+                "label": "Fill Color",
+                "placeholder": "#ffffff"
+            },
+            "fill_opacity": {
+                "label": "Fill Opacity"
+            },
+            "border_color": {
+                "label": "Border Color",
+                "placeholder": "#ffffff"
+            },
+            "border_opacity": {
+                "label": "Border Opacity"
+            },
+            "border_width": {
+                "label": "Border Width"
+            },
             "geojson": {
-                "label": "Geofence",
-                "placeholder": "[0.000, 0.000]"
+                "label": "Import Geojson",
+                "placeholder": "Copy and paste a valid geojson object here.",
+                "validation_error": "This Geojson is invalid."
             }
         }
     },

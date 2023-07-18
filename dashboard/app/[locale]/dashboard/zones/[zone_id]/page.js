@@ -11,7 +11,7 @@ import OSMMap from '@/components/OSMMap/OSMMap';
 import { useMap, Source, Layer } from 'react-map-gl/maplibre';
 import { Validation as ZoneValidation } from '@/schemas/Zone/validation';
 import { Default as ZoneDefault } from '@/schemas/Zone/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, JsonInput, Button, ColorInput } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, JsonInput, Button, ColorInput, Slider } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -106,39 +106,39 @@ export default function Page() {
       onConfirm: async () => {
         try {
           setIsDeleting(true);
-          notify(zone_id, 'loading', t('operations.delete.loading'));
+          notify(`${zone_id}-delete`, 'loading', t('operations.delete.loading'));
           await API({ service: 'zones', resourceId: zone_id, operation: 'delete', method: 'DELETE' });
           allZonesMutate();
           router.push('/dashboard/zones');
-          notify(zone_id, 'success', t('operations.delete.success'));
+          notify(`${zone_id}-delete`, 'success', t('operations.delete.success'));
           setIsDeleting(false);
         } catch (err) {
           console.log(err);
           setIsDeleting(false);
-          notify(zone_id, 'error', err.message || t('operations.delete.error'));
+          notify(`${zone_id}-delete`, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
   };
 
-  const handleUpdateGeojson = async () => {
+  const handleImportGeojson = async () => {
     openConfirmModal({
-      title: <Text size='h2'>Update Geojson</Text>,
+      title: <Text size='h2'>{t('operations.import_geojson.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>Update Geojson</Text>,
-      labels: { confirm: 'Update', cancel: 'Cancel' },
+      children: <Text size='h3'>{t('operations.import_geojson.description')}</Text>,
+      labels: { confirm: t('operations.import_geojson.confirm'), cancel: t('operations.import_geojson.cancel') },
       onConfirm: async () => {
         try {
-          notify('update-geojson', 'loading', 'Update geojson');
+          notify(`${zone_id}-import_geojson`, 'loading', t('operations.import_geojson.loading'));
           const parsedGeojson = JSON.parse(newGeojson);
           form.setFieldValue('geojson', parsedGeojson);
           await handleSave();
           setNewGeojson('');
-          notify('update-geojson', 'success', 'Update geojson success');
+          notify(`${zone_id}-import_geojson`, 'success', t('operations.import_geojson.success'));
         } catch (err) {
           console.log(err);
-          notify('update-geojson', 'error', err.message || 'Update geojson error');
+          notify(`${zone_id}-import_geojson`, 'error', err.message || t('operations.import_geojson.error'));
         }
       },
     });
@@ -146,21 +146,22 @@ export default function Page() {
 
   const handleDeleteGeojson = async () => {
     openConfirmModal({
-      title: <Text size='h2'>Delete Geojson</Text>,
+      title: <Text size='h2'>{t('operations.delete_geojson.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>Delete Geojson</Text>,
-      labels: { confirm: 'Delete', cancel: 'Cancel' },
+      children: <Text size='h3'>{t('operations.delete_geojson.description')}</Text>,
+      labels: { confirm: t('operations.delete_geojson.confirm'), cancel: t('operations.delete_geojson.cancel') },
+      confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify('update-geojson', 'loading', 'Delete geojson');
+          notify(`${zone_id}-delete_geojson`, 'loading', t('operations.delete_geojson.loading'));
           form.setFieldValue('geojson', ZoneDefault.geojson);
           await handleSave();
           setNewGeojson('');
-          notify('update-geojson', 'success', 'Delete geojson success');
+          notify(`${zone_id}-delete_geojson`, 'success', t('operations.delete_geojson.success'));
         } catch (err) {
           console.log(err);
-          notify('update-geojson', 'error', err.message || 'Delete geojson error');
+          notify(`${zone_id}-delete_geojson`, 'error', err.message || t('operations.delete_geojson.error'));
         }
       },
     });
@@ -225,7 +226,8 @@ export default function Page() {
         <OSMMap id='singleZone' height='400px' scrollZoom={false} mapStyle='map'>
           {form.values?.geojson?.geometry?.coordinates?.length > 0 && (
             <Source id='single-zone' type='geojson' data={form.values.geojson}>
-              <Layer id='single-zone' type='fill' layout={{}} source='single-zone' paint={{ 'fill-color': form.values.color, 'fill-opacity': 0.5 }} />
+              <Layer id='single-zone-fill' type='fill' layout={{}} source='single-zone' paint={{ 'fill-color': form.values.fill_color, 'fill-opacity': form.values.fill_opacity }} />
+              <Layer id='single-zone-border' type='line' layout={{}} source='single-zone' paint={{ 'line-color': form.values.border_color, 'line-opacity': form.values.border_opacity, 'line-width': form.values.border_width }} />
             </Source>
           )}
         </OSMMap>
@@ -233,29 +235,106 @@ export default function Page() {
         <Divider />
 
         <Section>
-          <Text size='h2'>{t('sections.config.title')}</Text>
+          <div>
+            <Text size='h2'>{t('sections.config.title')}</Text>
+            <Text size='h4'>{t('sections.config.description')}</Text>
+          </div>
           <SimpleGrid cols={2}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
-          </SimpleGrid>
-          <SimpleGrid cols={2}>
-            <ColorInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('color')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
 
         <Divider />
 
         <Section>
-          <Text size='h2'>{t('sections.geofence.title')}</Text>
+          <div>
+            <Text size='h2'>{t('sections.map_representation.title')}</Text>
+            <Text size='h4'>{t('sections.map_representation.description')}</Text>
+          </div>
+          <SimpleGrid cols={2}>
+            <ColorInput label={t('form.fill_color.label')} placeholder={t('form.fill_color.placeholder')} {...form.getInputProps('fill_color')} readOnly={isReadOnly} />
+            <ColorInput label={t('form.border_color.label')} placeholder={t('form.border_color.placeholder')} {...form.getInputProps('border_color')} readOnly={isReadOnly} />
+          </SimpleGrid>
+          <SimpleGrid cols={3}>
+            <div>
+              <Text size='h4'>{t('form.fill_opacity.label')}</Text>
+              <Slider
+                {...form.getInputProps('fill_opacity')}
+                min={0}
+                max={1}
+                step={0.01}
+                precision={2}
+                marks={[
+                  { value: 0.2, label: '20%' },
+                  { value: 0.5, label: '50%' },
+                  { value: 0.8, label: '80%' },
+                ]}
+                readOnly={isReadOnly}
+              />
+            </div>
+            <div>
+              <Text size='h4'>{t('form.border_opacity.label')}</Text>
+              <Slider
+                {...form.getInputProps('border_opacity')}
+                min={0}
+                max={1}
+                step={0.01}
+                precision={2}
+                marks={[
+                  { value: 0.2, label: '20%' },
+                  { value: 0.5, label: '50%' },
+                  { value: 0.8, label: '80%' },
+                ]}
+                readOnly={isReadOnly}
+              />
+            </div>
+            <div>
+              <Text size='h4'>{t('form.border_width.label')}</Text>
+              <Slider
+                {...form.getInputProps('border_width')}
+                min={0}
+                max={5}
+                step={0.5}
+                precision={1}
+                marks={[
+                  { value: 1, label: '20%' },
+                  { value: 3, label: '50%' },
+                  { value: 5, label: '80%' },
+                ]}
+                readOnly={isReadOnly}
+              />
+            </div>
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size='h2'>{t('sections.geojson.title')}</Text>
+            <Text size='h4'>{t('sections.geojson.description')}</Text>
+          </div>
           <SimpleGrid cols={1}>
-            <JsonInput label={t('form.geojson.label')} placeholder={t('form.geojson.placeholder')} value={newGeojson} onChange={setNewGeojson} readOnly={isReadOnly} autosize minRows={5} maxRows={10} />
+            <JsonInput
+              label={t('form.geojson.label')}
+              placeholder={t('form.geojson.placeholder')}
+              validationError={t('form.geojson.validation_error')}
+              value={newGeojson}
+              onChange={setNewGeojson}
+              readOnly={isReadOnly}
+              autosize
+              formatOnBlur
+              minRows={5}
+              maxRows={10}
+            />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <Button onClick={handleUpdateGeojson} disabled={!newGeojson}>
-              Update Geojson
+            <Button onClick={handleImportGeojson} disabled={!newGeojson}>
+              {t('operations.import_geojson.title')}
             </Button>
-            <Button onClick={handleDeleteGeojson} color='red'>
-              Delete Geojson
+            <Button onClick={handleDeleteGeojson} disabled={form.values.geojson?.geometry?.coordinates?.length === 0} color='red'>
+              {t('operations.delete_geojson.title')}
             </Button>
           </SimpleGrid>
         </Section>
