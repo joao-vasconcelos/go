@@ -32,16 +32,27 @@ export default async function handler(req, res) {
   }
 
   // 2.
+  // Parse request body into JSON
+
+  try {
+    req.body = await JSON.parse(req.body);
+  } catch (err) {
+    console.log(err);
+    await res.status(500).json({ message: 'JSON parse error.' });
+    return;
+  }
+
+  // 3.
   // Validate req.body against schema
 
   try {
     req.body = ZoneValidation.cast(req.body);
   } catch (err) {
     console.log(err);
-    return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
+    return await res.status(400).json({ message: err.message });
   }
 
-  // 3.
+  // 4.
   // Connect to MongoDB
 
   try {
