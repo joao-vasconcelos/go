@@ -11,7 +11,7 @@ import OSMMap from '@/components/OSMMap/OSMMap';
 import { useMap, Source, Layer } from 'react-map-gl/maplibre';
 import { Validation as ZoneValidation } from '@/schemas/Zone/validation';
 import { Default as ZoneDefault } from '@/schemas/Zone/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Textarea, JsonInput } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, JsonInput, Button, ColorInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -23,6 +23,7 @@ import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import { merge } from 'lodash';
+import populate from '@/services/populate';
 
 export default function Page() {
   //
@@ -35,6 +36,7 @@ export default function Page() {
   const [isSaving, setIsSaving] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [newGeojson, setNewGeojson] = useState('');
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'zones', 'create_edit');
   const { singleZoneMap } = useMap();
@@ -45,7 +47,7 @@ export default function Page() {
   // B. Fetch data
 
   const { mutate: allZonesMutate } = useSWR('/api/zones');
-  const { data: zoneData, error: zoneError, isLoading: zoneLoading } = useSWR(zone_id && `/api/zones/${zone_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: zoneData, error: zoneError, isLoading: zoneLoading, mutate: zoneMutate } = useSWR(zone_id && `/api/zones/${zone_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -60,9 +62,9 @@ export default function Page() {
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      const merged = merge(ZoneDefault, data);
-      form.setValues(merged);
-      form.resetDirty(merged);
+      const populated = populate(ZoneDefault, data);
+      form.setValues(populated);
+      form.resetDirty(populated);
     }
   };
 
@@ -70,8 +72,6 @@ export default function Page() {
   // D. Handle actions
 
   const handleValidate = () => {
-    const formattedJson = JSON.parse(form.values.geojson);
-    form.setFieldValue('geojson', formattedJson);
     form.validate();
   };
 
@@ -83,6 +83,7 @@ export default function Page() {
     try {
       setIsSaving(true);
       await API({ service: 'zones', resourceId: zone_id, operation: 'edit', method: 'PUT', body: form.values });
+      zoneMutate();
       allZonesMutate();
       form.resetDirty();
       setIsSaving(false);
@@ -92,7 +93,7 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [zone_id, form, allZonesMutate]);
+  }, [zone_id, form, zoneMutate, allZonesMutate]);
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -120,14 +121,59 @@ export default function Page() {
     });
   };
 
+  const handleUpdateGeojson = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Update Geojson</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Update Geojson</Text>,
+      labels: { confirm: 'Update', cancel: 'Cancel' },
+      onConfirm: async () => {
+        try {
+          notify('update-geojson', 'loading', 'Update geojson');
+          const parsedGeojson = JSON.parse(newGeojson);
+          form.setFieldValue('geojson', parsedGeojson);
+          await handleSave();
+          setNewGeojson('');
+          notify('update-geojson', 'success', 'Update geojson success');
+        } catch (err) {
+          console.log(err);
+          notify('update-geojson', 'error', err.message || 'Update geojson error');
+        }
+      },
+    });
+  };
+
+  const handleDeleteGeojson = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Delete Geojson</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Delete Geojson</Text>,
+      labels: { confirm: 'Delete', cancel: 'Cancel' },
+      onConfirm: async () => {
+        try {
+          notify('update-geojson', 'loading', 'Delete geojson');
+          form.setFieldValue('geojson', ZoneDefault.geojson);
+          await handleSave();
+          setNewGeojson('');
+          notify('update-geojson', 'success', 'Delete geojson success');
+        } catch (err) {
+          console.log(err);
+          notify('update-geojson', 'error', err.message || 'Delete geojson error');
+        }
+      },
+    });
+  };
+
   //
   // E. Transform data
 
   useEffect(() => {
     try {
-      if (zoneData && zoneData.geojson) {
+      if (form.values?.geojson?.geometry?.coordinates?.length > 0) {
         // Calculate the bounding box of the feature
-        const [minLng, minLat, maxLng, maxLat] = bbox(zoneData.geojson);
+        const [minLng, minLat, maxLng, maxLat] = bbox(form.values.geojson);
         // Calculate the bounding box of the feature
         singleZoneMap?.fitBounds(
           [
@@ -141,7 +187,7 @@ export default function Page() {
       console.log(error);
     }
     //
-  }, [zoneData, singleZoneMap]);
+  }, [form.values.geojson, singleZoneMap, zoneData]);
 
   //
   // E. Render components
@@ -177,9 +223,11 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <OSMMap id='singleZone' height='400px' scrollZoom={false} mapStyle='map'>
-          <Source id='single-zone' type='geojson' data={form.values.geojson}>
-            <Layer id='single-zone' type='polygon' source='single-zone' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': '#000000', 'line-width': 6 }} />
-          </Source>
+          {form.values?.geojson?.geometry?.coordinates?.length > 0 && (
+            <Source id='single-zone' type='geojson' data={form.values.geojson}>
+              <Layer id='single-zone' type='fill' layout={{}} source='single-zone' paint={{ 'fill-color': form.values.color, 'fill-opacity': 0.5 }} />
+            </Source>
+          )}
         </OSMMap>
 
         <Divider />
@@ -187,8 +235,11 @@ export default function Page() {
         <Section>
           <Text size='h2'>{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
-            <TextInput label={t('form.name.label')} placeholder={t('form.long_name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
+            <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+          </SimpleGrid>
+          <SimpleGrid cols={2}>
+            <ColorInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('color')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
 
@@ -197,7 +248,15 @@ export default function Page() {
         <Section>
           <Text size='h2'>{t('sections.geofence.title')}</Text>
           <SimpleGrid cols={1}>
-            <JsonInput label={t('form.geojson.label')} placeholder={t('form.geojson.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} autosize minRows={5} maxRows={10} />
+            <JsonInput label={t('form.geojson.label')} placeholder={t('form.geojson.placeholder')} value={newGeojson} onChange={setNewGeojson} readOnly={isReadOnly} autosize minRows={5} maxRows={10} />
+          </SimpleGrid>
+          <SimpleGrid cols={2}>
+            <Button onClick={handleUpdateGeojson} disabled={!newGeojson}>
+              Update Geojson
+            </Button>
+            <Button onClick={handleDeleteGeojson} color='red'>
+              Delete Geojson
+            </Button>
           </SimpleGrid>
         </Section>
       </form>
