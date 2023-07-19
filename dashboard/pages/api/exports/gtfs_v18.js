@@ -713,6 +713,11 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
             // Skip if this calendar has no dates
             if (!calendarData.dates) continue;
 
+            // 3.2.4.4.2.2.
+            // Skip if this calendar ends up not being used if concatenate option is set to true
+            const parsedCalendar = parseCalendar(calendarData, exportOptions.start_date, exportOptions.start_date, exportOptions.concatenate_calendars);
+            if (!parsedCalendar.length) continue;
+
             // 3.2.4.4.2.1.
             // Append the calendar_ids of this schedule to the scoped variable
             referencedCalendarCodes.add(calendarData.code);
@@ -825,10 +830,8 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
   // Fetch the referenced calendars and write the calendar_dates.txt file
   for (const calendarCode of referencedCalendarCodes) {
     const calendarData = await CalendarModel.findOne({ code: calendarCode });
-    if (calendarData.dates && calendarData.dates.length) {
-      const parsedCalendar = await parseCalendar(calendarData, exportOptions.start_date, exportOptions.end_date, exportOptions.concatenate_calendars);
-      if (parsedCalendar.length) writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
-    }
+    const parsedCalendar = await parseCalendar(calendarData, exportOptions.start_date, exportOptions.end_date, exportOptions.concatenate_calendars);
+    if (parsedCalendar.length) writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
   }
 
   // 5.
