@@ -208,14 +208,16 @@ function getWorkdir(exportId) {
 /* WRITE CSV TO FILE */
 /* Parse and append data to an existing file. */
 function writeCsvToFile(workdir, filename, data, papaparseOptions) {
+  // Set the new line character to be used (should be \n)
+  const newLineCharacter = '\n';
   // If data is not an array, then wrap it in one
   if (!Array.isArray(data)) data = [data];
   // Check if the file already exists
   const fileExists = fs.existsSync(`${workdir}/${filename}`);
   // Use papaparse to produce the CSV string
-  let csvData = Papa.unparse(data, { skipEmptyLines: 'greedy', newline: '\r\n', header: !fileExists, ...papaparseOptions });
+  let csvData = Papa.unparse(data, { skipEmptyLines: 'greedy', newline: newLineCharacter, header: !fileExists, ...papaparseOptions });
   // Prepend a new line character to csvData string if it is not the first line on the file
-  if (fileExists) csvData = '\n' + csvData;
+  if (fileExists) csvData = newLineCharacter + csvData;
   // Append the csv string to the file
   fs.appendFileSync(`${workdir}/${filename}`, csvData);
 }
