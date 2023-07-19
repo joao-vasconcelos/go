@@ -457,7 +457,7 @@ function parseShape(code, points) {
     // Prepare variables
     const shapePtLat = shapePoint.shape_pt_lat.toFixed(6);
     const shapePtLon = shapePoint.shape_pt_lon.toFixed(6);
-    const shapeDistTraveled = ((shapePoint.shape_dist_traveled || 0) / 1000).toFixed(15);
+    const shapeDistTraveled = parseFloat(((shapePoint.shape_dist_traveled || 0) / 1000).toFixed(15));
     // Build shape point
     parsedShape.push({
       shape_id: code,
@@ -726,14 +726,13 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
             writeCsvToFile(progress.workdir, 'trips.txt', {
               route_id: routeData.code,
               pattern_id: patternData.code,
-              pattern_short_name: patternData.headsign,
+              pattern_short_name: patternData.headsign.replaceAll(',', ''),
               service_id: calendarData.code,
-              calendar_desc: calendarData.description,
               trip_id: thisTripCode,
-              trip_headsign: patternData.headsign,
+              trip_headsign: patternData.headsign.replaceAll(',', ''),
               direction_id: patternData.direction,
               shape_id: thisShapeCode,
-              calendar_desc: scheduleData.calendar_desc,
+              calendar_desc: scheduleData.calendar_desc.replaceAll(',', ''),
             });
 
             // 3.2.4.4.2.4.
@@ -789,7 +788,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
                 stop_sequence: pathIndex,
                 pickup_type: pathData.allow_pickup ? 0 : 1,
                 drop_off_type: pathData.allow_drop_off ? 0 : 1,
-                shape_dist_traveled: (currentTripDistance / 1000).toFixed(15),
+                shape_dist_traveled: parseFloat((currentTripDistance / 1000).toFixed(15)),
                 timepoint: 1,
               });
 
