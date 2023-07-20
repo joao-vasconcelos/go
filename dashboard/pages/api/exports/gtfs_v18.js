@@ -912,7 +912,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
   // Fetch the referenced stops and write the stops.txt file
   for (const stopCode of referencedStopCodes) {
     const stopData = await StopModel.findOne({ code: stopCode });
-    const municipalityData = await MunicipalityModel.findOne({ _id: stopCode.municipality });
+    const municipalityData = await MunicipalityModel.findOne({ _id: stopData.municipality });
     const parsedStop = parseStop(stopData, municipalityData);
     writeCsvToFile(progress.workdir, 'stops.txt', parsedStop);
   }
