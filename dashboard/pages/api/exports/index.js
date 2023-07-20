@@ -85,7 +85,7 @@ export default async function handler(req, res) {
       // Skip if the object matches a document in the database
       if (validExportDocumentIds.includes(savedExport.name)) continue;
       // Remove the object otherwise
-      fs.rmSync(`${workdir}/${savedExport.name}`, { recursive: true, force: true });
+      //   fs.rmSync(`${workdir}/${savedExport.name}`, { recursive: true, force: true });
     }
 
     //
