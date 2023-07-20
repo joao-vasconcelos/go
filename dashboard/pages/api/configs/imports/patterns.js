@@ -71,12 +71,22 @@ export default async function handler(req, res) {
       for (const directionApi of routeApi.directions) {
         //
 
+        // Tranform distances to meters
+        let metersOrKm = 1;
+        if (route.code.startsWith('1')) metersOrKm = 1000; // A1 is in kilometers
+        if (route.code.startsWith('2')) metersOrKm = 1; // A2 is in meters
+        if (route.code.startsWith('3')) metersOrKm = 1000; // A3 is in kilometers
+        if (route.code.startsWith('4')) metersOrKm = 1000; // A3 is in kilometers
+
         // SHAPE
         // Get info for the Shape from API v2
-        const response = await fetch(`https://api.carrismetropolitana.pt/shapes/${directionApi.shape[0].shape_id}`);
-        const shapeApi = await response.json();
+        // const response = await fetch(`https://api.carrismetropolitana.pt/shapes/${directionApi.shape[0].shape_id}`);
+        // const shapeApi = await response.json();
         //
-        const shapeForThisPattern = { extension: shapeApi.extension, points: shapeApi.points, geojson: shapeApi.geojson };
+        // const shapeForThisPattern = { extension: shapeApi.extension, points: [], geojson: shapeApi.geojson };
+        // shapeForThisPattern.points = shapeApi.points.map((point) => {
+        //   return { ...point, shape_dist_traveled: Number(point.shape_dist_traveled) * metersOrKm };
+        // });
         //
 
         // PATH
@@ -88,13 +98,6 @@ export default async function handler(req, res) {
           //
           // Get _id of associated Stop document
           const associatedStopDocument = await StopModel.findOne({ code: tripScheduleStop.stop_id });
-
-          // Calculate distance delta
-          let metersOrKm = 1;
-          if (route.code.startsWith('1')) metersOrKm = 1000; // A1 is in kilometers
-          if (route.code.startsWith('2')) metersOrKm = 1; // A2 is in meters
-          if (route.code.startsWith('3')) metersOrKm = 1000; // A3 is in kilometers
-          if (route.code.startsWith('4')) metersOrKm = 1000; // A3 is in kilometers
 
           const distanceDelta = tripScheduleIndex === 0 ? 0 : Number(tripScheduleStop.shape_dist_traveled) * metersOrKm - prevDistance;
           prevDistance = Number(tripScheduleStop.shape_dist_traveled) * metersOrKm;
@@ -184,7 +187,7 @@ export default async function handler(req, res) {
           parent_route: route._id,
           direction: Number(directionApi.direction_id),
           headsign: directionApi.headsign,
-          shape: shapeForThisPattern,
+          shape: null, // shapeForThisPattern,
           path: pathForThisPattern,
           schedules: schedulesForThisPattern,
         };
