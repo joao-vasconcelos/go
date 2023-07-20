@@ -374,12 +374,12 @@ function parseFareRule(agencyData, routeData, fareData) {
 /* Build a route object entry */
 function parseFare(agencyData, fareData) {
   return {
+    agency_id: agencyData.code,
     fare_id: fareData.code,
     price: fareData.price,
     currency_type: fareData.currency_type,
     payment_method: fareData.payment_method,
     transfers: fareData.transfers,
-    agency_id: agencyData.code,
   };
 }
 
