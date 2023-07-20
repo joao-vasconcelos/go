@@ -285,16 +285,16 @@ function today() {
 /* * */
 /* BUILD ROUTE OBJECT ENTRY */
 /* Build an agency object entry */
-function parseAgency(agency) {
+function parseAgency(agencyData) {
   return {
-    agency_id: agency.code,
-    agency_name: 'Carris Metropolitana' || agency.name,
-    agency_url: 'https://www.carrismetropolitana.pt' || agency.url,
-    agency_timezone: 'Europe/Lisbon' || agency.timezone,
-    agency_lang: 'pt' || agency.lang,
-    agency_phone: '210410400' || agency.phone,
-    agency_fare_url: agency.fare_url,
-    agency_email: agency.email,
+    agency_id: agencyData.code,
+    agency_name: 'Carris Metropolitana' || agencyData.name,
+    agency_url: 'https://www.carrismetropolitana.pt' || agencyData.url,
+    agency_timezone: 'Europe/Lisbon' || agencyData.timezone,
+    agency_lang: 'pt' || agencyData.lang,
+    agency_phone: '210410400' || agencyData.phone,
+    agency_fare_url: agencyData.fare_url,
+    agency_email: agencyData.email,
   };
 }
 
@@ -306,10 +306,10 @@ function parseAgency(agency) {
 /* * */
 /* BUILD ROUTE OBJECT ENTRY */
 /* Build an agency object entry */
-function parseFeedInfo(agency, options) {
+function parseFeedInfo(agencyData, options) {
   return {
-    feed_publisher_name: agency.name,
-    feed_publisher_url: agency.url,
+    feed_publisher_name: agencyData.name,
+    feed_publisher_url: agencyData.url,
     feed_lang: 'pt',
     default_lang: 'en',
     feed_contact_url: 'https://github.com/carrismetropolitana/gtfs',
@@ -327,24 +327,24 @@ function parseFeedInfo(agency, options) {
 /* * */
 /* PARSE ROUTE */
 /* Build a route object entry */
-function parseRoute(agency, line, typology, route) {
+function parseRoute(agencyData, lineData, typologyData, routeData) {
   return {
-    line_id: line.code,
-    line_short_name: line.short_name,
-    line_long_name: line.name.replaceAll(',', ''),
-    line_type: getLineType(typology.code),
-    route_id: route.code,
-    agency_id: agency.code,
+    line_id: lineData.code,
+    line_short_name: lineData.short_name,
+    line_long_name: lineData.name.replaceAll(',', ''),
+    line_type: getLineType(typologyData.code),
+    route_id: routeData.code,
+    agency_id: agencyData.code,
     route_origin: 'line-origin',
     route_destination: 'line-destination',
-    route_short_name: line.short_name,
-    route_long_name: route.name.replaceAll(',', ''),
+    route_short_name: lineData.short_name,
+    route_long_name: routeData.name.replaceAll(',', ''),
     route_type: 3,
     path_type: 1,
-    circular: line.circular ? 1 : 0,
-    school: line.school ? 1 : 0,
-    route_color: typology.color.slice(1),
-    route_text_color: typology.text_color.slice(1),
+    circular: lineData.circular ? 1 : 0,
+    school: lineData.school ? 1 : 0,
+    route_color: typologyData.color.slice(1),
+    route_text_color: typologyData.text_color.slice(1),
   };
 }
 
@@ -356,10 +356,11 @@ function parseRoute(agency, line, typology, route) {
 /* * */
 /* PARSE FARE RULE */
 /* Build a route object entry */
-function parseFareRule(route, fare) {
+function parseFareRule(agencyData, routeData, fareData) {
   return {
-    route_id: route.code,
-    fare_id: fare.code,
+    agency_id: agencyData.code,
+    route_id: routeData.code,
+    fare_id: fareData.code,
   };
 }
 
@@ -371,13 +372,13 @@ function parseFareRule(route, fare) {
 /* * */
 /* PARSE FARE */
 /* Build a route object entry */
-function parseFare(fare) {
+function parseFare(fareData) {
   return {
-    fare_id: fare.code,
-    price: fare.price,
-    currency_type: fare.currency_type,
-    payment_method: fare.payment_method,
-    transfers: fare.transfers,
+    fare_id: fareData.code,
+    price: fareData.price,
+    currency_type: fareData.currency_type,
+    payment_method: fareData.payment_method,
+    transfers: fareData.transfers,
   };
 }
 
@@ -453,16 +454,16 @@ async function parseZoning(lineData, patternData) {
 /* * */
 /* PARSE SHAPE */
 /* Build a shape object entry */
-function parseShape(code, points) {
+function parseShape(gtfsShapeId, shapeData) {
   const parsedShape = [];
-  for (const shapePoint of points) {
+  for (const shapePoint of shapeData.points) {
     // Prepare variables
     const shapePtLat = shapePoint.shape_pt_lat.toFixed(6);
     const shapePtLon = shapePoint.shape_pt_lon.toFixed(6);
     const shapeDistTraveled = parseFloat(((shapePoint.shape_dist_traveled || 0) / 1000).toFixed(15));
     // Build shape point
     parsedShape.push({
-      shape_id: code,
+      shape_id: gtfsShapeId,
       shape_pt_sequence: shapePoint.shape_pt_sequence,
       shape_pt_lat: shapePtLat,
       shape_pt_lon: shapePtLon,
@@ -480,11 +481,11 @@ function parseShape(code, points) {
 /* * */
 /* PARSE CALENDAR */
 /* Build a calendar_dates object entry */
-async function parseCalendar(calendar, startDate, endDate, shouldConcatenate) {
+async function parseCalendar(calendarData, startDate, endDate, shouldConcatenate) {
   // Initiate an new variable
   const parsedCalendar = [];
   // For each date in the calendar
-  for (const calendarDate of calendar.dates) {
+  for (const calendarDate of calendarData.dates) {
     // Tranform the current, start and end dates
     // into integers to allow for easy comparison
     const calendarDateInt = parseInt(calendarDate);
@@ -493,16 +494,16 @@ async function parseCalendar(calendar, startDate, endDate, shouldConcatenate) {
     // Skip adding the current date if it is not between the requested start and end dates
     if (shouldConcatenate && (calendarDateInt < startDateInt || calendarDateInt > endDateInt)) continue;
     // Get Date document for this calendar date
-    const dateDocument = await DateModel.findOne({ date: calendarDate });
+    const dateData = await DateModel.findOne({ date: calendarDate });
     // Skip if no date is found
-    if (!dateDocument) continue;
+    if (!dateData) continue;
     // Get the day_type for the current date
-    let dayType = getDayType(calendarDate, calendar.is_holiday);
+    let dayType = getDayType(calendarDate, calendarData.is_holiday);
     // Build the date entry
     parsedCalendar.push({
-      service_id: calendar.code,
-      holiday: calendar.is_holiday ? 1 : 0,
-      period: dateDocument.period,
+      service_id: calendarData.code,
+      holiday: calendarData.is_holiday ? 1 : 0,
+      period: dateData.period,
       day_type: dayType,
       date: calendarDate,
       exception_type: 1,
@@ -546,16 +547,16 @@ function getDayType(date, isHoliday) {
 /* * */
 /* PARSE STOP */
 /* Build a trip object entry */
-function parseStop(stop) {
+function parseStop(stopData, municipalityData) {
   return {
-    stop_id: stop.code,
+    stop_id: stopData.code,
     stop_id_stepp: '0',
-    stop_code: stop.code,
-    stop_name: stop.name,
+    stop_code: stopData.code,
+    stop_name: stopData.name,
     stop_desc: '',
     stop_remarks: '',
-    stop_lat: stop.latitude,
-    stop_lon: stop.longitude,
+    stop_lat: stopData.latitude,
+    stop_lon: stopData.longitude,
     zone_id: '',
     zone_shift: '',
     stop_url: '',
@@ -578,8 +579,8 @@ function parseStop(stop) {
     preservation_state: '',
     equipment: '',
     observations: '',
-    region: stop.municipality?.region || '',
-    municipality: stop.municipality?.code || '',
+    region: municipalityData.region || '',
+    municipality: municipalityData.code || '',
   };
 }
 
@@ -859,7 +860,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
 
         // 3.4.3.7.
         // Write the shapes.txt entry for this pattern
-        const parsedShape = parseShape(thisShapeCode, patternData.shape.points);
+        const parsedShape = parseShape(thisShapeCode, patternData.shape);
         writeCsvToFile(progress.workdir, 'shapes.txt', parsedShape);
 
         // 3.4.3.8.
@@ -881,7 +882,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
 
       // 3.4.6.
       // Write the fare_rules.txt entry for this route
-      const parsedFareRule = parseFareRule(routeData, fareData);
+      const parsedFareRule = parseFareRule(agencyData, routeData, fareData);
       writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
       referencedFareCodes.add(fareData.code);
 
@@ -910,8 +911,9 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
   // 5.1.
   // Fetch the referenced stops and write the stops.txt file
   for (const stopCode of referencedStopCodes) {
-    const stopData = await StopModel.findOne({ code: stopCode }).populate('municipality');
-    const parsedStop = parseStop(stopData);
+    const stopData = await StopModel.findOne({ code: stopCode });
+    const municipalityData = await MunicipalityModel.findOne({ _id: stopCode.municipality });
+    const parsedStop = parseStop(stopData, municipalityData);
     writeCsvToFile(progress.workdir, 'stops.txt', parsedStop);
   }
 
