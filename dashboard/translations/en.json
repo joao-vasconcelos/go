@@ -1889,6 +1889,11 @@
             "5": "Error"
         }
     },
+    "ExportErrors": {
+        "5101": "Line {line_code} has no associated routes.",
+        "5301": "Missing stop on pattern {pattern_code}.",
+        "5302": "Invalid stop on pattern {pattern_code}."
+    },
     "ExportResult": {
         "exported_by": "Exported by {name} {time}",
         "type": {
