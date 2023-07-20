@@ -372,13 +372,14 @@ function parseFareRule(agencyData, routeData, fareData) {
 /* * */
 /* PARSE FARE */
 /* Build a route object entry */
-function parseFare(fareData) {
+function parseFare(agencyData, fareData) {
   return {
     fare_id: fareData.code,
     price: fareData.price,
     currency_type: fareData.currency_type,
     payment_method: fareData.payment_method,
     transfers: fareData.transfers,
+    agency_id: agencyData.code,
   };
 }
 
@@ -925,7 +926,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
   // Fetch the referenced fares and write the fare_attributes.txt file
   for (const fareCode of referencedFareCodes) {
     const fareData = await FareModel.findOne({ code: fareCode });
-    const parsedFare = parseFare(fareData);
+    const parsedFare = parseFare(agencyData, fareData);
     writeCsvToFile(progress.workdir, 'fare_attributes.txt', parsedFare);
   }
 

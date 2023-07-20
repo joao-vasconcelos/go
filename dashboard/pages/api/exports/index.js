@@ -76,14 +76,14 @@ export default async function handler(req, res) {
 
     // 3.7.
     // Filter Export documents to keep only the ones that are not errors
-    const liveExportDocuments = allDocuments.filter((item) => item.status === 0 || item.status === 1 || item.status === 2).map((item) => String(item._id));
+    const validExportDocuments = allDocuments.filter((item) => item.status !== 5).map((item) => String(item._id));
 
     // 3.8.
-    // Compare the documents with the files
+    // Compare the existing files with each document
     // and remove the dangling files from the directory.
     for (const savedExport of savedExportFiles) {
       // Skip if the object matches a document in the database
-      if (liveExportDocuments.includes(savedExport.name)) continue;
+      if (validExportDocuments.includes(savedExport.name)) continue;
       // Remove the object otherwise
       fs.rmSync(`${workdir}/${savedExport.name}`, { recursive: true, force: true });
     }
