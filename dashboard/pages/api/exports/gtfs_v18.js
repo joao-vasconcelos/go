@@ -74,10 +74,20 @@ export default async function handler(req, res) {
   }
 
   // 5.
+  // Sync Indexes
+  try {
+    await ExportModel.syncIndexes();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot sync Agency indexes.' });
+  }
+
+  // 6.
   // Fetch Agency information for the current request.
   // This is will be used to name the resulting file.
 
   try {
+    await AgencyModel.findOne({ _id: req.body.agency_id });
     agencyData = await AgencyModel.findOne({ _id: req.body.agency_id });
     if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
   } catch (err) {
@@ -85,30 +95,30 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Error fetching Agency data.' });
   }
 
-  // 6.
+  // 7.
   // Create a new Export summary document.
   // This will be used to keep track of progress
   // and allows the client to download the resulting file at a later date.
 
   try {
     //
-    // 6.1.
+    // 7.1.
     // Create the Export document
     // This will generate a new _id for the operation.
     exportSummary = new ExportModel(ExportDefault);
 
-    // 6.2.
+    // 7.2.
     // Setup properties for this Export
     exportSummary.type = 1; // 1 = GTFS v18
     exportSummary.exported_by = session.user._id;
     exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v18_${today()}.zip`;
     exportSummary.workdir = getWorkdir(exportSummary._id);
 
-    //6.3.
+    // 7.3.
     // Save the export document
     await exportSummary.save();
 
-    // 6.4.
+    // 7.4.
     // Send the summary information to the client
     // and close the connection.
     await res.status(201).json(exportSummary);
@@ -119,7 +129,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Could not create Export summary.' });
   }
 
-  // 7.
+  // 8.
   // Even though the server has already sent a response to the client,
   // start building the export file and keep track of progress.
   // From here on, errors must be tracked with the database
@@ -127,11 +137,11 @@ export default async function handler(req, res) {
 
   try {
     //
-    // 7.1.
+    // 8.1.
     // Update progress to indicate the two main tasks at hand
     await update(exportSummary, { progress_current: 0, progress_total: 2 });
 
-    // 7.2.
+    // 8.2.
     // Initiate the export options object with data from the client
     const exportOptions = {
       lines_included: req.body.lines_included || [],
@@ -141,12 +151,12 @@ export default async function handler(req, res) {
       concatenate_calendars: req.body.concatenate_calendars,
     };
 
-    // 7.3.
+    // 8.3.
     // Initiate the main export operation
     await buildGTFSv18(exportSummary, agencyData, exportOptions);
     await update(exportSummary, { progress_current: 1, progress_total: 2 });
 
-    // 7.4.
+    // 8.4.
     // Zip the workdir folder that contains the generated files.
     // Name the resulting archive with the _id of this Export.
     const outputZip = new AdmZip();
@@ -154,7 +164,7 @@ export default async function handler(req, res) {
     outputZip.writeZip(`${exportSummary.workdir}/${exportSummary._id}.zip`);
     await update(exportSummary, { progress_current: 2, progress_total: 2 });
 
-    // 7.5.
+    // 8.5.
     // Update progress to indicate the requested operation is complete
     await update(exportSummary, { status: 2 });
 
