@@ -10,7 +10,8 @@ import mongoose from 'mongoose';
 export const ExportSchema = new mongoose.Schema(
   {
     type: {
-      type: Number,
+      type: String,
+      maxlength: 50,
     },
     status: {
       type: Number,

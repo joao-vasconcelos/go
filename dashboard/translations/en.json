@@ -1897,25 +1897,17 @@
     "ExportResult": {
         "exported_by": "Exported by {name} {time}",
         "type": {
-            "0": {
-                "label": "Unkown Type",
-                "description": "Something went wrong somewhere."
-            },
-            "1": {
+            "gtfs_v18": {
                 "label": "GTFS v18",
                 "description": "For A1 and A2 until December 2023."
             },
-            "2": {
+            "gtfs_v29": {
                 "label": "GTFS v29",
                 "description": "For A3 and A4."
             },
-            "3": {
+            "gtfs_v30": {
                 "label": "GTFS v30",
                 "description": "For testing."
-            },
-            "4": {
-                "label": "Ticket Zoning",
-                "description": "For all areas."
             }
         },
         "status": {
@@ -1935,7 +1927,7 @@
         "description": "To create a new export you need to select the type, date, etc.",
         "operations": {
             "start": {
-                "label": "Start Export (v18)"
+                "label": "Start Export"
             }
         },
         "form": {
@@ -1943,16 +1935,7 @@
                 "label": "What do you want to export?",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
-            }
-        }
-    },
-    "ExportGTFSv18": {
-        "operations": {
-            "start": {
-                "label": "Start Export (GTFS v18)"
-            }
-        },
-        "form": {
+            },
             "agencies": {
                 "label": "Choose an Agency",
                 "description": "Select the Agency that you'd like to get the GTFS for.",

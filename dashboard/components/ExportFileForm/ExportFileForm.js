@@ -9,32 +9,35 @@ import { ExportOptions } from '@/schemas/Export/options';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import { IconCloudPlus } from '@tabler/icons-react';
-import { SimpleGrid, Select, MultiSelect, Button, Divider, Checkbox, Switch } from '@mantine/core';
+import { SimpleGrid, Select, MultiSelect, Button, Divider, Switch } from '@mantine/core';
 import { Section } from '@/components/Layouts/Layouts';
 import { useState, useMemo } from 'react';
 import API from '@/services/API';
 import { DatePickerInput } from '@mantine/dates';
 
 /* * */
-/* EXPORT TYPE 1 */
+/* EXPORT FILE FORM */
 
-function ExportGTFSv18() {
+export default function ExportFileForm() {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('ExportGTFSv18');
+  const t = useTranslations('ExportFileForm');
+  const exportOptionsTranslations = useTranslations('ExportOptions');
+
   const { data: session } = useSession();
 
+  const [isCreatingExport, setIsCreatingExport] = useState(false);
+
+  const [selectedExportType, setSelectedExportType] = useState();
   const [selectedAgencyId, setSelectedAgencyId] = useState();
   const [selectedLineIdsToInclude, setSelectedLineIdsToInclude] = useState([]);
   const [selectedLineIdsToExclude, setSelectedLineIdsToExclude] = useState([]);
   const [selectedPlanStartDate, setSelectedPlanStartDate] = useState();
   const [selectedPlanEndDate, setSelectedPlanEndDate] = useState();
   const [shouldConcatenateCalendars, setShouldConcatenateCalendars] = useState();
-
-  const [isCreatingExport, setIsCreatingExport] = useState(false);
 
   //
   // B. Fetch data
@@ -45,6 +48,17 @@ function ExportGTFSv18() {
 
   //
   // B. Format data
+
+  const availableExportTypes = useMemo(() => {
+    if (!ExportOptions.export_type) return [];
+    return ExportOptions.export_type
+      .filter((type) => {
+        return isAllowed(session, 'exports', type);
+      })
+      .map((type) => {
+        return { value: type, label: exportOptionsTranslations(`export_type.${type}.label`) };
+      });
+  }, [exportOptionsTranslations, session]);
 
   const availableAgencies = useMemo(() => {
     if (!allAgenciesData) return [];
@@ -82,9 +96,10 @@ function ExportGTFSv18() {
       setIsCreatingExport(true);
       await API({
         service: 'exports',
-        operation: 'gtfs_v18',
+        operation: 'create',
         method: 'POST',
         body: {
+          export_type: selectedExportType,
           agency_id: selectedAgencyId,
           lines_included: selectedLineIdsToInclude,
           lines_excluded: selectedLineIdsToExclude,
@@ -111,7 +126,35 @@ function ExportGTFSv18() {
   // E. Render components
 
   return (
-    <>
+    <Pannel
+      header={
+        <>
+          <IconCloudPlus size={22} />
+          <Text size='h2' full>
+            {t('title')}
+          </Text>
+        </>
+      }
+    >
+      <Section>
+        <Text size='h4' color='muted'>
+          {t('description')}
+        </Text>
+      </Section>
+      <Divider />
+      <Section>
+        <Select
+          label={t('form.export_type.label')}
+          placeholder={t('form.export_type.placeholder')}
+          nothingFound={t('form.export_type.nothingFound')}
+          data={availableExportTypes}
+          value={selectedExportType}
+          onChange={setSelectedExportType}
+          searchable
+          clearable
+        />
+      </Section>
+      <Divider />
       <Section>
         <Select
           label={t('form.agencies.label')}
@@ -121,6 +164,7 @@ function ExportGTFSv18() {
           data={availableAgencies}
           value={selectedAgencyId}
           onChange={setSelectedAgencyId}
+          disabled={!selectedExportType}
           searchable
           clearable
         />
@@ -183,276 +227,6 @@ function ExportGTFSv18() {
           {t('operations.start.label')}
         </Button>
       </Section>
-    </>
-  );
-}
-
-export function ExportFileFormType2() {
-  //
-
-  //
-  // A. Setup variables
-
-  const t = useTranslations('ExportFileForm');
-  const { data: session } = useSession();
-
-  const [selectedExportType, setSelectedExportType] = useState();
-
-  const [selectedAgencyId, setSelectedAgencyId] = useState();
-  const [selectedLineIds, setSelectedLineIds] = useState([]);
-  const [isCreatingExport, setIsCreatingExport] = useState(false);
-
-  //
-  // B. Fetch data
-
-  const { mutate: allExportsMutate } = useSWR('/api/exports');
-  const { data: allAgenciesData, error: allAgenciesError, isLoading: allAgenciesLoading } = useSWR('/api/agencies');
-  const { data: allLinesData, error: linesError, isLoading: linesLoading } = useSWR('/api/lines');
-
-  //
-  // B. Format data
-
-  const agenciesFormattedForSelect = useMemo(() => {
-    if (!allAgenciesData) return [];
-    return allAgenciesData.map((item) => {
-      return { value: item._id, label: item.name || '-' };
-    });
-  }, [allAgenciesData]);
-
-  const linesFormattedForSelect = useMemo(() => {
-    if (!allLinesData) return [];
-    let filteredLineBySelectedAgency = allLinesData;
-    if (selectedAgencyId) filteredLineBySelectedAgency = allLinesData.filter((item) => item.agency === selectedAgencyId);
-    return filteredLineBySelectedAgency.map((item) => {
-      return { value: item._id, label: `(${item.short_name}) ${item.long_name}` };
-    });
-  }, [allLinesData, selectedAgencyId]);
-
-  //
-  // D. Handle actions
-
-  const handleExportGTFSv18 = async () => {
-    try {
-      setIsCreatingExport(true);
-      await API({ service: 'exports', operation: 'gtfs_v18', method: 'POST', body: { agency_id: selectedAgencyId, lines: selectedLineIds } });
-      allExportsMutate();
-      setIsCreatingExport(false);
-    } catch (err) {
-      console.log(err);
-      setIsCreatingExport(false);
-    }
-  };
-
-  //
-  // E. Render components
-
-  return (
-    <>
-      <Section>
-        asdouihasdiouashdiuashdiuahsdii
-        <Select
-          label={t('form.agencies.label')}
-          placeholder={t('form.agencies.placeholder')}
-          description={t('form.agencies.description')}
-          nothingFound={t('form.agencies.nothingFound')}
-          data={agenciesFormattedForSelect}
-          value={selectedAgencyId}
-          onChange={setSelectedAgencyId}
-          searchable
-          clearable
-        />
-        <MultiSelect
-          label={t('form.lines.label')}
-          placeholder={t('form.lines.placeholder')}
-          description={t('form.lines.description')}
-          nothingFound={t('form.lines.nothingFound')}
-          data={linesFormattedForSelect}
-          value={selectedLineIds}
-          onChange={setSelectedLineIds}
-          disabled={!selectedAgencyId}
-          searchable
-          clearable
-        />
-      </Section>
-      <Divider />
-      <Section>
-        <SimpleGrid cols={1}>
-          <Button onClick={handleExportGTFSv18} loading={isCreatingExport} disabled={!selectedAgencyId}>
-            {t('operations.start.label')}
-          </Button>
-          <Text size='h4'>{t('sections.intro.description')}</Text>
-        </SimpleGrid>
-      </Section>
-    </>
-  );
-}
-
-export function ExportFileFormType3() {
-  //
-
-  //
-  // A. Setup variables
-
-  const t = useTranslations('ExportFileForm');
-  const { data: session } = useSession();
-
-  const [selectedExportType, setSelectedExportType] = useState();
-
-  const [selectedAgencyId, setSelectedAgencyId] = useState();
-  const [selectedLineIds, setSelectedLineIds] = useState([]);
-  const [isCreatingExport, setIsCreatingExport] = useState(false);
-
-  //
-  // B. Fetch data
-
-  const { mutate: allExportsMutate } = useSWR('/api/exports');
-  const { data: allAgenciesData, error: allAgenciesError, isLoading: allAgenciesLoading } = useSWR('/api/agencies');
-  const { data: allLinesData, error: linesError, isLoading: linesLoading } = useSWR('/api/lines');
-
-  //
-  // B. Format data
-
-  const agenciesFormattedForSelect = useMemo(() => {
-    if (!allAgenciesData) return [];
-    return allAgenciesData.map((item) => {
-      return { value: item._id, label: item.name || '-' };
-    });
-  }, [allAgenciesData]);
-
-  const linesFormattedForSelect = useMemo(() => {
-    if (!allLinesData) return [];
-    let filteredLineBySelectedAgency = allLinesData;
-    if (selectedAgencyId) filteredLineBySelectedAgency = allLinesData.filter((item) => item.agency === selectedAgencyId);
-    return filteredLineBySelectedAgency.map((item) => {
-      return { value: item._id, label: `(${item.short_name}) ${item.long_name}` };
-    });
-  }, [allLinesData, selectedAgencyId]);
-
-  //
-  // D. Handle actions
-
-  const handleExportGTFSv18 = async () => {
-    try {
-      setIsCreatingExport(true);
-      await API({ service: 'exports', operation: 'gtfs_v18', method: 'POST', body: { agency_id: selectedAgencyId, lines: selectedLineIds } });
-      allExportsMutate();
-      setIsCreatingExport(false);
-    } catch (err) {
-      console.log(err);
-      setIsCreatingExport(false);
-    }
-  };
-
-  //
-  // E. Render components
-
-  return (
-    <>
-      <Section>
-        asdouihasdiouashdiuashdiuahsdii
-        <Select
-          label={t('form.agencies.label')}
-          placeholder={t('form.agencies.placeholder')}
-          description={t('form.agencies.description')}
-          nothingFound={t('form.agencies.nothingFound')}
-          data={agenciesFormattedForSelect}
-          value={selectedAgencyId}
-          onChange={setSelectedAgencyId}
-          searchable
-          clearable
-        />
-        <MultiSelect
-          label={t('form.lines.label')}
-          placeholder={t('form.lines.placeholder')}
-          description={t('form.lines.description')}
-          nothingFound={t('form.lines.nothingFound')}
-          data={linesFormattedForSelect}
-          value={selectedLineIds}
-          onChange={setSelectedLineIds}
-          disabled={!selectedAgencyId}
-          searchable
-          clearable
-        />
-      </Section>
-      <Divider />
-      <Section>
-        <SimpleGrid cols={1}>
-          <Button onClick={handleExportGTFSv18} loading={isCreatingExport} disabled={!selectedAgencyId}>
-            {t('operations.start.label')}
-          </Button>
-          <Text size='h4'>{t('sections.intro.description')}</Text>
-        </SimpleGrid>
-      </Section>
-    </>
-  );
-}
-
-/* * */
-/* EXPORT FILE FORM */
-
-export default function ExportFileForm() {
-  //
-
-  //
-  // A. Setup variables
-
-  const t = useTranslations('ExportFileForm');
-  const exportOptionsTranslations = useTranslations('ExportOptions');
-
-  const { data: session } = useSession();
-
-  const [selectedExportType, setSelectedExportType] = useState();
-
-  //
-  // B. Format data
-
-  const availableExportTypes = useMemo(() => {
-    if (!ExportOptions.export_type) return [];
-    return ExportOptions.export_type
-      .filter((type) => {
-        return isAllowed(session, 'exports', type);
-      })
-      .map((type) => {
-        return { value: type, label: exportOptionsTranslations(`export_type.${type}.label`) };
-      });
-  }, [exportOptionsTranslations, session]);
-
-  //
-  // E. Render components
-
-  return (
-    <Pannel
-      header={
-        <>
-          <IconCloudPlus size={22} />
-          <Text size='h2' full>
-            {t('title')}
-          </Text>
-        </>
-      }
-    >
-      <Section>
-        <Text size='h4' color='muted'>
-          {t('description')}
-        </Text>
-      </Section>
-      <Divider />
-      <Section>
-        <Select
-          label={t('form.export_type.label')}
-          placeholder={t('form.export_type.placeholder')}
-          nothingFound={t('form.export_type.nothingFound')}
-          data={availableExportTypes}
-          value={selectedExportType}
-          onChange={setSelectedExportType}
-          searchable
-          clearable
-        />
-      </Section>
-      <Divider />
-      {selectedExportType && selectedExportType === 'gtfs_v18' && <ExportGTFSv18 />}
-      {selectedExportType && selectedExportType === 'gtfs_v29' && <ExportFileFormType2 />}
-      {selectedExportType && selectedExportType === 'gtfs_v30' && <ExportFileFormType3 />}
     </Pannel>
   );
 }

@@ -18,6 +18,7 @@ import { PatternModel } from '@/schemas/Pattern/model';
 import { Model as StopModel } from '@/schemas/Stop/model';
 import { Model as DateModel } from '@/schemas/Date/model';
 import { Model as CalendarModel } from '@/schemas/Calendar/model';
+import { ExportOptions } from '@/schemas/Export/options';
 
 /* * */
 /* EXPORT GTFS V18 */
@@ -74,17 +75,18 @@ export default async function handler(req, res) {
   }
 
   // 5.
-  // Sync Indexes
+  // Ensure latest schema modifications
+  // in the schema are applied in the database.
+
   try {
     await ExportModel.syncIndexes();
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot sync Agency indexes.' });
+    return await res.status(500).json({ message: 'Cannot sync indexes.' });
   }
 
   // 6.
   // Fetch Agency information for the current request.
-  // This is will be used to name the resulting file.
 
   try {
     await AgencyModel.findOne({ _id: req.body.agency_id });
@@ -108,10 +110,37 @@ export default async function handler(req, res) {
     exportSummary = new ExportModel(ExportDefault);
 
     // 7.2.
-    // Setup properties for this Export
-    exportSummary.type = 1; // 1 = GTFS v18
+    // Check if the requested export type exists in the options.
+    // Otherwise cancel the current export and return 403 to the client
+    if (ExportOptions.export_type.includes(req.body.export_type)) exportSummary.type = req.body.export_type;
+    else return await res.status(403).json({ message: 'Unknown requested export type.' });
+
+    // 7.3.
+    // Associate this export to the use who requested it
     exportSummary.exported_by = session.user._id;
-    exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v18_${today()}.zip`;
+
+    // 7.4.
+    // Define the filename format for the resulting archive
+    switch (exportSummary.type) {
+      // 7.4.1.
+      // For v18 the name consists of the agency code, the version and the export date.
+      case 'gtfs_v18':
+        exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v18_${today()}.zip`;
+        break;
+      // 7.4.2.
+      // For v29 the name consists of the agency code, the version and the export date.
+      case 'gtfs_v29':
+        exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v29_${today()}.zip`;
+        break;
+      // 7.4.3.
+      // For v30 the name consists of the agency code, the version and the export date.
+      case 'gtfs_v30':
+        exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v30_${today()}.zip`;
+        break;
+    }
+
+    // 7.5.
+    // Save the path to the resulting file
     exportSummary.workdir = getWorkdir(exportSummary._id);
 
     // 7.3.
@@ -153,8 +182,24 @@ export default async function handler(req, res) {
 
     // 8.3.
     // Initiate the main export operation
-    await buildGTFSv18(exportSummary, agencyData, exportOptions);
-    await update(exportSummary, { progress_current: 1, progress_total: 2 });
+    switch (exportSummary.type) {
+      // 8.3.1.
+      // Build GTFS v18
+      case 'gtfs_v18':
+        await buildGTFSv18(exportSummary, agencyData, exportOptions);
+        await update(exportSummary, { progress_current: 1, progress_total: 2 });
+        break;
+      // 8.3.2.
+      // Build GTFS v29
+      case 'gtfs_v29':
+        throw new Error('v29 not implemented');
+        break;
+      // 8.3.3.
+      // Build GTFS v30
+      case 'gtfs_v30':
+        throw new Error('v30 not implemented');
+        break;
+    }
 
     // 8.4.
     // Zip the workdir folder that contains the generated files.
