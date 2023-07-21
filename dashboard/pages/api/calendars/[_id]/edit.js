@@ -63,6 +63,17 @@ export default async function handler(req, res) {
   }
 
   // 5.
+  // Ensure latest schema modifications
+  // in the schema are applied in the database.
+
+  try {
+    await ExportModel.syncIndexes();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot sync indexes.' });
+  }
+
+  // 6.
   // Check for uniqueness
 
   try {
@@ -76,7 +87,7 @@ export default async function handler(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 6.
+  // 7.
   // Update the correct document
 
   try {
