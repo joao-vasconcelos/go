@@ -53,6 +53,16 @@ export default async function handler(req, res) {
       //
 
       if (calendarCode.code.startsWith('p3_')) {
+        //
+        // DELETE IF LONGER THAN 7 digits
+        if (calendarCode.code.length > 6) {
+          await CalendarModel.findOneAndDelete({ code: calendarCode.code });
+          console.log(`Deleted calendar with code ${calendarCode.code}.`);
+          continue;
+        }
+
+        // UPDATE CALENDAR CODE
+
         const calendarData = await CalendarModel.findOne({ code: calendarCode.code });
         const newCalendarCode = calendarCode.code.substring(3);
 
