@@ -1,0 +1,25 @@
+/* * */
+/* TABLE CONTAINER */
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--size-md);
+}
+
+.presetCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-md);
+  border: 1px solid var(--color-gray-2);
+  border-radius: var(--size-xs);
+  padding: var(--size-md);
+  background-color: var(--color-gray-0);
+}
+
+@media (prefers-color-scheme: dark) {
+  .presetCard {
+    border-color: var(--color-gray-3);
+    background-color: var(--color-gray-1);
+  }
+}

@@ -107,12 +107,14 @@ export default async function handler(req, res) {
       const distanceDelta = pathIndex === 0 ? 0 : Number(pathItem.shape_dist_traveled) - prevDistance;
       prevDistance = Number(pathItem.shape_dist_traveled);
       // Calculate travel time
-      const travelTime = calculateTravelTime(distanceDelta, PatternPathDefault.default_velocity);
+      const travelTime = calculateTravelTime(distanceDelta, patternDocumentToUpdate.presets.velocity || PatternPathDefault.default_velocity);
       // Add this sequence item to the document path
       formattedPath.push({
         ...PatternPathDefault,
         default_travel_time: travelTime,
         distance_delta: distanceDelta,
+        default_velocity: patternDocumentToUpdate.presets.velocity || PatternPathDefault.default_velocity,
+        default_dwell_time: patternDocumentToUpdate.presets.dwell_time || PatternPathDefault.default_dwell_time,
         stop: associatedStopDocument._id,
         zones: associatedStopDocument.zones,
       });

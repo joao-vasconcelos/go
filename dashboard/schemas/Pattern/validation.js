@@ -13,6 +13,10 @@ export const PatternValidation = yup.object({
   parent_route: yup.string().required(),
   direction: yup.number().integer().required(),
   headsign: yup.string().required().max(50),
+  presets: yup.object({
+    velocity: yup.number().integer(),
+    dwell_time: yup.number().integer(),
+  }),
   shape: yup.object({
     extension: yup.number(),
     //   points: yup.array(

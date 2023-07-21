@@ -28,6 +28,8 @@ import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import ImportPatternFromGTFS from '@/components/ImportPatternFromGTFS/ImportPatternFromGTFS';
+import populate from '@/services/populate';
+import PatternPresetsTable from '@/components/PatternPresetsTable/PatternPresetsTable';
 
 export default function Page() {
   //
@@ -65,13 +67,14 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(PatternValidation),
-    initialValues: patternData || PatternDefault,
+    initialValues: populate(PatternDefault, patternData),
   });
 
   const keepFormUpdated = (data) => {
     if (!patternForm.isDirty()) {
-      patternForm.setValues(data);
-      patternForm.resetDirty(data);
+      const populated = populate(PatternDefault, data);
+      patternForm.setValues(populated);
+      patternForm.resetDirty(populated);
     }
   };
 
@@ -96,7 +99,7 @@ export default function Page() {
     //
   }, [patternData, patternShapeMap]);
 
-  const shapeExtension = useMemo(() => {
+  const shapeExtensionCardValue = useMemo(() => {
     if (!patternForm.values?.shape?.extension) return '(no shape)';
     if (patternForm.values?.shape?.extension > 1000) return `${(patternForm.values.shape.extension / 1000).toFixed(3)} km`;
     else return `${patternForm.values.shape.extension} m`;
@@ -300,7 +303,7 @@ export default function Page() {
               <Text size='h4'>{t('sections.shape.description')}</Text>
             </div>
             <SimpleGrid cols={2}>
-              <StatCard title={t('sections.shape.cards.extension')} value={shapeExtension} />
+              <StatCard title={t('sections.shape.cards.extension')} value={shapeExtensionCardValue} />
               <StatCard title={t('sections.shape.cards.cost')} value={shapeCost} />
             </SimpleGrid>
           </Section>
@@ -343,6 +346,16 @@ export default function Page() {
               <Text size='h4'>{t('sections.schedules.description')}</Text>
             </div>
             <SchedulesTable />
+          </Section>
+
+          <Divider />
+
+          <Section>
+            <div>
+              <Text size='h2'>{t('sections.presets.title')}</Text>
+              <Text size='h4'>{t('sections.presets.description')}</Text>
+            </div>
+            <PatternPresetsTable />
           </Section>
 
           <Divider />

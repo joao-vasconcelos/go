@@ -56,7 +56,7 @@ export default async function handler(req, res) {
     for (const route of allRoutes) {
       //
       // Skip if not A1
-      // if (!route.code.startsWith('2')) continue;
+      if (!route.code.startsWith('3701')) continue;
       //   if (parseInt(route.code.substring(0, 4)) < 1616) continue;
 
       // Get info for the Route from API v1
@@ -80,13 +80,14 @@ export default async function handler(req, res) {
 
         // SHAPE
         // Get info for the Shape from API v2
-        // const response = await fetch(`https://api.carrismetropolitana.pt/shapes/${directionApi.shape[0].shape_id}`);
-        // const shapeApi = await response.json();
-        //
-        // const shapeForThisPattern = { extension: shapeApi.extension, points: [], geojson: shapeApi.geojson };
-        // shapeForThisPattern.points = shapeApi.points.map((point) => {
-        //   return { ...point, shape_dist_traveled: Number(point.shape_dist_traveled) * metersOrKm };
-        // });
+        console.log(directionApi.shape[0].shape_id);
+        const response = await fetch(`https://api.carrismetropolitana.pt/shapes/${directionApi.shape[0].shape_id}`);
+        const shapeApi = await response.json();
+
+        const shapeForThisPattern = { extension: shapeApi.extension, points: [], geojson: shapeApi.geojson };
+        shapeForThisPattern.points = shapeApi.points.map((point) => {
+          return { ...point, shape_dist_traveled: Number(point.shape_dist_traveled) * metersOrKm };
+        });
         //
 
         // PATH
@@ -108,8 +109,8 @@ export default async function handler(req, res) {
           let travelTimeInThisSegmentInHours = 0;
           if (tripScheduleIndex > 0) {
             // Calculate the time difference in hours
-            var startTimeArr = tripScheduleStop.arrival_time_operation.split(':').map(Number);
-            var arrivalTimeArr = prevArrivalTime.split(':').map(Number);
+            var startTimeArr = prevArrivalTime.split(':').map(Number);
+            var arrivalTimeArr = tripScheduleStop.arrival_time_operation.split(':').map(Number);
             var startSeconds = startTimeArr[0] * 3600 + startTimeArr[1] * 60 + startTimeArr[2];
             var arrivalSeconds = arrivalTimeArr[0] * 3600 + arrivalTimeArr[1] * 60 + arrivalTimeArr[2];
             // Add 24 hours if arrival is on the next day
@@ -119,14 +120,17 @@ export default async function handler(req, res) {
             travelTimeInThisSegmentInHours = travelTimeInThisSegmentInSeconds / 3600;
             if (travelTimeInThisSegmentInHours === 0) travelTimeInThisSegmentInHours = 1;
             // Calculate velocity (distance / time)
-            velocityInThisSegment = distanceDelta / travelTimeInThisSegmentInHours;
+            velocityInThisSegment = (distanceDelta / travelTimeInThisSegmentInSeconds) * 3.6;
           }
 
           prevArrivalTime = tripScheduleStop.departure_time_operation;
 
-          // console.log('distanceDelta', distanceDelta);
-          // console.log('velocityInThisSegment', velocityInThisSegment);
-          // console.log('travelTimeInThisSegment', travelTimeInThisSegment);
+          //   console.log('------------------------------');
+          //   console.log('distanceDelta', distanceDelta);
+          //   console.log('velocityInThisSegment', velocityInThisSegment);
+          //   console.log('travelTimeInThisSegmentInSeconds', travelTimeInThisSegmentInSeconds);
+          //   console.log('travelTimeInThisSegmentInHours', travelTimeInThisSegmentInHours);
+          //   console.log('------------------------------');
 
           pathForThisPattern.push({
             stop: associatedStopDocument._id,
@@ -146,9 +150,9 @@ export default async function handler(req, res) {
         let schedulesForThisPattern = [];
         for (const tripApi of directionApi.trips) {
           //
-          console.log('fetching calendars');
+          //   console.log('fetching calendars');
           const allCalendars = await CalendarModel.find();
-          console.log('fetched calendars', allCalendars.length);
+          //   console.log('fetched calendars', allCalendars.length);
 
           const calendarForThisTripAsStrings = tripApi.dates.join(',');
 
@@ -156,7 +160,7 @@ export default async function handler(req, res) {
             const calendarStrings = calendar.dates.join(',');
             return calendarStrings === calendarForThisTripAsStrings;
           });
-          console.log('done finding matching calendars');
+          //   console.log('done finding matching calendars');
 
           if (!matchingCalendar || matchingCalendar.length === 0) {
             let newCalendarCode = tripApi.service_id || generate(4);
@@ -164,8 +168,8 @@ export default async function handler(req, res) {
               newCalendarCode = generate(4);
             }
             matchingCalendar = await CalendarModel.findOneAndUpdate({ code: newCalendarCode }, { code: newCalendarCode, dates: tripApi.dates }, { upsert: true, new: true });
-            console.log(`Created Calendar with code ${matchingCalendar.code}`);
-          } else console.log(`Used existing Calendar ${matchingCalendar.code}`);
+            // console.log(`Created Calendar with code ${matchingCalendar.code}`);
+          } // else console.log(`Used existing Calendar ${matchingCalendar.code}`);
 
           schedulesForThisPattern.push({
             start_time: tripApi.schedule[0].arrival_time_operation.substring(0, 5),
@@ -190,7 +194,7 @@ export default async function handler(req, res) {
           parent_route: route._id,
           direction: Number(directionApi.direction_id),
           headsign: directionApi.headsign,
-          shape: null, // shapeForThisPattern,
+          shape: shapeForThisPattern,
           path: pathForThisPattern,
           schedules: schedulesForThisPattern,
         };

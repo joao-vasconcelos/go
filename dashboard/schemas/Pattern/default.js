@@ -4,16 +4,11 @@
 /* * */
 
 /* * */
-/* A. Default Pattern Values */
+/* A. Default Pattern Preset Values */
 
-export const PatternDefault = {
-  code: '',
-  parent_route: null,
-  direction: null,
-  headsign: '',
-  shape: null,
-  path: [],
-  schedules: [],
+export const PatternPresetsDefault = {
+  velocity: 20,
+  dwell_time: 30,
 };
 
 /* * */
@@ -61,4 +56,18 @@ export const PatternScheduleDefault = {
     video_surveillance: true,
   },
   path_overrides: [],
+};
+
+/* * */
+/* E. Default Pattern Values */
+
+export const PatternDefault = {
+  code: '',
+  parent_route: null,
+  direction: null,
+  headsign: '',
+  presets: PatternPresetsDefault,
+  shape: PatternShapeDefault,
+  path: [],
+  schedules: [],
 };

@@ -1,6 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
+import generate from '@/services/generator';
 import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
@@ -49,33 +50,25 @@ export default async function handler(req, res) {
     const allPatternCodes = await PatternModel.find({}, 'code');
 
     // For each pattern
-    patternLoop: for (const patternCode of allPatternCodes) {
+    for (const patternCode of allPatternCodes) {
       //
-      const patternData = await PatternModel.findOne({ code: patternCode.code });
-
-      // CHECK IF ALL TRAVEL TIMES ARE 20 km/h
-      let allVelocitiesAreEqualTo20 = true;
-      pathLoop: for (const [pathIndex, pathData] of patternData.path.entries()) {
-        if (pathIndex === 0) continue pathLoop;
-        if (pathData.default_velocity === 20) allVelocitiesAreEqualTo20 = true;
-        else allVelocitiesAreEqualTo20 = false;
-      }
-
-      if (allVelocitiesAreEqualTo20) continue patternLoop;
+      const pattern = await PatternModel.findOne({ code: patternCode.code });
 
       let updatedPath = [];
       // For each stop time in the path
-      for (const path of patternData.path) {
+      for (const path of pattern.path) {
+        //
         updatedPath.push({
           ...path,
-          default_travel_time: path.default_travel_time * 3600,
+          default_velocity: 20,
+          default_travel_time: calculateTravelTime(path.distance_delta, 20),
         });
+        //
       }
 
-      patternData.path = updatedPath;
+      pattern.path = updatedPath;
 
-      await patternData.save();
-      console.log(`Updated pattern ${patternData.code}`);
+      await pattern.save();
 
       //
     }
@@ -88,4 +81,17 @@ export default async function handler(req, res) {
 
   console.log('Done. Sending response to client...');
   return await res.status(200).json('Import complete.');
+}
+
+//
+//
+//
+
+function calculateTravelTime(distanceInMeters, speedInKmPerHour) {
+  if (speedInKmPerHour === 0 || distanceInMeters === 0) {
+    return 0;
+  }
+  const speedInMetersPerSecond = (speedInKmPerHour * 1000) / 3600;
+  const travelTimeInSeconds = parseInt(distanceInMeters / speedInMetersPerSecond);
+  return travelTimeInSeconds || 0;
 }

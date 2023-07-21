@@ -26,7 +26,7 @@ function SchedulesTableStartTimeColumn({ rowIndex }) {
   //
   // A. Setup variables
 
-  const t = useTranslations('SchedulesTable');
+  const t = useTranslations('SchedulesTable.start_time');
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
   const patternForm = usePatternFormContext();
@@ -77,16 +77,8 @@ function SchedulesTableStartTimeColumn({ rowIndex }) {
 
   return (
     <div className={styles.column}>
-      <Tooltip label={t('start_time.description')} position='bottom' withArrow>
-        <TextInput
-          aria-label={t('start_time.label')}
-          placeholder={t('start_time.placeholder')}
-          icon={<IconClockPlay size={18} />}
-          {...patternForm.getInputProps(`schedules.${rowIndex}.start_time`)}
-          onChange={handleUpdateStartTime}
-          readOnly={isReadOnly}
-          w={'100%'}
-        />
+      <Tooltip label={t('description')} position='bottom' withArrow>
+        <TextInput aria-label={t('label')} placeholder={t('placeholder')} icon={<IconClockPlay size={18} />} {...patternForm.getInputProps(`schedules.${rowIndex}.start_time`)} onChange={handleUpdateStartTime} readOnly={isReadOnly} w={'100%'} />
       </Tooltip>
     </div>
   );
@@ -107,7 +99,7 @@ function SchedulesTableCalendarsOnColumn({ rowIndex }) {
   //
   // A. Setup variables
 
-  const t = useTranslations('SchedulesTable');
+  const t = useTranslations('SchedulesTable.calendars_on');
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
   const patternForm = usePatternFormContext();
@@ -133,9 +125,9 @@ function SchedulesTableCalendarsOnColumn({ rowIndex }) {
   return (
     <div className={styles.column}>
       <MultiSelect
-        aria-label={t('calendars_on.label')}
-        placeholder={t('calendars_on.placeholder')}
-        nothingFound={t('calendars_on.nothingFound')}
+        aria-label={t('label')}
+        placeholder={t('placeholder')}
+        nothingFound={t('nothingFound')}
         {...patternForm.getInputProps(`schedules.${rowIndex}.calendars_on`)}
         data={allCalendarsDataFormatted}
         icon={<IconCalendarCheck size={20} />}
@@ -162,7 +154,7 @@ function SchedulesTableCalendarsOffColumn({ rowIndex }) {
   //
   // A. Setup variables
 
-  const t = useTranslations('SchedulesTable');
+  const t = useTranslations('SchedulesTable.calendars_off');
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
   const patternForm = usePatternFormContext();
@@ -188,9 +180,9 @@ function SchedulesTableCalendarsOffColumn({ rowIndex }) {
   return (
     <div className={styles.column}>
       <MultiSelect
-        aria-label={t('calendars_off.label')}
-        placeholder={t('calendars_off.placeholder')}
-        nothingFound={t('calendars_off.nothingFound')}
+        aria-label={t('label')}
+        placeholder={t('placeholder')}
+        nothingFound={t('nothingFound')}
         {...patternForm.getInputProps(`schedules.${rowIndex}.calendars_off`)}
         data={allCalendarsDataFormatted}
         icon={<IconCalendarX size={20} />}
@@ -217,7 +209,7 @@ function SchedulesTableCalendarDescColumn({ rowIndex }) {
   //
   // A. Setup variables
 
-  const t = useTranslations('SchedulesTable');
+  const t = useTranslations('SchedulesTable.calendar_desc');
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
   const patternForm = usePatternFormContext();
@@ -227,8 +219,8 @@ function SchedulesTableCalendarDescColumn({ rowIndex }) {
 
   return (
     <div className={styles.column}>
-      <Tooltip label={t('calendar_desc.description')} position='bottom' withArrow>
-        <TextInput aria-label={t('calendar_desc.label')} placeholder={t('calendar_desc.placeholder')} {...patternForm.getInputProps(`schedules.${rowIndex}.calendar_desc`)} icon={<IconCalendarQuestion size={20} />} readOnly={isReadOnly} w={'100%'} />
+      <Tooltip label={t('description')} position='bottom' withArrow>
+        <TextInput aria-label={t('label')} placeholder={t('placeholder')} {...patternForm.getInputProps(`schedules.${rowIndex}.calendar_desc`)} icon={<IconCalendarQuestion size={20} />} readOnly={isReadOnly} w={'100%'} />
       </Tooltip>
     </div>
   );
@@ -249,7 +241,7 @@ function SchedulesTableRemoveTripColumn({ rowIndex }) {
   //
   // A. Setup variables
 
-  const t = useTranslations('SchedulesTable');
+  const t = useTranslations('SchedulesTable.remove');
   const patternForm = usePatternFormContext();
 
   //
@@ -257,11 +249,11 @@ function SchedulesTableRemoveTripColumn({ rowIndex }) {
 
   const handleRemoveTrip = () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('remove.modal.title')}</Text>,
+      title: <Text size='h2'>{t('modal.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('remove.modal.description')}</Text>,
-      labels: { confirm: t('remove.modal.confirm'), cancel: t('remove.modal.cancel') },
+      children: <Text size='h3'>{t('modal.description')}</Text>,
+      labels: { confirm: t('modal.confirm'), cancel: t('modal.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         patternForm.removeListItem('schedules', rowIndex);
@@ -275,7 +267,7 @@ function SchedulesTableRemoveTripColumn({ rowIndex }) {
   return (
     <div className={`${styles.column} ${styles.hend}`}>
       <AuthGate scope='lines' permission='create_edit'>
-        <Tooltip label={t('remove.description')} position='bottom' withArrow>
+        <Tooltip label={t('description')} position='bottom' withArrow>
           <ActionIcon size='lg' color='red' onClick={handleRemoveTrip}>
             <IconBackspace size={20} />
           </ActionIcon>
@@ -320,7 +312,7 @@ function SchedulesTableAddTrip() {
   //
   // A. Setup variables
 
-  const t = useTranslations('SchedulesTable');
+  const t = useTranslations('SchedulesTable.add');
   const patternForm = usePatternFormContext();
 
   //
@@ -337,8 +329,8 @@ function SchedulesTableAddTrip() {
     <div className={`${styles.bodyRow} ${styles.addTripRow}`}>
       <div className={styles.column}>
         <AuthGate scope='lines' permission='create_edit'>
-          <Button leftIcon={<IconPlus size={16} />} color='gray' size='xs' onClick={handleAddTrip}>
-            {t('add.label')}
+          <Button leftIcon={<IconPlus size={16} />} variant='default' size='xs' onClick={handleAddTrip}>
+            {t('label')}
           </Button>
         </AuthGate>
       </div>

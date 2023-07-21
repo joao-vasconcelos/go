@@ -808,12 +808,16 @@
                 "title": "Path",
                 "description": "Something about this section"
             },
-            "update_path": {
-                "title": "Update Path",
-                "description": "Something about this section"
-            },
             "schedules": {
                 "title": "Schedules",
+                "description": "Something about this section"
+            },
+            "presets": {
+                "title": "Presets",
+                "description": "Something about this section"
+            },
+            "update_path": {
+                "title": "Update Path",
                 "description": "Something about this section"
             }
         },
@@ -1717,6 +1721,40 @@
         "remove": {
             "label": "Remove Stop",
             "description": "Remove this stop from the path sequence."
+        }
+    },
+    "PatternPresetsTable": {
+        "velocity": {
+            "label": "Average Speed",
+            "description": "Average speed on the segment between previous and current stop.",
+            "placeholder": "20 km/h",
+            "apply": "Apply this Velocity to All Stops",
+            "modal": {
+                "title": "Replace Velocities",
+                "description": "Are you sure you want to replace the currently set Velocities with this preset value?",
+                "confirm": "Yes, set this value for all stops",
+                "cancel": "No, leave it as is"
+            },
+            "notification": {
+                "loading": "Updating all stops...",
+                "success": "Velocity for all stops updated to {value}"
+            }
+        },
+        "dwell_time": {
+            "label": "Average Dwell Time",
+            "description": "Average time stopped at the current stop picking up and dropping off passengers.",
+            "placeholder": "20 km/h",
+            "apply": "Apply this Dwell Time to All Stops",
+            "modal": {
+                "title": "Replace Dwell Times",
+                "description": "Are you sure you want to replace the currently set Dwell Times with this preset value?",
+                "confirm": "Yes, set this value for all stops",
+                "cancel": "No, leave it as is"
+            },
+            "notification": {
+                "loading": "Updating all stops...",
+                "success": "Dwell Time for all stops updated to {value}"
+            }
         }
     },
     "SchedulesTable": {

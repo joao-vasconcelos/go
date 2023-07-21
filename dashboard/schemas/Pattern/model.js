@@ -25,6 +25,16 @@ export const PatternSchema = new mongoose.Schema(
       type: String,
       maxlength: 100,
     },
+    presets: {
+      velocity: {
+        type: Number,
+        default: 20,
+      },
+      dwell_time: {
+        type: Number,
+        default: 30,
+      },
+    },
     shape: {
       extension: {
         type: Number,
