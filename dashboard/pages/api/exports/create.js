@@ -775,7 +775,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
 
             // 3.4.3.4.1.2.
             // Skip if this calendar ends up not being used when 'concatenate' option is set to true
-            const parsedCalendar = await parseCalendar(calendarData, exportOptions.start_date, exportOptions.start_date, exportOptions.concatenate_calendars);
+            const parsedCalendar = await parseCalendar(calendarData, exportOptions.start_date, exportOptions.end_date, exportOptions.concatenate_calendars);
             if (!parsedCalendar.length) continue calendarLoop;
 
             // 3.4.3.4.1.3.
