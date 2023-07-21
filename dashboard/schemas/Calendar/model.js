@@ -16,11 +16,11 @@ export const Schema = new mongoose.Schema(
     },
     name: {
       type: String,
-      maxlength: 50,
+      maxlength: 250,
     },
     description: {
       type: String,
-      maxlength: 50,
+      maxlength: 250,
     },
     is_holiday: {
       type: Boolean,

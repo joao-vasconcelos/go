@@ -85,6 +85,54 @@ export default function Page() {
     });
   };
 
+  const handleRefactorCalendarCodes = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Convert Calendar Codes?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, convert calendar codes', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('convert-calendar-codes', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/calendarCodes', method: 'GET' });
+          notify('convert-calendar-codes', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('convert-calendar-codes', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
+  const handleRefactorTravelTimeToSeconds = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Convert Travel Time To Seconds?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, convert travel time to seconds', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('convert-travel-time-to-seconds', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/pathTravelTimeToSeconds', method: 'GET' });
+          notify('convert-travel-time-to-seconds', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('convert-travel-time-to-seconds', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
   //
   // D. Handle imports
 
@@ -376,6 +424,8 @@ export default function Page() {
         <SimpleGrid cols={4}>
           <Button onClick={handleRefactorPatternPathTravelTime}>Update Travel Times</Button>
           <Button onClick={handleRefactorConvertPatternShapesToMeters}>Convert Shapes to Meters</Button>
+          <Button onClick={handleRefactorCalendarCodes}>Update Calendar Codes</Button>
+          <Button onClick={handleRefactorTravelTimeToSeconds}>Convert Travel Time To Seconds</Button>
         </SimpleGrid>
       </Section>
       <Section>

@@ -99,11 +99,13 @@ export default async function handler(req, res) {
           // Get _id of associated Stop document
           const associatedStopDocument = await StopModel.findOne({ code: tripScheduleStop.stop_id });
 
-          const distanceDelta = tripScheduleIndex === 0 ? 0 : Number(tripScheduleStop.shape_dist_traveled) * metersOrKm - prevDistance;
-          prevDistance = Number(tripScheduleStop.shape_dist_traveled) * metersOrKm;
+          const accumulatedDistance = Number(tripScheduleStop.shape_dist_traveled);
+          const distanceDelta = tripScheduleIndex === 0 ? 0 : accumulatedDistance * metersOrKm - prevDistance;
+          prevDistance = accumulatedDistance * metersOrKm;
 
           let velocityInThisSegment = 0;
-          let travelTimeInThisSegment = 0;
+          let travelTimeInThisSegmentInSeconds = 0;
+          let travelTimeInThisSegmentInHours = 0;
           if (tripScheduleIndex > 0) {
             // Calculate the time difference in hours
             var startTimeArr = tripScheduleStop.arrival_time_operation.split(':').map(Number);
@@ -113,10 +115,11 @@ export default async function handler(req, res) {
             // Add 24 hours if arrival is on the next day
             if (arrivalSeconds < startSeconds) arrivalSeconds += 24 * 3600;
             // Convert to hours (for km per HOUR)
-            travelTimeInThisSegment = (arrivalSeconds - startSeconds) / 3600;
-            if (travelTimeInThisSegment === 0) travelTimeInThisSegment = 1;
+            travelTimeInThisSegmentInSeconds = arrivalSeconds - startSeconds;
+            travelTimeInThisSegmentInHours = travelTimeInThisSegmentInSeconds / 3600;
+            if (travelTimeInThisSegmentInHours === 0) travelTimeInThisSegmentInHours = 1;
             // Calculate velocity (distance / time)
-            velocityInThisSegment = distanceDelta / travelTimeInThisSegment;
+            velocityInThisSegment = distanceDelta / travelTimeInThisSegmentInHours;
           }
 
           prevArrivalTime = tripScheduleStop.departure_time_operation;
@@ -131,7 +134,7 @@ export default async function handler(req, res) {
             allow_drop_off: true,
             distance_delta: parseInt(distanceDelta),
             default_velocity: parseInt(velocityInThisSegment),
-            default_travel_time: parseInt(travelTimeInThisSegment),
+            default_travel_time: parseInt(travelTimeInThisSegmentInSeconds),
             default_dwell_time: 30,
             zones: associatedStopDocument.zones,
           });
