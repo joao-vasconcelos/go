@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import generate from '@/services/generator';
+import patternVelocities from './patterns_velocities.json';
 import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
@@ -52,23 +52,37 @@ export default async function handler(req, res) {
     // For each pattern
     for (const patternCode of allPatternCodes) {
       //
-      const pattern = await PatternModel.findOne({ code: patternCode.code });
+      if (!patternCode.code.startsWith('4')) continue;
+      //
+      const patternData = await PatternModel.findOne({ code: patternCode.code });
 
+      //
+      const presetVelocity = patternVelocities.find((p) => p.pattern_id === patternData.code);
+      //
+      const velocityToUpdate = presetVelocity.velocity ? presetVelocity.velocity : 20;
+
+      //
       let updatedPath = [];
+
       // For each stop time in the path
-      for (const path of pattern.path) {
+      for (const path of patternData.path) {
         //
         updatedPath.push({
           ...path,
-          default_velocity: 20,
-          default_travel_time: calculateTravelTime(path.distance_delta, 20),
+          default_velocity: velocityToUpdate,
+          default_travel_time: calculateTravelTime(path.distance_delta, velocityToUpdate),
         });
         //
       }
 
-      pattern.path = updatedPath;
+      patternData.path = updatedPath;
 
-      await pattern.save();
+      if (patternData?.presets?.velocity) patternData.presets.velocity = velocityToUpdate;
+      else patternData.presets = { velocity: velocityToUpdate };
+
+      await patternData.save();
+
+      console.log(`Update pattern ${patternData.code} with velocity = ${velocityToUpdate} km/h`);
 
       //
     }

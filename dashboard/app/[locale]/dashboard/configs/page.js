@@ -1,25 +1,14 @@
 'use client';
 
-import useSWR from 'swr';
-import { useState, useCallback } from 'react';
-import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
-import { useForm, yupResolver } from '@mantine/form';
+import { useState } from 'react';
 import API from '@/services/API';
-import { Validation as AgencyValidation } from '@/schemas/Agency/validation';
-import { Default as AgencyDefault } from '@/schemas/Agency/default';
-import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon, Button } from '@mantine/core';
-import { IconTrash } from '@tabler/icons-react';
+import { SimpleGrid, Button } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
-import AutoSave from '@/components/AutoSave/AutoSave';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import { useTranslations } from 'next-intl';
-import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
-import { Yeseva_One } from 'next/font/google';
+import AuthGate from '@/components/AuthGate/AuthGate';
 
 export default function Page() {
   //
@@ -47,87 +36,36 @@ export default function Page() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          setIsImporting(true);
           notify('path-travel-time', 'loading', 'Loading');
           await API({ service: 'configs/refactors/pathTravelTime', method: 'GET' });
           notify('path-travel-time', 'success', 'success');
-          setIsImporting(false);
         } catch (err) {
           console.log(err);
-          setIsImporting(false);
           notify('path-travel-time', 'error', err.message || 'Error');
         }
       },
     });
   };
 
-  const handleRefactorConvertPatternShapesToMeters = async () => {
+  const handleRefactorPatternPathPresetVelocity = async () => {
     openConfirmModal({
-      title: <Text size='h2'>Convert all shapes to meters?</Text>,
+      title: <Text size='h2'>Update pattern preset velocities?</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: <Text size='h3'>Are you sure?</Text>,
-      labels: { confirm: 'Yes, convert shapes to meters', cancel: 'Cancel' },
+      labels: { confirm: 'Yes, update velocities', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
           setIsImporting(true);
-          notify('convert-shapes-to-meters', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/convertShapes', method: 'GET' });
-          notify('convert-shapes-to-meters', 'success', 'success');
+          notify('update-preset-velocities', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/setPathVelocity', method: 'GET' });
+          notify('update-preset-velocities', 'success', 'success');
           setIsImporting(false);
         } catch (err) {
           console.log(err);
           setIsImporting(false);
-          notify('convert-shapes-to-meters', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
-  const handleRefactorCalendarCodes = async () => {
-    openConfirmModal({
-      title: <Text size='h2'>Convert Calendar Codes?</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
-      labels: { confirm: 'Yes, convert calendar codes', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('convert-calendar-codes', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/calendarCodes', method: 'GET' });
-          notify('convert-calendar-codes', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('convert-calendar-codes', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
-  const handleRefactorTravelTimeToSeconds = async () => {
-    openConfirmModal({
-      title: <Text size='h2'>Convert Travel Time To Seconds?</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
-      labels: { confirm: 'Yes, convert travel time to seconds', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('convert-travel-time-to-seconds', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/pathTravelTimeToSeconds', method: 'GET' });
-          notify('convert-travel-time-to-seconds', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('convert-travel-time-to-seconds', 'error', err.message || 'Error');
+          notify('update-preset-velocities', 'error', err.message || 'Error');
         }
       },
     });
@@ -407,47 +345,47 @@ export default function Page() {
   // E. Render components
 
   return (
-    <Pannel>
-      <Section>
-        <Text size='h2'>Imports</Text>
-        <SimpleGrid cols={4}>
-          <Button onClick={handleStartImportLines}>Import Lines</Button>
-          <Button onClick={handleStartImportRoutes}>Import Routes</Button>
-          <Button onClick={handleStartImportPatterns}>Import Patterns & Calendars</Button>
-          <Button onClick={handleStartImportStops}>Import Stops</Button>
-          <Button onClick={handleStartImportShapes}>Import Shapes</Button>
-          <Button onClick={handleStartImportAlerts}>Import Alerts</Button>
-        </SimpleGrid>
-      </Section>
-      <Section>
-        <Text size='h2'>Refactors</Text>
-        <SimpleGrid cols={4}>
-          <Button onClick={handleRefactorPatternPathTravelTime}>Update Travel Times</Button>
-          <Button onClick={handleRefactorConvertPatternShapesToMeters}>Convert Shapes to Meters</Button>
-          <Button onClick={handleRefactorCalendarCodes}>Update Calendar Codes</Button>
-          <Button onClick={handleRefactorTravelTimeToSeconds}>Convert Travel Time To Seconds</Button>
-        </SimpleGrid>
-      </Section>
-      <Section>
-        <Text size='h2'>Deletes</Text>
-        <SimpleGrid cols={5}>
-          <Button onClick={handleDeleteLines} color='red'>
-            Delete All Lines
-          </Button>
-          <Button onClick={handleDeleteRoutes} color='red'>
-            Delete All Routes
-          </Button>
-          <Button onClick={handleDeletePatterns} color='red'>
-            Delete All Patterns
-          </Button>
-          <Button onClick={handleDeleteCalendars} color='red'>
-            Delete All Calendars
-          </Button>
-          <Button onClick={handleDeleteStops} color='red'>
-            Delete All Stops
-          </Button>
-        </SimpleGrid>
-      </Section>
-    </Pannel>
+    <AuthGate scope='configs' permission='admin' redirect>
+      <Pannel>
+        <Section>
+          <Text size='h2'>Imports</Text>
+          <SimpleGrid cols={4}>
+            <Button onClick={handleStartImportLines}>Import Lines</Button>
+            <Button onClick={handleStartImportRoutes}>Import Routes</Button>
+            <Button onClick={handleStartImportPatterns}>Import Patterns & Calendars</Button>
+            <Button onClick={handleStartImportStops}>Import Stops</Button>
+            <Button onClick={handleStartImportShapes}>Import Shapes</Button>
+            <Button onClick={handleStartImportAlerts}>Import Alerts</Button>
+          </SimpleGrid>
+        </Section>
+        <Section>
+          <Text size='h2'>Refactors</Text>
+          <SimpleGrid cols={4}>
+            <Button onClick={handleRefactorPatternPathTravelTime}>Update Travel Times</Button>
+            <Button onClick={handleRefactorPatternPathPresetVelocity}>Update Preset Velocities</Button>
+          </SimpleGrid>
+        </Section>
+        <Section>
+          <Text size='h2'>Deletes</Text>
+          <SimpleGrid cols={5}>
+            <Button onClick={handleDeleteLines} color='red'>
+              Delete All Lines
+            </Button>
+            <Button onClick={handleDeleteRoutes} color='red'>
+              Delete All Routes
+            </Button>
+            <Button onClick={handleDeletePatterns} color='red'>
+              Delete All Patterns
+            </Button>
+            <Button onClick={handleDeleteCalendars} color='red'>
+              Delete All Calendars
+            </Button>
+            <Button onClick={handleDeleteStops} color='red'>
+              Delete All Stops
+            </Button>
+          </SimpleGrid>
+        </Section>
+      </Pannel>
+    </AuthGate>
   );
 }
