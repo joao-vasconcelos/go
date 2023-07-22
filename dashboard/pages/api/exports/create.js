@@ -45,16 +45,6 @@ export default async function handler(req, res) {
   let exportSummary;
 
   // 2.
-  // Check for correct Authentication and valid Permissions
-
-  try {
-    session = await checkAuthentication({ scope: 'exports', permission: req.body.export_type, req, res });
-  } catch (err) {
-    console.log(err);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
-  }
-
-  // 3.
   // Parse request body into JSON
 
   try {
@@ -62,6 +52,16 @@ export default async function handler(req, res) {
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'JSON parse error.' });
+  }
+
+  // 3.
+  // Check for correct Authentication and valid Permissions
+
+  try {
+    session = await checkAuthentication({ scope: 'exports', permission: req.body.export_type, req, res });
+  } catch (err) {
+    console.log(err);
+    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
   // 4.
