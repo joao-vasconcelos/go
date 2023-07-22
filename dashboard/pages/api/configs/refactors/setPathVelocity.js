@@ -59,7 +59,7 @@ export default async function handler(req, res) {
       //
       const presetVelocity = patternVelocities.find((p) => p.pattern_id === patternData.code);
       //
-      const velocityToUpdate = presetVelocity.velocity ? presetVelocity.velocity : 20;
+      const velocityToUpdate = presetVelocity?.velocity ? presetVelocity.velocity : 20;
 
       //
       let updatedPath = [];
