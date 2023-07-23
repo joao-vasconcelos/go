@@ -7,7 +7,7 @@ import parseDate from '@/services/parseDate';
 import { useTranslations } from 'next-intl';
 import { ExportOptions } from '@/schemas/Export/options';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import { isAllowed } from '@/components/AuthGate/AuthGate';
 import { IconCloudPlus } from '@tabler/icons-react';
 import { SimpleGrid, Select, MultiSelect, Button, Divider, Switch } from '@mantine/core';
 import { Section } from '@/components/Layouts/Layouts';
@@ -35,9 +35,11 @@ export default function ExportFileForm() {
   const [selectedAgencyId, setSelectedAgencyId] = useState();
   const [selectedLineIdsToInclude, setSelectedLineIdsToInclude] = useState([]);
   const [selectedLineIdsToExclude, setSelectedLineIdsToExclude] = useState([]);
-  const [selectedPlanStartDate, setSelectedPlanStartDate] = useState();
-  const [selectedPlanEndDate, setSelectedPlanEndDate] = useState();
-  const [shouldConcatenateCalendars, setShouldConcatenateCalendars] = useState();
+  const [selectedFeedStartDate, setSelectedFeedStartDate] = useState();
+  const [selectedFeedEndDate, setSelectedFeedEndDate] = useState();
+  const [shouldAdjustCalendars, setShouldAdjustCalendars] = useState();
+  const [selectedCalendarsStartDate, setSelectedCalendarsStartDate] = useState();
+  const [selectedCalendarsEndDate, setSelectedCalendarsEndDate] = useState();
 
   //
   // B. Fetch data
@@ -103,18 +105,22 @@ export default function ExportFileForm() {
           agency_id: selectedAgencyId,
           lines_included: selectedLineIdsToInclude,
           lines_excluded: selectedLineIdsToExclude,
-          start_date: parseDate(selectedPlanStartDate),
-          end_date: parseDate(selectedPlanEndDate),
-          concatenate_calendars: shouldConcatenateCalendars,
+          feed_start_date: parseDate(selectedFeedStartDate),
+          feed_end_date: parseDate(selectedFeedEndDate),
+          adjust_calendars: shouldAdjustCalendars,
+          calendars_start_date: parseDate(selectedCalendarsStartDate),
+          calendars_end_date: parseDate(selectedCalendarsEndDate),
         },
       });
       allExportsMutate();
       //   setSelectedAgencyId();
       //   setSelectedLineIdsToInclude([]);
       //   setSelectedLineIdsToExclude([]);
-      //   setSelectedPlanStartDate();
-      //   setSelectedPlanEndDate();
-      //   setShouldConcatenateCalendars();
+      //   setSelectedFeedStartDate();
+      //   setSelectedFeedEndDate();
+      //   setShouldAdjustCalendars();
+      //   setSelectedCalendarsStartDate();
+      //   setSelectedCalendarsEndDate();
       setIsCreatingExport(false);
     } catch (err) {
       console.log(err);
@@ -141,10 +147,13 @@ export default function ExportFileForm() {
           {t('description')}
         </Text>
       </Section>
+
       <Divider />
+
       <Section>
         <Select
           label={t('form.export_type.label')}
+          description={t('form.export_type.description')}
           placeholder={t('form.export_type.placeholder')}
           nothingFound={t('form.export_type.nothingFound')}
           data={availableExportTypes}
@@ -154,12 +163,14 @@ export default function ExportFileForm() {
           clearable
         />
       </Section>
+
       <Divider />
+
       <Section>
         <Select
           label={t('form.agencies.label')}
-          placeholder={t('form.agencies.placeholder')}
           description={t('form.agencies.description')}
+          placeholder={t('form.agencies.placeholder')}
           nothingFound={t('form.agencies.nothingFound')}
           data={availableAgencies}
           value={selectedAgencyId}
@@ -169,7 +180,9 @@ export default function ExportFileForm() {
           clearable
         />
       </Section>
+
       <Divider />
+
       <Section>
         <MultiSelect
           label={t('form.lines_include.label')}
@@ -196,34 +209,78 @@ export default function ExportFileForm() {
           clearable
         />
       </Section>
+
       <Divider />
+
       <Section>
         <SimpleGrid cols={2}>
-          <DatePickerInput label={t('form.start_date.label')} placeholder={t('form.start_date.placeholder')} value={selectedPlanStartDate} onChange={setSelectedPlanStartDate} disabled={!selectedAgencyId} dropdownType='modal' clearable />
           <DatePickerInput
-            label={t('form.end_date.label')}
-            placeholder={t('form.end_date.placeholder')}
-            value={selectedPlanEndDate}
-            onChange={setSelectedPlanEndDate}
-            minDate={selectedPlanStartDate}
-            disabled={!selectedPlanStartDate}
+            label={t('form.feed_start_date.label')}
+            description={t('form.feed_start_date.description')}
+            placeholder={t('form.feed_start_date.placeholder')}
+            value={selectedFeedStartDate}
+            onChange={setSelectedFeedStartDate}
+            disabled={!selectedAgencyId}
+            dropdownType='modal'
+            clearable
+          />
+          <DatePickerInput
+            label={t('form.feed_end_date.label')}
+            description={t('form.feed_end_date.description')}
+            placeholder={t('form.feed_end_date.placeholder')}
+            value={selectedFeedEndDate}
+            onChange={setSelectedFeedEndDate}
+            minDate={selectedFeedStartDate}
+            disabled={!selectedFeedStartDate}
             dropdownType='modal'
             clearable
           />
         </SimpleGrid>
+      </Section>
+
+      <Divider />
+
+      <Section>
         <SimpleGrid cols={1}>
           <Switch
-            label={t('form.concatenate_calendars.label')}
-            description={t('form.concatenate_calendars.description')}
-            checked={shouldConcatenateCalendars}
-            onChange={(event) => setShouldConcatenateCalendars(event.currentTarget.checked)}
-            disabled={!selectedAgencyId || !selectedPlanStartDate || !selectedPlanEndDate}
+            label={t('form.adjust_calendars.label')}
+            description={t('form.adjust_calendars.description')}
+            checked={shouldAdjustCalendars}
+            onChange={(event) => setShouldAdjustCalendars(event.currentTarget.checked)}
+            disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate}
           />
         </SimpleGrid>
+        {shouldAdjustCalendars && (
+          <SimpleGrid cols={2}>
+            <DatePickerInput
+              label={t('form.calendars_start_date.label')}
+              description={t('form.calendars_start_date.description')}
+              placeholder={t('form.calendars_start_date.placeholder')}
+              value={selectedCalendarsStartDate}
+              onChange={setSelectedCalendarsStartDate}
+              disabled={!selectedAgencyId}
+              dropdownType='modal'
+              clearable
+            />
+            <DatePickerInput
+              label={t('form.calendars_end_date.label')}
+              description={t('form.calendars_end_date.description')}
+              placeholder={t('form.calendars_end_date.placeholder')}
+              value={selectedCalendarsEndDate}
+              onChange={setSelectedCalendarsEndDate}
+              minDate={selectedCalendarsStartDate}
+              disabled={!selectedCalendarsStartDate}
+              dropdownType='modal'
+              clearable
+            />
+          </SimpleGrid>
+        )}
       </Section>
+
       <Divider />
+
       <Section>
-        <Button onClick={handleStartExport} loading={isCreatingExport} disabled={!selectedAgencyId || !selectedPlanStartDate || !selectedPlanEndDate}>
+        <Button onClick={handleStartExport} loading={isCreatingExport} disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate}>
           {t('operations.start.label')}
         </Button>
       </Section>

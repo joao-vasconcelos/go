@@ -175,9 +175,11 @@ export default async function handler(req, res) {
     const exportOptions = {
       lines_included: req.body.lines_included || [],
       lines_excluded: req.body.lines_excluded || [],
-      start_date: req.body.start_date,
-      end_date: req.body.end_date,
-      concatenate_calendars: req.body.concatenate_calendars,
+      feed_start_date: req.body.feed_start_date,
+      feed_end_date: req.body.feed_end_date,
+      adjust_calendars: req.body.adjust_calendars,
+      calendars_start_date: req.body.calendars_start_date,
+      calendars_end_date: req.body.calendars_end_date,
     };
 
     // 8.3.
@@ -369,8 +371,8 @@ function parseFeedInfo(agencyData, options) {
     default_lang: 'en',
     feed_contact_url: 'https://github.com/carrismetropolitana/gtfs',
     feed_version: today(),
-    feed_start_date: options.start_date,
-    feed_end_date: options.end_date,
+    feed_start_date: options.feed_start_date,
+    feed_end_date: options.feed_end_date,
   };
 }
 
@@ -775,7 +777,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
 
             // 3.4.3.4.1.2.
             // Skip if this calendar ends up not being used when 'concatenate' option is set to true
-            const parsedCalendar = await parseCalendar(calendarData, exportOptions.start_date, exportOptions.end_date, exportOptions.concatenate_calendars);
+            const parsedCalendar = await parseCalendar(calendarData, exportOptions.calendars_start_date, exportOptions.calendars_end_date, exportOptions.adjust_calendars);
             if (!parsedCalendar.length) continue calendarLoop;
 
             // 3.4.3.4.1.3.
@@ -956,7 +958,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
   // Fetch the referenced calendars and write the calendar_dates.txt file
   for (const calendarCode of referencedCalendarCodes) {
     const calendarData = await CalendarModel.findOne({ code: calendarCode });
-    const parsedCalendar = await parseCalendar(calendarData, exportOptions.start_date, exportOptions.end_date, exportOptions.concatenate_calendars);
+    const parsedCalendar = await parseCalendar(calendarData, exportOptions.calendars_start_date, exportOptions.calendars_end_date, exportOptions.adjust_calendars);
     if (parsedCalendar.length) writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
   }
 
