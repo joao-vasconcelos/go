@@ -11,7 +11,7 @@ import { FormProvider as PatternFormProvider, useForm as usePatternForm } from '
 import API from '@/services/API';
 import { PatternValidation } from '@/schemas/Pattern/validation';
 import { PatternDefault } from '@/schemas/Pattern/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import OSMMap from '@/components/OSMMap/OSMMap';
 import { useMap, Source, Layer } from 'react-map-gl/maplibre';
@@ -46,6 +46,10 @@ export default function Page() {
   const { patternShapeMap } = useMap();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
+  const [showAllZonesOnMap, setShowAllZonesOnMap] = useState(true);
+  const [showAllStopsOnMap, setShowAllStopsOnMap] = useState(true);
+  const [mapStyle, setMapStyle] = useState('map');
+
   const { line_id, route_id, pattern_id } = useParams();
 
   //
@@ -54,6 +58,7 @@ export default function Page() {
   const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
   const { mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
   const { data: allZonesData } = useSWR('/api/zones');
+  const { data: allStopsData } = useSWR('/api/stops');
   const { data: agencyData } = useSWR(lineData && lineData.agency && `/api/agencies/${lineData.agency}`);
   const { data: typologyData } = useSWR(lineData && lineData.typology && `/api/typologies/${lineData.typology}`);
   const { data: patternData, error: patternError, isLoading: patternLoading, mutate: patternMutate } = useSWR(pattern_id && `/api/patterns/${pattern_id}`, { onSuccess: (data) => keepFormUpdated(data) });
@@ -166,6 +171,33 @@ export default function Page() {
     }
     return geoJSON;
   }, [allZonesData]);
+
+  const allStopsMapData = useMemo(() => {
+    // Create a GeoJSON object
+    const geoJSON = {
+      type: 'FeatureCollection',
+      features: [],
+    };
+    if (allStopsData) {
+      for (const stop of allStopsData) {
+        geoJSON.features.push({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [parseFloat(stop.longitude), parseFloat(stop.latitude)],
+          },
+          properties: {
+            _id: stop._id,
+            code: stop.code,
+            name: stop.name,
+            latitude: stop.latitude,
+            longitude: stop.longitude,
+          },
+        });
+      }
+    }
+    return geoJSON;
+  }, [allStopsData]);
 
   //
   // D. Handle actions
@@ -307,12 +339,37 @@ export default function Page() {
               <StatCard title={t('sections.shape.cards.cost')} value={shapeCost} />
             </SimpleGrid>
           </Section>
-          <OSMMap id='patternShape' height={500} scrollZoom={false} mapStyle='map'>
-            {allZonesMapData && (
+          <OSMMap
+            id='patternShape'
+            height={500}
+            scrollZoom={false}
+            mapStyle={mapStyle}
+            toolbar={
+              <>
+                <SegmentedControl
+                  value={mapStyle}
+                  onChange={setMapStyle}
+                  size='xs'
+                  data={[
+                    { label: 'Map', value: 'map' },
+                    { label: 'Satellite', value: 'satellite' },
+                  ]}
+                />
+                <Switch size='xs' label={'Show Zones'} defaultChecked={showAllZonesOnMap} value={showAllZonesOnMap} onChange={(event) => setShowAllZonesOnMap(event.currentTarget.checked)} />
+                <Switch size='xs' label={'Show All Stops'} defaultChecked={showAllStopsOnMap} value={showAllStopsOnMap} onChange={(event) => setShowAllStopsOnMap(event.currentTarget.checked)} />
+              </>
+            }
+          >
+            {allZonesMapData && showAllZonesOnMap && (
               <Source id='all-zones' type='geojson' data={allZonesMapData}>
                 <Layer id='all-zones-polygons' type='fill' source='all-zones' layout={{}} paint={{ 'fill-color': ['get', 'fill_color'], 'fill-opacity': ['get', 'fill_opacity'] }} />
                 <Layer id='all-zones-borders' type='line' layout={{}} source='all-zones' paint={{ 'line-color': ['get', 'border_color'], 'line-opacity': ['get', 'border_opacity'], 'line-width': ['get', 'border_width'] }} />
                 <Layer id='all-zones-labels' type='symbol' source='all-zones' layout={{ 'text-field': ['get', 'name'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 14 }} />
+              </Source>
+            )}
+            {allStopsMapData && showAllStopsOnMap && (
+              <Source id='all-stops' type='geojson' data={allStopsMapData}>
+                <Layer id='all-stops' type='circle' source='all-stops' paint={{ 'circle-color': 'rgba(255,220,0,0.75)', 'circle-radius': 2, 'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(0,0,0,0.5)' }} />
               </Source>
             )}
             {patternForm.values?.shape?.geojson && (
