@@ -96,7 +96,7 @@
         "untitled": "Untitled Alert",
         "list": {
             "no_selection": "Select an Alert",
-            "footer": "Found {count, plural, =1 {1 Alert} other {# Agencies}}",
+            "footer": "Found {count, plural, =1 {1 Alert} other {# Alerts}}",
             "created_by": "Created by {user_name}",
             "published": {
                 "true": "Published",
