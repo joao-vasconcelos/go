@@ -180,6 +180,7 @@ export default async function handler(req, res) {
       adjust_calendars: req.body.adjust_calendars,
       calendars_start_date: req.body.calendars_start_date,
       calendars_end_date: req.body.calendars_end_date,
+      stop_sequence_start: req.body.stop_sequence_start,
     };
 
     // 8.3.
@@ -849,25 +850,33 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
               currentTripDistance = currentTripDistance + pathData.distance_delta;
 
               // 3.4.3.4.1.9.7.
+              // Add to the sequence index the value from the client (start with 1 or 0)
+              const currentStopSequence = pathIndex + exportOptions.stop_sequence_start;
+
+              // 3.4.3.4.1.9.8.
+              // Format the shape_dist_traveled for the given precision
+              const currentShapeDistTraveled = parseFloat((currentTripDistance / 1000).toFixed(15));
+
+              // 3.4.3.4.1.9.9.
               // Write the stop_times.txt entry for this stop_time
               parsedStopTimes.push({
                 trip_id: thisTripCode,
                 arrival_time: currentArrivalTime,
                 departure_time: departureTime,
                 stop_id: stopData.code,
-                stop_sequence: pathIndex,
+                stop_sequence: currentStopSequence,
                 pickup_type: pathData.allow_pickup ? 0 : 1,
                 drop_off_type: pathData.allow_drop_off ? 0 : 1,
-                shape_dist_traveled: parseFloat((currentTripDistance / 1000).toFixed(15)),
+                shape_dist_traveled: currentShapeDistTraveled,
                 timepoint: 1,
               });
 
-              // 3.4.3.4.1.9.8.
+              // 3.4.3.4.1.9.10.
               // The current trip time should now be equal to the departure time, so that the next iteration
               // also takes into the account the dwell time on the current stop.
               currentArrivalTime = departureTime;
 
-              // 3.4.3.4.1.9.9.
+              // 3.4.3.4.1.9.11.
               // Set the flag to true to indicate that this stop_time was valid
               allStopTimesForThisTripAreValid = true;
 

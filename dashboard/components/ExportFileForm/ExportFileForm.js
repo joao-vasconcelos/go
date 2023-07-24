@@ -9,7 +9,7 @@ import { ExportOptions } from '@/schemas/Export/options';
 import { useSession } from 'next-auth/react';
 import { isAllowed } from '@/components/AuthGate/AuthGate';
 import { IconCloudPlus } from '@tabler/icons-react';
-import { SimpleGrid, Select, MultiSelect, Button, Divider, Switch } from '@mantine/core';
+import { SimpleGrid, Select, MultiSelect, Button, Divider, Switch, SegmentedControl, Slider, NumberInput } from '@mantine/core';
 import { Section } from '@/components/Layouts/Layouts';
 import { useState, useMemo } from 'react';
 import API from '@/services/API';
@@ -40,6 +40,7 @@ export default function ExportFileForm() {
   const [shouldAdjustCalendars, setShouldAdjustCalendars] = useState();
   const [selectedCalendarsStartDate, setSelectedCalendarsStartDate] = useState();
   const [selectedCalendarsEndDate, setSelectedCalendarsEndDate] = useState();
+  const [selectedStopSequenceStart, setSelectedStopSequenceStart] = useState(1);
 
   //
   // B. Fetch data
@@ -110,6 +111,7 @@ export default function ExportFileForm() {
           adjust_calendars: shouldAdjustCalendars,
           calendars_start_date: parseDate(selectedCalendarsStartDate),
           calendars_end_date: parseDate(selectedCalendarsEndDate),
+          stop_sequence_start: selectedStopSequenceStart,
         },
       });
       allExportsMutate();
@@ -275,6 +277,23 @@ export default function ExportFileForm() {
             />
           </SimpleGrid>
         )}
+      </Section>
+
+      <Divider />
+
+      <Section>
+        <SimpleGrid cols={1}>
+          <NumberInput
+            label={t('form.stop_sequence_start.label')}
+            description={t('form.stop_sequence_start.description')}
+            placeholder={t('form.stop_sequence_start.placeholder')}
+            value={selectedStopSequenceStart}
+            onChange={setSelectedStopSequenceStart}
+            disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate}
+            max={1}
+            min={0}
+          />
+        </SimpleGrid>
       </Section>
 
       <Divider />

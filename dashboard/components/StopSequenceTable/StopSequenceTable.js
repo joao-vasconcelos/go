@@ -23,7 +23,7 @@ import calculateTravelTime from '@/services/calculateTravelTime';
 function StopSequenceTableIndexColumn({ rowIndex }) {
   return (
     <div className={`${styles.column} ${styles.hcenter}`}>
-      <div className={styles.sequenceIndex}>{rowIndex}</div>
+      <div className={styles.sequenceIndex}>{rowIndex + 1}</div>
     </div>
   );
 }

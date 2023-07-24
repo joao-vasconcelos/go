@@ -2016,6 +2016,11 @@
                 "label": "Calendars End Date",
                 "description": "The feed ends on this date.",
                 "placeholder": "Select a date..."
+            },
+            "stop_sequence_start": {
+                "label": "Stop Sequence start value",
+                "description": "The order of stops in stop_times.txt should start with 1, but it is possible to start on 0.",
+                "placeholder": "1"
             }
         }
     }
