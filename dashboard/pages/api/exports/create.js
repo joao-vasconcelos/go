@@ -474,7 +474,7 @@ function getLineType(typologyCode) {
 /* * */
 /* PARSE ZONING */
 /* Build a zoning object entry */
-async function parseZoning(lineData, patternData) {
+async function parseZoning(lineData, patternData, exportOptions) {
   const parsedZoning = [];
   for (const [pathIndex, pathData] of patternData.path.entries()) {
     // Skip if this pathStop has no associated stop
@@ -491,7 +491,7 @@ async function parseZoning(lineData, patternData) {
     parsedZoning.push({
       line_id: lineData.code,
       pattern_id: patternData.code,
-      stop_sequence: pathIndex,
+      stop_sequence: pathIndex + exportOptions.stop_sequence_start,
       stop_id: stopData.code,
       stop_name: stopData.name || '',
       stop_lat: stopData.latitude || '0',
@@ -922,7 +922,7 @@ async function buildGTFSv18(progress, agencyData, exportOptions) {
 
         // 3.4.3.6.
         // Write the afetacao.txt entry for this pattern
-        const parsedZoning = await parseZoning(lineData, patternData);
+        const parsedZoning = await parseZoning(lineData, patternData, exportOptions);
         writeCsvToFile(progress.workdir, 'afetacao.csv', parsedZoning);
 
         // 3.4.3.7.
