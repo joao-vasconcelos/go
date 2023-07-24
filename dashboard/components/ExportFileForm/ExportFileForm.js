@@ -299,7 +299,11 @@ export default function ExportFileForm() {
       <Divider />
 
       <Section>
-        <Button onClick={handleStartExport} loading={isCreatingExport} disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate}>
+        <Button
+          onClick={handleStartExport}
+          loading={isCreatingExport}
+          disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate || (shouldAdjustCalendars && (!selectedCalendarsStartDate || !selectedCalendarsEndDate)) || selectedStopSequenceStart.length === 0}
+        >
           {t('operations.start.label')}
         </Button>
       </Section>
