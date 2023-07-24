@@ -203,25 +203,6 @@
             }
         }
     },
-    "exports": {
-        "gtfs_v18": {
-            "title": "Export Intended Offer (v18)",
-            "sections": {
-                "intro": {
-                    "title": "Export GTFS Intro",
-                    "description": "Something about this section"
-                }
-            },
-            "operations": {
-                "start": {
-                    "label": "Start Export (v18)"
-                }
-            }
-        },
-        "gtfs_v29": {
-            "title": "Export Intended Offer (v29)"
-        }
-    },
     "calendars": {
         "untitled": "Untitled Calendar",
         "list": {
