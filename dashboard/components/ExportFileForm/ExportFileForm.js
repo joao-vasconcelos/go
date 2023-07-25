@@ -114,15 +114,20 @@ export default function ExportFileForm() {
           stop_sequence_start: selectedStopSequenceStart,
         },
       });
+      // Mutate results
       allExportsMutate();
-      //   setSelectedAgencyId();
-      //   setSelectedLineIdsToInclude([]);
-      //   setSelectedLineIdsToExclude([]);
-      //   setSelectedFeedStartDate();
-      //   setSelectedFeedEndDate();
-      //   setShouldAdjustCalendars();
-      //   setSelectedCalendarsStartDate();
-      //   setSelectedCalendarsEndDate();
+      // Reset form
+      setSelectedExportType();
+      setSelectedAgencyId();
+      setSelectedLineIdsToInclude([]);
+      setSelectedLineIdsToExclude([]);
+      setSelectedFeedStartDate();
+      setSelectedFeedEndDate();
+      setShouldAdjustCalendars();
+      setSelectedCalendarsStartDate();
+      setSelectedCalendarsEndDate();
+      setSelectedStopSequenceStart(1);
+      // Reset state
       setIsCreatingExport(false);
     } catch (err) {
       console.log(err);
