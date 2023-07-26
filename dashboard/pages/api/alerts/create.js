@@ -3,6 +3,7 @@ import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { AlertDefault } from '@/schemas/Alert/default';
 import { AlertModel } from '@/schemas/Alert/model';
+import { Client } from 'minio';
 
 /* * */
 /* CREATE ALERT */
@@ -35,6 +36,39 @@ export default async function handler(req, res) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
+
+  //   TEST
+
+  const minioClient = new Client({
+    endPoint: 'play.min.io',
+    port: 9000,
+    useSSL: true,
+    accessKey: 'Q3AM3UQ867SPQQA43P2F',
+    secretKey: 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG',
+  });
+
+  // File that needs to be uploaded.
+  var file = process.env.PWD + '/test.png';
+
+  // Make a bucket called europetrip.
+  //   minioClient.makeBucket('test-cm', 'us-east-1', function (err) {
+  //     if (err) return console.log(err);
+
+  //     console.log('Bucket created successfully in "us-east-1".');
+  //   });
+
+  var metaData = {
+    'Content-Type': 'application/octet-stream',
+    'X-Amz-Meta-Testing': 1234,
+    example: 5678,
+  };
+  // Using fPutObject API upload your file to the bucket europetrip.
+  minioClient.fPutObject('test-cm', 'test.png', file, metaData, function (err, etag) {
+    if (err) return console.log(err);
+    console.log('File uploaded successfully.');
+  });
+
+  //   TEST
 
   // 3.
   // Connect to MongoDB

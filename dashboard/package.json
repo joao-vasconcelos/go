@@ -30,6 +30,7 @@
         "inflected": "2.1.0",
         "lodash": "4.17.21",
         "maplibre-gl": "3.2.1",
+        "minio": "7.1.1",
         "mongodb": "5.7.0",
         "mongoose": "7.4.1",
         "next": "13.4.12",
