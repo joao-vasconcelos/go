@@ -766,6 +766,11 @@ export default async function buildNETEXv1(progress, agencyData, exportOptions) 
   writeXmlToFile(progress.workdir, 'stops.xml', '<PublicationTimestamp>2017-02-13T15:00:00.0Z</PublicationTimestamp>');
   writeXmlToFile(progress.workdir, 'stops.xml', '<ParticipantRef>NSR</ParticipantRef>');
   writeXmlToFile(progress.workdir, 'stops.xml', '<dataObjects>');
+  writeXmlToFile(progress.workdir, 'stops.xml', '<FrameDefaults>');
+  writeXmlToFile(progress.workdir, 'stops.xml', '<DefaultLocale>');
+  writeXmlToFile(progress.workdir, 'stops.xml', '<DefaultLanguage>no</DefaultLanguage>');
+  writeXmlToFile(progress.workdir, 'stops.xml', '</DefaultLocale>');
+  writeXmlToFile(progress.workdir, 'stops.xml', '</FrameDefaults>');
   writeXmlToFile(progress.workdir, 'stops.xml', '<SiteFrame version="1" id="NSR:SiteFrame:1" >');
   writeXmlToFile(progress.workdir, 'stops.xml', '<stopPlaces>');
 
