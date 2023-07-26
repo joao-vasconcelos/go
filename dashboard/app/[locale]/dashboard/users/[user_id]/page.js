@@ -251,6 +251,14 @@ export default function Page() {
                 disabled={!userForm.values.permissions.exports.view}
                 readOnly={isReadOnly}
               />
+              <Switch
+                size='md'
+                label={t('form.permissions.exports.netex_v1.label')}
+                description={t('form.permissions.exports.netex_v1.description')}
+                {...userForm.getInputProps('permissions.exports.netex_v1', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.exports.view}
+                readOnly={isReadOnly}
+              />
             </SimpleGrid>
             <SimpleGrid cols={1} mt='md'>
               <MultiSelect

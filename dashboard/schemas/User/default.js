@@ -24,6 +24,7 @@ export const Default = {
       gtfs_v18: false,
       gtfs_v29: false,
       gtfs_v30: false,
+      netex_v1: false,
       agencies: [],
     },
     // USERS

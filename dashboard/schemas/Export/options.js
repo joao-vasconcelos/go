@@ -14,15 +14,9 @@ export const ExportOptions = {
 
   /*
    * TYPE
-   *
-   * 0 - Unknown Type
-   * 1 - GTFS v18
-   * 2 - GTFS v29
-   * 3 - GTFS v30
-   * 4 - Ticket Zoning
    */
 
-  export_type: ['gtfs_v18', 'gtfs_v29', 'gtfs_v30'],
+  export_type: ['gtfs_v18', 'gtfs_v29', 'gtfs_v30', 'netex_v1'],
 
   /*
    * STATUS

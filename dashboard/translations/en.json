@@ -1337,6 +1337,10 @@
                         "label": "Export GTFS v30",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
+                    "netex_v1": {
+                        "label": "Export NETEX v1",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
                     "agencies": {
                         "label": "Can Export data from these Agencies",
                         "placeholder": "Choose an option...",
@@ -1899,6 +1903,10 @@
             "gtfs_v30": {
                 "label": "GTFS Reference Plan (v30)",
                 "description": "For testing."
+            },
+            "netex_v1": {
+                "label": "NETEX (v1) (Teste)",
+                "description": "For testing."
             }
         },
         "status": {
@@ -1926,6 +1934,10 @@
             },
             "gtfs_v30": {
                 "label": "GTFS v30",
+                "description": "For testing."
+            },
+            "netex_v1": {
+                "label": "NETEX v1",
                 "description": "For testing."
             }
         },

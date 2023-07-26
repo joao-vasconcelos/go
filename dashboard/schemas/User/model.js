@@ -54,6 +54,9 @@ export const Schema = new mongoose.Schema(
         gtfs_v30: {
           type: Boolean,
         },
+        netex_v1: {
+          type: Boolean,
+        },
         agencies: [
           {
             type: mongoose.Schema.Types.ObjectId,
