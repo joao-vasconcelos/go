@@ -7,7 +7,7 @@ import { ExportDefault } from '@/schemas/Export/default';
 import { ExportModel } from '@/schemas/Export/model';
 import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportOptions } from '@/schemas/Export/options';
-import buildGTFSv18 from '@/services/exportScripts/buildGTFSv18';
+import buildGTFSv29 from '@/services/exportScripts/buildGTFSv29';
 import buildNETEXv1 from '@/services/exportScripts/buildNETEXv1';
 
 /* * */
@@ -184,13 +184,13 @@ export default async function handler(req, res) {
       // 8.3.1.
       // Build GTFS v18
       case 'gtfs_v18':
-        await buildGTFSv18(exportSummary, agencyData, exportOptions);
-        await update(exportSummary, { progress_current: 1, progress_total: 2 });
+        throw new Error('v18 not implemented');
         break;
       // 8.3.2.
       // Build GTFS v29
       case 'gtfs_v29':
-        throw new Error('v29 not implemented');
+        await buildGTFSv29(exportSummary, agencyData, exportOptions);
+        await update(exportSummary, { progress_current: 1, progress_total: 2 });
         break;
       // 8.3.3.
       // Build GTFS v30

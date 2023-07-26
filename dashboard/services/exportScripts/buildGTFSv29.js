@@ -14,7 +14,7 @@ import { Model as DateModel } from '@/schemas/Date/model';
 import { Model as CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
-/* EXPORT GTFS V18 */
+/* EXPORT GTFS V29 */
 /* This endpoint returns a zip file. */
 /* * */
 
@@ -422,9 +422,9 @@ function parseStop(stopData, municipalityData) {
 //
 
 /* * */
-/* BUILD GTFS V18 */
+/* BUILD GTFS V29 */
 /* This builds the GTFS archive. */
-export default async function buildGTFSv18(progress, agencyData, exportOptions) {
+export default async function buildGTFSv29(progress, agencyData, exportOptions) {
   //
 
   // 0.
