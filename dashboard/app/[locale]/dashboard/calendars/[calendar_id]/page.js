@@ -184,10 +184,16 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <Text size='h2'>{t('sections.config.title')}</Text>
+          <div>
+            <Text size='h2'>{t('sections.config.title')}</Text>
+            <Text size='h4'>{t('sections.config.description')}</Text>
+          </div>
+          <SimpleGrid cols={4}>
+            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+          </SimpleGrid>
           <SimpleGrid cols={2}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
-            <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+            <TextInput label={t('form.description.label')} placeholder={t('form.description.placeholder')} {...form.getInputProps('description')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
         <Divider />
