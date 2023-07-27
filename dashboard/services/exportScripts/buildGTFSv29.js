@@ -1,6 +1,6 @@
 import Papa from 'papaparse';
-import dayjs from 'dayjs';
 import * as fs from 'fs';
+import calculateDateDayType from '../calculateDateDayType';
 import { ExportModel } from '@/schemas/Export/model';
 import { Model as LineModel } from '@/schemas/Line/model';
 import { Model as FareModel } from '@/schemas/Fare/model';
@@ -330,7 +330,7 @@ async function parseCalendar(calendarData, startDate, endDate, shouldConcatenate
     // Skip if no date is found
     if (!dateData) continue;
     // Get the day_type for the current date
-    let dayType = getDayType(calendarDate, calendarData.is_holiday);
+    let dayType = calculateDateDayType(calendarDate, calendarData.is_holiday);
     // Build the date entry
     parsedCalendar.push({
       service_id: calendarData.code,
@@ -344,30 +344,6 @@ async function parseCalendar(calendarData, startDate, endDate, shouldConcatenate
   }
   // Return this calendar
   return parsedCalendar;
-  //
-}
-
-//
-//
-//
-//
-
-/* * */
-/* GET DAY TYPE FOR DATE */
-/* Return 1, 2 or 3 for a given date */
-function getDayType(date, isHoliday) {
-  // Return 3 immediately if it is a holiday
-  if (isHoliday) return 3;
-  // Create a dayjs object
-  const dateObj = dayjs(date, 'YYYYMMDD');
-  // Get the weekday using dayjs
-  const dayOfWeek = dateObj.day();
-  // If it Weekday
-  if (dayOfWeek >= 1 && dayOfWeek <= 5) return 1;
-  // Saturday
-  else if (dayOfWeek === 6) return 2;
-  // Sunday
-  else return 3;
   //
 }
 
