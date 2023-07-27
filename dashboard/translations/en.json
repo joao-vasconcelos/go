@@ -228,21 +228,22 @@
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Details",
+                "description": "Something about this section"
             }
         },
         "form": {
+            "code": {
+                "label": "Calendar Code",
+                "placeholder": "WD"
+            },
             "name": {
                 "label": "Calendar Name",
                 "placeholder": "Weekdays"
             },
-            "code": {
-                "label": "Calendar Code",
-                "placeholder": "DU"
-            },
-            "is_holiday": {
-                "label": "Set all dates as Holiday",
-                "description": "All dates here selected will be marked as holiday, even if they are marked as regular days in other calendars. This only affects dates for trips where this calendar is selected."
+            "description": {
+                "label": "Calendar Description",
+                "placeholder": "Service available only on the first Sunday of each month."
             }
         }
     },
@@ -290,6 +291,10 @@
                 "label": "Period",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
+            },
+            "is_holiday": {
+                "label": "Is Holiday",
+                "description": "Enable to set each date as Holiday."
             },
             "notes": {
                 "label": "Notes for this Date",
