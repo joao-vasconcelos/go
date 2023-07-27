@@ -191,10 +191,6 @@ export default function Page() {
           </SimpleGrid>
         </Section>
         <Divider />
-        <Section>
-          <Switch label={t('form.is_holiday.label')} description={t('form.is_holiday.description')} size='md' {...form.getInputProps('is_holiday', { type: 'checkbox' })} readOnly={isReadOnly} />
-        </Section>
-        <Divider />
         <HCalendar availableDates={allDatesData} renderCardComponent={renderDateCardComponent} onMultiSelect={handleMultiToggleDates} />
       </form>
     </Pannel>
