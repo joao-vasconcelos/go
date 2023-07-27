@@ -1,0 +1,1184 @@
+<?xml version='1.0' encoding='utf-8'?>
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:siri="http://www.siri.org.uk/siri">
+	<PublicationTimestamp>2023-06-29T09:21:39+00:00</PublicationTimestamp>
+	<ParticipantRef>AMP</ParticipantRef>
+	<dataObjects>
+		<CompositeFrame id="amp:CompositeFrame_EU_PI_LINE_OFFER:SELECT gid FROM public.paragens_amp where codparagem in ('vcd:113','smf:1339','vcd:825','smf:1337','trf:367','trf:370','trf:372','smf:1338','vcd:809','trf:371','prt:192','prt:193','trf:368','trf:366','mat:850','vcd:805','mat:851','vcd:804','vcd:803','trf:369','mat:852','vcd:813','vcd:806','mat:853','trf:373','vcd:816','mat:849','vcd:812','vcd:811','vcd:810','trf:374','vcd:815','vcd:823','vcd:817','trf:365','vcd:822','vcd:824','mat:854','vcd:814','mat:855','vcd:818','vcd:821','mat:856','vcd:819','vcd:820','vcd:826','vcd:835','vcd:827','vcd:841','vcd:838','vcd:829','vcd:831','vcd:843','vcd:833','vcd:839','vcd:828','vcd:837','vcd:830','vcd:840','vcd:832','vcd:842','vcd:834','vcd:836','vcd:844' )" created="2023-06-29T00:00:00+00:00" changed="2023-06-29T00:00:00+00:00" version="any">
+			<ValidBetween>
+				<FromDate>2023-06-29T09:21:39+00:00</FromDate>
+			</ValidBetween>
+			<codespaces>
+				<Codespace id="amp">
+					<Xmlns>amp</Xmlns>
+					<XmlnsUrl>http://www.amp.pt/netex</XmlnsUrl>
+				</Codespace>
+			</codespaces>
+			<FrameDefaults>
+				<DefaultLocale>
+					<TimeZone>Europe/Lisbon</TimeZone>
+					<SummerTimeZoneOffset>+01:00</SummerTimeZoneOffset>
+				</DefaultLocale>
+				<DefaultLocationSystem>EPSG:4326</DefaultLocationSystem>
+				<DefaultSystemOfUnits>SiMetres</DefaultSystemOfUnits>
+			</FrameDefaults>
+			<frames>
+				<SiteFrame id="amp:SiteFrame_20230629" version="any">
+					<stopPlaces>
+						<StopPlace id="prg:mat:849" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>R. Damão</Name>
+							<Description>Rua de Damão</Description>
+							<PrivateCode>prg:mat:849</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.626788438700578</Longitude>
+									<Latitude>41.18384405654495</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-41420.31 168412.45</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:mat:849</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:MAI1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:mat:850" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>R. Amieira</Name>
+							<Description>Rua da Amieira</Description>
+							<PrivateCode>prg:mat:850</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.625727816926492</Longitude>
+									<Latitude>41.18626517216557</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-41329.8 168680.83</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:mat:850</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:MAI1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:mat:851" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>R. Tronco</Name>
+							<Description>Rua do Tronco</Description>
+							<PrivateCode>prg:mat:851</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.623523793780874</Longitude>
+									<Latitude>41.185747422949625</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-41145.21031007148 168622.2851602873</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:mat:851</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:MAI1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:mat:852" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>R. Tronco 2</Name>
+							<Description>Rua do Tronco</Description>
+							<PrivateCode>prg:mat:852</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.624952711663667</Longitude>
+									<Latitude>41.1885110051152</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-41263.36 168929.88</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:mat:852</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:MAI1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:mat:853" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>Senhora da Hora (Metro)</Name>
+							<Description>Avenida Fabril do Norte</Description>
+							<PrivateCode>prg:mat:853</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.65446909683642</Longitude>
+									<Latitude>41.18673887837919</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-43740.83 168747.49</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:mat:853</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PRT2"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:mat:854" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>R. Diu</Name>
+							<Description>Rua Diu</Description>
+							<PrivateCode>prg:mat:854</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.623555541669193</Longitude>
+									<Latitude>41.18326169376105</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-41149.43 168346.24</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:mat:854</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:MAI1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:mat:855" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>Barroco</Name>
+							<Description>Rua Dr. Silva Santos</Description>
+							<PrivateCode>prg:mat:855</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.629172780993018</Longitude>
+									<Latitude>41.202871215917234</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-41608.31 170526.71</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:mat:855</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:MAI1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:mat:856" created="2023-05-31T00:00:00+00:00" changed="2023-06-07T00:00:00+00:00" modification="new" version="1">
+							<Name>Ezequiel Campos</Name>
+							<Description>Via Norte</Description>
+							<PrivateCode>prg:mat:856</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.628557089047593</Longitude>
+									<Latitude>41.20996427640615</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-41552.18 171314.16</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:mat:856</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:MAI1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:prt:192" created="2023-05-30T00:00:00+00:00" changed="2023-05-30T00:00:00+00:00" modification="new" version="1">
+							<Name>Estação de S. Bento</Name>
+							<Description>Rua de Mouzinho da Silveira</Description>
+							<PrivateCode>prg:prt:192</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.611348255158985</Longitude>
+									<Latitude>41.14478482508752</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-40148.6902 164067.3899</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:prt:192</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PRT1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:prt:193" created="2023-05-30T00:00:00+00:00" changed="2023-05-30T00:00:00+00:00" modification="new" version="1">
+							<Name>Estação de S. Bento</Name>
+							<Description>Avenida Dom Afonso Henriques</Description>
+							<PrivateCode>prg:prt:193</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.61074716898067</Longitude>
+									<Latitude>41.144832746016384</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-40098.1991 164072.4349</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:prt:193</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PRT1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:smf:1337" created="2023-05-26T00:00:00+00:00" changed="2023-05-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Lusopark</Name>
+							<Description>Rua da Gândara</Description>
+							<PrivateCode>prg:smf:1337</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.58061692461236</Longitude>
+									<Latitude>40.93921842850545</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-37685.84 141224.46</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:smf:1337</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:SMF2"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:smf:1338" created="2023-05-26T00:00:00+00:00" changed="2023-05-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Lusopark</Name>
+							<Description>Rua da Gândara</Description>
+							<PrivateCode>prg:smf:1338</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.580488588404618</Longitude>
+									<Latitude>40.93916994098746</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-37675.06 141219.02</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:smf:1338</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:SMF2"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:smf:1339" created="2023-05-12T00:00:00+00:00" changed="2023-05-29T00:00:00+00:00" modification="new" version="1">
+							<Name>Estação</Name>
+							<Description>Avenida do Monte de Cima</Description>
+							<PrivateCode>prg:smf:1339</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.584270374060168</Longitude>
+									<Latitude>40.972517580470885</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-37974.42 144924.03</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:smf:1339</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:SMF5"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:trf:365" created="2023-05-26T00:00:00+00:00" changed="2023-06-20T00:00:00+00:00" modification="new" version="1">
+							<Name>Cruz das Almas</Name>
+							<Description>Rua das Aldeias de Cima</Description>
+							<PrivateCode>prg:trf:365</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.571457805745556</Longitude>
+									<Latitude>41.33130375145108</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-36695.37 184764.36</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:trf:365</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:TRF1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:trf:366" created="2023-05-26T00:00:00+00:00" changed="2023-06-20T00:00:00+00:00" modification="new" version="1">
+							<Name>Cruz das Almas</Name>
+							<Description>Rua das Aldeias de Cima</Description>
+							<PrivateCode>prg:trf:366</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.571587606986121</Longitude>
+									<Latitude>41.33127885596916</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-36706.25 184761.65</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:trf:366</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:TRF1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:trf:367" created="2023-05-26T00:00:00+00:00" changed="2023-05-29T00:00:00+00:00" modification="new" version="1">
+							<Name>Lusíadas</Name>
+							<Description>Rua São José</Description>
+							<PrivateCode>prg:trf:367</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.56218569523647</Longitude>
+									<Latitude>41.342946112991655</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-35912.78 186053.49</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:trf:367</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:TRF1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:trf:368" created="2023-05-26T00:00:00+00:00" changed="2023-05-29T00:00:00+00:00" modification="new" version="1">
+							<Name>Lusíadas</Name>
+							<Description>Rua Antero de Quental</Description>
+							<PrivateCode>prg:trf:368</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.562654046940976</Longitude>
+									<Latitude>41.34178257132316</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-35952.62 185924.46</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:trf:368</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:TRF1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:trf:369" created="2023-05-26T00:00:00+00:00" changed="2023-06-19T00:00:00+00:00" modification="new" version="1">
+							<Name>Carqueijoso</Name>
+							<Description>Rua Doutor Aníbal da Costa Ferreira</Description>
+							<PrivateCode>prg:trf:369</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.545622650803203</Longitude>
+									<Latitude>41.34290528432015</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-34526.51 186042.23</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:trf:369</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:TRF1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:trf:370" created="2023-05-26T00:00:00+00:00" changed="2023-05-29T00:00:00+00:00" modification="new" version="1">
+							<Name>Carqueijoso</Name>
+							<Description>Rua Doutor Aníbal da Costa Ferreira</Description>
+							<PrivateCode>prg:trf:370</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.545721432572655</Longitude>
+									<Latitude>41.34278760722</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-34534.84 186029.2</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:trf:370</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:TRF1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:trf:371" created="2023-05-26T00:00:00+00:00" changed="2023-05-30T00:00:00+00:00" modification="new" version="1">
+							<Name>DP21</Name>
+							<Description>Rua António Sá Couto de Araújo</Description>
+							<PrivateCode>prg:trf:371</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.553542954396123</Longitude>
+									<Latitude>41.34201907646138</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-35189.9 185946.99</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:trf:371</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:TRF1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:trf:372" created="2023-05-26T00:00:00+00:00" changed="2023-05-30T00:00:00+00:00" modification="new" version="1">
+							<Name>DP21</Name>
+							<Description>Rua António Sá Couto de Araújo</Description>
+							<PrivateCode>prg:trf:372</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.553636893762858</Longitude>
+									<Latitude>41.34215397436141</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-35197.69 185962.01</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:trf:372</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:TRF1"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:trf:373" created="2023-06-19T00:00:00+00:00" changed="2023-06-20T00:00:00+00:00" modification="new" version="1">
+							<Name>Bela Vista</Name>
+							<Description>Rua da Bela Vista</Description>
+							<PrivateCode>prg:trf:373</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.547846725327405</Longitude>
+									<Latitude>41.30302570209185</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-34733.83 181614.07</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:trf:373</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:TRF3"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:trf:374" created="2023-06-19T00:00:00+00:00" changed="2023-06-20T00:00:00+00:00" modification="new" version="1">
+							<Name>Bela Vista</Name>
+							<Description>Rua da Bela Vista</Description>
+							<PrivateCode>prg:trf:374</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.548040274296602</Longitude>
+									<Latitude>41.30294945994402</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-34750.08 181605.68</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:trf:374</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:TRF3"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:113" created="2020-11-13T00:00:00+00:00" changed="2023-06-27T00:00:00+00:00" modification="new" version="1">
+							<Name>Est. Metro de Vila do Conde</Name>
+							<Description>Avenida da Liberdade</Description>
+							<PrivateCode>prg:vcd:113</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.739666514140772</Longitude>
+									<Latitude>41.35912437509589</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-50755.006781739365 187938.95677199258</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:113</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:803" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>Zona Industrial Aveleda</Name>
+							<Description>Rua do Bairro</Description>
+							<PrivateCode>prg:vcd:803</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.692732973563503</Longitude>
+									<Latitude>41.25779483337824</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-46900.29 176658.83</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:803</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:804" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>Zona Industrial Aveleda</Name>
+							<Description>Rua do Bairro</Description>
+							<PrivateCode>prg:vcd:804</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.692681560785076</Longitude>
+									<Latitude>41.25771269506641</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-46896.04 176649.68</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:804</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:805" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>Agra Nova</Name>
+							<Description>Rua da Agra Nova</Description>
+							<PrivateCode>prg:vcd:805</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.697917705465064</Longitude>
+									<Latitude>41.256862795173895</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-47335.48 176558.13</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:805</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:806" created="2023-05-31T00:00:00+00:00" changed="2023-06-01T00:00:00+00:00" modification="new" version="1">
+							<Name>Agra Nova</Name>
+							<Description>Rua da Agra Nova</Description>
+							<PrivateCode>prg:vcd:806</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.69793262585795</Longitude>
+									<Latitude>41.25676646734621</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-47336.8 176547.44</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:806</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:809" created="2023-05-31T00:00:00+00:00" changed="2023-06-07T00:00:00+00:00" modification="new" version="1">
+							<Name>Arca</Name>
+							<Description>Rua da Aveleda</Description>
+							<PrivateCode>prg:vcd:809</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.695183860733925</Longitude>
+									<Latitude>41.2683319052062</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-47098.12 177830.4</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:809</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:810" created="2023-06-14T00:00:00+00:00" changed="2023-06-14T00:00:00+00:00" modification="new" version="1">
+							<Name>Modivas Centro</Name>
+							<Description>Rua Estação Modivas - Centro</Description>
+							<PrivateCode>prg:vcd:810</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.69950174897755</Longitude>
+									<Latitude>41.29359417397047</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-47441.6326 180638.3792</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:810</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:811" created="2023-06-14T00:00:00+00:00" changed="2023-06-14T00:00:00+00:00" modification="new" version="1">
+							<Name>P+R Modivas Sul</Name>
+							<Description>Acesso ao P+R Modivas Sul</Description>
+							<PrivateCode>prg:vcd:811</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.69377048288699</Longitude>
+									<Latitude>41.284734849926686</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-46967.92782468884 179651.3449550337</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:811</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:812" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Campo de Futebol</Name>
+							<Description>Rua Nova Aldeia</Description>
+							<PrivateCode>prg:vcd:812</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.675322875637928</Longitude>
+									<Latitude>41.31868332799145</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-45398.97361445566 183411.86240585495</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:812</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD7"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:813" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Rua 25 Abril</Name>
+							<Description>Rua 25 de Abril</Description>
+							<PrivateCode>prg:vcd:813</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.678120317634184</Longitude>
+									<Latitude>41.31935583458443</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-45632.7319 183488.0188</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:813</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD7"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:814" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Rua 25 Abril</Name>
+							<Description>Rua 25 de Abril</Description>
+							<PrivateCode>prg:vcd:814</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.678071729066732</Longitude>
+									<Latitude>41.31921312483923</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-45628.7632 183472.1438</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:814</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD7"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:815" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Campo de Futebol</Name>
+							<Description>Rua Nova Aldeia</Description>
+							<PrivateCode>prg:vcd:815</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.675205988518947</Longitude>
+									<Latitude>41.318905665277185</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-45389.0325 183436.4942</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:815</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD7"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:816" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Est. Metro Vila do Conde Porto Fashion Outlet</Name>
+							<Description>Acesso Parque Est. Metro Vila do Conde Porto Fashion Outlet</Description>
+							<PrivateCode>prg:vcd:816</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.704244035977599</Longitude>
+									<Latitude>41.29929126285893</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-47834.6901 181273.7022</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:816</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:817" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Trás do Fieiro</Name>
+							<Description>Rua José Estevão Coelho Magalhães</Description>
+							<PrivateCode>prg:vcd:817</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.725312236562251</Longitude>
+									<Latitude>41.300862860833654</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-49598.0458 181460.068</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:817</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD9"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:818" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Trás do Fieiro</Name>
+							<Description>Rua José Estevão Coelho Magalhães</Description>
+							<PrivateCode>prg:vcd:818</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.725230916611043</Longitude>
+									<Latitude>41.300766616537196</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-49591.308 181449.3326</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:818</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD9"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:819" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Praia da Laderça</Name>
+							<Description>Rua das Areiras</Description>
+							<PrivateCode>prg:vcd:819</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.73443192470292</Longitude>
+									<Latitude>41.30135113261745</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-50361.4626 181519.5465</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:819</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD9"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:820" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Praia da Laderça</Name>
+							<Description>Rua das Areiras</Description>
+							<PrivateCode>prg:vcd:820</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.734395378782603</Longitude>
+									<Latitude>41.30127031454938</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-50358.464 181510.5496</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:820</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD9"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:821" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Est. Metro Vila do Conde Porto Fashion Outlet</Name>
+							<Description>Acesso Parque Est. Metro Vila do Conde Porto Fashion Outlet</Description>
+							<PrivateCode>prg:vcd:821</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.704179138167488</Longitude>
+									<Latitude>41.299237127988896</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-47829.2942 181267.6542</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:821</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:822" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Parque de jogos</Name>
+							<Description>Avenida Júlio Graça</Description>
+							<PrivateCode>prg:vcd:822</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.74705103753182</Longitude>
+									<Latitude>41.350529528669846</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51379.6834 186988.7484</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:822</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:823" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Rua de Labruge (Junta Freguesia)</Name>
+							<Description>Rua de Labruge</Description>
+							<PrivateCode>prg:vcd:823</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.717486417324425</Longitude>
+									<Latitude>41.27835185934837</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-48959.4442 178955.5483</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:823</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD9"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:824" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Praia</Name>
+							<Description>Avenida da Liberdade</Description>
+							<PrivateCode>prg:vcd:824</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.726983381314543</Longitude>
+									<Latitude>41.27477260400072</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-49757.8258 178563.4335</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:824</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD9"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:825" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Mindelo Praia</Name>
+							<Description>Rua da Praia</Description>
+							<PrivateCode>prg:vcd:825</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.736408432666835</Longitude>
+									<Latitude>41.31026163611778</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-50520.1196 182510.3012</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:825</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD3"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:826" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Mindelo Praia</Name>
+							<Description>Rua da Praia</Description>
+							<PrivateCode>prg:vcd:826</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.736402941817978</Longitude>
+									<Latitude>41.31016318542749</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-50519.7358 182499.364</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:826</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD3"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:827" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Centro de Saúde - Vila do Conde</Name>
+							<Description>Rua Doutor António José de Sousa Pereira</Description>
+							<PrivateCode>prg:vcd:827</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.744409123859873</Longitude>
+									<Latitude>41.35575734029859</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51154.4927 187567.7954</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:827</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:828" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Centro de Saúde - Vila do Conde</Name>
+							<Description>Rua Doutor António José de Sousa Pereira</Description>
+							<PrivateCode>prg:vcd:828</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.744410184444614</Longitude>
+									<Latitude>41.355664170155094</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51154.6544 187557.4484</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:828</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:829" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Centro Saúde - Caxinas</Name>
+							<Description>Avenida D. Manuel I</Description>
+							<PrivateCode>prg:vcd:829</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.756783570589084</Longitude>
+									<Latitude>41.365289601855984</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-52182.3935 188633.8389</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:829</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:830" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Centro Saúde - Caxinas</Name>
+							<Description>Avenida D. Manuel I</Description>
+							<PrivateCode>prg:vcd:830</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.75668507102261</Longitude>
+									<Latitude>41.365322875961546</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-52174.1255 188637.4751</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:830</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:831" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Bento Martins Júnior Nascente</Name>
+							<Description>Avenida Doutor António Bento Martins Junior.</Description>
+							<PrivateCode>prg:vcd:831</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.75252984953838</Longitude>
+									<Latitude>41.366824241751814</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51825.2686 188801.7272</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:831</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:832" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Bento Martins Júnior Nascente</Name>
+							<Description>Avenida Doutor António Bento Martins Junior.</Description>
+							<PrivateCode>prg:vcd:832</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.752448550676379</Longitude>
+									<Latitude>41.366710705882255</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51818.5566 188789.0691</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:832</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:833" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Cemitério-Caxinas</Name>
+							<Description>Rua das Rosas</Description>
+							<PrivateCode>prg:vcd:833</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.755475798071073</Longitude>
+									<Latitude>41.36853625795929</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-52070.3841 188993.6322</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:833</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:834" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Cemitério-Caxinas</Name>
+							<Description>Rua das Rosas</Description>
+							<PrivateCode>prg:vcd:834</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.755436265081398</Longitude>
+									<Latitude>41.36846847182776</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-52067.1306 188986.08</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:834</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:835" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Est. Metro Portas Fronhas</Name>
+							<Description>Estrada Nacional 206</Description>
+							<PrivateCode>prg:vcd:835</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.749781161184652</Longitude>
+									<Latitude>41.36830935330926</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51594.1191 188965.0269</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:835</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:836" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>Est. Metro Portas Fronhas</Name>
+							<Description>Estrada Nacional 206</Description>
+							<PrivateCode>prg:vcd:836</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.749608714916008</Longitude>
+									<Latitude>41.36814685844129</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51579.8196 188946.8773</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:836</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:837" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>General Humberto Delgado</Name>
+							<Description>Avenida General Humberto Delgado</Description>
+							<PrivateCode>prg:vcd:837</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.74367316634959</Longitude>
+									<Latitude>41.36880597029673</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51082.7009 189016.5649</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:837</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:838" created="2023-06-26T00:00:00+00:00" changed="2023-06-26T00:00:00+00:00" modification="new" version="1">
+							<Name>General Humberto Delgado</Name>
+							<Description>Avenida General Humberto Delgado</Description>
+							<PrivateCode>prg:vcd:838</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.743458060217888</Longitude>
+									<Latitude>41.36892264160072</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51064.6128 189029.3959</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:838</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:839" created="2023-06-27T00:00:00+00:00" changed="2023-06-27T00:00:00+00:00" modification="new" version="1">
+							<Name>Junta de Freguesia</Name>
+							<Description>Rua Albino Moreira</Description>
+							<PrivateCode>prg:vcd:839</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.674890353391419</Longitude>
+									<Latitude>41.28819045396735</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-45383.8961 180025.0846</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:839</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:840" created="2023-06-27T00:00:00+00:00" changed="2023-06-27T00:00:00+00:00" modification="new" version="1">
+							<Name>Junta de Freguesia</Name>
+							<Description>Rua Albino Moreira</Description>
+							<PrivateCode>prg:vcd:840</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.674904471806997</Longitude>
+									<Latitude>41.288098350895034</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-45385.1426 180014.863</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:840</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:841" created="2023-06-27T00:00:00+00:00" changed="2023-06-27T00:00:00+00:00" modification="new" version="1">
+							<Name>Rosa</Name>
+							<Description>Rua Albino Moreira</Description>
+							<PrivateCode>prg:vcd:841</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.667765123070453</Longitude>
+									<Latitude>41.290333296914355</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-44785.5634 180259.3693</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:841</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:842" created="2023-06-27T00:00:00+00:00" changed="2023-06-27T00:00:00+00:00" modification="new" version="1">
+							<Name>Rosa</Name>
+							<Description>Rua Albino Moreira</Description>
+							<PrivateCode>prg:vcd:842</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.667778441598339</Longitude>
+									<Latitude>41.290196189509686</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-44786.7728 180244.149</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:842</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:VCD8"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:843" created="2023-06-27T00:00:00+00:00" changed="2023-06-27T00:00:00+00:00" modification="new" version="1">
+							<Name>Escolas</Name>
+							<Description>Rua da Agra Longa</Description>
+							<PrivateCode>prg:vcd:843</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.749946012682637</Longitude>
+									<Latitude>41.359879548542</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51614.5726 188028.8959</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:843</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+						<StopPlace id="prg:vcd:844" created="2023-06-27T00:00:00+00:00" changed="2023-06-27T00:00:00+00:00" modification="new" version="1">
+							<Name>Escolas</Name>
+							<Description>Rua da Agra Longa</Description>
+							<PrivateCode>prg:vcd:844</PrivateCode>
+							<Centroid>
+								<Location>
+									<Longitude>-8.749846958654633</Longitude>
+									<Latitude>41.35992170584126</Latitude>
+									<gml:pos srsName="EPSG:3763" srsDimension="2">-51606.2508 188033.519</gml:pos>
+								</Location>
+							</Centroid>
+							<PublicCode>prg:vcd:844</PublicCode>
+							<TransportMode>bus</TransportMode>
+							<tariffZones>
+								<TariffZoneRef ref="anda:PV_VC"/>
+							</tariffZones>
+							<StopPlaceType>onstreetBus</StopPlaceType>
+						</StopPlace>
+					</stopPlaces>
+				</SiteFrame>
+			</frames>
+		</CompositeFrame>
+	</dataObjects>
+</PublicationDelivery>
