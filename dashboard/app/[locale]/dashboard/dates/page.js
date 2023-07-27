@@ -6,7 +6,7 @@ import { useRouter } from 'next-intl/client';
 import API from '@/services/API';
 import Pannel from '@/components/Pannel/Pannel';
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, ActionIcon, Tooltip } from '@mantine/core';
+import { Modal, Button, ActionIcon, Tooltip, Switch } from '@mantine/core';
 import { SegmentedControl, Select, SimpleGrid, Divider } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useTranslations } from 'next-intl';
@@ -20,6 +20,7 @@ import Loader from '@/components/Loader/Loader';
 import dayjs from 'dayjs';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import calculateDateDayType from '@/services/calculateDateDayType';
 
 export default function Page() {
   //
@@ -43,13 +44,13 @@ export default function Page() {
   // B. Setup form
 
   const form = useForm({
-    initialValues: { period: 1 },
+    initialValues: { period: 1, is_holiday: false },
   });
 
   //
   // C. Fetch data
 
-  const { data: allDatesData, error: allDatesError, isLoading: allDatesLoading, isValidating: allDatesValidating, mutate: allDatesMutate } = useSWR('/api/dates');
+  const { data: allDatesData, isLoading: allDatesLoading, mutate: allDatesMutate } = useSWR('/api/dates');
 
   //
   // C. Helper functions
@@ -89,7 +90,12 @@ export default function Page() {
     }
     // Return the created date objects
     return formattedDates.map((dateString) => {
-      return { date: dateString, period: form.values.period };
+      return {
+        date: dateString,
+        period: form.values.period,
+        day_type: calculateDateDayType(dateString, form.values.is_holiday),
+        is_holiday: form.values.is_holiday,
+      };
     });
   };
 
@@ -208,6 +214,7 @@ export default function Page() {
                 readOnly={isReadOnly}
                 searchable
               />
+              <Switch label={t('form.is_holiday.label')} description={t('form.is_holiday.description')} {...form.getInputProps('is_holiday')} readOnly={isReadOnly} />
             </SimpleGrid>
             <SimpleGrid cols={2}>
               <Button size='lg' onClick={handleUpdate} disabled={!isSelectionValid()}>
