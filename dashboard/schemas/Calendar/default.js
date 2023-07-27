@@ -9,6 +9,5 @@ export const Default = {
   code: '',
   name: '',
   description: '',
-  is_holiday: false,
   dates: [],
 };

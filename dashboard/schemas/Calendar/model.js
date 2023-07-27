@@ -22,9 +22,6 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 250,
     },
-    is_holiday: {
-      type: Boolean,
-    },
     dates: [
       {
         type: String,
