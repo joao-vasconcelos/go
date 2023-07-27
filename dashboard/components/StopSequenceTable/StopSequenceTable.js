@@ -542,6 +542,75 @@ function StopSequenceTableHeader() {
 //
 
 //
+// STOP SEQUENCE TABLE - HEADER
+
+function StopSequenceTableFooter() {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('StopSequenceTable');
+  const patternForm = usePatternFormContext();
+
+  //
+  // D. Format data
+
+  //
+  // Formatters
+
+  const formatSecondsToTime = (timeInSeconds) => {
+    if (timeInSeconds < 60) {
+      return timeInSeconds + ' seg';
+    } else if (timeInSeconds < 3600) {
+      const minutes = Math.floor(timeInSeconds / 60);
+      const seconds = timeInSeconds % 60;
+      return `${minutes} min ${seconds} seg`;
+    } else {
+      const hours = Math.floor(timeInSeconds / 3600);
+      const minutes = Math.floor((timeInSeconds % 3600) / 60);
+      const seconds = timeInSeconds % 60;
+      return `${hours} h ${minutes} min ${seconds} seg`;
+    }
+  };
+
+  const totalTravelTime = useMemo(() => {
+    if (!patternForm.values.path) return -1;
+    let totalTravelTimeTemp = 0;
+    for (const pathStop of patternForm.values.path) {
+      totalTravelTimeTemp += pathStop.default_travel_time + pathStop.default_dwell_time;
+    }
+    return totalTravelTimeTemp;
+    //
+  }, [patternForm.values.path]);
+
+  //
+  // Render components
+
+  return (
+    <div className={`${styles.row} ${styles.headerRow}`}>
+      <div className={styles.column} />
+      <div className={styles.column} />
+      <div className={styles.column} />
+      <div className={styles.column} />
+      <div className={styles.column} />
+      <div className={styles.column} />
+      <div className={styles.column} />
+      <div className={styles.column} />
+      <div className={styles.column}>{formatSecondsToTime(totalTravelTime)}</div>
+      <div className={styles.column} />
+      <div className={styles.column} />
+    </div>
+  );
+
+  //
+}
+
+//
+//
+//
+
+//
 // STOP SEQUENCE TABLE
 
 export default function StopSequenceTable() {
@@ -559,6 +628,7 @@ export default function StopSequenceTable() {
     <div className={styles.container}>
       <StopSequenceTableHeader />
       <div className={styles.body}>{patternForm.values.path && patternForm.values.path.map((item, index) => <StopSequenceTableRow key={index} rowIndex={index} item={item} />)}</div>
+      <StopSequenceTableFooter />
     </div>
   );
 
