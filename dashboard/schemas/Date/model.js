@@ -17,6 +17,12 @@ export const Schema = new mongoose.Schema(
     period: {
       type: Number,
     },
+    day_type: {
+      type: Number,
+    },
+    is_holiday: {
+      type: Boolean,
+    },
     notes: {
       type: String,
       maxlength: 5000,
