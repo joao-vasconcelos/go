@@ -84,9 +84,6 @@ export default function Page() {
   };
 
   //
-  // D. Format data
-
-  //
   // E. Transform data
 
   useEffect(() => {

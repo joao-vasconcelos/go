@@ -10,6 +10,7 @@ import { isAllowed } from '@/components/AuthGate/AuthGate';
 import { openConfirmModal } from '@mantine/modals';
 import calculateTravelTime from '@/services/calculateTravelTime';
 import notify from '@/services/notify';
+import formatSecondsToTime from '@/services/formatSecondsToTime';
 
 //
 //
@@ -99,24 +100,6 @@ export function StopSequenceChangePresetsDwellTime() {
   const patternForm = usePatternFormContext();
 
   //
-  // Formatters
-
-  const formatSecondsToTime = (timeInSeconds) => {
-    if (timeInSeconds < 60) {
-      return timeInSeconds + ' seg';
-    } else if (timeInSeconds < 3600) {
-      const minutes = Math.floor(timeInSeconds / 60);
-      const seconds = timeInSeconds % 60;
-      return `${minutes} min ${seconds} seg`;
-    } else {
-      const hours = Math.floor(timeInSeconds / 3600);
-      const minutes = Math.floor((timeInSeconds % 3600) / 60);
-      const seconds = timeInSeconds % 60;
-      return `${hours} h ${minutes} min ${seconds} seg`;
-    }
-  };
-
-  //
   // Render components
 
   const handleUpdateAll = () => {
@@ -171,11 +154,6 @@ export function StopSequenceChangePresetsDwellTime() {
 
 export default function PatternPresetsTable() {
   //
-
-  //
-  // A. Setup variables
-
-  const patternForm = usePatternFormContext();
 
   //
   // Render components

@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import styles from './StopSequenceTable.module.css';
 import { useFormContext as usePatternFormContext } from '@/schemas/Pattern/form';
@@ -12,6 +12,7 @@ import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import Loader from '../Loader/Loader';
 import calculateTravelTime from '@/services/calculateTravelTime';
+import formatSecondsToTime from '@/services/formatSecondsToTime';
 
 //
 //
@@ -295,24 +296,6 @@ function StopSequenceTableTravelTimeColumn({ rowIndex }) {
   const patternForm = usePatternFormContext();
 
   //
-  // Formatters
-
-  const formatSecondsToTime = (timeInSeconds) => {
-    if (timeInSeconds < 60) {
-      return timeInSeconds + ' seg';
-    } else if (timeInSeconds < 3600) {
-      const minutes = Math.floor(timeInSeconds / 60);
-      const seconds = timeInSeconds % 60;
-      return `${minutes} min ${seconds} seg`;
-    } else {
-      const hours = Math.floor(timeInSeconds / 3600);
-      const minutes = Math.floor((timeInSeconds % 3600) / 60);
-      const seconds = timeInSeconds % 60;
-      return `${hours} h ${minutes} min ${seconds} seg`;
-    }
-  };
-
-  //
   // Render components
 
   return (
@@ -343,24 +326,6 @@ function StopSequenceTableDwellTimeColumn({ rowIndex }) {
   const { data: session } = useSession();
   const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
   const patternForm = usePatternFormContext();
-
-  //
-  // Formatters
-
-  const formatSecondsToTime = (timeInSeconds) => {
-    if (timeInSeconds < 60) {
-      return timeInSeconds + ' seg';
-    } else if (timeInSeconds < 3600) {
-      const minutes = Math.floor(timeInSeconds / 60);
-      const seconds = timeInSeconds % 60;
-      return `${minutes} min ${seconds} seg`;
-    } else {
-      const hours = Math.floor(timeInSeconds / 3600);
-      const minutes = Math.floor((timeInSeconds % 3600) / 60);
-      const seconds = timeInSeconds % 60;
-      return `${hours} h ${minutes} min ${seconds} seg`;
-    }
-  };
 
   //
   // Render components
@@ -542,7 +507,7 @@ function StopSequenceTableHeader() {
 //
 
 //
-// STOP SEQUENCE TABLE - HEADER
+// STOP SEQUENCE TABLE - FOOTER
 
 function StopSequenceTableFooter() {
   //
@@ -558,21 +523,6 @@ function StopSequenceTableFooter() {
 
   //
   // Formatters
-
-  const formatSecondsToTime = (timeInSeconds) => {
-    if (timeInSeconds < 60) {
-      return timeInSeconds + ' seg';
-    } else if (timeInSeconds < 3600) {
-      const minutes = Math.floor(timeInSeconds / 60);
-      const seconds = timeInSeconds % 60;
-      return `${minutes} min ${seconds} seg`;
-    } else {
-      const hours = Math.floor(timeInSeconds / 3600);
-      const minutes = Math.floor((timeInSeconds % 3600) / 60);
-      const seconds = timeInSeconds % 60;
-      return `${hours} h ${minutes} min ${seconds} seg`;
-    }
-  };
 
   const totalTravelTime = useMemo(() => {
     if (!patternForm.values.path) return -1;
@@ -597,7 +547,7 @@ function StopSequenceTableFooter() {
       <div className={styles.column} />
       <div className={styles.column} />
       <div className={styles.column} />
-      <div className={styles.column}>{formatSecondsToTime(totalTravelTime)}</div>
+      <div className={`${styles.column} ${styles.hcenter}`}>{formatSecondsToTime(totalTravelTime)}</div>
       <div className={styles.column} />
       <div className={styles.column} />
     </div>
