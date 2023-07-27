@@ -751,14 +751,6 @@ export default async function buildNETEXv1(progress, agencyData, exportOptions) 
   // Update progress
   await update(progress, { status: 1, progress_current: 5, progress_total: 7 });
 
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-
   // 5.1.
   // Fetch the referenced stops and write the stops.txt file
 
@@ -777,29 +769,22 @@ export default async function buildNETEXv1(progress, agencyData, exportOptions) 
   for (const stopCode of referencedStopCodes) {
     //
     const stopData = await StopModel.findOne({ code: stopCode });
-    // const municipalityData = await MunicipalityModel.findOne({ _id: stopData.municipality });
-
     //
-
     writeXmlToFile(progress.workdir, 'stops.xml', `<StopPlace version="1" id="NSR:StopPlace:${stopCode}">`);
     writeXmlToFile(progress.workdir, 'stops.xml', `<Name>${stopData.name}</Name>`);
     writeXmlToFile(progress.workdir, 'stops.xml', '<StopPlaceType>onstreetBus</StopPlaceType>');
     writeXmlToFile(progress.workdir, 'stops.xml', '<quays>');
     writeXmlToFile(progress.workdir, 'stops.xml', `<Quay version="1" id="NSR:Quay:${stopCode}">`);
-
     writeXmlToFile(progress.workdir, 'stops.xml', '<Centroid>');
     writeXmlToFile(progress.workdir, 'stops.xml', '<Location srsName="WGS84">');
     writeXmlToFile(progress.workdir, 'stops.xml', `<Longitude>${stopData.longitude}</Longitude>`);
     writeXmlToFile(progress.workdir, 'stops.xml', `<Latitude>${stopData.latitude}</Latitude>`);
     writeXmlToFile(progress.workdir, 'stops.xml', '</Location>');
     writeXmlToFile(progress.workdir, 'stops.xml', '</Centroid>');
-
     writeXmlToFile(progress.workdir, 'stops.xml', `<PublicCode>${stopCode}</PublicCode>`);
-
     writeXmlToFile(progress.workdir, 'stops.xml', '</Quay>');
     writeXmlToFile(progress.workdir, 'stops.xml', '</quays>');
     writeXmlToFile(progress.workdir, 'stops.xml', '</StopPlace>');
-
     //
   }
 
