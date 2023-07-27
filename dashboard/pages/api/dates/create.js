@@ -52,6 +52,17 @@ export default async function handler(req, res) {
   }
 
   // 4.
+  // Ensure latest schema modifications
+  // in the schema are applied in the database.
+
+  try {
+    await DateModel.syncIndexes();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot sync indexes.' });
+  }
+
+  // 5.
   // Save new documents from req.body
 
   try {
