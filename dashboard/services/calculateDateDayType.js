@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 /* * */
 /* GET DAY TYPE FOR DATE */
 /* Return 1, 2 or 3 for a given date */

@@ -4,6 +4,7 @@ import styles from './HCalendarToggle.module.css';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, SimpleGrid, Textarea, Select } from '@mantine/core';
 import dayjs from 'dayjs';
+import Text from '../Text/Text';
 
 export default function HCalendarToggle({ date, dateObj, activeDates = [], onToggle, readOnly }) {
   //
@@ -35,20 +36,10 @@ export default function HCalendarToggle({ date, dateObj, activeDates = [], onTog
     <>
       <Modal opened={isModalPresented} onClose={closeModal} title={fullDateString} size='500px' centered>
         <SimpleGrid cols={1}>
-          <Select
-            label='Período'
-            placeholder='Período'
-            searchable
-            readOnly
-            nothingFound='Sem opções'
-            value={dateObj.period}
-            data={[
-              { value: 1, label: '1 - Período Escolar' },
-              { value: 2, label: '2 - Período de Férias Escolares' },
-              { value: 3, label: '3 - Período de Verão' },
-            ]}
-          />
-          <Textarea label='Notas sobre esta Data' minRows={5} value={dateObj.notes} readOnly />
+          <Text size='h4'>Periodo: {dateObj.period}</Text>
+          <Text size='h4'>day_type: {dateObj.day_type}</Text>
+          <Text size='h4'>is Holiday: {dateObj.is_holiday}</Text>
+          <Text size='h4'>Notas sobre esta Data: {dateObj.notes}</Text>
         </SimpleGrid>
       </Modal>
       <div className={`${styles.container} ${readOnly && styles.readOnly} ${styles[`period${dateObj.period}`]} ${dateObj.notes && styles.hasNote} ${isActive && styles.isActive}`} onClick={handleClick} onContextMenu={handleContextMenu}>

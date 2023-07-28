@@ -7,7 +7,7 @@ import API from '../../services/API';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { useTranslations } from 'next-intl';
-import { Modal, SimpleGrid, Textarea, Select, Button, LoadingOverlay } from '@mantine/core';
+import { Modal, SimpleGrid, Textarea, Select, Button, LoadingOverlay, Switch } from '@mantine/core';
 import dayjs from 'dayjs';
 import AuthGate from '../AuthGate/AuthGate';
 
@@ -91,6 +91,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
               readOnly={readOnly}
               searchable
             />
+            <Switch label={'is_holiday'} description={'is_holiday or not'} {...form.getInputProps('is_holiday', { type: 'checkbox' })} />
             <Textarea label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} minRows={5} {...form.getInputProps('notes')} readOnly={readOnly} />
             <AuthGate scope='dates' permission='create_edit'>
               <SimpleGrid cols={2}>

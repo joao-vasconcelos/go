@@ -21,6 +21,7 @@ import dayjs from 'dayjs';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import calculateDateDayType from '@/services/calculateDateDayType';
+import { openConfirmModal } from '@mantine/modals';
 
 export default function Page() {
   //
@@ -121,7 +122,8 @@ export default function Page() {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
+    closeModal();
     openConfirmModal({
       title: <Text size='h2'>{t('operations.delete.title')}</Text>,
       centered: true,
@@ -145,6 +147,7 @@ export default function Page() {
           notify('delete', 'error', err.message || t('operations.delete.error'));
         }
       },
+      onCancel: openModal(),
     });
   };
 
