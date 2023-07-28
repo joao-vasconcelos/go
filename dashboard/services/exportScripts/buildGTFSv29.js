@@ -329,14 +329,12 @@ async function parseCalendar(calendarData, startDate, endDate, shouldConcatenate
     const dateData = await DateModel.findOne({ date: calendarDate });
     // Skip if no date is found
     if (!dateData) continue;
-    // Get the day_type for the current date
-    let dayType = calculateDateDayType(calendarDate, calendarData.is_holiday);
     // Build the date entry
     parsedCalendar.push({
       service_id: calendarData.code,
-      holiday: calendarData.is_holiday ? 1 : 0,
+      holiday: dateData.is_holiday ? 1 : 0,
       period: dateData.period,
-      day_type: dayType,
+      day_type: dateData.day_type || 1,
       date: calendarDate,
       exception_type: 1,
     });

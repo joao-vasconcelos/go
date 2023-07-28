@@ -7,9 +7,13 @@ import API from '../../services/API';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { useTranslations } from 'next-intl';
+import { Default as DateDefault } from '@/schemas/Date/default';
 import { Modal, SimpleGrid, Textarea, Select, Button, LoadingOverlay, Switch } from '@mantine/core';
 import dayjs from 'dayjs';
 import AuthGate from '../AuthGate/AuthGate';
+import Text from '../Text/Text';
+import calculateDateDayType from '@/services/calculateDateDayType';
+import populate from '@/services/populate';
 
 export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
   //
@@ -28,7 +32,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
   // B. Render components
 
   const form = useForm({
-    initialValues: dateObj,
+    initialValues: populate(DateDefault, dateObj),
   });
 
   //
@@ -42,7 +46,8 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
   const handleUpdate = async () => {
     try {
       setIsUpdating(true);
-      await API({ service: 'dates', resourceId: dateObj._id, operation: 'edit', method: 'PUT', body: form.values });
+      const dayType = calculateDateDayType(form.values.date, form.values.is_holiday);
+      await API({ service: 'dates', resourceId: dateObj._id, operation: 'edit', method: 'PUT', body: { ...form.values, day_type: dayType } });
       allDatesMutate();
       setIsUpdating(false);
       setHasErrorUpdating(false);
@@ -91,6 +96,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
               readOnly={readOnly}
               searchable
             />
+            <Text size='h4'>day_type: {dateObj.day_type}</Text>
             <Switch label={'is_holiday'} description={'is_holiday or not'} {...form.getInputProps('is_holiday', { type: 'checkbox' })} />
             <Textarea label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} minRows={5} {...form.getInputProps('notes')} readOnly={readOnly} />
             <AuthGate scope='dates' permission='create_edit'>
