@@ -219,18 +219,19 @@ export default function Page() {
         <Divider />
 
         <Section>
+          <Text size='h1'>Non-Safe Actions</Text>
           <Text size='h2'>Imports</Text>
           <SimpleGrid cols={3}>
-            <Button onClick={handleStartImportLines} disabled={isImporting}>
+            <Button onClick={handleStartImportLines} color='red' disabled={isImporting}>
               Import Lines
             </Button>
-            <Button onClick={handleStartImportRoutes} disabled={isImporting}>
+            <Button onClick={handleStartImportRoutes} color='red' disabled={isImporting}>
               Import Routes
             </Button>
-            <Button onClick={handleStartImportPatterns} disabled={isImporting}>
+            <Button onClick={handleStartImportPatterns} color='red' disabled={isImporting}>
               Import Patterns & Calendars
             </Button>
-            <Button onClick={handleStartImportAlerts} disabled={isImporting}>
+            <Button onClick={handleStartImportAlerts} color='red' disabled={isImporting}>
               Import Alerts
             </Button>
           </SimpleGrid>
@@ -238,10 +239,10 @@ export default function Page() {
         <Section>
           <Text size='h2'>Refactors</Text>
           <SimpleGrid cols={4}>
-            <Button onClick={handleRefactorPatternPathTravelTime} disabled={isImporting}>
+            <Button onClick={handleRefactorPatternPathTravelTime} color='red' disabled={isImporting}>
               Update Travel Times
             </Button>
-            <Button onClick={handleRefactorPatternPathPresetVelocity} disabled={isImporting}>
+            <Button onClick={handleRefactorPatternPathPresetVelocity} color='red' disabled={isImporting}>
               Update Preset Velocities
             </Button>
           </SimpleGrid>
