@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/go",
-    "version": "2023.07.27-1644",
+    "version": "2023.07.31-1821",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -22,7 +22,7 @@
         "@mantine/modals": "6.0.17",
         "@mantine/next": "6.0.17",
         "@mantine/notifications": "6.0.17",
-        "@tabler/icons-react": "2.29.0",
+        "@tabler/icons-react": "2.30.0",
         "@turf/turf": "6.5.0",
         "adm-zip": "0.5.10",
         "dayjs": "1.11.9",
@@ -48,7 +48,7 @@
         "yup": "1.2.0"
     },
     "devDependencies": {
-        "eslint": "8.45.0",
+        "eslint": "8.46.0",
         "eslint-config-next": "13.4.12",
         "eslint-config-prettier": "8.9.0",
         "typescript": "5.1.6"
