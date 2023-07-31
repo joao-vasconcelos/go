@@ -2,19 +2,21 @@
 
 import { useState } from 'react';
 import API from '@/services/API';
-import { SimpleGrid, Button } from '@mantine/core';
+import { SimpleGrid, Button, Divider } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import AuthGate from '@/components/AuthGate/AuthGate';
+import { useTranslations } from 'next-intl';
 
 export default function Page() {
   //
 
   //
   // A. Setup variables
+  const t = useTranslations('configs');
   const [isImporting, setIsImporting] = useState(false);
 
   //
@@ -22,6 +24,32 @@ export default function Page() {
 
   //
   // C. Setup form
+
+  //
+  // D. Handle safe updates
+
+  const handleUpdateAllStops = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>{t('operations.update_stops.title')}</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>{t('operations.update_stops.description')}</Text>,
+      labels: { confirm: t('operations.update_stops.confirm'), cancel: t('operations.update_stops.cancel') },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('update-stops', 'loading', t('operations.update_stops.loading'));
+          await API({ service: 'configs/updates/stops', method: 'GET' });
+          notify('update-stops', 'success', t('operations.update_stops.success'));
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('update-stops', 'error', err.message || t('operations.update_stops.error'));
+        }
+      },
+    });
+  };
 
   //
   // D. Handle refactors
@@ -146,30 +174,6 @@ export default function Page() {
     });
   };
 
-  const handleStartImportStops = async () => {
-    openConfirmModal({
-      title: <Text size='h2'>Import Stops</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
-      labels: { confirm: 'Yes, import Stops', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('import-stops', 'loading', 'Loading');
-          await API({ service: 'configs/imports/stops', method: 'GET' });
-          notify('import-stops', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('import-stops', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
   const handleStartImportShapes = async () => {
     openConfirmModal({
       title: <Text size='h2'>Import Shapes</Text>,
@@ -181,14 +185,14 @@ export default function Page() {
       onConfirm: async () => {
         try {
           setIsImporting(true);
-          notify('import-stops', 'loading', 'Loading');
+          notify('import-shapes', 'loading', 'Loading');
           await API({ service: 'configs/imports/shapes', method: 'GET' });
-          notify('import-stops', 'success', 'success');
+          notify('import-shapes', 'success', 'success');
           setIsImporting(false);
         } catch (err) {
           console.log(err);
           setIsImporting(false);
-          notify('import-stops', 'error', err.message || 'Error');
+          notify('import-shapes', 'error', err.message || 'Error');
         }
       },
     });
@@ -348,39 +352,66 @@ export default function Page() {
     <AuthGate scope='configs' permission='admin' redirect>
       <Pannel>
         <Section>
+          <div>
+            <Text size='h2'>{t('sections.safe_updates.title')}</Text>
+            <Text size='h4'>{t('sections.safe_updates.description')}</Text>
+          </div>
+          <SimpleGrid cols={3}>
+            <Button onClick={handleUpdateAllStops} color='green' disabled={isImporting}>
+              {t('operations.update_stops.title')}
+            </Button>
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
           <Text size='h2'>Imports</Text>
           <SimpleGrid cols={4}>
-            <Button onClick={handleStartImportLines}>Import Lines</Button>
-            <Button onClick={handleStartImportRoutes}>Import Routes</Button>
-            <Button onClick={handleStartImportPatterns}>Import Patterns & Calendars</Button>
-            <Button onClick={handleStartImportStops}>Import Stops</Button>
-            <Button onClick={handleStartImportShapes}>Import Shapes</Button>
-            <Button onClick={handleStartImportAlerts}>Import Alerts</Button>
+            <Button onClick={handleStartImportLines} disabled={isImporting}>
+              Import Lines
+            </Button>
+            <Button onClick={handleStartImportRoutes} disabled={isImporting}>
+              Import Routes
+            </Button>
+            <Button onClick={handleStartImportPatterns} disabled={isImporting}>
+              Import Patterns & Calendars
+            </Button>
+            <Button onClick={handleStartImportShapes} disabled={isImporting}>
+              Import Shapes
+            </Button>
+            <Button onClick={handleStartImportAlerts} disabled={isImporting}>
+              Import Alerts
+            </Button>
           </SimpleGrid>
         </Section>
         <Section>
           <Text size='h2'>Refactors</Text>
           <SimpleGrid cols={4}>
-            <Button onClick={handleRefactorPatternPathTravelTime}>Update Travel Times</Button>
-            <Button onClick={handleRefactorPatternPathPresetVelocity}>Update Preset Velocities</Button>
+            <Button onClick={handleRefactorPatternPathTravelTime} disabled={isImporting}>
+              Update Travel Times
+            </Button>
+            <Button onClick={handleRefactorPatternPathPresetVelocity} disabled={isImporting}>
+              Update Preset Velocities
+            </Button>
           </SimpleGrid>
         </Section>
         <Section>
           <Text size='h2'>Deletes</Text>
           <SimpleGrid cols={5}>
-            <Button onClick={handleDeleteLines} color='red'>
+            <Button onClick={handleDeleteLines} disabled={isImporting} color='red'>
               Delete All Lines
             </Button>
-            <Button onClick={handleDeleteRoutes} color='red'>
+            <Button onClick={handleDeleteRoutes} disabled={isImporting} color='red'>
               Delete All Routes
             </Button>
-            <Button onClick={handleDeletePatterns} color='red'>
+            <Button onClick={handleDeletePatterns} disabled={isImporting} color='red'>
               Delete All Patterns
             </Button>
-            <Button onClick={handleDeleteCalendars} color='red'>
+            <Button onClick={handleDeleteCalendars} disabled={isImporting} color='red'>
               Delete All Calendars
             </Button>
-            <Button onClick={handleDeleteStops} color='red'>
+            <Button onClick={handleDeleteStops} disabled={isImporting} color='red'>
               Delete All Stops
             </Button>
           </SimpleGrid>

@@ -1561,6 +1561,25 @@
             }
         }
     },
+    "configs": {
+        "sections": {
+            "safe_updates": {
+                "title": "Safe Updates",
+                "description": "These actions are safe to perform. Be advised they still change data in the database. However, they should be performed regularly to ensure GO stays updated."
+            }
+        },
+        "operations": {
+            "update_stops": {
+                "title": "Update All Stops",
+                "description": "This will update all stops with the latest information available on the API. This will create new stops if they do not exist yet, and delete existing stops if they are not present in the API. Are you sure you want to continue?",
+                "confirm": "Yes, update all stops",
+                "cancel": "Cancel",
+                "loading": "Updating all stops...",
+                "success": "All stops were successfully updated.",
+                "error": "An error occurred while updating stops"
+            }
+        }
+    },
     "AppOptions": {
         "language": {
             "label": "Language",
