@@ -174,30 +174,6 @@ export default function Page() {
     });
   };
 
-  const handleStartImportShapes = async () => {
-    openConfirmModal({
-      title: <Text size='h2'>Import Shapes</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
-      labels: { confirm: 'Yes, import Shapes', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('import-shapes', 'loading', 'Loading');
-          await API({ service: 'configs/imports/shapes', method: 'GET' });
-          notify('import-shapes', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('import-shapes', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
   const handleStartImportAlerts = async () => {
     openConfirmModal({
       title: <Text size='h2'>Import Alerts</Text>,
@@ -244,7 +220,7 @@ export default function Page() {
 
         <Section>
           <Text size='h2'>Imports</Text>
-          <SimpleGrid cols={4}>
+          <SimpleGrid cols={3}>
             <Button onClick={handleStartImportLines} disabled={isImporting}>
               Import Lines
             </Button>
@@ -253,9 +229,6 @@ export default function Page() {
             </Button>
             <Button onClick={handleStartImportPatterns} disabled={isImporting}>
               Import Patterns & Calendars
-            </Button>
-            <Button onClick={handleStartImportShapes} disabled={isImporting}>
-              Import Shapes
             </Button>
             <Button onClick={handleStartImportAlerts} disabled={isImporting}>
               Import Alerts
