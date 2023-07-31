@@ -83,12 +83,11 @@ export default async function handler(req, res) {
       let zoneIdsForThisStop = [];
       zoneLoop: for (const zoneData of allZones) {
         // Skip if no geometry is set for this zone
-        if (!zoneData.geojson?.geometry.length) continue zoneLoop;
-        // Setup turf point and polygon/multiploygon
+        if (!zoneData.geojson?.geometry?.coordinates.length) continue zoneLoop;
+        // Setup turf point for this stop
         const turfPoint = turf.point([stopApi.lon, stopApi.lat]);
-        const turfFeature = turf.feature(zoneData.geojson.geometry);
         // Check if this stop is inside this zone boundary
-        const isStopInThisZone = turf.booleanPointInPolygon(turfPoint, turfFeature);
+        const isStopInThisZone = turf.booleanPointInPolygon(turfPoint, zoneData.geojson);
         // If it is, add this zone id to the stop
         if (isStopInThisZone) zoneIdsForThisStop.push(zoneData._id);
         //
