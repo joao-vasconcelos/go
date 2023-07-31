@@ -62,7 +62,7 @@ export default async function handler(req, res) {
     const allLines = await LineModel.find({});
 
     // 6.2.
-    // Iterate through each available line
+    // Iterate through each available Line
     for (const lineData of allLines) {
       //
 
