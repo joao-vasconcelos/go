@@ -44,27 +44,46 @@ export default async function handler(req, res) {
   }
 
   // 5.
-  // Connect to mongodb
+  // Ensure latest schema modifications are applied in the database.
+
+  try {
+    await LineModel.syncIndexes();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot sync indexes.' });
+  }
+
+  // 6.
+  // Update lines
 
   try {
     //
-    // Get info for all Lines from API v2
-    const response = await fetch('https://api.carrismetropolitana.pt/lines');
-    const allLinesApi = await response.json();
 
+    // 6.1.
+    // Retrieve all Lines from API v2
+    const allLinesRes = await fetch('https://api.carrismetropolitana.pt/lines');
+    const allLinesApi = await allLinesRes.json();
+
+    // 6.2.
+    // Iterate through each available line
     for (const lineApi of allLinesApi) {
       //
-      // Skip if not A2
-      //   if (!lineApi.code.startsWith('2')) continue;
 
-      // Find out the Agency
+      // 6.2.0.
+      // Skip if this line is for A4
+      if (lineApi.code.startsWith('4')) continue;
+
+      // 6.2.1.
+      // Find out to which Agency this line belongs to
       const agencyCode = `4${lineApi.code.substring(0, 1)}`;
       const agencyDocument = await AgencyModel.findOne({ code: agencyCode });
 
-      // Find out the Typology
+      // 6.2.2.
+      // Find out the Typology for this line
       const typologyDocument = await TypologyModel.findOne({ color: lineApi.color });
 
-      // Find out the Fare
+      // 6.2.3.
+      // Find out the Fare for this line
       let fareCode;
       if (typologyDocument?.code === 'PROXIMA') fareCode = 'BORDO-1';
       else if (typologyDocument?.code === 'LONGA') fareCode = 'BORDO-2';
@@ -74,8 +93,8 @@ export default async function handler(req, res) {
       else if (typologyDocument?.code === 'INTER-REG' && agencyCode === '44') fareCode = 'BORDO-4-B';
       const fareDocument = await FareModel.findOne({ code: fareCode });
 
-      // Format the Line
-
+      // 6.2.4.
+      // Format line to match GO schema
       const parsedLine = {
         code: lineApi.code,
         name: lineApi.long_name,
@@ -89,17 +108,26 @@ export default async function handler(req, res) {
         agency: agencyDocument?._id || null,
         routes: [],
       };
+
+      // 6.2.5.
+      // Update the line
       const lineDocument = await LineModel.findOneAndUpdate({ code: parsedLine.code }, parsedLine, { new: true, upsert: true });
 
-      console.log(`Saved Line ${lineDocument?.code} (agency: ${agencyDocument?.code}) (typology: ${typologyDocument?.code}) (fare: ${fareDocument?.code})`);
+      // 6.2.6.
+      // Log progress
+      console.log(`⤷ Updated Line ${lineDocument?.code} (agency: ${agencyDocument?.code}) (typology: ${typologyDocument?.code}) (fare: ${fareDocument?.code})`);
 
       //
     }
+
+    //
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Import Error' });
   }
 
-  console.log('Done. Sending response to client...');
+  // 7.
+  // Log progress
+  console.log('⤷ Done. Sending response to client...');
   return await res.status(200).json('Import complete.');
 }
