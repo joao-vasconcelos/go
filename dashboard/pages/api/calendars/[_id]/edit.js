@@ -63,8 +63,7 @@ export default async function handler(req, res) {
   }
 
   // 5.
-  // Ensure latest schema modifications
-  // in the schema are applied in the database.
+  // Ensure latest schema modifications are applied in the database.
 
   try {
     await CalendarModel.syncIndexes();
