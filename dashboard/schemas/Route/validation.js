@@ -8,8 +8,17 @@ import * as yup from 'yup';
 /* * */
 /* A. YUP Validation Schema */
 export const Validation = yup.object({
-  code: yup.string().required().max(15),
-  name: yup.string().required().max(150),
+  code: yup
+    .string()
+    .required()
+    .max(15)
+    .uppercase()
+    .matches(/^[a-zA-Z0-9]+$/),
+  name: yup
+    .string()
+    .required()
+    .max(150)
+    .matches(/^[a-zA-ZÀ-ÿ0-9()|-\s]+$/),
   path_type: yup.number().integer().required(),
   parent_line: yup.string().required(),
   patterns: yup.array(yup.string()),

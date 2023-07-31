@@ -9,10 +9,19 @@ import * as yup from 'yup';
 /* A. YUP Validation Schema */
 
 export const PatternValidation = yup.object({
-  code: yup.string().required().max(25),
+  code: yup
+    .string()
+    .required()
+    .max(25)
+    .uppercase()
+    .matches(/^[a-zA-Z0-9]+$/),
   parent_route: yup.string().required(),
   direction: yup.number().integer().required(),
-  headsign: yup.string().required().max(50),
+  headsign: yup
+    .string()
+    .required()
+    .max(50)
+    .matches(/^[a-zA-ZÀ-ÿ0-9()|-\s]+$/),
   presets: yup.object({
     velocity: yup.number().integer(),
     dwell_time: yup.number().integer(),
