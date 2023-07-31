@@ -29,12 +29,9 @@ export const Validation = yup.object({});
   address: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   postal_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   jurisdiction: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  region: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  district: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   municipality: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   parish: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   locality: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  stepp_id: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
 
   // Infrastructure
   has_pole: yup.number().required(),
@@ -90,14 +87,14 @@ export const Validation = yup.object({});
   near_transit_office: yup.boolean(),
 
   // Intermodal Connections
-  light_rail: yup.boolean(),
-  subway: yup.boolean(),
-  train: yup.boolean(),
-  boat: yup.boolean(),
-  airport: yup.boolean(),
-  bike_sharing: yup.boolean(),
-  bike_parking: yup.boolean(),
-  car_parking: yup.boolean(),
+  near_light_rail: yup.boolean(),
+  near_subway: yup.boolean(),
+  near_train: yup.boolean(),
+  near_boat: yup.boolean(),
+  near_airport: yup.boolean(),
+  near_bike_sharing: yup.boolean(),
+  near_bike_parking: yup.boolean(),
+  near_car_parking: yup.boolean(),
 
   // Notes
   notes: yup.string().max(10000, 'Field_ deve ter apenas ${max} caracteres.'),

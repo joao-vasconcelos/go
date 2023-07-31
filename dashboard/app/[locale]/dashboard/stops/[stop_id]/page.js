@@ -308,8 +308,6 @@ export default function Page() {
             <Space h={20} />
             <SimpleGrid cols={3}>
               <Select label={t('form.municipality.label')} placeholder={t('form.municipality.placeholder')} {...form.getInputProps('municipality')} readOnly={isReadOnly} data={allMunicipalitiesDataFormatted} />
-              <TextInput label={t('form.district.label')} placeholder={t('form.district.placeholder')} {...form.getInputProps('district')} readOnly />
-              <TextInput label={t('form.region.label')} placeholder={t('form.region.placeholder')} {...form.getInputProps('region')} readOnly />
             </SimpleGrid>
           </div>
           <SimpleGrid cols={3}>
@@ -322,7 +320,6 @@ export default function Page() {
           </SimpleGrid>
           <SimpleGrid cols={2}>
             <TextInput label={t('form.jurisdiction.label')} placeholder={t('form.jurisdiction.placeholder')} {...form.getInputProps('jurisdiction')} readOnly={isReadOnly} />
-            <TextInput label={t('form.stepp_id.label')} placeholder={t('form.stepp_id.placeholder')} {...form.getInputProps('stepp_id')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
 

@@ -28,12 +28,9 @@ export const Default = {
   address: '',
   postal_code: '',
   jurisdiction: '',
-  region: '',
-  district: '',
   municipality: null,
   parish: '',
   locality: '',
-  stepp_id: '',
 
   // Infrastructure
   has_pole: 0,
@@ -89,14 +86,14 @@ export const Default = {
   near_transit_office: false,
 
   // Intermodal Connections
-  subway: false,
-  light_rail: false,
-  train: false,
-  boat: false,
-  airport: false,
-  bike_sharing: false,
-  bike_parking: false,
-  car_parking: false,
+  near_subway: false,
+  near_light_rail: false,
+  near_train: false,
+  near_boat: false,
+  near_airport: false,
+  near_bike_sharing: false,
+  near_bike_parking: false,
+  near_car_parking: false,
 
   // Notes
   notes: '',
