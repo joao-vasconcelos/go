@@ -80,22 +80,6 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 100,
     },
-    region_code: {
-      type: String,
-      maxlength: 100,
-    },
-    region_name: {
-      type: String,
-      maxlength: 100,
-    },
-    district_code: {
-      type: String,
-      maxlength: 100,
-    },
-    district_name: {
-      type: String,
-      maxlength: 100,
-    },
     municipality: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Municipality',
@@ -109,10 +93,6 @@ export const Schema = new mongoose.Schema(
       maxlength: 100,
     },
     locality: {
-      type: String,
-      maxlength: 100,
-    },
-    stepp_id: {
       type: String,
       maxlength: 100,
     },
@@ -289,28 +269,28 @@ export const Schema = new mongoose.Schema(
     },
 
     // Intermodal Connections
-    subway: {
+    near_subway: {
       type: Boolean,
     },
-    light_rail: {
+    near_light_rail: {
       type: Boolean,
     },
-    train: {
+    near_train: {
       type: Boolean,
     },
-    boat: {
+    near_boat: {
       type: Boolean,
     },
-    airport: {
+    near_airport: {
       type: Boolean,
     },
-    bike_sharing: {
+    near_bike_sharing: {
       type: Boolean,
     },
-    bike_parking: {
+    near_bike_parking: {
       type: Boolean,
     },
-    car_parking: {
+    near_car_parking: {
       type: Boolean,
     },
 
