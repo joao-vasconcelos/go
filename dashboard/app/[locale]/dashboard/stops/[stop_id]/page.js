@@ -303,7 +303,7 @@ export default function Page() {
             <Text size='h2'>{t('sections.admin.title')}</Text>
             <Text size='h4'>{t('sections.admin.description')}</Text>
           </div>
-          <div style={{ backgroundColor: 'blue' }}>
+          <div>
             <Text size='h3'>{t('sections.admin.description')}</Text>
             <Space h={20} />
             <SimpleGrid cols={3}>
