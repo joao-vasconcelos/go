@@ -70,7 +70,7 @@ export default async function handler(req, res) {
       //
 
       // 6.2.0.
-      // Skip if this line is for A4
+      // Skip if this route is for A4
       if (route.code.startsWith('4')) continue;
 
       // 6.2.1.
