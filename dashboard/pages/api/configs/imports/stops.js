@@ -4,9 +4,10 @@ import mongodb from '@/services/mongodb';
 import { Model as StopModel } from '@/schemas/Stop/model';
 import { Model as ZoneModel } from '@/schemas/Zone/model';
 import { Model as MunicipalityModel } from '@/schemas/Municipality/model';
+import * as turf from '@turf/turf';
 
 /* * */
-/* IMPORT LINES */
+/* IMPORT STOPS */
 /* Explanation needed. */
 /* * */
 
@@ -43,57 +44,62 @@ export default async function handler(req, res) {
   }
 
   // 5.
-  // Connect to mongodb
+  // Ensure latest schema modifications are applied in the database.
+
+  try {
+    await StopModel.syncIndexes();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot sync indexes.' });
+  }
+
+  // 6.
+  // Update stops
 
   try {
     //
 
-    const allZones = await ZoneModel.find({});
-    const allMunicipalities = await MunicipalityModel.find({});
+    // 6.0.
+    // Initate a temporary variable to hold updated Stops
+    let updatedStopIds = [];
 
-    const zoneCodes = {
-      '01': 'ALCOCHETE',
-      '02': 'ALMADA',
-      '03': 'AMADORA',
-      '04': 'BARREIRO',
-      '05': 'CASCAIS',
-      '06': 'LISBOA',
-      '07': 'LOURES',
-      '08': 'MAFRA',
-      '09': 'MOITA',
-      10: 'MONTIJO',
-      11: 'ODIVELAS',
-      12: 'OEIRAS',
-      13: 'PALMELA',
-      14: 'SEIXAL',
-      15: 'SESIMBRA',
-      16: 'SETUBAL',
-      17: 'SINTRA',
-      18: 'VFX',
-      19: 'COMP-IR',
-      20: 'COMP-IR',
-      aml: 'AML',
-    };
+    // 6.1.
+    // Retrieve Zones and Municipalities from the database
+    const allZones = await ZoneModel.find();
+    const allMunicipalities = await MunicipalityModel.find();
 
+    // 6.2.
     // Fetch all Stops from API v2
     const allStopsRes = await fetch('https://api.carrismetropolitana.pt/stops');
     const allStopsApi = await allStopsRes.json();
 
+    // 6.3.
+    // Iterate through each available stop
     for (const stopApi of allStopsApi) {
       //
 
-      //   if (!stopApi.code.startsWith('20')) continue;
-
-      // Find out Zones
+      // 6.3.1.
+      // Find out to which Zones this stop belongs to
       let zoneIdsForThisStop = [];
-      let zoneCodesForThisStop = [zoneCodes.aml, zoneCodes[stopApi.code.substring(0, 2)]];
-      for (const zoneCodeForStop of zoneCodesForThisStop) {
-        const foundZoneDocument = allZones.find((item) => item.code === zoneCodeForStop);
-        zoneIdsForThisStop.push(foundZoneDocument._id);
+      zoneLoop: for (const zoneData of allZones) {
+        // Skip if no geometry is set for this zone
+        if (!zoneData.geojson?.geometry.length) continue zoneLoop;
+        // Setup turf point and polygon/multiploygon
+        const turfPoint = turf.point([stopApi.lon, stopApi.lat]);
+        const turfFeature = turf.feature(zoneData.geojson.geometry);
+        // Check if this stop is inside this zone boundary
+        const isStopInThisZone = turf.booleanPointInPolygon(turfPoint, turfFeature);
+        // If it is, add this zone id to the stop
+        if (isStopInThisZone) zoneIdsForThisStop.push(zoneData._id);
+        //
       }
-      // Find out Municipalities
-      let municipalityIdForThisStop = allMunicipalities.find((item) => item.code === stopApi.municipality_id);
 
+      // 6.3.2.
+      // Find out to which Municipality this stop belongs to
+      const matchedMunicipality = allMunicipalities.find((item) => item.code === stopApi.municipality_code);
+      const municipalityIdForThisStop = matchedMunicipality ? matchedMunicipality._id : null;
+
+      // 6.3.3.
       // Format stop to match GO schema
       const formattedStop = {
         // General
@@ -101,49 +107,66 @@ export default async function handler(req, res) {
         name: stopApi.name,
         short_name: stopApi.short_name,
         tts_name: stopApi.tts_name,
-        latitude: stopApi.latitude,
-        longitude: stopApi.longitude,
+        latitude: stopApi.lat,
+        longitude: stopApi.lon,
         // Zoning
         zones: zoneIdsForThisStop,
         // Administrative
-        region_code: stopApi.region_id,
-        region_name: stopApi.region_name,
-        district_code: stopApi.district_id,
-        district_name: stopApi.district_name,
         municipality: municipalityIdForThisStop,
         parish_code: stopApi.parish_id,
         parish_name: stopApi.parish_name,
         locality: stopApi.locality,
         // Services
-        near_health_clinic: stopApi.near_services.includes('near_health_clinic'),
-        near_hospital: stopApi.near_services.includes('near_hospital'),
-        near_university: stopApi.near_services.includes('near_university'),
-        near_school: stopApi.near_services.includes('near_school'),
-        near_police_station: stopApi.near_services.includes('near_police_station'),
-        near_fire_station: stopApi.near_services.includes('near_fire_station'),
-        near_shopping: stopApi.near_services.includes('near_shopping'),
-        near_historic_building: stopApi.near_services.includes('near_historic_building'),
-        near_transit_office: stopApi.near_services.includes('near_transit_office'),
+        near_health_clinic: stopApi.facilities.includes('health_clinic'),
+        near_hospital: stopApi.facilities.includes('hospital'),
+        near_university: stopApi.facilities.includes('university'),
+        near_school: stopApi.facilities.includes('school'),
+        near_police_station: stopApi.facilities.includes('police_station'),
+        near_fire_station: stopApi.facilities.includes('fire_station'),
+        near_shopping: stopApi.facilities.includes('shopping'),
+        near_historic_building: stopApi.facilities.includes('historic_building'),
+        near_transit_office: stopApi.facilities.includes('transit_office'),
         // Intermodal Connections
-        subway: stopApi.intermodal_connections.includes('subway'),
-        light_rail: stopApi.intermodal_connections.includes('light_rail'),
-        train: stopApi.intermodal_connections.includes('train'),
-        boat: stopApi.intermodal_connections.includes('boat'),
-        airport: stopApi.intermodal_connections.includes('airport'),
-        bike_sharing: stopApi.intermodal_connections.includes('bike_sharing'),
-        bike_parking: stopApi.intermodal_connections.includes('bike_parking'),
-        car_parking: stopApi.intermodal_connections.includes('car_parking'),
+        near_subway: stopApi.facilities.includes('subway'),
+        near_light_rail: stopApi.facilities.includes('light_rail'),
+        near_train: stopApi.facilities.includes('train'),
+        near_boat: stopApi.facilities.includes('boat'),
+        near_airport: stopApi.facilities.includes('airport'),
+        near_bike_sharing: stopApi.facilities.includes('bike_sharing'),
+        near_bike_parking: stopApi.facilities.includes('bike_parking'),
+        near_car_parking: stopApi.facilities.includes('car_parking'),
       };
 
-      await StopModel.findOneAndUpdate({ code: stopApi.code }, formattedStop, { new: true, upsert: true });
+      // 6.3.4.
+      // Update the stop
+      const updatedStopDocument = await StopModel.findOneAndUpdate({ code: stopApi.code }, formattedStop, { new: true, upsert: true });
 
-      console.log(`Updated Stop ${stopApi.code}.`);
+      // 6.3.5.
+      // Save this stop_id to the set to delete any dangling stops
+      updatedStopIds.push(updatedStopDocument._id);
+
+      // 6.3.6.
+      // Log progress
+      console.log(`⤷ Updated Stop ${stopApi.code}.`);
+
+      //
     }
+
+    // 6.4.
+    // Delete all Stops not present in the current update
+    const deletedStaleStops = await StopModel.deleteMany({ _id: { $nin: updatedStopIds } });
+    console.log(`⤷ Deleted ${deletedStaleStops.deletedCount} stale Stops.`);
+
+    //
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Import Error' });
   }
 
-  console.log('Done. Sending response to client...');
-  return await res.status(200).json('Import complete.');
+  // 7.
+  // Log progress
+  console.log('⤷ Done. Sending response to client...');
+  return await res.status(200).json('Update complete.');
+
+  //
 }
