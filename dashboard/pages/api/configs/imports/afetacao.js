@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import afetacaoData from '@/services/afetacao/afetacao_a3_parsed.json';
+import afetacaoData from '@/services/afetacao/afetacao_a4_parsed.json';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { Model as StopModel } from '@/schemas/Stop/model';
 import { Model as ZoneModel } from '@/schemas/Zone/model';
@@ -72,8 +72,8 @@ export default async function handler(req, res) {
       // Skip if this pattern is not for the right area
       if (patternSummaryData.code.startsWith('1')) continue;
       if (patternSummaryData.code.startsWith('2')) continue;
-      //   if (patternSummaryData.code.startsWith('3')) continue;
-      if (patternSummaryData.code.startsWith('4')) continue;
+      if (patternSummaryData.code.startsWith('3')) continue;
+      //   if (patternSummaryData.code.startsWith('4')) continue;
 
       const patternData = await PatternModel.findOne({ code: patternSummaryData.code }).populate('path.stop');
 
