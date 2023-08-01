@@ -174,6 +174,30 @@ export default function Page() {
     });
   };
 
+  const handleStartImportAfetacao = async () => {
+    openConfirmModal({
+      title: <Text size='h2'>Import Afetacao</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size='h3'>Are you sure?</Text>,
+      labels: { confirm: 'Yes, import Afetacao', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('import-afetacao', 'loading', 'Loading');
+          await API({ service: 'configs/imports/afetacao', method: 'GET' });
+          notify('import-afetacao', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('import-afetacao', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
   const handleStartImportAlerts = async () => {
     openConfirmModal({
       title: <Text size='h2'>Import Alerts</Text>,
@@ -230,6 +254,9 @@ export default function Page() {
             </Button>
             <Button onClick={handleStartImportPatterns} color='red' disabled={isImporting}>
               Import Patterns & Calendars
+            </Button>
+            <Button onClick={handleStartImportAfetacao} color='red' disabled={isImporting}>
+              Import Afetação
             </Button>
             <Button onClick={handleStartImportAlerts} color='red' disabled={isImporting}>
               Import Alerts
