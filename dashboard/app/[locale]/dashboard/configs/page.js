@@ -242,7 +242,7 @@ export default function Page() {
 
         <Divider />
 
-        <Section>
+        {/* <Section>
           <Text size='h1'>Non-Safe Actions</Text>
           <Text size='h2'>Imports</Text>
           <SimpleGrid cols={3}>
@@ -262,8 +262,8 @@ export default function Page() {
               Import Alerts
             </Button>
           </SimpleGrid>
-        </Section>
-        <Section>
+        </Section> */}
+        {/* <Section>
           <Text size='h2'>Refactors</Text>
           <SimpleGrid cols={4}>
             <Button onClick={handleRefactorPatternPathTravelTime} color='red' disabled={isImporting}>
@@ -273,7 +273,7 @@ export default function Page() {
               Update Preset Velocities
             </Button>
           </SimpleGrid>
-        </Section>
+        </Section> */}
       </Pannel>
     </AuthGate>
   );

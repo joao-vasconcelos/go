@@ -16,6 +16,8 @@ export default async function handler(req, res) {
   //
   await delay();
 
+  throw new Error('Feature is disabled.');
+
   // 0.
   // Refuse request if not GET
 
