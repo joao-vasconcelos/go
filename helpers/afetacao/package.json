@@ -1,0 +1,11 @@
+{
+    "name": "intermodal-parser",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "papaparse": "^5.4.1"
+    }
+}
