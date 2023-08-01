@@ -68,7 +68,7 @@ function incrementTime(timeString, increment) {
   // Handle case where seconds is undefined
   if (!seconds) seconds = 0;
   // Calculate the new total seconds
-  const totalSeconds = hours * 3600 + minutes * 60 + increment;
+  const totalSeconds = hours * 3600 + minutes * 60 + seconds + increment;
   // Calculate the new hours, minutes, and seconds
   const newHours = Math.floor(totalSeconds / 3600);
   const newMinutes = Math.floor((totalSeconds % 3600) / 60);
