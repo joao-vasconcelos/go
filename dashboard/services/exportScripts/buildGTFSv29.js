@@ -64,13 +64,15 @@ function writeCsvToFile(workdir, filename, data, papaparseOptions) {
 /* with a given increment in seconds. Return a string in the same format. */
 function incrementTime(timeString, increment) {
   // Parse the time string into hours, minutes, and seconds
-  const [hours, minutes] = timeString.split(':').map(Number);
+  let [hours, minutes, seconds] = timeString.split(':').map(Number);
+  // Handle case where seconds is undefined
+  if (!seconds) seconds = 0;
   // Calculate the new total seconds
   const totalSeconds = hours * 3600 + minutes * 60 + increment;
   // Calculate the new hours, minutes, and seconds
   const newHours = Math.floor(totalSeconds / 3600);
-  const newMinutes = Math.floor(totalSeconds / 60) % 60;
-  const newSeconds = 0;
+  const newMinutes = Math.floor((totalSeconds % 3600) / 60);
+  const newSeconds = Math.floor((totalSeconds % 3600) % 60);
   // Format the new time string
   return `${padZero(newHours)}:${padZero(newMinutes)}:${padZero(newSeconds)}`;
   //
