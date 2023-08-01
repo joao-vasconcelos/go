@@ -3,6 +3,7 @@ import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import afetacaoData from '@/services/afetacao/afetacao_a2_parsed.json';
 import { PatternModel } from '@/schemas/Pattern/model';
+import { Model as StopModel } from '@/schemas/Stop/model';
 import { Model as ZoneModel } from '@/schemas/Zone/model';
 
 /* * */
