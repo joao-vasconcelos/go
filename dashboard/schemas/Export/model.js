@@ -36,7 +36,7 @@ export const ExportSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 3600, // Auto remove document after x seconds have passed from createdAt value
+    expires: 14400, // Auto remove document after x seconds have passed from createdAt value
   },
 });
 
