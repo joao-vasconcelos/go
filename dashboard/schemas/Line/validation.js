@@ -13,7 +13,7 @@ export const Validation = yup.object({
     .required()
     .max(5)
     .uppercase()
-    .matches(/^[a-zA-Z0-9]+$/),
+    .matches(/^[0-9]+$/),
   name: yup
     .string()
     .required()

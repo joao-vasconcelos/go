@@ -14,7 +14,7 @@ export const PatternValidation = yup.object({
     .required()
     .max(25)
     .uppercase()
-    .matches(/^[a-zA-Z0-9_\s]+$/),
+    .matches(/^[0-9_\s]+$/),
   parent_route: yup.string().required(),
   direction: yup.number().integer().required(),
   headsign: yup

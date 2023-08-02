@@ -61,9 +61,9 @@ export default async function handler(req, res) {
     // Get parent Route document
     const parentRouteDocument = await RouteModel.findOne({ _id: { $eq: req.body.parent_route } });
     // Set an available code for the new Route
-    let newPatternCode = `${parentRouteDocument.code}_${generate(3)}`;
+    let newPatternCode = `${parentRouteDocument.code}_${generate(3, { type: 'numeric' })}`;
     while (await PatternModel.exists({ code: newPatternCode })) {
-      newPatternCode = `${parentRouteDocument.code}_${generate(3)}`;
+      newPatternCode = `${parentRouteDocument.code}_${generate(3, { type: 'numeric' })}`;
     }
     // Create the new Route document
     const newPattern = { ...PatternDefault, code: newPatternCode, parent_route: parentRouteDocument._id, direction: req.body.direction };

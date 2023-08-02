@@ -61,9 +61,9 @@ export default async function handler(req, res) {
     // Get parent Line document
     const parentLineDocument = await LineModel.findOne({ _id: { $eq: req.body.parent_line } });
     // Set an available code for the new Route
-    let newRouteCode = `${parentLineDocument.code}_${generate(3)}`;
+    let newRouteCode = `${parentLineDocument.code}_${generate(3, { type: 'numeric' })}`;
     while (await RouteModel.exists({ code: newRouteCode })) {
-      newRouteCode = `${parentLineDocument.code}_${generate(3)}`;
+      newRouteCode = `${parentLineDocument.code}_${generate(3, { type: 'numeric' })}`;
     }
     // Create the new Route document
     const newRoute = { ...RouteDefault, code: newRouteCode, parent_line: req.body.parent_line };
