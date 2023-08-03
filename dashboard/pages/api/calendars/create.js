@@ -1,6 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
+import generator from '@/services/generator';
 import { Default as CalendarDefault } from '@/schemas/Calendar/default';
 import { Model as CalendarModel } from '@/schemas/Calendar/model';
 
@@ -45,7 +46,11 @@ export default async function handler(req, res) {
   // Save a new document with req.body
 
   try {
-    const createdDocument = await CalendarModel(CalendarDefault).save();
+    const newDocument = { ...CalendarDefault, code: generator(4) };
+    while (await CalendarModel.exists({ code: newDocument.code })) {
+      newDocument.code = generator(5);
+    }
+    const createdDocument = await CalendarModel(newDocument).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);

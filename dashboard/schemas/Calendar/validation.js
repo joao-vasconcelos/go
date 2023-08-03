@@ -18,11 +18,10 @@ export const Validation = yup.object({
     .string()
     .required()
     .max(250)
-    .matches(/^[a-zA-ZÀ-ÿ0-9(),|-\s]+$/),
+    .matches(/^[a-zA-ZÀ-ÿ0-9(),|-\s]*$/),
   description: yup
     .string()
-    .required()
     .max(250)
-    .matches(/^[a-zA-ZÀ-ÿ0-9().|-\s]+$/),
+    .matches(/^[a-zA-ZÀ-ÿ0-9().|-\s]*$/),
   dates: yup.array(yup.string().max(8)),
 });
