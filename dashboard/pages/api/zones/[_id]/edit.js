@@ -9,6 +9,14 @@ import { Model as ZoneModel } from '@/schemas/Zone/model';
 /* Explanation needed. */
 /* * */
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '4mb',
+    },
+  },
+};
+
 export default async function handler(req, res) {
   //
   await delay();
