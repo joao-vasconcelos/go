@@ -1,0 +1,17 @@
+{
+    "name": "@carrismetropolitana/schedules-api-api",
+    "version": "2023.1.1",
+    "private": true,
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "dotenv": "16.3.1",
+        "fastify": "4.21.0",
+        "gtfs-realtime-bindings": "^1.1.1",
+        "mongoose": "7.4.1",
+        "papaparse": "^5.4.1",
+        "protobufjs": "7.2.4"
+    }
+}
