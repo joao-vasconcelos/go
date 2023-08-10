@@ -30,10 +30,10 @@ export default function Page() {
 
   const handleUpdateAllStops = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.update_stops.title')}</Text>,
+      title: <Text size="h2">{t('operations.update_stops.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.update_stops.description')}</Text>,
+      children: <Text size="h3">{t('operations.update_stops.description')}</Text>,
       labels: { confirm: t('operations.update_stops.confirm'), cancel: t('operations.update_stops.cancel') },
       onConfirm: async () => {
         try {
@@ -56,10 +56,10 @@ export default function Page() {
 
   const handleRefactorPatternPathTravelTime = async () => {
     openConfirmModal({
-      title: <Text size='h2'>Calculate Travel Time for All Patterns?</Text>,
+      title: <Text size="h2">Calculate Travel Time for All Patterns?</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
+      children: <Text size="h3">Are you sure?</Text>,
       labels: { confirm: 'Yes, calculate travel times', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -77,10 +77,10 @@ export default function Page() {
 
   const handleRefactorPatternPathPresetVelocity = async () => {
     openConfirmModal({
-      title: <Text size='h2'>Update pattern preset velocities?</Text>,
+      title: <Text size="h2">Update pattern preset velocities?</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
+      children: <Text size="h3">Are you sure?</Text>,
       labels: { confirm: 'Yes, update velocities', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -104,10 +104,10 @@ export default function Page() {
 
   const handleStartImportLines = async () => {
     openConfirmModal({
-      title: <Text size='h2'>Import Lines</Text>,
+      title: <Text size="h2">Import Lines</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
+      children: <Text size="h3">Are you sure?</Text>,
       labels: { confirm: 'Yes, import Lines', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -128,10 +128,10 @@ export default function Page() {
 
   const handleStartImportRoutes = async () => {
     openConfirmModal({
-      title: <Text size='h2'>Import Routes</Text>,
+      title: <Text size="h2">Import Routes</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
+      children: <Text size="h3">Are you sure?</Text>,
       labels: { confirm: 'Yes, import Routes', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -152,10 +152,10 @@ export default function Page() {
 
   const handleStartImportPatterns = async () => {
     openConfirmModal({
-      title: <Text size='h2'>Import Patterns</Text>,
+      title: <Text size="h2">Import Patterns</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
+      children: <Text size="h3">Are you sure?</Text>,
       labels: { confirm: 'Yes, import Patterns', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -176,10 +176,10 @@ export default function Page() {
 
   const handleStartImportAfetacao = async () => {
     openConfirmModal({
-      title: <Text size='h2'>Import Afetacao</Text>,
+      title: <Text size="h2">Import Afetacao</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
+      children: <Text size="h3">Are you sure?</Text>,
       labels: { confirm: 'Yes, import Afetacao', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -200,10 +200,10 @@ export default function Page() {
 
   const handleStartImportAlerts = async () => {
     openConfirmModal({
-      title: <Text size='h2'>Import Alerts</Text>,
+      title: <Text size="h2">Import Alerts</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>Are you sure?</Text>,
+      children: <Text size="h3">Are you sure?</Text>,
       labels: { confirm: 'Yes, import Alerts', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -222,20 +222,49 @@ export default function Page() {
     });
   };
 
+  const handleDeleteCP = async () => {
+    openConfirmModal({
+      title: <Text size="h2">Delete 4999_0_1</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">Are you sure?</Text>,
+      labels: { confirm: 'Yes, delete 4999_0_1', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('delete-cp', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/deleteCP', method: 'GET' });
+          notify('delete-cp', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          setIsImporting(false);
+          notify('delete-cp', 'error', err.message || 'Error');
+        }
+      },
+    });
+  };
+
   //
   // E. Render components
 
   return (
-    <AuthGate scope='configs' permission='admin' redirect>
+    <AuthGate scope="configs" permission="admin" redirect>
       <Pannel>
         <Section>
           <div>
-            <Text size='h2'>{t('sections.safe_updates.title')}</Text>
-            <Text size='h4'>{t('sections.safe_updates.description')}</Text>
+            <Text size="h2">{t('sections.safe_updates.title')}</Text>
+            <Text size="h4">{t('sections.safe_updates.description')}</Text>
           </div>
           <SimpleGrid cols={3}>
-            <Button onClick={handleUpdateAllStops} color='green' disabled={isImporting}>
+            <Button onClick={handleUpdateAllStops} color="green" disabled={isImporting}>
               {t('operations.update_stops.title')}
+            </Button>
+          </SimpleGrid>
+          <SimpleGrid cols={3}>
+            <Button onClick={handleDeleteCP} color="red" disabled={isImporting}>
+              Delete 4999_0_1
             </Button>
           </SimpleGrid>
         </Section>
