@@ -222,30 +222,6 @@ export default function Page() {
     });
   };
 
-  const handleDeleteCP = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Delete 4999_0_1</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, delete 4999_0_1', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('delete-cp', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/deleteCP', method: 'GET' });
-          notify('delete-cp', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('delete-cp', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
   //
   // E. Render components
 
@@ -260,11 +236,6 @@ export default function Page() {
           <SimpleGrid cols={3}>
             <Button onClick={handleUpdateAllStops} color="green" disabled={isImporting}>
               {t('operations.update_stops.title')}
-            </Button>
-          </SimpleGrid>
-          <SimpleGrid cols={3}>
-            <Button onClick={handleDeleteCP} color="red" disabled={isImporting}>
-              Delete 4999_0_1
             </Button>
           </SimpleGrid>
         </Section>
