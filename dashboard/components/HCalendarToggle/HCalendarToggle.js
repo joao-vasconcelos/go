@@ -34,15 +34,19 @@ export default function HCalendarToggle({ date, dateObj, activeDates = [], onTog
 
   return (
     <>
-      <Modal opened={isModalPresented} onClose={closeModal} title={fullDateString} size='500px' centered>
+      <Modal opened={isModalPresented} onClose={closeModal} title={fullDateString} size="500px" centered>
         <SimpleGrid cols={1}>
-          <Text size='h4'>Periodo: {dateObj.period}</Text>
-          <Text size='h4'>day_type: {dateObj.day_type}</Text>
-          <Text size='h4'>is Holiday: {dateObj.is_holiday}</Text>
-          <Text size='h4'>Notas sobre esta Data: {dateObj.notes}</Text>
+          <Text size="h4">Periodo: {dateObj.period}</Text>
+          <Text size="h4">day_type: {dateObj.day_type}</Text>
+          <Text size="h4">is Holiday: {dateObj.is_holiday}</Text>
+          <Text size="h4">Notas sobre esta Data: {dateObj.notes}</Text>
         </SimpleGrid>
       </Modal>
-      <div className={`${styles.container} ${readOnly && styles.readOnly} ${styles[`period${dateObj.period}`]} ${dateObj.notes && styles.hasNote} ${isActive && styles.isActive}`} onClick={handleClick} onContextMenu={handleContextMenu}>
+      <div
+        className={`${styles.container} ${readOnly && styles.readOnly} ${styles[`period${dateObj.period}`]} ${dateObj.is_holiday && styles.isHoliday} ${dateObj.notes && styles.hasNote} ${isActive && styles.isActive}`}
+        onClick={handleClick}
+        onContextMenu={handleContextMenu}
+      >
         {dayString}
       </div>
     </>

@@ -53,6 +53,9 @@
   color: var(--period-1-text-idle);
   background-color: var(--period-1-background-idle);
 }
+.period1.isHoliday:after {
+  border-top-color: var(--period-1-note-idle);
+}
 .period1.hasNote:after {
   border-top-color: var(--period-1-note-idle);
 }
@@ -60,6 +63,9 @@
 .period1:hover {
   color: var(--period-1-text-hover);
   background-color: var(--period-1-background-hover);
+}
+.period1:hover.isHoliday:after {
+  border-top-color: var(--period-1-note-hover);
 }
 .period1:hover.hasNote:after {
   border-top-color: var(--period-1-note-hover);
@@ -72,6 +78,9 @@
   color: var(--period-2-text-idle);
   background-color: var(--period-2-background-idle);
 }
+.period2.isHoliday:after {
+  border-top-color: var(--period-2-note-idle);
+}
 .period2.hasNote:after {
   border-top-color: var(--period-2-note-idle);
 }
@@ -79,6 +88,9 @@
 .period2:hover {
   color: var(--period-2-text-hover);
   background-color: var(--period-2-background-hover);
+}
+.period2:hover.isHoliday:after {
+  border-top-color: var(--period-2-note-hover);
 }
 .period2:hover.hasNote:after {
   border-top-color: var(--period-2-note-hover);
@@ -91,6 +103,9 @@
   color: var(--period-3-text-idle);
   background-color: var(--period-3-background-idle);
 }
+.period3.isHoliday:after {
+  border-top-color: var(--period-3-note-idle);
+}
 .period3.hasNote:after {
   border-top-color: var(--period-3-note-idle);
 }
@@ -98,6 +113,9 @@
 .period3:hover {
   color: var(--period-3-text-hover);
   background-color: var(--period-3-background-hover);
+}
+.period3:hover.isHoliday:after {
+  border-top-color: var(--period-3-note-hover);
 }
 .period3:hover.hasNote:after {
   border-top-color: var(--period-3-note-hover);
