@@ -79,7 +79,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
 
   return (
     <>
-      <Modal opened={isModalPresented} onClose={closeModal} title={fullDateString} size='500px' centered>
+      <Modal opened={isModalPresented} onClose={closeModal} title={fullDateString} size="500px" centered>
         <form onSubmit={form.onSubmit(handleUpdate)}>
           <LoadingOverlay visible={isUpdating} />
           <SimpleGrid cols={1}>
@@ -96,15 +96,15 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
               readOnly={readOnly}
               searchable
             />
-            <Text size='h4'>day_type: {dateObj.day_type}</Text>
+            <Text size="h4">day_type: {dateObj.day_type}</Text>
             <Switch label={'is_holiday'} description={'is_holiday or not'} {...form.getInputProps('is_holiday', { type: 'checkbox' })} />
             <Textarea label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} minRows={5} {...form.getInputProps('notes')} readOnly={readOnly} />
-            <AuthGate scope='dates' permission='create_edit'>
+            <AuthGate scope="dates" permission="create_edit">
               <SimpleGrid cols={2}>
-                <Button size='lg' onClick={handleUpdate}>
+                <Button size="lg" onClick={handleUpdate}>
                   {t('operations.update.title')}
                 </Button>
-                <Button size='lg' variant='light' color='red' onClick={handleDelete}>
+                <Button size="lg" variant="light" color="red" onClick={handleDelete}>
                   {t('operations.delete.title')}
                 </Button>
               </SimpleGrid>
@@ -112,7 +112,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
           </SimpleGrid>
         </form>
       </Modal>
-      <div className={`${styles.container} ${readOnly && styles.readOnly} ${styles[`period${dateObj.period}`]} ${dateObj.notes && styles.hasNote}`} onClick={openModal}>
+      <div className={`${styles.container} ${readOnly && styles.readOnly} ${styles[`period${dateObj.period}`]} ${dateObj.is_holiday && styles.isHoliday} ${dateObj.notes && styles.hasNote}`} onClick={openModal}>
         {dayString}
       </div>
     </>
