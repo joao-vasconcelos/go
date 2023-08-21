@@ -333,7 +333,6 @@ async function parseCalendar(calendarData, startDate, endDate, shouldConcatenate
     if (!dateData) continue;
     // Get the day_type for the current date
     const dayType = calculateDateDayType(calendarDate, dateData.is_holiday);
-    console.log(`calendarDate: ${calendarDate} dayType: ${dayType}`);
     // Build the date entry
     parsedCalendar.push({
       service_id: calendarData.code,
