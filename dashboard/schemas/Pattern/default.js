@@ -8,7 +8,7 @@
 
 export const PatternPresetsDefault = {
   velocity: 20,
-  dwell_time: 30,
+  dwell_time: 0,
 };
 
 /* * */
@@ -36,7 +36,7 @@ export const PatternPathDefault = {
   distance_delta: 0,
   default_velocity: 20,
   default_travel_time: 0,
-  default_dwell_time: 30,
+  default_dwell_time: 0,
   zones: [],
 };
 

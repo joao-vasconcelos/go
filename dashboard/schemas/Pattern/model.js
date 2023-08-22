@@ -32,7 +32,7 @@ export const PatternSchema = new mongoose.Schema(
       },
       dwell_time: {
         type: Number,
-        default: 30,
+        default: 0,
       },
     },
     shape: {

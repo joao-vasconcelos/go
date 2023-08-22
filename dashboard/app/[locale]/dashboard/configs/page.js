@@ -75,25 +75,25 @@ export default function Page() {
     });
   };
 
-  const handleRefactorPatternPathPresetVelocity = async () => {
+  const handleRefactorResetDwellTimes = async () => {
     openConfirmModal({
-      title: <Text size="h2">Update pattern preset velocities?</Text>,
+      title: <Text size="h2">Reset Dwell Times?</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, update velocities', cancel: 'Cancel' },
+      labels: { confirm: 'Yes, reset to zero', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
           setIsImporting(true);
-          notify('update-preset-velocities', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/setPathVelocity', method: 'GET' });
-          notify('update-preset-velocities', 'success', 'success');
+          notify('reset-dwell-times', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/resetDwellTimes', method: 'GET' });
+          notify('reset-dwell-times', 'success', 'success');
           setIsImporting(false);
         } catch (err) {
           console.log(err);
           setIsImporting(false);
-          notify('update-preset-velocities', 'error', err.message || 'Error');
+          notify('reset-dwell-times', 'error', err.message || 'Error');
         }
       },
     });
@@ -198,30 +198,6 @@ export default function Page() {
     });
   };
 
-  const handleStartImportAlerts = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Import Alerts</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, import Alerts', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('import-alerts', 'loading', 'Loading');
-          await API({ service: 'configs/imports/alerts', method: 'GET' });
-          notify('import-alerts', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('import-alerts', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
   //
   // E. Render components
 
@@ -263,17 +239,14 @@ export default function Page() {
             </Button>
           </SimpleGrid>
         </Section> */}
-        {/* <Section>
-          <Text size='h2'>Refactors</Text>
+        <Section>
+          <Text size="h2">Refactors</Text>
           <SimpleGrid cols={4}>
-            <Button onClick={handleRefactorPatternPathTravelTime} color='red' disabled={isImporting}>
-              Update Travel Times
-            </Button>
-            <Button onClick={handleRefactorPatternPathPresetVelocity} color='red' disabled={isImporting}>
-              Update Preset Velocities
+            <Button onClick={handleRefactorResetDwellTimes} color="red" disabled={isImporting}>
+              Reset Dwell Times
             </Button>
           </SimpleGrid>
-        </Section> */}
+        </Section>
       </Pannel>
     </AuthGate>
   );
