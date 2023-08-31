@@ -1,0 +1,13 @@
+{
+    "name": "intermodal-parser",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "@googlemaps/google-maps-services-js": "^3.3.35",
+        "papaparse": "^5.4.1",
+        "react-geocode": "^0.2.3"
+    }
+}

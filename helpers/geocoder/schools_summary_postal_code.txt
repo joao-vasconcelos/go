@@ -1,0 +1,1750 @@
+school_id,school_name,coordinates_lat,coordinates_lon
+200098,"Escola Básica de A-das-Lebres, Loures",38.852917,-9.1672815
+200116,"Escola Básica de A-dos-Bispos, Vila Franca de Xira",38.9559746,-9.0089171
+200578,"Escola Básica de Foros da Craveira do Norte, Afonsos, Montijo",38.6795322,-8.598162
+200840,"Escola Básica de Aiana de Cima, Sesimbra",38.4721939,-9.1094903
+201698,"Escola Básica de Aldeia do Meco, Sesimbra",38.4594619,-9.1064973
+202241,"Escola Básica de Algeruz-Lau, Palmela",38.6034019,-8.817577100000001
+202332,"Escola Básica de Algueirão, Sintra",38.7995703,-9.3144114
+203993,"Escola Básica n.º 1 de Apelação, Loures",38.8241313,-9.1214193
+204067,"Escola Básica de Arcena, Vila Franca de Xira",38.9064455,-9.050106
+205357,"Escola Básica de Novos Trilhos, Atalaia, Montijo",38.7026658,-8.9492966
+206246,"Escola Básica do Bairro Alentejano, Palmela",38.5721984,-8.8806914
+207287,"Escola Básica de Batudes, Palmela",38.5706008,-8.9049627
+208942,"Jardim de Infância de Brejos, Moita",38.6431427,-8.9918692
+208966,"Escola Básica de Brejos do Clérigo, Setúbal",38.5260369,-8.8952871
+209405,"Escola Básica de Cabanas, Palmela",38.5704425,-9.0004986
+210031,"Escola Básica do Cataventos da Paz, Cacilhas, Almada",38.6794817,-9.151187
+211278,"Escola Básica de Caparide, Cascais",38.7138304,-9.3438701
+212672,"Jardim de Infância do Carvalhinho, Moita",38.6548966,-8.9920651
+213640,"Jardim de Infância do Casal de Bolinhos, Brejos de Azeitão, Setúbal",38.53836829999999,-9.0303493
+213822,"Escola Básica do Casal do Marco, Seixal",38.6091276,-9.0912357
+214255,"Escola Básica de Casaínhos, Loures",38.8448564,-9.1621886
+214383,"Escola Básica da Quinta de São Sebastião, Castanheira do Ribatejo, Vila Franca de Xira",38.9952974,-8.9768844
+216770,Centro Educativo Navarro Paiva,38.7420779,-9.1751454
+217785,"Escola Básica de Cotovios, Vila Franca de Xira",38.9559587,-8.999718999999999
+219915,"Escola Básica da Freguesia da Encarnação, Encarnação, Mafra",38.939506,-9.3360662
+220085,"Escola Básica da Ericeira, Mafra",38.9661486,-9.405370099999999
+221028,"Escola Básica Fausto Cardoso de Figueiredo, Estoril, Cascais",38.7082895,-9.404551999999999
+221363,"Escola Básica de Faião, Sintra",38.8729404,-9.357479699999999
+221508,"Escola Básica de Fanhões, Loures",38.8808666,-9.1549104
+223190,"Jardim de Infância de Fonte do Feto, Barreiro",38.6454809,-9.053026599999999
+223300,"Escola Básica da Fonte Santa, Almada",38.6681563,-9.2040313
+226440,"Escola Básica de Gâmbia, Setúbal",38.5575446,-8.766750499999999
+226579,"Escola Básica da Lançada, Hortinha, Montijo",38.7026658,-8.9492966
+228138,"Escola Básica de Jardia, Montijo",38.6649888,-8.924956400000001
+228527,"Jardim de Infância de Lagameças, Palmela",38.6056808,-8.7812652
+228801,"Escola Básica da Freguesia de Santo Isidoro, Lagoa, Mafra",38.939506,-9.3360662
+228813,"Escola Básica da Lagoa da Palha, Palmela",38.5704425,-9.0004986
+229337,"Escola Básica da Freguesia da Carvoeira, Fonte Boa da Brincosa, Mafra",38.9523568,-9.4027543
+231174,"Escola Básica da Malveira da Serra, Cascais",38.711694,-9.4176571
+231230,"Escola Básica de Manique, Cascais",38.7351934,-9.368070399999999
+231253,"Escola Básica da Manjoeira, Loures",38.8275565,-9.174995599999999
+231277,"Escola Básica de Manteigadas, Setúbal",38.540192,-8.8076847
+231370,"Escola Básica de Marco Cabaço, Charneca de Caparica, Almada",38.6203107,-9.1931104
+234126,"Escola Básica Raul Lino, Cascais",38.711694,-9.4176571
+234291,"Escola Básica de Montelavar, Sintra",38.862488,-9.3319066
+234515,"Escola Básica de Montinho da Cotovia, Pontes, Setúbal",38.5453042,-8.8174428
+235222,"Escola Básica Samuel Johnson, Murganhal, Oeiras",38.7262272,-9.2768711
+235301,"Escola Básica da Murteira, Loures",38.8639164,-9.1927607
+236202,"Escola Básica Padre Andrade, Cascais",38.7249534,-9.3327289
+236238,"Escola Básica da Quinta da Fidalga, Agualva, Sintra",38.7746875,-9.2979758
+236287,"Jardim de Infância Cesaltina Fialho Gouveia, Alcabideche, Cascais",38.7301823,-9.4076852
+236330,"Escola Básica Bruno Nascimento, Alcoitão, Cascais",38.7047476,-9.415792699999999
+236354,"Escola Básica n.º 1 de Aldeia do Juso, Cascais",38.7295571,-9.4470251
+236408,"Escola Básica de Alfeite, Almada",38.6610874,-9.154780800000001
+236421,"Escola Básica de Alfragide, Amadora",38.734407,-9.2172114
+236445,"Escola Básica do Alto de Algés, Oeiras",38.7087524,-9.2339159
+236469,"Escola Básica n.º 1 de Alhos Vedros, Moita",38.6588133,-8.9863237
+236548,"Escola Básica do Alto Estanqueiro, Montijo",38.7151328,-8.9557942
+236585,"Escola Básica n.º 1 de Alverca do Ribatejo, Vila Franca de Xira",38.9146362,-9.026513999999999
+236615,"Escola Básica de Amora, Seixal",38.5657964,-9.1002486
+236627,"Escola Básica Fernando José dos Santos, Cascais",38.7186893,-9.4104403
+236720,"Escola Básica de Arrentela, Seixal",38.61908409999999,-9.098712599999999
+236860,"Jardim de Infância de Azenhas do Mar, Sintra",38.8010423,-9.4577241
+237036,"Escola Básica da Bemposta, Loures",38.9125223,-9.133072199999999
+237061,"Escola Básica Almada Negreiros, Cascais",38.72877150000001,-9.3831664
+237085,"Escola Básica n.º 1 da Bobadela, Loures",38.8081863,-9.099984599999999
+237188,"Escola Básica Sacadura Cabral, Brandoa, Amadora",38.7664997,-9.2151359
+237190,"Escola Básica n.º 1 de Brejos do Assa, Palmela",38.5713449,-8.909519699999999
+237218,"Escola Básica Alice Vieira, Buraca, Amadora",38.7418966,-9.210440900000002
+237280,"Escola Básica n.º 1 do Cacém, Sintra",38.7655598,-9.2991169
+237358,"Escola Básica n.º 1 de Camarate, Loures",38.7994383,-9.134915399999999
+237437,"Escola Básica Francisco Vieira Caldas, Caneças, Odivelas",38.81318539999999,-9.228493199999999
+237449,"Escola Básica de Canha, Montijo",38.766531,-8.6275769
+237498,"Escola Básica Sylvia Philips, Carnaxide, Oeiras",38.7262272,-9.2768711
+237644,"Escola Básica José Jorge Letria, Cascais",38.719755,-9.4363782
+237917,"Escola Básica de Coina, Barreiro",38.6595124,-9.076890299999999
+237978,"Escola Básica n.º 1 de Corroios, Seixal",38.6429842,-9.1551297
+238028,"Escola Básica n.º 2 da Costa da Caparica, Almada",38.6553066,-9.189926800000002
+238193,"Escola Básica Padre Himalaia, Damaia, Amadora",38.7454734,-9.2209343
+238284,"Escola Básica São Miguel, Enxara do Bispo, Mafra",38.939506,-9.3360662
+238405,"Escola Básica Artur Bual, Falagueira, Amadora",38.7609866,-9.2280842
+238417,"Escola Básica da Quinta das Dálias, Famões, Odivelas",38.792057,-9.2015308
+238478,"Escola Básica n.º 1 do Feijó, Almada",38.6516798,-9.163126199999999
+238570,"Escola Básica do Fogueteiro, Seixal",38.6146597,-9.1106564
+238612,"Escola Básica de Craveira do Norte, Montijo",38.6704229,-8.5976193
+238624,"Escola Básica da Quinta de Santo António, Cruz de Pau, Seixal",38.618645,-9.1244281
+238739,"Escola Básica n.º 1 de Galiza, Cascais",38.6970335,-9.4208793
+239276,"Escola Básica n.º 1 do Laranjeiro, Almada",38.6531825,-9.1600751
+239331,"Escola Básica Cesário Verde, Linda-a-Pastora, Oeiras",38.7266047,-9.242782600000002
+239343,"Escola Básica Armando Guerreiro, Linda-a-Velha, Oeiras",38.687272,-9.3070351
+239355,"Escola Básica n.º 1 do Linhó, Sintra",38.7696382,-9.3817246
+239446,Escola Básica de Loures,38.8275565,-9.174995599999999
+239460,"Escola Básica de Lousa, Loures",38.839529,-9.1942606
+239495,"Escola Básica Hélia Correia, Mafra",38.9426976,-9.3397711
+239641,"Escola Básica da Mina, Amadora",38.7552278,-9.2312373
+239690,"Escola Básica de Miratejo, Seixal",38.6514254,-9.141332799999999
+239719,Escola Básica n.º 1 da Moita,38.6548966,-8.9920651
+239811,"Escola Básica n.º 3 de Monte da Caparica, Almada",38.6636206,-9.196711299999999
+239823,"Escola Básica de Montemor, Loures",38.8199837,-9.1989542
+239860,"Escola Básica n.º 1 de Morelena, Sintra",38.8004091,-9.3749001
+239872,"Escola Básica Dr. Catela Gomes, Moscavide, Loures",38.7759741,-9.106506
+239938,"Escola Básica de Murtal, Cascais",38.7032718,-9.3677859
+239987,"Escola Básica Maria Lamas, Odivelas",38.7958731,-9.1752547
+239999,"Escola Básica Conde de Ferreira, Oeiras",38.68897279999999,-9.3123304
+240011,"Jardim de Infância n.º 1 de Olhos de Água, Palmela",38.5984903,-8.9286151
+240205,"Escola Básica de Aldeia de Paio Pires, Seixal",38.627182,-9.0864354
+240369,"Escola Básica Dionísio dos Santos Matias, Paço de Arcos, Oeiras",38.6950098,-9.2948945
+240515,"Escola Básica António Santos Jorge, Pinhal Novo, Palmela",38.6323776,-8.915377099999999
+240692,"Escola Básica do Pragal, Almada",38.6725938,-9.1711347
+240898,"Jardim de Infância de Azenha, Ramada, Odivelas",38.8014449,-9.1911522
+240928,"Escola Básica Gago Coutinho, Reboleira, Amadora",38.7562798,-9.2338942
+241143,"Escola Básica n.º 1 de São Domingos de Rana, Cascais",38.700874,-9.3416561
+241179,"Escola Básica n.º 1 de São João da Talha, Loures",38.8236024,-9.0945587
+241283,"Escola Básica de Sacavém, Loures",38.7885145,-9.1057443
+241568,Escola Básica n.º 1 de Setúbal,38.523909,-8.8813781
+241891,"Escola Básica n.º 1 da Terrugem, Sintra",38.8493676,-9.377205
+241908,"Escola Básica António Torrado, Tires, Cascais",38.7099698,-9.4386861
+241910,"Escola Básica do Tojalinho, Loures",38.8410313,-9.191125699999999
+241945,"Escola Básica da Torre da Marinha, Seixal",38.6113831,-9.100914399999999
+241970,"Escola Básica n.º 1 da Trafaria, Almada",38.684756,-9.1477892
+242081,"Escola Básica da Quinta da Paiã, Pontinha, Odivelas",38.7788716,-9.195966499999999
+242111,"Escola Básica Álvaro Guerra, Vila Franca de Xira",38.9584799,-8.9910367
+242160,"Escola Básica Miquelina Pombo, Almada",38.6809354,-9.1583413
+242196,"Jardim de Infância de Vale de Milhaços, Seixal",38.6245886,-9.160818899999999
+242287,"Escola Básica da Venteira, Amadora",38.757643,-9.244887
+242550,"Escola Básica n.º 1 do Zambujal, Sesimbra",38.4511403,-9.1287071
+242573,"Escola Básica n.º 1 de Águas de Moura, Palmela",38.57969190000001,-8.887212
+242706,Escola Básica n.º 5 de Setúbal,38.5262659,-8.8664183
+242731,"Escola Básica Teixeira de Pascoais, Lisboa",38.7472164,-9.1360887
+242780,"Escola Básica Eurico Gonçalves, Lisboa",38.7106156,-9.1449144
+242834,Escola Básica n.º 6 de Setúbal,38.52507749999999,-8.897435
+242860,"Escola Básica António Nobre, Lisboa",38.74590620000001,-9.1774919
+242883,"Escola Básica de São João de Brito, Lisboa",38.7562929,-9.1372144
+242901,"Escola Básica Paulino Montez, Lisboa",38.773693,-9.1185475
+242949,"Escola Básica Luiza Neto Jorge, Lisboa",38.7295412,-9.129537299999999
+243012,"Escola Básica Padre Abel Varzim, Lisboa",38.71395,-9.1456108
+243024,Escola Básica n.º 7 de Setúbal,38.5227818,-8.8760964
+243050,"Escola Básica de Laranjeiras, Lisboa",38.7589417,-9.1634023
+243061,"Escola Básica Dom Luís da Cunha, Lisboa",38.7563807,-9.167605499999999
+243085,"Escola Básica do Beato, Lisboa",38.7301914,-9.108218899999999
+243097,"Escola Básica do Parque Silva Porto, Lisboa",38.7474522,-9.2049053
+243115,"Escola Básica Arquitecto Gonçalo Ribeiro Telles, Lisboa",38.7520651,-9.134809299999999
+243164,Escola Básica n.º 8 de Setúbal,38.52507749999999,-8.897435
+243220,"Escola Básica Prista Monteiro, Lisboa",38.766354,-9.181754399999999
+243280,"Escola Básica O Leão de Arroios, Lisboa",38.7350161,-9.1371492
+243292,"Escola Básica de Montalvão, Setúbal",38.5254047,-8.8941
+243322,"Escola Básica Actor Vale, Lisboa",38.7352572,-9.130171299999999
+243437,Escola Básica n.º 9 de Setúbal,38.5281785,-8.9090166
+243486,"Escola Básica dos Coruchéus, Lisboa",38.7505901,-9.145992399999999
+243504,"Escola Básica de São João de Deus, Lisboa",38.7397284,-9.140119799999999
+243528,"Escola Básica Raúl Lino, Lisboa",38.7064613,-9.1762637
+243541,"Escola Básica Arco-Íris, Lisboa",38.7641737,-9.121708199999999
+243577,"Escola Básica do Bairro Afonso Costa, Setúbal",38.5292702,-8.8712396
+243619,"Escola Básica Rainha Santa Isabel, Lisboa",38.7171262,-9.1554957
+243632,"Escola Básica Professora Aida Vieira, Lisboa",38.7674782,-9.1936211
+243681,"Escola Básica Professor José Salvado Sampaio, Lisboa",38.7498553,-9.2092606
+243700,"Escola Básica de Santa Maria dos Olivais, Lisboa",38.7742101,-9.1129106
+243759,"Escola Básica Adriano Correia de Oliveira, Lisboa",38.7674621,-9.121086
+243760,"Escola Básica Sarah Afonso, Lisboa",38.7611886,-9.1065197
+243772,"Escola Básica Maria da Luz de Deus Ramos, Lisboa",38.7874103,-9.157301
+243784,"Escola Básica Manuel Teixeira Gomes, Lisboa",38.7539272,-9.1114644
+243838,"Escola Básica Alexandre Herculano, Lisboa",38.7030311,-9.194879199999999
+243840,Escola Básica n.º 12 de Setúbal,38.5412046,-8.8938379
+243863,Escola Básica n.º 195 de Lisboa,38.75371519999999,-9.1171512
+243930,"Escola Básica n.º 2 de Abóboda, Cascais",38.7139491,-9.329806
+243954,"Jardim de Infância Nossa Senhora da Anunciação, Agualva, Sintra",38.7728202,-9.2962401
+243980,"Escola Básica de Albarraque, Sintra",38.7496203,-9.3507974
+244004,"Escola Básica Professora Maria Margarida Rodrigues, Cascais",38.711694,-9.4176571
+244041,"Escola Básica Gracinda Antunes Valido, Alcoitão, Cascais",38.7319248,-9.400464099999999
+244107,"Escola Básica de Alfarim, Sesimbra",38.4749597,-9.1557598
+244132,"Escola Básica da Quinta Grande, Alfragide, Amadora",38.7390836,-9.221965299999999
+244168,"Escola Básica n.º 2 de Alhandra, Vila Franca de Xira",38.9386956,-9.0154417
+244181,"Escola Básica Feliciano Oleiro, Almada",38.6817002,-9.160810699999999
+244211,"Escola Básica n.º 2 de Alpriate, Vila Franca de Xira",38.874223,-9.0551651
+244284,"Escola Básica da Quinta da Vala, Vila Franca de Xira",38.8894228,-9.0457895
+244302,"Escola Básica da Quinta das Inglesinhas, Cruz de Pau, Seixal",38.5657964,-9.1002486
+244314,"Escola Básica Fernando Teixeira Lopes, Cascais",38.711694,-9.4176571
+244417,"Escola Básica da Quinta de São João, Arrentela, Seixal",38.6226019,-9.1003699
+244661,"Escola Básica de Meleças, Sintra",38.7980971,-9.310859299999999
+244673,"Escola Básica Visconde de Leceia, Leceia, Oeiras",38.7262272,-9.2768711
+244740,"Escola Básica n.º 2 de Belas, Sintra",38.774278,-9.2700751
+244776,"Escola Básica do Cobre, Cascais",38.7139808,-9.4369449
+244790,"Escola Básica n.º 2 da Bobadela, Loures",38.8145098,-9.1179622
+244880,"Escola Básica da Brandoa, Amadora",38.767812,-9.2225199
+244910,"Escola Básica do Alto do Moinho, Zambujal, Amadora",38.7335231,-9.216029299999999
+244971,"Jardim de Infância n.º 1 do Cacém, Sintra",38.7749978,-9.3054033
+245057,"Escola Básica n.º 2 de Camarate, Loures",38.8018194,-9.122168
+245124,"Escola Básica Artur Alves Cardoso, Caneças, Odivelas",38.8157167,-9.2139244
+245148,"Escola Básica de Lombos, Carcavelos, Cascais",38.6847266,-9.336284299999999
+245161,"Escola Básica Antero Basalisa, Carnaxide, Oeiras",38.7262272,-9.2768711
+245252,"Escola Básica n.º 2 de Casal de Cambra, Sintra",38.8036971,-9.227231
+245290,"Escola Básica Professor Manuel Gaião, Cascais",38.711694,-9.4176571
+245604,"Escola Básica do Alto do Moinho, Seixal",38.6334768,-9.161252
+245665,"Escola Básica n.º 1 da Cova da Piedade, Almada",38.6697608,-9.1610285
+245800,"Escola Básica de Águas Livres, Damaia, Amadora",38.7475062,-9.2113443
+245835,"Jardim de Infância de Camarões, Sintra",38.8004091,-9.3749001
+246013,"Escola Básica Maria Irene Lopes de Azevedo, Venda Nova, Amadora",38.7576835,-9.2094037
+246025,"Escola Básica Veiga Ferreira, Famões, Odivelas",38.796337,-9.2181967
+246037,"Escola Básica n.º 2 do Faralhão, Setúbal",38.5200659,-8.8133764
+246086,"Escola Básica n.º 2 do Feijó, Almada",38.6523372,-9.160681499999999
+246128,"Escola Básica da Quinta dos Morgados, Fernão Ferro, Seixal",38.5657964,-9.1002486
+246177,"Escola Básica da Quinta das Sementes, Paivas, Seixal",38.6185372,-9.1204397
+246773,"Escola Básica Alexandre Castanheira, Laranjeiro, Almada",38.657531,-9.1529892
+246840,"Escola Básica Gil Vicente, Queijas, Oeiras",38.7262272,-9.2768711
+246955,Escola Básica n.º 2 de Loures,38.8261504,-9.1672835
+246967,"Jardim de Infância de Salemas, Loures",38.8808855,-9.191985200000001
+247054,"Escola Básica n.º 2 de Massamá, Sintra",38.7534889,-9.286978099999999
+247108,"Escola Básica n.º 2 de Mem Martins, Sintra",38.7918768,-9.3406383
+247170,"Escola Básica n.º 2 de Mira Sintra, Sintra",38.7859893,-9.3048077
+247200,"Escola Básica José Afonso, Corroios, Seixal",38.6540244,-9.143233
+247224,Escola Básica n.º 2 da Moita,38.6538552,-8.984423999999999
+247315,"Escola Básica n.º 1 de Monte da Caparica, Almada",38.6679349,-9.1931596
+247327,"Escola Básica Eça de Queirós, Ramada, Odivelas",38.8131916,-9.2018877
+247340,"Escola Básica Joaquim de Almeida, Montijo",38.7029093,-8.9700624
+247480,"Escola Básica António Maria Bravo, Odivelas",38.7895442,-9.1781913
+247509,"Escola Básica n.º 2 de Olhos de Água, Lagoinha, Palmela",38.5987567,-8.9283927
+247674,"Escola Básica da Quinta da Courela, Aldeia de Paio Pires, Seixal",38.6168709,-9.083106299999999
+247765,"Escola Básica Afonso do Paço, Parede, Cascais",38.6944046,-9.3494718
+247996,"Escola Básica João Eduardo Xavier, Pinhal Novo, Palmela",38.6277492,-8.9115193
+248095,"Escola Básica Mello Falcão, Pontinha, Odivelas",38.7651108,-9.199756899999999
+248150,"Escola Básica Rogério Ribeiro, Pragal, Almada",38.6686902,-9.190943599999999
+248289,"Escola Básica n.º 2 da Quinta do Conde, Sesimbra",38.5527483,-9.048968799999999
+248290,"Escola Básica n.º 2 de Queluz, Sintra",38.7544826,-9.2526831
+248370,"Escola Básica Vasco Martins Rebolo, Reboleira, Amadora",38.7508635,-9.232276599999999
+248617,"Escola Básica n.º 2 de São João da Talha, Loures",38.8211863,-9.0961567
+248800,"Escola Básica da Cotovia, Sesimbra",38.4594619,-9.1064973
+248885,"Escola Básica do Arneiro, Sassoeiros, Cascais",38.7529549,-9.4515596
+248903,"Escola Básica do Bairro Novo, Seixal",38.6393532,-9.099335500000002
+248990,"Escola Básica dos Arcos, Setúbal",38.5296224,-8.8938721
+249051,"Jardim de Infância da Sobreda, Almada",38.6553066,-9.189926800000002
+249154,"Escola Básica do Bairro da Covina, Santa Iria de Azoia, Loures",38.8358809,-9.088927700000001
+249180,"Escola Básica de São Julião do Tojal, Loures",38.8275565,-9.174995599999999
+249191,"Escola Básica da Cidade Sol, Santo António da Charneca, Barreiro",38.6314098,-9.0330567
+249312,"Escola Básica n.º 2 de Tires, Cascais",38.7236655,-9.343662
+249324,"Escola Básica de A-dos-Cãos, Loures",38.8452831,-9.2233805
+249385,"Escola Básica Cremilde Castro e Norvinda Silva, Almada",38.6645027,-9.2308646
+249488,"Escola Básica de Unhos, Catujal, Loures",38.7945418,-9.1398045
+249490,"Escola Básica da Serra da Luz, Odivelas",38.7735782,-9.1896086
+249567,"Escola Básica n.º 2 de Vale de Figueira, Vale Fetal, Almada",38.6290665,-9.1828766
+249592,"Escola Básica da Quinta Cabouca, Vale de Milhaços, Seixal",38.6260233,-9.1620484
+249671,"Jardim de Infância Raquel Gameiro, Venteira, Amadora",38.7561994,-9.2419012
+249701,"Escola Básica Professor Romeu Gil, Forte da Casa, Vila Franca de Xira",38.875106,-9.057668999999999
+250016,Escola Básica de Setúbal,38.52179040000001,-8.8679612
+250077,"Escola Básica Rosa Lobato Faria, Lisboa",38.7221664,-9.121851699999999
+250193,"Escola Básica do Bairro de São Miguel, Lisboa",38.7469147,-9.145591399999999
+250223,"Escola Básica Alice Vieira, Lisboa",38.7606354,-9.1131728
+250259,"Escola Básica Sampaio Garrido, Lisboa",38.7261266,-9.1323327
+250302,"Escola Básica Engenheiro Duarte Pacheco, Lisboa",38.8302078,-9.2769585
+250326,"Escola Básica de São José, Lisboa",38.71969319999999,-9.142322499999999
+250340,"Escola Básica n.º 3 de Agualva, Sintra",38.771532,-9.292149199999999
+250429,"Escola Básica de Alhos Vedros, Fonte da Prata, Moita",38.6588133,-8.9863237
+250478,"Escola Básica Infante D. Augusto, Cruz de Pau, Seixal",38.6277362,-9.122995099999999
+250510,"Escola Básica n.º 3 da Baixa da Banheira, Moita",38.65810990000001,-9.0444251
+250545,"Escola Básica Professora Manuela Fonseca, Barreiro",38.6446761,-9.0526663
+250569,"Escola Básica de Areia - Guincho, Cascais",38.718539,-9.4627231
+250570,"Escola Básica n.º 3 da Bobadela, Loures",38.8276523,-9.1632876
+250612,"Escola Básica Ribeiro de Carvalho, Cacém, Sintra",38.7694892,-9.3091096
+250650,"Escola Básica de Fetais, Vila Lorena, Loures",38.8000944,-9.1454306
+250685,"Escola Básica Cesário Verde, Caneças, Odivelas",38.8100031,-9.219343
+250715,"Escola Básica de Alvide, Cascais",38.718539,-9.4627231
+250788,"Escola Básica da Quinta do Campo, Corroios, Seixal",38.6416621,-9.1531888
+250790,"Escola Básica n.º 2 da Cova da Piedade, Almada",38.6713637,-9.1641671
+250909,"Escola Básica Santos Mattos, Venda Nova, Amadora",38.75298850000001,-9.2133452
+250910,"Escola Básica de Vale Grande, Odivelas",38.7899737,-9.2221156
+250922,"Escola Básica do Faralhão, Setúbal",38.5260369,-8.8952871
+250934,"Escola Básica Maria Rosa Colaço, Feijó, Almada",38.6516798,-9.163126199999999
+250960,"Escola Básica de Paivas, Seixal",38.6221898,-9.115343099999999
+251100,"Escola Básica n.º 3 do Laranjeiro, Almada",38.6630598,-9.1571927
+251150,"Escola Básica D. Pedro V, Linda-a-Velha, Oeiras",38.7119358,-9.2457234
+251185,"Escola Básica de Fanqueiro, Loures",38.839462,-9.1606047
+251215,"Jardim de Infância n.º 3 de Mem Martins, Sintra",38.7903657,-9.3501763
+251252,Escola Básica da Moita,38.6457778,-8.9896984
+251290,"Escola Básica Maria Adelaide Silva, Almada",38.6679349,-9.1931596
+251306,"Escola Básica Luís de Camões, Montijo",38.7080758,-8.9790551
+251318,"Escola Básica da Quinta da Alegria, Moscavide, Loures",38.7807794,-9.1063808
+251355,"Escola Básica D. Dinis n.º 1, Odivelas",38.7931237,-9.1807517
+251367,"Escola Básica Gomes Freire de Andrade, Oeiras",38.6963738,-9.3098708
+251458,"Escola Básica Anselmo de Oliveira, Paço de Arcos, Oeiras",38.6908284,-9.3018419
+251501,"Escola Básica Salgueiro Maia, Pinhal Novo, Palmela",38.62210719999999,-8.912242299999999
+251549,"Escola Básica de Bragadas, Póvoa de Santa Iria, Vila Franca de Xira",38.8572316,-9.07387
+251550,"Escola Básica de Olival Basto, Odivelas",38.7899365,-9.1653878
+251574,"Escola Básica n.º 3 da Quinta do Conde, Sesimbra",38.5726886,-9.0491505
+251604,"Escola Básica José Ruy, Reboleira, Amadora",38.7489225,-9.2279161
+251690,"Escola Básica n.º 3 de Sacavém, Loures",38.7885145,-9.1057443
+251744,"Escola Básica de São Gabriel, Setúbal",38.52507749999999,-8.897435
+251770,"Escola Básica Júlio Dinis, Santa Iria de Azoia, Loures",38.8377502,-9.089830899999999
+251835,"Escola Básica Padre Agostinho da Silva, Tires, Cascais",38.69580699999999,-9.3499476
+251859,"Escola Básica n.º 3 de Unhos, Catujal, Loures",38.8162046,-9.1260414
+251987,"Escola Básica de Moinhos do Restelo, Lisboa",38.7063828,-9.2078587
+252013,"Escola Básica Quinta dos Frades, Lisboa",38.77072,-9.162264000000002
+252050,"Escola Básica Santo António, Lisboa",38.7543926,-9.1474229
+252086,"Escola Básica Padre José Manuel Rocha e Melo, Lisboa",38.768754,-9.1590022
+252116,"Escola Básica de São Sebastião da Pedreira, Lisboa",38.730912,-9.1500711
+252130,"Escola Básica Viscondessa dos Olivais, Lisboa",38.7696307,-9.106354500000002
+252165,"Escola Básica Luísa Ducla Soares, Lisboa",38.72215449999999,-9.1437776
+252220,Escola Básica n.º 2 de Alcochete,38.748316,-8.9677466
+252232,Jardim de Infância de Almada,38.6831898,-9.154737200000001
+252270,"Escola Básica n.º 1 da Baixa da Banheira, Moita",38.6542679,-9.0377524
+252359,"Escola Básica n.º 4 de Camarate, Loures",38.79637049999999,-9.123066
+252360,"Escola Básica de São José, Cascais",38.7090046,-9.425182399999999
+252396,"Escola Básica da Cova da Piedade, Almada",38.6735022,-9.1562427
+252463,"Escola Básica da Terra dos Arcos, Falagueira, Amadora",38.7550056,-9.2269658
+252475,"Escola Básica Sophia de Mello Breyner Andresen, Famões, Odivelas",38.794082,-9.2133404
+252505,"Escola Básica da Quinta do Conde de Portalegre, Paivas, Seixal",38.6025589,-9.1042341
+252517,"Escola Básica de Foros de Amora, Seixal",38.6025589,-9.1042341
+252578,"Escola Básica do Infantado, Loures",38.839462,-9.1606047
+252610,"Escola Básica Manuel Heleno, Carenque, Amadora",38.7712896,-9.2499776
+252633,"Escola Básica de Afonsoeiro, Montijo",38.7117576,-8.97256
+252657,"Escola Básica Rainha Santa, Patameiras, Odivelas",38.7893488,-9.192205099999999
+252682,"Escola Básica n.º 4 da Parede, Cascais",38.7010686,-9.354969900000002
+252750,"Escola Básica João Villaret, Ramada, Odivelas",38.8035865,-9.1877865
+252803,"Escola Básica n.º 4 de São João da Talha, Loures",38.8269061,-9.1018709
+252815,"Escola Básica de Prior Velho, Loures",38.7885145,-9.1057443
+252876,"Jardim de Infância de Pintéus, Loures",38.8578806,-9.1388936
+252888,"Escola Básica de Tires, Cascais",38.7230002,-9.351703299999999
+252890,"Escola Básica n.º 3 da Trafaria, Almada",38.6553066,-9.189926800000002
+252992,"Escola Básica Engenheiro Ressano Garcia, Lisboa",38.7138065,-9.165737799999999
+253042,"Escola Básica Mestre Arnaldo Louro de Almeida, Lisboa",38.7268254,-9.128074699999999
+253066,"Escola Básica da Luz-Carnide, Lisboa",38.7593324,-9.186533599999999
+253110,"Escola Básica Frei Luís de Sousa, Lisboa",38.7414569,-9.1717515
+253157,"Escola Básica n.º 4 de Alverca do Ribatejo, Vila Franca de Xira",38.9409593,-9.029587
+253169,"Escola Básica n.º 1 de Vale da Amoreira, Moita",38.6588133,-8.9863237
+253182,Escola Básica n.º 5 do Barreiro,38.6562506,-9.063436
+253194,"Escola Básica n.º 5 de Belas, Serra da Silveira, Sintra",38.7753203,-9.2532508
+253236,"Escola Básica n.º 5 de Camarate, Loures",38.7981039,-9.147363799999999
+253250,"Escola Básica da Quinta de Santa Marta de Corroios, Seixal",38.6321632,-9.144711599999999
+253261,"Escola Básica n.º 3 da Cova da Piedade, Almada",38.6761075,-9.1570387
+253352,"Jardim de Infância de A-da-Beja, Amadora",38.7868174,-9.2377779
+253376,"Escola Básica de Areias, Montijo",38.7119398,-8.949596999999999
+253390,"Escola Básica António Rebelo de Andrade, Oeiras",38.6867643,-9.3194162
+253418,"Escola Básica da Quinta de São José, Póvoa de Santo Adrião, Odivelas",38.8025955,-9.1592088
+253467,"Escola Básica do Viso, Setúbal",38.52318,-8.9156111
+253492,Escola Básica n.º 4 de Vila Franca de Xira,38.9409803,-8.999931199999999
+253560,"Escola Básica Jorge Barradas, Lisboa",38.7555922,-9.2035097
+253583,"Escola Básica Professor Agostinho da Silva, Lisboa",38.7472337,-9.1059824
+253595,"Escola Básica do Condado, Lisboa",38.745222,-9.111447799999999
+253601,"Escola Básica Infante D. Henrique, Lisboa",38.7715609,-9.1021807
+253613,"Escola Básica n.º 1 de Telheiras, Lisboa",38.7597306,-9.1715289
+253662,Escola Básica n.º 6 do Barreiro,38.65956240000001,-9.0617504
+253716,"Escola Básica D. Nuno Álvares Pereira, Corroios, Seixal",38.6467223,-9.1480367
+253765,"Escola Básica de Santo Condestável, Lisboa",38.7199322,-9.1676374
+253790,"Escola Básica da Liberdade, Montijo",38.7132548,-8.970450699999999
+253807,"Escola Básica Bernardim Ribeiro, Odivelas",38.7961483,-9.1730661
+253819,"Escola Básica Barbosa du Bocage, Póvoa de Santo Adrião, Odivelas",38.8006517,-9.160913599999999
+253856,"Escola Básica da Via Rara, Loures",38.6533331,-9.174163499999999
+253923,"Jardim de Infância Alexandre Rodrigues Ferreira, Lisboa",38.7041738,-9.1974879
+253959,"Escola Básica do Bairro do Restelo, Lisboa",38.6994917,-9.2104663
+254009,"Escola Básica Natália Correia, Lisboa",38.7212101,-9.1289072
+254022,"Escola Básica n.º 2 da Baixa da Banheira, Moita",38.6588133,-8.9863237
+254083,"Jardim de Infância de São Nicolau, Corroios, Seixal",38.6434243,-9.1583743
+254125,"Escola Básica Homero Serpa, Lisboa",38.7097228,-9.196818
+254150,"Escola Básica Maria Máxima Vaz, Odivelas",38.7952726,-9.1768356
+254265,Escola Básica n.º 72 de Lisboa,38.7122835,-9.1586526
+254320,"Escola Básica de Santo Amaro, Lisboa",38.7037049,-9.1852746
+254332,Escola Básica da Alta de Lisboa,38.7828426,-9.1489956
+254368,"Escola Básica n.º 5 da Baixa da Banheira, Moita",38.6541831,-9.0379147
+254370,Escola Básica n.º 8 do Barreiro,38.6586823,-9.0655934
+254435,"Escola Básica Artur Martinho Simões, São Brás, Amadora",38.7679794,-9.2327094
+254447,"Escola Básica de Casais de Trigache, Famões, Odivelas",38.7884123,-9.184915
+254472,"Escola Básica de Azeda, Setúbal",38.539558,-8.8764205
+254587,"Escola Básica n.º 6 da Baixa da Banheira, Moita",38.6588133,-8.9863237
+254599,Escola Básica n.º 9 do Barreiro,38.65293140000001,-9.0606948
+254642,"Escola Básica de Moinhos da Funcheira, Amadora",38.7418966,-9.210440900000002
+254678,Escola Básica n.º 4 de Setúbal,38.5314776,-8.8707798
+254710,"Escola Básica Dr. Nuno Cordeiro Ferreira, Lisboa",38.7770209,-9.1548213
+254733,"Escola Básica Rainha D. Estefânia/Hospital, Lisboa",38.728244,-9.139270999999999
+258982,"Escola Básica Orlando Gonçalves, Alfornelos, Amadora",38.7615023,-9.205328
+259457,"Escola Básica Alice Leite, Alfornelos, Amadora",38.7631404,-9.2087383
+261403,"Escola Básica de Palhais, Barreiro",38.62494119999999,-9.048779099999999
+262481,"Escola Básica de Passil, Alcochete",38.7092899,-8.8972014
+263345,"Escola Básica de Pegões Velhos, Montijo",38.7026658,-8.9492966
+263783,"Escola Básica de Penteado, Moita",38.6377937,-9.0179244
+265986,"Escola Básica da Portela, Loures",38.7885145,-9.1057443
+266474,"Escola Básica de Povos, Vila Franca de Xira",38.9726883,-8.9825536
+268306,"Escola Básica de Ranholas, Sintra",38.8004091,-9.3749001
+268471,"Escola Básica da Rebelva, Cascais",38.6963296,-9.33962
+270817,"Escola Básica de São Francisco, Alcochete",38.7292892,-8.9732562
+271184,"Escola Básica n.º 1 de São João do Estoril, Cascais",38.699768,-9.3790517
+271937,"Escola Básica Hortênsia Diogo Correia, Cascais",38.711694,-9.4176571
+272863,"Escola Básica do Sanatório do Outão, Setúbal",38.4902001,-8.9341599
+273983,"Escola Básica de Sarilhos Pequenos, Moita",38.6809716,-8.9839751
+275608,"Escola Básica do Sobral da Abelheira, Mafra",38.939506,-9.3360662
+275670,"Escola Básica do Sobralinho, Vila Franca de Xira",38.95431850000001,-9.001281900000002
+277319,"Escola Básica Fernando de Bulhões, Santo António dos Cavaleiros, Loures",38.8261504,-9.1672835
+277629,"Escola Básica de Talaíde, Cascais",38.7371302,-9.3114252
+278075,"Escola Básica de Santo António de Tercena, Oeiras",38.747712,-9.2814318
+278580,"Escola Básica Branquinho da Fonseca, Cascais",38.700437,-9.42396
+279031,"Escola Básica de Trajouce, Cascais",38.7367488,-9.3415807
+279870,"Escola Básica de Vila Nogueira de Azeitão, Setúbal",38.5273999,-8.891667
+280082,"Escola Básica da Vala do Carregado, Vila Franca de Xira",38.95431850000001,-9.001281900000002
+280483,"Jardim de Infância de Vale da Vila, Palmela",38.5721984,-8.8806914
+282467,"Escola Básica de Vendas de Azeitão, Setúbal",38.5296167,-8.9922051
+283540,"Escola Básica de Vila de Rei, Loures",38.8291177,-9.16297
+285717,"Escola Básica da Várzea de Sintra, Sintra",38.818889,-9.3967181
+285870,"Escola Básica do Zambujal, Loures",38.8702354,-9.1227079
+286072,"Escola Básica de A-dos-Loucos, Vila Franca de Xira",38.9386956,-9.0154417
+287167,Escola Básica de Sesimbra,38.4440329,-9.1019113
+287313,"Escola Básica da Tapada das Mercês, Sintra",38.7953414,-9.3281879
+287325,"Escola Básica da Restauração, Alcochete",38.7518783,-8.9644221
+287635,"Escola Básica de Santo António dos Cavaleiros, Loures",38.8127094,-9.167627399999999
+287714,"Escola Básica Mário Cunha Brito, Belas, Sintra",38.7689368,-9.3799907
+287726,"Escola Básica do Casal do Cotão, Sintra",38.7629295,-9.3011737
+287738,"Escola Básica n.º 1 de Fitares, Sintra",38.7847937,-9.313362099999999
+287740,"Escola Básica de Colaride, Agualva, Sintra",38.7996793,-9.3784472
+287751,"Escola Básica n.º 1 de São Marcos, Sintra",38.7472718,-9.293850599999999
+287763,"Escola Básica do Casal da Cavaleira, Sintra",38.8004091,-9.3749001
+287775,"Escola Básica n.º 1 de Rio de Mouro, Sintra",38.7810393,-9.3215276
+287787,"Escola Básica de Xutaria, Belas, Sintra",38.7612471,-9.2763331
+287817,"Escola Básica da Rosa dos Ventos, Afonsoeiro, Montijo",38.7026658,-8.9492966
+287829,"Escola Básica de Caneira, Montijo",38.7026658,-8.9492966
+287830,"Escola Básica Joaquim José Carvalho, Palmela",38.5719729,-8.9023577
+287878,"Escola Básica da Quinta da Condessa, Bairro da Condessa, Odivelas",38.7972091,-9.175959899999999
+287880,"Escola Básica do Lumiar, Lisboa",38.7675658,-9.1679312
+287891,"Escola Básica de Mem Martins, Sintra",38.7893695,-9.3527905
+287908,"Escola Básica Amélia Vieira Luís, Outurela, Oeiras",38.7262272,-9.2768711
+287910,"Escola Básica Ricardo Alberty, São Brás, Amadora",38.7705235,-9.2274335
+287933,"Escola Básica de Vila Fresca de Azeitão, Setúbal",38.5254805,-8.9970948
+288159,"Escola Básica Brito Pais, Amadora",38.7806481,-9.2271664
+288160,"Escola Básica de Sassoeiros, Cascais",38.6948879,-9.3583072
+288172,"Jardim de Infância Nossa Senhora do Vale, Caxias, Oeiras",38.7262272,-9.2768711
+288494,"Escola Básica de Vale Flores, Feijó, Almada",38.6523372,-9.160681499999999
+288500,"Escola Básica n.º 1 do Lavradio, Barreiro",38.6446761,-9.0526663
+288512,"Escola Básica da Telha Nova, Barreiro",38.6448179,-9.054015999999999
+288524,"Escola Básica de Penalva, Barreiro",38.6456074,-9.0529897
+288536,"Escola Básica Ary dos Santos, Montijo",38.712665,-8.9774456
+288548,"Jardim de Infância da Lagoa do Calvo, Palmela",38.57969190000001,-8.887212
+290014,"Escola Básica do Casal de Cambra, Sintra",38.8004091,-9.3749001
+290026,"Escola Básica de Mucifal, Sintra",38.8160309,-9.439989299999999
+290038,"Escola Básica de Maceira, Sintra",38.8677518,-9.3133378
+290040,"Escola Básica de Cortegaça, Sintra",38.8273647,-9.3598061
+290063,"Escola Básica do Pendão, Sintra",38.7609802,-9.254586999999999
+290075,"Escola Básica de Vale Mourão, Sintra",38.7654661,-9.3199733
+290087,"Escola Básica da Rinchoa, Rio de Mouro, Sintra",38.7870837,-9.3190334
+290105,"Escola Básica de Monte Abraão, Sintra",38.7597009,-9.2662303
+290117,"Escola Básica de Assafora, Sintra",38.8528873,-9.3837612
+290129,"Escola Básica de Bolembre, Magoito, Sintra",38.8004091,-9.3749001
+290130,"Escola Básica n.º 1 da Serra das Minas, Sintra",38.7788611,-9.3333695
+290142,"Escola Básica n.º 2 da Serras das Minas, Sintra",38.7845758,-9.3289073
+290154,"Escola Básica do Sabugo e Vale de Lobos, Sabugo, Sintra",38.8207879,-9.2899923
+290166,"Escola Básica de Santa Susana, Sintra",38.799247,-9.3760339
+290178,"Escola Básica Dr. António Torrado, Agualva, Sintra",38.7717791,-9.2876321
+290180,"Escola Básica n.º 2 de Agualva, Sintra",38.7732722,-9.3055021
+290191,"Escola Básica de Abrunheira, Sintra",38.7689368,-9.3799907
+290208,"Escola Básica de Manique de Cima, Sintra",38.7566574,-9.360273099999999
+290210,"Escola Básica de São Pedro, Sintra",38.7917345,-9.3805631
+290221,"Escola Básica de Lameiras e Fação, Sintra",38.7996793,-9.3784472
+290233,"Escola Básica de Mira Sintra, Sintra",38.7873735,-9.304070699999999
+290245,"Escola Básica n.º 2 de São Marcos, Sintra",38.7481117,-9.301765999999999
+290269,"Escola Básica Eduardo Luna de Carvalho, Tapada das Mercês, Sintra",38.8004091,-9.3749001
+290282,"Escola Básica de Almargem do Bispo, Sintra",38.8004091,-9.3749001
+290300,"Escola Básica de Negrais, Sintra",38.7655598,-9.2991169
+290312,"Escola Básica da Portela de Sintra, Sintra",38.799247,-9.3760339
+290336,"Jardim de Infância de Ral, Sintra",38.8273647,-9.3598061
+290348,Escola Básica de Sintra,38.7994284,-9.392655699999999
+290350,"Escola Básica de Galamares, Sintra",38.8004091,-9.3749001
+290520,"Escola Básica Prof. João Dias Agudo, Póvoa da Galega, Mafra",38.939506,-9.3360662
+292825,"Escola Básica de Vila Nova da Caparica, Almada",38.645531,-9.2407382
+293570,"Escola Básica António Matos Fortuna, Quinta do Anjo, Palmela",38.569378,-8.9441452
+293581,"Escola Básica de Aires, Palmela",38.5721984,-8.8806914
+293593,"Escola Básica do Casal da Serra, Paiã, Odivelas",38.7792966,-9.2045237
+293600,"Escola Básica Narcisa Pereira, Linda-a-Pastora, Oeiras",38.723607,-9.2612232
+293611,"Escola Básica Manuel Beça Múrias, Oeiras",38.68229669999999,-9.321289199999999
+293623,"Escola Básica Sá de Miranda, Oeiras",38.6942262,-9.3273374
+293635,"Escola Básica Maria Luciana Seruca, Paço de Arcos, Oeiras",38.6964867,-9.323639799999999
+293647,"Jardim de Infância Roberto Ivens, Dafundo, Oeiras",38.7039613,-9.2521009
+293659,"Escola Básica São Bento, Valejas, Oeiras",38.7364058,-9.2670897
+293660,"Escola Básica Jorge Mineiro, Queluz de Baixo, Oeiras",38.7262272,-9.2768711
+293672,"Escola Básica de Cabra Figa, Sintra",38.7788611,-9.3333695
+293684,"Escola Básica de Vila Verde, Sintra",38.7996793,-9.3784472
+293696,"Escola Básica de Massamá, Sintra",38.7575034,-9.273986700000002
+293702,"Escola Básica de Pego Longo, Sintra",38.7713156,-9.257015
+293714,"Escola Básica de Lopas, Agualva, Sintra",38.7709541,-9.288265899999999
+293740,"Escola Básica n.º 1 da Venda do Pinheiro, Mafra",38.922362,-9.2352662
+293751,"Escola Básica n.º 2 de Rio de Mouro, Sintra",38.7934685,-9.3125105
+293866,"Escola Básica de Fidalguinhos, Barreiro",38.6555518,-9.0509375
+293878,"Escola Básica Zeca Afonso, Pinhal Novo, Palmela",38.61175130000001,-8.930984
+293891,"Escola Básica de Santa Eulália, Vila Franca de Xira",38.9560642,-8.9909017
+293910,"Escola Básica de Dona Maria, Sintra",38.7995703,-9.3144114
+293921,"Escola Básica n.º 7 da Baixa da Banheira, Moita",38.6633822,-9.0465488
+293933,"Escola Básica de Santo António da Charneca, Barreiro",38.6263792,-9.0336151
+293945,Escola Básica do Barreiro,38.65235759999999,-9.0716137
+293957,"Escola Básica n.º 2 do Lavradio, Barreiro",38.6630287,-9.0524072
+293970,"Escola Básica da Malveira, Mafra",38.9362482,-9.258801
+294032,"Escola Básica do Lourel, Sintra",38.8144219,-9.368424
+294056,"Escola Básica de São João das Lampas, Sintra",38.8722595,-9.3979509
+294081,"Escola Básica de Póvoa de Santa Iria Norte, Vila Franca de Xira",38.8638284,-9.0713405
+294093,"Escola Básica da Quinta da Cevadeira, Castanheira do Ribatejo, Vila Franca de Xira",38.9952974,-8.9768844
+294159,"Escola Básica n.º 2 de Monte Abraão, Sintra",38.7995703,-9.3144114
+294184,"Escola Básica de Chegadinho, Feijó, Almada",38.66077200000001,-9.163249900000002
+294196,"Escola Básica Louro Artur, Charneca de Caparica, Almada",38.6011329,-9.1822192
+294202,"Escola Básica José Garcês, Casal da Mira, Amadora",38.7778295,-9.2238262
+294226,"Escola Básica Artur Patrocínio, Azueira, Mafra",39.00253,-9.284990900000002
+294238,"Escola Básica de Santo Estevão das Galés, Mafra",38.939506,-9.3360662
+294445,"Escola Básica da Quinta dos Franceses, Seixal",38.6393954,-9.100849499999999
+294482,"Escola Básica do Alto da Peça, Alcabideche, Cascais",38.735637,-9.4019924
+294494,"Escola Básica do Bairro do Armador, Lisboa",38.7431115,-9.1203027
+294500,"Escola Básica da Quinta do Conventinho, Santo António dos Cavaleiros, Loures",38.8261504,-9.1672835
+294512,"Escola Básica da Quinta das Mós, Camarate, Loures",38.7981039,-9.147363799999999
+294524,"Escola Básica da Fonte Santa, Loures",38.8410313,-9.191125699999999
+294536,"Escola Básica do Casal da Serra, Póvoa de Santa Iria, Vila Franca de Xira",38.8613977,-9.0783638
+294548,"Escola Básica de Alverca - Malva Rosa, Alverca do Ribatejo, Vila Franca de Xira",38.8876909,-9.0475228
+294561,"Escola Básica Dr. Sanches de Brito, Mafra",38.9542098,-9.338830699999999
+294585,"Escola Básica n.º 1 do Bom Retiro, Vila Franca de Xira",38.95461,-9.0000479
+294640,"Escola Básica Alberto Valente, Pinhal Novo, Palmela",38.6239581,-8.9211597
+294780,"Escola Básica São Silvestre do Gradil, Gradil, Mafra",38.9827922,-9.278115699999999
+295190,"Escola Básica da Brejoeira, Vila Nogueira de Azeitão, Setúbal",38.5469381,-9.0217665
+295516,"Escola Básica de São Miguel de Alcainça, Alcainça, Mafra",38.9210025,-9.2925687
+295541,"Escola Básica de Porto Pinheiro, Odivelas",38.7893488,-9.192205099999999
+295589,"Escola Básica Professor José Joaquim Rita Seixas, Barreiro",38.6623218,-9.0773712
+295668,"Escola Básica Pintora Maluda, Lisboa",38.7836096,-9.1582256
+295693,"Escola Básica de Casal dos Apréstimos, Ramada, Odivelas",38.8092842,-9.1846915
+295700,"Escola Básica Aprígio Gomes, Mina, Amadora",38.7666993,-9.2367332
+296211,"Escola Básica de Porto Salvo, Oeiras",38.7262272,-9.2768711
+296557,"Escola Básica Rómulo de Carvalho, S. Domingos de Rana, Cascais",38.7269996,-9.3410136
+296867,"Escola Básica Presidente Maria Emília, Charneca de Caparica, Almada",38.6335188,-9.1940505
+296879,"Escola Básica de Sampaio, Sesimbra",38.4750235,-9.0914383
+297136,"Escola Básica dos Redondos, Seixal",38.5657964,-9.1002486
+297161,"Escola Básica de Santa Clara, Lisboa",38.7148607,-9.1257281
+310086,"Escola Básica D. Luís de Mendonça Furtado, Barreiro",38.6615922,-9.0640199
+310153,"Escola Básica Luísa Todi, Setúbal",38.5309122,-8.866595
+310165,"Escola Básica Professor Lindley Cintra, Lisboa",38.7697478,-9.161836
+310190,"Escola Básica Nun’Álvares, Arrentela, Seixal",38.6228178,-9.111382899999999
+310220,"Escola Básica Prof. Pedro d’Orey da Cunha, Damaia, Amadora",38.74304739999999,-9.2192636
+310335,"Escola Básica Sophia de Mello Breyner Andresen, Brandoa, Amadora",38.76416870000001,-9.215775899999999
+310438,"Escola Básica D. Pedro Varela, Montijo",38.7112862,-8.985057500000002
+330140,"Escola Básica Sophia de Mello Breyner, Portela, Oeiras",38.7211592,-9.223389
+330334,"Escola Básica Maria do Carmo Serrote, Sesimbra",38.56061529999999,-9.0451719
+330346,"Escola Básica e Secundária Carlos Gargaté, Charneca de Caparica, Almada",38.6051407,-9.185551000000002
+330371,"Escola Básica Maria Keil, Loures",38.8261504,-9.1672835
+330814,"Escola Básica do Miradouro de Alfazina, Monte de Caparica, Almada",38.6744499,-9.1875514
+331030,"Escola Básica de Vale Rosal, Vale Fetal, Almada",38.63079,-9.191269499999999
+331041,"Escola Básica da Boa Água, Quinta do Conde, Sesimbra",38.5550092,-9.0507381
+331053,"Escola Básica do Parque das Nações, Lisboa",38.7552992,-9.0977231
+331065,"Escola Básica do Esteval, Montijo",38.7081178,-8.9563325
+340042,"Escola Básica de Alapraia, Cascais",38.7090777,-9.3735733
+340080,"Escola Básica de Alembrança, Feijó, Almada",38.6530185,-9.166528099999999
+340110,"Escola Básica Maria Alberta Menéres, Tapada das Mercês, Sintra",38.7968163,-9.3340015
+340121,"Escola Básica Almeida Garrett, Alfragide, Amadora",38.7337759,-9.2145993
+340133,"Escola Básica Almirante Gago Coutinho, Lisboa",38.7529814,-9.135177299999999
+340157,"Escola Básica do Catujal, Loures",38.8162046,-9.1260414
+340169,"Escola Básica Álvaro Velho, Lavradio, Barreiro",38.6446761,-9.0526663
+340236,"Escola Básica e Secundária António Bento Franco, Ericeira, Mafra",38.9676531,-9.4110414
+340285,"Escola Básica António Sérgio, Cacém, Sintra",38.7749978,-9.3054033
+340303,"Escola Básica de Aranguez, Setúbal",38.5272041,-8.8852592
+340339,"Escola Básica Aristides de Sousa Mendes, Póvoa de Santa Iria, Vila Franca de Xira",38.8640684,-9.072548099999999
+340340,"Escola Básica António Gedeão, Odivelas",38.7893488,-9.192205099999999
+340376,"Escola Básica Avelar Brotero, Odivelas",38.7896491,-9.1747117
+340388,"Escola Básica de Azeitão, Vila Nogueira de Azeitão, Setúbal",38.5234466,-9.0225815
+340406,"Escola Básica Bartolomeu Dias, Sacavém, Loures",38.7919273,-9.1106829
+340431,"Escola Básica Barbosa du Bocage, Setúbal",38.5373942,-8.8901393
+340492,"Escola Básica Cardoso Lopes, Amadora",38.7688768,-9.2393822
+340522,"Escola Básica José Cardoso Pires, São Brás, Amadora",38.7689653,-9.2321361
+340534,"Escola Básica de Castanheiros, Caneças, Odivelas",38.8232069,-9.207803799999999
+340560,"Escola Básica de São Bruno, Caxias, Oeiras",38.7099046,-9.275414699999999
+340583,"Escola Básica das Olaias, Lisboa",38.7393715,-9.1218051
+340601,"Escola Básica Conde de Oeiras, Oeiras",38.6984156,-9.324038
+340649,"Escola Básica da Cruz de Pau, Seixal",38.618592,-9.1223051
+340698,"Escola Básica D. António da Costa, Almada",38.6769203,-9.1589745
+340728,"Escola Básica D. Domingos Jardo, Mira Sintra, Sintra",38.7813757,-9.3023402
+340741,"Escola Básica D. Fernando II, Sintra",38.8053547,-9.3788588
+340777,"Escola Básica D. João I, Baixa da Banheira, Moita",38.6588133,-8.9863237
+340881,"Escola Básica e Secundária D. Martinho Vaz de Castelo Branco, Póvoa de Santa Iria, Vila Franca de Xira",38.8641447,-9.070017
+340923,"Escola Básica D. Pedro II, Moita",38.6588133,-8.9863237
+340935,"Escola Básica D. Pedro IV, Monte Abraão, Sintra",38.7538756,-9.2690249
+341060,"Escola Básica Dr. António Augusto Louro, Arrentela, Seixal",38.61908409999999,-9.098712599999999
+341174,"Escola Básica Dr. Joaquim de Barros, Paço de Arcos, Oeiras",38.6973536,-9.2990187
+341307,"Escola Básica e Secundária Dr. Rui Grácio, Montelavar, Sintra",38.8636082,-9.3284594
+341332,"Escola Básica Dr. Vasco Moniz, Vila Franca de Xira",38.9559587,-8.999718999999999
+341370,"Escola Básica Elias Garcia, Sobreda, Almada",38.6721081,-9.168458099999999
+341423,"Escola Básica Eugénio dos Santos, Lisboa",38.7548823,-9.144265599999999
+341460,"Escola Básica Fernando Pessoa, Lisboa",38.7663227,-9.116225799999999
+341502,"Escola Básica Ferreira de Castro, Ouressa, Sintra",38.796623,-9.3518039
+341526,"Escola Básica Francisco de Arruda, Lisboa",38.7060979,-9.1866642
+341538,"Escola Básica D. Francisco Manuel Melo, Venteira, Amadora",38.7604004,-9.2471266
+341617,"Escola Básica de São João do Estoril, Cascais",38.7070284,-9.385698600000001
+341642,"Escola Básica Gaspar Correia, Portela, Loures",38.7856667,-9.1136754
+341770,"Escola Básica de Moinhos da Arroja, Odivelas",38.7945623,-9.1932107
+341812,"Escola Básica José Afonso, Alhos Vedros, Moita",38.6556571,-9.018417699999999
+341836,"Escola Básica José Maria dos Santos, Pinhal Novo, Palmela",38.6284563,-8.911978699999999
+341897,"Escola Básica João Gonçalves Zarco, Cruz Quebrada-Dafundo, Oeiras",38.7009196,-9.2366606
+341976,"Escola Básica Luís de Sttau Monteiro, Loures",38.8261504,-9.1672835
+341988,"Escola Básica João Villaret, Loures",38.8434586,-9.1602558
+342014,"Escola Básica e Secundária Luís António Verney, Lisboa",38.7341728,-9.1139387
+342038,"Escola Básica Luís de Camões, Lisboa",38.7443609,-9.134951
+342075,"Escola Básica Manuel da Maia, Lisboa",38.717486,-9.1702044
+342117,"Escola Básica Maria Veleda, Loures",38.8158858,-9.1597992
+342129,"Escola Básica Marquesa de Alorna, Lisboa",38.7350882,-9.1585743
+342154,"Escola Básica de Marvila, Lisboa",38.7408226,-9.1110756
+342166,"Escola Básica Professor Egas Moniz, Massamá, Sintra",38.7545654,-9.2844002
+342178,"Escola Básica e Secundária Matilde Rosa Araújo, Matarraque, Cascais",38.7132946,-9.2135303
+342191,"Escola Básica e Secundária Mestre Domingos Saraiva, Algueirão, Sintra",38.8012296,-9.3511212
+342208,"Escola Básica Miguel Torga, São Brás, Amadora",38.7690726,-9.226947599999999
+342210,"Escola Básica de Miraflores, Algés, Oeiras",38.7118543,-9.229782499999999
+342221,"Escola Básica de Fragata do Tejo, Moita",38.6578547,-8.994069000000001
+342245,"Escola Básica Ruy Belo, Queluz, Sintra",38.7602097,-9.2677072
+342257,"Escola Básica de Monte da Caparica, Almada",38.667756,-9.1880343
+342300,"Escola Básica Mouzinho da Silveira, Baixa da Banheira, Moita",38.6588133,-8.9863237
+342324,"Escola Básica de Camarate, Loures",38.8044519,-9.126773499999999
+342361,"Escola Básica Nuno Gonçalves, Lisboa",38.7268254,-9.128074699999999
+342397,"Escola Básica dos Olivais, Lisboa",38.761632,-9.1162795
+342415,"Escola Básica Padre Alberto Neto, Rio de Mouro, Sintra",38.7817612,-9.317649
+342440,"Escola Básica Padre Abílio Mendes, Barreiro",38.6578192,-9.058775599999999
+342520,"Escola Básica Paula Vicente, Lisboa",38.70507370000001,-9.205258299999999
+342531,"Escola Básica Paulo da Gama, Amora, Seixal",38.6228178,-9.111382899999999
+342555,"Escola Básica Pedro de Santarém, Lisboa",38.7495143,-9.1943184
+342567,"Escola Básica Pedro Eanes Lobato, Amora, Seixal",38.62705529999999,-9.1168018
+342634,"Escola Básica Carlos Ribeiro, Pinhal de Frades, Seixal",38.5970133,-9.0924918
+342646,"Escola Básica Pintor Almada Negreiros, Lisboa",38.7781082,-9.0933574
+342660,"Escola Básica D. Dinis, Odivelas",38.7879701,-9.1862282
+342701,"Escola Básica Professor Agostinho da Silva, Casal de Cambra, Sintra",38.8036105,-9.228065299999999
+342725,Escola Básica de Cascais,38.7032552,-9.436032899999999
+342737,"Escola Básica e Secundária Professor Armando de Lucena, Malveira, Mafra",38.9338155,-9.2593303
+342750,"Escola Básica Prof. Delfim Santos, Lisboa",38.7484107,-9.181192099999999
+342828,"Escola Básica Professor Noronha Feio, Queijas, Oeiras",38.7262272,-9.2768711
+342889,"Escola Básica da Quinta da Lomba, Barreiro",38.6454809,-9.053026599999999
+342890,"Escola Básica da Quinta de Marrocos, Lisboa",38.7502178,-9.1963727
+342907,"Escola Básica da Quinta Nova da Telha, Alto do Seixalinho, Barreiro",38.6511807,-9.0626248
+342968,"Escola Básica Roque Gameiro, Reboleira, Amadora",38.7537219,-9.232170499999999
+343067,"Escola Básica do Castelo, Sesimbra",38.47374300000001,-9.0922123
+343092,"Escola Básica Santo António, Parede, Cascais",38.6848131,-9.350195
+343110,"Escola Básica Navegador Rodrigues Soromenho, Sesimbra",38.4488162,-9.103543799999999
+343146,"Escola Básica Soeiro Pereira Gomes, Alhandra, Vila Franca de Xira",38.9093441,-9.036084899999999
+343213,"Escola Básica de São Julião da Barra, Oeiras",38.6834663,-9.3171465
+343274,"Escola Básica de Telheiras, Lisboa",38.7626979,-9.168574099999999
+343330,"Escola Básica de Vale de Milhaços, Seixal",38.6260233,-9.1620484
+343353,"Escola Básica Vasco da Gama, Lisboa",38.7781082,-9.0933574
+343377,"Escola Básica Vieira da Silva, Carnaxide, Oeiras",38.7291171,-9.244486
+343869,"Escola Básica de Corroios, Seixal",38.6467223,-9.1480367
+344515,"Escola Básica de Alfornelos, Amadora",38.7642091,-9.2135572
+344564,"Escola Básica e Secundária do Alto dos Moinhos, Terrugem, Sintra",38.8528873,-9.3837612
+344576,"Escola Básica Professor Galopim de Carvalho, Pendão, Sintra",38.7686608,-9.256883799999999
+344588,"Escola Básica da Venda do Pinheiro, Mafra",38.9255869,-9.2343309
+344590,Escola Básica de Mafra,38.939506,-9.3360662
+344618,"Escola Básica General Humberto Delgado, Santo António dos Cavaleiros, Loures",38.8136745,-9.1690744
+344620,"Escola Básica Vasco Santana, Ramada, Odivelas",38.8027871,-9.1836222
+344631,"Escola Básica de São João da Talha, Bairro do Estacal Novo, Loures",38.8377502,-9.089830899999999
+344643,"Escola Básica de Santa Iria de Azoia, Loures",38.8377502,-9.089830899999999
+344655,"Escola Básica Carlos Paredes, Póvoa de Santo Adrião, Odivelas",38.7984468,-9.1660755
+344667,"Escola Básica da Bobadela, Loures",38.8055001,-9.103372
+344679,"Escola Básica da Pontinha, Odivelas",38.7678041,-9.2053424
+344680,"Escola Básica e Secundária Helena Cidade Moura, Alcabideche, Cascais",38.7311282,-9.4039012
+345180,"Escola Básica Hermenegildo Capelo, Palmela",38.5749376,-8.9008669
+345192,"Escola Básica de Pegões, Canha e Santo Isidro, Montijo",38.6783599,-8.6092672
+345209,"Escola Básica de Vale da Amoreira, Moita",38.6588133,-8.9863237
+345222,"Escola Básica da Costa da Caparica, Almada",38.6483272,-9.2336963
+345234,"Escola Básica da Trafaria, Almada",38.6673295,-9.2427964
+345246,"Escola Básica Comandante Conceição e Silva, Cova da Piedade, Almada",38.6687498,-9.1568581
+345830,"Escola Básica El Rei D. Manuel I, Alcochete",38.7518783,-8.9644221
+346081,"Escola Básica de Colares, Sintra",38.8025467,-9.4571331
+346226,"Escola Básica e Secundária Michel Giacometti, Quinta do Conde, Sesimbra",38.5690889,-9.0407657
+346470,"Escola Básica de São Vicente/Telheiras, Lisboa",38.7598266,-9.1734876
+346548,"Escola Básica do Bairro Padre Cruz, Lisboa",38.7674782,-9.1936211
+346639,"Escola Básica D. António de Ataíde, Castanheira do Ribatejo, Vila Franca de Xira",38.9983955,-8.9718634
+346676,"Escola Básica Padre José Rota, Forte da Casa, Vila Franca de Xira",38.8732796,-9.062442299999999
+346690,"Escola Básica do Alto do Lumiar, Lisboa",38.7745892,-9.1499382
+346706,"Escola Básica de Piscinas, Lisboa",38.7742101,-9.1129106
+346718,"Escola Básica Patrício Prazeres, Lisboa",38.7222754,-9.1183932
+346720,"Escola Básica e Secundária Alfredo da Silva, Albarraque, Sintra",38.7514288,-9.351735099999999
+346743,"Escola Básica Escultor Francisco dos Santos, Fitares, Sintra",38.783521,-9.31246
+346767,"Escola Básica e Secundária Aquilino Ribeiro, Leião, Oeiras",38.7262272,-9.2768711
+346792,"Escola Básica D. Carlos I, Sintra",38.808854,-9.3784838
+346871,"Escola Básica e Secundária José Saramago, Poceirão, Palmela",38.5704425,-9.0004986
+400014,"Escola Secundária Alves Redol, Vila Franca de Xira",38.9584799,-8.9910367
+400038,"Escola Básica e Secundária Amélia Rey Colaço, Linda-a-Velha, Oeiras",38.7061387,-9.242466
+400105,"Escola Secundária Dom Manuel Martins, Setúbal",38.5227801,-8.853517799999999
+400117,"Escola Secundária D. Pedro V, Lisboa",38.7417879,-9.1631216
+400191,"Escola Secundária do Forte da Casa, Vila Franca de Xira",38.9584272,-8.9909397
+400348,"Escola Secundária Maria Amália Vaz de Carvalho, Lisboa",38.7265491,-9.156670799999999
+400397,"Escola Secundária António Damásio, Lisboa",38.7696147,-9.108697399999999
+400403,"Escola Básica e Secundária Professor Reynaldo dos Santos, Vila Franca de Xira",38.95431850000001,-9.001281900000002
+400415,"Escola Secundária de Santa Maria, Sintra",38.7996793,-9.3784472
+400439,"Escola Secundária Sebastião e Silva, Oeiras",38.6854185,-9.318294
+400452,"Escola Secundária de São João do Estoril, Cascais",38.7022809,-9.3839093
+400555,Escola Secundária de Cascais,38.69696709999999,-9.4337216
+400580,"Escola Secundária José Saramago, Mafra",38.9418122,-9.3359116
+400609,Escola Secundária de Odivelas,38.7940287,-9.1794386
+400610,"Escola Secundária José Afonso, Loures",38.8276523,-9.1632876
+400646,Escola Secundária da Moita,38.6588133,-8.9863237
+400774,"Escola Básica e Secundária Alfredo da Silva, Barreiro",38.6654132,-9.0694911
+400786,"Escola Secundária Alfredo dos Reis Silveira, Cavadas, Seixal",38.61908409999999,-9.098712599999999
+400804,"Escola Básica e Secundária de Alvide, Cascais",38.7179951,-9.4242891
+400816,Escola Secundária da Amadora,38.7552278,-9.2312373
+400877,"Escola Básica e Secundária Anselmo de Andrade, Almada",38.67454920000001,-9.1644998
+400889,"Escola Secundária António Gedeão, Cova da Piedade, Almada",38.6604996,-9.1596517
+400981,"Escola Básica e Secundária Ordem de Sant´Iago, Setúbal",38.52179040000001,-8.8679612
+401018,"Escola Secundária du Bocage, Setúbal",38.5335555,-8.892300400000002
+401020,"Escola Secundária Braamcamp Freire, Pontinha, Odivelas",38.7676292,-9.2015355
+401067,"Escola Secundária Camilo Castelo Branco, Carnaxide, Oeiras",38.7217111,-9.2448666
+401109,"Escola Secundária Camões, Lisboa",38.7301962,-9.1434186
+401160,"Escola Secundária de Casquilhos, Barreiro",38.6446761,-9.0526663
+401201,"Escola Básica e Secundária da Cidadela, Cascais",38.7018776,-9.429107
+401250,"Escola Secundária D. Dinis, Lisboa",38.7539272,-9.1114644
+401274,"Escola Básica e Secundária D. Filipa de Lencastre, Lisboa",38.7397284,-9.140119799999999
+401316,"Escola Secundária D. João II, Setúbal",38.5314776,-8.8707798
+401328,"Escola Básica e Secundária D. João V, Damaia, Amadora",38.7422622,-9.2164583
+401330,"Escola Secundária D. Luísa de Gusmão, Lisboa",38.7266928,-9.1306728
+401390,"Escola Secundária Dr. António Carvalho Figueiredo, Loures",38.8291177,-9.16297
+401420,"Escola Básica e Secundária Dr. Azevedo Neves, Damaia, Amadora",38.7456107,-9.2241623
+401481,"Escola Secundária Dr. José Afonso, Arrentela, Seixal",38.6314322,-9.1019688
+401614,"Escola Secundária Emídio Navarro, Almada",38.6774863,-9.1549585
+401663,"Escola Secundária Eça de Queirós, Lisboa",38.7636566,-9.110914200000002
+401699,"Escola Secundária Fernando Lopes Graça, Parede, Cascais",38.7082895,-9.404551999999999
+401705,"Escola Secundária Fernando Namora, Amadora",38.76416870000001,-9.215775899999999
+401729,"Escola Secundária Fernão Mendes Pinto, Pragal, Almada",38.67292399999999,-9.168838700000002
+401754,"Escola Secundária Ferreira Dias, Agualva, Sintra",38.7697442,-9.299025499999999
+401778,"Escola Secundária Fonseca Benevides, Lisboa",38.7021297,-9.1881753
+401808,"Escola Básica e Secundária Francisco Simões, Laranjeiro, Almada",38.6526305,-9.154697299999999
+401810,"Escola Básica e Secundária Frei Gonçalo de Azevedo, São Domingos de Rana, Cascais",38.7133895,-9.3511682
+401833,"Escola Básica e Secundária Gama Barros, Cacém, Sintra",38.7711288,-9.313829499999999
+401857,"Escola Básica e Secundária Gil Vicente, Lisboa",38.7165121,-9.1280375
+401912,"Escola Básica e Secundária Ibn Mucana, Alcabideche, Cascais",38.733251,-9.407143
+401948,"Escola Secundária Jorge Peixinho, Montijo",38.7099307,-8.9829274
+401950,"Escola Básica e Secundária Josefa de Óbidos, Lisboa",38.71267,-9.1680964
+401973,"Escola Secundária José Gomes Ferreira, Lisboa",38.7484731,-9.192393299999999
+402000,"Escola Secundária João de Barros, Corroios, Seixal",38.6387788,-9.1522326
+402059,"Escola Secundária Leal da Câmara, Rio de Mouro, Sintra",38.7822299,-9.3184729
+402072,"Escola Secundária Luís de Freitas Branco, Paço de Arcos, Oeiras",38.6989143,-9.297763999999999
+402084,"Escola Secundária do Lumiar, Lisboa",38.7697478,-9.161836
+402114,"Escola Secundária Manuel Cargaleiro, Amora, Seixal",38.6162722,-9.1150073
+402163,"Escola Secundária Marquês de Pombal, Lisboa",38.6995304,-9.1958594
+402199,"Escola Secundária Matias Aires, Agualva, Sintra",38.7786671,-9.298135
+402217,"Escola Secundária de Mem Martins, Sintra",38.7788611,-9.3333695
+402229,"Escola Secundária Miguel Torga, Monte Abraão, Sintra",38.7538756,-9.2690249
+402242,"Escola Secundária de Miraflores, Algés, Oeiras",38.7262272,-9.2768711
+402266,"Escola Básica e Secundária de Monte da Caparica, Almada",38.661346,-9.197825
+402369,"Escola Básica e Secundária Padre Alberto Neto, Queluz, Sintra",38.7544826,-9.2526831
+402436,"Escola Básica e Secundária Passos Manuel, Lisboa",38.7122013,-9.1499531
+402450,"Escola Secundária Pedro Alexandrino, Póvoa de Santo Adrião, Odivelas",38.8034992,-9.1646632
+402539,"Escola Secundária Poeta Joaquim Serra, Montijo",38.7017269,-8.9521132
+402540,"Escola Secundária do Arco-Íris, Portela, Loures",38.7855271,-9.114293
+402606,"Escola Secundária da Quinta do Marquês, Oeiras",38.6984156,-9.324038
+402631,"Escola Secundária Rainha Dona Leonor, Lisboa",38.7265491,-9.156670799999999
+402679,"Escola Secundária do Restelo, Lisboa",38.7095565,-9.214377299999999
+402710,"Escola Secundária Romeu Correia, Feijó, Almada",38.65052670000001,-9.163523399999999
+402722,"Escola Secundária de Sampaio, Sesimbra",38.47374300000001,-9.0922123
+402758,"Escola Secundária Sebastião da Gama, Setúbal",38.5273999,-8.891667
+402760,"Escola Secundária Seomara da Costa Primo, Amadora",38.7604004,-9.2471266
+402825,"Escola Secundária Stuart Carvalhais, Massamá, Sintra",38.7587852,-9.2771714
+402965,"Escola Secundária Vergílio Ferreira, Lisboa",38.937153,-9.3345696
+402989,"Escola Básica e Secundária Lima de Freitas, Setúbal",38.52318,-8.9156111
+403209,"Escola Secundária da Amora, Seixal",38.6290056,-9.120915
+403210,Escola Secundária de Palmela,38.5713449,-8.909519699999999
+403222,"Escola Secundária de Pinhal Novo, Palmela",38.6372837,-8.9122606
+403234,"Escola Secundária da Baixa da Banheira, Vale da Amoreira, Moita",38.6450109,-9.040589599999999
+403246,"Escola Secundária Augusto Cabrita, Barreiro",38.6446761,-9.0526663
+403258,"Escola Básica e Secundária Professor Ruy Luís Gomes, Laranjeiro, Almada",38.6514584,-9.1474592
+403260,"Escola Secundária Daniel Sampaio, Sobreda, Almada",38.6393546,-9.1812951
+403477,"Escola Básica e Secundária de Mães d’Água, Falagueira, Amadora",38.7636917,-9.2246806
+403489,"Escola Secundária Professor José Augusto Lucas, Linda-a-Velha, Oeiras",38.71161370000001,-9.235599299999999
+403490,"Escola Secundária de Camarate, Loures",38.7923811,-9.1430863
+403507,"Escola Secundária da Ramada, Odivelas",38.8026241,-9.183988099999999
+403519,"Escola Secundária de Sacavém, Loures",38.7904113,-9.106297099999999
+403544,"Escola Secundária de Caneças, Odivelas",38.8096806,-9.2336339
+403556,"Escola Básica e Secundária de Carcavelos, Cascais",38.6988739,-9.3364891
+403933,Escola Secundária de Alcochete,38.7484527,-8.962838699999999
+404019,"Escola Profissional Agrícola D. Dinis - Paiã, Odivelas",38.7855084,-9.1691981
+404172,"Escola Artística António Arroio, Lisboa",38.7362849,-9.1274637
+404226,Escola Artística do Instituto Gregoriano de Lisboa,38.7489663,-9.1503436
+404238,"Escola Artística de Dança do Conservatório Nacional, Lisboa",38.7123178,-9.1473598
+404240,"Escola Artística de Música do Conservatório Nacional, Lisboa",38.7124321,-9.146372999999999
+404433,"Escola Secundária Padre António Vieira, Lisboa",38.757826,-9.1360317
+404652,"Escola Secundária Pedro Nunes, Lisboa",38.7164119,-9.1586021
+404664,"Escola Secundária de São João da Talha, Loures",38.827142,-9.1019544
+501724,Colégio de Alfragide,38.73672699999999,-9.2184036
+501736,Jardim de Infância O Alicerce,38.7976355,-9.1903609
+501748,"Externato ""Aljubarrota""",38.7563043,-9.238277
+501773,Colégio José Álvaro Vidal,38.893462,-9.042019
+501803,Externato Rainha Dona Amélia,38.7156121,-9.160989899999999
+501815,Jardim de Infância Os Meus Amigos,38.7724623,-9.3104462
+501839,Externato Miguel Ângelo,38.6868696,-9.3401163
+501840,"Externato ""Anita""",38.7395407,-9.1559297
+501852,Salesianos do Estoril – Escola,38.7060651,-9.4064556
+501876,Externato Nossa Senhora da Apresentação,38.772592,-9.2960076
+501888,Externato São Miguel Arcanjo,38.7782606,-9.1137974
+501943,Externato Príncipes de Aviz,38.7033844,-9.386047699999999
+501955,Jardim de Infância Maçã Azul,38.7995703,-9.3144114
+501980,Externato O Balão Azul,38.6907823,-9.317174099999999
+502005,Colégio da Bafureira,38.6885629,-9.3540318
+502042,Externato O Barquinho,38.74755220000001,-9.1335909
+502054,Jardim Infantil O Rei na Barriga,38.8199837,-9.1989542
+502080,Externato Infantil e Primário O Beiral,38.7421833,-9.1968789
+502108,Externato Santa Maria de Belém,38.6978161,-9.2193481
+502110,"Jardim Infantil ""Beloquitas""",38.7057332,-9.177395100000002
+502121,Colégio Manuel Bernardes,38.7697478,-9.161836
+502133,"Externato ""Alfa-Beta""",38.7262272,-9.2768711
+502157,Colégio Os Bobocas,38.7481595,-9.281324999999999
+502182,Jardim Escola O Bosque,38.766632,-9.1132825
+502200,Colégio Galáxia Branca,38.7602097,-9.2677072
+502261,"Externato ""Luso-Britânico""",38.75361729999999,-9.1372579
+502273,Colégio de São João de Brito,38.7737778,-9.157872
+502303,Colégio Cachabiu,38.7003686,-9.4290775
+502315,Jardim Infantil Caíque,38.7262272,-9.2768711
+502339,"Externato ""Calimero""",38.7933406,-9.345931499999999
+502340,Externato Flor do Campo,38.8086874,-9.1896366
+502352,Externato Infantil A Candeia Encantada,38.7422429,-9.142655999999999
+502388,Colégio D. Maria II,38.7566289,-9.286845399999999
+502420,Colégio Marista de Carcavelos,38.6923294,-9.345075399999999
+502467,Jardim Escola O Carrocel,38.7521697,-9.2051374
+502534,CEBE - Cooperativa de Ensino de Benfica,38.7426604,-9.181452499999999
+502546,Jardim Escola O Cebolinha,38.7262272,-9.2768711
+502558,Academia de Música de Santa Cecília,38.7823478,-9.159307199999999
+502583,Externato Marcelino Champagnat,38.7780304,-9.1264839
+502613,Nuclisol Jean Piaget - Unidade De Desenvolvimento Integrado Bairro Do Condado,38.745222,-9.111447799999999
+502625,"Externato ""Cinderela""",38.7491305,-9.2322616
+502637,"Externato ""O Cisne""",38.7563043,-9.238277
+502649,"Colégio ""O Cocas""",38.9285958,-9.0116643
+502650,Externato Os Coelhinhos,38.7491521,-9.2769233
+502662,"Jardim Infantil ""O Nosso Colégio""",38.7001659,-9.2175123
+502698,Jardim de Infância A Colmeia,38.7540002,-9.2259533
+502716,Colégio Faz de Conta,38.7870837,-9.3190334
+502741,"Externato ""O Lar da Criança""",38.7112642,-9.156889999999999
+502832,Externato As Descobertas,38.7063828,-9.2078587
+502856,Colégio Amor de Deus,38.7139516,-9.4188347
+502870,Jardim Escola João De Deus - Estrela,38.7178208,-9.1572032
+502881,Jardim Escola João De Deus - Alvalade,38.7559279,-9.1364012
+502900,Externato Mãe de Deus,38.7266928,-9.1306728
+502911,Colégio Bartolomeu Dias,38.8502982,-9.0800276
+502923,Colégio Piloto Diese,38.7506151,-9.1310936
+502935,"Externato ""Júlio Dinis""",38.7570019,-9.2579237
+502959,"Jardim Infantil ""O Girassol Dourado""",38.8004091,-9.3749001
+502972,Éramos Um - Cooperativa de Ensino,38.7023575,-9.3620085
+503010,Externato A Minha Escola,38.6967197,-9.2944491
+503022,"Jardim Infantil ""A Nova Escola""",38.7655598,-9.2991169
+503034,"Externato ""A Escolinha""",38.6973893,-9.224988
+503046,"Externato ""Florbela Espanca""",38.8264411,-9.094818199999999
+503058,Jardim de Infância As Quatro Estações,38.8004091,-9.3749001
+503060,"Externato ""Rainha D. Estefânea""",38.7525735,-9.2309731
+503071,Escola Alemã do Estoril,38.70770539999999,-9.3931879
+503101,Colégio Europa,38.7078159,-9.4344331
+503113,Jardim de Infância O Farol,38.7518778,-9.2818586
+503162,Colégio D. Filipa,38.74860049999999,-9.229634599999999
+503174,Jardim Infantil O Finório,38.7682846,-9.2296961
+503198,Externato Os Fofinhos,38.7529814,-9.135177299999999
+503228,Externato de Nossa Senhora da Penha de França,38.7299652,-9.1295062
+503230,"Externato ""Santa Francisca""",38.7325921,-9.1276123
+503277,"Externato ""Roque Gameiro""",38.7397071,-9.136772299999999
+503290,Colégio Quinta dos Girassóis,38.7566289,-9.286845399999999
+503356,Externato Paraíso Infantil,38.8283714,-9.168979799999999
+503368,IPS - International Preparatory School,38.7350389,-9.3843935
+503381,Jardim Infantil Do Núcleo De Instrução E Beneficiência De Paço D´Arcos,38.6950098,-9.2948945
+503400,Associação Escola 31 de Janeiro,38.6946147,-9.3554133
+503435,"Externato Infantil ""O Nosso Jardim""",38.7098109,-9.151606100000002
+503447,"Colégio ""O Teu Jardim""",38.7644557,-9.262540399999999
+503460,Escola de Santa Teresa do Menino Jesus,38.7170934,-9.152407199999999
+503472,Colégio de Santa Maria,38.7095095,-9.1590153
+503514,Jardim de Infância D. João II,38.7191033,-9.1666487
+503526,Colégio D. João VI,38.7577936,-9.229034799999999
+503538,"Externato ""João XXIII""",38.7583859,-9.098143
+503551,"Jardim Infantil ""S.Jorge""",38.73501,-9.224973799999999
+503563,Colégio de São José - Ramalhão,38.7851018,-9.3685226
+503575,Externato de S. José,38.708322,-9.21605
+503587,Colégio Helen Keller,38.7297473,-9.1493988
+503599,Colégio Quinta do Lago,38.7022595,-9.3376558
+503629,Externato Florinda Leal,38.7026942,-9.3890412
+503642,Lycée Français Charles Lepièrre,38.7242906,-9.1629094
+503678,Cooperativa De Ensino Os Leõezinhos,38.8004091,-9.3749001
+503680,Escola Alemã de Lisboa,38.7589417,-9.1634023
+503708,Externato Marista de Lisboa,38.7474157,-9.181096799999999
+503710,"Externato ""Santa Teresinha de Lisieux""",38.7388635,-9.1428642
+503721,Escolinha da Tia Ló,38.7159281,-9.4417549
+503733,Externato Jardim dos Lombos,38.7174289,-9.448129100000001
+503769,Externato da Luz,38.7628759,-9.182029
+503794,Recanto Infantil Mafalda,38.6917265,-9.3256742
+503800,Externato A Sementinha Mágica,38.7676038,-9.3122594
+503812,Colégio Cor e Magia,38.7737931,-9.2891599
+503861,Externato Infantil e Primário Passos Manuel,38.727886,-9.136768199999999
+503873,Creche e Jardim de Infância Marcolândia,38.7058276,-9.2263287
+503885,Colégio do Sagrado Coração de Maria,38.7351975,-9.136573499999999
+503897,Escola Ave-Maria,38.7053536,-9.180035799999999
+503903,Externato Eduarda Maria,38.6899174,-9.3490599
+503915,"Externato ""Marité""",38.7618072,-9.237463499999999
+503964,Jardim de Infância Mimá,38.7947113,-9.1507882
+503990,"Externato ""Sá de Miranda""",38.7305595,-9.138995999999999
+504014,"Externato ""Modelo""",38.7500905,-9.2232848
+504026,Colégio Moderno,38.752738,-9.153415899999999
+504117,Externato O Nial,38.80463049999999,-9.340732599999999
+504129,Externato O Nicho,38.7066897,-9.3785254
+504142,Externato Nobel,38.7375463,-9.1356323
+504178,"Escola ""Pedro Nunes""",38.7158285,-9.1633405
+504180,Externato Nova Oeiras,38.6964867,-9.323639799999999
+504210,Jardim Escola João De Deus - Olivais,38.7666529,-9.1227777
+504221,Escola do Grémio De Instrução Liberal De Campo De Ourique,38.7181642,-9.161966699999999
+504257,Externato A Palmeirinha,38.6900805,-9.327048300000001
+504270,Colégio O Papião,38.7082895,-9.404551999999999
+504294,Externato do Parque,38.7253347,-9.1572944
+504312,Jardim de Infância Mãe Patinha,38.9272737,-9.2453373
+504336,Externato Liceal Das Casas De S. Vicente De Paulo,38.7599086,-9.151737899999999
+504361,Externato Nossa Senhora da Paz,38.7552278,-9.2312373
+504373,Externato das Pedralvas,38.7558204,-9.2052186
+504385,"Jardim Infantil ""Pedrita""-Associação de Pais e Técnicos",38.7496699,-9.1938257
+504415,"Colégio ""O Pelicano""",38.7367838,-9.128999499999999
+504440,"Jardim Infantil ""Pestalozzi""",38.7531092,-9.154112399999999
+504464,Externato Pica-Pau,38.78806160000001,-9.1814284
+504476,"Jardim Infantil ""O Caracol Pimpão""",38.7605125,-9.2412228
+504488,Externato PIM PAM PUM,38.7671764,-9.1636661
+504520,"Externato ""O Pinóquio""",38.7578751,-9.267097800000002
+504543,Jardim Infantil O Pintainho,38.7956137,-9.1714894
+504555,Externato Fernão Mendes Pinto,38.74529980000001,-9.1809125
+504580,Colégio Planalto,38.767903,-9.1666007
+504592,Colégio dos Plátanos,38.7891056,-9.3217457
+504610,"Externato ""O Poeta""",38.768754,-9.1590022
+504622,Jardim Infantil O Pónei,38.79576429999999,-9.1747123
+504646,Externato Primário N.º 4 De Educação Popular,38.7119319,-9.1437463
+504737,Nova Escola João de Deus Ramos,38.7358734,-9.148057699999999
+504749,Externato Casa do Menino Jesus - Associação de Socorro e Amparo,38.7119319,-9.1437463
+504774,"Jardim Infantil ""O Recantinho""",38.7200535,-9.301769499999999
+504804,Externato Escola da Restauração,38.7297473,-9.1493988
+504816,"Jardim Infantil ""O Rezingão""",38.7599603,-9.2673931
+504828,Colégio Mira Rio,38.7596887,-9.1648889
+504877,Externato Nossa Senhora do Rosário,38.7019896,-9.438102899999999
+504907,Colégio O Pinheiro Sabichão,38.8004091,-9.3749001
+504919,"Jardim Infantil ""Os Brincalhões""",38.7962225,-9.345899
+504920,Colégio A Sandrinha,38.78496150000001,-9.2154056
+504932,Jardim Infantil Rosa e Azul da Fonte Santa,38.8410313,-9.191125699999999
+504956,Associação Popular Ribeiro dos Santos,38.7275848,-9.1345682
+504968,Boa Ventura Montessori Nursery School,38.6949668,-9.3705562
+504981,Queen Elizabeths School,38.7520651,-9.134809299999999
+505006,Saint Dominic´s International School,38.7131893,-9.330049599999999
+505020,Externato D. Luísa Sigea,38.6970335,-9.4208793
+505043,Externato Jardim do Sol,38.7945263,-9.195114
+505079,Colégio do Bom Sucesso,38.6952788,-9.2116396
+505080,Colégio Luso-Suíço,38.7149611,-9.1550253
+505092,Jardim de Infância da Associação Pessoal do Instituto Superior Técnico,38.7368192,-9.138705
+505122,"Jardim Infantil ""Os Amiguinhos Terlu""",38.7981942,-9.348989399999999
+505160,Cooperativa A Torre,38.6994917,-9.2104663
+505195,Colégio Valsassina,38.7532631,-9.1229933
+505201,"Externato ""Grão Vasco""",38.7499059,-9.2033671
+505213,Colégio Cesário Verde,38.7565824,-9.107737499999999
+505249,"Externato ""Padre António Vieira""",38.712695,-9.2438798
+505250,Jardim Infantil Bela Vista,38.7792526,-9.229387599999999
+505262,"Externato ""O Viveirinho""",38.7542958,-9.2347209
+505274,"Escola ""S. Francisco Xavier""",38.6978161,-9.2193481
+506898,"Externato ""Abelhinha""",38.6476858,-9.2390408
+506941,Colégio O Cantinho dos Amigos,38.6320671,-9.0987065
+506953,"Externato Primário ""Santa Ana""",38.5297188,-8.8864883
+506965,Externato O Pátio das Andorinhas,38.6084975,-9.1802467
+506977,Externato de Santo António,38.61908409999999,-9.098712599999999
+507027,"Externato ""O Barquinho""",38.6725916,-9.1557274
+507040,Colégio Beija Flor,38.640034,-9.1001718
+507118,"Jardim Infantil ""Bichinho de Conta""",38.52507749999999,-8.897435
+507131,"Externato ""Guia da Criança""",38.6329496,-9.1702224
+507143,Colégio O Mundo da Criança,38.6404004,-8.8904578
+507192,"O Cantinho da Brincadeira, Creche Infantil Lda",38.65332739999999,-9.148660099999999
+507222,Atrium 7,38.6550137,-9.1600664
+507246,Colégio Campo de Flores,38.6553066,-9.189926800000002
+507260,Externato O Golfinho,38.6553066,-9.189926800000002
+507271,Externato Os Grilinhos,38.67454920000001,-9.1644998
+507283,Jardim De Infância Da Unidade Integrada De Atendimento À Distância,38.6261717,-9.1989904
+507301,Externato O Início,38.6577985,-9.0665531
+507325,"Externato ""As Joaninhas""",38.6420918,-9.0989773
+507337,Colégio Espaço Júnior,38.6308115,-9.1375947
+507441,"Externato Infantil ""Dó-Ré-Mi""",38.7574772,-9.1381645
+507465,Colégio Minerva - Espaço Casquilhos,38.6516244,-9.06045
+507507,"Andorinha Nova Infantário, Lda.",38.52507749999999,-8.897435
+507532,"Jardim Infantil ""Palhacinho""",38.5219508,-8.818186899999999
+507568,Jardim Infantil Os Dois Patinhos,38.6553066,-9.189926800000002
+507570,Colégio Atlântico,38.5996135,-9.0966048
+507623,Externato O Pinguim,38.6536057,-9.161224700000002
+507635,"Externato ""O Piriquito""",38.6262325,-9.099019199999999
+507647,"Jardim de Infância O Remendinho, Lda",38.5550813,-9.0212948
+507659,Jardim Escola Vale Rosal,38.6553066,-9.189926800000002
+507660,Externato Rosarinho,38.6000265,-9.0918743
+507684,"Externato ""Rainha Santa""",38.6553066,-9.189926800000002
+507696,Externato Rainha Santa (Secção),38.6553066,-9.189926800000002
+507702,Saint Peters International School,38.57969190000001,-8.887212
+507751,"Externato ""Frei Luís de Sousa""",38.6799937,-9.155007999999999
+507775,"Colégio Um, Dó, Li,Tá",38.6335188,-9.1940505
+507787,"Externato Tim Tim, Lda",38.65547129999999,-9.1729545
+507799,Academia de Música e Belas-Artes Luísa Todi,38.5260369,-8.8952871
+507817,"Externato Infantil ""O Trevo""",38.6416621,-9.1531888
+507829,Colégio do Vale,38.6011329,-9.1822192
+507830,Externato Espaço Verde,38.7036252,-8.9684162
+507854,Externato Vivafesta,38.613533,-9.1247215
+508391,Centro Alfredo Pinheiro,38.7099698,-9.4386861
+508410,Colónia Infantil da Educação Popular,38.7022809,-9.3839093
+508433,Jardim de Infância Do Centro Social Paroquial de Nossa Senhora da Ajuda,38.7056881,-9.1991278
+508445,Escola Privativa n.º 6 de A Voz do Operário,38.70650210000001,-9.1991
+508457,Externato Prim. Associação Pró-Infancia Stº António De Lisboa,38.7250637,-9.1352725
+508494,Associação Ester Janz,38.7565824,-9.107737499999999
+508500,Jardim De Infância Do Patronato Cristo-Rei,38.7103759,-9.1607067
+508536,Escola Privativa n.º 1 de A Voz do Operário,38.715592,-9.1291551
+508548,Jardim De Infância Da Associação Luiz Pereira Da Motta,38.8304642,-9.170062500000002
+511316,Externato Nossa Senhora da Assunção,38.6970335,-9.4208793
+511365,Infantário Cooperativo De Campo De Ourique,38.7140981,-9.1613676
+516119,Jardim de Infância do Centro Social Paroquial Imaculado Coração de Maria,38.73501,-9.224973799999999
+516120,Jardim De Infância Roda Viva,38.73934759999999,-9.2185846
+516132,Associação De Solidariedade De Alfragide - Assoalfra,38.7418966,-9.210440900000002
+516144,Jardim De Infância Do Centro Social Paroquial De Alfornelos,38.7647007,-9.2156875
+516156,Jardim de Infância do Centro Social Paroquial da Brandoa,38.7677204,-9.2197373
+516168,Centro Infantil de São Gerardo - Centro Social Paroquial Nossa Senhora Mãe De Deus Da Buraca,38.744751,-9.2147495
+516170,Centro São Francisco de Assis - Santa Casa da Misericórdia da Amadora,38.7500905,-9.2232848
+516200,Jardim de Infância do Casal Popular da Damaia - Associação de Solidariedade Social Vencer,38.7521789,-9.230529599999999
+516211,Jardim de Infância do Centro Social 6 de Maio,38.7503919,-9.2129187
+516235,Jardim de Infância Unidinhos,38.7823218,-9.2229038
+516272,Jardim De Infância Da Associação Pais E Amigos Das Crianças Da Freguesia Da Mina,38.7712896,-9.2499776
+516284,Jardim De Infância Julieta Pimenta - Santa Casa Da Misericórdia De Oeiras,38.7542164,-9.2304623
+516429,Creche Marcelina Teodoro Dos Santos - Santa Casa Da Misericórdia De Cascais,38.711694,-9.4176571
+516430,Jardim de Infância do Centro Social Paroquial de São Vicente de Alcabideche - Sede,38.7297942,-9.4072514
+516442,Jardim de Infância do Centro Social Paroquial São Vicente de Alcabideche - Bairro Calouste Gulbenkian,38.6970335,-9.4208793
+516454,Centro Infantil De Fisgas/Linhó - Santa Casa da Misericórdia de Cascais,38.7459976,-9.390161599999999
+516480,Jardim de Infância Casa do Sagrado Coração de Jesus,38.6901692,-9.3399862
+516491,Creche Arneiro - Santa Casa Da Misericórdia De Cascais,38.7025827,-9.3262392
+516533,Jardim De Infância Do Centro Paroquial De São Pedro E São João Do Estoril,38.699768,-9.3790517
+516545,Creche O Pinhal - Santa Casa Da Misericórdia De Cascais,38.7012748,-9.431616799999999
+516557,Jardim de Infância Do Centro Paroquial Do Estoril,38.714062,-9.396734799999999
+516569,Jardim De Infância Do Centro Social Paroquial De São Vicente De Alcabideche - Alvide,38.711694,-9.4176571
+516600,Jardim de Infância O Botãozinho,38.683519,-9.3443306
+516612,CEIDE - Centro de Educação e Desenvolvimento,38.713421,-9.34922
+516636,Jardim De Infância Do Centro Social Da Paróquia De Nossa Senhora Da Conceição De Abóboda,38.7375383,-9.312737499999999
+516648,Jardim De Infância Do Centro Social Paroquial De São Domingos De Rana,38.7048407,-9.3424529
+516650,Jardim de Infância da Associação de Proteção à Infância Da Ajuda - APIA,38.7076836,-9.1964237
+516661,Jardim de Infância da Associação Actividades Sociais do Bairro 2 de Maio,38.7096394,-9.1987442
+516673,Centro Cultural E Recreativo Crianças Cruzeiro Rio Seco,38.7021297,-9.1881753
+516685,Creche - Jardim Infantil De Santo Amaro,38.7038156,-9.1860255
+516715,Jardim de Infância do Chaborrilho - Secretariado Diocesano de Lisboa da Obra Nacional da Pastoral dos Ciganos,38.7437486,-9.1298368
+516727,Infantário de Nossa Senhora da Purificação,38.7463974,-9.1430195
+516739,Jardim de Infância da Associação Vida Cristã Filadélfia,38.7770209,-9.1548213
+516740,Jardim Infantil da Freguesia dos Anjos,38.7237612,-9.1373948
+516764,Centro Social E Paroquial Nª.Senhora Do Amparo,38.7486438,-9.208668
+516806,Jardim Infantil João Paulo II,38.7486887,-9.151826
+516843,Casa Da Criança - Centro Social E Paroquial De Santo António Campolide,38.7322742,-9.1619954
+516880,Jardim de Infância do Centro Social Paroquial de Carnide,38.7603036,-9.1934384
+516909,Jardim de Infância do Centro de Assistência Socia Infantil da Charneca do Lumiar,38.7833778,-9.143611
+516910,Jardim de Infância do Centro Social Paroquial Nossa Senhora da Encarnação,38.7174142,-9.146990299999999
+516922,Casa da Infância De Calafates - Fundação Dom Pedro Iv,38.7141903,-9.1446496
+516934,Jardim De Infância Da Casa Da Infância De São Vicente - Fundação Dom Pedro IV,38.715592,-9.1291551
+516960,Obra Das Crianças Da Freguesia Da Lapa,38.708366,-9.146455699999999
+516971,Jardim De Infância Do Centro Social Do Sagrado Coração De Jesus - Secção,38.7103759,-9.1607067
+516995,Jardim De Infância Da Obra Social Paulo VI,38.7593664,-9.1543119
+517008,Jardim de Infância da Associação Popular do Lumiar,38.7751258,-9.1624378
+517045,Jardim de Infância da ADECO,38.7147257,-9.1499978
+517069,Casa da Infância de Santana - Fundação Dom Pedro IV,38.7193942,-9.1399755
+517070,Jardim Infantil Do Centro Social Paroquial Da Pena,38.7170249,-9.1386536
+517082,Jardim Infantil-Associação Da Penha De França,38.7130393,-9.132766499999999
+517094,Jardim de Infância do Centro Social Paroquial Nossa Senhora da Penha de França,38.7297473,-9.1493988
+517136,Jardim Infantil Da Associação Stª Engrácia De Lisboa,38.7218558,-9.116541699999999
+517161,Abrigo Infantil de Santa Maria de Belém - Centro Paroquial Santa Maria de Belém,38.6976541,-9.2045551
+517173,Jardim Infantil do Centro Paroquial Santo Eugénio,38.7607273,-9.1133967
+517185,Jardim De Infância Da Casa Da Infância Dos Olivais - Fundação Dom Pedro Iv,38.7684662,-9.106248599999999
+517227,Jardim de Infância do Centro Social Menino de Deus,38.7138434,-9.131318
+517239,Associação de Moradores do Casal Ventoso,38.7188193,-9.170286899999999
+517252,Escola Nossa Senhora Do Patrocínio - Assistência Infantil Freguesia Santa Isabel,38.7129232,-9.1649461
+517276,Jardim de Infância do Centro Social do Sagrado Coração de Jesus - Sede,38.7085867,-9.160727
+517288,Casa Pastorinhos de Fátima - Creche e Jardim de Infância da Assistência Paroquial Santos-O-Velho,38.7061232,-9.158879299999999
+517306,Jardim de Infância da APROS - Associação de Educação e Promoção Social,38.7479359,-9.1779502
+517318,Jardim de Infância do Centro Paroquial São Domingos de Benfica,38.7414569,-9.1717515
+517320,Associação Infante De Sagres,38.7474371,-9.1656268
+517331,Jardim De Infância Do Centro Social E Paroquial Do Calhariz De Benfica,38.7489566,-9.184384699999999
+517355,Centro Social Paroquial S. João De Brito,38.7506151,-9.1310936
+517367,Jardim de Infância da Casa do Menino Deus,38.7445554,-9.1323516
+517379,Jardim De Infância Da Associação São João De Deus De Lisboa,38.7382012,-9.140320800000001
+517380,Casa da Infância de Arroios - Fundação Dom Pedro IV,38.7334474,-9.1397959
+517392,Jardim de Infância do Centro Social da Paróquia de São Sebastião da Pedreira,38.7317137,-9.1492296
+517434,Jardim de Infância O Nosso Mundo,38.8141963,-9.1315412
+517446,Jardim De Infância Do Centro Social Paroquial Nuno Álvares Pereira De São Tiago De Camarate - Centro Comunitário De Loureiras,38.7994383,-9.134915399999999
+517458,Jardim de Infância Nossa Senhora dos Anjos,38.8020426,-9.1294978
+517460,O Reguila - Associação Moradores de Santo António dos Cavaleiros,38.8116438,-9.1640008
+517471,Jardim De Infância Da Associação Dr. João Dos Santos,38.8275565,-9.174995599999999
+517483,Jardim Infantil da Associação Vida Abundante,38.7766886,-9.104850299999999
+517495,Creche Popular De Moscavide,38.7757103,-9.1010434
+517501,Jardim Infantil Do Centro Social Paroquial de Moscavide,38.8261504,-9.1672835
+517513,Jardim Infantil Da Associação De Solidariedade Social Dos Moradores Do Bairro Das Patameiras,38.794291,-9.1943863
+517537,Jardim Infantil Popular Da Pontinha,38.76736289999999,-9.2016441
+517549,Jardim de Infância Fundação Obra de Nossa Senhora da Purificação,38.7811483,-9.1125051
+517550,Instituto Português De Pedagogia Infantil,38.79765,-9.164414899999999
+517574,Jardim De Infância Da Associação Comunitária Infantil E Juvenil Da Ramada,38.8027871,-9.1836222
+517598,Jardim De Infância Do Centro Social De Sacavém,38.7935243,-9.1089141
+517604,Jardim De Infância O Saltarico - Associação Pró-Infância,38.8109718,-9.1668452
+517689,Jardim de Infância do Centro Social da Ericeira,38.9676531,-9.4110414
+517690,Complexo Infantil António Godinho Figueira - Santa Casa Da Misericórdia De Mafra,38.939506,-9.3360662
+517732,Jardim Infantil Novo Pinóquio (Stª Cª:M.O),38.7008874,-9.231805699999999
+517744,Jardim De Infância Do Centro Da Sagrada Família De Algés,38.7061016,-9.2246501
+517756,Jardim De Infância Da Casa Nossa Senhora De Fátima,38.7262272,-9.2768711
+517768,Centro Social E Paroquial De Barcarena - Jardim De Infância Da Quinta Da Politeira,38.7262272,-9.2768711
+517770,Centro Social E Paroquial De Barcarena - Centro De Infância De Tercena,38.7262272,-9.2768711
+517793,Jardim de Infância 1.º De Maio - Santa Casa da Misericórdia de Oeiras,38.7262272,-9.2768711
+517811,Jardim de Infância do Centro Social Paroquial Nossa Senhora do Cabo de Linda-a-Velha,38.7262272,-9.2768711
+517823,Jardim Infantil Nossa Senhora Das Graças,38.7079621,-9.2239705
+517859,Jardim de Infância Bambi - Santa Casa da Misericórdia de Oeiras,38.7012149,-9.2417514
+517860,Jardim De Infância Do Centro Social Paroquial Nossa Senhora Da Conceição De Outurela,38.7262272,-9.2768711
+517884,Centro Infantil Traquinas - Santa Casa Misericórdia De Oeiras,38.7262272,-9.2768711
+517896,Creche e Jardim De Infância Nossa Senhora Do Acolhimento - Obra Social Madre Maria Clara,38.7262272,-9.2768711
+517914,Jardim De Infância O Chorão - Santa Casa Da Misericórdia De Oeiras,38.7262272,-9.2768711
+517926,Jardim de Infância Tão Balalão - Santa Casa Da Misericórdia De Oeiras,38.6942262,-9.3273374
+517940,Jardim Infantil Santo Amaro - Centro Social Paroquial De Oeiras,38.68897279999999,-9.3123304
+517963,Jardim De Infância Nossa Senhora do Rosário De Fátima - Santa Casa Da Misericórdia De Oeiras,38.6906519,-9.3275502
+517975,Jardim De Infância Pingolé - Santa Casa Da Misericórdia De Oeiras,38.7262272,-9.2768711
+517999,Infantário Popular de Paço de Arcos,38.6967633,-9.2905258
+518001,Externato Nossa Senhora Das Dores,38.7262272,-9.2768711
+518013,Jardim de Infância Santa Ana - Santa Casa da Misericórdia de Oeiras,38.7262272,-9.2768711
+518037,Creche e Jardim de Infância Madre Maria Clara - Obra Social Madre Maria Clara,38.7167507,-9.2543404
+518050,Jardim Infantil do Centro Social e Paroquial de Mira Sintra,38.7829967,-9.305092499999999
+518062,Jardim De Infância Do Centro De Apoio À Criança - Sede,38.78394309999999,-9.304896
+518074,Jardim De Infância Do Centro Social E Paroquial Do Cacém,38.7707394,-9.3129455
+518104,Jardim de Infância Popular,38.7689011,-9.2998725
+518116,A Creche Sempre Em Flor - São Carlos,38.7854418,-9.3463152
+518128,Jardim De Infância Do Centro Social Da Quinta Da Boa Vista,38.7995703,-9.3144114
+518141,Jardim de Infância António Pinheiro Pinto Basto - Centro De Assistência Social De Belas,38.7566785,-9.250738
+518165,Jardim Infantil do Centro Social Paroquial de Colares - Almoçageme,38.8054749,-9.439264699999999
+518189,Jardim Infantil Do Centro Social Paroquial de Colares,38.8033927,-9.43247
+518190,Jardim De Infância Sol Dourado - Centro De Bem Estar Social De Queluz,38.7491521,-9.2769233
+518207,Creche E Jardim Infantil O Caracol,38.7544547,-9.2630986
+518219,Infantário Do Povo De Massamá,38.7544096,-9.2870911
+518232,Associação Promotora Da Criança,38.7708282,-9.3230215
+518268,Escola Do Povo Das Mercês,38.7909593,-9.3335402
+518270,Externato do Ensino Primário do Centro Social Paroquial de São João das Lampas - Secção,38.7540581,-9.2746667
+518293,Infantário Popular De Sintra,38.799247,-9.3760339
+518300,Jardim Infantil da Casa de Nossa Senhora da Conceição,38.7688827,-9.3844684
+518311,Associação De Solidariedade Social Os Patarecos,38.8004091,-9.3749001
+518426,Jardim de Infância da Associação de Promoção Social de Alhandra,38.9282371,-9.0133683
+518451,Jardim De Infância Associação De Promoção Social Castanheira Do Ribatejo,38.989544,-8.971904
+518463,Jardim De Infância Do Centro Social Paroquial Casa De São José,39.0079254,-8.965199199999999
+518475,Jardim de Infância do Instituto De Apoio À Comunidade - Bloco I,38.8738551,-9.055140699999999
+518499,Jardim De Infância Da Associação De Solidariedade Social De Apoio À Família,38.874223,-9.0551651
+518505,Jardim de Infância do Instituto De Apoio À Comunidade - Bloco J,38.8625317,-9.0699487
+518529,Jardim Infantil Da Associação Popular De Apoio À Criança - Caniços,38.8667091,-9.0629742
+518566,Jardim de Infância Da Associação Para O Bem-Estar Infantil da Freguesia de Vialonga - Sede,38.8748145,-9.0854608
+518578,Jardim Infantil da Casa do Povo de Vialonga,38.9558304,-8.9868554
+518608,Jardim de Infância do Centro de Bem-Estar Infantil de Vila Franca de Xira,38.9559587,-8.999718999999999
+519017,Jardim De Infância Da Fundação João Gonçalves Júnior,38.7518493,-8.963904500000002
+519030,Jardim Infantil Bento Gonçalves (Aipica),38.6683591,-9.1647649
+519042,Jardim Infantil Do Pombal (Aipica),38.6769203,-9.1589745
+519066,Jardim De Infância Do Centro Paroquial De Bem Estar Social De Cacilhas,38.6816453,-9.160803699999999
+519078,Jardim De Infância Do Centro Social E Paroquial De Vale Figueira,38.6516798,-9.163126199999999
+519091,Jardim Infantil E Creche Popular Do Monte Da Caparica,38.6649029,-9.1985017
+519121,C. Comunitário Promoção Soc. Feijó E Laranjeiro,38.6516798,-9.163126199999999
+519145,Jardim de Infância do Centro Social Paroquial de Almada,38.6833168,-9.1542056
+519157,Jardim Infantil Popular Do Pragal (Aipica),38.6760874,-9.1685781
+519169,Jardim de Infância do Centro Social e Paroquial Cristo Rei,38.6672049,-9.1857522
+519170,Creche E Jardim De Infância Da Liberdade (Aipica),38.673997,-9.1695497
+519182,Creche - Jardim De Infância 25 De Abril (Aipica),38.68230519999999,-9.153537
+519194,Jardim de Infância do Centro Comunitário PIA I - Santa Casa da Misericórdia Almada,38.669159,-9.1925879
+519224,Associação de Solidariedade Social - Creche e Jardim de Infância Os Reguilas - Quinta da Lomba,38.6449561,-9.0612821
+519248,Jardim de Infância D. Pedro V - A Colmeia,38.6623218,-9.0773712
+519285,Jardim de Infância O Comboio,38.6566178,-9.075325699999999
+519303,Creche E Jardim Infantil O Charlot (S.C.M.Alhos Vedros),38.6588133,-8.9863237
+519327,Jardim de Infância O Ninho,38.6548514,-8.9918044
+519340,Jardim de Infância da Sagrada Família - Casa do Povo de Canha,38.767251,-8.625708399999999
+519352,Jardim Infantil Casa da Criança,38.7029093,-8.9700624
+519364,Jardim de Infância do Centro de Acção Social e Cultural das Faias,38.7029093,-8.9700624
+519388,O Girassol - Escola Padre Manuel Gonçalves,38.7084462,-8.9738145
+519390,Jardim de Infância O Saltitão,38.7048531,-8.9680717
+519406,Jardim de Infância da Associação de Solidariedade Social Brejos do Assa - Rouxinol,38.5721984,-8.8806914
+519418,"União Sol Crescente da Marateca ""Os Cenourinhas""",38.5859812,-8.6908677
+519420,Jardim de Infância A Árvore - Centro Social De Palmela,38.567755,-8.9027827
+519431,Casa Do Povo De Palmela - Centro Social De Lagameças,38.6135078,-8.7805319
+519455,Jardim Das Cores - Centro Social Paroquial De Pinhal Novo,38.6335941,-8.9156234
+519479,Jardim De Infância A Cegonha - Centro Social De Palmela,38.5732585,-8.9016265
+519480,Jardim De Infância Do Centro Social Da Quinta Do Anjo,38.5704425,-9.0004986
+519509,Jardim Infantil C. Assist. Paroquial O Caracol,38.6025589,-9.1042341
+519510,Centro Infantil O Patronato (Centro Assist.Paroq. Da Amora),38.6279299,-9.115594
+519522,"C. Paroq. B. Estar Social De Arrentela - Jardim Infantil ""O Picapau""",38.6358395,-9.093612
+519534,Jardim De Infância Do Centro Social Paroquial Da Sagrada Família De Miratejo/Laranjeiro,38.6538904,-9.1456231
+519546,CERCIZIMBRA - Cooperativa de Educação e Reabilitação de Cidadãos Inadaptados de Sesimbra,38.4724384,-9.0946043
+519558,Jardim Infantil C. Paroq. Bem-Estar Social Castelo,38.4577894,-9.1061684
+519571,Jardim De Infância Centro De Apoio Sócio Cultural - Unidade Zambujalense,38.4594619,-9.1064973
+519583,Externato Santa Joana,38.445209,-9.1002462
+519595,Centro Infantil Sebastião Da Gama - Casa Do Povo De Azeitão,38.5160863,-9.0166249
+519637,Jardim de Infância da Associação de Moradores da Praça do Brasil - O Girassol,38.5291708,-8.886859
+519649,Instituto de Educação Cristã - Sorrizinho,38.5386967,-8.8841041
+519650,Jardim de Infância Arco Íris,38.52507749999999,-8.897435
+519662,Infantário Popular Do Bonfim (Associação Setub. Apoio Social),38.52507749999999,-8.897435
+519686,Os Pirilampos (Associação Central Assist. De Setúbal),38.5269839,-8.8831075
+519698,"Associação De Moradores Luta Do Povo ""Os Pinheirinhos""",38.5338171,-8.8802034
+519716,Centro Infantil Qt. Nova,38.5221666,-8.8703842
+519728,Centro Infantil Da Cotovia Do Centro Social Paroquial De S. José,38.555834,-8.8537206
+519730,"Associação Para O Jardim De Infância ""O Sonho""",38.52246150000001,-8.8611753
+519741,Escorrega - Associação De Moradores Do Bº Da Liberdade,38.5309777,-8.9900348
+519753,Jardim Infantil Associação Cristã Da Mocidade-Bela Vista,38.5239284,-8.871070099999999
+519789,Jardim De Infância O Baloiço,38.5273502,-8.8728356
+519790,Jardim de Infância A Abelhinha - Centro Social Paroquial São José,38.52507749999999,-8.897435
+521747,Jardim de Infância Do Centro Social E Paroquial Nossa Senhora Da Atalaia,38.7074065,-8.9222279
+521759,Jardim de Infância O Papagaio - Centro Paroquial de Acção Social Padre Manuel Gonçalves,38.7125929,-8.9926927
+521772,Centro de Ocupação Infantil - Fundação Coi,38.6339743,-8.909741
+521826,Jardim De Infância A Nuvem - Centro Social Paroquial De Nossa Senhora Da Anunciada,38.5268461,-8.900610499999999
+521838,Jardim Infantil O Aquário (Centro Social Paroquial Nossa Senhora Da Anunciada),38.52507749999999,-8.897435
+521942,Escola Luis Madureira (Stª Casa Misericórdia Da Amadora),38.7328984,-9.2124352
+522028,Jardim de Infância Gente Pequena,38.7981177,-9.3436994
+522053,Centro Cultural E Social De Stº António Dos Cavaleiros,38.8121262,-9.1595014
+522119,Escola Raiz,38.6994917,-9.2104663
+522120,Real Colégio de Portugal,38.7731643,-9.1720731
+522132,"Externato ""Infante D. Pedro""",38.7353289,-9.145644899999999
+522557,Jardim de Infância Panioli - Secretariado Diocesano de Lisboa da Obra Nacional da Pastoral dos Ciganos,38.7741321,-9.1066673
+522764,Jardim das Andorinhas,38.5633527,-9.0469475
+522806,Jardim de Infância Toca e Fica,38.7786671,-9.298135
+522818,Colégio a Nova Formiguinha,38.7916653,-9.370616799999999
+522820,Jardim de Infância Timena,38.7911028,-9.179846999999999
+523112,Nuclisol Jean Piaget - Galinheiras,38.7921992,-9.1502775
+523124,Jardim de Infância Laranja e Meia,38.7554748,-9.1739116
+523150,Jardim de Infância Canteiro dos Sonhos,38.7262272,-9.2768711
+523161,Jardim de Infância do Centro Social Paroquial Nossa Senhora de Porto Salvo,38.7150769,-9.3120016
+523379,Colégio Guadalupe,38.5887948,-9.153906899999999
+523835,Academia de Amadores de Música,38.707476,-9.1443187
+523859,Conservatório de Música da Metropolitana,38.6999411,-9.1812785
+523860,Conservatório de Música D. Dinis,38.8088377,-9.2068771
+523884,Conservatório de Música de Sintra,38.7654661,-9.3199733
+523902,Escola de Música Nossa Senhora do Cabo - Sede,38.705054,-9.1810414
+523914,Academia Musical dos Amigos das Crianças,38.7076154,-9.1498402
+524220,Conservatório Regional de Setúbal,38.52507749999999,-8.897435
+524300,Academia de Dança Contemporânea de Setúbal,38.5203995,-8.8474258
+600015,Centro de Educação e Desenvolvimento Jacob Rodrigues Pereira (Casa Pia),38.6994917,-9.2104663
+602048,"Jardim de Infância n.º 2 de Alverca do Ribatejo, Vila Franca de Xira",38.9409593,-9.029587
+602190,"Jardim de Infância da Ameixoeira, Lisboa",38.7874103,-9.157301
+604057,"Jardim de Infância Roque Gameiro, Odivelas",38.7944305,-9.1759915
+604070,"Jardim de Infância do Bairro Padre Cruz, Lisboa",38.7709348,-9.1890172
+604501,"Jardim de Infância n.º 1 do Alto do Seixalinho, Barreiro",38.6576979,-9.0663764
+604550,"Jardim de Infância do Barril, Mafra",38.9311671,-9.334925499999999
+605013,"Jardim de Infância n.º 1 de Benfica, Lisboa",38.7471149,-9.1884004
+605396,"Jardim de Infância da Bobadela, Loures",38.8069039,-9.0988957
+605517,"Jardim de Infância do Bom Sucesso, Alverca do Ribatejo, Vila Franca de Xira",38.9409593,-9.029587
+608464,"Jardim de Infância n.º 1 de Casal de Cambra, Sintra",38.759347,-9.3866981
+610306,Centro de Educação e Desenvolvimento D. Maria Pia (Casa Pia),38.7230895,-9.1151693
+610318,Centro de Educação e Desenvolvimento D. Nuno Álvares Pereira (Casa Pia),38.6980527,-9.195038900000002
+611980,"Jardim de Infância da Encarnação, Mafra",39.0363865,-9.369341
+613022,"Jardim de Infância do Feijó, Almada",38.6673516,-9.1675136
+614385,"Jardim de Infância de Frielas, Loures",38.8275565,-9.174995599999999
+615614,"Jardim de Infância da Horta Nova, Lisboa",38.7656731,-9.182
+619176,Jardim de Infância de Mafra,38.9418122,-9.3359116
+619504,"Jardim de Infância de Marco Cabaço, Charneca de Caparica, Almada",38.6203107,-9.1931104
+620373,"Jardim de Infância do Milharado, Mafra",38.9502858,-9.1978885
+621249,"Jardim de Infância de Montelavar, Sintra",38.8589991,-9.3342335
+621481,"Jardim de Infância de Morelena, Sintra",38.8456443,-9.3127636
+621766,"Jardim de Infância de Murches, Cascais",38.719755,-9.4363782
+622280,"Jardim de Infância Álvaro de Campos, Odivelas",38.7948754,-9.1726218
+622291,"Jardim de Infância Dr. João dos Santos, Odivelas",38.7976355,-9.1903609
+623702,"Jardim de Infância Almirante Nunes da Matta, Parede, Cascais",38.7139516,-9.4188347
+624410,"Jardim de Infância de Pegões Velhos, Montijo",38.7029093,-8.9700624
+626132,"Jardim de Infância de Povos, Vila Franca de Xira",38.9578731,-8.992337
+626934,"Jardim de Infância da Quinta do Conde, Sesimbra",38.572103,-9.046484399999999
+627781,"Jardim de Infância de Ribamar, Mafra",39.0074768,-9.377423400000001
+628700,"Jardim de Infância da Quinta de São José, Sacavém, Loures",38.7929745,-9.1110534
+628979,"Jardim de Infância do Samouco, Alcochete",38.7474847,-8.963765
+630214,"Jardim de Infância de Santo Isidoro, Mafra",38.9572869,-9.3384714
+630299,"Jardim de Infância de Sarilhos Grandes, Montijo",38.7026658,-8.9492966
+630305,"Jardim de Infância de Sarilhos Pequenos, Moita",38.6588133,-8.9863237
+631115,"Jardim de Infância de Amoreiras, Setúbal",38.5443633,-8.893488
+633537,"Jardim de Infância de Telheiras, Lisboa",38.7589417,-9.1634023
+633665,"Jardim de Infância da Terrugem, Sintra",38.7996793,-9.3784472
+635560,"Jardim de Infância da Venda do Pinheiro, Mafra",38.922362,-9.2352662
+635807,"Jardim de Infância de Vialonga, Vila Franca de Xira",38.7945418,-9.1398045
+636502,Jardim de Infância n.º 2 de Vila Franca de Xira,38.9529029,-8.9918475
+638079,"Jardim de Infância José Martins, Linda-a-Velha, Oeiras",38.710421,-9.241576799999999
+639825,"Jardim de Infância Gil Eanes, Pontinha, Odivelas",38.76902010000001,-9.198176499999999
+639928,"Jardim de Infância n.º 2 de Verderena, Barreiro",38.6548665,-9.0729723
+641250,"Jardim de Infância n.º 2 da Brandoa, Amadora",38.7688858,-9.218786999999999
+641261,"Jardim de Infância da Torre, Cascais",38.7002543,-9.4378288
+641273,"Jardim de Infância de Carcavelos, Cascais",38.6895716,-9.3345843
+642332,"Jardim de Infância de Barreiralva, Mafra",38.9735386,-9.3282166
+642381,"Jardim de Infância do Cerrado da Bica, Mina, Amadora",38.7604827,-9.230585699999999
+642393,"Jardim de Infância de São Brás, Amadora",38.7687309,-9.226424999999999
+642411,"Jardim de Infância de Cotovios, A-de-Freire, Vila Franca de Xira",38.9560642,-8.9909017
+642447,"Jardim de Infância de Vale Rosal, Almada",38.6553066,-9.189926800000002
+644055,"Jardim de Infância Tomás Ribeiro, Carnaxide, Oeiras",38.7189965,-9.2327441
+644079,"Jardim de Infância do Quintal, Mafra",38.9397031,-9.3679662
+644316,"Jardim de Infância da Quinta do Conde de Portalegre, Paivas, Seixal",38.6205651,-9.1124206
+644869,"Jardim de Infância Fátima Campino, Alcoitão, Cascais",38.714996,-9.446596
+645151,"Jardim de Infância de Pegões-Gare, Pegões, Montijo",38.7026658,-8.9492966
+645308,"Jardim de Infância de Bicesse, Cascais",38.7350389,-9.3843935
+645310,"Jardim de Infância Beatriz Costa, Charneca, Mafra",38.9210249,-9.2126117
+645473,"Jardim de Infância de Terraços da Ponte, Sacavém, Loures",38.8012526,-9.1143376
+645527,"Jardim de Infância António José de Almeida, Lisboa",38.7382012,-9.140320800000001
+645618,"Jardim de Infância de Arneiro dos Marinheiros, São João das Lampas, Sintra",38.8004091,-9.3749001
+645655,"Jardim de Infância do Bairro 25 de Abril, Santo André, Barreiro",38.6479367,-9.063056699999999
+645709,"Jardim de Infância do Lumiar, Lisboa",38.7686478,-9.161886
+645722,"Jardim de Infância das Azenhas dos Tanoeiros, Mafra",38.939506,-9.3360662
+645734,"Jardim de Infância da Falagueira, Amadora",38.7577053,-9.2290478
+645801,"Jardim de Infância do Pinhal do General, Quinta do Conde, Sesimbra",38.5508914,-9.0546378
+645874,"Jardim de Infância do Bairro das Palmeiras, Barreiro",38.646663,-9.059779299999999
+700009,Escola de Hotelaria e Turismo do Estoril,38.7167558,-9.388396
+700010,Escola de Hotelaria e Turismo de Lisboa,38.7172372,-9.159867799999999
+700011,Escola de Hotelaria e Turismo de Setúbal,38.5284214,-8.890754099999999
+710010,Jardim de Infância da Associação de Beneficência Luso-Alemã - Parede,38.6874641,-9.3555385
+710013,"Centro Infantil do Lavradio - ""O Barquinho""",38.6647859,-9.051568
+710014,Centro Infantil Padre Baltazar - Centro Social Paroquial Nossa Senhora da Conceição da Costa de Caparica,38.6451143,-9.2371568
+710015,"Centro Infantil De Setúbal - ""O Ninho""",38.5351965,-8.8915326
+710018,Centro de Bem Estar Social do Laranjeiro,38.65399410000001,-9.150112400000001
+710027,Horizonte Sagrada Família,38.7010686,-9.354969900000002
+710028,Centro de Paralisia Cerebral Calouste Gulbenkian,38.7020896,-9.188597
+710029,"Centro Infantil ""Visconde de Valmor""",38.7400267,-9.1522414
+710030,"Centro Infantil ""O Roseiral""",38.7383273,-9.1558685
+710031,Centro Infantil Dos Olivais Sul - Fundação Aga Khan,38.7640619,-9.114319
+710032,Centro Infantil de Santos-o-Novo,38.7218583,-9.1172463
+710033,Centro Infantil Manuel da Maia,38.7351975,-9.136573499999999
+790904,Creche Abóbada - Santa Casa Da Misericórdia De Cascais,38.7131893,-9.330049599999999
+800004,A Mamã Coelha,38.7776945,-9.1032514
+800008,A.P.P.A.C.D.M.,38.5459074,-8.8417668
+800011,A.P.P.A.C.D.M. de Lisboa,38.7389284,-9.1482733
+800018,AEMAR - Instituto de Tecnologias Náuticas,38.6907253,-9.301091999999999
+800025,APPACDM - Centro Bonny Stilwell,38.7076836,-9.1964237
+800036,APPDA - Associação Portuguesa para as Perturbações do Desenvolvimento e Autismo,38.7297473,-9.1493988
+800042,Academia Comercial Tecla (Deleg),38.7309758,-9.1342518
+800051,ACORDARTE - Academia de Música de Lisboa,38.7108599,-9.205644
+800054,Academia de Música de Almada,38.6501537,-9.1898822
+800063,Academia dos Miúdos,38.7479614,-9.1854776
+800064,ACORDARTE - Academia de Música de Lisboa Secção - Oeiras,38.69636879999999,-9.3285203
+800066,Aldeia dos Sonhos,38.8071182,-9.1746778
+800067,American School of Languages,38.7286587,-9.1446865
+800075,Jardim De Infância Do Centro Social Dom Bosco,38.7183779,-9.4065967
+800080,Jardim de Infância O Nosso Recreio - Associação Infantil Juvenil,38.793155,-9.1757718
+800091,Associação Portuguesa de Paralisia Cerebral,38.6834663,-9.3171465
+800099,Associação de Pais e Amigos de Deficientes Profundos,38.7655598,-9.2991169
+800104,Escola Profissional do Montijo,38.7026658,-8.9492966
+800106,Atelier Paraíso,38.7141584,-9.1242874
+800108,Jardim de Infância da Belourinha,38.7722792,-9.377131
+800110,Big Ben - Escola de Inglês,38.7742455,-9.3135934
+800112,British Council - Lisboa,38.7163426,-9.1506554
+800113,British Council - Miraflores,38.707956,-9.2271394
+800114,British Council - Parede,38.6868696,-9.3401163
+800131,Carlucci American International School of Lisbon,38.7672706,-9.382919099999999
+800134,CECD - Centro de Educação para o Cidadão Deficiente,38.7859893,-9.3048077
+800140,CERCIAMA – Cooperativa de Educação e Reabilitação de Cidadãos Inadaptados da Amadora,38.7569676,-9.2411672
+800144,"CERCICA - Cooperativa para a Educação e Reabilitação de Cidadãos Inadaptados de Cascais, CRL",38.7350389,-9.3843935
+800157,"CERCIMA - Cooperativa de Educação, Reabilitação, Capacitação e Inclusão do Montijo e Alcochete",38.7160561,-8.967849
+800160,"CERCIMB 1 -  Cooperativa para a Educação, Reabilitação, Capacitação e Educação da Moita e Barreiro",38.6588133,-8.9863237
+800167,CERCISA Coop. Educ. Reab. Cri. Inadaptadas,38.6535057,-9.1453781
+800169,"CERCITEJO - Cooperativa de Educação e Reabilitação de Cidadãos Inadaptados, CRL",38.9578731,-8.992337
+800172,CLI - Consultores de Línguas,38.6914413,-9.3590236
+800176,CRINABEL- Cooperativa de Ensino Especial e Solidariedade Social,38.7178208,-9.1572032
+800179,Cambridge School,38.7640157,-9.0957397
+800180,Cantinho do ABC,38.7599231,-9.2669227
+800185,Escola Casa da Floresta,38.7396636,-9.181099999999999
+800186,Casa das Abelhinhas,38.771609,-9.095896399999999
+800193,Jardim De Infância Do Centro Comunitário E Paroquial Da Ramada,38.7350882,-9.1585743
+800197,Centro Educativo da Bela Vista,38.7188316,-9.125720900000001
+800204,Centro Infantil António Marques - Associação Mutualista Nossa Senhora Da Conceição,38.71057510000001,-8.9913116
+800205,Centro Infantil Curiosa Idade,38.6858775,-9.3147465
+800209,Jardim De Infância Do Centro Social Da Trafaria - Santa Casa da Misericórdia de Almada,38.6715995,-9.235446
+800218,Centro Multicultural de Formação,38.7426655,-9.2019
+800221,Centro Pedagógico Einstein,38.7484527,-8.962838699999999
+800222,Centro Pedagógico Piaget,38.9427103,-9.3339973
+800224,#N/A,37.1698154,-8.3958517
+800230,Creche e Jardim De Infância Ramalha - Centro Social Paroquial Padre Ricardo Gameiro,38.6714085,-9.1637486
+800231,Jardim De Infância Do Centro Comunitário Renascer - Centro Social Paroquial Padre Ricardo Gameiro,38.6613007,-9.1630861
+800236,Centro Social Polivalente do Bairro das Furnas - Santa Casa da Misericórdia de Lisboa,38.7484107,-9.181192099999999
+800256,Centro Social Para Desenvolvimento Do Sobralinho,38.9584799,-8.9910367
+800260,Centro de Acolhimento Infantil Bairro da Boavista,38.708366,-9.146455699999999
+800261,Centro de Acolhimento Infantil Dr. José Domingos Barreiro - Santa Casa da Misericórdia de Lisboa,38.73901680000001,-9.104322699999999
+800262,Centro de Acolhimento Infantil Vale Fundão 1,38.7475929,-9.1074345
+800264,Centro de Acolhimento Infantil do Bairro Padre Cruz - Santa Casa da Misericórdia de Lisboa,38.7170934,-9.152407199999999
+800272,Centro de Educação e Desenvolvimento António Aurélio da Costa Ferreira (Casa Pia de Lisboa),38.7497868,-9.1450385
+800273,Centro de Educação e Desenvolvimento Nossa Senhora da Conceição (Casa Pia),38.7197671,-9.1565132
+800274,Centro de Educação e Desenvolvimento Pina Manique - Casa Pia de Lisboa,38.6985608,-9.2097746
+800288,Centro De Infância Sarilhos Grandes - Santa Casa Da Misericórdia De Montijo,38.7080758,-8.9790551
+800290,Centro de Intervencão Tecnico-Pedagógico,38.8041907,-9.2256611
+800293,Centro de Línguas Santana,38.4488162,-9.103543799999999
+800297,"Centro de Pedagogia Terapêutica ""Bola de Neve""",38.6978161,-9.2193481
+800298,Centro de Promoção Social da Alta de Lisboa - Santa Casa da Misericórdia de Lisboa,38.7807914,-9.1501846
+800299,Centro de Promoção Social PRODAC - Santa Casa da Misericórdia de Lisboa,38.7456119,-9.1086104
+800313,Chuva de Papel,38.7638144,-9.161546999999999
+800314,Colégio Catarina de Bragança,38.818954,-9.409998
+800315,"Colégio ""Arte Mágica""",38.5657964,-9.1002486
+800321,Colégio CdD - Sede,38.711273,-8.9679086
+800323,Colégio Vasco da Gama,38.7934685,-9.3125105
+800326,Colégio A Quinta de Sintra,38.7995703,-9.3144114
+800327,Colégio Académico,38.7353289,-9.145644899999999
+800328,Colégio Adventista de Setúbal,38.52281869999999,-8.8881877
+800333,Colégio Aqui Há Bebé,38.8612132,-9.3917938
+800334,Colégio Arte & Manha,38.9434022,-9.3364095
+800335,Colégio As Descobertas,38.7001654,-9.222611299999999
+800341,Colégio Brinca e Educa,38.7184101,-9.3346871
+800346,Colégio Cantinho dos Traquinas,38.6311238,-9.1623396
+800359,Colégio Dá Cá Miminhos,38.6084975,-9.1802467
+800360,Externato Eduardo Claparède,38.7478997,-9.144036999999999
+800366,Astória International School,38.7506151,-9.1310936
+800367,Colégio Flor da Linha,38.7262272,-9.2768711
+800372,Colégio Infanta D. Maria de Portugal - Prime School of Portugal,38.8004091,-9.3749001
+800375,Colégio Infantil Imaginário,38.588042,-9.156339599999999
+800376,Colégio Integrado Monte Maior,38.8232069,-9.207803799999999
+800384,Colégio Lusitano,38.7974559,-9.345716099999999
+800388,Colégio Militar,38.7628759,-9.182029
+800389,Colégio Miramar,39.0082943,-9.377799699999999
+800390,Colégio Moinho do Sonho,38.7764145,-9.2340311
+800392,Jardim de Infância Ninho Maternal,38.8016806,-9.3454787
+800395,Colégio N´Avózinha,38.7506151,-9.1310936
+800396,Colégio O Bom João,38.6101913,-9.1258833
+800397,Colégio O Carinho,38.651377,-9.0590994
+800399,Colégio O Gaitinhas,38.6378594,-9.163705
+800400,Park International School - Cascais,38.7099698,-9.4386861
+800401,PaRK International School I Restelo,38.708322,-9.21605
+800411,Colégio Pedro Arrupe,38.7932565,-9.097626199999999
+800412,Colégio Penas Real,38.7280788,-8.9480457
+800414,Colégio Pequenos Índios,38.7494272,-9.1692515
+800417,Colégio Quinta da Parreirinha,38.8013171,-9.1039655
+800420,Colégio Quinta do Pinheiro,38.6213309,-9.0933563
+800421,Colégio Quintinha da Fidalga,38.7749978,-9.3054033
+800423,Colégio Mem Martins,38.794632,-9.342058
+800425,Colégio Rik & Rok de Alfragide,38.7262272,-9.2768711
+800428,Salesianos de Lisboa - Colégio Oficinas de São José,38.7140496,-9.1676674
+800431,Colégio Santa Maria,38.83831440000001,-9.1601603
+800433,Colégio Santiago,38.7212671,-9.2237587
+800434,Colégio Santo André,38.9150007,-9.276271699999999
+800436,Colégio Senhora da Boa Nova,38.708513,-9.3845317
+800437,Colégio St. John´s Shool,38.7047476,-9.415792699999999
+800439,Colégio São Filipe I,38.52281869999999,-8.8881877
+800441,Colégio São Tomás - Sete Rios,38.7401796,-9.1653754
+800442,International Sharing School TagusparK,38.740184,-9.307203
+800446,Colégio Woogui-Boogui,38.6025589,-9.1042341
+800450,Colégio da Fonte,38.7262272,-9.2768711
+800451,Colégio da Beloura,38.7722792,-9.377131
+800457,Colégio da Torre,38.7262272,-9.2768711
+800459,Colégio das Faias,38.5469381,-9.0217665
+800465,Colégio GROW UP,38.7262272,-9.2768711
+800472,Colégio São Tomás - Quinta das Conchas,38.7669887,-9.1496358
+800474,Colégio de Stª Doroteia,38.7603011,-9.1542256
+800481,Colégio do Centeio,38.5443633,-8.893488
+800482,Colégio do Largo,38.7382244,-9.1414028
+800484,Colégio do Mimo,38.806071,-9.197517699999999
+800486,Colégio Oriente,38.7856843,-9.097126200000002
+800488,"Colégio do Parque do Falcão, Lda.",38.6256407,-9.096292300000002
+800491,Colégio do Tejo,38.6819734,-8.9498941
+800492,Colégio dos Arcos,38.7584881,-9.1662634
+800498,Conservatório Regional de Artes do Montijo,38.70884270000001,-8.987041999999999
+800505,Conservatório Artallis,38.8145098,-9.1179622
+800508,Conservatório de Música de Cascais,38.6970335,-9.4208793
+800516,"Cooperativa de Ensino ""A Praceta""",38.6964867,-9.323639799999999
+800517,Cooperativa de S. Pedro - Educação e Reabilitação de Cidadãos com Deficiência,38.7262272,-9.2768711
+800519,Creche Missão Nossa Senhora - Santa Casa da Misericórdia de Lisboa,38.7266928,-9.1306728
+800520,Creche e Aparece,38.7705494,-9.096638
+800528,Jardim De Infância São Marçal - Santa Casa Da Misericórdia De Oeiras,38.7252104,-9.2230521
+800533,Cyberensino - Escola de Línguas da Moita,38.653925,-8.9915484
+801287,EPET - Escola Profissional de Estudos Técnicos,38.7507028,-9.2002889
+802671,Escola Primária do Centro C. R. C. Cruz. e Rio Seco,38.7068334,-9.190076399999999
+802706,"Escola Profissional Agostinho Roseta, Lisboa",38.7567996,-9.097291199999999
+802707,Escola Profissional Agostinho Roseta - Sesimbra,38.4750235,-9.0914383
+802712,Escola Profissional Alda Brandão de Vasconcelos,38.8029465,-9.4565517
+802713,Escola Profissional da Cruz Vermelha Portuguesa,38.7128702,-9.1757887
+802714,Escola Profissional Almirante Reis,38.708366,-9.146455699999999
+802720,Escola Profissional Artes e Ofícios do Espectáculo - Chapitô,38.7119662,-9.1344376
+802723,"Escola Profissional Bento de Jesus Caraça, Lisboa",38.7080995,-9.1401901
+802725,Escola Profissional Bento de Jesus Caraça- Delegação do Barreiro,38.6654132,-9.0694911
+802727,Escola Profissional Bento de Jesus Caraça- Delegação do Seixal,38.6221452,-9.094337099999999
+802729,Escola Profissional CEFAD,38.75452800000001,-9.178294500000002
+802735,Escola Profissional Cristóvão Colombo - Pólo de Setúbal,38.525404,-8.885429199999999
+802742,Escola Profissional Gustave Eiffel (Delegação doLumiar),38.768754,-9.1590022
+802743,Escola Profissional Gustave Eiffel (Pólo da Amadora),38.7570418,-9.2359022
+802744,Escola Profissional Gustave Eiffel (Pólo de Queluz),38.7709541,-9.288265899999999
+802745,Escola Profissional Gustave Eiffel (Sede),38.7561243,-9.219318
+802746,Escola Profissional Magestil,38.753694,-9.1307844
+802747,Escola Profissional da Metropolitana,38.6992968,-9.181663799999999
+802763,Escola Profissional Val do Rio,38.6949999,-9.3126418
+802764,Escola Profissional Val do Rio (Pólo Cascais),38.6948313,-9.3448442
+802781,Escola Profissional de Agentes de Serviço e Apoio Social Fund. Monsenhor Alves Brás,38.7129221,-9.164341199999999
+802782,Escola Profissional de Almada,38.6768283,-9.1517276
+802786,"EPAD - Escola Profissional de Artes, Tecnologias e Desporto",38.7296902,-9.1460833
+802794,Escola Profissional de Comunicação e Imagem,38.7297473,-9.1493988
+802796,Escola Profissional de Comércio de Lisboa,38.7810296,-9.1206338
+802811,Escola Profissional de Hotelaria e Turismo de Lisboa,38.7260788,-9.1169268
+802812,Escola Profissional de Imagem (ETIC),38.7076484,-9.147454999999999
+802814,Escola Técnica e Profissional de Mafra,38.9328882,-9.327871199999999
+802823,Escola Profissional de Pedagogia Social,38.7139806,-9.1629509
+802829,Escola Profissional de Teatro de Cascais,38.7211034,-9.4107486
+802830,Escola Profissional de Tecnologia Digital,38.74405429999999,-9.148383299999999
+802848,Salesianos de Manique - Escola,38.735703,-9.3614
+802874,Escola Soeiro Pereira Gomes (Coop. Ens. Do Laranjeiro),38.6553066,-9.189926800000002
+802886,Escola Técnica Psicossocial de Lisboa,38.7589417,-9.1634023
+803069,Escola de Dança do Club Setubalense,38.5231748,-8.8903869
+803073,Escola de Línguas Universo de Palavras,38.939506,-9.3360662
+803078,"Escola de Música, Dança e de Artes Dramáticas de Lisboa",38.7106156,-9.1449144
+803130,Escola do Arco,38.6995356,-9.291648799999999
+803177,Escola dos Mestres,38.7562359,-9.1419632
+803179,Escolinha Amarela,38.7726207,-9.287318899999999
+803181,Escolinha da Ana,38.7129565,-9.436760999999999
+803184,A Escolinha do Campo,38.52252379999999,-9.0217861
+803186,Espaço A Criança,38.8164236,-9.099755
+803190,Eurocenter - Instituto de Línguas,38.7696916,-9.2950488
+803192,Externato Afonso Albuquerque,38.7811887,-9.315503099999999
+803194,Externato Alfredo Binet,38.7046582,-9.2134992
+803200,"Externato ""Crisfal""",38.7407292,-9.1461785
+803206,Externato Marquês de Pombal,38.7295412,-9.129537299999999
+803212,"Externato ""Novo Crisfal""",38.740567,-9.146073099999999
+803216,"Externato ""O Pirilampo""",38.7915384,-9.175001900000002
+803226,Externato Álvares Cabral,38.7507028,-9.2002889
+803227,Externato A Casinha Mágica,38.5657964,-9.1002486
+803236,Externato ERGON,38.7489663,-9.1503436
+803238,Externato Helguinha,38.61375719999999,-9.1259708
+803244,Externato O Mundo dos Sentidos,38.7969043,-9.3429225
+803245,Externato O Pequeno Polegar,38.6227786,-9.094176
+803246,Nota Exemplar Infantes,38.6245886,-9.160818899999999
+803247,"Externato Paroquial ""Nossa Senhora da Conceição""",38.7088049,-9.139870799999999
+803248,Externato Paroquial de Colares,38.8033927,-9.43247
+803249,Externato Pequeno Aprendiz,38.6025589,-9.1042341
+803250,Externato Primário Rainha Santa,38.7917682,-9.175040899999999
+803255,Externato Santa Catarina,38.7039613,-9.2521009
+803257,Jardim de Infância Sol Dourado,38.7476363,-9.3445999
+803258,Externato Sueco,38.6868696,-9.3401163
+803260,Externato Séneca,38.7560678,-9.14721
+803263,Externato da Quintinha,38.8058501,-9.1759785
+803264,Externato da Sociedade Promotora de Educação Popular,38.7046359,-9.177026399999999
+803280,Fundação Escola Profissional de Setúbal,38.5212453,-8.8461575
+803289,Grãos de Gente - Creche e Jardim de Infância,38.6984156,-9.324038
+803291,Colégio da Alameda,38.7100944,-8.918907299999999
+803292,Centro De Apoio À Família Crescer Para Integrar,38.7065991,-9.350933699999999
+803295,IEDP - Instituto de Educação e Desenvolvimento Profissional,38.7518684,-9.149233299999999
+803311,Infantário do Barreiro - Caminhos de Ferro Portugueses,38.6446761,-9.0526663
+803312,Infantário do Parque Infantil das Necessidades,38.7090051,-9.169833299999999
+803316,Instituto da Imaculada para Pessoas com Necessidades Especiais,38.7110482,-9.167363
+803326,Instituto Militar dos Pupilos do Exército,38.7467724,-9.1840864
+803330,Instituto Profissional de Transportes,38.8275565,-9.174995599999999
+803336,Instituto de Ciências Educativas,38.8060864,-9.1926809
+803337,Instituto de Educação Técnica - INETE,38.7306319,-9.138931999999999
+803341,Instituto de Línguas da Universidade Nova de Lisboa,38.7403711,-9.1505674
+803348,Instituto para o Desenvolvimento Social,38.7618322,-9.185117499999999
+803498,Jardim Escola Casas de Azeitão,38.5374003,-9.0017657
+803502,Jardim Escola João de Deus - Odivelas,38.7976507,-9.1817807
+803504,Jardim Escola Natel,38.6725938,-9.1711347
+803508,"Jardim Infantil ""Chiquinha"" - Escola Prep. Francisco Arruda",38.7060439,-9.1815397
+803509,"Jardim Infantil ""Nova Arvore""",38.6335941,-8.9156234
+803521,Jardim Infantil Estrela do Mar,38.9631923,-9.414494099999999
+803522,Fundação Júlia Moreira - Santa Casa da Misericórdia de Lisboa,38.7266928,-9.1306728
+803527,Jardim Infantil Ninho 3,38.6725938,-9.1711347
+803528,Jardim De Infância Nossa Senhora Da Rocha - Santa Casa Da Misericórdia De Oeiras,38.7262272,-9.2768711
+803532,Jardim Infantil O Rei na Barriga - Infantado,38.8448564,-9.1621886
+803535,Jardim Infantil da Quinta Da Ponte,38.9409593,-9.029587
+803541,Jardim Infantil Viva Kids,38.5439154,-8.8485864
+803543,Jardim Infantil Xi-Coração,38.6446761,-9.0526663
+803544,Jardim Infantil da Associação do Pessoal da Fundação Calouste Gulbenkian,38.7393585,-9.1565203
+803629,Centro de Acolhimento Infantil Victor Manoel - Santa Casa da Misericórdia de Lisboa,38.7067754,-9.1780134
+803630,Jardim Infantil do Centro B. E. In. Janelas Verdes,38.7046298,-9.1636521
+803631,Jardim Infantil do Centro Social Rainha D. Leonor,38.7212101,-9.1289072
+803632,Centro de Acolhimento Infantil Bairro da Cruz Vermelha - Santa Casa da Misericórdia de Lisboa,38.77697000000001,-9.1549567
+803634,Jardim Infantil do Laboratório Nacional de Engenharia Civil,38.7520651,-9.134809299999999
+803654,Jardim da Lili,38.8258675,-9.101690699999999
+803656,Jardim das Brincadeiras,38.8120099,-9.3711023
+803659,Jardim de Infantil do Centro Social Paroquial Póvoa de Santo Adrião,38.7915384,-9.175001900000002
+803672,"Jardim de Infância ""Piano Mágico""",38.5747353,-9.0411261
+803674,"Jardim de Infância ""Sol da Primavera""",38.6212791,-9.109815
+803679,Jardim de Infância A Cor dos Sonhos,38.719755,-9.4363782
+803680,Jardim de Infância A Escolinha da Quinta,38.540192,-8.8076847
+803682,Jardim de Infância A Escolinha dos Pequenitos,38.9407772,-9.3285664
+803684,Jardim de Infância A Mãe Canguru,38.7919098,-9.121659300000001
+803686,Jardim de Infância A Nossa Escola,38.7973687,-9.3520036
+803693,Jardim De Infância Abecedário,38.7664997,-9.2151359
+803704,Jardim De Infância Associação Beneficente Da Ajuda,38.8111274,-9.1636764
+803705,Jardim de Infância Associação de Educação Popular Zambujal,38.7026164,-9.3457856
+803706,2.º Jardim De Infância Associação De Promoção Social Castanheira Do Ribatejo,38.9945564,-8.972492599999999
+803707,Jardim de Infância Associação dos Amigos da Damaia,38.7560852,-9.2191508
+803710,Jardim de Infância Bem-Me-Quer,38.7484206,-9.1518108
+803713,Brincadeiras ao Cubo,38.6449561,-9.0612821
+803714,"Jardim de Infância Brincar, Rir e Crescer",38.7925707,-9.3160253
+803715,Jardim de Infância Brincolândia,38.6288549,-9.149722100000002
+803717,Cantinho Alegre Da Infância - CAI,38.648994,-9.0529384
+803721,Jardim de Infância do Casal das Figueiras,38.5281044,-8.9087766
+803730,Jardim De Infância Centro Social Paroquial Do Campo Grande,38.754383,-9.1501865
+803734,Jardim de Infância Chuxinhas,38.8586011,-9.0792217
+803739,Colégio Crescer no Campo,38.6261361,-8.851869599999999
+803741,Jardim De Infância Céu Azul - Centro De Bem Estar Social De Queluz,38.76495999999999,-9.2543604
+803742,Jardim de Infância Dona Maria,38.641881,-9.097576
+803743,Jardim de Infância Ecobabies,38.770961,-9.285106599999999
+803745,"Jardim de Infância Era Uma Vez 1, 2, 3",38.64438,-9.1652614
+803747,Jardim de Infância Escolinha 7,38.7690726,-9.226947599999999
+803752,Seixal International School,38.5657964,-9.1002486
+803755,Jardim de Infância Giz Mágico,38.7541788,-9.2751326
+803759,Jardim De Infância Da Instituição De Apoio Social Da Freguesia De Bucelas,38.9017036,-9.1170461
+803761,Jardim de Infância João Pestana,38.5991744,-9.178625499999999
+803762,Jardim de Infância Krexe e Muito Mais,38.78186360000001,-9.3229262
+803767,Jardim de Infância Meninos Rabinos,38.6335775,-9.201176199999999
+803783,Jardim De Infância O Cantinho,38.7576545,-9.2419508
+803793,Jardim de Infância O Mundo das Tropelias,38.7948754,-9.1726218
+803796,Jardim de Infância O Nosso Jardim,38.5657964,-9.1002486
+803797,Jardim de Infância O Nosso Miminho,38.7281138,-9.2388426
+803801,Jardim de Infância O Piparote,38.5657964,-9.1002486
+803803,Jardim de Infância O Refúgio dos Fidalguinhos,38.6555518,-9.0509375
+803809,Jardim de Infância O Sonho dos Pestinhas,38.7915384,-9.175001900000002
+803811,#N/A,38.7035542,-9.1768919
+803816,Jardim de Infância Os Beicinhas,38.6464573,-8.9856818
+803817,Jardim de Infância Os Cachoeirinhos,38.83029579999999,-9.0995249
+803818,Jardim de Infância Os Caramelos,38.939506,-9.3360662
+803819,Jardim de Infância Os Catitas,38.5657943,-9.0438648
+803820,Escola Ana Guedes,38.7262272,-9.2768711
+803824,Jardim de Infância Pitinhos II - Sede,38.5382247,-8.8560325
+803826,Jardim de Infância Os Traquinas,38.7047476,-9.415792699999999
+803831,Jardim de Infância Parque dos Sorrisos,38.6288874,-9.116960899999999
+803833,Jardim de Infância Pequenos Aprendizes,38.8004091,-9.3749001
+803840,Jardim de Infância Pião Mágico,38.8048786,-9.218829
+803842,Jardim de Infância Quina,38.8071327,-9.2026905
+803847,Jardim de Infância Quintarola II,38.8266861,-9.097140399999999
+803853,Jardim de Infância Santa Teresinha de Jesus,38.9289625,-9.230153600000001
+803855,Jardim de Infância Sonhos e Fantasias,38.7810158,-9.3705538
+803856,Jardim de Infância Sorriso Maroto,38.5331552,-8.904102199999999
+803866,Jardim de Infância Verde Água,38.9363073,-9.3094532
+803874,Jardim de Infância da AMOVALFLOR - Associação de Moradores do Vale do Forno,38.79576429999999,-9.1747123
+803888,Jardim De Infância Da Fundação Afid,38.7298134,-9.211247
+803894,Jardim De Infância Da Liga Dos Amigos Da Quinta Do Conde,38.5508549,-9.053674299999999
+803895,Jardim De Infância Da Misericórdia de Sintra,38.7975828,-9.3759512
+804086,"Jardim De Infância Do Catica, Alto Da Malhada",38.5911776,-9.039731
+804087,Jardim de Infância do Centro Comunitário Paroquial de Famões - Sede,38.7963263,-9.2181932
+804095,Jardim de Infância do Centro Social Paroquial Santa Marta do Casal de Cambra,38.7689368,-9.3799907
+804096,Jardim De Infância Do Centro Social Paroquial Da Charneca,38.7874103,-9.157301
+804098,Jardim de Infância do Centro Social Paroquial de São Brás,38.7693242,-9.2298797
+804099,Jardim De Infância Do Centro Social Paroquial De São João De Deus,38.7402535,-9.1383571
+804113,Jardim de Infância do Centro Social e Paroquial de São Francisco de Paula,38.7065827,-9.1709578
+804138,Jardim de Infância o Mestre Cuco,38.6799937,-9.155007999999999
+804148,Jardim de Infância Jardim do Pinhal,38.6299826,-9.150989299999999
+804149,Jardim dos Príncipes,38.6446761,-9.0526663
+804150,L e L - Languages for Life,38.771609,-9.095896399999999
+804151,Learning Gate,38.939506,-9.3360662
+804153,Liga Portuguesa dos Deficientes Motores,38.7097228,-9.196818
+804157,Lua Crescente,38.77529,-9.107638
+804168,Nuclisol Jean Piaget- Unidade De Desenvolvimento Integrado Bairro Do Armador,38.7460304,-9.1208674
+804169,Nós - Associação de Pais e Técnicos Para a Integração do Deficiente,38.6446761,-9.0526663
+804178,O Côco Castanho,38.52620599999999,-8.8769382
+804181,Colégio Vale dos Pintassilgos,38.52353129999999,-8.850959
+804184,Oeiras International School,38.7262272,-9.2768711
+804188,Os Aprendizes - Laboratório do Conhecimento,38.6970335,-9.4208793
+804190,Os Ilustres,38.7930352,-9.1904679
+804192,Outra Geração,38.6553066,-9.189926800000002
+804193,Oxford School - Instituto de Línguas,38.733134,-9.141343299999999
+804194,Parkids,38.7036409,-9.2980159
+804195,Parque Infantil de Santa Catarina - Santa Casa da Misericórdia de Lisboa,38.7111505,-9.1482025
+804207,Santo António International School,38.6970335,-9.4208793
+804244,Primeira Secção do Externato Alfredo Binet,38.708322,-9.21605
+804253,St. James Primary School,38.719755,-9.4363782
+804257,TOCÁBRINCAR,38.7636575,-9.3007311
+804259,Tetralingue - Escola de Línguas,38.69519,-9.3263757
+804260,The English Academy,38.7938022,-9.3289181
+804269,What´s Next?,38.52252379999999,-9.0217861
+804276,Jardim de Infância do Centro Sociocultural da Quinta de Santo António,38.6553066,-9.189926800000002
+804618,Creche da Falagueira,38.7552278,-9.2312373
+804911,Jardim de Infância Aldeia da Pequenada,38.7101173,-8.971655199999999
+804954,Jardim Escola João De Deus – Albarraque,38.7496203,-9.3507974
+805903,Atm - Associação Tempo De Mudar Para O Desenvolvimento Do Bairro De Lóios,38.7595046,-9.122339499999999
+805955,Jardim De Infância Da Associação Popular De Apoio À Criança - Sede,38.8638284,-9.0713405
+805957,Associação Caminho Do Bem Fazer,38.7026658,-8.9492966
+805964,Jardim De Infância Do Equipamento Do Bairro - Centro Social Paroquial Padre Ricardo Gameiro,38.6717977,-9.163640200000001
+805965,Jardim de Infância do Complexo Social A Casinha,38.6403153,-9.177850900000001
+805977,Jardim De Infância Do Centro Popular Infantil Nascer Do Sol- Edifício Dos Fojos,38.8066768,-9.0986461
+805983,O Pomar - Creche e Pré-Escolar,38.7150596,-9.4371586
+805989,Mimarte,38.7765701,-9.106398500000001
+805990,Saídos da Casca 2,38.7932565,-9.097626199999999
+805991,Cantinho dos Sonhos,38.5713449,-8.909519699999999
+805992,Colégio Gaivotas Airosas,38.6565836,-8.9948505
+805993,Golfinho Saltitão - Centro Infantil,38.7262272,-9.2768711
+805995,Conservatório de Música de Almada,38.6553066,-9.189926800000002
+805996,Colégio Os Lusitanus,38.6306555,-9.163411199999999
+806000,PaRK International School - Alfragide,38.7360353,-9.2265373
+806093,Jardim De Infância Do Instituto Condessa De Cuba,38.7055094,-9.306199699999999
+806105,Criar-T - Associação De Solidariedade - Jardim De Infância I,38.5657964,-9.1002486
+806181,A Escolinha da Aldeia,38.690454,-9.333893
+806185,B-A-BABY,38.7262272,-9.2768711
+806187,ALUAPDANS - Companhia de Dança Paula Marques,38.7076606,-9.378776499999999
+806189,Colégio Aires Real,38.5717492,-8.876565399999999
+806190,Os Amiguinhos,38.827142,-9.1019544
+806191,Colégio Jardim d'Alfragide,38.7349039,-9.223416700000001
+806192,"Escola Básica Maria Barroso, Lisboa",38.70988,-9.139333299999999
+806194,Conservatório de Artes Performativas de Almada,38.6599638,-9.1561946
+806195,Colégio Verde Água,38.9245696,-9.3039788
+806197,"Escola Básica de Santa Marta do Pinhal, Corroios, Seixal",38.6316765,-9.1509263
+806200,Escola da Terra,38.773911,-9.4787957
+806202,Escola de Música Sons e Compassos,38.850617,-9.3806865
+806203,Laranja Lima,38.9572869,-9.3384714
+806227,Colégio Dom Pedrito,38.8056363,-9.3417402
+806234,Jardim de Infância Caixa de Pandora,38.6272556,-8.912716099999999
+806236,Greatkids,38.7514818,-9.2798689
+806237,A Casa Amarela,38.7589417,-9.1634023
+806274,Centro Infantil Do Centro Comunitário Da Quinta Do Conde,38.5550092,-9.0507381
+806360,Escola Profissional Atlantic Professional School,38.5996135,-9.0966048
+806363,Escola Profissional de Referência Empresarial TRIVALOR,38.7237479,-9.236994
+806369,Academia de São Miguel dos Arcos,38.7017125,-9.2867119
+806378,"Escola Profissional Jean Piaget, Almada",38.6553066,-9.189926800000002
+806379,PaRK International School - Praça de Espanha,38.7384452,-9.1618245
+806387,Escola Profissional de Hotelaria e Turismo do Chiado,38.7259584,-9.157922
+806490,Colégio Lapiás,38.8325035,-9.3683771
+806492,Jardim de Infância da Associação Tom da Terra,38.4665231,-9.0887946
+806493,Jardim de Infância Ursinhos Carinhosos,38.7065497,-8.962107999999999
+806502,"Escola Básica de Santa Maria, Charneca de Caparica, Almada",38.6553066,-9.189926800000002
+806504,Conservatório de Música de Mafra,38.9371448,-9.335296
+806505,Redbridge School,38.7191033,-9.1666487
+806507,Colégio Place4all,38.719325,-9.159234
+806508,Bebé A Bordo,38.5730671,-9.080511900000001
+806509,Colégio Planeta Brilhante,38.7473747,-8.959617
+806512,Colégio de Talentos,38.7329629,-9.1403467
+806514,Kairos Montessori,38.7150456,-9.4635593
+806515,Jardim Escola João de Deus - Belas,38.8004788,-9.2597316
+806519,Creche Mãe Maria,38.7299221,-9.1397906
+806521,Fraldinhas e Travessuras,38.7361237,-9.2121157
+806522,Colégio Mundo das Descobertas,38.629706,-9.1242453
+806523,Jardim de Infância da Associação dos Serviços Sociais dos Trabalhadores das Autarquias do Seixal,38.6129767,-9.0925934
+806524,A Casa da Rita,38.9802936,-9.364371900000002
+806526,Ca.DA - Escola,38.6803886,-9.1603997
+806527,Tesouros e Aventuras,38.762072,-9.2558663
+806528,Escola Técnica e Profissional de Mafra - Pólo de Lagoa,39.0077052,-9.3773372
+806529,Escola Técnica e Profissional de Mafra - Pólo de Santo André,38.9150007,-9.276271699999999
+806534,IEDP -  Instituto de Educação para o Desenvolvimento Profissional - Pólo de Almada,38.6553066,-9.189926800000002
+806542,Crescer no Infantado,38.8385258,-9.156036799999999
+806543,Colégio do Oceano,38.7186143,-8.9977323
+806545,Escola Montessori - São Lourenço,38.7438476,-9.159258099999999
+806546,Externato Santa Maria do Mar,38.7382012,-9.140320800000001
+806548,The British School of Lisbon,38.7084009,-9.1462738
+806667,A Voz Do Operário - Espaço Educativo Da Baixa Da Banheira,38.6509517,-9.0470452
+806694,TASIS-The American School In Portugal,38.759347,-9.3866981
+806699,Jardim de Infância Casal dos Sonhos,38.760978,-9.2253473
+806701,Jardim de Infância Estrelas de Luz,38.7672906,-9.2378498
+806702,Colégio Small Land,38.8586738,-9.1355408
+806738,Saint Georges School,38.719755,-9.4363782
+806739,Lisbon Montessori School,38.7168403,-9.437143599999999
+806740,Colégio O Bom Principezinho,38.7893488,-9.192205099999999
+806741,Colégio Cantinho das Alfazemas,38.7605501,-9.095384899999999
+806742,Colégio Minerva - Espaço D. Manuel de Mello,38.6575502,-9.067098699999999
+806745,CerciOeiras,38.7262272,-9.2768711
+806747,United Lisbon International School - ULIS,38.7565824,-9.107737499999999
+806748,Centro de Línguas de Alvide,38.711694,-9.4176571
+806749,Escola Casa da Floresta - Pólo Sesimbra,38.4752312,-9.1120682
+806750,Creche Planeta dos Traquinas,38.8597946,-9.0729165
+806751,Jardim dos Pipocas,38.7628439,-9.1798477
+806753,Language Project - Instituto de Línguas,38.8448564,-9.1621886
+806754,Escola de Música Nossa Senhora do Cabo - Secção,38.6967234,-9.2925462
+806755,Jardim de Infância Geração de Mãos Dadas,38.5650781,-8.8869195
+806758,Dance Spot - Escola de Dança,38.7276771,-9.1615329
+806759,Jardim de Infância Pitinhos II - Secção,38.5397173,-8.854195599999999
+806761,Colégio Paço de São Francisco,38.760624,-9.124042099999999
+806762,A Chupeta,38.7044041,-9.4188858
+806774,Brincadeiras ao Cubo - Secções I,38.6314316,-9.0498623
+806778,International Anglo American School,38.7067206,-9.3705426
+806780,CIATE - Centro Integral de Adestramento Técnico-Eletrónico,38.7447014,-9.1920387
+806787,Astória International School - Secção I,38.7506151,-9.1310936
+806788,Cambridge School - Benfica,38.7525396,-9.196955599999999
+806789,Astória International School - Secção II,38.7506151,-9.1310936
+806790,Externato Educação Popular,38.7316882,-9.1743185
+806796,Jardim de Infância do Centro Comunitário Paroquial de Famões - Secção,38.795313,-9.1790068
+806855,Colégio Saber Crescer,38.8283714,-9.168979799999999
+806860,"CELFF - Centro de Estudos, Línguas e Formação do Fogueteiro",38.620657,-9.1188241
+806863,Colégio Saint Daniel Brottier - Sede,38.7529814,-9.135177299999999
+806864,Colégio Saint Daniel Brottier - Secção,38.7529814,-9.135177299999999
+806866,"Jardim de Infância Alzira Beatriz Pacheco, Póvoa de Santo Adrião, Odivelas",38.8006517,-9.160913599999999
+806869,"Escola Básica do Mosteiro, Odivelas",38.791919,-9.1870183
+806872,Colégio CdD - Secção,38.7036252,-8.9684162
+806875,L´École Trilingue,38.7014049,-9.217965099999999
+806876,Jardim de Infância do Centro de Apoio à Criança - Secção,38.7855732,-9.3050758
+806878,Colégio da Bafureira - Pólo,38.6885629,-9.3540318
+806879,Colégio Refúgio dos Anjos,38.740184,-9.307203
+806881,Externato A Nova Toca - Secção,38.7367062,-9.311525099999999
+806883,Jardim de Infância Fraldinhas,38.7106732,-9.432806099999999
+806884,Gugulândia,38.7206013,-9.2600885
+806885,"Jardim de Infância de Corroios, Seixal",38.6393954,-9.100849499999999
+806888,Jardim de Infância O Recanto dos Nenucos,38.56061529999999,-9.0451719
+806889,Prunus International School,38.7997881,-9.4142916
+806893,Casa Chabad,38.6970335,-9.4208793
+806894,Montessori Bright Academy,38.729354,-9.1638213
+806895,Jardim de Infância A Estrelinha Amarela,38.8361793,-9.0921266
+806898,Colégio O Carinho - Secção,38.6446761,-9.0526663
+516624,CEI - Centro de Educação Infantil,38.7233331,-9.341818499999999
+502017,"Externato ""O Baloiço""",38.7521789,-9.230529599999999
+803349,International House,38.6610235,-9.0849859
+805988,Doce Chupeta,38.6446761,-9.0526663
+505031,"Externato ""A Colina do Sol""",38.7560852,-9.2191508
+800159,"CERCIMB 2 - Cooperativa para a Educação, Reabilitação, Capacitação e Inclusão da Moita e Barreiro",38.6530926,-9.005697
+803293,Centro de Apoio à Família Educar para Incluir - Penedo,38.7023575,-9.3620085
+518153,Solami - Ass.Solidariedade Social De Casal De Cambra,38.7983205,-9.2353281
+517630,Creche - Jardim Infantil Pomba Da Paz,38.8241313,-9.1214193
