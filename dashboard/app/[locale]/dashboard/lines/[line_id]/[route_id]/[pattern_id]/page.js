@@ -129,7 +129,7 @@ export default function Page() {
             coordinates: [pathSequence.stop.longitude, pathSequence.stop.latitude],
           },
           properties: {
-            index: pathSequenceIndex,
+            index: pathSequenceIndex + 1,
             _id: pathSequence.stop._id,
             code: pathSequence.stop.code,
             name: pathSequence.stop.name,
@@ -225,10 +225,10 @@ export default function Page() {
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
+      title: <Text size="h2">{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      children: <Text size="h3">{t('operations.delete.description')}</Text>,
       labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -296,13 +296,13 @@ export default function Page() {
             onValidate={handleValidate}
             onSave={handleSave}
             onClose={handleClose}
-            closeType='back'
+            closeType="back"
           />
           <LineDisplay short_name={lineData && lineData.short_name} name={patternForm.values.headsign || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
-          <AuthGate scope='lines' permission='delete'>
-            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-                <IconTrash size='20px' />
+          <AuthGate scope="lines" permission="delete">
+            <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
+              <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
+                <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
           </AuthGate>
@@ -313,8 +313,8 @@ export default function Page() {
         <form onSubmit={patternForm.onSubmit(async () => await handleSave())}>
           <Section>
             <div>
-              <Text size='h2'>{t('sections.config.title')}</Text>
-              <Text size='h4'>{t('sections.config.description')}</Text>
+              <Text size="h2">{t('sections.config.title')}</Text>
+              <Text size="h4">{t('sections.config.description')}</Text>
             </div>
             <SimpleGrid cols={4}>
               <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...patternForm.getInputProps('code')} readOnly={isReadOnly} />
@@ -328,8 +328,8 @@ export default function Page() {
 
           <Section>
             <div>
-              <Text size='h2'>{t('sections.shape.title')}</Text>
-              <Text size='h4'>{t('sections.shape.description')}</Text>
+              <Text size="h2">{t('sections.shape.title')}</Text>
+              <Text size="h4">{t('sections.shape.description')}</Text>
             </div>
             <SimpleGrid cols={2}>
               <StatCard title={t('sections.shape.cards.extension')} value={shapeExtensionCardValue} />
@@ -337,7 +337,7 @@ export default function Page() {
             </SimpleGrid>
           </Section>
           <OSMMap
-            id='patternShape'
+            id="patternShape"
             height={500}
             scrollZoom={false}
             mapStyle={mapStyle}
@@ -346,38 +346,38 @@ export default function Page() {
                 <SegmentedControl
                   value={mapStyle}
                   onChange={setMapStyle}
-                  size='xs'
+                  size="xs"
                   data={[
                     { label: 'Map', value: 'map' },
                     { label: 'Satellite', value: 'satellite' },
                   ]}
                 />
-                <Switch size='xs' label={'Show Zones'} defaultChecked={showAllZonesOnMap} value={showAllZonesOnMap} onChange={(event) => setShowAllZonesOnMap(event.currentTarget.checked)} />
-                <Switch size='xs' label={'Show All Stops'} defaultChecked={showAllStopsOnMap} value={showAllStopsOnMap} onChange={(event) => setShowAllStopsOnMap(event.currentTarget.checked)} />
+                <Switch size="xs" label={'Show Zones'} defaultChecked={showAllZonesOnMap} value={showAllZonesOnMap} onChange={(event) => setShowAllZonesOnMap(event.currentTarget.checked)} />
+                <Switch size="xs" label={'Show All Stops'} defaultChecked={showAllStopsOnMap} value={showAllStopsOnMap} onChange={(event) => setShowAllStopsOnMap(event.currentTarget.checked)} />
               </>
             }
           >
             {allZonesMapData && showAllZonesOnMap && (
-              <Source id='all-zones' type='geojson' data={allZonesMapData}>
-                <Layer id='all-zones-polygons' type='fill' source='all-zones' layout={{}} paint={{ 'fill-color': ['get', 'fill_color'], 'fill-opacity': ['get', 'fill_opacity'] }} />
-                <Layer id='all-zones-borders' type='line' layout={{}} source='all-zones' paint={{ 'line-color': ['get', 'border_color'], 'line-opacity': ['get', 'border_opacity'], 'line-width': ['get', 'border_width'] }} />
-                <Layer id='all-zones-labels' type='symbol' source='all-zones' layout={{ 'text-field': ['get', 'name'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 14 }} />
+              <Source id="all-zones" type="geojson" data={allZonesMapData}>
+                <Layer id="all-zones-polygons" type="fill" source="all-zones" layout={{}} paint={{ 'fill-color': ['get', 'fill_color'], 'fill-opacity': ['get', 'fill_opacity'] }} />
+                <Layer id="all-zones-borders" type="line" layout={{}} source="all-zones" paint={{ 'line-color': ['get', 'border_color'], 'line-opacity': ['get', 'border_opacity'], 'line-width': ['get', 'border_width'] }} />
+                <Layer id="all-zones-labels" type="symbol" source="all-zones" layout={{ 'text-field': ['get', 'name'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 14 }} />
               </Source>
             )}
             {allStopsMapData && showAllStopsOnMap && (
-              <Source id='all-stops' type='geojson' data={allStopsMapData}>
-                <Layer id='all-stops' type='circle' source='all-stops' paint={{ 'circle-color': 'rgba(255,220,0,0.75)', 'circle-radius': 2, 'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(0,0,0,0.5)' }} />
+              <Source id="all-stops" type="geojson" data={allStopsMapData}>
+                <Layer id="all-stops" type="circle" source="all-stops" paint={{ 'circle-color': 'rgba(255,220,0,0.75)', 'circle-radius': 2, 'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(0,0,0,0.5)' }} />
               </Source>
             )}
             {patternForm.values?.shape?.geojson && (
-              <Source id='pattern-shape' type='geojson' data={patternForm.values.shape.geojson}>
-                <Layer id='pattern-shape' type='line' source='pattern-shape' layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': typologyData ? typologyData.color : '#000000', 'line-width': 4 }} />
+              <Source id="pattern-shape" type="geojson" data={patternForm.values.shape.geojson}>
+                <Layer id="pattern-shape" type="line" source="pattern-shape" layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': typologyData ? typologyData.color : '#000000', 'line-width': 4 }} />
               </Source>
             )}
             {patternStopsMapData && (
-              <Source id='pattern-stops' type='geojson' data={patternStopsMapData}>
-                <Layer id='pattern-stops-circle' type='circle' source='pattern-stops' paint={{ 'circle-color': '#ffdd01', 'circle-radius': 8, 'circle-stroke-width': 1, 'circle-stroke-color': '#000000' }} />
-                <Layer id='pattern-stops-labels' type='symbol' source='pattern-stops' layout={{ 'text-field': ['get', 'index'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 10 }} />
+              <Source id="pattern-stops" type="geojson" data={patternStopsMapData}>
+                <Layer id="pattern-stops-circle" type="circle" source="pattern-stops" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 8, 'circle-stroke-width': 1, 'circle-stroke-color': '#000000' }} />
+                <Layer id="pattern-stops-labels" type="symbol" source="pattern-stops" layout={{ 'text-field': ['get', 'index'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 10 }} />
               </Source>
             )}
           </OSMMap>
@@ -386,8 +386,8 @@ export default function Page() {
 
           <Section>
             <div>
-              <Text size='h2'>{t('sections.path.title')}</Text>
-              <Text size='h4'>{t('sections.path.description')}</Text>
+              <Text size="h2">{t('sections.path.title')}</Text>
+              <Text size="h4">{t('sections.path.description')}</Text>
             </div>
             <StopSequenceTable />
           </Section>
@@ -396,8 +396,8 @@ export default function Page() {
 
           <Section>
             <div>
-              <Text size='h2'>{t('sections.schedules.title')}</Text>
-              <Text size='h4'>{t('sections.schedules.description')}</Text>
+              <Text size="h2">{t('sections.schedules.title')}</Text>
+              <Text size="h4">{t('sections.schedules.description')}</Text>
             </div>
             <SchedulesTable />
           </Section>
@@ -406,8 +406,8 @@ export default function Page() {
 
           <Section>
             <div>
-              <Text size='h2'>{t('sections.presets.title')}</Text>
-              <Text size='h4'>{t('sections.presets.description')}</Text>
+              <Text size="h2">{t('sections.presets.title')}</Text>
+              <Text size="h4">{t('sections.presets.description')}</Text>
             </div>
             <PatternPresetsTable />
           </Section>
@@ -416,8 +416,8 @@ export default function Page() {
 
           <Section>
             <div>
-              <Text size='h2'>{t('sections.update_path.title')}</Text>
-              <Text size='h4'>{t('sections.update_path.description')}</Text>
+              <Text size="h2">{t('sections.update_path.title')}</Text>
+              <Text size="h4">{t('sections.update_path.description')}</Text>
             </div>
             <ImportPatternFromGTFS onImport={handleImport} />
           </Section>
