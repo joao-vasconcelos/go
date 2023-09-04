@@ -16,6 +16,7 @@ export const Default = {
     agencies: {
       view: false,
       create_edit: false,
+      lock: false,
       delete: false,
     },
     // EXPORTS
@@ -37,6 +38,7 @@ export const Default = {
     lines: {
       view: false,
       create_edit: false,
+      lock: false,
       delete: false,
       agencies: [],
     },
@@ -44,18 +46,21 @@ export const Default = {
     typologies: {
       view: false,
       create_edit: false,
+      lock: false,
       delete: false,
     },
     // FARES
     fares: {
       view: false,
       create_edit: false,
+      lock: false,
       delete: false,
     },
     // ZONES
     zones: {
       view: false,
       create_edit: false,
+      lock: false,
       delete: false,
     },
     // STOPS
@@ -64,6 +69,7 @@ export const Default = {
       propose: false,
       create_edit: false,
       edit_code: false,
+      lock: false,
       delete: false,
       municipalities: [],
     },
@@ -71,6 +77,7 @@ export const Default = {
     municipalities: {
       view: false,
       create_edit: false,
+      lock: false,
       delete: false,
     },
     // ALERTS
@@ -84,6 +91,7 @@ export const Default = {
     calendars: {
       view: false,
       create_edit: false,
+      lock: false,
       delete: false,
     },
     // DATES

@@ -45,6 +45,9 @@ export const AgencySchema = new mongoose.Schema(
     price_per_km: {
       type: Number,
     },
+    is_locked: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );

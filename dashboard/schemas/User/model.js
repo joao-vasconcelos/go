@@ -35,6 +35,9 @@ export const Schema = new mongoose.Schema(
         create_edit: {
           type: Boolean,
         },
+        lock: {
+          type: Boolean,
+        },
         delete: {
           type: Boolean,
         },
@@ -86,6 +89,9 @@ export const Schema = new mongoose.Schema(
         create_edit: {
           type: Boolean,
         },
+        lock: {
+          type: Boolean,
+        },
         delete: {
           type: Boolean,
         },
@@ -105,6 +111,9 @@ export const Schema = new mongoose.Schema(
         create_edit: {
           type: Boolean,
         },
+        lock: {
+          type: Boolean,
+        },
         delete: {
           type: Boolean,
         },
@@ -118,6 +127,9 @@ export const Schema = new mongoose.Schema(
         create_edit: {
           type: Boolean,
         },
+        lock: {
+          type: Boolean,
+        },
         delete: {
           type: Boolean,
         },
@@ -129,6 +141,9 @@ export const Schema = new mongoose.Schema(
           type: Boolean,
         },
         create_edit: {
+          type: Boolean,
+        },
+        lock: {
           type: Boolean,
         },
         delete: {
@@ -150,6 +165,9 @@ export const Schema = new mongoose.Schema(
         edit_code: {
           type: Boolean,
         },
+        lock: {
+          type: Boolean,
+        },
         delete: {
           type: Boolean,
         },
@@ -167,6 +185,9 @@ export const Schema = new mongoose.Schema(
           type: Boolean,
         },
         create_edit: {
+          type: Boolean,
+        },
+        lock: {
           type: Boolean,
         },
         delete: {
@@ -196,6 +217,9 @@ export const Schema = new mongoose.Schema(
           type: Boolean,
         },
         create_edit: {
+          type: Boolean,
+        },
+        lock: {
           type: Boolean,
         },
         delete: {

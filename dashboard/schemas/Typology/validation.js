@@ -13,4 +13,5 @@ export const Validation = yup.object({
   short_name: yup.string().max(100),
   color: yup.string().max(100),
   text_color: yup.string().max(100),
+  is_locked: yup.boolean(),
 });

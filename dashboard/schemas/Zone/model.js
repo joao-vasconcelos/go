@@ -50,6 +50,9 @@ export const Schema = new mongoose.Schema(
         coordinates: [mongoose.Schema.Types.Mixed],
       },
     },
+    is_locked: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );

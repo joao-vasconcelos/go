@@ -98,5 +98,8 @@ export const Default = {
   // Notes
   notes: '',
 
+  // Lock
+  is_locked: false,
+
   //
 };

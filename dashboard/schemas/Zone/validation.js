@@ -16,4 +16,5 @@ export const Validation = yup.object({
   border_opacity: yup.number().min(0).max(1),
   border_width: yup.number().min(0).max(6),
   //   geojson: yup.object(),
+  is_locked: yup.boolean(),
 });

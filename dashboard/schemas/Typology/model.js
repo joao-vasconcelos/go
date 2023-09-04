@@ -30,6 +30,9 @@ export const Schema = new mongoose.Schema(
       type: String,
       maxlength: 7,
     },
+    is_locked: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );

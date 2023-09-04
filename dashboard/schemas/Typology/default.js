@@ -11,4 +11,5 @@ export const Default = {
   short_name: '',
   color: '#000000',
   text_color: '#FFFFFF',
+  is_locked: false,
 };

@@ -20,4 +20,5 @@ export const Default = {
       type: 'Polygon',
     },
   },
+  is_locked: false,
 };

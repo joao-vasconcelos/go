@@ -15,4 +15,5 @@ export const Validation = yup.object({
   currency_type: yup.string(),
   payment_method: yup.string(),
   transfers: yup.string(),
+  is_locked: yup.boolean(),
 });

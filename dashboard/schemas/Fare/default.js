@@ -13,4 +13,5 @@ export const Default = {
   currency_type: 'EUR',
   payment_method: '0',
   transfers: '0',
+  is_locked: false,
 };

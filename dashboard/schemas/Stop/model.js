@@ -300,6 +300,11 @@ export const Schema = new mongoose.Schema(
       maxlength: 10000,
     },
 
+    // Lock
+    is_locked: {
+      type: Boolean,
+    },
+
     //
   },
   { timestamps: true }

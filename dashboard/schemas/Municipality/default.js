@@ -11,4 +11,5 @@ export const Default = {
   name: '',
   district: '',
   region: '',
+  is_locked: false,
 };
