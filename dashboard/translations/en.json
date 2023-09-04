@@ -2040,5 +2040,9 @@
                 "placeholder": "1"
             }
         }
+    },
+    "LockButton": {
+        "locked": "Locked",
+        "unlocked": "Unlocked"
     }
 }
