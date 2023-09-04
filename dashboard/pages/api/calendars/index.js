@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as CalendarModel } from '@/schemas/Calendar/model';
+import { CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
 /* LIST ALL CALENDARS */

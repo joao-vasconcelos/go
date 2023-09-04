@@ -2,8 +2,8 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import generator from '@/services/generator';
-import { Default as CalendarDefault } from '@/schemas/Calendar/default';
-import { Model as CalendarModel } from '@/schemas/Calendar/model';
+import { CalendarDefault } from '@/schemas/Calendar/default';
+import { CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
 /* CREATE CALENDAR */
