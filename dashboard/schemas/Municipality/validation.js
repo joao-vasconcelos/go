@@ -7,7 +7,7 @@ import * as yup from 'yup';
 
 /* * */
 /* A. YUP Validation Schema */
-export const Validation = yup.object({
+export const MunicipalityValidation = yup.object({
   code: yup.string().required().max(4),
   prefix: yup.string().required().max(2),
   name: yup.string().required().max(50),

@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as MunicipalityModel } from '@/schemas/Municipality/model';
+import { MunicipalityModel } from '@/schemas/Municipality/model';
 
 /* * */
 /* LOCK MUNICIPALITY */

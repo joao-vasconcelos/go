@@ -2,8 +2,8 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import generator from '@/services/generator';
-import { Default as MunicipalityDefault } from '@/schemas/Municipality/default';
-import { Model as MunicipalityModel } from '@/schemas/Municipality/model';
+import { MunicipalityDefault } from '@/schemas/Municipality/default';
+import { MunicipalityModel } from '@/schemas/Municipality/model';
 
 /* * */
 /* CREATE MUNICIPALITY */
