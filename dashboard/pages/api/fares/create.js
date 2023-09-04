@@ -2,8 +2,8 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import generator from '@/services/generator';
-import { Default as FareDefault } from '@/schemas/Fare/default';
-import { Model as FareModel } from '@/schemas/Fare/model';
+import { FareDefault } from '@/schemas/Fare/default';
+import { FareModel } from '@/schemas/Fare/model';
 
 /* * */
 /* CREATE FARE */

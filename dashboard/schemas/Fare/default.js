@@ -5,7 +5,7 @@
 
 /* * */
 /* A. Default Values */
-export const Default = {
+export const FareDefault = {
   code: '',
   name: '',
   short_name: '',

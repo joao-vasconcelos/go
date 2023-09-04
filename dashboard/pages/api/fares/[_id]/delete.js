@@ -1,6 +1,6 @@
-import delay from '../../../../services/delay';
-import mongodb from '../../../../services/mongodb';
-import { Model as FareModel } from '../../../../schemas/Fare/model';
+import delay from '@/services/delay';
+import mongodb from '@/services/mongodb';
+import { FareModel } from '@/schemas/Fare/model';
 
 /* * */
 /* DELETE FARE */

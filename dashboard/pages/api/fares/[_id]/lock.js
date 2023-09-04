@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as FareModel } from '@/schemas/Fare/model';
+import { FareModel } from '@/schemas/Fare/model';
 
 /* * */
 /* LOCK FARE */

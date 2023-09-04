@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 
 /* * */
 /* A. Mongoose Schema */
-export const Schema = new mongoose.Schema(
+export const FareSchema = new mongoose.Schema(
   {
     code: {
       type: String,
@@ -47,4 +47,4 @@ export const Schema = new mongoose.Schema(
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.Fare || mongoose.model('Fare', Schema);
+export const FareModel = mongoose?.models?.Fare || mongoose.model('Fare', FareSchema);
