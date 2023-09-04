@@ -207,6 +207,14 @@ export default function Page() {
               />
               <Switch
                 size="md"
+                label={t('form.permissions.agencies.lock.label')}
+                description={t('form.permissions.agencies.lock.description')}
+                {...userForm.getInputProps('permissions.agencies.lock', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.agencies.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size="md"
                 label={t('form.permissions.agencies.delete.label')}
                 description={t('form.permissions.agencies.delete.description')}
                 {...userForm.getInputProps('permissions.agencies.delete', { type: 'checkbox' })}
