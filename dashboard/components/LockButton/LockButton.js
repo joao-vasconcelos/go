@@ -1,9 +1,8 @@
 import { ActionIcon, Tooltip } from '@mantine/core';
-import Loader from '@/components/Loader/Loader';
-import { IconLock, IconLockOpen } from '@tabler/icons-react';
+import { IconCircleDotted, IconLock, IconLockOpen } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 
-export default function LockButton({ isLocked, setLocked }) {
+export default function LockButton({ isLocked, setLocked, loading }) {
   //
 
   //
@@ -13,6 +12,14 @@ export default function LockButton({ isLocked, setLocked }) {
 
   //
   // B. Render components
+
+  if (loading || (isLocked !== true && isLocked !== false)) {
+    return (
+      <ActionIcon variant="light" size="lg" loading>
+        <IconCircleDotted size={20} />
+      </ActionIcon>
+    );
+  }
 
   if (isLocked === true) {
     return (
@@ -33,8 +40,6 @@ export default function LockButton({ isLocked, setLocked }) {
       </Tooltip>
     );
   }
-
-  return <Loader size={20} visible />;
 
   //
 }
