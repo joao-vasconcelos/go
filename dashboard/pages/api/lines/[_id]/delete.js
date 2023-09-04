@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as LineModel } from '@/schemas/Line/model';
-import { Model as RouteModel } from '@/schemas/Route/model';
+import { LineModel } from '@/schemas/Line/model';
+import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */

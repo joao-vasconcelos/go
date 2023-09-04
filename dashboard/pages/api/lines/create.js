@@ -2,8 +2,8 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import generator from '@/services/generator';
-import { Default as LineDefault } from '@/schemas/Line/default';
-import { Model as LineModel } from '@/schemas/Line/model';
+import { LineDefault } from '@/schemas/Line/default';
+import { LineModel } from '@/schemas/Line/model';
 
 /* * */
 /* CREATE LINE */

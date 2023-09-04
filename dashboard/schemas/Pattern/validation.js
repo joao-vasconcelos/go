@@ -52,5 +52,4 @@ export const PatternValidation = yup.object({
     )
     .min(2),
   schedules: yup.array(),
-  is_locked: yup.boolean(),
 });

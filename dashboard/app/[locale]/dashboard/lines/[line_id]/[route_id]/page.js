@@ -6,10 +6,10 @@ import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { yupResolver } from '@mantine/form';
 import API from '@/services/API';
-import { FormProvider as RouteFormProvider, useForm as useRouteForm } from '@/schemas/Route/form';
-import { Validation as RouteValidation } from '@/schemas/Route/validation';
-import { Default as RouteDefault } from '@/schemas/Route/default';
-import { Options as RouteOptions } from '@/schemas/Route/options';
+import { RouteFormProvider, useRouteForm } from '@/schemas/Route/form';
+import { RouteValidation } from '@/schemas/Route/validation';
+import { RouteDefault } from '@/schemas/Route/default';
+import { RouteOptions } from '@/schemas/Route/options';
 import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
@@ -177,7 +177,7 @@ export default function Page() {
           />
           <LineDisplay short_name={lineData && lineData.short_name} name={routeForm.values.name || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
           <AuthGate scope="lines" permission="lock">
-            <LockButton isLocked={routeData?.is_locked} setLocked={handleLock} loading={isLocking} />
+            <LockButton isLocked={routeData?.is_locked} setLocked={handleLock} loading={isLocking} disabled={lineData?.is_locked} />
           </AuthGate>
           <AuthGate scope="lines" permission="delete">
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>

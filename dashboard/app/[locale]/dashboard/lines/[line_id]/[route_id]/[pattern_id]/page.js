@@ -7,7 +7,7 @@ import { useRouter } from 'next-intl/client';
 import { yupResolver } from '@mantine/form';
 import StatCard from '@/components/StatCard/StatCard';
 import bbox from '@turf/bbox';
-import { FormProvider as PatternFormProvider, useForm as usePatternForm } from '@/schemas/Pattern/form';
+import { PatternFormProvider, usePatternForm } from '@/schemas/Pattern/form';
 import API from '@/services/API';
 import { PatternValidation } from '@/schemas/Pattern/validation';
 import { PatternDefault } from '@/schemas/Pattern/default';
@@ -321,7 +321,7 @@ export default function Page() {
           />
           <LineDisplay short_name={lineData && lineData.short_name} name={patternForm.values.headsign || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
           <AuthGate scope="lines" permission="lock">
-            <LockButton isLocked={patternData?.is_locked} setLocked={handleLock} loading={isLocking} />
+            <LockButton isLocked={patternData?.is_locked} setLocked={handleLock} loading={isLocking} disabled={lineData?.is_locked || routeData?.is_locked} />
           </AuthGate>
           <AuthGate scope="lines" permission="delete">
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>

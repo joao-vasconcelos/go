@@ -4,7 +4,7 @@ import mongodb from '@/services/mongodb';
 import * as turf from '@turf/turf';
 import { PatternShapeDefault, PatternPathDefault } from '@/schemas/Pattern/default';
 import { PatternModel } from '@/schemas/Pattern/model';
-import { Model as StopModel } from '@/schemas/Stop/model';
+import { StopModel } from '@/schemas/Stop/model';
 import calculateTravelTime from '@/services/calculateTravelTime';
 
 /* * */

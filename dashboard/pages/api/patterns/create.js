@@ -4,7 +4,7 @@ import mongodb from '@/services/mongodb';
 import generate from '@/services/generator';
 import { PatternDefault } from '@/schemas/Pattern/default';
 import { PatternModel } from '@/schemas/Pattern/model';
-import { Model as RouteModel } from '@/schemas/Route/model';
+import { RouteModel } from '@/schemas/Route/model';
 
 /* * */
 /* CREATE PATTERN */

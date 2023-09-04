@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import styles from './PatternPresetsTable.module.css';
-import { useFormContext as usePatternFormContext } from '@/schemas/Pattern/form';
+import { usePatternFormContext } from '@/schemas/Pattern/form';
 import { Text, NumberInput, Button } from '@mantine/core';
 import { IconClockPause, IconPlayerTrackNext } from '@tabler/icons-react';
 import { openConfirmModal } from '@mantine/modals';

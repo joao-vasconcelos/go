@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import styles from './StopSequenceTable.module.css';
-import { useFormContext as usePatternFormContext } from '@/schemas/Pattern/form';
+import { usePatternFormContext } from '@/schemas/Pattern/form';
 import { IconSortAscendingNumbers, IconArrowBarUp, IconArrowBarToDown } from '@tabler/icons-react';
 import { Checkbox, Tooltip, NumberInput, MultiSelect, ActionIcon } from '@mantine/core';
 import { IconX, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowAutofitContent, IconClockHour4, IconTicket, IconRotate2 } from '@tabler/icons-react';

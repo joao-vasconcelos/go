@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as RouteModel } from '@/schemas/Route/model';
+import { RouteModel } from '@/schemas/Route/model';
 
 /* * */
 /* GET ROUTE BY ID */

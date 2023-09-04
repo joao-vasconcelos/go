@@ -5,7 +5,7 @@
 
 /* * */
 /* A. Default Values */
-export const Default = {
+export const RouteDefault = {
   code: '',
   name: '',
   path_type: 0,

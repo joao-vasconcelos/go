@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as LineModel } from '@/schemas/Line/model';
-import { Model as TypologyModel } from '@/schemas/Typology/model';
+import { LineModel } from '@/schemas/Line/model';
+import { TypologyModel } from '@/schemas/Typology/model';
 
 /* * */
 /* LIST ALL LINES */

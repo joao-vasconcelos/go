@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as LineModel } from '@/schemas/Line/model';
+import { LineModel } from '@/schemas/Line/model';
 
 /* * */
 /* GET LINE BY ID */

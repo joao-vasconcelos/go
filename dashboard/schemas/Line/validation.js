@@ -7,7 +7,7 @@ import * as yup from 'yup';
 
 /* * */
 /* A. YUP Validation Schema */
-export const Validation = yup.object({
+export const LineValidation = yup.object({
   code: yup
     .string()
     .required()
@@ -33,5 +33,4 @@ export const Validation = yup.object({
   fare: yup.string().required(),
   agency: yup.string().required(),
   routes: yup.array(yup.string()),
-  is_locked: yup.boolean(),
 });
