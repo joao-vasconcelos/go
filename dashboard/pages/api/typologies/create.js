@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Default as TypologyDefault } from '@/schemas/Typology/default';
-import { Model as TypologyModel } from '@/schemas/Typology/model';
+import { TypologyDefault } from '@/schemas/Typology/default';
+import { TypologyModel } from '@/schemas/Typology/model';
 
 /* * */
 /* CREATE TYPOLOGY */

@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as TypologyModel } from '@/schemas/Typology/model';
+import { TypologyModel } from '@/schemas/Typology/model';
 
 /* * */
 /* LIST ALL TYPOLOGY */
