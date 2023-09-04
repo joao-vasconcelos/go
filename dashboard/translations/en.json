@@ -1514,6 +1514,10 @@
                         "label": "Create & Edit Municipalities",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
+                    "lock": {
+                        "label": "Lock Municipalities",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
                     "delete": {
                         "label": "Delete Municipalities",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
@@ -1548,6 +1552,10 @@
                     },
                     "create_edit": {
                         "label": "Create & Edit Calendars",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "lock": {
+                        "label": "Lock Calendars",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
                     "delete": {
