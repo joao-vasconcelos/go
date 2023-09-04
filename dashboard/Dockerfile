@@ -16,9 +16,8 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json ./
-COPY package-lock.json ./
 
-RUN npm ci
+RUN npm install --omit=dev
 
 
 # # # # # # # # #
