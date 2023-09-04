@@ -5,8 +5,6 @@ import styles from './PatternPresetsTable.module.css';
 import { useFormContext as usePatternFormContext } from '@/schemas/Pattern/form';
 import { Text, NumberInput, Button } from '@mantine/core';
 import { IconClockPause, IconPlayerTrackNext } from '@tabler/icons-react';
-import { useSession } from 'next-auth/react';
-import { isAllowed } from '@/components/AuthGate/AuthGate';
 import { openConfirmModal } from '@mantine/modals';
 import calculateTravelTime from '@/services/calculateTravelTime';
 import notify from '@/services/notify';
@@ -19,15 +17,13 @@ import formatSecondsToTime from '@/services/formatSecondsToTime';
 //
 // STOP SEQUENCE TABLE - VELOCITY COLUMN
 
-export function StopSequenceChangePresetsVelocity() {
+export function StopSequenceChangePresetsVelocity({ isReadOnly }) {
   //
 
   //
   // A. Setup variables
 
   const t = useTranslations('PatternPresetsTable.velocity');
-  const { data: session } = useSession();
-  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
   const patternForm = usePatternFormContext();
 
   //
@@ -35,10 +31,10 @@ export function StopSequenceChangePresetsVelocity() {
 
   const handleUpdateAll = () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('modal.title')}</Text>,
+      title: <Text size="h2">{t('modal.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('modal.description')}</Text>,
+      children: <Text size="h3">{t('modal.description')}</Text>,
       labels: { confirm: t('modal.confirm'), cancel: t('modal.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -68,11 +64,11 @@ export function StopSequenceChangePresetsVelocity() {
         stepHoldDelay={500}
         stepHoldInterval={100}
         formatter={(value) => `${value} km/h`}
-        icon={<IconPlayerTrackNext size='18px' />}
+        icon={<IconPlayerTrackNext size="18px" />}
         {...patternForm.getInputProps(`presets.velocity`)}
         readOnly={isReadOnly}
       />
-      <Button onClick={handleUpdateAll} variant='default'>
+      <Button onClick={handleUpdateAll} variant="default" disabled={isReadOnly}>
         {t('apply')}
       </Button>
     </div>
@@ -88,15 +84,13 @@ export function StopSequenceChangePresetsVelocity() {
 //
 // STOP SEQUENCE TABLE - DWELL TIME COLUMN
 
-export function StopSequenceChangePresetsDwellTime() {
+export function StopSequenceChangePresetsDwellTime({ isReadOnly }) {
   //
 
   //
   // A. Setup variables
 
   const t = useTranslations('PatternPresetsTable.dwell_time');
-  const { data: session } = useSession();
-  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
   const patternForm = usePatternFormContext();
 
   //
@@ -104,10 +98,10 @@ export function StopSequenceChangePresetsDwellTime() {
 
   const handleUpdateAll = () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('modal.title')}</Text>,
+      title: <Text size="h2">{t('modal.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('modal.description')}</Text>,
+      children: <Text size="h3">{t('modal.description')}</Text>,
       labels: { confirm: t('modal.confirm'), cancel: t('modal.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -135,12 +129,12 @@ export function StopSequenceChangePresetsDwellTime() {
         step={10}
         stepHoldDelay={500}
         stepHoldInterval={100}
-        icon={<IconClockPause size='20px' />}
+        icon={<IconClockPause size="20px" />}
         formatter={formatSecondsToTime}
         {...patternForm.getInputProps(`presets.dwell_time`)}
         readOnly={isReadOnly}
       />
-      <Button onClick={handleUpdateAll} variant='default'>
+      <Button onClick={handleUpdateAll} variant="default" disabled={isReadOnly}>
         {t('apply')}
       </Button>
     </div>
@@ -152,7 +146,7 @@ export function StopSequenceChangePresetsDwellTime() {
 //
 // STOP SEQUENCE TABLE
 
-export default function PatternPresetsTable() {
+export default function PatternPresetsTable({ isReadOnly }) {
   //
 
   //
@@ -160,8 +154,8 @@ export default function PatternPresetsTable() {
 
   return (
     <div className={styles.container}>
-      <StopSequenceChangePresetsVelocity />
-      <StopSequenceChangePresetsDwellTime />
+      <StopSequenceChangePresetsVelocity isReadOnly={isReadOnly} />
+      <StopSequenceChangePresetsDwellTime isReadOnly={isReadOnly} />
     </div>
   );
 
