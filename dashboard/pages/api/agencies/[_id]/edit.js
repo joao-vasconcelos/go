@@ -48,6 +48,16 @@ export default async function handler(req, res) {
   }
 
   // 4.
+  // Ensure latest schema modifications are applied in the database
+
+  try {
+    await AgencyModel.syncIndexes();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot sync indexes.' });
+  }
+
+  // 5.
   // Parse request body into JSON
 
   try {
@@ -58,7 +68,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  // 5.
+  // 6.
   // Validate req.body against schema
 
   try {
@@ -68,7 +78,7 @@ export default async function handler(req, res) {
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
-  // 6.
+  // 7.
   // Retrieve requested document from the database
 
   try {
@@ -79,7 +89,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Agency not found.' });
   }
 
-  // 7.
+  // 8.
   // Check for uniqueness
 
   try {
@@ -93,14 +103,14 @@ export default async function handler(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 8.
+  // 9.
   // Check if document is locked
 
   if (agencyDocument.is_locked) {
     return await res.status(423).json({ message: 'Agency is locked.' });
   }
 
-  // 9.
+  // 10.
   // Update the requested document
 
   try {
