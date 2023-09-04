@@ -1,15 +1,15 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { useForm, yupResolver } from '@mantine/form';
 import { useMap, Source, Layer } from 'react-map-gl/maplibre';
 import API from '@/services/API';
-import { Validation as StopValidation } from '@/schemas/Stop/validation';
-import { Default as StopDefault } from '@/schemas/Stop/default';
-import { Tooltip, Select, SimpleGrid, Switch, MultiSelect, TextInput, NumberInput, ActionIcon, Divider, Textarea, Alert, Space } from '@mantine/core';
+import { StopValidation } from '@/schemas/Stop/validation';
+import { StopDefault } from '@/schemas/Stop/default';
+import { Tooltip, Select, SimpleGrid, Switch, MultiSelect, TextInput, NumberInput, ActionIcon, Divider, Textarea, Space } from '@mantine/core';
 import { IconTrash, IconWorldLatitude, IconWorldLongitude, IconVolume, IconBrandGoogleMaps } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import { Section } from '@/components/Layouts/Layouts';

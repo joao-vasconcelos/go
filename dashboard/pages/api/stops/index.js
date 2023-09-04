@@ -1,10 +1,10 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as StopModel } from '@/schemas/Stop/model';
+import { StopModel } from '@/schemas/Stop/model';
 
 /* * */
-/* LIST ALL AGENCIES */
+/* LIST ALL STOPS */
 /* This endpoint returns all stops. */
 /* * */
 

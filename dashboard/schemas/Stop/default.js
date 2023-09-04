@@ -5,7 +5,7 @@
 
 /* * */
 /* A. Default Values */
-export const Default = {
+export const StopDefault = {
   //
   // General
   code: '',

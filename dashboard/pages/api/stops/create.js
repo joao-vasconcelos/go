@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Default as StopDefault } from '@/schemas/Stop/default';
-import { Model as StopModel } from '@/schemas/Stop/model';
+import { StopDefault } from '@/schemas/Stop/default';
+import { StopModel } from '@/schemas/Stop/model';
 
 /* * */
 /* CREATE STOP */

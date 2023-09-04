@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 
 /* * */
 /* A. Mongoose Schema */
-export const Schema = new mongoose.Schema(
+export const StopSchema = new mongoose.Schema(
   {
     //
     // General
@@ -312,4 +312,4 @@ export const Schema = new mongoose.Schema(
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.Stop || mongoose.model('Stop', Schema);
+export const StopModel = mongoose?.models?.Stop || mongoose.model('Stop', StopSchema);
