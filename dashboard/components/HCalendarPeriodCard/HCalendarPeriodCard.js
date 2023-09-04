@@ -7,7 +7,7 @@ import API from '../../services/API';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { useTranslations } from 'next-intl';
-import { Default as DateDefault } from '@/schemas/Date/default';
+import { DateDefault } from '@/schemas/Date/default';
 import { Modal, SimpleGrid, Textarea, Select, Button, LoadingOverlay, Switch } from '@mantine/core';
 import dayjs from 'dayjs';
 import AuthGate from '../AuthGate/AuthGate';
