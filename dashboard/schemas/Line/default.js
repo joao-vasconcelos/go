@@ -13,7 +13,7 @@ export const Default = {
   circular: false,
   school: false,
   continuous: false,
-  line_type: null,
+  typology: null,
   fare: null,
   agency: null,
   routes: [],
