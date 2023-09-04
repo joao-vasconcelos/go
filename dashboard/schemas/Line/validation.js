@@ -33,4 +33,5 @@ export const Validation = yup.object({
   fare: yup.string().required(),
   agency: yup.string().required(),
   routes: yup.array(yup.string()),
+  is_locked: yup.boolean(),
 });

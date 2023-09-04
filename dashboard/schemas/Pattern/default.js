@@ -70,4 +70,5 @@ export const PatternDefault = {
   shape: PatternShapeDefault,
   path: [],
   schedules: [],
+  is_locked: false,
 };

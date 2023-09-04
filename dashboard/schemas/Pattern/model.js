@@ -169,6 +169,9 @@ export const PatternSchema = new mongoose.Schema(
         ],
       },
     ],
+    is_locked: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );

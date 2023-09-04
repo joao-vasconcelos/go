@@ -10,4 +10,5 @@ export const Default = {
   name: '',
   description: '',
   dates: [],
+  is_locked: false,
 };

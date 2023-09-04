@@ -11,4 +11,5 @@ export const Default = {
   path_type: 0,
   parent_line: null,
   patterns: [],
+  is_locked: false,
 };

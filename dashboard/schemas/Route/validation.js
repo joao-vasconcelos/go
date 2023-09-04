@@ -22,4 +22,5 @@ export const Validation = yup.object({
   path_type: yup.number().integer().required(),
   parent_line: yup.string().required(),
   patterns: yup.array(yup.string()),
+  is_locked: yup.boolean(),
 });

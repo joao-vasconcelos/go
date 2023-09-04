@@ -17,4 +17,5 @@ export const Default = {
   fare: null,
   agency: null,
   routes: [],
+  is_locked: false,
 };

@@ -52,6 +52,9 @@ export const Schema = new mongoose.Schema(
         ref: 'Route',
       },
     ],
+    is_locked: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );

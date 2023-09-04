@@ -31,6 +31,9 @@ export const Schema = new mongoose.Schema(
         ref: 'Pattern',
       },
     ],
+    is_locked: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );
