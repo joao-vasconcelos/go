@@ -13,5 +13,4 @@ export const MunicipalityValidation = yup.object({
   name: yup.string().required().max(50),
   district: yup.string().required().max(2),
   region: yup.string().required().max(5),
-  is_locked: yup.boolean(),
 });
