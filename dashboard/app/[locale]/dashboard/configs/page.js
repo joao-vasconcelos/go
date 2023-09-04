@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import API from '@/services/API';
-import { SimpleGrid, Button, Divider } from '@mantine/core';
+import { SimpleGrid, Button } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
@@ -20,179 +20,27 @@ export default function Page() {
   const [isImporting, setIsImporting] = useState(false);
 
   //
-  // B. Fetch data
-
-  //
-  // C. Setup form
-
-  //
-  // D. Handle safe updates
-
-  const handleUpdateAllStops = async () => {
-    openConfirmModal({
-      title: <Text size="h2">{t('operations.update_stops.title')}</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">{t('operations.update_stops.description')}</Text>,
-      labels: { confirm: t('operations.update_stops.confirm'), cancel: t('operations.update_stops.cancel') },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('update-stops', 'loading', t('operations.update_stops.loading'));
-          await API({ service: 'configs/updates/stops', method: 'GET' });
-          notify('update-stops', 'success', t('operations.update_stops.success'));
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('update-stops', 'error', err.message || t('operations.update_stops.error'));
-        }
-      },
-    });
-  };
-
-  //
   // D. Handle refactors
 
-  const handleRefactorPatternPathTravelTime = async () => {
+  const handleSetLockProperty = async () => {
     openConfirmModal({
-      title: <Text size="h2">Calculate Travel Time for All Patterns?</Text>,
+      title: <Text size="h2">Set Lock Property?</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, calculate travel times', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          notify('path-travel-time', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/pathTravelTime', method: 'GET' });
-          notify('path-travel-time', 'success', 'success');
-        } catch (err) {
-          console.log(err);
-          notify('path-travel-time', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
-  const handleRefactorResetDwellTimes = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Reset Dwell Times?</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, reset to zero', cancel: 'Cancel' },
+      labels: { confirm: 'Yes, set is_locked property', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
           setIsImporting(true);
-          notify('reset-dwell-times', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/resetDwellTimes', method: 'GET' });
-          notify('reset-dwell-times', 'success', 'success');
+          notify('set-lock-property', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/addLockProperty', method: 'GET' });
+          notify('set-lock-property', 'success', 'success');
           setIsImporting(false);
         } catch (err) {
           console.log(err);
+          notify('set-lock-property', 'error', err.message || 'Error');
           setIsImporting(false);
-          notify('reset-dwell-times', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
-  //
-  // D. Handle imports
-
-  const handleStartImportLines = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Import Lines</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, import Lines', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('import-lines', 'loading', 'Loading');
-          await API({ service: 'configs/imports/lines', method: 'GET' });
-          notify('import-lines', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('import-lines', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
-  const handleStartImportRoutes = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Import Routes</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, import Routes', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('import-routes', 'loading', 'Loading');
-          await API({ service: 'configs/imports/routes', method: 'GET' });
-          notify('import-routes', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('import-routes', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
-  const handleStartImportPatterns = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Import Patterns</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, import Patterns', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('import-patterns', 'loading', 'Loading');
-          await API({ service: 'configs/imports/patterns', method: 'GET' });
-          notify('import-patterns', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('import-patterns', 'error', err.message || 'Error');
-        }
-      },
-    });
-  };
-
-  const handleStartImportAfetacao = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Import Afetacao</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, import Afetacao', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('import-afetacao', 'loading', 'Loading');
-          await API({ service: 'configs/imports/afetacao', method: 'GET' });
-          notify('import-afetacao', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          setIsImporting(false);
-          notify('import-afetacao', 'error', err.message || 'Error');
         }
       },
     });
@@ -205,45 +53,10 @@ export default function Page() {
     <AuthGate scope="configs" permission="admin" redirect>
       <Pannel>
         <Section>
-          <div>
-            <Text size="h2">{t('sections.safe_updates.title')}</Text>
-            <Text size="h4">{t('sections.safe_updates.description')}</Text>
-          </div>
-          <SimpleGrid cols={3}>
-            <Button onClick={handleUpdateAllStops} color="green" disabled={isImporting}>
-              {t('operations.update_stops.title')}
-            </Button>
-          </SimpleGrid>
-        </Section>
-
-        <Divider />
-
-        {/* <Section>
-          <Text size='h1'>Non-Safe Actions</Text>
-          <Text size='h2'>Imports</Text>
-          <SimpleGrid cols={3}>
-            <Button onClick={handleStartImportLines} color='red' disabled={isImporting}>
-              Import Lines
-            </Button>
-            <Button onClick={handleStartImportRoutes} color='red' disabled={isImporting}>
-              Import Routes
-            </Button>
-            <Button onClick={handleStartImportPatterns} color='red' disabled={isImporting}>
-              Import Patterns & Calendars
-            </Button>
-            <Button onClick={handleStartImportAfetacao} color='red' disabled={isImporting}>
-              Import Afetação
-            </Button>
-            <Button onClick={handleStartImportAlerts} color='red' disabled={isImporting}>
-              Import Alerts
-            </Button>
-          </SimpleGrid>
-        </Section> */}
-        <Section>
           <Text size="h2">Refactors</Text>
           <SimpleGrid cols={4}>
-            <Button onClick={handleRefactorResetDwellTimes} color="red" disabled={isImporting}>
-              Reset Dwell Times
+            <Button onClick={handleSetLockProperty} color="red" disabled={isImporting}>
+              Set Lock Property
             </Button>
           </SimpleGrid>
         </Section>

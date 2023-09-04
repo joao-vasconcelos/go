@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Validation as UserValidation } from '@/schemas/User/validation';
-import { Model as UserModel } from '@/schemas/User/model';
+import { UserValidation } from '@/schemas/User/validation';
+import { UserModel } from '@/schemas/User/model';
 
 /* * */
 /* EDIT USER */

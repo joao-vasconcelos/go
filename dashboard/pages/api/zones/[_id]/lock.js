@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as ZoneModel } from '@/schemas/Zone/model';
+import { ZoneModel } from '@/schemas/Zone/model';
 
 /* * */
 /* LOCK ZONE */

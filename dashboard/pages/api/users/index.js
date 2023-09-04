@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as UserModel } from '@/schemas/User/model';
+import { UserModel } from '@/schemas/User/model';
 
 /* * */
 /* LIST ALL USERS */

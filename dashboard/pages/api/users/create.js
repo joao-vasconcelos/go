@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Default as UserDefault } from '@/schemas/User/default';
-import { Model as UserModel } from '@/schemas/User/model';
+import { UserDefault } from '@/schemas/User/default';
+import { UserModel } from '@/schemas/User/model';
 
 /* * */
 /* CREATE USER */

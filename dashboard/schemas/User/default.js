@@ -5,7 +5,7 @@
 
 /* * */
 /* A. Default Values */
-export const Default = {
+export const UserDefault = {
   name: '',
   email: '',
   phone: '',
@@ -71,6 +71,7 @@ export const Default = {
       edit_code: false,
       lock: false,
       delete: false,
+      batch_update: false,
       municipalities: [],
     },
     // MUNICIPALITIES

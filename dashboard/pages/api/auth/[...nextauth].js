@@ -1,9 +1,9 @@
 import NextAuth from 'next-auth';
 import EmailProvider from 'next-auth/providers/email';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import clientPromise from '../../../services/mongodb-adapter';
-import mongodb from '../../../services/mongodb';
-import { Model as UserModel } from '../../../schemas/User/model';
+import clientPromise from '@/services/mongodb-adapter';
+import mongodb from '@/services/mongodb';
+import { UserModel } from '@/schemas/User/model';
 
 export const authOptions = {
   debug: false,

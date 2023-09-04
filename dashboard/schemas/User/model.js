@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 
 /* * */
 /* A. Mongoose Schema */
-export const Schema = new mongoose.Schema(
+export const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -171,6 +171,9 @@ export const Schema = new mongoose.Schema(
         delete: {
           type: Boolean,
         },
+        batch_update: {
+          type: Boolean,
+        },
         municipalities: [
           {
             type: mongoose.Schema.Types.ObjectId,
@@ -266,4 +269,4 @@ export const Schema = new mongoose.Schema(
 
 /* * */
 /* B. Mongoose Model */
-export const Model = mongoose?.models?.User || mongoose.model('User', Schema);
+export const UserModel = mongoose?.models?.User || mongoose.model('User', UserSchema);

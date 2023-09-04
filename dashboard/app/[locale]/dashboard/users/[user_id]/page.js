@@ -7,8 +7,8 @@ import { useRouter } from 'next-intl/client';
 import { UserFormProvider, useUserForm } from '@/schemas/User/form';
 import { yupResolver } from '@mantine/form';
 import API from '@/services/API';
-import { Validation as UserValidation } from '@/schemas/User/validation';
-import { Default as UserDefault } from '@/schemas/User/default';
+import { UserValidation } from '@/schemas/User/validation';
+import { UserDefault } from '@/schemas/User/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, MultiSelect } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
@@ -518,6 +518,14 @@ export default function Page() {
                 label={t('form.permissions.stops.delete.label')}
                 description={t('form.permissions.stops.delete.description')}
                 {...userForm.getInputProps('permissions.stops.delete', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.stops.view}
+                readOnly={isReadOnly}
+              />
+              <Switch
+                size="md"
+                label={t('form.permissions.stops.batch_update.label')}
+                description={t('form.permissions.stops.batch_update.description')}
+                {...userForm.getInputProps('permissions.stops.batch_update', { type: 'checkbox' })}
                 disabled={!userForm.values.permissions.stops.view}
                 readOnly={isReadOnly}
               />

@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Validation as ZoneValidation } from '@/schemas/Zone/validation';
-import { Model as ZoneModel } from '@/schemas/Zone/model';
+import { ZoneValidation } from '@/schemas/Zone/validation';
+import { ZoneModel } from '@/schemas/Zone/model';
 
 /* * */
 /* EDIT ZONE */

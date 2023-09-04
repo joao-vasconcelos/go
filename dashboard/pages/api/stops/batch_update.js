@@ -1,9 +1,9 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as StopModel } from '@/schemas/Stop/model';
-import { Model as ZoneModel } from '@/schemas/Zone/model';
-import { Model as MunicipalityModel } from '@/schemas/Municipality/model';
+import { StopModel } from '@/schemas/Stop/model';
+import { ZoneModel } from '@/schemas/Zone/model';
+import { MunicipalityModel } from '@/schemas/Municipality/model';
 import * as turf from '@turf/turf';
 
 /* * */

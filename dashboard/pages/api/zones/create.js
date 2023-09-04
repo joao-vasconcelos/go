@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Default as ZoneDefault } from '@/schemas/Zone/default';
-import { Model as ZoneModel } from '@/schemas/Zone/model';
+import { ZoneDefault } from '@/schemas/Zone/default';
+import { ZoneModel } from '@/schemas/Zone/model';
 import generator from '@/services/generator';
 
 /* * */

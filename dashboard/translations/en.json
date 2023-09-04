@@ -856,6 +856,15 @@
                 "loading": "Deleting Stop...",
                 "success": "Stop was deleted.",
                 "error": "An error occurred while deleting this Stop."
+            },
+            "batch_update": {
+                "title": "Update All Stops",
+                "description": "Updating is irreversible, and you will not be able to cancel once it starts. Are you sure you want to import and update all Stops?",
+                "confirm": "Update All Stops",
+                "cancel": "Do Not Update",
+                "loading": "Updating all Stops...",
+                "success": "All Stops were updated.",
+                "error": "An error occurred while updating all Stops."
             }
         },
         "sections": {
@@ -1318,6 +1327,10 @@
                         "label": "Create & Edit Agencies",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
+                    "lock": {
+                        "label": "Lock Agencies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
                     "delete": {
                         "label": "Delete Agencies",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
@@ -1379,6 +1392,10 @@
                         "label": "Create & Edit Lines, Routes & Patterns",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
+                    "lock": {
+                        "label": "Lock Lines, Routes & Patterns",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
                     "delete": {
                         "label": "Delete Lines, Routes & Patterns",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
@@ -1400,6 +1417,10 @@
                         "label": "Create & Edit Typologies",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
+                    "lock": {
+                        "label": "Lock Typologies",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
                     "delete": {
                         "label": "Delete Typologies",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
@@ -1416,6 +1437,10 @@
                         "label": "Create & Edit Fares",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
+                    "lock": {
+                        "label": "Lock Fares",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
                     "delete": {
                         "label": "Delete Fares",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
@@ -1430,6 +1455,10 @@
                     },
                     "create_edit": {
                         "label": "Create & Edit Zones",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "lock": {
+                        "label": "Lock Zones",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
                     "delete": {
@@ -1456,8 +1485,16 @@
                         "label": "Edit Stop Codes",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
+                    "lock": {
+                        "label": "Lock Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
                     "delete": {
                         "label": "Delete Stops",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "batch_update": {
+                        "label": "Batch Update Stops",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     },
                     "municipalities": {
@@ -1561,25 +1598,7 @@
             }
         }
     },
-    "configs": {
-        "sections": {
-            "safe_updates": {
-                "title": "Safe Updates",
-                "description": "These actions are safe to perform. Be advised they still change data in the database. However, they should be performed regularly to ensure GO stays updated."
-            }
-        },
-        "operations": {
-            "update_stops": {
-                "title": "Update All Stops",
-                "description": "This will update all stops with the latest information available on the API. This will create new stops if they do not exist yet, and delete existing stops if they are not present in the API. Are you sure you want to continue?",
-                "confirm": "Yes, update all stops",
-                "cancel": "Cancel",
-                "loading": "Updating all stops...",
-                "success": "All stops were successfully updated.",
-                "error": "An error occurred while updating stops"
-            }
-        }
-    },
+    "configs": {},
     "AppOptions": {
         "language": {
             "label": "Language",

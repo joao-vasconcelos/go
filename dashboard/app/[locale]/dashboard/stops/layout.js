@@ -11,7 +11,7 @@ import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
 import { ActionIcon, Menu, Select, Text } from '@mantine/core';
-import { IconCirclePlus, IconDots, IconPencil } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots, IconPencil, IconRefresh } from '@tabler/icons-react';
 import { openConfirmModal } from '@mantine/modals';
 import notify from '@/services/notify';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
@@ -31,6 +31,7 @@ export default function Layout({ children }) {
   const t = useTranslations('stops');
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
+  const [isBatchUpdating, setIsBatchUpdating] = useState(false);
   const [selectedMunicipality, setSelectedMunicipality] = useState();
 
   //
@@ -60,13 +61,13 @@ export default function Layout({ children }) {
 
   const handleCreate = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.create.title')}</Text>,
+      title: <Text size="h2">{t('operations.create.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: (
         <div style={{ minHeight: 500 }}>
-          <Text size='h3'>Escolha um município</Text>
-          <Select data={municipalitiesFormattedForSelect} label='Municipios' placeholder='Escolha um' searchable />
+          <Text size="h3">Escolha um município</Text>
+          <Select data={municipalitiesFormattedForSelect} label="Municipios" placeholder="Escolha um" searchable />
         </div>
       ),
       labels: { confirm: 'Criar paragem neste município', cancel: 'Cancelar' },
@@ -89,34 +90,62 @@ export default function Layout({ children }) {
     });
   };
 
+  const handleBatchUpdate = async () => {
+    openConfirmModal({
+      title: <Text size="h2">{t('operations.batch_update.title')}</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">{t('operations.batch_update.description')}</Text>,
+      labels: { confirm: t('operations.batch_update.confirm'), cancel: t('operations.batch_update.cancel') },
+      onConfirm: async () => {
+        try {
+          setIsBatchUpdating(true);
+          notify('batch_update', 'loading', t('operations.batch_update.loading'));
+          await API({ service: 'stops', operation: 'batch_update', method: 'GET' });
+          notify('batch_update', 'success', t('operations.batch_update.success'));
+          setIsBatchUpdating(false);
+        } catch (err) {
+          console.log(err);
+          setIsBatchUpdating(false);
+          notify('batch_update', 'error', err.message || t('operations.batch_update.error'));
+        }
+      },
+    });
+  };
+
   //
   // E. Render data
 
   return (
-    <AuthGate scope='stops' permission='view' redirect>
+    <AuthGate scope="stops" permission="view" redirect>
       <TwoUnevenColumns
         first={
           <Pannel
-            loading={allStopsLoading || isCreating}
+            loading={allStopsLoading || isCreating || isBatchUpdating}
             header={
               <>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
-                <Menu shadow='md' position='bottom-end'>
+                <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={allStopsLoading || isCreating}>
-                      <IconDots size='20px' />
+                    <ActionIcon variant="light" size="lg" loading={allStopsLoading || isCreating}>
+                      <IconDots size={20} />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Label>Importar</Menu.Label>
-                    <AuthGate scope='stops' permission='create_edit'>
-                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
+                    <AuthGate scope="stops" permission="create_edit">
+                      <Menu.Item icon={<IconCirclePlus size={20} />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
                     </AuthGate>
-                    <AuthGate scope='municipalities' permission='view'>
+                    <AuthGate scope="stops" permission="batch_update">
+                      <Menu.Item icon={<IconRefresh size={20} />} onClick={handleBatchUpdate}>
+                        {t('operations.batch_update.title')}
+                      </Menu.Item>
+                    </AuthGate>
+                    <AuthGate scope="municipalities" permission="view">
                       <Menu.Label>Dados Relacionados</Menu.Label>
-                      <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/municipalities')}>
+                      <Menu.Item icon={<IconPencil size={20} />} onClick={() => router.push('/dashboard/municipalities')}>
                         Editar Municípios
                       </Menu.Item>
                     </AuthGate>
@@ -130,7 +159,7 @@ export default function Layout({ children }) {
             {filteredStopsData && filteredStopsData.length > 0 ? (
               <AutoSizer>
                 {({ height, width }) => (
-                  <List className='List' height={height} itemCount={filteredStopsData.length} itemSize={85} width={width}>
+                  <List className="List" height={height} itemCount={filteredStopsData.length} itemSize={85} width={width}>
                     {({ index, style }) => (
                       <ListItem
                         key={filteredStopsData[index]._id}
