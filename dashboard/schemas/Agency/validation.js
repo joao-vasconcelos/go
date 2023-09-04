@@ -17,5 +17,4 @@ export const AgencyValidation = yup.object({
   url: yup.string(),
   fare_url: yup.string(),
   price_per_km: yup.number(),
-  is_locked: yup.boolean(),
 });

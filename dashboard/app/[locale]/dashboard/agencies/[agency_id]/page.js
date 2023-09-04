@@ -91,8 +91,6 @@ export default function Page() {
       setHasErrorSaving(false);
     } catch (err) {
       console.log(err);
-      agencyMutate();
-      allAgenciesMutate();
       setIsSaving(false);
       setIsLocking(false);
       setHasErrorSaving(err);
