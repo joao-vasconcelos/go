@@ -1,8 +1,8 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Validation as DateValidation } from '@/schemas/Date/validation';
-import { Model as DateModel } from '@/schemas/Date/model';
+import { DateValidation } from '@/schemas/Date/validation';
+import { DateModel } from '@/schemas/Date/model';
 
 /* * */
 /* EDIT DATE */

@@ -2,9 +2,9 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { AlertModel } from '@/schemas/Alert/model';
-import { Model as MunicipalityModel } from '@/schemas/Municipality/model';
-import { Model as LineModel } from '@/schemas/Line/model';
-import { Model as StopModel } from '@/schemas/Stop/model';
+import { MunicipalityModel } from '@/schemas/Municipality/model';
+import { LineModel } from '@/schemas/Line/model';
+import { StopModel } from '@/schemas/Stop/model';
 
 /* * */
 /* IMPORT ALERTS */

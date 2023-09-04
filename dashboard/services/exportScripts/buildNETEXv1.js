@@ -2,16 +2,16 @@ import Papa from 'papaparse';
 import dayjs from 'dayjs';
 import * as fs from 'fs';
 import { ExportModel } from '@/schemas/Export/model';
-import { Model as LineModel } from '@/schemas/Line/model';
-import { Model as FareModel } from '@/schemas/Fare/model';
-import { Model as TypologyModel } from '@/schemas/Typology/model';
-import { Model as RouteModel } from '@/schemas/Route/model';
-import { Model as MunicipalityModel } from '@/schemas/Municipality/model';
-import { Model as ZoneModel } from '@/schemas/Zone/model';
+import { LineModel } from '@/schemas/Line/model';
+import { FareModel } from '@/schemas/Fare/model';
+import { TypologyModel } from '@/schemas/Typology/model';
+import { RouteModel } from '@/schemas/Route/model';
+import { MunicipalityModel } from '@/schemas/Municipality/model';
+import { ZoneModel } from '@/schemas/Zone/model';
 import { PatternModel } from '@/schemas/Pattern/model';
-import { Model as StopModel } from '@/schemas/Stop/model';
-import { Model as DateModel } from '@/schemas/Date/model';
-import { Model as CalendarModel } from '@/schemas/Calendar/model';
+import { StopModel } from '@/schemas/Stop/model';
+import { DateModel } from '@/schemas/Date/model';
+import { CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
 /* EXPORT NETEX V1 */

@@ -2,9 +2,9 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { AgencyModel } from '@/schemas/Agency/model';
-import { Model as TypologyModel } from '@/schemas/Typology/model';
-import { Model as FareModel } from '@/schemas/Fare/model';
-import { Model as LineModel } from '@/schemas/Line/model';
+import { TypologyModel } from '@/schemas/Typology/model';
+import { FareModel } from '@/schemas/Fare/model';
+import { LineModel } from '@/schemas/Line/model';
 
 /* * */
 /* IMPORT LINES */

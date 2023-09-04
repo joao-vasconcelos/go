@@ -2,10 +2,10 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import generate from '@/services/generator';
-import { Model as RouteModel } from '@/schemas/Route/model';
+import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
-import { Model as StopModel } from '@/schemas/Stop/model';
-import { Model as CalendarModel } from '@/schemas/Calendar/model';
+import { StopModel } from '@/schemas/Stop/model';
+import { CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
 /* IMPORT PATTERNS */

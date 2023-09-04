@@ -7,7 +7,7 @@ import * as yup from 'yup';
 
 /* * */
 /* A. YUP Validation Schema */
-export const Validation = yup.object({
+export const DateValidation = yup.object({
   date: yup.string().max(8),
   period: yup.number(),
   day_type: yup.number(),

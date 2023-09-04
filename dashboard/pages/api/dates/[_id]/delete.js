@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as DateModel } from '@/schemas/Date/model';
+import { DateModel } from '@/schemas/Date/model';
 
 /* * */
 /* DELETE DATE */

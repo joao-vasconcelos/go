@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 
 /* * */
 /* A. Mongoose Schema */
-export const Schema = new mongoose.Schema(
+export const DateSchema = new mongoose.Schema(
   {
     date: {
       type: String,
@@ -33,4 +33,4 @@ export const Schema = new mongoose.Schema(
 
 /* * */
 /* C. Mongoose Model */
-export const Model = mongoose?.models?.Date || mongoose.model('Date', Schema);
+export const DateModel = mongoose?.models?.Date || mongoose.model('Date', DateSchema);
