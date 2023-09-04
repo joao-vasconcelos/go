@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import Text from '@/components/Text/Text';
 import Badge from '@/components/Badge/Badge';
+import { Group } from '@mantine/core';
 
 export default function ListItem({ _id, code, name }) {
   //
@@ -19,10 +20,12 @@ export default function ListItem({ _id, code, name }) {
 
   return (
     <BaseListItem onClick={handleClick} isSelected={calendar_id === _id} withChevron>
-      <Text size='title' style={!name && 'untitled'}>
+      <Text size="title" style={!name && 'untitled'}>
         {name || t('untitled')}
       </Text>
-      <Badge>{code}</Badge>
+      <Group>
+        <Badge>{code}</Badge>
+      </Group>
     </BaseListItem>
   );
 }
