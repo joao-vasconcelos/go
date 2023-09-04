@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { useForm, yupResolver } from '@mantine/form';
@@ -20,6 +20,8 @@ import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import populate from '@/services/populate';
+import LockButton from '@/components/LockButton/LockButton';
 
 export default function Page() {
   //
@@ -30,10 +32,10 @@ export default function Page() {
   const router = useRouter();
   const t = useTranslations('municipalities');
   const [isSaving, setIsSaving] = useState(false);
+  const [isLocking, setIsLocking] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
   const { data: session } = useSession();
-  const isReadOnly = !isAllowed(session, 'municipalities', 'create_edit');
 
   const { municipality_id } = useParams();
 
@@ -41,7 +43,7 @@ export default function Page() {
   // B. Fetch data
 
   const { mutate: allMunicipalitiesMutate } = useSWR('/api/municipalities');
-  const { data: municipalityData, error: municipalityError, isLoading: municipalityLoading } = useSWR(municipality_id && `/api/municipalities/${municipality_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: municipalityData, error: municipalityError, isLoading: municipalityLoading, mutate: municipalityMutate } = useSWR(municipality_id && `/api/municipalities/${municipality_id}`, { onSuccess: (data) => keepFormUpdated(data) });
 
   //
   // C. Setup form
@@ -51,18 +53,24 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(MunicipalityValidation),
-    initialValues: municipalityData || MunicipalityDefault,
+    initialValues: populate(MunicipalityDefault, municipalityData),
   });
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      form.setValues(data);
-      form.resetDirty(data);
+      const populated = populate(MunicipalityDefault, data);
+      form.setValues(populated);
+      form.resetDirty(populated);
     }
   };
 
   //
-  // D. Handle actions
+  // D. Setup readonly
+
+  const isReadOnly = !isAllowed(session, 'municipalities', 'create_edit') || municipalityData?.is_locked;
+
+  //
+  // E. Handle actions
 
   const handleValidate = () => {
     form.validate();
@@ -72,27 +80,43 @@ export default function Page() {
     router.push(`/dashboard/municipalities/`);
   };
 
-  const handleSave = useCallback(async () => {
+  const handleSave = async () => {
     try {
       setIsSaving(true);
       await API({ service: 'municipalities', resourceId: municipality_id, operation: 'edit', method: 'PUT', body: form.values });
+      municipalityMutate();
       allMunicipalitiesMutate();
       form.resetDirty();
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(false);
     } catch (err) {
       console.log(err);
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(err);
     }
-  }, [municipality_id, form, allMunicipalitiesMutate]);
+  };
+
+  const handleLock = async (value) => {
+    try {
+      setIsLocking(true);
+      await API({ service: 'municipalities', resourceId: municipality_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      municipalityMutate();
+      setIsLocking(false);
+    } catch (err) {
+      console.log(err);
+      municipalityMutate();
+      setIsLocking(false);
+    }
+  };
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
+      title: <Text size="h2">{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      children: <Text size="h3">{t('operations.delete.description')}</Text>,
       labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -132,13 +156,16 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Text size='h1' style={!form.values.name && 'untitled'} full>
+          <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
-          <AuthGate scope='municipalities' permission='delete'>
-            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-                <IconTrash size='20px' />
+          <AuthGate scope="municipalities" permission="lock">
+            <LockButton isLocked={municipalityData?.is_locked} setLocked={handleLock} loading={isLocking} />
+          </AuthGate>
+          <AuthGate scope="municipalities" permission="delete">
+            <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
+              <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
+                <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
           </AuthGate>
@@ -147,7 +174,7 @@ export default function Page() {
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
-          <Text size='h2'>{t('sections.config.title')}</Text>
+          <Text size="h2">{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
             <TextInput label={t('form.prefix.label')} placeholder={t('form.prefix.placeholder')} {...form.getInputProps('prefix')} readOnly={isReadOnly} />

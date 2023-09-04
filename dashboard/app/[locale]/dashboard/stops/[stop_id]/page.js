@@ -21,6 +21,8 @@ import OSMMap from '@/components/OSMMap/OSMMap';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import populate from '@/services/populate';
+import LockButton from '@/components/LockButton/LockButton';
 
 export default function Page() {
   //
@@ -31,11 +33,11 @@ export default function Page() {
   const router = useRouter();
   const t = useTranslations('stops');
   const [isSaving, setIsSaving] = useState(false);
+  const [isLocking, setIsLocking] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
   const { singleStopMap } = useMap();
   const { data: session } = useSession();
-  const isReadOnly = !isAllowed(session, 'stops', 'create_edit');
   const canEditStopCode = isAllowed(session, 'stops', 'edit_code');
 
   const { stop_id } = useParams();
@@ -44,7 +46,7 @@ export default function Page() {
   // B. Fetch data
 
   const { mutate: allStopsMutate } = useSWR('/api/stops');
-  const { data: stopData, error: stopError, isLoading: stopLoading } = useSWR(stop_id && `/api/stops/${stop_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: stopData, error: stopError, isLoading: stopLoading, mutate: stopMutate } = useSWR(stop_id && `/api/stops/${stop_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: allAgenciesData } = useSWR('/api/agencies');
   const { data: allMunicipalitiesData } = useSWR('/api/municipalities');
   const { data: allZonesData } = useSWR('/api/zones');
@@ -57,18 +59,24 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(StopValidation),
-    initialValues: stopData || StopDefault,
+    initialValues: populate(StopDefault, stopData),
   });
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      form.setValues(data);
-      form.resetDirty(data);
+      const populated = populate(StopDefault, data);
+      form.setValues(populated);
+      form.resetDirty(populated);
     }
   };
 
   //
-  // D. Handle actions
+  // D. Setup readonly
+
+  const isReadOnly = !isAllowed(session, 'stops', 'create_edit') || stopData?.is_locked;
+
+  //
+  // E. Handle actions
 
   const handleValidate = () => {
     form.validate();
@@ -78,10 +86,11 @@ export default function Page() {
     router.push(`/dashboard/stops/`);
   };
 
-  const handleSave = useCallback(async () => {
+  const handleSave = async () => {
     try {
       setIsSaving(true);
       await API({ service: 'stops', resourceId: stop_id, operation: 'edit', method: 'PUT', body: form.values });
+      stopMutate();
       allStopsMutate();
       form.resetDirty();
       setIsSaving(false);
@@ -91,14 +100,27 @@ export default function Page() {
       setIsSaving(false);
       setHasErrorSaving(err);
     }
-  }, [stop_id, form, allStopsMutate]);
+  };
+
+  const handleLock = async (value) => {
+    try {
+      setIsLocking(true);
+      await API({ service: 'stops', resourceId: stop_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      stopMutate();
+      setIsLocking(false);
+    } catch (err) {
+      console.log(err);
+      stopMutate();
+      setIsLocking(false);
+    }
+  };
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
+      title: <Text size="h2">{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      children: <Text size="h3">{t('operations.delete.description')}</Text>,
       labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -203,18 +225,21 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Text size='h1' style={!form.values.name && 'untitled'} full>
+          <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
-          <Tooltip label={t('operations.gmaps.title')} position='bottom' withArrow>
-            <ActionIcon color='blue' variant='light' size='lg' onClick={handleOpenInGoogleMaps}>
-              <IconBrandGoogleMaps size='20px' />
+          <AuthGate scope="stops" permission="lock">
+            <LockButton isLocked={stopData?.is_locked} setLocked={handleLock} loading={isLocking} />
+          </AuthGate>
+          <Tooltip label={t('operations.gmaps.title')} position="bottom" withArrow>
+            <ActionIcon color="blue" variant="light" size="lg" onClick={handleOpenInGoogleMaps}>
+              <IconBrandGoogleMaps size="20px" />
             </ActionIcon>
           </Tooltip>
-          <AuthGate scope='stops' permission='delete'>
-            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-                <IconTrash size='20px' />
+          <AuthGate scope="stops" permission="delete">
+            <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
+              <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
+                <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
           </AuthGate>
@@ -222,9 +247,9 @@ export default function Page() {
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
-        <OSMMap id='singleStop' height='400px' scrollZoom={false} onClick={handleMapClick} interactiveLayerIds={['stop']}>
-          <Source id='stop' type='geojson' data={mapData}>
-            <Layer id='stop' type='circle' source='stop' paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
+        <OSMMap id="singleStop" height="400px" scrollZoom={false} onClick={handleMapClick} interactiveLayerIds={['stop']}>
+          <Source id="stop" type="geojson" data={mapData}>
+            <Layer id="stop" type="circle" source="stop" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
           </Source>
         </OSMMap>
 
@@ -232,8 +257,8 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.config.title')}</Text>
-            <Text size='h4'>{t('sections.config.description')}</Text>
+            <Text size="h2">{t('sections.config.title')}</Text>
+            <Text size="h4">{t('sections.config.description')}</Text>
           </div>
           <SimpleGrid cols={3}>
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly && !canEditStopCode} />
@@ -247,7 +272,7 @@ export default function Page() {
               stepHoldDelay={500}
               stepHoldInterval={100}
               hideControls
-              icon={<IconWorldLatitude size='18px' />}
+              icon={<IconWorldLatitude size="18px" />}
               {...form.getInputProps('latitude')}
               readOnly={isReadOnly}
             />
@@ -261,7 +286,7 @@ export default function Page() {
               stepHoldDelay={500}
               stepHoldInterval={100}
               hideControls
-              icon={<IconWorldLongitude size='18px' />}
+              icon={<IconWorldLongitude size="18px" />}
               {...form.getInputProps('longitude')}
             />
           </SimpleGrid>
@@ -276,8 +301,8 @@ export default function Page() {
               {...form.getInputProps('tts_name')}
               readOnly={isReadOnly}
               rightSection={
-                <ActionIcon onClick={handlePlayPhoneticName} variant='subtle' color='blue' disabled={!form.values.tts_name}>
-                  <IconVolume size='18px' />
+                <ActionIcon onClick={handlePlayPhoneticName} variant="subtle" color="blue" disabled={!form.values.tts_name}>
+                  <IconVolume size="18px" />
                 </ActionIcon>
               }
             />
@@ -288,8 +313,8 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.zoning.title')}</Text>
-            <Text size='h4'>{t('sections.zoning.description')}</Text>
+            <Text size="h2">{t('sections.zoning.title')}</Text>
+            <Text size="h4">{t('sections.zoning.description')}</Text>
           </div>
           <SimpleGrid cols={1}>
             <MultiSelect label={t('form.zones.label')} placeholder={t('form.zones.placeholder')} {...form.getInputProps('zones')} readOnly={isReadOnly} data={allZonesDataFormatted} />
@@ -300,11 +325,11 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.admin.title')}</Text>
-            <Text size='h4'>{t('sections.admin.description')}</Text>
+            <Text size="h2">{t('sections.admin.title')}</Text>
+            <Text size="h4">{t('sections.admin.description')}</Text>
           </div>
           <div>
-            <Text size='h3'>{t('sections.admin.description')}</Text>
+            <Text size="h3">{t('sections.admin.description')}</Text>
             <Space h={20} />
             <SimpleGrid cols={3}>
               <Select label={t('form.municipality.label')} placeholder={t('form.municipality.placeholder')} {...form.getInputProps('municipality')} readOnly={isReadOnly} data={allMunicipalitiesDataFormatted} />
@@ -327,8 +352,8 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.infrastructure.title')}</Text>
-            <Text size='h4'>{t('sections.infrastructure.description')}</Text>
+            <Text size="h2">{t('sections.infrastructure.title')}</Text>
+            <Text size="h4">{t('sections.infrastructure.description')}</Text>
           </div>
           <SimpleGrid cols={2}>
             <Select
@@ -465,8 +490,8 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.public_info.title')}</Text>
-            <Text size='h4'>{t('sections.public_info.description')}</Text>
+            <Text size="h2">{t('sections.public_info.title')}</Text>
+            <Text size="h4">{t('sections.public_info.description')}</Text>
           </div>
           <SimpleGrid cols={2}>
             <Select
@@ -579,8 +604,8 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.accessibility.title')}</Text>
-            <Text size='h4'>{t('sections.accessibility.description')}</Text>
+            <Text size="h2">{t('sections.accessibility.title')}</Text>
+            <Text size="h4">{t('sections.accessibility.description')}</Text>
           </div>
           <SimpleGrid cols={4}>
             <Select
@@ -720,19 +745,19 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.services.title')}</Text>
-            <Text size='h4'>{t('sections.services.description')}</Text>
+            <Text size="h2">{t('sections.services.title')}</Text>
+            <Text size="h4">{t('sections.services.description')}</Text>
           </div>
           <SimpleGrid cols={3}>
-            <Switch label={t('form.near_health_clinic.label')} size='md' {...form.getInputProps('near_health_clinic', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.near_hospital.label')} size='md' {...form.getInputProps('near_hospital', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.near_university.label')} size='md' {...form.getInputProps('near_university', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.near_school.label')} size='md' {...form.getInputProps('near_school', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.near_police_station.label')} size='md' {...form.getInputProps('near_police_station', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.near_fire_station.label')} size='md' {...form.getInputProps('near_fire_station', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.near_shopping.label')} size='md' {...form.getInputProps('near_shopping', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.near_historic_building.label')} size='md' {...form.getInputProps('near_historic_building', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.near_transit_office.label')} size='md' {...form.getInputProps('near_transit_office', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_health_clinic.label')} size="md" {...form.getInputProps('near_health_clinic', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_hospital.label')} size="md" {...form.getInputProps('near_hospital', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_university.label')} size="md" {...form.getInputProps('near_university', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_school.label')} size="md" {...form.getInputProps('near_school', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_police_station.label')} size="md" {...form.getInputProps('near_police_station', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_fire_station.label')} size="md" {...form.getInputProps('near_fire_station', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_shopping.label')} size="md" {...form.getInputProps('near_shopping', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_historic_building.label')} size="md" {...form.getInputProps('near_historic_building', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.near_transit_office.label')} size="md" {...form.getInputProps('near_transit_office', { type: 'checkbox' })} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
 
@@ -740,25 +765,25 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.connections.title')}</Text>
-            <Text size='h4'>{t('sections.connections.description')}</Text>
+            <Text size="h2">{t('sections.connections.title')}</Text>
+            <Text size="h4">{t('sections.connections.description')}</Text>
           </div>
           <SimpleGrid cols={3}>
-            <Switch label={t('form.subway.label')} size='md' {...form.getInputProps('subway', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.light_rail.label')} size='md' {...form.getInputProps('light_rail', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.train.label')} size='md' {...form.getInputProps('train', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.boat.label')} size='md' {...form.getInputProps('boat', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.airport.label')} size='md' {...form.getInputProps('airport', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.bike_sharing.label')} size='md' {...form.getInputProps('bike_sharing', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.bike_parking.label')} size='md' {...form.getInputProps('bike_parking', { type: 'checkbox' })} readOnly={isReadOnly} />
-            <Switch label={t('form.car_parking.label')} size='md' {...form.getInputProps('car_parking', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.subway.label')} size="md" {...form.getInputProps('subway', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.light_rail.label')} size="md" {...form.getInputProps('light_rail', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.train.label')} size="md" {...form.getInputProps('train', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.boat.label')} size="md" {...form.getInputProps('boat', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.airport.label')} size="md" {...form.getInputProps('airport', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.bike_sharing.label')} size="md" {...form.getInputProps('bike_sharing', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.bike_parking.label')} size="md" {...form.getInputProps('bike_parking', { type: 'checkbox' })} readOnly={isReadOnly} />
+            <Switch label={t('form.car_parking.label')} size="md" {...form.getInputProps('car_parking', { type: 'checkbox' })} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
         <Divider />
         <Section>
           <div>
-            <Text size='h2'>{t('sections.notes.title')}</Text>
-            <Text size='h4'>{t('sections.notes.description')}</Text>
+            <Text size="h2">{t('sections.notes.title')}</Text>
+            <Text size="h4">{t('sections.notes.description')}</Text>
           </div>
           <Textarea aria-label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} autosize minRows={5} maxRows={15} {...form.getInputProps('notes')} readOnly={isReadOnly} />
         </Section>

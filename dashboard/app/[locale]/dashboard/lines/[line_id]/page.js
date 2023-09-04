@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { yupResolver } from '@mantine/form';
@@ -23,7 +23,8 @@ import RouteCard from '@/components/RouteCard/RouteCard';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
-import { create } from 'lodash';
+import populate from '@/services/populate';
+import LockButton from '@/components/LockButton/LockButton';
 
 export default function Page() {
   //
@@ -34,11 +35,11 @@ export default function Page() {
   const router = useRouter();
   const t = useTranslations('lines');
   const [isSaving, setIsSaving] = useState(false);
+  const [isLocking, setIsLocking] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isCreatingRoute, setIsCreatingRoute] = useState(false);
   const { data: session } = useSession();
-  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
   const { line_id } = useParams();
 
@@ -59,19 +60,24 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(LineValidation),
-    initialValues: create({ ...LineDefault }, { ...lineData }),
+    initialValues: populate(LineDefault, lineData),
   });
 
   const keepFormUpdated = (data) => {
     if (!lineForm.isDirty()) {
-      const document = create({ ...LineDefault }, { ...data });
-      lineForm.setValues(document);
-      lineForm.resetDirty(document);
+      const populated = populate(LineDefault, data);
+      lineForm.setValues(populated);
+      lineForm.resetDirty(populated);
     }
   };
 
   //
-  // D. Format data
+  // D. Setup readonly
+
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit') || lineData?.is_locked;
+
+  //
+  // E. Transform data
 
   const allTypologiesDataFormatted = useMemo(() => {
     if (!allTypologiesData) return [];
@@ -99,7 +105,7 @@ export default function Page() {
   }, [allTypologiesData, lineForm.values.typology]);
 
   //
-  // D. Handle actions
+  // F. Handle actions
 
   const handleValidate = () => {
     lineForm.validate();
@@ -109,7 +115,7 @@ export default function Page() {
     router.push(`/dashboard/lines`);
   };
 
-  const handleSave = useCallback(async () => {
+  const handleSave = async () => {
     try {
       setIsSaving(true);
       await API({ service: 'lines', resourceId: line_id, operation: 'edit', method: 'PUT', body: lineForm.values });
@@ -117,20 +123,35 @@ export default function Page() {
       allLinesMutate();
       lineForm.resetDirty();
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(false);
     } catch (err) {
       console.log(err);
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(err);
     }
-  }, [line_id, lineForm, lineMutate, allLinesMutate]);
+  };
+
+  const handleLock = async (value) => {
+    try {
+      setIsLocking(true);
+      await API({ service: 'lines', resourceId: line_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      lineMutate();
+      setIsLocking(false);
+    } catch (err) {
+      console.log(err);
+      lineMutate();
+      setIsLocking(false);
+    }
+  };
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
+      title: <Text size="h2">{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      children: <Text size="h3">{t('operations.delete.description')}</Text>,
       labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -171,7 +192,7 @@ export default function Page() {
   };
 
   //
-  // E. Render components
+  // G. Render components
 
   return (
     <Pannel
@@ -190,10 +211,13 @@ export default function Page() {
             onClose={async () => await handleClose()}
           />
           <LineDisplay short_name={lineForm.values.short_name} name={lineForm.values.name || t('untitled')} color={selectedLineTypologyData?.color} text_color={selectedLineTypologyData?.text_color} />
-          <AuthGate scope='lines' permission='delete'>
-            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-                <IconTrash size='20px' />
+          <AuthGate scope="lines" permission="lock">
+            <LockButton isLocked={lineData?.is_locked} setLocked={handleLock} loading={isLocking} />
+          </AuthGate>
+          <AuthGate scope="lines" permission="delete">
+            <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
+              <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
+                <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
           </AuthGate>
@@ -203,7 +227,7 @@ export default function Page() {
       <LineFormProvider form={lineForm}>
         <form onSubmit={lineForm.onSubmit(async () => await handleSave())}>
           <Section>
-            <Text size='h2'>{t('sections.config.title')}</Text>
+            <Text size="h2">{t('sections.config.title')}</Text>
             <SimpleGrid cols={2}>
               <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...lineForm.getInputProps('code')} readOnly={isReadOnly} />
               <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...lineForm.getInputProps('short_name')} readOnly={isReadOnly} />
@@ -241,9 +265,9 @@ export default function Page() {
 
           <Section>
             <SimpleGrid cols={3}>
-              <Switch label={t('form.circular.label')} size='md' {...lineForm.getInputProps('circular', { type: 'checkbox' })} readOnly={isReadOnly} />
-              <Switch label={t('form.school.label')} size='md' {...lineForm.getInputProps('school', { type: 'checkbox' })} readOnly={isReadOnly} />
-              <Switch label={t('form.continuous.label')} size='md' {...lineForm.getInputProps('continuous', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch label={t('form.circular.label')} size="md" {...lineForm.getInputProps('circular', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch label={t('form.school.label')} size="md" {...lineForm.getInputProps('school', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch label={t('form.continuous.label')} size="md" {...lineForm.getInputProps('continuous', { type: 'checkbox' })} readOnly={isReadOnly} />
             </SimpleGrid>
           </Section>
 
@@ -251,16 +275,16 @@ export default function Page() {
 
           <Section>
             <div>
-              <Text size='h2'>{t('sections.routes.title')}</Text>
-              <Text size='h4'>{t('sections.routes.description')}</Text>
+              <Text size="h2">{t('sections.routes.title')}</Text>
+              <Text size="h4">{t('sections.routes.description')}</Text>
             </div>
             <div>
               {lineForm.values.routes.map((route_id, index) => (
                 <RouteCard key={index} _id={route_id} onClick={handleOpenRoute} />
               ))}
             </div>
-            <AuthGate scope='lines' permission='create_edit'>
-              <Button onClick={handleCreateRoute} loading={isCreatingRoute} disabled={lineForm.isDirty() || !lineForm.isValid()}>
+            <AuthGate scope="lines" permission="create_edit">
+              <Button onClick={handleCreateRoute} loading={isCreatingRoute} disabled={lineForm.isDirty() || !lineForm.isValid() || isReadOnly}>
                 {t('form.routes.create.title')}
               </Button>
             </AuthGate>

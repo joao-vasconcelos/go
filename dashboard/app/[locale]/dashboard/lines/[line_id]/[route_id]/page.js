@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { yupResolver } from '@mantine/form';
@@ -23,7 +23,8 @@ import PatternCard from '@/components/PatternCard/PatternCard';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
-import { create } from 'lodash';
+import populate from '@/services/populate';
+import LockButton from '@/components/LockButton/LockButton';
 
 export default function Page() {
   //
@@ -34,10 +35,10 @@ export default function Page() {
   const router = useRouter();
   const t = useTranslations('routes');
   const [isSaving, setIsSaving] = useState(false);
+  const [isLocking, setIsLocking] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isCreatingPattern, setIsCreatingPattern] = useState(false);
   const { data: session } = useSession();
-  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
   const { line_id, route_id } = useParams();
 
@@ -56,19 +57,24 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(RouteValidation),
-    initialValues: create({ ...RouteDefault }, { ...routeData }),
+    initialValues: populate(RouteDefault, routeData),
   });
 
   const keepFormUpdated = (data) => {
     if (!routeForm.isDirty()) {
-      const document = create({ ...RouteDefault }, { ...data });
-      routeForm.setValues(document);
-      routeForm.resetDirty(document);
+      const populated = populate(RouteDefault, data);
+      routeForm.setValues(populated);
+      routeForm.resetDirty(populated);
     }
   };
 
   //
-  // D. Handle actions
+  // D. Setup readonly
+
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit') || lineData?.is_locked || routeData?.is_locked;
+
+  //
+  // E. Handle actions
 
   const handleValidate = () => {
     routeForm.validate();
@@ -78,27 +84,42 @@ export default function Page() {
     router.push(`/dashboard/lines/${line_id}`);
   };
 
-  const handleSave = useCallback(async () => {
+  const handleSave = async () => {
     try {
       setIsSaving(true);
       await API({ service: 'routes', resourceId: route_id, operation: 'edit', method: 'PUT', body: routeForm.values });
       routeMutate();
       routeForm.resetDirty();
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(false);
     } catch (err) {
       console.log(err);
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(err);
     }
-  }, [route_id, routeForm, routeMutate]);
+  };
+
+  const handleLock = async (value) => {
+    try {
+      setIsLocking(true);
+      await API({ service: 'routes', resourceId: route_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      routeMutate();
+      setIsLocking(false);
+    } catch (err) {
+      console.log(err);
+      routeMutate();
+      setIsLocking(false);
+    }
+  };
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
+      title: <Text size="h2">{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      children: <Text size="h3">{t('operations.delete.description')}</Text>,
       labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -130,11 +151,6 @@ export default function Page() {
     }
   };
 
-  const handlePatternsReorder = async ({ destination, source }) => {
-    if (!source || !destination || isReadOnly) return;
-    routeForm.reorderListItem('patterns', { from: source.index, to: destination.index });
-  };
-
   const handleOpenPattern = (pattern_id) => {
     router.push(`/dashboard/lines/${line_id}/${route_id}/${pattern_id}`);
   };
@@ -157,13 +173,16 @@ export default function Page() {
             onValidate={() => handleValidate()}
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
-            closeType='back'
+            closeType="back"
           />
           <LineDisplay short_name={lineData && lineData.short_name} name={routeForm.values.name || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
-          <AuthGate scope='lines' permission='delete'>
-            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-                <IconTrash size='20px' />
+          <AuthGate scope="lines" permission="lock">
+            <LockButton isLocked={routeData?.is_locked} setLocked={handleLock} loading={isLocking} />
+          </AuthGate>
+          <AuthGate scope="lines" permission="delete">
+            <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
+              <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
+                <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
           </AuthGate>
@@ -173,7 +192,7 @@ export default function Page() {
       <RouteFormProvider form={routeForm}>
         <form onSubmit={routeForm.onSubmit(async () => await handleSave())}>
           <Section>
-            <Text size='h2'>{t('sections.config.title')}</Text>
+            <Text size="h2">{t('sections.config.title')}</Text>
             <SimpleGrid cols={4}>
               <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...routeForm.getInputProps('code')} readOnly={isReadOnly} />
             </SimpleGrid>
@@ -194,14 +213,14 @@ export default function Page() {
           </Section>
           <Divider />
           <Section>
-            <Text size='h2'>{t('sections.patterns.title')}</Text>
+            <Text size="h2">{t('sections.patterns.title')}</Text>
             <div>
               {routeForm.values.patterns.map((patternId, index) => (
                 <PatternCard key={index} _id={patternId} onClick={handleOpenPattern} />
               ))}
             </div>
-            <AuthGate scope='lines' permission='create_edit'>
-              <Button onClick={handleCreatePattern} loading={isCreatingPattern} disabled={routeForm.values.patterns.length > 1}>
+            <AuthGate scope="lines" permission="create_edit">
+              <Button onClick={handleCreatePattern} loading={isCreatingPattern} disabled={routeForm.values.patterns.length > 1 || isReadOnly}>
                 {t('form.patterns.create.title')}
               </Button>
             </AuthGate>

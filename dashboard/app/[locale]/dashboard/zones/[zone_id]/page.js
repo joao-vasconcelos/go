@@ -22,8 +22,8 @@ import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
-import { merge } from 'lodash';
 import populate from '@/services/populate';
+import LockButton from '@/components/LockButton/LockButton';
 
 export default function Page() {
   //
@@ -34,11 +34,11 @@ export default function Page() {
   const router = useRouter();
   const t = useTranslations('zones');
   const [isSaving, setIsSaving] = useState(false);
+  const [isLocking, setIsLocking] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
   const [newGeojson, setNewGeojson] = useState('');
   const { data: session } = useSession();
-  const isReadOnly = !isAllowed(session, 'zones', 'create_edit');
   const { singleZoneMap } = useMap();
 
   const { zone_id } = useParams();
@@ -57,7 +57,7 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(ZoneValidation),
-    initialValues: ZoneDefault,
+    initialValues: populate(ZoneDefault, zoneData),
   });
 
   const keepFormUpdated = (data) => {
@@ -69,7 +69,12 @@ export default function Page() {
   };
 
   //
-  // D. Handle actions
+  // D. Setup readonly
+
+  const isReadOnly = !isAllowed(session, 'zones', 'create_edit') || zoneData?.is_locked;
+
+  //
+  // E. Handle actions
 
   const handleValidate = () => {
     form.validate();
@@ -87,20 +92,35 @@ export default function Page() {
       allZonesMutate();
       form.resetDirty();
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(false);
     } catch (err) {
       console.log(err);
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(err);
     }
   }, [zone_id, form, zoneMutate, allZonesMutate]);
 
+  const handleLock = async (value) => {
+    try {
+      setIsLocking(true);
+      await API({ service: 'zones', resourceId: zone_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      zoneMutate();
+      setIsLocking(false);
+    } catch (err) {
+      console.log(err);
+      zoneMutate();
+      setIsLocking(false);
+    }
+  };
+
   const handleDelete = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
+      title: <Text size="h2">{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      children: <Text size="h3">{t('operations.delete.description')}</Text>,
       labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -123,10 +143,10 @@ export default function Page() {
 
   const handleImportGeojson = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.import_geojson.title')}</Text>,
+      title: <Text size="h2">{t('operations.import_geojson.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.import_geojson.description')}</Text>,
+      children: <Text size="h3">{t('operations.import_geojson.description')}</Text>,
       labels: { confirm: t('operations.import_geojson.confirm'), cancel: t('operations.import_geojson.cancel') },
       onConfirm: async () => {
         try {
@@ -146,10 +166,10 @@ export default function Page() {
 
   const handleDeleteGeojson = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.delete_geojson.title')}</Text>,
+      title: <Text size="h2">{t('operations.delete_geojson.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.delete_geojson.description')}</Text>,
+      children: <Text size="h3">{t('operations.delete_geojson.description')}</Text>,
       labels: { confirm: t('operations.delete_geojson.confirm'), cancel: t('operations.delete_geojson.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -209,13 +229,16 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Text size='h1' style={!form.values.name && 'untitled'} full>
+          <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
-          <AuthGate scope='zones' permission='delete'>
-            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-                <IconTrash size='20px' />
+          <AuthGate scope="zones" permission="lock">
+            <LockButton isLocked={zoneData?.is_locked} setLocked={handleLock} loading={isLocking} />
+          </AuthGate>
+          <AuthGate scope="zones" permission="delete">
+            <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
+              <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
+                <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
           </AuthGate>
@@ -223,11 +246,11 @@ export default function Page() {
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
-        <OSMMap id='singleZone' height='400px' scrollZoom={false} mapStyle='map'>
+        <OSMMap id="singleZone" height="400px" scrollZoom={false} mapStyle="map">
           {form.values?.geojson?.geometry?.coordinates?.length > 0 && (
-            <Source id='single-zone' type='geojson' data={form.values.geojson}>
-              <Layer id='single-zone-fill' type='fill' layout={{}} source='single-zone' paint={{ 'fill-color': form.values.fill_color, 'fill-opacity': form.values.fill_opacity }} />
-              <Layer id='single-zone-border' type='line' layout={{}} source='single-zone' paint={{ 'line-color': form.values.border_color, 'line-opacity': form.values.border_opacity, 'line-width': form.values.border_width }} />
+            <Source id="single-zone" type="geojson" data={form.values.geojson}>
+              <Layer id="single-zone-fill" type="fill" layout={{}} source="single-zone" paint={{ 'fill-color': form.values.fill_color, 'fill-opacity': form.values.fill_opacity }} />
+              <Layer id="single-zone-border" type="line" layout={{}} source="single-zone" paint={{ 'line-color': form.values.border_color, 'line-opacity': form.values.border_opacity, 'line-width': form.values.border_width }} />
             </Source>
           )}
         </OSMMap>
@@ -236,8 +259,8 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.config.title')}</Text>
-            <Text size='h4'>{t('sections.config.description')}</Text>
+            <Text size="h2">{t('sections.config.title')}</Text>
+            <Text size="h4">{t('sections.config.description')}</Text>
           </div>
           <SimpleGrid cols={2}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
@@ -249,8 +272,8 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.map_representation.title')}</Text>
-            <Text size='h4'>{t('sections.map_representation.description')}</Text>
+            <Text size="h2">{t('sections.map_representation.title')}</Text>
+            <Text size="h4">{t('sections.map_representation.description')}</Text>
           </div>
           <SimpleGrid cols={2}>
             <ColorInput label={t('form.fill_color.label')} placeholder={t('form.fill_color.placeholder')} {...form.getInputProps('fill_color')} readOnly={isReadOnly} />
@@ -258,7 +281,7 @@ export default function Page() {
           </SimpleGrid>
           <SimpleGrid cols={3}>
             <div>
-              <Text size='h4'>{t('form.fill_opacity.label')}</Text>
+              <Text size="h4">{t('form.fill_opacity.label')}</Text>
               <Slider
                 {...form.getInputProps('fill_opacity')}
                 min={0}
@@ -270,11 +293,11 @@ export default function Page() {
                   { value: 0.5, label: '50%' },
                   { value: 0.8, label: '80%' },
                 ]}
-                readOnly={isReadOnly}
+                disabled={isReadOnly}
               />
             </div>
             <div>
-              <Text size='h4'>{t('form.border_opacity.label')}</Text>
+              <Text size="h4">{t('form.border_opacity.label')}</Text>
               <Slider
                 {...form.getInputProps('border_opacity')}
                 min={0}
@@ -286,11 +309,11 @@ export default function Page() {
                   { value: 0.5, label: '50%' },
                   { value: 0.8, label: '80%' },
                 ]}
-                readOnly={isReadOnly}
+                disabled={isReadOnly}
               />
             </div>
             <div>
-              <Text size='h4'>{t('form.border_width.label')}</Text>
+              <Text size="h4">{t('form.border_width.label')}</Text>
               <Slider
                 {...form.getInputProps('border_width')}
                 min={0}
@@ -303,7 +326,7 @@ export default function Page() {
                   { value: 4, label: '4' },
                   { value: 6, label: '6' },
                 ]}
-                readOnly={isReadOnly}
+                disabled={isReadOnly}
               />
             </div>
           </SimpleGrid>
@@ -313,8 +336,8 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.geojson.title')}</Text>
-            <Text size='h4'>{t('sections.geojson.description')}</Text>
+            <Text size="h2">{t('sections.geojson.title')}</Text>
+            <Text size="h4">{t('sections.geojson.description')}</Text>
           </div>
           <SimpleGrid cols={1}>
             <JsonInput
@@ -331,10 +354,10 @@ export default function Page() {
             />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <Button onClick={handleImportGeojson} disabled={!newGeojson}>
+            <Button onClick={handleImportGeojson} disabled={!newGeojson || isReadOnly}>
               {t('operations.import_geojson.title')}
             </Button>
-            <Button onClick={handleDeleteGeojson} disabled={form.values.geojson?.geometry?.coordinates?.length === 0} color='red'>
+            <Button onClick={handleDeleteGeojson} disabled={form.values.geojson?.geometry?.coordinates?.length === 0 || isReadOnly} color="red">
               {t('operations.delete_geojson.title')}
             </Button>
           </SimpleGrid>

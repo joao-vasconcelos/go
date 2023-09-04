@@ -1,14 +1,14 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { Validation as CalendarValidation } from '@/schemas/Calendar/validation';
 import { Default as CalendarDefault } from '@/schemas/Calendar/default';
-import { Tooltip, Switch, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import { Section } from '@/components/Layouts/Layouts';
@@ -21,6 +21,8 @@ import HCalendar from '@/components/HCalendar/HCalendar';
 import HCalendarToggle from '@/components/HCalendarToggle/HCalendarToggle';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import LockButton from '@/components/LockButton/LockButton';
+import populate from '@/services/populate';
 
 export default function Page() {
   //
@@ -31,10 +33,10 @@ export default function Page() {
   const router = useRouter();
   const t = useTranslations('calendars');
   const [isSaving, setIsSaving] = useState(false);
+  const [isLocking, setIsLocking] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
   const { data: session } = useSession();
-  const isReadOnly = !isAllowed(session, 'calendars', 'create_edit');
 
   const { calendar_id } = useParams();
 
@@ -42,8 +44,8 @@ export default function Page() {
   // B. Fetch data
 
   const { mutate: allCalendarsMutate } = useSWR('/api/calendars');
-  const { data: calendarData, error: calendarError, isLoading: calendarLoading } = useSWR(calendar_id && `/api/calendars/${calendar_id}`, { onSuccess: (data) => keepFormUpdated(data) });
-  const { data: allDatesData, error: allDatesError, isLoading: allDatesLoading, isValidating: allDatesValidating } = useSWR('/api/dates');
+  const { data: calendarData, error: calendarError, isLoading: calendarLoading, mutate: calendarMutate } = useSWR(calendar_id && `/api/calendars/${calendar_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+  const { data: allDatesData } = useSWR('/api/dates');
 
   //
   // C. Setup form
@@ -53,18 +55,24 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(CalendarValidation),
-    initialValues: calendarData || CalendarDefault,
+    initialValues: populate(CalendarDefault, calendarData),
   });
 
   const keepFormUpdated = (data) => {
     if (!form.isDirty()) {
-      form.setValues(data);
-      form.resetDirty(data);
+      const populated = populate(CalendarDefault, data);
+      form.setValues(populated);
+      form.resetDirty(populated);
     }
   };
 
   //
-  // D. Handle actions
+  // D. Setup readonly
+
+  const isReadOnly = !isAllowed(session, 'calendars', 'create_edit') || calendarData?.is_locked;
+
+  //
+  // E. Handle actions
 
   const handleValidate = () => {
     form.validate();
@@ -74,27 +82,43 @@ export default function Page() {
     router.push(`/dashboard/calendars/`);
   };
 
-  const handleSave = useCallback(async () => {
+  const handleSave = async () => {
     try {
       setIsSaving(true);
       await API({ service: 'calendars', resourceId: calendar_id, operation: 'edit', method: 'PUT', body: form.values });
+      calendarMutate();
       allCalendarsMutate();
       form.resetDirty();
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(false);
+    } catch (error) {
+      console.log(error);
+      setIsSaving(false);
+      setIsLocking(false);
+      setHasErrorSaving(error);
+    }
+  };
+
+  const handleLock = async (value) => {
+    try {
+      setIsLocking(true);
+      await API({ service: 'calendars', resourceId: calendar_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      calendarMutate();
+      setIsLocking(false);
     } catch (err) {
       console.log(err);
-      setIsSaving(false);
-      setHasErrorSaving(err);
+      calendarMutate();
+      setIsLocking(false);
     }
-  }, [calendar_id, form, allCalendarsMutate]);
+  };
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
+      title: <Text size="h2">{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      children: <Text size="h3">{t('operations.delete.description')}</Text>,
       labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -144,7 +168,7 @@ export default function Page() {
   };
 
   //
-  // E. Render components
+  // F. Setup components
 
   const renderDateCardComponent = ({ key, ...props }) => {
     return <HCalendarToggle key={key} activeDates={form.values.dates} onToggle={handleToggleDate} readOnly={isReadOnly} {...props} />;
@@ -169,13 +193,16 @@ export default function Page() {
             onSave={async () => await handleSave()}
             onClose={async () => await handleClose()}
           />
-          <Text size='h1' style={!form.values.name && 'untitled'} full>
+          <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
-          <AuthGate scope='calendars' permission='delete'>
-            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-                <IconTrash size='20px' />
+          <AuthGate scope="calendars" permission="lock">
+            <LockButton isLocked={calendarData?.is_locked} setLocked={handleLock} loading={isLocking} />
+          </AuthGate>
+          <AuthGate scope="calendars" permission="delete">
+            <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
+              <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
+                <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
           </AuthGate>
@@ -185,8 +212,8 @@ export default function Page() {
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
           <div>
-            <Text size='h2'>{t('sections.config.title')}</Text>
-            <Text size='h4'>{t('sections.config.description')}</Text>
+            <Text size="h2">{t('sections.config.title')}</Text>
+            <Text size="h4">{t('sections.config.description')}</Text>
           </div>
           <SimpleGrid cols={4}>
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />

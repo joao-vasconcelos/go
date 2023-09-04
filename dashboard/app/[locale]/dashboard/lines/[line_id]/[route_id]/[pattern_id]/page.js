@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next-intl/client';
 import { yupResolver } from '@mantine/form';
@@ -30,6 +30,7 @@ import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import ImportPatternFromGTFS from '@/components/ImportPatternFromGTFS/ImportPatternFromGTFS';
 import populate from '@/services/populate';
 import PatternPresetsTable from '@/components/PatternPresetsTable/PatternPresetsTable';
+import LockButton from '@/components/LockButton/LockButton';
 
 export default function Page() {
   //
@@ -40,14 +41,14 @@ export default function Page() {
   const router = useRouter();
   const t = useTranslations('patterns');
   const [isSaving, setIsSaving] = useState(false);
+  const [isLocking, setIsLocking] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isImporting, setIsImporting] = useState();
   const { data: session } = useSession();
   const { patternShapeMap } = useMap();
-  const isReadOnly = !isAllowed(session, 'lines', 'create_edit');
 
-  const [showAllZonesOnMap, setShowAllZonesOnMap] = useState(true);
-  const [showAllStopsOnMap, setShowAllStopsOnMap] = useState(true);
+  const [showAllZonesOnMap, setShowAllZonesOnMap] = useState(false);
+  const [showAllStopsOnMap, setShowAllStopsOnMap] = useState(false);
   const [mapStyle, setMapStyle] = useState('map');
 
   const { line_id, route_id, pattern_id } = useParams();
@@ -56,7 +57,7 @@ export default function Page() {
   // B. Fetch data
 
   const { data: lineData } = useSWR(line_id && `/api/lines/${line_id}`);
-  const { mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
+  const { data: routeData, mutate: routeMutate } = useSWR(route_id && `/api/routes/${route_id}`);
   const { data: allZonesData } = useSWR('/api/zones');
   const { data: allStopsData } = useSWR('/api/stops');
   const { data: agencyData } = useSWR(lineData && lineData.agency && `/api/agencies/${lineData.agency}`);
@@ -82,6 +83,11 @@ export default function Page() {
       patternForm.resetDirty(populated);
     }
   };
+
+  //
+  // D. Setup readonly
+
+  const isReadOnly = !isAllowed(session, 'lines', 'create_edit') || lineData?.is_locked || routeData?.is_locked || patternData?.is_locked;
 
   //
   // E. Transform data
@@ -197,7 +203,7 @@ export default function Page() {
   }, [allStopsData]);
 
   //
-  // D. Handle actions
+  // F. Handle actions
 
   const handleValidate = () => {
     patternForm.validate();
@@ -207,7 +213,7 @@ export default function Page() {
     router.push(`/dashboard/lines/${line_id}/${route_id}`);
   };
 
-  const handleSave = useCallback(async () => {
+  const handleSave = async () => {
     try {
       setIsSaving(true);
       await API({ service: 'patterns', resourceId: pattern_id, operation: 'edit', method: 'PUT', body: patternForm.values });
@@ -215,13 +221,28 @@ export default function Page() {
       patternStopsMutate();
       patternForm.resetDirty();
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(false);
     } catch (err) {
       console.log(err);
       setIsSaving(false);
+      setIsLocking(false);
       setHasErrorSaving(err);
     }
-  }, [pattern_id, patternForm, patternMutate, patternStopsMutate]);
+  };
+
+  const handleLock = async (value) => {
+    try {
+      setIsLocking(true);
+      await API({ service: 'patterns', resourceId: pattern_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      patternMutate();
+      setIsLocking(false);
+    } catch (err) {
+      console.log(err);
+      patternMutate();
+      setIsLocking(false);
+    }
+  };
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -299,6 +320,9 @@ export default function Page() {
             closeType="back"
           />
           <LineDisplay short_name={lineData && lineData.short_name} name={patternForm.values.headsign || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
+          <AuthGate scope="lines" permission="lock">
+            <LockButton isLocked={patternData?.is_locked} setLocked={handleLock} loading={isLocking} />
+          </AuthGate>
           <AuthGate scope="lines" permission="delete">
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
               <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
@@ -389,7 +413,7 @@ export default function Page() {
               <Text size="h2">{t('sections.path.title')}</Text>
               <Text size="h4">{t('sections.path.description')}</Text>
             </div>
-            <StopSequenceTable />
+            <StopSequenceTable isReadOnly={isReadOnly} />
           </Section>
 
           <Divider />
@@ -399,7 +423,7 @@ export default function Page() {
               <Text size="h2">{t('sections.schedules.title')}</Text>
               <Text size="h4">{t('sections.schedules.description')}</Text>
             </div>
-            <SchedulesTable />
+            <SchedulesTable isReadOnly={isReadOnly} />
           </Section>
 
           <Divider />
@@ -409,18 +433,20 @@ export default function Page() {
               <Text size="h2">{t('sections.presets.title')}</Text>
               <Text size="h4">{t('sections.presets.description')}</Text>
             </div>
-            <PatternPresetsTable />
+            <PatternPresetsTable isReadOnly={isReadOnly} />
           </Section>
 
           <Divider />
 
-          <Section>
-            <div>
-              <Text size="h2">{t('sections.update_path.title')}</Text>
-              <Text size="h4">{t('sections.update_path.description')}</Text>
-            </div>
-            <ImportPatternFromGTFS onImport={handleImport} />
-          </Section>
+          {!isReadOnly && (
+            <Section>
+              <div>
+                <Text size="h2">{t('sections.update_path.title')}</Text>
+                <Text size="h4">{t('sections.update_path.description')}</Text>
+              </div>
+              <ImportPatternFromGTFS onImport={handleImport} />
+            </Section>
+          )}
         </form>
       </PatternFormProvider>
     </Pannel>
