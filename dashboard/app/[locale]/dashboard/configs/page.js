@@ -53,12 +53,8 @@ export default function Page() {
     <AuthGate scope="configs" permission="admin" redirect>
       <Pannel>
         <Section>
-          <Text size="h2">Refactors</Text>
-          <SimpleGrid cols={4}>
-            <Button onClick={handleSetLockProperty} color="red" disabled={isImporting}>
-              Set Lock Property
-            </Button>
-          </SimpleGrid>
+          <Text size="h2">No operations available</Text>
+          <SimpleGrid cols={4}></SimpleGrid>
         </Section>
       </Pannel>
     </AuthGate>
