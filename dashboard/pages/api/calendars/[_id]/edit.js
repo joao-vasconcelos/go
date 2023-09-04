@@ -5,7 +5,7 @@ import { CalendarValidation } from '@/schemas/Calendar/validation';
 import { CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
-/* EDIT AGENCY */
+/* EDIT CALENDAR */
 /* Explanation needed. */
 /* * */
 
