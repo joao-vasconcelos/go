@@ -25,9 +25,9 @@ export default function Page() {
           <Text size="h2">All Pattern Ids</Text>
           {allPatternsData && (
             <SimpleGrid cols={1}>
-              {allPatternsData.map((route) => (
-                <div key={route._id}>
-                  {route.code} - {route._id}
+              {allPatternsData.map((pattern) => (
+                <div key={pattern._id}>
+                  {pattern.code} - {pattern._id} - {pattern.parent_route}
                 </div>
               ))}
             </SimpleGrid>

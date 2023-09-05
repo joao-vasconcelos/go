@@ -27,7 +27,7 @@ export default function Page() {
             <SimpleGrid cols={1}>
               {allRoutesData.map((route) => (
                 <div key={route._id}>
-                  {route.code} - {route._id}
+                  {route.code} - {route._id} - {route.parent_line}
                 </div>
               ))}
             </SimpleGrid>

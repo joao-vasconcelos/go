@@ -25,9 +25,9 @@ export default function Page() {
           <Text size="h2">All Line Ids</Text>
           {allLinesData && (
             <SimpleGrid cols={1}>
-              {allLinesData.map((route) => (
-                <div key={route._id}>
-                  {route.code} - {route._id}
+              {allLinesData.map((line) => (
+                <div key={line._id}>
+                  {line.code} - {line._id}
                 </div>
               ))}
             </SimpleGrid>
