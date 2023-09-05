@@ -44,7 +44,7 @@ export default async function handler(req, res) {
   // List all documents
 
   try {
-    const allDocuments = await RouteModel.find();
+    const allDocuments = await RouteModel.find({}, '_id code name');
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);

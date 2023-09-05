@@ -44,7 +44,7 @@ export default async function handler(req, res) {
   // List all documents
 
   try {
-    const allDocuments = await PatternModel.find();
+    const allDocuments = await PatternModel.find({}, '_id code headsign');
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
