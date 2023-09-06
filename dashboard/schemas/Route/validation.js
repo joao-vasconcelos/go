@@ -18,7 +18,7 @@ export const RouteValidation = yup.object({
     .string()
     .required()
     .max(150)
-    .matches(/^[a-zA-ZÀ-ÿ0-9()|-\s]+$/),
+    .matches(/^[a-zA-ZÀ-ÿ0-9()|ºª.'-\s]+$/),
   path_type: yup.number().integer().required(),
   parent_line: yup.string().required(),
   patterns: yup.array(yup.string()),

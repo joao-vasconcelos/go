@@ -21,7 +21,7 @@ export const PatternValidation = yup.object({
     .string()
     .required()
     .max(50)
-    .matches(/^[a-zA-ZÀ-ÿ0-9()|-\s]+$/),
+    .matches(/^[a-zA-ZÀ-ÿ0-9()|ºª.'-\s]+$/),
   presets: yup.object({
     velocity: yup.number().integer(),
     dwell_time: yup.number().integer(),

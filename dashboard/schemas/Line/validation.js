@@ -18,7 +18,7 @@ export const LineValidation = yup.object({
     .string()
     .required()
     .max(150)
-    .matches(/^[a-zA-ZÀ-ÿ0-9()|-\s]+$/),
+    .matches(/^[a-zA-ZÀ-ÿ0-9()|ºª.'-\s]+$/),
   short_name: yup
     .string()
     .required()
