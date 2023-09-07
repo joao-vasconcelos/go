@@ -46,11 +46,12 @@ export default async function handler(req, res) {
   // Save a new document with default values
 
   try {
-    const newDocument = { ...MunicipalityDefault, code: generator(5) };
+    const newDocument = { ...MunicipalityDefault, code: generator({ length: 4 }) };
     while (await MunicipalityModel.exists({ code: newDocument.code })) {
-      newDocument.code = generator(5);
+      newDocument.code = generator({ length: 4 });
     }
-    return await res.status(201).json(newDocument);
+    const createdDocument = await MunicipalityModel(newDocument).save();
+    return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot create this Municipality.' });

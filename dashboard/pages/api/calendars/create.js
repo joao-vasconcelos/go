@@ -46,9 +46,9 @@ export default async function handler(req, res) {
   // Save a new document with req.body
 
   try {
-    const newDocument = { ...CalendarDefault, code: generator(4) };
+    const newDocument = { ...CalendarDefault, code: generator({ length: 5 }) };
     while (await CalendarModel.exists({ code: newDocument.code })) {
-      newDocument.code = generator(5);
+      newDocument.code = generator({ length: 5 });
     }
     const createdDocument = await CalendarModel(newDocument).save();
     return await res.status(201).json(createdDocument);

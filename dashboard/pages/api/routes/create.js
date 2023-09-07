@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import generate from '@/services/generator';
+import generator from '@/services/generator';
 import { RouteDefault } from '@/schemas/Route/default';
 import { RouteModel } from '@/schemas/Route/model';
 import { LineModel } from '@/schemas/Line/model';
@@ -61,9 +61,9 @@ export default async function handler(req, res) {
     // Get parent Line document
     const parentLineDocument = await LineModel.findOne({ _id: { $eq: req.body.parent_line } });
     // Set an available code for the new Route
-    let newRouteCode = `${parentLineDocument.code}_${generate(3, { type: 'numeric' })}`;
+    let newRouteCode = `${parentLineDocument.code}_${generator({ length: 2, type: 'numeric' })}`;
     while (await RouteModel.exists({ code: newRouteCode })) {
-      newRouteCode = `${parentLineDocument.code}_${generate(3, { type: 'numeric' })}`;
+      newRouteCode = `${parentLineDocument.code}_${generator({ length: 2, type: 'numeric' })}`;
     }
     // Create the new Route document
     const newRoute = { ...RouteDefault, code: newRouteCode, parent_line: req.body.parent_line };

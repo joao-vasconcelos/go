@@ -1,6 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
+import generator from '@/services/generator';
 import { TypologyDefault } from '@/schemas/Typology/default';
 import { TypologyModel } from '@/schemas/Typology/model';
 
@@ -45,7 +46,11 @@ export default async function handler(req, res) {
   // Save a new document with req.body
 
   try {
-    const createdDocument = await TypologyModel(TypologyDefault).save();
+    const newDocument = { ...TypologyDefault, code: generator({ length: 5 }) };
+    while (await TypologyModel.exists({ code: newDocument.code })) {
+      newDocument.code = generator({ length: 5 });
+    }
+    const createdDocument = await TypologyModel(newDocument).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);

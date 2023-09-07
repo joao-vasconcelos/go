@@ -1,7 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import generate from '@/services/generator';
+import generator from '@/services/generator';
 import { PatternDefault } from '@/schemas/Pattern/default';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { RouteModel } from '@/schemas/Route/model';
@@ -61,9 +61,9 @@ export default async function handler(req, res) {
     // Get parent Route document
     const parentRouteDocument = await RouteModel.findOne({ _id: { $eq: req.body.parent_route } });
     // Set an available code for the new Route
-    let newPatternCode = `${parentRouteDocument.code}_${generate(3, { type: 'numeric' })}`;
+    let newPatternCode = `${parentRouteDocument.code}_${generator({ length: 2, type: 'numeric' })}`;
     while (await PatternModel.exists({ code: newPatternCode })) {
-      newPatternCode = `${parentRouteDocument.code}_${generate(3, { type: 'numeric' })}`;
+      newPatternCode = `${parentRouteDocument.code}_${generator({ length: 2, type: 'numeric' })}`;
     }
     // Create the new Route document
     const newPattern = { ...PatternDefault, code: newPatternCode, parent_route: parentRouteDocument._id, direction: req.body.direction };

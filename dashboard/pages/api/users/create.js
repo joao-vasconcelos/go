@@ -45,7 +45,11 @@ export default async function handler(req, res) {
   // Save a new document with default values
 
   try {
-    const createdDocument = await UserModel(UserDefault).save();
+    const newDocument = { ...UserDefault, name: generator({ length: 5 }) };
+    while (await UserModel.exists({ name: newDocument.name })) {
+      newDocument.name = generator({ length: 5 });
+    }
+    const createdDocument = await UserModel(newDocument).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);

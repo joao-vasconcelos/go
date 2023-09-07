@@ -46,9 +46,9 @@ export default async function handler(req, res) {
   // Save a new document with default values
 
   try {
-    const newDocument = { ...LineDefault, code: generator(5, { type: 'numeric' }) };
+    const newDocument = { ...LineDefault, code: generator({ length: 4, type: 'numeric' }) };
     while (await LineModel.exists({ code: newDocument.code })) {
-      newDocument.code = generator(5);
+      newDocument.code = generator({ length: 4, type: 'numeric' });
     }
     const createdDocument = await LineModel(newDocument).save();
     return await res.status(201).json(createdDocument);

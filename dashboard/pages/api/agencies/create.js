@@ -1,6 +1,7 @@
 import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
+import generator from '@/services/generator';
 import { AgencyDefault } from '@/schemas/Agency/default';
 import { AgencyModel } from '@/schemas/Agency/model';
 
@@ -45,7 +46,11 @@ export default async function handler(req, res) {
   // Save a new document with default values
 
   try {
-    const createdDocument = await AgencyModel(AgencyDefault).save();
+    const newDocument = { ...AgencyDefault, code: generator({ length: 2 }) };
+    while (await AgencyModel.exists({ code: newDocument.code })) {
+      newDocument.code = generator({ length: 2 });
+    }
+    const createdDocument = await AgencyModel(newDocument).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);

@@ -44,7 +44,10 @@ export default async function handler(req, res) {
 
   // 2. Try to save a new document with req.body
   try {
-    const newDocument = { ...ZoneDefault, code: generator(5) };
+    const newDocument = { ...ZoneDefault, code: generator({ length: 5 }) };
+    while (await ZoneModel.exists({ code: newDocument.code })) {
+      newDocument.code = generator({ length: 5 });
+    }
     const createdDocument = await ZoneModel(newDocument).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
