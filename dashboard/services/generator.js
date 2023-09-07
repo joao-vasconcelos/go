@@ -5,7 +5,7 @@
 const numericSet = '0123456789';
 const alphanumericSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-export default function generateRandomString(length, type = null) {
+export default function generator({ length = 2, type = 'alphanumeric' }) {
   //
 
   let allowedCharacters;
