@@ -1,5 +1,6 @@
 import Papa from 'papaparse';
 import * as fs from 'fs';
+import { transliterate } from 'inflected';
 import calculateDateDayType from '../calculateDateDayType';
 import { ExportModel } from '@/schemas/Export/model';
 import { LineModel } from '@/schemas/Line/model';
@@ -259,7 +260,7 @@ async function parseZoning(lineData, patternData, exportOptions) {
     const municipalityData = await MunicipalityModel.findOne({ _id: stopData.municipality }, 'code name');
     const allZonesData = await ZoneModel.find({ _id: pathData.zones }, 'code name');
     // Prepare zones in the file format
-    let formattedZones = allZonesData.filter((zone) => zone.code !== 'AML').map((zone) => zone.code);
+    let formattedZones = allZonesData.filter((zone) => zone.code !== 'AML').map((zone) => transliterate(zone.name));
     if (formattedZones.length === 0) formattedZones = '0';
     else formattedZones = formattedZones.join('-');
     // Write the afetacao.txt entry for this path
