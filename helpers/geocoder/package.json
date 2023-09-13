@@ -3,11 +3,12 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js -e"
     },
     "dependencies": {
-        "@googlemaps/google-maps-services-js": "^3.3.35",
-        "papaparse": "^5.4.1",
-        "react-geocode": "^0.2.3"
+        "@googlemaps/google-maps-services-js": "3.3.38",
+        "papaparse": "5.4.1",
+        "react-geocode": "0.2.3",
+        "dotenv": "16.3.1"
     }
 }

@@ -8,6 +8,8 @@
 const fs = require('fs');
 const Papa = require('papaparse');
 const { Client } = require('@googlemaps/google-maps-services-js');
+require('dotenv').config();
+const { GOOGLE_API_KEY } = process.env;
 
 const formatSchools = async () => {
   //
@@ -17,7 +19,7 @@ const formatSchools = async () => {
 
   console.log('• Parsing latest schools...');
 
-  const txtData = fs.readFileSync('schools.csv', { encoding: 'utf8' });
+  const txtData = fs.readFileSync('schools_torres_vedras.csv', { encoding: 'utf8' });
 
   const rawSchoolsData = Papa.parse(txtData, { header: true });
 
@@ -38,10 +40,9 @@ const formatSchools = async () => {
       //
 
       //   const geocoderQuery = `${school.school_name}, ${school.address}, ${school.postal_code}, ${school.locality}, Portugal`;
-      //   const geocoderQuery = `${school.school_name}, ${school.address}, ${school.municipality_dgeec}, Portugal`;
-      const geocoderQuery = `School at ${school.address}, ${school.postal_code} ${school.municipality_dgeec}, Portugal`;
+      const geocoderQuery = `${school.school_name}, ${school.address}, ${school.municipality_dgeec}, Portugal`;
+      //   const geocoderQuery = `School at ${school.address}, ${school.postal_code} ${school.municipality_dgeec}, Portugal`;
 
-      const API_KEY = 'AIzaSyCS-iEXxCnChVyQsKWXOZLStYkP31Lf36I';
       const client = new Client({});
       const response = await client.findPlaceFromText({
         params: {
@@ -49,7 +50,7 @@ const formatSchools = async () => {
           inputtype: 'textquery',
           language: 'pt',
           fields: ['geometry', 'place_id'],
-          key: API_KEY,
+          key: GOOGLE_API_KEY,
         },
         timeout: 1000, // milliseconds
       });
@@ -63,7 +64,7 @@ const formatSchools = async () => {
       console.log('Success', school.school_id, school.school_name, response.data.candidates[0].geometry.location.lat, response.data.candidates[0].geometry.location.lng);
     } catch (error) {
       //   console.log(error);
-      console.log('Error', school.school_id, school.school_name);
+      console.log('Error', school.school_id, school.school_name, error);
     }
     await delay(250);
     //
@@ -77,7 +78,7 @@ const formatSchools = async () => {
   // Use papaparse to produce the CSV string
   const csvData = Papa.unparse(updatedSchools, { skipEmptyLines: 'greedy' });
   // Append the csv string to the file
-  fs.writeFileSync(`schools_summary_postal_code.txt`, csvData);
+  fs.writeFileSync(`schools_result.txt`, csvData);
 
   //
 
