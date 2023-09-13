@@ -78,7 +78,7 @@ const formatSchools = async () => {
   // Use papaparse to produce the CSV string
   const csvData = Papa.unparse(updatedSchools, { skipEmptyLines: 'greedy' });
   // Append the csv string to the file
-  fs.writeFileSync(`schools_result.txt`, csvData);
+  fs.writeFileSync(`schools_result.csv`, csvData);
 
   //
 
