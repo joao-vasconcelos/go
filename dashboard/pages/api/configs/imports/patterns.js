@@ -268,7 +268,7 @@ export default async function handler(req, res) {
         // Parse the pattern object to match GO schema
         const patternObject = {
           code: directionApi.pattern_id,
-          parent_route: route._id,
+          parent_route: route?._id,
           direction: Number(directionApi.direction_id),
           headsign: directionApi.headsign,
           shape: shapeForThisPattern,
