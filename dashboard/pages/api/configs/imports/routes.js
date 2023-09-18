@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   //
   await delay();
 
-  throw new Error('Feature is disabled.');
+  //   throw new Error('Feature is disabled.');
 
   // 0.
   // Refuse request if not GET
@@ -61,7 +61,7 @@ export default async function handler(req, res) {
 
     // 6.1.
     // Retrieve all Lines from database
-    const allLines = await LineModel.find({});
+    const allLines = await LineModel.find();
 
     // 6.2.
     // Iterate through each available Line
@@ -69,13 +69,21 @@ export default async function handler(req, res) {
       //
 
       // 6.2.0.
-      // Skip if this line is for A4
+      // Skip if this line is not A2
+      if (lineData.code.startsWith('1')) continue;
+      //   if (lineData.code.startsWith('2')) continue;
+      if (lineData.code.startsWith('3')) continue;
       if (lineData.code.startsWith('4')) continue;
 
       // 6.2.1.
-      // Fetch routes for this line from API v1
-      const allRoutesRes = await fetch(`https://schedules.carrismetropolitana.pt/api/routes/route_short_name/${lineData.short_name}`);
-      const allRoutesApi = await allRoutesRes.json();
+      // Skip if route is locked
+      if (lineData.is_locked) continue;
+
+      // 6.2.1.
+      // Fetch routes for this line from API v2
+      const lineApiRes = await fetch(`https://api.carrismetropolitana.pt/lines/${lineData.code}`);
+      const lineApi = await lineApiRes.json();
+      if (!lineApi?.routes) continue;
 
       // 6.2.2.
       // Setup a temporary variable to hold created route_ids
@@ -83,11 +91,18 @@ export default async function handler(req, res) {
 
       // 6.2.3.
       // Parse each route
-      for (const routeApi of allRoutesApi) {
+      for (const routeId of lineApi.routes) {
+        // Skip if route is locked
+        const routeGo = await RouteModel.findOne({ code: routeId });
+        if (routeGo.is_locked) continue;
+
+        // Fetch routes for this line from API v2
+        const routeApiRes = await fetch(`https://api.carrismetropolitana.pt/routes/${routeId}`);
+        const routeApi = await routeApiRes.json();
         // Parse the route object
         const parsedRoute = {
-          code: routeApi.route_id,
-          name: routeApi.route_long_name,
+          code: routeApi.id,
+          name: routeApi.long_name,
           path_type: 1,
           parent_line: lineData._id,
           patterns: [],
@@ -115,8 +130,8 @@ export default async function handler(req, res) {
       console.log();
 
       // 6.2.7.
-      // Wait for 250 miliseconds to ensure no rate limits are hit
-      await delay(250);
+      // Wait for 150 miliseconds to ensure no rate limits are hit
+      await delay(150);
 
       //
     }

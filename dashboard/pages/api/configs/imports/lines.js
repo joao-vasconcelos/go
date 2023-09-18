@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   //
   await delay();
 
-  throw new Error('Feature is disabled.');
+  //   throw new Error('Feature is disabled.');
 
   // 0.
   // Refuse request if not GET
@@ -72,12 +72,20 @@ export default async function handler(req, res) {
       //
 
       // 6.2.0.
-      // Skip if this line is for A4
-      if (lineApi.code.startsWith('4')) continue;
+      // Skip if this line is not A2
+      if (lineApi.id.startsWith('1')) continue;
+      //   if (lineApi.id.startsWith('2')) continue;
+      if (lineApi.id.startsWith('3')) continue;
+      if (lineApi.id.startsWith('4')) continue;
+
+      // 6.2.1.
+      // Skip if line is locked
+      const lineGo = await LineModel.findOne({ code: lineApi.id });
+      if (lineGo?.is_locked) continue;
 
       // 6.2.1.
       // Find out to which Agency this line belongs to
-      const agencyCode = `4${lineApi.code.substring(0, 1)}`;
+      const agencyCode = `4${lineApi.id.substring(0, 1)}`;
       const agencyDocument = await AgencyModel.findOne({ code: agencyCode });
 
       // 6.2.2.
@@ -98,10 +106,10 @@ export default async function handler(req, res) {
       // 6.2.4.
       // Format line to match GO schema
       const parsedLine = {
-        code: lineApi.code,
+        code: lineApi.id,
         name: lineApi.long_name,
         short_name: lineApi.short_name,
-        circular: lineApi.continuous || false,
+        circular: false,
         school: false,
         continuous: false,
         transport_type: 3,

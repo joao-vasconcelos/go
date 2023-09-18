@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   //
   await delay();
 
-  throw new Error('Feature is disabled.');
+  //   throw new Error('Feature is disabled.');
 
   // 0.
   // Refuse request if not GET
@@ -72,8 +72,15 @@ export default async function handler(req, res) {
       //
 
       // 6.2.0.
-      // Skip if this route is for A4
+      // Skip if this route is not A2
+      if (route.code.startsWith('1')) continue;
+      //   if (route.code.startsWith('2')) continue;
+      if (route.code.startsWith('3')) continue;
       if (route.code.startsWith('4')) continue;
+
+      // 6.2.1.
+      // Skip if route is locked
+      if (route.is_locked) continue;
 
       // 6.2.1.
       // Fetch info for this Route from API v1
@@ -272,6 +279,10 @@ export default async function handler(req, res) {
             dwell_time: 30,
           },
         };
+
+        // Skip if pattern is locked
+        const patternGo = await PatternModel.findOne({ code: patternObject.code });
+        if (patternGo?.is_locked) continue;
 
         // 6.2.4.10.
         // Save this pattern to the database
