@@ -146,7 +146,7 @@ export default async function handler(req, res) {
 
       // 6.3.6.
       // Log progress
-      console.log(`⤷ Updated Stop ${stopApi.code}.`);
+      console.log(`⤷ Updated Stop ${formattedStop.code}.`);
 
       //
     }
