@@ -95,14 +95,14 @@ export default async function handler(req, res) {
 
       // 6.3.2.
       // Find out to which Municipality this stop belongs to
-      const matchedMunicipality = allMunicipalities.find((item) => item.code === stopApi.municipality_code);
+      const matchedMunicipality = allMunicipalities.find((item) => item.code === stopApi.municipality_id);
       const municipalityIdForThisStop = matchedMunicipality ? matchedMunicipality._id : null;
 
       // 6.3.3.
       // Format stop to match GO schema
       const formattedStop = {
         // General
-        code: stopApi.code,
+        code: stopApi.id,
         name: stopApi.name,
         short_name: stopApi.short_name,
         tts_name: stopApi.tts_name,
@@ -138,7 +138,7 @@ export default async function handler(req, res) {
 
       // 6.3.4.
       // Update the stop
-      const updatedStopDocument = await StopModel.findOneAndUpdate({ code: stopApi.code }, formattedStop, { new: true, upsert: true });
+      const updatedStopDocument = await StopModel.findOneAndUpdate({ code: stopApi.id }, formattedStop, { new: true, upsert: true });
 
       // 6.3.5.
       // Save this stop_id to the set to delete any dangling stops
