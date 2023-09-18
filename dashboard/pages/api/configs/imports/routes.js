@@ -77,7 +77,7 @@ export default async function handler(req, res) {
 
       // 6.2.1.
       // Skip if route is locked
-      if (lineData.is_locked) continue;
+      if (lineData?.is_locked) continue;
 
       // 6.2.1.
       // Fetch routes for this line from API v2
@@ -94,7 +94,7 @@ export default async function handler(req, res) {
       for (const routeId of lineApi.routes) {
         // Skip if route is locked
         const routeGo = await RouteModel.findOne({ code: routeId });
-        if (routeGo.is_locked) continue;
+        if (routeGo?.is_locked) continue;
 
         // Fetch routes for this line from API v2
         const routeApiRes = await fetch(`https://api.carrismetropolitana.pt/routes/${routeId}`);
