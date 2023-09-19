@@ -70,8 +70,8 @@ export default async function handler(req, res) {
 
       // 6.2.0.
       // Skip if this line is not A2
-      if (lineData.code.startsWith('1')) continue;
-      //   if (lineData.code.startsWith('2')) continue;
+      //   if (lineData.code.startsWith('1')) continue;
+      if (lineData.code.startsWith('2')) continue;
       if (lineData.code.startsWith('3')) continue;
       if (lineData.code.startsWith('4')) continue;
 

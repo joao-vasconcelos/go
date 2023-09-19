@@ -73,8 +73,8 @@ export default async function handler(req, res) {
 
       // 6.2.0.
       // Skip if this line is not A2
-      if (lineApi.id.startsWith('1')) continue;
-      //   if (lineApi.id.startsWith('2')) continue;
+      //   if (lineApi.id.startsWith('1')) continue;
+      if (lineApi.id.startsWith('2')) continue;
       if (lineApi.id.startsWith('3')) continue;
       if (lineApi.id.startsWith('4')) continue;
 
