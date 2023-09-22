@@ -140,7 +140,7 @@ export default function Page() {
     try {
       setIsCreatingPattern(true);
       notify('new-pattern', 'loading', 'A criar Pattern...');
-      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { code: `${routeData.code}_${routeForm.values.patterns.length}`, parent_route: route_id, direction: routeForm.values.patterns.length } });
+      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { code: `${routeData.code}_${routeForm.values.patterns.length}`, parent_route: route_id } });
       routeForm.insertListItem('patterns', response._id);
       notify('new-pattern', 'success', 'Pattern criado com sucesso.');
       setIsCreatingPattern(false);

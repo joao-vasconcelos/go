@@ -484,7 +484,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
       // 3.4.3.
       // Iterate on all the patterns for the given route
-      patternLoop: for (const patternId of routeData.patterns) {
+      patternLoop: for (const [patternIndex, patternId] of routeData.patterns.entries()) {
         //
         // 3.4.3.0.
         // Fetch pattern from database
@@ -652,7 +652,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               service_id: calendarData.code,
               trip_id: thisTripCode,
               trip_headsign: patternData.headsign.replaceAll(',', ''),
-              direction_id: patternData.direction,
+              direction_id: patternIndex,
               shape_id: thisShapeCode,
               calendar_desc: scheduleData.calendar_desc.replaceAll(',', ''),
             });

@@ -18,9 +18,6 @@ export const PatternSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Route',
     },
-    direction: {
-      type: Number,
-    },
     headsign: {
       type: String,
       maxlength: 100,
