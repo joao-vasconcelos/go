@@ -31,15 +31,15 @@ export default function ExportFileForm() {
 
   const [isCreatingExport, setIsCreatingExport] = useState(false);
 
-  const [selectedExportType, setSelectedExportType] = useState();
-  const [selectedAgencyId, setSelectedAgencyId] = useState();
+  const [selectedExportType, setSelectedExportType] = useState(null);
+  const [selectedAgencyId, setSelectedAgencyId] = useState(null);
   const [selectedLineIdsToInclude, setSelectedLineIdsToInclude] = useState([]);
   const [selectedLineIdsToExclude, setSelectedLineIdsToExclude] = useState([]);
-  const [selectedFeedStartDate, setSelectedFeedStartDate] = useState();
-  const [selectedFeedEndDate, setSelectedFeedEndDate] = useState();
-  const [shouldAdjustCalendars, setShouldAdjustCalendars] = useState();
-  const [selectedCalendarsStartDate, setSelectedCalendarsStartDate] = useState();
-  const [selectedCalendarsEndDate, setSelectedCalendarsEndDate] = useState();
+  const [selectedFeedStartDate, setSelectedFeedStartDate] = useState(null);
+  const [selectedFeedEndDate, setSelectedFeedEndDate] = useState(null);
+  const [shouldAdjustCalendars, setShouldAdjustCalendars] = useState(null);
+  const [selectedCalendarsStartDate, setSelectedCalendarsStartDate] = useState(null);
+  const [selectedCalendarsEndDate, setSelectedCalendarsEndDate] = useState(null);
   const [selectedStopSequenceStart, setSelectedStopSequenceStart] = useState(1);
 
   //
@@ -117,15 +117,15 @@ export default function ExportFileForm() {
       // Mutate results
       allExportsMutate();
       // Reset form
-      setSelectedExportType();
-      setSelectedAgencyId();
+      setSelectedExportType(null);
+      setSelectedAgencyId(null);
       setSelectedLineIdsToInclude([]);
       setSelectedLineIdsToExclude([]);
-      setSelectedFeedStartDate();
-      setSelectedFeedEndDate();
-      setShouldAdjustCalendars();
-      setSelectedCalendarsStartDate();
-      setSelectedCalendarsEndDate();
+      setSelectedFeedStartDate(null);
+      setSelectedFeedEndDate(null);
+      setShouldAdjustCalendars(null);
+      setSelectedCalendarsStartDate(null);
+      setSelectedCalendarsEndDate(null);
       setSelectedStopSequenceStart(1);
       // Reset state
       setIsCreatingExport(false);
@@ -143,14 +143,14 @@ export default function ExportFileForm() {
       header={
         <>
           <IconCloudPlus size={22} />
-          <Text size='h2' full>
+          <Text size="h2" full>
             {t('title')}
           </Text>
         </>
       }
     >
       <Section>
-        <Text size='h4' color='muted'>
+        <Text size="h4" color="muted">
           {t('description')}
         </Text>
       </Section>
@@ -199,7 +199,7 @@ export default function ExportFileForm() {
           data={availableLinesToInclude}
           value={selectedLineIdsToInclude}
           onChange={setSelectedLineIdsToInclude}
-          disabled={!selectedAgencyId || selectedLineIdsToExclude.length}
+          disabled={!selectedAgencyId || selectedLineIdsToExclude.length > 0}
           searchable
           clearable
         />
@@ -211,7 +211,7 @@ export default function ExportFileForm() {
           data={availableLinesToExclude}
           value={selectedLineIdsToExclude}
           onChange={setSelectedLineIdsToExclude}
-          disabled={!selectedAgencyId || selectedLineIdsToInclude.length}
+          disabled={!selectedAgencyId || selectedLineIdsToInclude.length > 0}
           searchable
           clearable
         />
@@ -228,7 +228,7 @@ export default function ExportFileForm() {
             value={selectedFeedStartDate}
             onChange={setSelectedFeedStartDate}
             disabled={!selectedAgencyId}
-            dropdownType='modal'
+            dropdownType="modal"
             clearable
           />
           <DatePickerInput
@@ -239,7 +239,7 @@ export default function ExportFileForm() {
             onChange={setSelectedFeedEndDate}
             minDate={selectedFeedStartDate}
             disabled={!selectedFeedStartDate}
-            dropdownType='modal'
+            dropdownType="modal"
             clearable
           />
         </SimpleGrid>
@@ -266,7 +266,7 @@ export default function ExportFileForm() {
               value={selectedCalendarsStartDate}
               onChange={setSelectedCalendarsStartDate}
               disabled={!selectedAgencyId}
-              dropdownType='modal'
+              dropdownType="modal"
               clearable
             />
             <DatePickerInput
@@ -277,7 +277,7 @@ export default function ExportFileForm() {
               onChange={setSelectedCalendarsEndDate}
               minDate={selectedCalendarsStartDate}
               disabled={!selectedCalendarsStartDate}
-              dropdownType='modal'
+              dropdownType="modal"
               clearable
             />
           </SimpleGrid>

@@ -125,10 +125,10 @@ export default function Page() {
   const handleDelete = () => {
     closeModal();
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
+      title: <Text size="h2">{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      children: <Text size="h3">{t('operations.delete.description')}</Text>,
       labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -166,23 +166,23 @@ export default function Page() {
       loading={allDatesLoading}
       header={
         <>
-          <Tooltip label={t('operations.close.title')} color='gray' position='bottom' withArrow>
-            <ActionIcon color='gray' variant='subtle' size='lg' onClick={() => router.push('/dashboard/calendars')}>
-              <IconChevronLeft size='20px' />
+          <Tooltip label={t('operations.close.title')} color="gray" position="bottom" withArrow>
+            <ActionIcon color="gray" variant="subtle" size="lg" onClick={() => router.push('/dashboard/calendars')}>
+              <IconChevronLeft size={20} />
             </ActionIcon>
           </Tooltip>
-          <Text size='h1' full>
+          <Text size="h1" full>
             {t('title')}
           </Text>
-          <AuthGate scope='dates' permission='create_edit'>
-            <Button leftIcon={<IconCalendarPlus size='20px' />} onClick={openModal} variant='light' color='blue' size='sm'>
+          <AuthGate scope="dates" permission="create_edit">
+            <Button leftIcon={<IconCalendarPlus size={20} />} onClick={openModal} variant="light" color="blue" size="sm">
               {t('operations.manage.title')}
             </Button>
           </AuthGate>
         </>
       }
     >
-      <Modal opened={isModalPresented} onClose={closeModal} title={t('operations.manage.title')} size='auto' centered>
+      <Modal opened={isModalPresented} onClose={closeModal} title={t('operations.manage.title')} size="auto" centered>
         <Loader visible={isUpdatingDates} full />
         <form onSubmit={form.onSubmit(handleUpdate)}>
           <SimpleGrid cols={1}>
@@ -196,9 +196,9 @@ export default function Page() {
             />
 
             {selectedCalendarType === 'range' ? (
-              <DatePicker type='range' value={selectedDateRange} onChange={setSelectedDateRange} numberOfColumns={3} />
+              <DatePicker type="range" value={selectedDateRange} onChange={setSelectedDateRange} numberOfColumns={3} />
             ) : (
-              <DatePicker type='multiple' value={selectedDatesCollection} onChange={setSelectedDatesCollection} numberOfColumns={3} />
+              <DatePicker type="multiple" value={selectedDatesCollection} onChange={setSelectedDatesCollection} numberOfColumns={3} />
             )}
 
             <Divider />
@@ -220,11 +220,11 @@ export default function Page() {
               <Switch label={t('form.is_holiday.label')} description={t('form.is_holiday.description')} {...form.getInputProps('is_holiday')} readOnly={isReadOnly} />
             </SimpleGrid>
             <SimpleGrid cols={2}>
-              <Button size='lg' onClick={handleUpdate} disabled={!isSelectionValid()}>
+              <Button size="lg" onClick={handleUpdate} disabled={!isSelectionValid()}>
                 {t('operations.update.title')}
               </Button>
-              <AuthGate scope='dates' permission='delete'>
-                <Button size='lg' color='red' onClick={handleDelete} disabled={!isSelectionValid()}>
+              <AuthGate scope="dates" permission="delete">
+                <Button size="lg" color="red" onClick={handleDelete} disabled={!isSelectionValid()}>
                   {t('operations.delete.title')}
                 </Button>
               </AuthGate>

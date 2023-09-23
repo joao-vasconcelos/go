@@ -9,7 +9,7 @@ export const LineDefault = {
   code: '',
   name: '',
   short_name: '',
-  transport_type: 3, // bus
+  transport_type: '3', // bus
   circular: false,
   school: false,
   continuous: false,

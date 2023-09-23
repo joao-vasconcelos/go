@@ -19,7 +19,7 @@ export const RouteValidation = yup.object({
     .required()
     .max(150)
     .matches(/^[a-zA-ZÀ-ÿ0-9()|ºª.'-\s]+$/),
-  path_type: yup.number().integer().required(),
+  path_type: yup.string().required().max(2),
   parent_line: yup.string().required(),
   patterns: yup.array(yup.string()),
 });

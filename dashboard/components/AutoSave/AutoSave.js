@@ -39,7 +39,7 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
   if (isErrorSaving && isSaving) {
     return (
-      <Button size='xs' leftIcon={<IconAlertTriangleFilled size='20px' />} variant='light' color='red' loading>
+      <Button size="xs" leftIcon={<IconAlertTriangleFilled size="20px" />} variant="light" color="red" loading>
         {t('retry.title')}
       </Button>
     );
@@ -52,8 +52,8 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
   if (isErrorSaving) {
     return (
-      <Tooltip label={`Ocorreu um erro ao salvar as alterações: ${isErrorSaving.message}`} color='red' position='bottom' width={300} multiline withArrow>
-        <Button size='xs' leftIcon={<IconAlertTriangleFilled size='20px' />} variant='light' color='red' onClick={onSave}>
+      <Tooltip label={`Ocorreu um erro ao salvar as alterações: ${isErrorSaving.message}`} color="red" position="bottom" width={300} multiline withArrow>
+        <Button size="xs" leftIcon={<IconAlertTriangleFilled size="20px" />} variant="light" color="red" onClick={onSave}>
           Salvar Alterações
         </Button>
       </Tooltip>
@@ -69,8 +69,8 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
   if (isLoading || isSaving) {
     return (
-      <ActionIcon size='lg' loading={true}>
-        <IconX size='20px' />
+      <ActionIcon size="lg" loading={true} variant="subtle" color="gray">
+        <IconX size="20px" />
       </ActionIcon>
     );
   }
@@ -82,9 +82,9 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
   if (isErrorValidating) {
     return (
-      <Tooltip label={`Ocorreu um erro ao atualizar: ${isErrorValidating.message}`} color='red' position='bottom' width={300} multiline withArrow>
-        <ActionIcon size='lg' variant='light' color='red'>
-          <IconAlertTriangleFilled size='20px' />
+      <Tooltip label={`Ocorreu um erro ao atualizar: ${isErrorValidating.message}`} color="red" position="bottom" width={300} multiline withArrow>
+        <ActionIcon size="lg" variant="light" color="red">
+          <IconAlertTriangleFilled size="20px" />
         </ActionIcon>
       </Tooltip>
     );
@@ -97,9 +97,9 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
   if (isDirty && !isValid) {
     return (
-      <Tooltip label='Erro de Preenchimento' color='gray' position='bottom' withArrow>
-        <ActionIcon size='lg' onClick={onValidate}>
-          <IconDeviceFloppy size='20px' />
+      <Tooltip label="Erro de Preenchimento" color="gray" position="bottom" withArrow>
+        <ActionIcon size="lg" onClick={onValidate} variant="subtle" color="gray">
+          <IconDeviceFloppy size="20px" />
         </ActionIcon>
       </Tooltip>
     );
@@ -112,9 +112,9 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
   if (isDirty && isValid) {
     return (
-      <Tooltip label='Guardar Alterações' color='green' position='bottom' withArrow>
-        <ActionIcon size='lg' color='green' variant='light' onClick={onSave}>
-          <IconDeviceFloppy size='20px' />
+      <Tooltip label="Guardar Alterações" color="green" position="bottom" withArrow>
+        <ActionIcon size="lg" color="green" variant="light" onClick={onSave}>
+          <IconDeviceFloppy size="20px" />
         </ActionIcon>
       </Tooltip>
     );
@@ -125,10 +125,10 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
   // If the form has no unsaved changes, is valid and is not loading,
   // then the close button is enabled and the save button shows a reassuring icon and message.
   return (
-    <Tooltip label={t(`idle.${closeType}.title`)} color='gray' position='bottom' withArrow>
-      <ActionIcon size='lg' onClick={onClose}>
-        {closeType === 'close' && <IconX size='20px' />}
-        {closeType === 'back' && <IconChevronLeft size='20px' />}
+    <Tooltip label={t(`idle.${closeType}.title`)} color="gray" position="bottom" withArrow>
+      <ActionIcon size="lg" onClick={onClose} variant="subtle" color="gray">
+        {closeType === 'close' && <IconX size="20px" />}
+        {closeType === 'back' && <IconChevronLeft size="20px" />}
       </ActionIcon>
     </Tooltip>
   );

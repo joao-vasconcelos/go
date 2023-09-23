@@ -23,7 +23,8 @@ export const LineSchema = new mongoose.Schema(
       maxlength: 5,
     },
     transport_type: {
-      type: Number,
+      type: String,
+      maxlength: 2,
     },
     circular: {
       type: Boolean,

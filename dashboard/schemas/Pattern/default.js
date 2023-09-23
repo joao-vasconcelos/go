@@ -49,8 +49,8 @@ export const PatternScheduleDefault = {
   start_time: '',
   calendar_desc: '',
   vehicle_features: {
-    type: 0,
-    propulsion: 0,
+    type: '0',
+    propulsion: '0',
     allow_bicycles: true,
     passenger_counting: true,
     video_surveillance: true,

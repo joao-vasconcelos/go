@@ -37,8 +37,9 @@ export const StopSchema = new mongoose.Schema(
       required: true,
     },
     location_type: {
-      type: Number,
-      default: 0,
+      type: String,
+      maxlength: 2,
+      default: '0',
     },
     platform_code: {
       type: String,
@@ -99,14 +100,18 @@ export const StopSchema = new mongoose.Schema(
 
     // Infrastructure
     has_pole: {
-      type: Number,
+      type: String,
+      maxlength: 2,
+      default: '0',
     },
     pole_material: {
       type: String,
       maxlength: 100,
     },
     has_shelter: {
-      type: Number,
+      type: String,
+      maxlength: 2,
+      default: '0',
     },
     shelter_code: {
       type: String,
@@ -117,22 +122,34 @@ export const StopSchema = new mongoose.Schema(
       maxlength: 100,
     },
     has_mupi: {
-      type: Number,
+      type: String,
+      maxlength: 2,
+      default: '0',
     },
     has_bench: {
-      type: Number,
+      type: String,
+      maxlength: 2,
+      default: '0',
     },
     has_trash_bin: {
-      type: Number,
+      type: String,
+      maxlength: 2,
+      default: '0',
     },
     has_lighting: {
-      type: Number,
+      type: String,
+      maxlength: 2,
+      default: '0',
     },
     has_electricity: {
-      type: Number,
+      type: String,
+      maxlength: 2,
+      default: '0',
     },
     docking_bay_type: {
-      type: Number,
+      type: String,
+      maxlength: 2,
+      default: '0',
     },
     last_infrastructure_maintenance: {
       type: String,

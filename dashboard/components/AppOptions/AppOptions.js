@@ -25,10 +25,10 @@ export default function LocaleSwitcher() {
   };
 
   return (
-    <Menu offset={15} position='bottom-end' shadow='lg'>
+    <Menu offset={15} position="bottom-end" shadow="lg">
       <Menu.Target>
-        <ActionIcon>
-          <IconSettings size='20px' />
+        <ActionIcon variant="subtle" color="gray" size="lg">
+          <IconSettings size={20} />
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
@@ -39,7 +39,7 @@ export default function LocaleSwitcher() {
           </Menu.Item>
         ))}
         <Menu.Divider />
-        <Menu.Item icon={<IconLogin size={20} />} color='red' onClick={handleLogout}>
+        <Menu.Item icon={<IconLogin size={20} />} color="red" onClick={handleLogout}>
           {t('auth.logout')}
         </Menu.Item>
         <Menu.Divider />

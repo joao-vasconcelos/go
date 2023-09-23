@@ -202,7 +202,7 @@ export default function Page() {
           <AuthGate scope="calendars" permission="delete">
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
               <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
-                <IconTrash size="20px" />
+                <IconTrash size={20} />
               </ActionIcon>
             </Tooltip>
           </AuthGate>

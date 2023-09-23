@@ -63,7 +63,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope='alerts' permission='view' redirect>
+    <AuthGate scope="alerts" permission="view" redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -71,16 +71,15 @@ export default function Layout({ children }) {
             header={
               <>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
-                <Menu shadow='md' position='bottom-end'>
+                <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={allAlertsLoading || isCreating}>
-                      <IconDots size='20px' />
+                    <ActionIcon variant="light" size="lg" color="gray" loading={allAlertsLoading || isCreating}>
+                      <IconDots size={20} />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Label>Importar</Menu.Label>
-                    <AuthGate scope='alerts' permission='create_edit'>
-                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
+                    <AuthGate scope="alerts" permission="create_edit">
+                      <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
                     </AuthGate>

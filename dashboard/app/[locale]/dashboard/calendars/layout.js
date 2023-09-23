@@ -7,7 +7,7 @@ import API from '@/services/API';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
-import { ActionIcon, Menu } from '@mantine/core';
+import { ActionIcon, Menu, MenuDivider } from '@mantine/core';
 import { IconCirclePlus, IconDots, IconPencil } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
@@ -62,7 +62,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope='calendars' permission='view' redirect>
+    <AuthGate scope="calendars" permission="view" redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -70,20 +70,19 @@ export default function Layout({ children }) {
             header={
               <>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
-                <Menu shadow='md' position='bottom-end'>
+                <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={allCalendarsLoading || isCreating}>
-                      <IconDots size='20px' />
+                    <ActionIcon variant="light" size="lg" color="gray" loading={allCalendarsLoading || isCreating}>
+                      <IconDots size={20} />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Label>Importar</Menu.Label>
-                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreate}>
+                    <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
                       {t('operations.create.title')}
                     </Menu.Item>
-                    <AuthGate scope='dates' permission='view'>
-                      <Menu.Label>Dados Relacionados</Menu.Label>
-                      <Menu.Item icon={<IconPencil size='20px' />} onClick={() => router.push('/dashboard/dates')}>
+                    <Menu.Divider />
+                    <AuthGate scope="dates" permission="view">
+                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dashboard/dates')}>
                         Editar Datas
                       </Menu.Item>
                     </AuthGate>

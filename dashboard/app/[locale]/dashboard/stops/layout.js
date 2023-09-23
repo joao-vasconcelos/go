@@ -127,25 +127,25 @@ export default function Layout({ children }) {
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
-                    <ActionIcon variant="light" size="lg" loading={allStopsLoading || isCreating}>
+                    <ActionIcon variant="light" size="lg" color="gray" loading={allStopsLoading || isCreating}>
                       <IconDots size={20} />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Label>Importar</Menu.Label>
                     <AuthGate scope="stops" permission="create_edit">
-                      <Menu.Item icon={<IconCirclePlus size={20} />} onClick={handleCreate}>
+                      <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
                     </AuthGate>
+                    <Menu.Divider />
                     <AuthGate scope="stops" permission="batch_update">
-                      <Menu.Item icon={<IconRefresh size={20} />} onClick={handleBatchUpdate}>
+                      <Menu.Item leftSection={<IconRefresh size={20} />} onClick={handleBatchUpdate}>
                         {t('operations.batch_update.title')}
                       </Menu.Item>
                     </AuthGate>
+                    <Menu.Divider />
                     <AuthGate scope="municipalities" permission="view">
-                      <Menu.Label>Dados Relacionados</Menu.Label>
-                      <Menu.Item icon={<IconPencil size={20} />} onClick={() => router.push('/dashboard/municipalities')}>
+                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dashboard/municipalities')}>
                         Editar Municípios
                       </Menu.Item>
                     </AuthGate>

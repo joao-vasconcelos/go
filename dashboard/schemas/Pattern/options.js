@@ -25,7 +25,7 @@ export const PatternOptions = {
    * 7 - Touristic
    */
 
-  vehicle_type: [0, 1, 2, 3, 4, 5, 6, 7],
+  vehicle_type: ['0', '1', '2', '3', '4', '5', '6', '7'],
 
   /*
    * PROPULSION
@@ -41,7 +41,7 @@ export const PatternOptions = {
    * 8 - Natural Gas
    */
 
-  vehicle_propulsion: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  vehicle_propulsion: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
 
   //
 };

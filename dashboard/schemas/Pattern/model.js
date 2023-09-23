@@ -130,12 +130,14 @@ export const PatternSchema = new mongoose.Schema(
         },
         vehicle_features: {
           type: {
-            type: Number,
-            default: 0,
+            type: String,
+            maxlength: 2,
+            default: '0',
           },
           propulsion: {
-            type: Number,
-            default: 0,
+            type: String,
+            maxlength: 2,
+            default: '0',
           },
           allow_bicycles: {
             type: Boolean,

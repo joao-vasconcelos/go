@@ -25,7 +25,7 @@ export const LineValidation = yup.object({
     .max(5)
     .uppercase()
     .matches(/^[a-zA-ZÀ-ÿ0-9()|-\s]+$/),
-  transport_type: yup.number().integer().required(),
+  transport_type: yup.string().required().max(2),
   circular: yup.boolean(),
   school: yup.boolean(),
   continuous: yup.boolean(),

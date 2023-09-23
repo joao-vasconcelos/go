@@ -63,8 +63,8 @@ export function StopSequenceChangePresetsVelocity({ isReadOnly }) {
         step={1}
         stepHoldDelay={500}
         stepHoldInterval={100}
-        formatter={(value) => `${value} km/h`}
-        icon={<IconPlayerTrackNext size="18px" />}
+        suffix={' km/h'}
+        leftSection={<IconPlayerTrackNext size={18} />}
         {...patternForm.getInputProps(`presets.velocity`)}
         readOnly={isReadOnly}
       />
@@ -129,8 +129,8 @@ export function StopSequenceChangePresetsDwellTime({ isReadOnly }) {
         step={10}
         stepHoldDelay={500}
         stepHoldInterval={100}
-        icon={<IconClockPause size="20px" />}
-        formatter={formatSecondsToTime}
+        leftSection={<IconClockPause size={20} />}
+        suffix={' seg'}
         {...patternForm.getInputProps(`presets.dwell_time`)}
         readOnly={isReadOnly}
       />

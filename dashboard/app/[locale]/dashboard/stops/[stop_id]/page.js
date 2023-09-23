@@ -362,10 +362,10 @@ export default function Page() {
               nothingFound={t('form.has_pole.nothingFound')}
               {...form.getInputProps('has_pole')}
               data={[
-                { value: 0, label: '0 - Não Aplicável' },
-                { value: 1, label: '1 - Não existe, mas deve ser colocado' },
-                { value: 2, label: '2 - Existe, mas está danificado' },
-                { value: 3, label: '3 - Existe e está OK' },
+                { value: '0', label: '0 - Não Aplicável' },
+                { value: '1', label: '1 - Não existe, mas deve ser colocado' },
+                { value: '2', label: '2 - Existe, mas está danificado' },
+                { value: '3', label: '3 - Existe e está OK' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -379,12 +379,12 @@ export default function Page() {
               nothingFound={t('form.has_shelter.nothingFound')}
               {...form.getInputProps('has_shelter')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -399,12 +399,12 @@ export default function Page() {
               nothingFound={t('form.has_mupi.nothingFound')}
               {...form.getInputProps('has_mupi')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -415,12 +415,12 @@ export default function Page() {
               nothingFound={t('form.has_bench.nothingFound')}
               {...form.getInputProps('has_bench')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -431,12 +431,12 @@ export default function Page() {
               nothingFound={t('form.has_trash_bin.nothingFound')}
               {...form.getInputProps('has_trash_bin')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -449,10 +449,10 @@ export default function Page() {
               nothingFound={t('form.has_lighting.nothingFound')}
               {...form.getInputProps('has_lighting')}
               data={[
-                { value: 0, label: '0 - Sem qualquer iluminação' },
-                { value: 1, label: '1 - Iluminação insuficiente' },
-                { value: 2, label: '2 - Imediações visíveis' },
-                { value: 3, label: '3 - Leitura é possível e confortável' },
+                { value: '0', label: '0 - Sem qualquer iluminação' },
+                { value: '1', label: '1 - Iluminação insuficiente' },
+                { value: '2', label: '2 - Imediações visíveis' },
+                { value: '3', label: '3 - Leitura é possível e confortável' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -463,8 +463,8 @@ export default function Page() {
               nothingFound={t('form.has_electricity.nothingFound')}
               {...form.getInputProps('has_electricity')}
               data={[
-                { value: 0, label: '0 - Indisponível' },
-                { value: 1, label: '1 - Disponível' },
+                { value: '0', label: '0 - Indisponível' },
+                { value: '1', label: '1 - Disponível' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -475,8 +475,8 @@ export default function Page() {
               nothingFound={t('form.docking_bay_type.nothingFound')}
               {...form.getInputProps('docking_bay_type')}
               data={[
-                { value: 0, label: '0 - Indisponível' },
-                { value: 1, label: '1 - Disponível' },
+                { value: '0', label: '0 - Indisponível' },
+                { value: '1', label: '1 - Disponível' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -500,10 +500,10 @@ export default function Page() {
               nothingFound={t('form.has_stop_sign.nothingFound')}
               {...form.getInputProps('has_stop_sign')}
               data={[
-                { value: 0, label: '0 - Não Aplicável' },
-                { value: 1, label: '1 - Não existe, mas deve ser colocado' },
-                { value: 2, label: '2 - Existe, mas está danificado' },
-                { value: 3, label: '3 - Existe e está OK' },
+                { value: '0', label: '0 - Não Aplicável' },
+                { value: '1', label: '1 - Não existe, mas deve ser colocado' },
+                { value: '2', label: '2 - Existe, mas está danificado' },
+                { value: '3', label: '3 - Existe e está OK' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -517,12 +517,12 @@ export default function Page() {
               nothingFound={t('form.has_pole_frame.nothingFound')}
               {...form.getInputProps('has_pole_frame')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -534,12 +534,12 @@ export default function Page() {
               nothingFound={t('form.has_pip_real_time.nothingFound')}
               {...form.getInputProps('has_pip_real_time')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -551,12 +551,12 @@ export default function Page() {
               nothingFound={t('form.has_h2oa_signage.nothingFound')}
               {...form.getInputProps('has_h2oa_signage')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -567,12 +567,12 @@ export default function Page() {
               nothingFound={t('form.has_schedules.nothingFound')}
               {...form.getInputProps('has_schedules')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -583,12 +583,12 @@ export default function Page() {
               nothingFound={t('form.has_network_map.nothingFound')}
               {...form.getInputProps('has_network_map')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -614,12 +614,12 @@ export default function Page() {
               nothingFound={t('form.has_sidewalk.nothingFound')}
               {...form.getInputProps('has_sidewalk')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -631,12 +631,12 @@ export default function Page() {
               nothingFound={t('form.has_tactile_schedules.nothingFound')}
               {...form.getInputProps('has_tactile_schedules')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -647,12 +647,12 @@ export default function Page() {
               nothingFound={t('form.stop_access_type.nothingFound')}
               {...form.getInputProps('stop_access_type')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -663,12 +663,12 @@ export default function Page() {
               nothingFound={t('form.has_crosswalk.nothingFound')}
               {...form.getInputProps('has_crosswalk')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -679,12 +679,12 @@ export default function Page() {
               nothingFound={t('form.has_tactile_pavement.nothingFound')}
               {...form.getInputProps('has_tactile_pavement')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -695,12 +695,12 @@ export default function Page() {
               nothingFound={t('form.has_abusive_parking.nothingFound')}
               {...form.getInputProps('has_abusive_parking')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -711,12 +711,12 @@ export default function Page() {
               nothingFound={t('form.has_audio_stop_info.nothingFound')}
               {...form.getInputProps('has_audio_stop_info')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable
@@ -727,12 +727,12 @@ export default function Page() {
               nothingFound={t('form.wheelchair_boarding.nothingFound')}
               {...form.getInputProps('wheelchair_boarding')}
               data={[
-                { value: 0, label: '0 - Não Existe' },
-                { value: 1, label: '1 - Em muito mau estado' },
-                { value: 2, label: '2 - Em mau estado' },
-                { value: 3, label: '3 - Em estado razoável' },
-                { value: 4, label: '4 - Em bom estado' },
-                { value: 5, label: '5 - Em muito bom estado' },
+                { value: '0', label: '0 - Não Existe' },
+                { value: '1', label: '1 - Em muito mau estado' },
+                { value: '2', label: '2 - Em mau estado' },
+                { value: '3', label: '3 - Em estado razoável' },
+                { value: '4', label: '4 - Em bom estado' },
+                { value: '5', label: '5 - Em muito bom estado' },
               ]}
               readOnly={isReadOnly}
               searchable

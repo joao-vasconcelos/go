@@ -63,7 +63,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope='users' permission='view' redirect>
+    <AuthGate scope="users" permission="view" redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -71,19 +71,16 @@ export default function Layout({ children }) {
             header={
               <>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
-                <Menu shadow='md' position='bottom-end'>
+                <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={allUsersLoading || isCreating}>
-                      <IconDots size='20px' />
+                    <ActionIcon variant="light" size="lg" color="gray" loading={allUsersLoading || isCreating}>
+                      <IconDots size={20} />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Label>Importar</Menu.Label>
-                    <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateUser}>
+                    <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreateUser}>
                       {t('operations.create.title')}
                     </Menu.Item>
-                    <Menu.Label>Exportar</Menu.Label>
-                    <Menu.Item icon={<IconArrowBarToDown size='20px' />}>Download CSV</Menu.Item>
                   </Menu.Dropdown>
                 </Menu>
               </>

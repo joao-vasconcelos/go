@@ -164,7 +164,7 @@ export default function Page() {
           <AuthGate scope="agencies" permission="delete">
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
               <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
-                <IconTrash size="20px" />
+                <IconTrash size={20} />
               </ActionIcon>
             </Tooltip>
           </AuthGate>
@@ -216,11 +216,13 @@ export default function Page() {
               {...form.getInputProps('price_per_km')}
               precision={2}
               min={0}
-              step={0.01}
               stepHoldDelay={500}
               stepHoldInterval={100}
-              parser={(value) => value.replace(/\€\s?|(,*)/g, '')}
-              formatter={(value) => (!Number.isNaN(parseFloat(value)) ? `€ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '€ ')}
+              step={0.01}
+              fixedDecimalScale
+              decimalScale={2}
+              decimalSeparator="."
+              prefix={'€ '}
               readOnly={isReadOnly}
             />
           </SimpleGrid>

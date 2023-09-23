@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import styles from './StopSequenceTable.module.css';
 import { usePatternFormContext } from '@/schemas/Pattern/form';
 import { IconSortAscendingNumbers, IconArrowBarUp, IconArrowBarToDown } from '@tabler/icons-react';
-import { Checkbox, Tooltip, NumberInput, MultiSelect, ActionIcon } from '@mantine/core';
+import { Checkbox, Tooltip, NumberInput, MultiSelect, ActionIcon, TextInput } from '@mantine/core';
 import { IconX, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowAutofitContent, IconClockHour4, IconTicket, IconRotate2 } from '@tabler/icons-react';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import Loader from '../Loader/Loader';
@@ -166,15 +166,13 @@ function StopSequenceTableDistanceDeltaColumn({ rowIndex, distanceDelta }) {
   //
   // Formatters
 
-  const formatMetersToDistance = (distanceInMeters) => {
-    if (distanceInMeters >= 1000) {
-      const distanceInKm = Math.floor(distanceInMeters / 1000);
-      const remainderInMeters = distanceInMeters % 1000;
-      return `${distanceInKm} km ${remainderInMeters} metros`;
-    } else {
-      return distanceInMeters + ' metros';
-    }
-  };
+  let distanceDeltaFormatted = `${distanceDelta} metros`;
+
+  if (distanceDelta >= 1000) {
+    const distanceInKm = Math.floor(distanceDelta / 1000);
+    const remainderInMeters = distanceDelta % 1000;
+    distanceDeltaFormatted = `${distanceInKm} km ${remainderInMeters} metros`;
+  }
 
   //
   // Handle actions
@@ -182,7 +180,7 @@ function StopSequenceTableDistanceDeltaColumn({ rowIndex, distanceDelta }) {
   return (
     <div className={styles.column}>
       <Tooltip label={t('description')} position="bottom" withArrow>
-        <NumberInput aria-label={t('label')} placeholder={t('placeholder')} formatter={formatMetersToDistance} icon={<IconArrowAutofitContent size="20px" />} value={distanceDelta} disabled={rowIndex === 0} readOnly />
+        <TextInput aria-label={t('label')} placeholder={t('placeholder')} value={distanceDeltaFormatted} leftSection={<IconArrowAutofitContent size={20} />} disabled={rowIndex === 0} readOnly />
       </Tooltip>
     </div>
   );
@@ -243,8 +241,8 @@ function StopSequenceTableVelocityColumn({ rowIndex, isReadOnly }) {
           step={1}
           stepHoldDelay={500}
           stepHoldInterval={100}
-          formatter={(value) => `${value} km/h`}
-          icon={<IconPlayerTrackNext size="18px" />}
+          suffix={' km/h'}
+          leftSection={<IconPlayerTrackNext size={18} />}
           {...patternForm.getInputProps(`path.${rowIndex}.default_velocity`)}
           onChange={handleUpdateVelocity}
           disabled={rowIndex === 0}
@@ -289,12 +287,17 @@ function StopSequenceTableTravelTimeColumn({ rowIndex }) {
   const patternForm = usePatternFormContext();
 
   //
+  // Format value
+
+  const valueFormatted = formatSecondsToTime(patternForm.values.path[rowIndex].default_travel_time);
+
+  //
   // Render components
 
   return (
     <div className={styles.column}>
       <Tooltip label={t('description')} position="bottom" width={350} multiline withArrow>
-        <NumberInput aria-label={t('label')} placeholder={t('placeholder')} formatter={formatSecondsToTime} icon={<IconClockHour4 size="18px" />} value={patternForm.values.path[rowIndex].default_travel_time} disabled={rowIndex === 0} readOnly />
+        <TextInput aria-label={t('label')} placeholder={t('placeholder')} leftSection={<IconClockHour4 size={18} />} value={valueFormatted} disabled={rowIndex === 0} readOnly />
       </Tooltip>
     </div>
   );
@@ -333,8 +336,8 @@ function StopSequenceTableDwellTimeColumn({ rowIndex, isReadOnly }) {
           step={10}
           stepHoldDelay={500}
           stepHoldInterval={100}
-          icon={<IconClockPause size="20px" />}
-          formatter={formatSecondsToTime}
+          leftSection={<IconClockPause size={20} />}
+          suffix=" seg"
           {...patternForm.getInputProps(`path.${rowIndex}.default_dwell_time`)}
           readOnly={isReadOnly}
         />
@@ -397,10 +400,10 @@ function StopSequenceTableZonesColumn({ rowIndex, stopId, isReadOnly }) {
         nothingFound={t('nothingFound')}
         {...patternForm.getInputProps(`path.${rowIndex}.zones`)}
         data={allZonesDataFormatted}
-        icon={<IconTicket size={20} />}
+        leftSection={<IconTicket size={20} />}
         rightSection={
           <AuthGate scope="lines" permission="create_edit">
-            <ActionIcon onClick={handleResetZones} loading={stopLoading} disabled={!stopData || isReadOnly}>
+            <ActionIcon onClick={handleResetZones} loading={stopLoading} disabled={!stopData || isReadOnly} variant="subtle" color="gray">
               <IconRotate2 size={20} />
             </ActionIcon>
           </AuthGate>
@@ -462,7 +465,7 @@ function StopSequenceTableHeader() {
     <div className={`${styles.row} ${styles.headerRow}`}>
       <div className={`${styles.column} ${styles.hcenter}`}>
         <Tooltip label={t('sequence_index.description')} withArrow>
-          <IconSortAscendingNumbers size="20px" />
+          <IconSortAscendingNumbers size={20} />
         </Tooltip>
       </div>
       <div className={styles.column} style={{ paddingLeft: 10 }}>
@@ -470,12 +473,12 @@ function StopSequenceTableHeader() {
       </div>
       <div className={`${styles.column} ${styles.hcenter}`}>
         <Tooltip label={t('allow_pickup.label')} withArrow>
-          <IconArrowBarToDown size="20px" />
+          <IconArrowBarToDown size={20} />
         </Tooltip>
       </div>
       <div className={`${styles.column} ${styles.hcenter}`}>
         <Tooltip label={t('allow_drop_off.label')} withArrow>
-          <IconArrowBarUp size="20px" />
+          <IconArrowBarUp size={20} />
         </Tooltip>
       </div>
       <div className={styles.column}>{t('distance_delta.label')}</div>

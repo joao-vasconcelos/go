@@ -62,24 +62,23 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope='threads' permission='view' redirect>
+    <AuthGate scope="threads" permission="view" redirect>
       <TwoUnevenColumns
         first={
           <Pannel
             loading={allThreadsLoading}
             header={
               <>
-                <SearchField placeholder='Procurar...' width={'100%'} />
-                <Menu shadow='md' position='bottom-end'>
+                <SearchField placeholder="Procurar..." width={'100%'} />
+                <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
-                    <ActionIcon variant='light' size='lg' loading={allThreadsLoading || isCreating}>
-                      <IconDots size='20px' />
+                    <ActionIcon variant="light" size="lg" color="gray" loading={allThreadsLoading || isCreating}>
+                      <IconDots size={20} />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <AuthGate permission='threads_create'>
-                      <Menu.Label>Importar</Menu.Label>
-                      <Menu.Item icon={<IconCirclePlus size='20px' />} onClick={handleCreateThread}>
+                    <AuthGate permission="threads_create">
+                      <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreateThread}>
                         {t('operations.create.title')}
                       </Menu.Item>
                     </AuthGate>

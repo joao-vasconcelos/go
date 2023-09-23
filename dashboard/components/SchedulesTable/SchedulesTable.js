@@ -75,7 +75,15 @@ function SchedulesTableStartTimeColumn({ rowIndex, isReadOnly }) {
   return (
     <div className={styles.column}>
       <Tooltip label={t('description')} position="bottom" withArrow>
-        <TextInput aria-label={t('label')} placeholder={t('placeholder')} icon={<IconClockPlay size={18} />} {...patternForm.getInputProps(`schedules.${rowIndex}.start_time`)} onChange={handleUpdateStartTime} readOnly={isReadOnly} w={'100%'} />
+        <TextInput
+          aria-label={t('label')}
+          placeholder={t('placeholder')}
+          leftSection={<IconClockPlay size={18} />}
+          {...patternForm.getInputProps(`schedules.${rowIndex}.start_time`)}
+          onChange={handleUpdateStartTime}
+          readOnly={isReadOnly}
+          w={'100%'}
+        />
       </Tooltip>
     </div>
   );
@@ -125,7 +133,7 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
         nothingFound={t('nothingFound')}
         {...patternForm.getInputProps(`schedules.${rowIndex}.calendars_on`)}
         data={allCalendarsDataFormatted}
-        icon={<IconCalendarCheck size={20} />}
+        leftSection={<IconCalendarCheck size={20} />}
         readOnly={isReadOnly}
         searchable
         w={'100%'}
@@ -178,7 +186,7 @@ function SchedulesTableCalendarsOffColumn({ rowIndex, isReadOnly }) {
         nothingFound={t('nothingFound')}
         {...patternForm.getInputProps(`schedules.${rowIndex}.calendars_off`)}
         data={allCalendarsDataFormatted}
-        icon={<IconCalendarX size={20} />}
+        leftSection={<IconCalendarX size={20} />}
         readOnly={isReadOnly}
         searchable
         w={'100%'}
@@ -211,7 +219,7 @@ function SchedulesTableCalendarDescColumn({ rowIndex, isReadOnly }) {
   return (
     <div className={styles.column}>
       <Tooltip label={t('description')} position="bottom" withArrow>
-        <TextInput aria-label={t('label')} placeholder={t('placeholder')} {...patternForm.getInputProps(`schedules.${rowIndex}.calendar_desc`)} icon={<IconCalendarQuestion size={20} />} readOnly={isReadOnly} w={'100%'} />
+        <TextInput aria-label={t('label')} placeholder={t('placeholder')} {...patternForm.getInputProps(`schedules.${rowIndex}.calendar_desc`)} leftSection={<IconCalendarQuestion size={20} />} readOnly={isReadOnly} w={'100%'} />
       </Tooltip>
     </div>
   );
@@ -259,7 +267,7 @@ function SchedulesTableRemoveTripColumn({ rowIndex, isReadOnly }) {
     <div className={`${styles.column} ${styles.hend}`}>
       <AuthGate scope="lines" permission="create_edit">
         <Tooltip label={t('description')} position="bottom" withArrow>
-          <ActionIcon size="lg" color="red" onClick={handleRemoveTrip} disabled={isReadOnly}>
+          <ActionIcon size="lg" variant="subtle" color="red" onClick={handleRemoveTrip} disabled={isReadOnly}>
             <IconBackspace size={20} />
           </ActionIcon>
         </Tooltip>
@@ -320,7 +328,7 @@ function SchedulesTableAddTrip({ isReadOnly }) {
     <div className={`${styles.bodyRow} ${styles.addTripRow}`}>
       <div className={styles.column}>
         <AuthGate scope="lines" permission="create_edit">
-          <Button leftIcon={<IconPlus size={16} />} variant="default" size="xs" onClick={handleAddTrip} disabled={isReadOnly}>
+          <Button leftSection={<IconPlus size={16} />} variant="default" size="xs" onClick={handleAddTrip} disabled={isReadOnly}>
             {t('label')}
           </Button>
         </AuthGate>

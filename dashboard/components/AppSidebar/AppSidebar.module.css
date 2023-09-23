@@ -36,8 +36,9 @@
 /* NAV BUTTONS */
 
 .navButton {
-  color: var(--color-gray-9);
   font-size: 26px;
+  color: var(--color-gray-9);
+  background-color: var(--color-reference-0);
 }
 
 .navButton:hover,

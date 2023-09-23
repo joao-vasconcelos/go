@@ -20,7 +20,7 @@ export const RouteOptions = {
    * 2 - Rail. Used for intercity or long-distance travel.
    */
 
-  path_type: [0, 1, 2],
+  path_type: ['0', '1', '2'],
 
   //
 };
