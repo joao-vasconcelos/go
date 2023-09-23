@@ -9,8 +9,8 @@ import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import '@mantine/dropzone/styles.css';
 
-import { Inter } from 'next/font/google';
 import Providers from './providers';
+import { Inter } from 'next/font/google';
 import { ColorSchemeScript } from '@mantine/core';
 
 const inter = Inter({
@@ -26,7 +26,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html className={inter.className}>
+    <html className={inter.variable}>
       <head>
         <ColorSchemeScript />
       </head>
