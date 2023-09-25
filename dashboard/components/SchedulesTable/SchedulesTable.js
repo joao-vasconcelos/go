@@ -107,9 +107,6 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
   const t = useTranslations('SchedulesTable.calendars_on');
   const patternForm = usePatternFormContext();
 
-  const [allCalendarsDataSimplified, setAllCalendarsDataSimplified] = useState([]);
-  const [allCalendarsDataFormatted, setAllCalendarsDataFormatted] = useState([]);
-
   //
   // B. Fetch data
 
@@ -118,21 +115,19 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
   //
   // D. Format data
 
-  useState(() => {
+  const allCalendarsDataSimplified = useMemo(() => {
     if (!allCalendarsData) return [];
-    const simplified = allCalendarsData.map((item) => {
+    return allCalendarsData.map((item) => {
       return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
     });
-    setAllCalendarsDataSimplified(simplified);
   }, [allCalendarsData]);
 
-  useEffect(() => {
-    if (!allCalendarsDataSimplified) return [];
-    const formatted = allCalendarsDataSimplified.map((item) => {
-      return { ...item, disabled: patternForm.values.schedules[rowIndex].calendars_off.includes(item._id) };
-    });
-    setAllCalendarsDataFormatted(formatted);
-  }, [allCalendarsDataSimplified, patternForm.values.schedules, rowIndex]);
+  //   const allCalendarsDataFormatted = useMemo(() => {
+  //     if (!allCalendarsDataSimplified) return [];
+  //     return allCalendarsDataSimplified.map((item) => {
+  //       return { ...item, disabled: patternForm.values.schedules[rowIndex].calendars_off.includes(item._id) };
+  //     });
+  //   }, [allCalendarsDataSimplified, patternForm.values.schedules, rowIndex]);
 
   //
   // Render components
@@ -144,7 +139,7 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
         placeholder={t('placeholder')}
         nothingFoundMessage={t('nothingFound')}
         {...patternForm.getInputProps(`schedules.${rowIndex}.calendars_on`)}
-        data={allCalendarsDataFormatted}
+        data={allCalendarsDataSimplified}
         leftSection={<IconCalendarCheck size={20} />}
         readOnly={isReadOnly}
         searchable
