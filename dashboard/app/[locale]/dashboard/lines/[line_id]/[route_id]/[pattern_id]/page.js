@@ -487,12 +487,6 @@ export default function Page() {
               </Accordion.Item>
             )}
           </Accordion>
-
-          <Divider />
-
-          <Divider />
-
-          <Divider />
         </form>
       </PatternFormProvider>
     </Pannel>
