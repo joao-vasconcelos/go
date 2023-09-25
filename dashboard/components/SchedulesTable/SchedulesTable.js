@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import styles from './SchedulesTable.module.css';
 import { usePatternFormContext } from '@/schemas/Pattern/form';
@@ -107,6 +107,9 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
   const t = useTranslations('SchedulesTable.calendars_on');
   const patternForm = usePatternFormContext();
 
+  const [allCalendarsDataSimplified, setAllCalendarsDataSimplified] = useState([]);
+  const [allCalendarsDataFormatted, setAllCalendarsDataFormatted] = useState([]);
+
   //
   // B. Fetch data
 
@@ -115,12 +118,21 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
   //
   // D. Format data
 
-  const allCalendarsDataFormatted = useMemo(() => {
+  useState(() => {
     if (!allCalendarsData) return [];
-    return allCalendarsData.map((item) => {
-      return { value: item._id, label: `[${item.code}] ${item.name || '-'}`, disabled: patternForm.values.schedules[rowIndex].calendars_off.includes(item._id) };
+    const simplified = allCalendarsData.map((item) => {
+      return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
     });
-  }, [allCalendarsData, patternForm.values.schedules, rowIndex]);
+    setAllCalendarsDataSimplified(simplified);
+  }, [allCalendarsData]);
+
+  useEffect(() => {
+    if (!allCalendarsDataSimplified) return [];
+    const formatted = allCalendarsDataSimplified.map((item) => {
+      return { ...item, disabled: patternForm.values.schedules[rowIndex].calendars_off.includes(item._id) };
+    });
+    setAllCalendarsDataFormatted(formatted);
+  }, [allCalendarsDataSimplified, patternForm.values.schedules, rowIndex]);
 
   //
   // Render components
@@ -160,6 +172,9 @@ function SchedulesTableCalendarsOffColumn({ rowIndex, isReadOnly }) {
   const t = useTranslations('SchedulesTable.calendars_off');
   const patternForm = usePatternFormContext();
 
+  const [allCalendarsDataSimplified, setAllCalendarsDataSimplified] = useState([]);
+  const [allCalendarsDataFormatted, setAllCalendarsDataFormatted] = useState([]);
+
   //
   // B. Fetch data
 
@@ -168,12 +183,21 @@ function SchedulesTableCalendarsOffColumn({ rowIndex, isReadOnly }) {
   //
   // D. Format data
 
-  const allCalendarsDataFormatted = useMemo(() => {
+  useState(() => {
     if (!allCalendarsData) return [];
-    return allCalendarsData.map((item) => {
-      return { value: item._id, label: `[${item.code}] ${item.name || '-'}`, disabled: patternForm.values.schedules[rowIndex].calendars_on.includes(item._id) };
+    const simplified = allCalendarsData.map((item) => {
+      return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
     });
-  }, [allCalendarsData, patternForm.values.schedules, rowIndex]);
+    setAllCalendarsDataSimplified(simplified);
+  }, [allCalendarsData]);
+
+  useEffect(() => {
+    if (!allCalendarsDataSimplified) return [];
+    const formatted = allCalendarsDataSimplified.map((item) => {
+      return { ...item, disabled: patternForm.values.schedules[rowIndex].calendars_on.includes(item._id) };
+    });
+    setAllCalendarsDataFormatted(formatted);
+  }, [allCalendarsDataSimplified, patternForm.values.schedules, rowIndex]);
 
   //
   // Render components
@@ -291,8 +315,8 @@ function SchedulesTableRow({ rowIndex, isReadOnly }) {
     <div className={`${styles.row} ${styles.bodyRow}`}>
       <SchedulesTableStartTimeColumn rowIndex={rowIndex} isReadOnly={isReadOnly} />
       <SchedulesTableCalendarsOnColumn rowIndex={rowIndex} isReadOnly={isReadOnly} />
-      <SchedulesTableCalendarsOffColumn rowIndex={rowIndex} isReadOnly={isReadOnly} />
-      <SchedulesTableCalendarDescColumn rowIndex={rowIndex} isReadOnly={isReadOnly} />
+      {/* <SchedulesTableCalendarsOffColumn rowIndex={rowIndex} isReadOnly={isReadOnly} /> */}
+      {/* <SchedulesTableCalendarDescColumn rowIndex={rowIndex} isReadOnly={isReadOnly} /> */}
       <SchedulesTableRemoveTripColumn rowIndex={rowIndex} isReadOnly={isReadOnly} />
     </div>
   );
@@ -361,8 +385,8 @@ function SchedulesTableHeader() {
     <div className={`${styles.row} ${styles.headerRow}`}>
       <div className={styles.column}>{t('start_time.header.title')}</div>
       <div className={styles.column}>{t('calendars_on.header.title')}</div>
-      <div className={styles.column}>{t('calendars_off.header.title')}</div>
-      <div className={styles.column}>{t('calendar_desc.header.title')}</div>
+      {/* <div className={styles.column}>{t('calendars_off.header.title')}</div> */}
+      {/* <div className={styles.column}>{t('calendar_desc.header.title')}</div> */}
       <div className={styles.column} />
     </div>
   );

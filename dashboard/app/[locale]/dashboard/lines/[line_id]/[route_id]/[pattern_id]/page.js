@@ -11,7 +11,7 @@ import { PatternFormProvider, usePatternForm } from '@/schemas/Pattern/form';
 import API from '@/services/API';
 import { PatternValidation } from '@/schemas/Pattern/validation';
 import { PatternDefault } from '@/schemas/Pattern/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl, Accordion } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import OSMMap from '@/components/OSMMap/OSMMap';
 import { useMap, Source, Layer } from 'react-map-gl/maplibre';
@@ -49,7 +49,10 @@ export default function Page() {
 
   const [showAllZonesOnMap, setShowAllZonesOnMap] = useState(false);
   const [showAllStopsOnMap, setShowAllStopsOnMap] = useState(false);
+  const [allowScrollOnMap, setAllowScrollOnMap] = useState(false);
   const [mapStyle, setMapStyle] = useState('map');
+
+  const [activeSection, setActiveSection] = useState(null);
 
   const { line_id, route_id, pattern_id } = useParams();
 
@@ -363,7 +366,7 @@ export default function Page() {
           <OSMMap
             id="patternShape"
             height={500}
-            scrollZoom={false}
+            scrollZoom={allowScrollOnMap}
             mapStyle={mapStyle}
             toolbar={
               <>
@@ -378,6 +381,7 @@ export default function Page() {
                 />
                 <Switch size="xs" label={'Show Zones'} defaultChecked={showAllZonesOnMap} value={showAllZonesOnMap} onChange={(event) => setShowAllZonesOnMap(event.currentTarget.checked)} />
                 <Switch size="xs" label={'Show All Stops'} defaultChecked={showAllStopsOnMap} value={showAllStopsOnMap} onChange={(event) => setShowAllStopsOnMap(event.currentTarget.checked)} />
+                <Switch size="xs" label={'Allow Scroll'} defaultChecked={allowScrollOnMap} value={allowScrollOnMap} onChange={(event) => setAllowScrollOnMap(event.currentTarget.checked)} />
               </>
             }
           >
@@ -408,45 +412,87 @@ export default function Page() {
 
           <Divider />
 
-          <Section>
-            <div>
-              <Text size="h2">{t('sections.path.title')}</Text>
-              <Text size="h4">{t('sections.path.description')}</Text>
-            </div>
-            <StopSequenceTable isReadOnly={isReadOnly} />
-          </Section>
+          <Accordion value={activeSection} onChange={setActiveSection}>
+            <Accordion.Item value={'path'}>
+              <Accordion.Control>
+                <Section>
+                  <div>
+                    <Text size="h2">{t('sections.path.title')}</Text>
+                    <Text size="h4">{t('sections.path.description')}</Text>
+                  </div>
+                </Section>
+              </Accordion.Control>
+              <Accordion.Panel>
+                {activeSection === 'path' && (
+                  <Section>
+                    <StopSequenceTable isReadOnly={isReadOnly} />
+                  </Section>
+                )}
+              </Accordion.Panel>
+            </Accordion.Item>
+
+            <Accordion.Item value={'schedules'}>
+              <Accordion.Control>
+                <Section>
+                  <div>
+                    <Text size="h2">{t('sections.schedules.title')}</Text>
+                    <Text size="h4">{t('sections.schedules.description')}</Text>
+                  </div>
+                </Section>
+              </Accordion.Control>
+              <Accordion.Panel>
+                {activeSection === 'schedules' && (
+                  <Section>
+                    <SchedulesTable isReadOnly={isReadOnly} />
+                  </Section>
+                )}
+              </Accordion.Panel>
+            </Accordion.Item>
+
+            <Accordion.Item value={'presets'}>
+              <Accordion.Control>
+                <Section>
+                  <div>
+                    <Text size="h2">{t('sections.presets.title')}</Text>
+                    <Text size="h4">{t('sections.presets.description')}</Text>
+                  </div>
+                </Section>
+              </Accordion.Control>
+              <Accordion.Panel>
+                {activeSection === 'presets' && (
+                  <Section>
+                    <PatternPresetsTable isReadOnly={isReadOnly} />
+                  </Section>
+                )}
+              </Accordion.Panel>
+            </Accordion.Item>
+
+            {!isReadOnly && (
+              <Accordion.Item value={'import'}>
+                <Accordion.Control>
+                  <Section>
+                    <div>
+                      <Text size="h2">{t('sections.update_path.title')}</Text>
+                      <Text size="h4">{t('sections.update_path.description')}</Text>
+                    </div>
+                  </Section>
+                </Accordion.Control>
+                <Accordion.Panel>
+                  {activeSection === 'import' && (
+                    <Section>
+                      <ImportPatternFromGTFS onImport={handleImport} />
+                    </Section>
+                  )}
+                </Accordion.Panel>
+              </Accordion.Item>
+            )}
+          </Accordion>
 
           <Divider />
 
-          <Section>
-            <div>
-              <Text size="h2">{t('sections.schedules.title')}</Text>
-              <Text size="h4">{t('sections.schedules.description')}</Text>
-            </div>
-            <SchedulesTable isReadOnly={isReadOnly} />
-          </Section>
-
           <Divider />
 
-          <Section>
-            <div>
-              <Text size="h2">{t('sections.presets.title')}</Text>
-              <Text size="h4">{t('sections.presets.description')}</Text>
-            </div>
-            <PatternPresetsTable isReadOnly={isReadOnly} />
-          </Section>
-
           <Divider />
-
-          {!isReadOnly && (
-            <Section>
-              <div>
-                <Text size="h2">{t('sections.update_path.title')}</Text>
-                <Text size="h4">{t('sections.update_path.description')}</Text>
-              </div>
-              <ImportPatternFromGTFS onImport={handleImport} />
-            </Section>
-          )}
         </form>
       </PatternFormProvider>
     </Pannel>
