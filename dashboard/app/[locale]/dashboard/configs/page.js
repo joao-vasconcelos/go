@@ -22,29 +22,29 @@ export default function Page() {
   //
   // D. Handle refactors
 
-  const handleDeduplicatePatternSchedules = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Deduplicate Pattern Schedules?</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Deduplicate Pattern Schedules', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('deduplicate-pattern-schedules', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/deduplicateSchedules', method: 'GET' });
-          notify('deduplicate-pattern-schedules', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          notify('deduplicate-pattern-schedules', 'error', err.message || 'Error');
-          setIsImporting(false);
-        }
-      },
-    });
-  };
+  //   const handleDeduplicatePatternSchedules = async () => {
+  //     openConfirmModal({
+  //       title: <Text size="h2">Deduplicate Pattern Schedules?</Text>,
+  //       centered: true,
+  //       closeOnClickOutside: true,
+  //       children: <Text size="h3">Are you sure?</Text>,
+  //       labels: { confirm: 'Yes, Deduplicate Pattern Schedules', cancel: 'Cancel' },
+  //       confirmProps: { color: 'red' },
+  //       onConfirm: async () => {
+  //         try {
+  //           setIsImporting(true);
+  //           notify('deduplicate-pattern-schedules', 'loading', 'Loading');
+  //           await API({ service: 'configs/refactors/deduplicateSchedules', method: 'GET' });
+  //           notify('deduplicate-pattern-schedules', 'success', 'success');
+  //           setIsImporting(false);
+  //         } catch (err) {
+  //           console.log(err);
+  //           notify('deduplicate-pattern-schedules', 'error', err.message || 'Error');
+  //           setIsImporting(false);
+  //         }
+  //       },
+  //     });
+  //   };
 
   //
   // E. Render components
@@ -54,11 +54,7 @@ export default function Page() {
       <Pannel>
         <Section>
           <Text size="h2">No operations available</Text>
-          <SimpleGrid cols={3}>
-            <Button onClick={handleDeduplicatePatternSchedules} color="red">
-              Deduplicate Pattern Schedules
-            </Button>
-          </SimpleGrid>
+          <SimpleGrid cols={3}></SimpleGrid>
         </Section>
       </Pannel>
     </AuthGate>
