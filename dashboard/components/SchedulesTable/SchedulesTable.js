@@ -130,7 +130,7 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
       <MultiSelect
         aria-label={t('label')}
         placeholder={t('placeholder')}
-        nothingFound={t('nothingFound')}
+        nothingFoundMessage={t('nothingFound')}
         {...patternForm.getInputProps(`schedules.${rowIndex}.calendars_on`)}
         data={allCalendarsDataFormatted}
         leftSection={<IconCalendarCheck size={20} />}
@@ -183,7 +183,7 @@ function SchedulesTableCalendarsOffColumn({ rowIndex, isReadOnly }) {
       <MultiSelect
         aria-label={t('label')}
         placeholder={t('placeholder')}
-        nothingFound={t('nothingFound')}
+        nothingFoundMessage={t('nothingFound')}
         {...patternForm.getInputProps(`schedules.${rowIndex}.calendars_off`)}
         data={allCalendarsDataFormatted}
         leftSection={<IconCalendarX size={20} />}

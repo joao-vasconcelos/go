@@ -55,19 +55,7 @@ export function StopSequenceChangePresetsVelocity({ isReadOnly }) {
 
   return (
     <div className={styles.presetCard}>
-      <NumberInput
-        label={t('label')}
-        placeholder={t('placeholder')}
-        defaultValue={20}
-        min={0}
-        step={1}
-        stepHoldDelay={500}
-        stepHoldInterval={100}
-        suffix={' km/h'}
-        leftSection={<IconPlayerTrackNext size={18} />}
-        {...patternForm.getInputProps(`presets.velocity`)}
-        readOnly={isReadOnly}
-      />
+      <NumberInput label={t('label')} placeholder={t('placeholder')} defaultValue={20} min={0} step={1} suffix={' km/h'} leftSection={<IconPlayerTrackNext size={18} />} {...patternForm.getInputProps(`presets.velocity`)} readOnly={isReadOnly} />
       <Button onClick={handleUpdateAll} variant="default" disabled={isReadOnly}>
         {t('apply')}
       </Button>
@@ -127,8 +115,6 @@ export function StopSequenceChangePresetsDwellTime({ isReadOnly }) {
         min={0}
         max={900}
         step={10}
-        stepHoldDelay={500}
-        stepHoldInterval={100}
         leftSection={<IconClockPause size={20} />}
         suffix={' seg'}
         {...patternForm.getInputProps(`presets.dwell_time`)}

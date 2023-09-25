@@ -239,18 +239,26 @@ export default function Page() {
               <Select
                 label={t('form.typology.label')}
                 placeholder={t('form.typology.placeholder')}
-                nothingFound={t('form.typology.nothingFound')}
+                nothingFoundMessage={t('form.typology.nothingFound')}
                 {...lineForm.getInputProps('typology')}
                 data={allTypologiesDataFormatted}
                 readOnly={isReadOnly}
                 searchable
               />
-              <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFound={t('form.fare.nothingFound')} {...lineForm.getInputProps('fare')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
-              <Select label={t('form.agency.label')} placeholder={t('form.agency.placeholder')} nothingFound={t('form.agency.nothingFound')} {...lineForm.getInputProps('agency')} data={allAgenciesDataFormatted} readOnly={isReadOnly} searchable />
+              <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFoundMessage={t('form.fare.nothingFound')} {...lineForm.getInputProps('fare')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
+              <Select
+                label={t('form.agency.label')}
+                placeholder={t('form.agency.placeholder')}
+                nothingFoundMessage={t('form.agency.nothingFound')}
+                {...lineForm.getInputProps('agency')}
+                data={allAgenciesDataFormatted}
+                readOnly={isReadOnly}
+                searchable
+              />
               <Select
                 label={t('form.transport_type.label')}
                 placeholder={t('form.transport_type.placeholder')}
-                nothingFound={t('form.transport_type.nothingFound')}
+                nothingFoundMessage={t('form.transport_type.nothingFound')}
                 {...lineForm.getInputProps('transport_type')}
                 data={LineOptions.transport_type.map((item) => {
                   return { value: item, label: t(`form.transport_type.options.${item}.label`) };

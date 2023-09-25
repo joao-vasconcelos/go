@@ -201,7 +201,7 @@ export default function Page() {
               <Select
                 label={t('form.path_type.label')}
                 placeholder={t('form.path_type.placeholder')}
-                nothingFound={t('form.path_type.nothingFound')}
+                nothingFoundMessage={t('form.path_type.nothingFound')}
                 {...routeForm.getInputProps('path_type')}
                 data={RouteOptions.path_type.map((item) => {
                   return { value: item, label: t(`form.path_type.options.${item}.label`) };

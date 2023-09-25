@@ -239,8 +239,6 @@ function StopSequenceTableVelocityColumn({ rowIndex, isReadOnly }) {
           defaultValue={20}
           min={0}
           step={1}
-          stepHoldDelay={500}
-          stepHoldInterval={100}
           suffix={' km/h'}
           leftSection={<IconPlayerTrackNext size={18} />}
           {...patternForm.getInputProps(`path.${rowIndex}.default_velocity`)}
@@ -334,8 +332,6 @@ function StopSequenceTableDwellTimeColumn({ rowIndex, isReadOnly }) {
           min={0}
           max={900}
           step={10}
-          stepHoldDelay={500}
-          stepHoldInterval={100}
           leftSection={<IconClockPause size={20} />}
           suffix=" seg"
           {...patternForm.getInputProps(`path.${rowIndex}.default_dwell_time`)}
@@ -397,7 +393,7 @@ function StopSequenceTableZonesColumn({ rowIndex, stopId, isReadOnly }) {
       <MultiSelect
         aria-label={t('label')}
         placeholder={t('placeholder')}
-        nothingFound={t('nothingFound')}
+        nothingFoundMessage={t('nothingFound')}
         {...patternForm.getInputProps(`path.${rowIndex}.zones`)}
         data={allZonesDataFormatted}
         leftSection={<IconTicket size={20} />}
