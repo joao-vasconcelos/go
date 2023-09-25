@@ -3,7 +3,6 @@
 import { SWRConfig } from 'swr';
 import { SessionProvider } from 'next-auth/react';
 import { MantineProvider } from '@mantine/core';
-import { useColorScheme } from '@mantine/hooks';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
@@ -27,14 +26,10 @@ export default function Providers({ children, session }) {
     },
   };
 
-  // hook will return either 'dark' or 'light' on client
-  // and always 'light' during ssr as window.matchMedia is not available
-  const preferredColorScheme = useColorScheme();
-
   return (
     <SessionProvider session={session} refetchInterval={15}>
       <SWRConfig value={swrOptions}>
-        <MantineProvider theme={{ colorScheme: preferredColorScheme }} withGlobalStyles withNormalizeCSS>
+        <MantineProvider defaultColorScheme="auto">
           <DatesProvider settings={{ locale: 'pt' }}>
             <Notifications />
             <ModalsProvider>{children}</ModalsProvider>
