@@ -8,7 +8,7 @@ import { usePatternFormContext } from '@/schemas/Pattern/form';
 import { PatternScheduleDefault } from '@/schemas/Pattern/default';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import { ActionIcon, MultiSelect, Tooltip, TextInput, Button } from '@mantine/core';
-import { IconClockPlay, IconCalendarCheck, IconCalendarQuestion, IconBackspace, IconCalendarX, IconPlus } from '@tabler/icons-react';
+import { IconClockPlay, IconCalendarCheck, IconCalendarQuestion, IconBackspace, IconCalendarX, IconPlus, IconAB2 } from '@tabler/icons-react';
 import { openConfirmModal } from '@mantine/modals';
 import Text from '@/components/Text/Text';
 
@@ -117,9 +117,9 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
 
   const allCalendarsDataSimplified = useMemo(() => {
     if (!allCalendarsData) return [];
-    return allCalendarsData.map((item) => {
-      return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
-    });
+    // return allCalendarsData.map((item) => {
+    //   return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
+    // });
   }, [allCalendarsData]);
 
   //   const allCalendarsDataFormatted = useMemo(() => {
@@ -344,15 +344,50 @@ function SchedulesTableAddTrip({ isReadOnly }) {
   // Render components
 
   return (
-    <div className={`${styles.bodyRow} ${styles.addTripRow}`}>
-      <div className={styles.column}>
-        <AuthGate scope="lines" permission="create_edit">
-          <Button leftSection={<IconPlus size={16} />} variant="default" size="xs" onClick={handleAddTrip} disabled={isReadOnly}>
-            {t('label')}
-          </Button>
-        </AuthGate>
-      </div>
-    </div>
+    <AuthGate scope="lines" permission="create_edit">
+      <Button leftSection={<IconPlus size={16} />} variant="default" size="xs" onClick={handleAddTrip} disabled={isReadOnly}>
+        {t('label')}
+      </Button>
+    </AuthGate>
+  );
+
+  //
+}
+
+//
+//
+//
+
+//
+// SCHEDULES TABLE - SORT TRIPS
+
+function SchedulesTableSortTrips({ isReadOnly }) {
+  //
+
+  //
+  // A. Setup variables
+
+  const t = useTranslations('SchedulesTable.sort');
+  const patternForm = usePatternFormContext();
+
+  //
+  // A. Handle actions
+
+  const handleSortTrips = () => {
+    const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+    const sortedTrips = patternForm.values.schedules.sort((a, b) => collator.compare(a.start_time, b.start_time));
+    patternForm.setValues('schedules', sortedTrips);
+  };
+
+  //
+  // Render components
+
+  return (
+    <AuthGate scope="lines" permission="create_edit">
+      <Button leftSection={<IconAB2 size={16} />} variant="default" size="xs" onClick={handleSortTrips} disabled={isReadOnly}>
+        {t('label')}
+      </Button>
+    </AuthGate>
   );
 
   //
@@ -412,9 +447,13 @@ export default function SchedulesTable({ isReadOnly }) {
       <SchedulesTableHeader />
       <div className={styles.body}>
         {patternForm?.values?.schedules?.map((item, index) => (
-          <SchedulesTableRow key={index} rowIndex={index} isReadOnly={isReadOnly} />
+          <SchedulesTableRow key={item._id || index} rowIndex={index} isReadOnly={isReadOnly} />
         ))}
+      </div>
+
+      <div className={styles.footerToolbar}>
         <SchedulesTableAddTrip isReadOnly={isReadOnly} />
+        <SchedulesTableSortTrips isReadOnly={isReadOnly} />
       </div>
     </div>
   );

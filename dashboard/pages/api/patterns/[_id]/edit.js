@@ -96,7 +96,7 @@ export default async function handler(req, res) {
     // The values that need to be unique are ['code'].
     const foundDocumentWithPatternCode = await PatternModel.exists({ code: { $eq: parsedData.code } });
     if (foundDocumentWithPatternCode && foundDocumentWithPatternCode._id != req.query._id) {
-      throw new Error('An Pattern with the same "code" already exists.');
+      throw new Error('A Pattern with the same "code" already exists.');
     }
   } catch (err) {
     console.log(err);
@@ -114,7 +114,7 @@ export default async function handler(req, res) {
   // Update the requested document
 
   try {
-    const editedDocument = await PatternModel.updateOne({ _id: { $eq: req.query._id } }, parsedData, { new: true });
+    const editedDocument = await PatternModel.replaceOne({ _id: { $eq: req.query._id } }, parsedData, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Pattern with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {

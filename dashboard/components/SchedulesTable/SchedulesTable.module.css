@@ -75,9 +75,11 @@
 /* * */
 /* ADD TRIP */
 
-.addTripRow,
-.addTripRow:hover {
-  background-color: var(--color-gray-1);
+.footerToolbar {
+  display: flex;
+  flex-direction: row;
+  gap: var(--size-sm);
+  padding: var(--size-sm);
 }
 
 /* * */

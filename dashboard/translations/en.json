@@ -1839,8 +1839,10 @@
             }
         },
         "add": {
-            "label": "Add a new trip",
-            "description": "Remove this schedule"
+            "label": "Add a new trip"
+        },
+        "sort": {
+            "label": "Sort Trips"
         }
     },
     "AlertOptions": {
