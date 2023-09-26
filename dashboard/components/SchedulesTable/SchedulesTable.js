@@ -117,9 +117,9 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
 
   const allCalendarsDataSimplified = useMemo(() => {
     if (!allCalendarsData) return [];
-    // return allCalendarsData.map((item) => {
-    //   return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
-    // });
+    return allCalendarsData.map((item) => {
+      return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
+    });
   }, [allCalendarsData]);
 
   //   const allCalendarsDataFormatted = useMemo(() => {
