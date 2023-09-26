@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 1px;
+  /* line-height: 1; */
+  color: var(--gray6);
+  /* border: 1px solid var(--gray6);
+  padding: 3px 6px 2px 6px;
+  border-radius: var(--size-md); */
+}
