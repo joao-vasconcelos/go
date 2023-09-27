@@ -31,9 +31,8 @@ async function update(exportDocument, updates) {
   try {
     await ExportModel.updateOne({ _id: exportDocument._id }, updates);
   } catch (error) {
-    console.log('Error at update()');
-    console.log('Dump:', exportDocument, updates);
-    console.log(error);
+    console.log(`Error at update(${exportDocument}, ${updates})`, error);
+    throw new Error(`Error at update(${exportDocument}, ${updates})`);
   }
 }
 
@@ -61,9 +60,8 @@ function writeCsvToFile(workdir, filename, data, papaparseOptions) {
     fs.appendFileSync(`${workdir}/${filename}`, csvData);
     //
   } catch (error) {
-    console.log('Error at writeCsvToFile()');
-    console.log('Dump:', workdir, filename, data, papaparseOptions);
-    console.log(error);
+    console.log(`Error at writeCsvToFile(${workdir}, ${filename}, ${data}, ${papaparseOptions})`, error);
+    throw new Error(`Error at writeCsvToFile(${workdir}, ${filename}, ${data}, ${papaparseOptions})`);
   }
 }
 
@@ -92,9 +90,8 @@ function incrementTime(timeString, increment) {
     return `${padZero(newHours)}:${padZero(newMinutes)}:${padZero(newSeconds)}`;
     //
   } catch (error) {
-    console.log('Error at incrementTime()');
-    console.log('Dump:', timeString, increment);
-    console.log(error);
+    console.log(`Error at incrementTime(${timeString}, ${increment})`, error);
+    throw new Error(`Error at incrementTime(${timeString}, ${increment})`);
   }
 }
 
@@ -151,9 +148,8 @@ function parseAgency(agencyData) {
       agency_email: agencyData.email,
     };
   } catch (error) {
-    console.log('Error at parseAgency()');
-    console.log('Dump:', agencyData);
-    console.log(error);
+    console.log(`Error at parseAgency(${agencyData})`, error);
+    throw new Error(`Error at parseAgency(${agencyData})`);
   }
 }
 
@@ -178,9 +174,8 @@ function parseFeedInfo(agencyData, options) {
       feed_end_date: options.feed_end_date,
     };
   } catch (error) {
-    console.log('Error at parseFeedInfo()');
-    console.log('Dump:', agencyData, options);
-    console.log(error);
+    console.log(`Error at parseFeedInfo(${agencyData}, ${options})`, error);
+    throw new Error(`Error at parseFeedInfo(${agencyData}, ${options})`);
   }
 }
 
@@ -213,9 +208,8 @@ function parseRoute(agencyData, lineData, typologyData, routeData) {
       route_text_color: typologyData.text_color.slice(1),
     };
   } catch (error) {
-    console.log('Error at parseRoute()');
-    console.log('Dump:', agencyData, lineData, typologyData, routeData);
-    console.log(error);
+    console.log(`Error at parseRoute(${agencyData}, ${lineData}, ${typologyData}, ${routeData})`, error);
+    throw new Error(`Error at parseRoute(${agencyData}, ${lineData}, ${typologyData}, ${routeData})`);
   }
 }
 
@@ -235,9 +229,8 @@ function parseFareRule(agencyData, routeData, fareData) {
       fare_id: fareData.code,
     };
   } catch (error) {
-    console.log('Error at parseFareRule()');
-    console.log('Dump:', agencyData, routeData, fareData);
-    console.log(error);
+    console.log(`Error at parseFareRule(${agencyData}, ${routeData}, ${fareData})`, error);
+    throw new Error(`Error at parseFareRule(${agencyData}, ${routeData}, ${fareData})`);
   }
 }
 
@@ -260,9 +253,8 @@ function parseFare(agencyData, fareData) {
       transfers: fareData.transfers,
     };
   } catch (error) {
-    console.log('Error at parseFare()');
-    console.log('Dump:', agencyData, fareData);
-    console.log(error);
+    console.log(`Error at parseFare(${agencyData}, ${fareData})`, error);
+    throw new Error(`Error at parseFare(${agencyData}, ${fareData})`);
   }
 }
 
@@ -330,9 +322,8 @@ async function parseZoning(lineData, patternData, exportOptions) {
     }
     return parsedZoning;
   } catch (error) {
-    const dump = `Error at parseZoning(${lineData}, ${patternData}, ${exportOptions}})`;
-    console.log(dump, error);
-    throw new Error(dump);
+    console.log(`Error at parseZoning(${lineData}, ${patternData}, ${exportOptions})`, error);
+    throw new Error(`Error at parseZoning(${lineData}, ${patternData}, ${exportOptions})`);
   }
 }
 
@@ -363,9 +354,8 @@ function parseShape(gtfsShapeId, shapeData) {
     }
     return parsedShape;
   } catch (error) {
-    console.log('Error at parseShape()');
-    console.log('Dump:', gtfsShapeId, shapeData);
-    console.log(error);
+    console.log(`Error at parseShape(${gtfsShapeId}, ${shapeData})`, error);
+    throw new Error(`Error at parseShape(${gtfsShapeId}, ${shapeData})`);
   }
 }
 
@@ -411,9 +401,8 @@ async function parseCalendar(calendarData, startDate, endDate, shouldConcatenate
     return parsedCalendar;
     //
   } catch (error) {
-    console.log('Error at parseCalendar()');
-    console.log('Dump:', calendarData, startDate, endDate, shouldConcatenate);
-    console.log(error);
+    console.log(`Error at parseCalendar(${calendarData}, ${startDate}, ${endDate}, ${shouldConcatenate})`, error);
+    throw new Error(`Error at parseCalendar(${calendarData}, ${startDate}, ${endDate}, ${shouldConcatenate})`);
   }
 }
 
@@ -462,9 +451,8 @@ function parseStop(stopData, municipalityData) {
       municipality: municipalityData.code || '',
     };
   } catch (error) {
-    console.log('Error at parseStop()');
-    console.log('Dump:', stopData, municipalityData);
-    console.log(error);
+    console.log(`Error at parseStop(${stopData}, ${municipalityData})`, error);
+    throw new Error(`Error at parseStop(${stopData}, ${municipalityData})`);
   }
 }
 
