@@ -28,7 +28,13 @@ import { CalendarModel } from '@/schemas/Calendar/model';
 /* UPDATE PROGRESS */
 /* Fetch the database for the given agency_id. */
 async function update(exportDocument, updates) {
-  await ExportModel.updateOne({ _id: exportDocument._id }, updates);
+  try {
+    await ExportModel.updateOne({ _id: exportDocument._id }, updates);
+  } catch (error) {
+    console.log('Error at update()');
+    console.log('Dump:', exportDocument, updates);
+    console.log(error);
+  }
 }
 
 //
@@ -40,18 +46,25 @@ async function update(exportDocument, updates) {
 /* WRITE CSV TO FILE */
 /* Parse and append data to an existing file. */
 function writeCsvToFile(workdir, filename, data, papaparseOptions) {
-  // Set the new line character to be used (should be \n)
-  const newLineCharacter = '\n';
-  // If data is not an array, then wrap it in one
-  if (!Array.isArray(data)) data = [data];
-  // Check if the file already exists
-  const fileExists = fs.existsSync(`${workdir}/${filename}`);
-  // Use papaparse to produce the CSV string
-  let csvData = Papa.unparse(data, { skipEmptyLines: 'greedy', newline: newLineCharacter, header: !fileExists, ...papaparseOptions });
-  // Prepend a new line character to csvData string if it is not the first line on the file
-  if (fileExists) csvData = newLineCharacter + csvData;
-  // Append the csv string to the file
-  fs.appendFileSync(`${workdir}/${filename}`, csvData);
+  try {
+    // Set the new line character to be used (should be \n)
+    const newLineCharacter = '\n';
+    // If data is not an array, then wrap it in one
+    if (!Array.isArray(data)) data = [data];
+    // Check if the file already exists
+    const fileExists = fs.existsSync(`${workdir}/${filename}`);
+    // Use papaparse to produce the CSV string
+    let csvData = Papa.unparse(data, { skipEmptyLines: 'greedy', newline: newLineCharacter, header: !fileExists, ...papaparseOptions });
+    // Prepend a new line character to csvData string if it is not the first line on the file
+    if (fileExists) csvData = newLineCharacter + csvData;
+    // Append the csv string to the file
+    fs.appendFileSync(`${workdir}/${filename}`, csvData);
+    //
+  } catch (error) {
+    console.log('Error at writeCsvToFile()');
+    console.log('Dump:', workdir, filename, data, papaparseOptions);
+    console.log(error);
+  }
 }
 
 //
@@ -64,19 +77,25 @@ function writeCsvToFile(workdir, filename, data, papaparseOptions) {
 /* Parse a GTFS-standard time string in the format HH:MM and sum it */
 /* with a given increment in seconds. Return a string in the same format. */
 function incrementTime(timeString, increment) {
-  // Parse the time string into hours, minutes, and seconds
-  let [hours, minutes, seconds] = timeString.split(':').map(Number);
-  // Handle case where seconds is undefined
-  if (!seconds) seconds = 0;
-  // Calculate the new total seconds
-  const totalSeconds = hours * 3600 + minutes * 60 + seconds + increment;
-  // Calculate the new hours, minutes, and seconds
-  const newHours = Math.floor(totalSeconds / 3600);
-  const newMinutes = Math.floor((totalSeconds % 3600) / 60);
-  const newSeconds = Math.floor((totalSeconds % 3600) % 60);
-  // Format the new time string
-  return `${padZero(newHours)}:${padZero(newMinutes)}:${padZero(newSeconds)}`;
-  //
+  try {
+    // Parse the time string into hours, minutes, and seconds
+    let [hours, minutes, seconds] = timeString.split(':').map(Number);
+    // Handle case where seconds is undefined
+    if (!seconds) seconds = 0;
+    // Calculate the new total seconds
+    const totalSeconds = hours * 3600 + minutes * 60 + seconds + increment;
+    // Calculate the new hours, minutes, and seconds
+    const newHours = Math.floor(totalSeconds / 3600);
+    const newMinutes = Math.floor((totalSeconds % 3600) / 60);
+    const newSeconds = Math.floor((totalSeconds % 3600) % 60);
+    // Format the new time string
+    return `${padZero(newHours)}:${padZero(newMinutes)}:${padZero(newSeconds)}`;
+    //
+  } catch (error) {
+    console.log('Error at incrementTime()');
+    console.log('Dump:', timeString, increment);
+    console.log(error);
+  }
 }
 
 //
@@ -120,16 +139,22 @@ function today() {
 /* BUILD ROUTE OBJECT ENTRY */
 /* Build an agency object entry */
 function parseAgency(agencyData) {
-  return {
-    agency_id: agencyData.code,
-    agency_name: 'Carris Metropolitana' || agencyData.name,
-    agency_url: 'https://www.carrismetropolitana.pt' || agencyData.url,
-    agency_timezone: 'Europe/Lisbon' || agencyData.timezone,
-    agency_lang: 'pt' || agencyData.lang,
-    agency_phone: '210410400' || agencyData.phone,
-    agency_fare_url: agencyData.fare_url,
-    agency_email: agencyData.email,
-  };
+  try {
+    return {
+      agency_id: agencyData.code,
+      agency_name: 'Carris Metropolitana' || agencyData.name,
+      agency_url: 'https://www.carrismetropolitana.pt' || agencyData.url,
+      agency_timezone: 'Europe/Lisbon' || agencyData.timezone,
+      agency_lang: 'pt' || agencyData.lang,
+      agency_phone: '210410400' || agencyData.phone,
+      agency_fare_url: agencyData.fare_url,
+      agency_email: agencyData.email,
+    };
+  } catch (error) {
+    console.log('Error at parseAgency()');
+    console.log('Dump:', agencyData);
+    console.log(error);
+  }
 }
 
 //
@@ -141,16 +166,22 @@ function parseAgency(agencyData) {
 /* BUILD ROUTE OBJECT ENTRY */
 /* Build an agency object entry */
 function parseFeedInfo(agencyData, options) {
-  return {
-    feed_publisher_name: agencyData.name,
-    feed_publisher_url: agencyData.url,
-    feed_lang: 'pt',
-    default_lang: 'en',
-    feed_contact_url: 'https://github.com/carrismetropolitana/gtfs',
-    feed_version: today(),
-    feed_start_date: options.feed_start_date,
-    feed_end_date: options.feed_end_date,
-  };
+  try {
+    return {
+      feed_publisher_name: agencyData.name,
+      feed_publisher_url: agencyData.url,
+      feed_lang: 'pt',
+      default_lang: 'en',
+      feed_contact_url: 'https://github.com/carrismetropolitana/gtfs',
+      feed_version: today(),
+      feed_start_date: options.feed_start_date,
+      feed_end_date: options.feed_end_date,
+    };
+  } catch (error) {
+    console.log('Error at parseFeedInfo()');
+    console.log('Dump:', agencyData, options);
+    console.log(error);
+  }
 }
 
 //
@@ -162,24 +193,30 @@ function parseFeedInfo(agencyData, options) {
 /* PARSE ROUTE */
 /* Build a route object entry */
 function parseRoute(agencyData, lineData, typologyData, routeData) {
-  return {
-    line_id: lineData.code,
-    line_short_name: lineData.short_name,
-    line_long_name: lineData.name.replaceAll(',', ''),
-    line_type: getLineType(typologyData.code),
-    route_id: routeData.code,
-    agency_id: agencyData.code,
-    route_origin: 'line-origin',
-    route_destination: 'line-destination',
-    route_short_name: lineData.short_name,
-    route_long_name: routeData.name.replaceAll(',', ''),
-    route_type: 3,
-    path_type: 1,
-    circular: lineData.circular ? 1 : 0,
-    school: lineData.school ? 1 : 0,
-    route_color: typologyData.color.slice(1),
-    route_text_color: typologyData.text_color.slice(1),
-  };
+  try {
+    return {
+      line_id: lineData.code,
+      line_short_name: lineData.short_name,
+      line_long_name: lineData.name.replaceAll(',', ''),
+      line_type: getLineType(typologyData.code),
+      route_id: routeData.code,
+      agency_id: agencyData.code,
+      route_origin: 'line-origin',
+      route_destination: 'line-destination',
+      route_short_name: lineData.short_name,
+      route_long_name: routeData.name.replaceAll(',', ''),
+      route_type: 3,
+      path_type: 1,
+      circular: lineData.circular ? 1 : 0,
+      school: lineData.school ? 1 : 0,
+      route_color: typologyData.color.slice(1),
+      route_text_color: typologyData.text_color.slice(1),
+    };
+  } catch (error) {
+    console.log('Error at parseRoute()');
+    console.log('Dump:', agencyData, lineData, typologyData, routeData);
+    console.log(error);
+  }
 }
 
 //
@@ -191,11 +228,17 @@ function parseRoute(agencyData, lineData, typologyData, routeData) {
 /* PARSE FARE RULE */
 /* Build a route object entry */
 function parseFareRule(agencyData, routeData, fareData) {
-  return {
-    agency_id: agencyData.code,
-    route_id: routeData.code,
-    fare_id: fareData.code,
-  };
+  try {
+    return {
+      agency_id: agencyData.code,
+      route_id: routeData.code,
+      fare_id: fareData.code,
+    };
+  } catch (error) {
+    console.log('Error at parseFareRule()');
+    console.log('Dump:', agencyData, routeData, fareData);
+    console.log(error);
+  }
 }
 
 //
@@ -207,14 +250,20 @@ function parseFareRule(agencyData, routeData, fareData) {
 /* PARSE FARE */
 /* Build a route object entry */
 function parseFare(agencyData, fareData) {
-  return {
-    agency_id: agencyData.code,
-    fare_id: fareData.code,
-    price: fareData.price,
-    currency_type: fareData.currency_type,
-    payment_method: fareData.payment_method,
-    transfers: fareData.transfers,
-  };
+  try {
+    return {
+      agency_id: agencyData.code,
+      fare_id: fareData.code,
+      price: fareData.price,
+      currency_type: fareData.currency_type,
+      payment_method: fareData.payment_method,
+      transfers: fareData.transfers,
+    };
+  } catch (error) {
+    console.log('Error at parseFare()');
+    console.log('Dump:', agencyData, fareData);
+    console.log(error);
+  }
 }
 
 //
@@ -251,34 +300,40 @@ function getLineType(typologyCode) {
 /* PARSE ZONING */
 /* Build a zoning object entry */
 async function parseZoning(lineData, patternData, exportOptions) {
-  const parsedZoning = [];
-  for (const [pathIndex, pathData] of patternData.path.entries()) {
-    // Skip if this pathStop has no associated stop
-    if (!pathData.stop) continue;
-    // Get stop, municipality and zones data for this stop
-    const stopData = await StopModel.findOne({ _id: pathData.stop }, 'code name latitude longitude municipality zones');
-    const municipalityData = await MunicipalityModel.findOne({ _id: stopData.municipality }, 'code name');
-    const allZonesData = await ZoneModel.find({ _id: pathData.zones }, 'code name');
-    // Prepare zones in the file format
-    let formattedZones = allZonesData.filter((zone) => zone.code !== 'AML').map((zone) => transliterate(zone.name));
-    if (formattedZones.length === 0) formattedZones = '0';
-    else formattedZones = formattedZones.join('-');
-    // Write the afetacao.txt entry for this path
-    parsedZoning.push({
-      line_id: lineData.code,
-      pattern_id: patternData.code,
-      stop_sequence: pathIndex + exportOptions.stop_sequence_start,
-      stop_id: stopData.code,
-      stop_name: stopData.name || '',
-      stop_lat: stopData.latitude || '0',
-      stop_lon: stopData.longitude || '0',
-      'Localizacao Paragem Municipios v2': municipalityData.name,
-      'Aceitacao passes municipais': formattedZones,
-    });
+  try {
+    const parsedZoning = [];
+    for (const [pathIndex, pathData] of patternData.path.entries()) {
+      // Skip if this pathStop has no associated stop
+      if (!pathData.stop) continue;
+      // Get stop, municipality and zones data for this stop
+      const stopData = await StopModel.findOne({ _id: pathData.stop }, 'code name latitude longitude municipality zones');
+      const municipalityData = await MunicipalityModel.findOne({ _id: stopData.municipality }, 'code name');
+      const allZonesData = await ZoneModel.find({ _id: pathData.zones }, 'code name');
+      // Prepare zones in the file format
+      let formattedZones = allZonesData.filter((zone) => zone.code !== 'AML').map((zone) => transliterate(zone.name));
+      if (formattedZones.length === 0) formattedZones = '0';
+      else formattedZones = formattedZones.join('-');
+      // Write the afetacao.txt entry for this path
+      parsedZoning.push({
+        line_id: lineData.code,
+        pattern_id: patternData.code,
+        stop_sequence: pathIndex + exportOptions.stop_sequence_start,
+        stop_id: stopData.code,
+        stop_name: stopData.name || '',
+        stop_lat: stopData.latitude || '0',
+        stop_lon: stopData.longitude || '0',
+        'Localizacao Paragem Municipios v2': municipalityData.name,
+        'Aceitacao passes municipais': formattedZones,
+      });
 
-    // End of afetacao loop
+      // End of afetacao loop
+    }
+    return parsedZoning;
+  } catch (error) {
+    const dump = `Error at parseZoning(${lineData}, ${patternData}, ${exportOptions}})`;
+    console.log(dump, error);
+    throw new Error(dump);
   }
-  return parsedZoning;
 }
 
 //
@@ -290,22 +345,28 @@ async function parseZoning(lineData, patternData, exportOptions) {
 /* PARSE SHAPE */
 /* Build a shape object entry */
 function parseShape(gtfsShapeId, shapeData) {
-  const parsedShape = [];
-  for (const shapePoint of shapeData.points) {
-    // Prepare variables
-    const shapePtLat = shapePoint.shape_pt_lat.toFixed(6);
-    const shapePtLon = shapePoint.shape_pt_lon.toFixed(6);
-    const shapeDistTraveled = parseFloat(((shapePoint.shape_dist_traveled || 0) / 1000).toFixed(15));
-    // Build shape point
-    parsedShape.push({
-      shape_id: gtfsShapeId,
-      shape_pt_sequence: shapePoint.shape_pt_sequence,
-      shape_pt_lat: shapePtLat,
-      shape_pt_lon: shapePtLon,
-      shape_dist_traveled: shapeDistTraveled,
-    });
+  try {
+    const parsedShape = [];
+    for (const shapePoint of shapeData.points) {
+      // Prepare variables
+      const shapePtLat = shapePoint.shape_pt_lat.toFixed(6);
+      const shapePtLon = shapePoint.shape_pt_lon.toFixed(6);
+      const shapeDistTraveled = parseFloat(((shapePoint.shape_dist_traveled || 0) / 1000).toFixed(15));
+      // Build shape point
+      parsedShape.push({
+        shape_id: gtfsShapeId,
+        shape_pt_sequence: shapePoint.shape_pt_sequence,
+        shape_pt_lat: shapePtLat,
+        shape_pt_lon: shapePtLon,
+        shape_dist_traveled: shapeDistTraveled,
+      });
+    }
+    return parsedShape;
+  } catch (error) {
+    console.log('Error at parseShape()');
+    console.log('Dump:', gtfsShapeId, shapeData);
+    console.log(error);
   }
-  return parsedShape;
 }
 
 //
@@ -317,37 +378,43 @@ function parseShape(gtfsShapeId, shapeData) {
 /* PARSE CALENDAR */
 /* Build a calendar_dates object entry */
 async function parseCalendar(calendarData, startDate, endDate, shouldConcatenate) {
-  // Initiate an new variable
-  const parsedCalendar = [];
-  // For each date in the calendar
-  for (const calendarDate of calendarData.dates) {
-    // Tranform the current, start and end dates
-    // into integers to allow for easy comparison
-    const calendarDateInt = parseInt(calendarDate);
-    const startDateInt = parseInt(startDate);
-    const endDateInt = parseInt(endDate);
-    // Skip adding the current date if it is not between the requested start and end dates
-    if (shouldConcatenate && (calendarDateInt < startDateInt || calendarDateInt > endDateInt)) continue;
-    // Get Date document for this calendar date
-    const dateData = await DateModel.findOne({ date: calendarDate });
-    // Skip if no date is found
-    if (!dateData) continue;
-    // Get the day_type for the current date
-    const dayType = calculateDateDayType(calendarDate, dateData.is_holiday);
-    // Build the date entry
-    parsedCalendar.push({
-      service_id: calendarData.code,
-      holiday: dateData.is_holiday ? 1 : 0,
-      period: dateData.period,
-      day_type: dayType,
-      date: calendarDate,
-      exception_type: 1,
-    });
+  try {
+    // Initiate an new variable
+    const parsedCalendar = [];
+    // For each date in the calendar
+    for (const calendarDate of calendarData.dates) {
+      // Tranform the current, start and end dates
+      // into integers to allow for easy comparison
+      const calendarDateInt = parseInt(calendarDate);
+      const startDateInt = parseInt(startDate);
+      const endDateInt = parseInt(endDate);
+      // Skip adding the current date if it is not between the requested start and end dates
+      if (shouldConcatenate && (calendarDateInt < startDateInt || calendarDateInt > endDateInt)) continue;
+      // Get Date document for this calendar date
+      const dateData = await DateModel.findOne({ date: calendarDate });
+      // Skip if no date is found
+      if (!dateData) continue;
+      // Get the day_type for the current date
+      const dayType = calculateDateDayType(calendarDate, dateData.is_holiday);
+      // Build the date entry
+      parsedCalendar.push({
+        service_id: calendarData.code,
+        holiday: dateData.is_holiday ? 1 : 0,
+        period: dateData.period,
+        day_type: dayType,
+        date: calendarDate,
+        exception_type: 1,
+      });
+      //
+    }
+    // Return this calendar
+    return parsedCalendar;
     //
+  } catch (error) {
+    console.log('Error at parseCalendar()');
+    console.log('Dump:', calendarData, startDate, endDate, shouldConcatenate);
+    console.log(error);
   }
-  // Return this calendar
-  return parsedCalendar;
-  //
 }
 
 //
@@ -359,40 +426,46 @@ async function parseCalendar(calendarData, startDate, endDate, shouldConcatenate
 /* PARSE STOP */
 /* Build a trip object entry */
 function parseStop(stopData, municipalityData) {
-  return {
-    stop_id: stopData.code,
-    stop_id_stepp: '0',
-    stop_code: stopData.code,
-    stop_name: stopData.name,
-    stop_desc: '',
-    stop_remarks: '',
-    stop_lat: stopData.latitude,
-    stop_lon: stopData.longitude,
-    zone_id: '',
-    zone_shift: '',
-    stop_url: '',
-    location_type: '',
-    parent_station: '',
-    stop_timezone: '',
-    wheelchair_boarding: '',
-    level_id: '',
-    platform_code: '',
-    entrance_restriction: '',
-    exit_restriction: '',
-    slot: '',
-    signalling: '',
-    shelter: '',
-    bench: '',
-    network_map: '',
-    schedule: '',
-    real_time_information: '',
-    tariff: '',
-    preservation_state: '',
-    equipment: '',
-    observations: '',
-    region: municipalityData.region || '',
-    municipality: municipalityData.code || '',
-  };
+  try {
+    return {
+      stop_id: stopData.code,
+      stop_id_stepp: '0',
+      stop_code: stopData.code,
+      stop_name: stopData.name,
+      stop_desc: '',
+      stop_remarks: '',
+      stop_lat: stopData.latitude,
+      stop_lon: stopData.longitude,
+      zone_id: '',
+      zone_shift: '',
+      stop_url: '',
+      location_type: '',
+      parent_station: '',
+      stop_timezone: '',
+      wheelchair_boarding: '',
+      level_id: '',
+      platform_code: '',
+      entrance_restriction: '',
+      exit_restriction: '',
+      slot: '',
+      signalling: '',
+      shelter: '',
+      bench: '',
+      network_map: '',
+      schedule: '',
+      real_time_information: '',
+      tariff: '',
+      preservation_state: '',
+      equipment: '',
+      observations: '',
+      region: municipalityData.region || '',
+      municipality: municipalityData.code || '',
+    };
+  } catch (error) {
+    console.log('Error at parseStop()');
+    console.log('Dump:', stopData, municipalityData);
+    console.log(error);
+  }
 }
 
 //
@@ -405,6 +478,9 @@ function parseStop(stopData, municipalityData) {
 /* This builds the GTFS archive. */
 export default async function buildGTFSv29(progress, agencyData, exportOptions) {
   //
+
+  console.log(`* GTFS v29 : NEW EXPORT`);
+  console.log(`* For agency ${agencyData} with export options ${exportOptions}`);
 
   // 0.
   // Update progress

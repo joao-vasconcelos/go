@@ -115,17 +115,17 @@ export default async function handler(req, res) {
       // 7.4.1.
       // For v18 the name consists of the agency code, the version and the export date.
       case 'gtfs_v18':
-        exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v18_${today()}.zip`;
+        exportSummary.filename = `GTFS_${agencyData.code}_REF_v18_${today()}.zip`;
         break;
       // 7.4.2.
       // For v29 the name consists of the agency code, the version and the export date.
       case 'gtfs_v29':
-        exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v29_${today()}.zip`;
+        exportSummary.filename = `GTFS_${agencyData.code}_REF_v29_${today()}.zip`;
         break;
       // 7.4.3.
       // For v30 the name consists of the agency code, the version and the export date.
       case 'gtfs_v30':
-        exportSummary.filename = `GTFS_${agencyData.code}_OFFER_v30_${today()}.zip`;
+        exportSummary.filename = `GTFS_${agencyData.code}_REF_v30_${today()}.zip`;
         break;
       // 7.4.4.
       // For v30 the name consists of the agency code, the version and the export date.
