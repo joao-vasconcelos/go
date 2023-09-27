@@ -88,7 +88,7 @@ export default async function handler(req, res) {
   // Update the correct document
 
   try {
-    const editedDocument = await ZoneModel.findOneAndUpdate({ _id: { $eq: req.query._id } }, req.body, { new: true });
+    const editedDocument = await ZoneModel.findOneAndReplace({ _id: { $eq: req.query._id } }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Zone with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {

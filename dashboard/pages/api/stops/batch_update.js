@@ -97,6 +97,7 @@ export default async function handler(req, res) {
       // Find out to which Municipality this stop belongs to
       const matchedMunicipality = allMunicipalities.find((item) => item.code === stopApi.municipality_id);
       const municipalityIdForThisStop = matchedMunicipality ? matchedMunicipality._id : null;
+      if (!municipalityIdForThisStop) throw new Error(`Could not match Municipality for this stop. "stop_id ${stopApi.id}" "municipality_id ${stopApi.municipality_id}"`);
 
       // 6.3.3.
       // Format stop to match GO schema
@@ -138,7 +139,7 @@ export default async function handler(req, res) {
 
       // 6.3.4.
       // Update the stop
-      const updatedStopDocument = await StopModel.findOneAndUpdate({ code: stopApi.id }, formattedStop, { new: true, upsert: true });
+      const updatedStopDocument = await StopModel.findOneAndReplace({ code: stopApi.id }, formattedStop, { new: true, upsert: true });
 
       // 6.3.5.
       // Save this stop_id to the set to delete any dangling stops
