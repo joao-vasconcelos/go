@@ -104,8 +104,8 @@ export default async function handler(req, res) {
       // Get _id of associated Stop document
       const associatedStopDocument = await StopModel.findOne({ code: pathItem.stop_id });
       // Calculate distance delta
-      const distanceDelta = pathIndex === 0 ? 0 : Number(pathItem.shape_dist_traveled) - prevDistance;
-      prevDistance = Number(pathItem.shape_dist_traveled);
+      const distanceDelta = pathIndex === 0 ? 0 : parseInt(pathItem.shape_dist_traveled) - prevDistance;
+      prevDistance = parseInt(pathItem.shape_dist_traveled);
       // Calculate travel time
       const travelTime = calculateTravelTime(distanceDelta, patternDocumentToUpdate.presets.velocity || PatternPathDefault.default_velocity);
       // Add this sequence item to the document path

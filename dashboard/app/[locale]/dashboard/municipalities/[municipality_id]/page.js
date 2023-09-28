@@ -186,13 +186,13 @@ export default function Page() {
             <Select
               label={t('form.district.label')}
               placeholder={t('form.district.placeholder')}
-              nothingFound={t('form.district.nothingFound')}
+              nothingFoundMessage={t('form.district.nothingFound')}
               {...form.getInputProps('district')}
               data={MunicipalityOptions.district}
               readOnly={isReadOnly}
               searchable
             />
-            <Select label={t('form.region.label')} placeholder={t('form.region.placeholder')} nothingFound={t('form.region.nothingFound')} {...form.getInputProps('region')} data={MunicipalityOptions.region} readOnly={isReadOnly} searchable />
+            <Select label={t('form.region.label')} placeholder={t('form.region.placeholder')} nothingFoundMessage={t('form.region.nothingFound')} {...form.getInputProps('region')} data={MunicipalityOptions.region} readOnly={isReadOnly} searchable />
           </SimpleGrid>
         </Section>
       </form>

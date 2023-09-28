@@ -135,7 +135,7 @@ export default function Page() {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [pathSequence.stop.longitude, pathSequence.stop.latitude],
+            coordinates: [pathSequence.stop?.longitude, pathSequence.stop.latitude],
           },
           properties: {
             index: pathSequenceIndex + 1,
@@ -143,7 +143,7 @@ export default function Page() {
             code: pathSequence.stop.code,
             name: pathSequence.stop.name,
             latitude: pathSequence.stop.latitude,
-            longitude: pathSequence.stop.longitude,
+            longitude: pathSequence.stop?.longitude,
           },
         });
       }
@@ -190,14 +190,14 @@ export default function Page() {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [parseFloat(stop.longitude), parseFloat(stop.latitude)],
+            coordinates: [parseFloat(stop?.longitude), parseFloat(stop.latitude)],
           },
           properties: {
             _id: stop._id,
             code: stop.code,
             name: stop.name,
             latitude: stop.latitude,
-            longitude: stop.longitude,
+            longitude: stop?.longitude,
           },
         });
       }
@@ -279,7 +279,7 @@ export default function Page() {
       ),
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Tem a certeza que pretende eliminar este horário?</Text>,
+      children: <Text>Tem a certeza que pretende importar este pattern?</Text>,
       labels: { confirm: 'Sim, importar percurso', cancel: 'Manter como está' },
       onConfirm: async () => {
         try {
