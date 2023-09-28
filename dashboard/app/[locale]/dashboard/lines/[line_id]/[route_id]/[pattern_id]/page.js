@@ -135,14 +135,14 @@ export default function Page() {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [pathSequence.stop?.longitude, pathSequence.stop.latitude],
+            coordinates: [pathSequence.stop?.longitude, pathSequence.stop?.latitude],
           },
           properties: {
             index: pathSequenceIndex + 1,
-            _id: pathSequence.stop._id,
-            code: pathSequence.stop.code,
-            name: pathSequence.stop.name,
-            latitude: pathSequence.stop.latitude,
+            _id: pathSequence.stop?._id,
+            code: pathSequence.stop?.code,
+            name: pathSequence.stop?.name,
+            latitude: pathSequence.stop?.latitude,
             longitude: pathSequence.stop?.longitude,
           },
         });
@@ -190,13 +190,13 @@ export default function Page() {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [parseFloat(stop?.longitude), parseFloat(stop.latitude)],
+            coordinates: [parseFloat(stop?.longitude), parseFloat(stop?.latitude)],
           },
           properties: {
-            _id: stop._id,
-            code: stop.code,
-            name: stop.name,
-            latitude: stop.latitude,
+            _id: stop?._id,
+            code: stop?.code,
+            name: stop?.name,
+            latitude: stop?.latitude,
             longitude: stop?.longitude,
           },
         });
