@@ -23,6 +23,7 @@ import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import LockButton from '@/components/LockButton/LockButton';
 import populate from '@/services/populate';
+import CalendarPatternsView from '@/components/CalendarPatternsView/CalendarPatternsView';
 
 export default function Page() {
   //
@@ -196,6 +197,9 @@ export default function Page() {
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
+          <AuthGate scope="lines" permission="view">
+            <CalendarPatternsView calendar_id={calendar_id} />
+          </AuthGate>
           <AuthGate scope="calendars" permission="lock">
             <LockButton isLocked={calendarData?.is_locked} setLocked={handleLock} loading={isLocking} />
           </AuthGate>

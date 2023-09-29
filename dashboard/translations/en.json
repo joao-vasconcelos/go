@@ -2073,5 +2073,10 @@
     "LockButton": {
         "locked": "Locked",
         "unlocked": "Unlocked"
-    }
+    },
+    "CalendarPatternsView": {
+        "title": "Patterns that have at least one schedule with this calendar:",
+        "label": "View Patterns using this calendar"
+    },
+    "CalendarPatternsViewAsLine": {}
 }
