@@ -22,7 +22,9 @@ const inter = Inter({
 });
 
 export const metadata = {
+  metadataBase: process.env.VERCEL_URL ? new URL(`https://${process.env.VERCEL_URL}`) : new URL(`http://0.0.0.0:${process.env.PORT || 3000}`),
   title: 'GO | Gestor de Oferta',
+  description: 'Construção da rede Carris Metropolitana',
 };
 
 export default function RootLayout({ children }) {
