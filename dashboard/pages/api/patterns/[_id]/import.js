@@ -103,6 +103,8 @@ export default async function handler(req, res) {
     for (const [pathIndex, pathItem] of req.body.path.entries()) {
       // Get _id of associated Stop document
       const associatedStopDocument = await StopModel.findOne({ code: pathItem.stop_id });
+      // Throw an error if no stop is found
+      if (!associatedStopDocument) throw Error('This pattern contains a stop that does not exist.');
       // Calculate distance delta
       const distanceDelta = pathIndex === 0 ? 0 : parseInt(pathItem.shape_dist_traveled) - prevDistance;
       prevDistance = parseInt(pathItem.shape_dist_traveled);
