@@ -9,29 +9,14 @@ export default function manifest() {
     display: 'standalone',
     icons: [
       {
-        src: '/icon.svg',
-        type: 'image/svg+xml',
-        sizes: '512x512',
-      },
-      {
-        src: 'icon1.png',
-        type: 'image/png',
-        sizes: '32x32',
-      },
-      {
-        src: 'icon2.png',
-        type: 'image/png',
-        sizes: '64x64',
-      },
-      {
-        src: 'icon3.png',
-        type: 'image/png',
+        src: '/android-chrome-192x192.png',
         sizes: '192x192',
+        type: 'image/png',
       },
       {
-        src: 'icon4.png',
-        type: 'image/png',
+        src: '/android-chrome-512x512.png',
         sizes: '512x512',
+        type: 'image/png',
       },
     ],
   };
