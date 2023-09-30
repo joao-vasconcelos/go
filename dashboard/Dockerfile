@@ -60,7 +60,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # RUN chown -R nextjs:nodejs ./exported_files
 # RUN chmod -R 755 ./exported_files
 
-USER nextjs
+# USER nextjs
 
 EXPOSE 3000
 ENV PORT 3000

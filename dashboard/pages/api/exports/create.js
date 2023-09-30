@@ -248,7 +248,7 @@ async function update(exportDocument, updates) {
 /* Return the path for the temporary directory based on current environment. */
 function getWorkdir(exportId) {
   // Use the 'tmp' folder as the working directory
-  const workdir = `${process.env.PWD}/exported_files/${exportId}`;
+  const workdir = `${process.env.PWD}/exports/${exportId}`;
   // Out of an abundance of caution, delete the directory and all its contents if it already exists
   if (fs.existsSync(workdir)) fs.rmSync(workdir, { recursive: true, force: true });
   // Create a fresh empty directory in the given path
