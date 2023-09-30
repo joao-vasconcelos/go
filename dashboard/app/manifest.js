@@ -4,8 +4,8 @@ export default function manifest() {
     short_name: 'Gestor de Oferta',
     description: 'Construção da rede Carris Metropolitana',
     start_url: '/',
-    theme_color: '#000000',
-    background_color: '#000000',
+    theme_color: '#ffffff',
+    background_color: '#ffffff',
     display: 'standalone',
     icons: [
       {
@@ -14,12 +14,22 @@ export default function manifest() {
         sizes: '512x512',
       },
       {
-        src: 'icon1.png',
+        src: 'icon-32.png',
+        type: 'image/png',
+        sizes: '32x32',
+      },
+      {
+        src: 'icon-64.png',
+        type: 'image/png',
+        sizes: '64x64',
+      },
+      {
+        src: 'icon-192.png',
         type: 'image/png',
         sizes: '192x192',
       },
       {
-        src: 'icon2.png',
+        src: 'icon-512.png',
         type: 'image/png',
         sizes: '512x512',
       },
