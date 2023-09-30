@@ -14,22 +14,22 @@ export default function manifest() {
         sizes: '512x512',
       },
       {
-        src: 'icon-32.png',
+        src: 'icon1.png',
         type: 'image/png',
         sizes: '32x32',
       },
       {
-        src: 'icon-64.png',
+        src: 'icon2.png',
         type: 'image/png',
         sizes: '64x64',
       },
       {
-        src: 'icon-192.png',
+        src: 'icon3.png',
         type: 'image/png',
         sizes: '192x192',
       },
       {
-        src: 'icon-512.png',
+        src: 'icon4.png',
         type: 'image/png',
         sizes: '512x512',
       },
