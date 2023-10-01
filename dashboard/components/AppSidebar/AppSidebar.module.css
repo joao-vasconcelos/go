@@ -53,6 +53,9 @@
 }
 
 @media (prefers-color-scheme: dark) {
+  .navButton {
+    background-color: var(--color-gray-1);
+  }
   .navButton.selected,
   .navButton:hover.selected {
     color: var(--color-gray-0);

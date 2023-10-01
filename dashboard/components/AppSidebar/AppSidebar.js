@@ -41,7 +41,7 @@ export default function AppSidebar() {
         {links.map((item) => {
           return (
             <AuthGate key={item.href} scope={item.auth_scope} permission={item.auth_permission}>
-              <Tooltip label={item.label} color="gray" position="right">
+              <Tooltip label={item.label} position="right">
                 <Link href={'/dashboard/' + item.href}>
                   <ActionIcon className={`${styles.navButton} ${isActivePage(item.href) && styles.selected}`} size="xl" color="gray">
                     {item.icon}
