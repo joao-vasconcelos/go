@@ -11,7 +11,7 @@ import { PatternFormProvider, usePatternForm } from '@/schemas/Pattern/form';
 import API from '@/services/API';
 import { PatternValidation } from '@/schemas/Pattern/validation';
 import { PatternDefault } from '@/schemas/Pattern/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl, Accordion } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl, Accordion, Group } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import OSMMap from '@/components/OSMMap/OSMMap';
 import { useMap, Source, Layer } from 'react-map-gl/maplibre';
@@ -271,6 +271,7 @@ export default function Page() {
   };
 
   const handleImport = async (importedPattern) => {
+    console.log(importedPattern);
     openConfirmModal({
       title: (
         <Text size={'lg'} fw={700}>
@@ -279,7 +280,23 @@ export default function Page() {
       ),
       centered: true,
       closeOnClickOutside: true,
-      children: <Text>Tem a certeza que pretende importar este pattern?</Text>,
+      children: (
+        <SimpleGrid cols={1}>
+          <Text>Tem a certeza que pretende importar este pattern?</Text>
+          <Divider />
+          <div>
+            <Text>COMO ESTÁ AGORA</Text>
+            <Text>Paragens: {patternData.path.length}</Text>
+            <Text>Shape: {patternData.shape.extension} metros</Text>
+          </div>
+          <Divider />
+          <div>
+            <Text>COMO VAI FICAR DEPOIS DE IMPORTAR</Text>
+            <Text>Paragens: {importedPattern.path.length}</Text>
+            <Text>Shape: {parseInt(importedPattern.shape[importedPattern.shape.length - 1].shape_dist_traveled)} metros</Text>
+          </div>
+        </SimpleGrid>
+      ),
       labels: { confirm: 'Sim, importar percurso', cancel: 'Manter como está' },
       onConfirm: async () => {
         try {
