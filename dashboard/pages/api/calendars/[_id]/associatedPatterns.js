@@ -44,8 +44,7 @@ export default async function handler(req, res) {
   // Fetch the correct document
 
   try {
-    const foundDocuments = await PatternModel.find({ 'schedules.calendars_on': { $eq: req.query._id } });
-    console.log(foundDocuments);
+    const foundDocuments = await PatternModel.find({ 'schedules.calendars_on': { $eq: req.query._id } }, '_id code headsign');
     return await res.status(200).json(foundDocuments);
   } catch (err) {
     console.log(err);
