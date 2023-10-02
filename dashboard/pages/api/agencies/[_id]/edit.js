@@ -114,7 +114,7 @@ export default async function handler(req, res) {
   // Update the requested document
 
   try {
-    const editedDocument = await AgencyModel.updateOne({ _id: { $eq: req.query._id } }, parsedData, { new: true });
+    const editedDocument = await AgencyModel.replaceOne({ _id: { $eq: req.query._id } }, parsedData, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Agency with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {

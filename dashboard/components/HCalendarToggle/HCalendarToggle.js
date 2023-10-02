@@ -2,9 +2,9 @@
 
 import styles from './HCalendarToggle.module.css';
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, SimpleGrid, Textarea, Select } from '@mantine/core';
+import { Modal, SimpleGrid } from '@mantine/core';
 import dayjs from 'dayjs';
-import Text from '../Text/Text';
+import Text from '@/components/Text/Text';
 
 export default function HCalendarToggle({ date, dateObj, activeDates = [], onToggle, readOnly }) {
   //
