@@ -22,29 +22,53 @@ export default function Page() {
   //
   // D. Handle refactors
 
-  //   const handleDeduplicatePatternSchedules = async () => {
-  //     openConfirmModal({
-  //       title: <Text size="h2">Deduplicate Pattern Schedules?</Text>,
-  //       centered: true,
-  //       closeOnClickOutside: true,
-  //       children: <Text size="h3">Are you sure?</Text>,
-  //       labels: { confirm: 'Yes, Deduplicate Pattern Schedules', cancel: 'Cancel' },
-  //       confirmProps: { color: 'red' },
-  //       onConfirm: async () => {
-  //         try {
-  //           setIsImporting(true);
-  //           notify('deduplicate-pattern-schedules', 'loading', 'Loading');
-  //           await API({ service: 'configs/refactors/deduplicateSchedules', method: 'GET' });
-  //           notify('deduplicate-pattern-schedules', 'success', 'success');
-  //           setIsImporting(false);
-  //         } catch (err) {
-  //           console.log(err);
-  //           notify('deduplicate-pattern-schedules', 'error', err.message || 'Error');
-  //           setIsImporting(false);
-  //         }
-  //       },
-  //     });
-  //   };
+  const handleImportRoutes = async () => {
+    openConfirmModal({
+      title: <Text size="h2">Import Routes?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">Are you sure?</Text>,
+      labels: { confirm: 'Yes, Import Routes', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('import-routes', 'loading', 'Loading');
+          await API({ service: 'configs/imports/routes', method: 'GET' });
+          notify('import-routes', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          notify('import-routes', 'error', err.message || 'Error');
+          setIsImporting(false);
+        }
+      },
+    });
+  };
+
+  const handleImportPatterns = async () => {
+    openConfirmModal({
+      title: <Text size="h2">Import Patterns?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">Are you sure?</Text>,
+      labels: { confirm: 'Yes, Import Patterns', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('import-patterns', 'loading', 'Loading');
+          await API({ service: 'configs/imports/patterns', method: 'GET' });
+          notify('import-patterns', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          notify('import-patterns', 'error', err.message || 'Error');
+          setIsImporting(false);
+        }
+      },
+    });
+  };
 
   //
   // E. Render components
@@ -54,7 +78,10 @@ export default function Page() {
       <Pannel>
         <Section>
           <Text size="h2">No operations available</Text>
-          <SimpleGrid cols={3}></SimpleGrid>
+          <SimpleGrid cols={3}>
+            <Button onClick={handleImportRoutes}>Import Routes</Button>
+            <Button onClick={handleImportPatterns}>Import Patterns</Button>
+          </SimpleGrid>
         </Section>
       </Pannel>
     </AuthGate>

@@ -73,10 +73,10 @@ export default async function handler(req, res) {
 
       // 6.2.0.
       // Skip if this route is not A2
-      if (route.code.startsWith('1')) continue;
-      if (route.code.startsWith('2')) continue;
+      if (!route.code.startsWith('2797')) continue;
+      //   if (route.code.startsWith('2')) continue;
       //   if (route.code.startsWith('3')) continue;
-      if (route.code.startsWith('4')) continue;
+      //   if (route.code.startsWith('4')) continue;
 
       // 6.2.1.
       // Skip if route is locked
