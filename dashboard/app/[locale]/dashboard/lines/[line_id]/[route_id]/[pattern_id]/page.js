@@ -11,7 +11,7 @@ import { PatternFormProvider, usePatternForm } from '@/schemas/Pattern/form';
 import API from '@/services/API';
 import { PatternValidation } from '@/schemas/Pattern/validation';
 import { PatternDefault } from '@/schemas/Pattern/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl, Accordion, Group } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl, Accordion, Group, JsonInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import OSMMap from '@/components/OSMMap/OSMMap';
 import { useMap, Source, Layer } from 'react-map-gl/maplibre';
@@ -503,6 +503,26 @@ export default function Page() {
                 </Accordion.Panel>
               </Accordion.Item>
             )}
+
+            <AuthGate scope="configs" permission="admin">
+              <Accordion.Item value={'debug'}>
+                <Accordion.Control>
+                  <Section>
+                    <div>
+                      <Text size="h2">{t('sections.debug.title')}</Text>
+                      <Text size="h4">{t('sections.debug.description')}</Text>
+                    </div>
+                  </Section>
+                </Accordion.Control>
+                <Accordion.Panel>
+                  {activeSection === 'debug' && (
+                    <Section>
+                      <JsonInput value={JSON.stringify(patternData)} rows={20} />
+                    </Section>
+                  )}
+                </Accordion.Panel>
+              </Accordion.Item>
+            </AuthGate>
           </Accordion>
         </form>
       </PatternFormProvider>

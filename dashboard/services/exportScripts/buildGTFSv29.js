@@ -467,8 +467,11 @@ function parseStop(stopData, municipalityData) {
 export default async function buildGTFSv29(progress, agencyData, exportOptions) {
   //
 
+  console.log(`* * *`);
   console.log(`* GTFS v29 : NEW EXPORT`);
-  console.log(`* For agency ${agencyData} with export options ${exportOptions}`);
+  console.log(`* AgencyData:`, agencyData);
+  console.log(`* ExportOptions:`, exportOptions);
+  console.log(`* * *`);
 
   // 0.
   // Update progress

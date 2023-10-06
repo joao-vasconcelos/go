@@ -805,6 +805,10 @@
             "update_path": {
                 "title": "Update Path",
                 "description": "Something about this section"
+            },
+            "debug": {
+                "title": "Debug Info",
+                "description": "Something about this section"
             }
         },
         "form": {
