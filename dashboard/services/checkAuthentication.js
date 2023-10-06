@@ -20,7 +20,7 @@ export default async function checkAuthentication({ scope, permission, req, res 
   // 1.2.
   // Check if the current user has permission to access the feature
   if (!session?.user?.permissions[scope][permission] === true) {
-    throw new Error('You do not have permission to access this feature.', scope, permission);
+    throw new Error(`Permission denied for user "${session?.user?.name}" | Scope: ${scope} | Permission: ${permission}`);
   }
 
   // 1.3.
