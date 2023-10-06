@@ -10,7 +10,7 @@ import API from '@/services/API';
 import { LineValidation } from '@/schemas/Line/validation';
 import { LineDefault } from '@/schemas/Line/default';
 import { LineOptions } from '@/schemas/Line/options';
-import { Tooltip, Select, Button, SimpleGrid, TextInput, ActionIcon, Divider, Switch } from '@mantine/core';
+import { Tooltip, Select, Button, SimpleGrid, TextInput, ActionIcon, Divider, Switch, JsonInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -297,6 +297,14 @@ export default function Page() {
               </Button>
             </AuthGate>
           </Section>
+
+          <AuthGate scope="configs" permission="admin">
+            <Divider />
+            <Section>
+              <Text size="h2">{t('sections.debug.title')}</Text>
+              <JsonInput value={JSON.stringify(lineData)} rows={20} />
+            </Section>
+          </AuthGate>
         </form>
       </LineFormProvider>
     </Pannel>

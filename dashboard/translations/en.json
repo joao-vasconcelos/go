@@ -606,6 +606,10 @@
             "routes": {
                 "title": "Routes",
                 "description": "Something about this section"
+            },
+            "debug": {
+                "title": "Debug Info",
+                "description": "Something about this section"
             }
         },
         "form": {
@@ -721,6 +725,9 @@
             },
             "patterns": {
                 "title": "Patterns"
+            },
+            "debug": {
+                "title": "Debug Info"
             }
         },
         "form": {

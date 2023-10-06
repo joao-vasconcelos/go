@@ -10,7 +10,7 @@ import { RouteFormProvider, useRouteForm } from '@/schemas/Route/form';
 import { RouteValidation } from '@/schemas/Route/validation';
 import { RouteDefault } from '@/schemas/Route/default';
 import { RouteOptions } from '@/schemas/Route/options';
-import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select } from '@mantine/core';
+import { Tooltip, Button, SimpleGrid, TextInput, ActionIcon, Divider, Select, JsonInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -225,6 +225,13 @@ export default function Page() {
               </Button>
             </AuthGate>
           </Section>
+          <AuthGate scope="configs" permission="admin">
+            <Divider />
+            <Section>
+              <Text size="h2">{t('sections.debug.title')}</Text>
+              <JsonInput value={JSON.stringify(routeData)} rows={20} />
+            </Section>
+          </AuthGate>
         </form>
       </RouteFormProvider>
     </Pannel>
