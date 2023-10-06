@@ -1,10 +1,10 @@
 'use client';
 
 import useSWR from 'swr';
-import styles from './CalendarPatternsViewAsLine.module.css';
+import styles from './CalendarPatternsViewRow.module.css';
 import Link from 'next/link';
 
-export default function CalendarPatternsViewAsLine({ patternData }) {
+export default function CalendarPatternsViewRow({ patternData }) {
   //
 
   //
