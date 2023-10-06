@@ -45,7 +45,7 @@ export default function Page() {
   // B. Setup form
 
   const form = useForm({
-    initialValues: { period: 1, is_holiday: false },
+    initialValues: { period: '1', is_holiday: false },
   });
 
   //
@@ -210,9 +210,9 @@ export default function Page() {
                 nothingFound={t('form.period.nothingFound')}
                 {...form.getInputProps('period')}
                 data={[
-                  { value: 1, label: '1 - Período Escolar' },
-                  { value: 2, label: '2 - Período de Férias Escolares' },
-                  { value: 3, label: '3 - Período de Verão' },
+                  { value: '1', label: '1 - Período Escolar' },
+                  { value: '2', label: '2 - Período de Férias Escolares' },
+                  { value: '3', label: '3 - Período de Verão' },
                 ]}
                 readOnly={isReadOnly}
                 searchable
