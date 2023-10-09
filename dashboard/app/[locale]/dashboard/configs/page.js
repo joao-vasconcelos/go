@@ -22,29 +22,29 @@ export default function Page() {
   //
   // D. Handle refactors
 
-  //   const handleImportRoutes = async () => {
-  //     openConfirmModal({
-  //       title: <Text size="h2">Import Routes?</Text>,
-  //       centered: true,
-  //       closeOnClickOutside: true,
-  //       children: <Text size="h3">Are you sure?</Text>,
-  //       labels: { confirm: 'Yes, Import Routes', cancel: 'Cancel' },
-  //       confirmProps: { color: 'red' },
-  //       onConfirm: async () => {
-  //         try {
-  //           setIsImporting(true);
-  //           notify('import-routes', 'loading', 'Loading');
-  //           await API({ service: 'configs/imports/routes', method: 'GET' });
-  //           notify('import-routes', 'success', 'success');
-  //           setIsImporting(false);
-  //         } catch (err) {
-  //           console.log(err);
-  //           notify('import-routes', 'error', err.message || 'Error');
-  //           setIsImporting(false);
-  //         }
-  //       },
-  //     });
-  //   };
+  const handleStandardizeCalendars = async () => {
+    openConfirmModal({
+      title: <Text size="h2">Standardize Calendars?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">Are you sure?</Text>,
+      labels: { confirm: 'Yes, Standardize Calendars', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('fix-calendars', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/standardizeCalendars', method: 'GET' });
+          notify('fix-calendars', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          notify('fix-calendars', 'error', err.message || 'Error');
+          setIsImporting(false);
+        }
+      },
+    });
+  };
 
   //
   // E. Render components
@@ -54,7 +54,11 @@ export default function Page() {
       <Pannel>
         <Section>
           <Text size="h2">No operations available</Text>
-          <SimpleGrid cols={3}></SimpleGrid>
+          <SimpleGrid cols={3}>
+            <Button onClick={handleStandardizeCalendars} color="red">
+              Standardize Calendars
+            </Button>
+          </SimpleGrid>
         </Section>
       </Pannel>
     </AuthGate>
