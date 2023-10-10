@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/go",
-    "version": "2023.10.10-1045",
+    "version": "2023.10.10-1603",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -29,7 +29,7 @@
         "maplibre-gl": "3.4.0",
         "minio": "7.1.3",
         "mongodb": "6.1.0",
-        "mongoose": "7.6.0",
+        "mongoose": "7.6.1",
         "next": "13.5.4",
         "next-auth": "4.23.2",
         "next-intl": "2.20.2",
@@ -45,7 +45,7 @@
         "yup": "1.3.2"
     },
     "devDependencies": {
-        "@types/node": "20.8.3",
+        "@types/node": "20.8.4",
         "@types/react": "18.2.27",
         "@types/react-dom": "18.2.12",
         "eslint": "8.51.0",
