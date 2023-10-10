@@ -79,6 +79,8 @@ export default async function handler(req, res) {
 
         let standardizedCalendars = new Set();
 
+        /* * * * * * * * * */
+
         //
         if (associatedCalendarCodes.has('A1_0_1')) {
           standardizedCalendars.add('CM_ESC_DU');
@@ -120,6 +122,32 @@ export default async function handler(req, res) {
           associatedCalendarCodes.delete('UZ');
           associatedCalendarCodes.delete('ZR');
         }
+
+        //
+        if (associatedCalendarCodes.has('VER_SAB')) {
+          standardizedCalendars.add('CM_VER_SAB');
+          associatedCalendarCodes.delete('VER_SAB');
+        }
+
+        //
+        if (associatedCalendarCodes.has('A1_0_4')) {
+          standardizedCalendars.add('CM_FER_DU');
+          associatedCalendarCodes.delete('A1_0_4');
+        }
+
+        //
+        if (associatedCalendarCodes.has('A1_0_7')) {
+          standardizedCalendars.add('CM_VER_DU');
+          associatedCalendarCodes.delete('A1_0_7');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P0_5')) {
+          standardizedCalendars.add('CM_FER_SAB');
+          associatedCalendarCodes.delete('P0_5');
+        }
+
+        /* * * * * * * * * */
 
         // Add remaining calendars
         for (const remainingCalendarCodes of associatedCalendarCodes.values()) {
