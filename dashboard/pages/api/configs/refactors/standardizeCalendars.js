@@ -201,6 +201,18 @@ export default async function handler(req, res) {
           associatedCalendarCodes.delete('P2_VER_DOM');
         }
 
+        //
+        if (associatedCalendarCodes.has('P1_33')) {
+          standardizedCalendars.add('CM_VER_DOM');
+          associatedCalendarCodes.delete('P1_33');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P1_13')) {
+          standardizedCalendars.add('CM_VER_DU');
+          associatedCalendarCodes.delete('P1_13');
+        }
+
         /* * * * * * * * * */
 
         // Add remaining calendars
