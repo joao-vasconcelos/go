@@ -52,7 +52,7 @@ export default async function handler(req, res) {
     // For each pattern
     for (const patternCode of allPatternCodes) {
       //
-      if (!patternCode.code.startsWith('1')) continue;
+      //   if (!patternCode.code.startsWith('1')) continue;
       //
       const patternData = await PatternModel.findOne({ code: patternCode.code });
 
