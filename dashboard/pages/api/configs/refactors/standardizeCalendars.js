@@ -147,6 +147,60 @@ export default async function handler(req, res) {
           associatedCalendarCodes.delete('P0_5');
         }
 
+        //
+        if (associatedCalendarCodes.has('P2_ESC_DU')) {
+          standardizedCalendars.add('CM_ESC_DU');
+          associatedCalendarCodes.delete('P2_ESC_DU');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P2_ESC_SAB')) {
+          standardizedCalendars.add('CM_ESC_SAB');
+          associatedCalendarCodes.delete('P2_ESC_SAB');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P2_ESC_DOM')) {
+          standardizedCalendars.add('CM_ESC_DOM');
+          associatedCalendarCodes.delete('P2_ESC_DOM');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P2_FER_DU')) {
+          standardizedCalendars.add('CM_FER_DU');
+          associatedCalendarCodes.delete('P2_FER_DU');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P2_FER_SAB')) {
+          standardizedCalendars.add('CM_FER_SAB');
+          associatedCalendarCodes.delete('P2_FER_SAB');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P2_FER_DOM')) {
+          standardizedCalendars.add('CM_FER_DOM');
+          associatedCalendarCodes.delete('P2_FER_DOM');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P2_VER_DU')) {
+          standardizedCalendars.add('CM_VER_DU');
+          associatedCalendarCodes.delete('P2_VER_DU');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P2_VER_SAB')) {
+          standardizedCalendars.add('CM_VER_SAB');
+          associatedCalendarCodes.delete('P2_VER_SAB');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P2_VER_DOM')) {
+          standardizedCalendars.add('CM_VER_DOM');
+          associatedCalendarCodes.delete('P2_VER_DOM');
+        }
+
         /* * * * * * * * * */
 
         // Add remaining calendars
