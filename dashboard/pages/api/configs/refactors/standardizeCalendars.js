@@ -52,7 +52,7 @@ export default async function handler(req, res) {
     // For each pattern
     for (const patternCode of allPatternCodes) {
       //
-      if (!patternCode.code.startsWith('3')) continue;
+      continue;
       //
       const patternData = await PatternModel.findOne({ code: patternCode.code });
 
@@ -80,12 +80,6 @@ export default async function handler(req, res) {
         let standardizedCalendars = new Set();
 
         /* * * * * * * * * */
-
-        //
-        if (associatedCalendarCodes.has('50')) {
-          standardizedCalendars.add('CM_FER_DU');
-          associatedCalendarCodes.delete('50');
-        }
 
         //
         if (associatedCalendarCodes.has('A1_0_1')) {
