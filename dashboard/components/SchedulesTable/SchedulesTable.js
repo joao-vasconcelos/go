@@ -75,15 +75,7 @@ function SchedulesTableStartTimeColumn({ rowIndex, isReadOnly }) {
   return (
     <div className={styles.column}>
       <Tooltip label={t('description')} position="bottom" withArrow>
-        <TextInput
-          aria-label={t('label')}
-          placeholder={t('placeholder')}
-          leftSection={<IconClockPlay size={18} />}
-          {...patternForm.getInputProps(`schedules.${rowIndex}.start_time`)}
-          onChange={handleUpdateStartTime}
-          readOnly={isReadOnly}
-          w={'100%'}
-        />
+        <TextInput aria-label={t('label')} placeholder={t('placeholder')} leftSection={<IconClockPlay size={18} />} {...patternForm.getInputProps(`schedules.${rowIndex}.start_time`)} onChange={handleUpdateStartTime} readOnly={isReadOnly} w={'100%'} />
       </Tooltip>
     </div>
   );
@@ -122,12 +114,10 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
     });
   }, [allCalendarsData]);
 
-  //   const allCalendarsDataFormatted = useMemo(() => {
-  //     if (!allCalendarsDataSimplified) return [];
-  //     return allCalendarsDataSimplified.map((item) => {
-  //       return { ...item, disabled: patternForm.values.schedules[rowIndex].calendars_off.includes(item._id) };
-  //     });
-  //   }, [allCalendarsDataSimplified, patternForm.values.schedules, rowIndex]);
+  const enabledCalendarsForThisTrip = useMemo(() => {
+    if (!patternForm.values.schedules[rowIndex].calendars_on) return [];
+    return patternForm.values.schedules[rowIndex].calendars_on.filter((item) => item !== null);
+  }, [patternForm.values.schedules, rowIndex]);
 
   //
   // Render components
@@ -139,6 +129,7 @@ function SchedulesTableCalendarsOnColumn({ rowIndex, isReadOnly }) {
         placeholder={t('placeholder')}
         nothingFoundMessage={t('nothingFound')}
         {...patternForm.getInputProps(`schedules.${rowIndex}.calendars_on`)}
+        value={enabledCalendarsForThisTrip}
         data={allCalendarsDataSimplified}
         leftSection={<IconCalendarCheck size={20} />}
         readOnly={isReadOnly}
