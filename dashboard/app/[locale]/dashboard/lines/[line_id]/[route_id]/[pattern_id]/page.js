@@ -96,6 +96,15 @@ export default function Page() {
   // E. Transform data
 
   useEffect(() => {
+    if (!patternShapeMap) return;
+    // Load direction arrows
+    patternShapeMap.loadImage('/icons/shape-arrow-direction.png', (error, image) => {
+      if (error) throw error;
+      patternShapeMap.addImage('shape-arrow-direction', image, { sdf: true });
+    });
+  }, [patternShapeMap]);
+
+  useEffect(() => {
     if (patternData?.shape?.geojson?.geometry?.coordinates?.length) {
       // Calculate the bounding box of the feature
       const [minLng, minLat, maxLng, maxLat] = bbox(patternData.shape.geojson);
@@ -327,18 +336,7 @@ export default function Page() {
       loading={patternLoading || isImporting}
       header={
         <>
-          <AutoSave
-            isValid={patternForm.isValid()}
-            isDirty={patternForm.isDirty()}
-            isLoading={patternLoading}
-            isErrorValidating={patternError}
-            isSaving={isSaving}
-            isErrorSaving={hasErrorSaving}
-            onValidate={handleValidate}
-            onSave={handleSave}
-            onClose={handleClose}
-            closeType="back"
-          />
+          <AutoSave isValid={patternForm.isValid()} isDirty={patternForm.isDirty()} isLoading={patternLoading} isErrorValidating={patternError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={handleValidate} onSave={handleSave} onClose={handleClose} closeType="back" />
           <LineDisplay short_name={lineData && lineData.short_name} name={patternForm.values.headsign || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
           <AuthGate scope="lines" permission="lock">
             <LockButton isLocked={patternData?.is_locked} setLocked={handleLock} loading={isLocking} disabled={lineData?.is_locked || routeData?.is_locked} />
@@ -416,7 +414,40 @@ export default function Page() {
             )}
             {patternForm.values?.shape?.geojson && (
               <Source id="pattern-shape" type="geojson" data={patternForm.values.shape.geojson}>
-                <Layer id="pattern-shape" type="line" source="pattern-shape" layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': typologyData ? typologyData.color : '#000000', 'line-width': 4 }} />
+                <Layer
+                  id="pattern-shape-direction"
+                  type="symbol"
+                  source="pattern-shape"
+                  layout={{
+                    'icon-allow-overlap': true,
+                    'icon-ignore-placement': true,
+                    'icon-anchor': 'center',
+                    'symbol-placement': 'line',
+                    'icon-image': 'shape-arrow-direction',
+                    'icon-size': ['interpolate', ['linear', 0.5], ['zoom'], 10, 0.1, 20, 0.2],
+                    'symbol-spacing': ['interpolate', ['linear'], ['zoom'], 10, 2, 20, 30],
+                    'icon-offset': [0, 0],
+                    'icon-rotate': 90,
+                  }}
+                  paint={{
+                    'icon-color': '#ffffff',
+                    'icon-opacity': 0.8,
+                  }}
+                />
+                <Layer
+                  id="pattern-shape-line"
+                  type="line"
+                  source="pattern-shape"
+                  beforeId="pattern-shape-direction"
+                  layout={{
+                    'line-join': 'round',
+                    'line-cap': 'round',
+                  }}
+                  paint={{
+                    'line-color': typologyData ? typologyData.color : '#000000',
+                    'line-width': ['interpolate', ['linear'], ['zoom'], 10, 4, 20, 12],
+                  }}
+                />
               </Source>
             )}
             {patternStopsMapData && (
