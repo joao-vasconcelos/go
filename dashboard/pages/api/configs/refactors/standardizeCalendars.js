@@ -52,8 +52,12 @@ export default async function handler(req, res) {
     // For each pattern
     for (const patternCode of allPatternCodes) {
       //
-      continue;
+
+      // Skip if not A2
+      if (!patternCode.code.startsWith('2')) continue;
+
       //
+
       const patternData = await PatternModel.findOne({ code: patternCode.code });
 
       console.log(`Preparing pattern ${patternData.code} ...`);
@@ -82,135 +86,85 @@ export default async function handler(req, res) {
         /* * * * * * * * * */
 
         //
-        if (associatedCalendarCodes.has('A1_0_1')) {
+        if (associatedCalendarCodes.has('P1_12')) {
+          standardizedCalendars.add('CM_FER_DU');
+          associatedCalendarCodes.delete('P1_12');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P2')) {
+          standardizedCalendars.add('CM_FER_DU');
+          associatedCalendarCodes.delete('P2');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P1_11')) {
           standardizedCalendars.add('CM_ESC_DU');
-          associatedCalendarCodes.delete('A1_0_1');
+          associatedCalendarCodes.delete('P1_11');
         }
 
         //
-        if (associatedCalendarCodes.has('P0_2')) {
-          standardizedCalendars.add('CM_ESC_SAB');
-          associatedCalendarCodes.delete('P0_2');
-        }
-
-        //
-        if (associatedCalendarCodes.has('P0_3')) {
-          standardizedCalendars.add('CM_ESC_DOM');
-          associatedCalendarCodes.delete('P0_3');
-        }
-
-        //
-        if (associatedCalendarCodes.has('8J') && associatedCalendarCodes.has('07')) {
+        if (associatedCalendarCodes.has('DXQ1')) {
           standardizedCalendars.add('CM_VER_DU');
-          standardizedCalendars.add('CM_FER_DU');
-          associatedCalendarCodes.delete('8J');
-          associatedCalendarCodes.delete('07');
+          associatedCalendarCodes.delete('DXQ1');
         }
 
         //
-        if (associatedCalendarCodes.has('P0_8') && associatedCalendarCodes.has('P0_5A')) {
-          standardizedCalendars.add('CM_VER_SAB');
-          standardizedCalendars.add('CM_FER_SAB');
-          associatedCalendarCodes.delete('P0_8');
-          associatedCalendarCodes.delete('P0_5A');
-        }
-
-        //
-        if (associatedCalendarCodes.has('UZ') && associatedCalendarCodes.has('ZR')) {
-          standardizedCalendars.add('CM_VER_DOM');
-          standardizedCalendars.add('CM_FER_DOM');
-          associatedCalendarCodes.delete('UZ');
-          associatedCalendarCodes.delete('ZR');
-        }
-
-        //
-        if (associatedCalendarCodes.has('VER_SAB')) {
-          standardizedCalendars.add('CM_VER_SAB');
-          associatedCalendarCodes.delete('VER_SAB');
-        }
-
-        //
-        if (associatedCalendarCodes.has('A1_0_4')) {
-          standardizedCalendars.add('CM_FER_DU');
-          associatedCalendarCodes.delete('A1_0_4');
-        }
-
-        //
-        if (associatedCalendarCodes.has('A1_0_7')) {
-          standardizedCalendars.add('CM_VER_DU');
-          associatedCalendarCodes.delete('A1_0_7');
-        }
-
-        //
-        if (associatedCalendarCodes.has('P0_5')) {
-          standardizedCalendars.add('CM_FER_SAB');
-          associatedCalendarCodes.delete('P0_5');
-        }
-
-        //
-        if (associatedCalendarCodes.has('P2_ESC_DU')) {
+        if (associatedCalendarCodes.has('ML')) {
           standardizedCalendars.add('CM_ESC_DU');
-          associatedCalendarCodes.delete('P2_ESC_DU');
+          associatedCalendarCodes.delete('ML');
         }
 
         //
-        if (associatedCalendarCodes.has('P2_ESC_SAB')) {
-          standardizedCalendars.add('CM_ESC_SAB');
-          associatedCalendarCodes.delete('P2_ESC_SAB');
-        }
-
-        //
-        if (associatedCalendarCodes.has('P2_ESC_DOM')) {
-          standardizedCalendars.add('CM_ESC_DOM');
-          associatedCalendarCodes.delete('P2_ESC_DOM');
-        }
-
-        //
-        if (associatedCalendarCodes.has('P2_FER_DU')) {
-          standardizedCalendars.add('CM_FER_DU');
-          associatedCalendarCodes.delete('P2_FER_DU');
-        }
-
-        //
-        if (associatedCalendarCodes.has('P2_FER_SAB')) {
-          standardizedCalendars.add('CM_FER_SAB');
-          associatedCalendarCodes.delete('P2_FER_SAB');
-        }
-
-        //
-        if (associatedCalendarCodes.has('P2_FER_DOM')) {
+        if (associatedCalendarCodes.has('P1_32')) {
           standardizedCalendars.add('CM_FER_DOM');
-          associatedCalendarCodes.delete('P2_FER_DOM');
+          associatedCalendarCodes.delete('P1_32');
         }
 
         //
-        if (associatedCalendarCodes.has('P2_VER_DU')) {
-          standardizedCalendars.add('CM_VER_DU');
-          associatedCalendarCodes.delete('P2_VER_DU');
+        if (associatedCalendarCodes.has('P0_9')) {
+          standardizedCalendars.add('CM_VER_DOM');
+          associatedCalendarCodes.delete('P0_9');
         }
 
         //
-        if (associatedCalendarCodes.has('P2_VER_SAB')) {
+        if (associatedCalendarCodes.has('P1_31')) {
+          standardizedCalendars.add('CM_ESC_DOM');
+          associatedCalendarCodes.delete('P1_31');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P1_22')) {
+          standardizedCalendars.add('CM_FER_SAB');
+          associatedCalendarCodes.delete('P1_22');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P1_21')) {
+          standardizedCalendars.add('CM_ESC_SAB');
+          associatedCalendarCodes.delete('P1_21');
+        }
+
+        //
+        if (associatedCalendarCodes.has('P1_23')) {
           standardizedCalendars.add('CM_VER_SAB');
-          associatedCalendarCodes.delete('P2_VER_SAB');
+          associatedCalendarCodes.delete('P1_23');
         }
 
         //
-        if (associatedCalendarCodes.has('P2_VER_DOM')) {
-          standardizedCalendars.add('CM_VER_DOM');
-          associatedCalendarCodes.delete('P2_VER_DOM');
+        if (associatedCalendarCodes.has('P1_1701')) {
+          standardizedCalendars.add('CM_ESC_DOM');
+          associatedCalendarCodes.delete('P1_1701');
         }
 
         //
-        if (associatedCalendarCodes.has('P1_33')) {
-          standardizedCalendars.add('CM_VER_DOM');
-          associatedCalendarCodes.delete('P1_33');
-        }
-
-        //
-        if (associatedCalendarCodes.has('P1_13')) {
+        if (associatedCalendarCodes.has('P1_1103') && associatedCalendarCodes.has('P1_1203') && associatedCalendarCodes.has('P1_1303') && associatedCalendarCodes.has('P1_1403') && associatedCalendarCodes.has('P1_1503')) {
           standardizedCalendars.add('CM_VER_DU');
-          associatedCalendarCodes.delete('P1_13');
+          associatedCalendarCodes.delete('P1_1103');
+          associatedCalendarCodes.delete('P1_1203');
+          associatedCalendarCodes.delete('P1_1303');
+          associatedCalendarCodes.delete('P1_1403');
+          associatedCalendarCodes.delete('P1_1503');
         }
 
         /* * * * * * * * * */
