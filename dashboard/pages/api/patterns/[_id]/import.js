@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   //
   await delay();
 
-  // 0.
+  // 1.
   // Refuse request if not PUT
 
   if (req.method != 'PUT') {
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1.
+  // 2.
   // Check for correct Authentication and valid Permissions
 
   try {
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 2.
+  // 3.
   // Parse request body into JSON
 
   try {
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
   }
 
   // 4.
-  // Connect to mongodb
+  // Connect to MongoDB
 
   try {
     await mongodb.connect();
@@ -55,13 +55,13 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  //
+  // 5.
+  // Get current pattern from MongoDB
 
-  // Get current pattern from db
-  const patternDocumentToUpdate = await PatternModel.findOne({ _id: { $eq: req.query._id } });
+  const patternDocumentToUpdate = await PatternModel.findOne({ _id: { $eq: req.query._id } }).populate('path.stop');
 
-  //
-  // UPDATE SHAPE
+  // 6.
+  // Update Shape
 
   if (req.body.shape && req.body.shape.length) {
     try {
@@ -89,11 +89,11 @@ export default async function handler(req, res) {
     }
   }
 
-  //
-  // UPDATE PATH
+  // 7.
+  // Update Path
 
   try {
-    // Reset geojson and extension if shape has no points
+    // Sort path stops based on stop_sequence
     req.body.path.sort((a, b) => a.stop_sequence - b.stop_sequence);
     // Initiate temp variable to keep formatted path
     let formattedPath = [];
@@ -105,6 +105,8 @@ export default async function handler(req, res) {
       const associatedStopDocument = await StopModel.findOne({ code: pathItem.stop_id });
       // Throw an error if no stop is found
       if (!associatedStopDocument) throw Error('This pattern contains one or more stops that do not exist.');
+      // Get original path stop from non-modified document
+      const originalPathStop = patternDocumentToUpdate.path.find((item) => item.stop.id === associatedStopDocument.id);
       // Calculate distance delta
       const distanceDelta = pathIndex === 0 ? 0 : parseInt(pathItem.shape_dist_traveled) - prevDistance;
       prevDistance = parseInt(pathItem.shape_dist_traveled);
@@ -112,13 +114,18 @@ export default async function handler(req, res) {
       const travelTime = calculateTravelTime(distanceDelta, patternDocumentToUpdate.presets.velocity || PatternPathDefault.default_velocity);
       // Add this sequence item to the document path
       formattedPath.push({
+        // Include the defaults
         ...PatternPathDefault,
+        // Replace defaults with geographical data specific to the updated pattern
         default_travel_time: travelTime,
         distance_delta: distanceDelta,
-        default_velocity: patternDocumentToUpdate.presets.velocity || PatternPathDefault.default_velocity,
-        default_dwell_time: patternDocumentToUpdate.presets.dwell_time || PatternPathDefault.default_dwell_time,
         stop: associatedStopDocument._id,
-        zones: associatedStopDocument.zones,
+        // Replace defaults with original data, if path stop is available; otherwise use presets or defaults
+        default_velocity: originalPathStop?.default_velocity || patternDocumentToUpdate.presets.velocity || PatternPathDefault.default_velocity,
+        default_dwell_time: originalPathStop?.default_dwell_time || patternDocumentToUpdate.presets.dwell_time || PatternPathDefault.default_dwell_time,
+        zones: originalPathStop?.zones || associatedStopDocument.zones,
+        allow_pickup: originalPathStop?.allow_pickup || PatternPathDefault.allow_pickup,
+        allow_drop_off: originalPathStop?.allow_drop_off || PatternPathDefault.allow_drop_off,
       });
     }
     //
@@ -129,7 +136,9 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: err.message || 'Error processing path.' });
   }
 
-  // 4. Replace the path for this pattern
+  // 8.
+  // Replace the path for this pattern
+
   try {
     // Save changes to document
     patternDocumentToUpdate.save();
