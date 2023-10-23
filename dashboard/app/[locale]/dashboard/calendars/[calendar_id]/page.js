@@ -47,6 +47,7 @@ export default function Page() {
   const { mutate: allCalendarsMutate } = useSWR('/api/calendars');
   const { data: calendarData, error: calendarError, isLoading: calendarLoading, mutate: calendarMutate } = useSWR(calendar_id && `/api/calendars/${calendar_id}`, { onSuccess: (data) => keepFormUpdated(data) });
   const { data: allDatesData } = useSWR('/api/dates');
+  const { data: allCalendarAssociatedPatternsData, isLoading: allCalendarAssociatedPatternsLoading } = useSWR(calendar_id && `/api/calendars/${calendar_id}/associatedPatterns`);
 
   //
   // C. Setup form
@@ -204,8 +205,8 @@ export default function Page() {
             <LockButton isLocked={calendarData?.is_locked} setLocked={handleLock} loading={isLocking} />
           </AuthGate>
           <AuthGate scope="calendars" permission="delete">
-            <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
-              <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete} disabled={calendarData?.is_locked}>
+            <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow disabled={calendarData?.is_locked || allCalendarAssociatedPatternsData?.length > 0}>
+              <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete} loading={calendarLoading || allCalendarAssociatedPatternsLoading} disabled={calendarData?.is_locked || allCalendarAssociatedPatternsData?.length > 0}>
                 <IconTrash size={20} />
               </ActionIcon>
             </Tooltip>

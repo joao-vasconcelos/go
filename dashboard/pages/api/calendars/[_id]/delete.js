@@ -2,6 +2,7 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { CalendarModel } from '@/schemas/Calendar/model';
+import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
 /* DELETE CALENDAR */
@@ -41,6 +42,17 @@ export default async function handler(req, res) {
   }
 
   // 3.
+  // Connect to MongoDB
+
+  try {
+    const foundDocuments = await PatternModel.find({ 'schedules.calendars_on': { $eq: req.query._id } }, '_id code headsign parent_route');
+    if (foundDocuments.length > 0) return await res.status(403).json({ message: 'Cannot delete Calendar because it has associated Patterns.' });
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'MongoDB connection error.' });
+  }
+
+  // 4.
   // Delete the correct document
 
   try {
