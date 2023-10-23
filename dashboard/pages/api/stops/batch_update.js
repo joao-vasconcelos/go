@@ -2,6 +2,7 @@ import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { StopModel } from '@/schemas/Stop/model';
+import { StopDefault } from '@/schemas/Stop/default';
 import { ZoneModel } from '@/schemas/Zone/model';
 import { MunicipalityModel } from '@/schemas/Municipality/model';
 import * as turf from '@turf/turf';
@@ -102,6 +103,7 @@ export default async function handler(req, res) {
       // 6.3.3.
       // Format stop to match GO schema
       const formattedStop = {
+        ...StopDefault,
         // General
         code: stopApi.id,
         name: stopApi.name,
