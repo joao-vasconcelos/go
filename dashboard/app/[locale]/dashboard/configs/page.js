@@ -55,9 +55,9 @@ export default function Page() {
         <Section>
           <Text size="h2">No operations available</Text>
           <SimpleGrid cols={3}>
-            <Button onClick={handleSetRouteBasePathAndVariant} color="red">
+            {/* <Button onClick={handleSetRouteBasePathAndVariant} color="red">
               Set Route Base Path and Variant
-            </Button>
+            </Button> */}
           </SimpleGrid>
         </Section>
       </Pannel>
