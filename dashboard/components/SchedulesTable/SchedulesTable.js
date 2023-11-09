@@ -301,7 +301,7 @@ function SchedulesTableRow({ rowIndex, isReadOnly }) {
     <div className={`${styles.row} ${styles.bodyRow}`}>
       <SchedulesTableStartTimeColumn rowIndex={rowIndex} isReadOnly={isReadOnly} />
       <SchedulesTableCalendarsOnColumn rowIndex={rowIndex} isReadOnly={isReadOnly} />
-      {/* <SchedulesTableCalendarsOffColumn rowIndex={rowIndex} isReadOnly={isReadOnly} /> */}
+      <SchedulesTableCalendarsOffColumn rowIndex={rowIndex} isReadOnly={isReadOnly} />
       {/* <SchedulesTableCalendarDescColumn rowIndex={rowIndex} isReadOnly={isReadOnly} /> */}
       <SchedulesTableRemoveTripColumn rowIndex={rowIndex} isReadOnly={isReadOnly} />
     </div>
@@ -406,7 +406,7 @@ function SchedulesTableHeader() {
     <div className={`${styles.row} ${styles.headerRow}`}>
       <div className={styles.column}>{t('start_time.header.title')}</div>
       <div className={styles.column}>{t('calendars_on.header.title')}</div>
-      {/* <div className={styles.column}>{t('calendars_off.header.title')}</div> */}
+      <div className={styles.column}>{t('calendars_off.header.title')}</div>
       {/* <div className={styles.column}>{t('calendar_desc.header.title')}</div> */}
       <div className={styles.column} />
     </div>

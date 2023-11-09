@@ -22,7 +22,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: 100px minmax(300px, 1fr) /*minmax(300px, 1fr) minmax(300px, 1fr)*/ 50px;
+  grid-template-columns: 100px minmax(300px, 1fr) minmax(300px, 1fr) /*minmax(300px, 1fr)*/ 50px;
   align-items: center;
   gap: var(--size-sm);
 }
