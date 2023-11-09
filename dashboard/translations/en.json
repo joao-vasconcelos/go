@@ -744,14 +744,14 @@
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found",
                 "options": {
-                    "0": {
-                        "label": "Base Path"
-                    },
                     "1": {
-                        "label": "Variant"
+                        "label": "Base Path"
                     },
                     "2": {
                         "label": "Parcial"
+                    },
+                    "3": {
+                        "label": "Variant"
                     }
                 }
             },

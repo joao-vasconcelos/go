@@ -21,6 +21,7 @@ export const RouteSchema = new mongoose.Schema(
     path_type: {
       type: String,
       maxlength: 2,
+      default: '1',
     },
     parent_line: {
       type: mongoose.Schema.Types.ObjectId,

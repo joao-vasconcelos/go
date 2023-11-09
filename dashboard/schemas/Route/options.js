@@ -15,12 +15,12 @@ export const RouteOptions = {
   /*
    * PATH TYPE
    *
-   * 0 - Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area
-   * 1 - Subway, Metro. Any underground rail system within a metropolitan area
-   * 2 - Rail. Used for intercity or long-distance travel.
+   * 1 - Base Path
+   * 2 - Parcial
+   * 3 - Variant
    */
 
-  path_type: ['0', '1', '2'],
+  path_type: ['1', '2', '3'],
 
   //
 };
