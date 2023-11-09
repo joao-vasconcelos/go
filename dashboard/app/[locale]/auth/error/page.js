@@ -30,10 +30,10 @@ export default function AuthError() {
 
   return (
     <SimpleGrid>
-      <Text color='red' align='center' fw='bold'>
+      <Text c="red" align="center" fw="bold">
         {getErrorMessage()}
       </Text>
-      <Button fullWidth variant='light' onClick={handleSignInRetry}>
+      <Button fullWidth variant="light" onClick={handleSignInRetry}>
         {t('submit')}
       </Button>
     </SimpleGrid>
