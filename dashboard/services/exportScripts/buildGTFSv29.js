@@ -512,7 +512,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
     // 3.1.
     // Skip to the next line if this line has no routes
-    if (!lineData.routes) continue lineLoop; // throw new Error({ code: 5101, short_message: 'Line has no routes.', references: { line_code: lineData.code } });
+    if (!lineData.routes.length) continue lineLoop; // throw new Error({ code: 5101, short_message: 'Line has no routes.', references: { line_code: lineData.code } });
 
     // 3.2.
     // Get fare associated with this line
@@ -535,7 +535,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
       // 3.4.1.
       // Skip to the next route if this route has no patterns
-      if (!routeData.patterns) continue routeLoop; // throw new Error({ code: 5202, short_message: 'Route has no patterns.', references: { route_code: routeData.code } });
+      if (!routeData.patterns.length) continue routeLoop; // throw new Error({ code: 5202, short_message: 'Route has no patterns.', references: { route_code: routeData.code } });
 
       // 3.4.2.
       // Set a flag to make sure that there are no foreign key violations
@@ -554,9 +554,9 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
         // 3.4.3.1.
         // Skip to the next pattern if this pattern has no shape, no path or no schedules
-        if (!patternData.shape || !patternData.shape.points) continue patternLoop; // throw new Error({ code: 5302, short_message: 'Pattern has no shape.', references: { pattern_code: patternData.code } });
-        if (!patternData.path) continue patternLoop; // throw new Error({ code: 5303, short_message: 'Pattern has no path.', references: { pattern_code: patternData.code } });
-        if (!patternData.schedules) continue patternLoop; // throw new Error({ code: 5303, short_message: 'Pattern has no schedules.', references: { pattern_code: patternData.code } });
+        if (!patternData.shape || !patternData.shape.points.length) continue patternLoop; // throw new Error({ code: 5302, short_message: 'Pattern has no shape.', references: { pattern_code: patternData.code } });
+        if (!patternData.path.length) continue patternLoop; // throw new Error({ code: 5303, short_message: 'Pattern has no path.', references: { pattern_code: patternData.code } });
+        if (!patternData.schedules.length) continue patternLoop; // throw new Error({ code: 5303, short_message: 'Pattern has no schedules.', references: { pattern_code: patternData.code } });
 
         // 3.4.3.2.
         // Build the code for the associated shape
@@ -573,7 +573,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
           //
           // 3.4.3.4.0.
           // Skip to the next schedule if this schedule has no associated calendars
-          if (!scheduleData.calendars_on) continue scheduleLoop; // throw new Error({ code: 5401, short_message: 'Schedule has no calendars.', references: { pattern_code: patternData.code, schedule_start_time: scheduleData.start_time } });
+          if (!scheduleData.calendars_on.length) continue scheduleLoop; // throw new Error({ code: 5401, short_message: 'Schedule has no calendars.', references: { pattern_code: patternData.code, schedule_start_time: scheduleData.start_time } });
 
           // 3.4.3.4.1.
           // The rule for this GTFS version is to create as many trips as associated calendars.
@@ -587,7 +587,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
             // 3.4.3.4.1.1.
             // Skip if this calendar has no dates
-            if (!calendarOnData.dates) continue calendarOnLoop; // throw new Error({ code: 5502, short_message: 'Calendar has no dates.', references: { pattern_code: patternData.code, schedule_start_time: scheduleData.start_time, calendar_code: calendarData.code } });
+            if (!calendarOnData.dates.length) continue calendarOnLoop; // throw new Error({ code: 5502, short_message: 'Calendar has no dates.', references: { pattern_code: patternData.code, schedule_start_time: scheduleData.start_time, calendar_code: calendarData.code } });
 
             // 3.4.3.4.1.2.
             // Prepare the final calendar code and description
