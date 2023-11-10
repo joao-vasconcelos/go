@@ -607,6 +607,8 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               const calendarOffData = await CalendarModel.findOne({ _id: calendarOffId });
               if (!calendarOffData) continue calendarOffLoop;
 
+              console.log('calendarOffData.dates', calendarOffData.code, calendarOffData.dates);
+
               // 3.4.3.4.1.4.2.
               // Skip if this calendar has no dates
               if (!calendarOffData.dates.length) continue calendarOffLoop;
