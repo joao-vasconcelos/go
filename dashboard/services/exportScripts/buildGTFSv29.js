@@ -618,10 +618,11 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               // 3.4.3.4.1.4.4.
               // Subtract from the current calendar ON all the dates in the current calendar OFF
               calendarOffData.dates.forEach((dateToBeRemoved) => {
-                currentCalendarOnWasModified = calendarOnDates.delete(dateToBeRemoved);
+                // Remove the date from the calendar ON
+                const dateWasRemoved = calendarOnDates.delete(dateToBeRemoved);
+                // If the flag is already set to true, keep it set to true
+                currentCalendarOnWasModified = currentCalendarOnWasModified || dateWasRemoved;
               });
-
-              console.log('currentCalendarOnWasModified', calendarOffData.code, currentCalendarOnWasModified);
 
               // 3.4.3.4.1.4.5.
               // if the current calendar ON was modified then append the current calendar OFF code and description to this combination
@@ -633,8 +634,6 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
                 resultingCalendarDescription = `${resultingCalendarDescription} ${calendarOffData.description}`;
                 resultingCalendarDescription = resultingCalendarDescription.replace(/  +/g, ' ').trim();
               }
-
-              console.log('resultingCalendarCode', calendarOffData.code, resultingCalendarCode);
 
               // End of calendarOff loop
             }
