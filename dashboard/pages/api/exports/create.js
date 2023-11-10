@@ -172,9 +172,9 @@ export default async function handler(req, res) {
       lines_excluded: req.body.lines_excluded || [],
       feed_start_date: req.body.feed_start_date,
       feed_end_date: req.body.feed_end_date,
-      adjust_calendars: req.body.adjust_calendars,
-      calendars_start_date: req.body.calendars_start_date,
-      calendars_end_date: req.body.calendars_end_date,
+      clip_calendars: req.body.clip_calendars,
+      calendars_start_date: req.body.calendars_clip_start_date,
+      calendars_end_date: req.body.calendars_clip_end_date,
       stop_sequence_start: req.body.stop_sequence_start,
     };
 

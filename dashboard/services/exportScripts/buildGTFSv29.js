@@ -590,8 +590,9 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
             if (!calendarOnData.dates) continue calendarOnLoop; // throw new Error({ code: 5502, short_message: 'Calendar has no dates.', references: { pattern_code: patternData.code, schedule_start_time: scheduleData.start_time, calendar_code: calendarData.code } });
 
             // 3.4.3.4.1.2.
-            // Prepare the final calendar code
+            // Prepare the final calendar code and description
             let resultingCalendarCode = calendarOnData.code;
+            let resultingCalendarDescription = calendarOnData.description;
 
             // 3.4.3.4.1.3.
             // Transform this calendar dates into a Set for easier manipulation
@@ -621,7 +622,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               });
 
               // 3.4.3.4.1.4.5.
-              // if the current calendar ON was modified then append the current calendar OFF code to this combination
+              // if the current calendar ON was modified then append the current calendar OFF code and description to this combination
               if (currentCalendarOnWasModified) {
                 // Include the OFF flag if this is the first calendar OFF code being appended
                 if (resultingCalendarCode === calendarOnData.code) resultingCalendarCode += '|OFF';
@@ -637,10 +638,10 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
             // 3.4.3.4.1.6.
             // If set, clip the resulting calendar ON dates to the desired start and end dates
-            if (exportOptions.adjust_calendars) {
+            if (exportOptions.clip_calendars) {
               [...calendarOnDates].forEach((currentDate) => {
                 // If the current date is before the start date OR after the end date, then remove it from the set
-                if (parseInt(currentDate) < parseInt(exportOptions.calendars_start_date) || parseInt(currentDate) > parseInt(exportOptions.calendars_end_date)) {
+                if (parseInt(currentDate) < parseInt(exportOptions.calendars_clip_start_date) || parseInt(currentDate) > parseInt(exportOptions.calendars_clip_end_date)) {
                   calendarOnDates.delete(currentDate);
                 }
               });
@@ -777,7 +778,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               trip_headsign: patternData.headsign.replaceAll(',', ''),
               direction_id: patternIndex,
               shape_id: thisShapeCode,
-              calendar_desc: scheduleData.calendar_desc.replaceAll(',', ''),
+              calendar_desc: resultingCalendarDescription.replaceAll(',', ''),
             });
 
             // 3.4.3.4.1.18.

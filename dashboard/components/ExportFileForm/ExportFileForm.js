@@ -37,9 +37,9 @@ export default function ExportFileForm() {
   const [selectedLineIdsToExclude, setSelectedLineIdsToExclude] = useState([]);
   const [selectedFeedStartDate, setSelectedFeedStartDate] = useState(null);
   const [selectedFeedEndDate, setSelectedFeedEndDate] = useState(null);
-  const [shouldAdjustCalendars, setShouldAdjustCalendars] = useState(null);
-  const [selectedCalendarsStartDate, setSelectedCalendarsStartDate] = useState(null);
-  const [selectedCalendarsEndDate, setSelectedCalendarsEndDate] = useState(null);
+  const [shouldClipCalendars, setShouldClipCalendars] = useState(false);
+  const [selectedCalendarsClipStartDate, setSelectedCalendarsClipStartDate] = useState(null);
+  const [selectedCalendarsClipEndDate, setSelectedCalendarsClipEndDate] = useState(null);
   const [selectedStopSequenceStart, setSelectedStopSequenceStart] = useState(1);
 
   //
@@ -108,9 +108,9 @@ export default function ExportFileForm() {
           lines_excluded: selectedLineIdsToExclude,
           feed_start_date: parseDate(selectedFeedStartDate),
           feed_end_date: parseDate(selectedFeedEndDate),
-          adjust_calendars: shouldAdjustCalendars,
-          calendars_start_date: parseDate(selectedCalendarsStartDate),
-          calendars_end_date: parseDate(selectedCalendarsEndDate),
+          clip_calendars: shouldClipCalendars,
+          calendars_clip_start_date: parseDate(selectedCalendarsClipStartDate),
+          calendars_clip_end_date: parseDate(selectedCalendarsClipEndDate),
           stop_sequence_start: selectedStopSequenceStart,
         },
       });
@@ -123,9 +123,9 @@ export default function ExportFileForm() {
       setSelectedLineIdsToExclude([]);
       setSelectedFeedStartDate(null);
       setSelectedFeedEndDate(null);
-      setShouldAdjustCalendars(null);
-      setSelectedCalendarsStartDate(null);
-      setSelectedCalendarsEndDate(null);
+      setShouldClipCalendars(false);
+      setSelectedCalendarsClipStartDate(null);
+      setSelectedCalendarsClipEndDate(null);
       setSelectedStopSequenceStart(1);
       // Reset state
       setIsCreatingExport(false);
@@ -221,16 +221,7 @@ export default function ExportFileForm() {
 
       <Section>
         <SimpleGrid cols={2}>
-          <DatePickerInput
-            label={t('form.feed_start_date.label')}
-            description={t('form.feed_start_date.description')}
-            placeholder={t('form.feed_start_date.placeholder')}
-            value={selectedFeedStartDate}
-            onChange={setSelectedFeedStartDate}
-            disabled={!selectedAgencyId}
-            dropdownType="modal"
-            clearable
-          />
+          <DatePickerInput label={t('form.feed_start_date.label')} description={t('form.feed_start_date.description')} placeholder={t('form.feed_start_date.placeholder')} value={selectedFeedStartDate} onChange={setSelectedFeedStartDate} disabled={!selectedAgencyId} dropdownType="modal" clearable />
           <DatePickerInput
             label={t('form.feed_end_date.label')}
             description={t('form.feed_end_date.description')}
@@ -249,34 +240,28 @@ export default function ExportFileForm() {
 
       <Section>
         <SimpleGrid cols={1}>
-          <Switch
-            label={t('form.adjust_calendars.label')}
-            description={t('form.adjust_calendars.description')}
-            checked={shouldAdjustCalendars}
-            onChange={(event) => setShouldAdjustCalendars(event.currentTarget.checked)}
-            disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate}
-          />
+          <Switch label={t('form.clip_calendars.label')} description={t('form.clip_calendars.description')} checked={shouldClipCalendars} onChange={(event) => setShouldClipCalendars(event.currentTarget.checked)} disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate} />
         </SimpleGrid>
-        {shouldAdjustCalendars && (
+        {shouldClipCalendars && (
           <SimpleGrid cols={2}>
             <DatePickerInput
-              label={t('form.calendars_start_date.label')}
-              description={t('form.calendars_start_date.description')}
-              placeholder={t('form.calendars_start_date.placeholder')}
-              value={selectedCalendarsStartDate}
-              onChange={setSelectedCalendarsStartDate}
+              label={t('form.calendars_clip_start_date.label')}
+              description={t('form.calendars_clip_start_date.description')}
+              placeholder={t('form.calendars_clip_start_date.placeholder')}
+              value={selectedCalendarsClipStartDate}
+              onChange={setSelectedCalendarsClipStartDate}
               disabled={!selectedAgencyId}
               dropdownType="modal"
               clearable
             />
             <DatePickerInput
-              label={t('form.calendars_end_date.label')}
-              description={t('form.calendars_end_date.description')}
-              placeholder={t('form.calendars_end_date.placeholder')}
-              value={selectedCalendarsEndDate}
-              onChange={setSelectedCalendarsEndDate}
-              minDate={selectedCalendarsStartDate}
-              disabled={!selectedCalendarsStartDate}
+              label={t('form.calendars_clip_end_date.label')}
+              description={t('form.calendars_clip_end_date.description')}
+              placeholder={t('form.calendars_clip_end_date.placeholder')}
+              value={selectedCalendarsClipEndDate}
+              onChange={setSelectedCalendarsClipEndDate}
+              minDate={selectedCalendarsClipStartDate}
+              disabled={!selectedCalendarsClipStartDate}
               dropdownType="modal"
               clearable
             />
@@ -304,11 +289,7 @@ export default function ExportFileForm() {
       <Divider />
 
       <Section>
-        <Button
-          onClick={handleStartExport}
-          loading={isCreatingExport}
-          disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate || (shouldAdjustCalendars && (!selectedCalendarsStartDate || !selectedCalendarsEndDate)) || selectedStopSequenceStart.length === 0}
-        >
+        <Button onClick={handleStartExport} loading={isCreatingExport} disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate || (shouldClipCalendars && (!selectedCalendarsClipStartDate || !selectedCalendarsClipEndDate)) || selectedStopSequenceStart.length === 0}>
           {t('operations.start.label')}
         </Button>
       </Section>
