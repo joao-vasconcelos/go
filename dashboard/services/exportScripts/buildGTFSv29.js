@@ -625,10 +625,10 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               // if the current calendar ON was modified then append the current calendar OFF code and description to this combination
               if (currentCalendarOnWasModified) {
                 // Include the OFF flag if this is the first calendar OFF code being appended
-                if (resultingCalendarCode === calendarOnData.code) resultingCalendarCode += '|OFF';
-                resultingCalendarCode += `|${calendarOffData.code}`;
+                if (resultingCalendarCode === calendarOnData.code) resultingCalendarCode = `${resultingCalendarCode}|OFF`;
+                resultingCalendarCode = `${resultingCalendarCode}_${calendarOffData.code}`;
                 // Append the description string for this calendar OFF and trim the result
-                resultingCalendarDescription += ` ${calendarOffData.description}`;
+                resultingCalendarDescription = `${resultingCalendarDescription} ${calendarOffData.description}`;
                 resultingCalendarDescription = resultingCalendarDescription.replace(/  +/g, ' ').trim();
               }
 
