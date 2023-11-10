@@ -602,10 +602,12 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
             // Subtract all calendars_off dates from the current calendar ON
             calendarOffLoop: for (const calendarOffId of scheduleData.calendars_off) {
               //
+              console.log('calendarOffId', calendarOffId);
               // 3.4.3.4.1.4.1.
               // Fetch calendar from database
               const calendarOffData = await CalendarModel.findOne({ _id: calendarOffId });
               if (!calendarOffData) continue calendarOffLoop;
+              console.log('calendarOffData.code', calendarOffData.code);
 
               // 3.4.3.4.1.4.2.
               // Skip if this calendar has no dates
@@ -624,6 +626,11 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               // 3.4.3.4.1.4.5.
               // if the current calendar ON was modified then append the current calendar OFF code and description to this combination
               if (currentCalendarOnWasModified) {
+                console.log('-------');
+                console.log('resultingCalendarCode === calendarOnData.code', resultingCalendarCode === calendarOnData.code);
+                console.log('resultingCalendarCode', resultingCalendarCode);
+                console.log('calendarOnData.code', calendarOnData.code);
+                console.log('-------');
                 // Include the OFF flag if this is the first calendar OFF code being appended
                 if (resultingCalendarCode === calendarOnData.code) resultingCalendarCode = `${resultingCalendarCode}-OFF`;
                 resultingCalendarCode = `${resultingCalendarCode}-${calendarOffData.code}`;
