@@ -641,7 +641,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               [...calendarOnDates].forEach((currentDate) => {
                 // If the current date is before the start date OR after the end date, then remove it from the set
                 if (parseInt(currentDate) < parseInt(exportOptions.calendars_start_date) || parseInt(currentDate) > parseInt(exportOptions.calendars_end_date)) {
-                  calendarOnData.delete(currentDate);
+                  calendarOnDates.delete(currentDate);
                 }
               });
             }
