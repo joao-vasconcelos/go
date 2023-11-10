@@ -133,8 +133,6 @@ export default async function handler(req, res) {
 
       console.log(`Updated pattern ${patternData.code}`);
 
-      return;
-
       //
     }
 
