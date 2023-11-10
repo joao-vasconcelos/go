@@ -607,8 +607,6 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               const calendarOffData = await CalendarModel.findOne({ _id: calendarOffId });
               if (!calendarOffData) continue calendarOffLoop;
 
-              console.log('calendarOffData.dates', calendarOffData.code, !calendarOffData.dates.length, calendarOffData.dates);
-
               // 3.4.3.4.1.4.2.
               // Skip if this calendar has no dates
               if (!calendarOffData.dates.length) continue calendarOffLoop;
@@ -623,6 +621,8 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
                 currentCalendarOnWasModified = calendarOnDates.delete(dateToBeRemoved);
               });
 
+              console.log('currentCalendarOnWasModified', calendarOffData.code, currentCalendarOnWasModified);
+
               // 3.4.3.4.1.4.5.
               // if the current calendar ON was modified then append the current calendar OFF code and description to this combination
               if (currentCalendarOnWasModified) {
@@ -633,6 +633,8 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
                 resultingCalendarDescription = `${resultingCalendarDescription} ${calendarOffData.description}`;
                 resultingCalendarDescription = resultingCalendarDescription.replace(/  +/g, ' ').trim();
               }
+
+              console.log('resultingCalendarCode', calendarOffData.code, resultingCalendarCode);
 
               // End of calendarOff loop
             }
