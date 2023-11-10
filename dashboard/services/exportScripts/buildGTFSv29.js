@@ -616,7 +616,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               let currentCalendarOnWasModified = false;
 
               // 3.4.3.4.1.4.4.
-              // Subtract from the current calendar ON all the dates in the current calendars OFF
+              // Subtract from the current calendar ON all the dates in the current calendar OFF
               calendarOffData.dates.forEach((dateToBeRemoved) => {
                 currentCalendarOnWasModified = calendarOnDates.delete(dateToBeRemoved);
               });
@@ -625,8 +625,9 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               // if the current calendar ON was modified then append the current calendar OFF code and description to this combination
               if (currentCalendarOnWasModified) {
                 // Include the OFF flag if this is the first calendar OFF code being appended
-                if (resultingCalendarCode === calendarOnData.code) resultingCalendarCode = `${resultingCalendarCode}-OFF-`;
+                if (resultingCalendarCode === calendarOnData.code) resultingCalendarCode = `${resultingCalendarCode}-OFF`;
                 resultingCalendarCode = `${resultingCalendarCode}-${calendarOffData.code}`;
+                console.log('resultingCalendarCode', resultingCalendarCode);
                 // Append the description string for this calendar OFF and trim the result
                 resultingCalendarDescription = `${resultingCalendarDescription} ${calendarOffData.description}`;
                 resultingCalendarDescription = resultingCalendarDescription.replace(/  +/g, ' ').trim();
@@ -656,6 +657,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
             // 3.4.3.4.1.8.
             // If the resulting calendar is not yet written to the export file
+            console.log('referencedCalendarCodes', [...referencedCalendarCodes]);
             if (!referencedCalendarCodes.has(resultingCalendarCode)) {
               // Append the resulting calendar code to the scoped variable
               referencedCalendarCodes.add(resultingCalendarCode);
