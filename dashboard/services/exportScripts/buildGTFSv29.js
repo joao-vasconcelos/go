@@ -600,7 +600,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
             // 3.4.3.4.1.4.
             // Subtract all calendars_off dates from the current calendar ON
-            calendarOffLoop: for (const calendarOffId of scheduleData.calendars_off || []) {
+            calendarOffLoop: for (const calendarOffId of scheduleData.calendars_off) {
               //
               // 3.4.3.4.1.4.1.
               // Fetch calendar from database
@@ -625,8 +625,8 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               // if the current calendar ON was modified then append the current calendar OFF code and description to this combination
               if (currentCalendarOnWasModified) {
                 // Include the OFF flag if this is the first calendar OFF code being appended
-                if (resultingCalendarCode === calendarOnData.code) resultingCalendarCode = `${resultingCalendarCode}|OFF`;
-                resultingCalendarCode = `${resultingCalendarCode}_${calendarOffData.code}`;
+                if (resultingCalendarCode === calendarOnData.code) resultingCalendarCode = `${resultingCalendarCode}-OFF-`;
+                resultingCalendarCode = `${resultingCalendarCode}-${calendarOffData.code}`;
                 // Append the description string for this calendar OFF and trim the result
                 resultingCalendarDescription = `${resultingCalendarDescription} ${calendarOffData.description}`;
                 resultingCalendarDescription = resultingCalendarDescription.replace(/  +/g, ' ').trim();
@@ -668,7 +668,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
             // Remove the : from this schedules start_time to use it as the identifier for this trip.
             // Associate the pattern_code, resulting calendar_code and start_time of the current schedule.
             const startTimeStripped = scheduleData.start_time.split(':').join('');
-            const thisTripCode = `${patternData.code}_${resultingCalendarCode}_${startTimeStripped}`;
+            const thisTripCode = `${patternData.code}|${resultingCalendarCode}|${startTimeStripped}`;
 
             // 3.4.3.4.1.10.
             // Calculate the arrival_time for each stop
