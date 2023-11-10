@@ -18,7 +18,7 @@ export const CalendarValidation = yup.object({
     .string()
     .required()
     .max(250)
-    .matches(/^[a-zA-ZÀ-ÿ0-9(),|#_-\s]*$/),
+    .matches(/^[a-zA-ZÀ-ÿ0-9(),|#._-\s]*$/),
   description: yup
     .string()
     .max(250)
