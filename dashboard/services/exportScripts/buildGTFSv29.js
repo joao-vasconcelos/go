@@ -609,7 +609,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
               // 3.4.3.4.1.4.2.
               // Skip if this calendar has no dates
-              if (!calendarOffData.dates) continue calendarOffLoop;
+              if (!calendarOffData.dates.length) continue calendarOffLoop;
 
               // 3.4.3.4.1.4.3.
               // Set a flag to indicate if any date was removed or the calendar was untouched
