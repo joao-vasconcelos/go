@@ -22,19 +22,19 @@ export default function Page() {
   //
   // D. Handle refactors
 
-  const handleSetRouteBasePathAndVariant = async () => {
+  const handleAddCalendarsOff = async () => {
     openConfirmModal({
-      title: <Text size="h2">Set Route Base Path and Variant?</Text>,
+      title: <Text size="h2">Add Calendars OFF?</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Set Route Base Path and Variant', cancel: 'Cancel' },
+      labels: { confirm: 'Yes, Add Calendars OFF', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
           setIsImporting(true);
           notify('fix-calendars', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/setRouteBasePathsAndVariants', method: 'GET' });
+          await API({ service: 'configs/refactors/addCalendarsOff', method: 'GET' });
           notify('fix-calendars', 'success', 'success');
           setIsImporting(false);
         } catch (err) {
@@ -55,9 +55,9 @@ export default function Page() {
         <Section>
           <Text size="h2">No operations available</Text>
           <SimpleGrid cols={3}>
-            {/* <Button onClick={handleSetRouteBasePathAndVariant} color="red">
-              Set Route Base Path and Variant
-            </Button> */}
+            <Button onClick={handleAddCalendarsOff} color="red">
+              Add Calendars OFF
+            </Button>
           </SimpleGrid>
         </Section>
       </Pannel>
