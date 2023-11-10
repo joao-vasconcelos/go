@@ -158,9 +158,6 @@ function SchedulesTableCalendarsOffColumn({ rowIndex, isReadOnly }) {
   const t = useTranslations('SchedulesTable.calendars_off');
   const patternForm = usePatternFormContext();
 
-  const [allCalendarsDataSimplified, setAllCalendarsDataSimplified] = useState([]);
-  const [allCalendarsDataFormatted, setAllCalendarsDataFormatted] = useState([]);
-
   //
   // B. Fetch data
 
@@ -169,21 +166,17 @@ function SchedulesTableCalendarsOffColumn({ rowIndex, isReadOnly }) {
   //
   // D. Format data
 
-  useState(() => {
+  const allCalendarsDataSimplified = useMemo(() => {
     if (!allCalendarsData) return [];
-    const simplified = allCalendarsData.map((item) => {
+    return allCalendarsData.map((item) => {
       return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
     });
-    setAllCalendarsDataSimplified(simplified);
   }, [allCalendarsData]);
 
-  useEffect(() => {
-    if (!allCalendarsDataSimplified) return [];
-    const formatted = allCalendarsDataSimplified.map((item) => {
-      return { ...item, disabled: patternForm.values.schedules[rowIndex].calendars_on.includes(item._id) };
-    });
-    setAllCalendarsDataFormatted(formatted);
-  }, [allCalendarsDataSimplified, patternForm.values.schedules, rowIndex]);
+  const enabledCalendarsForThisTrip = useMemo(() => {
+    if (!patternForm.values.schedules[rowIndex].calendars_off) return [];
+    return patternForm.values.schedules[rowIndex].calendars_off.filter((item) => item !== null);
+  }, [patternForm.values.schedules, rowIndex]);
 
   //
   // Render components
@@ -195,7 +188,8 @@ function SchedulesTableCalendarsOffColumn({ rowIndex, isReadOnly }) {
         placeholder={t('placeholder')}
         nothingFoundMessage={t('nothingFound')}
         {...patternForm.getInputProps(`schedules.${rowIndex}.calendars_off`)}
-        data={allCalendarsDataFormatted}
+        value={enabledCalendarsForThisTrip}
+        data={allCalendarsDataSimplified}
         leftSection={<IconCalendarX size={20} />}
         readOnly={isReadOnly}
         searchable
