@@ -40,6 +40,7 @@ export default function ExportFileForm() {
   const [shouldClipCalendars, setShouldClipCalendars] = useState(false);
   const [selectedCalendarsClipStartDate, setSelectedCalendarsClipStartDate] = useState(null);
   const [selectedCalendarsClipEndDate, setSelectedCalendarsClipEndDate] = useState(null);
+  const [outputNumericCalendarCodes, setOutputNumericCalendarCodes] = useState(false);
   const [selectedStopSequenceStart, setSelectedStopSequenceStart] = useState(1);
 
   //
@@ -111,6 +112,7 @@ export default function ExportFileForm() {
           clip_calendars: shouldClipCalendars,
           calendars_clip_start_date: parseDate(selectedCalendarsClipStartDate),
           calendars_clip_end_date: parseDate(selectedCalendarsClipEndDate),
+          numeric_calendar_codes: outputNumericCalendarCodes,
           stop_sequence_start: selectedStopSequenceStart,
         },
       });
@@ -126,6 +128,7 @@ export default function ExportFileForm() {
       setShouldClipCalendars(false);
       setSelectedCalendarsClipStartDate(null);
       setSelectedCalendarsClipEndDate(null);
+      setOutputNumericCalendarCodes(false);
       setSelectedStopSequenceStart(1);
       // Reset state
       setIsCreatingExport(false);
@@ -267,6 +270,20 @@ export default function ExportFileForm() {
             />
           </SimpleGrid>
         )}
+      </Section>
+
+      <Divider />
+
+      <Section>
+        <SimpleGrid cols={1}>
+          <Switch
+            label={t('form.numeric_calendar_codes.label')}
+            description={t('form.numeric_calendar_codes.description')}
+            checked={outputNumericCalendarCodes}
+            onChange={(event) => setOutputNumericCalendarCodes(event.currentTarget.checked)}
+            disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate}
+          />
+        </SimpleGrid>
       </Section>
 
       <Divider />

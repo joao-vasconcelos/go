@@ -22,19 +22,19 @@ export default function Page() {
   //
   // D. Handle refactors
 
-  const handleAddCalendarsOff = async () => {
+  const handleAddCalendarNumericCode = async () => {
     openConfirmModal({
-      title: <Text size="h2">Add Calendars OFF?</Text>,
+      title: <Text size="h2">Add Calendar Numeric Code?</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Add Calendars OFF', cancel: 'Cancel' },
+      labels: { confirm: 'Yes, Add Calendar Numeric Code', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
           setIsImporting(true);
           notify('fix-calendars', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/addCalendarsOff', method: 'GET' });
+          await API({ service: 'configs/refactors/addCalendarNumericCode', method: 'GET' });
           notify('fix-calendars', 'success', 'success');
           setIsImporting(false);
         } catch (err) {
@@ -55,8 +55,8 @@ export default function Page() {
         <Section>
           <Text size="h2">No operations available</Text>
           <SimpleGrid cols={3}>
-            <Button onClick={handleAddCalendarsOff} color="red">
-              Add Calendars OFF
+            <Button onClick={handleAddCalendarNumericCode} color="red">
+              Add Calendar Numeric Code
             </Button>
           </SimpleGrid>
         </Section>

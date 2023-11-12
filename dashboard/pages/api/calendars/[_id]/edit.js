@@ -93,10 +93,14 @@ export default async function handler(req, res) {
   // Check for uniqueness
 
   try {
-    // The values that need to be unique are ['code'].
+    // The values that need to be unique are ['code', 'numeric_code'].
     const foundDocumentWithCalendarCode = await CalendarModel.exists({ code: { $eq: parsedData.code } });
     if (foundDocumentWithCalendarCode && foundDocumentWithCalendarCode._id != req.query._id) {
       throw new Error('A Calendar with the same "code" already exists.');
+    }
+    const foundDocumentWithCalendarNumericCode = await CalendarModel.exists({ numeric_code: { $eq: parsedData.numeric_code } });
+    if (foundDocumentWithCalendarNumericCode && foundDocumentWithCalendarNumericCode._id != req.query._id) {
+      throw new Error('A Calendar with the same "numeric_code" already exists.');
     }
   } catch (err) {
     console.log(err);

@@ -14,6 +14,12 @@ export const CalendarSchema = new mongoose.Schema(
       maxlength: 100,
       unique: true,
     },
+    numeric_code: {
+      type: Number,
+      min: 0,
+      max: 99999,
+      unique: true,
+    },
     name: {
       type: String,
       maxlength: 250,

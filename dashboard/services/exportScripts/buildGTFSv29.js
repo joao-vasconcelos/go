@@ -14,6 +14,7 @@ import { StopModel } from '@/schemas/Stop/model';
 import { DateModel } from '@/schemas/Date/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
 import { date } from 'yup';
+import hashStringToInt from '../hashStringToInt';
 
 /* * */
 /* EXPORT GTFS V29 */
@@ -590,32 +591,36 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
             if (!calendarOnData.dates.length) continue calendarOnLoop; // throw new Error({ code: 5502, short_message: 'Calendar has no dates.', references: { pattern_code: patternData.code, schedule_start_time: scheduleData.start_time, calendar_code: calendarData.code } });
 
             // 3.4.3.4.1.2.
-            // Prepare the final calendar code and description
-            let resultingCalendarCode = calendarOnData.code;
-            let resultingCalendarDescription = calendarOnData.description;
+            // Setup this calendar ON code based on the desired type
+            const currentCalendarOnCode = exportOptions.numeric_calendar_codes ? String(calendarOnData.numeric_code) : String(calendarOnData.code);
 
             // 3.4.3.4.1.3.
+            // Prepare the final calendar code and description
+            let resultingCalendarCode = currentCalendarOnCode;
+            let resultingCalendarDescription = calendarOnData.description;
+
+            // 3.4.3.4.1.4.
             // Transform this calendar dates into a Set for easier manipulation
             const calendarOnDates = new Set(calendarOnData.dates);
 
-            // 3.4.3.4.1.4.
+            // 3.4.3.4.1.5.
             // Subtract all calendars_off dates from the current calendar ON
             calendarOffLoop: for (const calendarOffId of scheduleData.calendars_off) {
               //
-              // 3.4.3.4.1.4.1.
+              // 3.4.3.4.1.5.1.
               // Fetch calendar from database
               const calendarOffData = await CalendarModel.findOne({ _id: calendarOffId });
               if (!calendarOffData) continue calendarOffLoop;
 
-              // 3.4.3.4.1.4.2.
+              // 3.4.3.4.1.5.2.
               // Skip if this calendar has no dates
               if (!calendarOffData.dates.length) continue calendarOffLoop;
 
-              // 3.4.3.4.1.4.3.
+              // 3.4.3.4.1.5.3.
               // Set a flag to indicate if any date was removed or the calendar was untouched
               let currentCalendarOnWasModified = false;
 
-              // 3.4.3.4.1.4.4.
+              // 3.4.3.4.1.5.4.
               // Subtract from the current calendar ON all the dates in the current calendar OFF
               calendarOffData.dates.forEach((dateToBeRemoved) => {
                 // Remove the date from the calendar ON
@@ -624,12 +629,19 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
                 currentCalendarOnWasModified = currentCalendarOnWasModified || dateWasRemoved;
               });
 
-              // 3.4.3.4.1.4.5.
+              // 3.4.3.4.1.5.5.
               // if the current calendar ON was modified then append the current calendar OFF code and description to this combination
               if (currentCalendarOnWasModified) {
                 // Include the OFF flag if this is the first calendar OFF code being appended
-                if (resultingCalendarCode === calendarOnData.code) resultingCalendarCode = `${resultingCalendarCode}-OFF`;
-                resultingCalendarCode = `${resultingCalendarCode}-${calendarOffData.code}`;
+                if (resultingCalendarCode === currentCalendarOnCode) {
+                  // Append '000' as the divider if numeric codes are required
+                  if (exportOptions.numeric_calendar_codes) resultingCalendarCode = `${resultingCalendarCode}000`;
+                  // Append 'OFF' as the divider otherwise
+                  else resultingCalendarCode = `${resultingCalendarCode}-OFF`;
+                }
+                // Append the current calendar OFF code (numeric or regular)
+                if (exportOptions.numeric_calendar_codes) resultingCalendarCode = `${resultingCalendarCode}${calendarOffData.numeric_code}`;
+                else resultingCalendarCode = `${resultingCalendarCode}-${calendarOffData.code}`;
                 // Append the description string for this calendar OFF and trim the result
                 resultingCalendarDescription = `${resultingCalendarDescription} ${calendarOffData.description}`;
                 resultingCalendarDescription = resultingCalendarDescription.replace(/  +/g, ' ').trim();
@@ -638,11 +650,11 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               // End of calendarOff loop
             }
 
-            // 3.4.3.4.1.5.
+            // 3.4.3.4.1.6.
             // Skip if this calendar ends up not being used because it was fully subtracted
             if (!calendarOnDates.size) continue calendarOnLoop;
 
-            // 3.4.3.4.1.6.
+            // 3.4.3.4.1.7.
             // If set, clip the resulting calendar ON dates to the desired start and end dates
             if (exportOptions.clip_calendars) {
               [...calendarOnDates].forEach((currentDate) => {
@@ -653,11 +665,11 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               });
             }
 
-            // 3.4.3.4.1.7.
+            // 3.4.3.4.1.8.
             // Skip if this calendar ends up not being used because it was fully clipped
             if (!calendarOnDates.size) continue calendarOnLoop;
 
-            // 3.4.3.4.1.8.
+            // 3.4.3.4.1.9.
             // If the resulting calendar is not yet written to the export file
             if (!referencedCalendarCodes.has(resultingCalendarCode)) {
               // Append the resulting calendar code to the scoped variable
@@ -667,79 +679,79 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               if (parsedCalendar.length) writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
             }
 
-            // 3.4.3.4.1.9.
+            // 3.4.3.4.1.10.
             // Remove the : from this schedules start_time to use it as the identifier for this trip.
             // Associate the pattern_code, resulting calendar_code and start_time of the current schedule.
             const startTimeStripped = scheduleData.start_time.split(':').join('');
             const thisTripCode = `${patternData.code}|${resultingCalendarCode}|${startTimeStripped}`;
 
-            // 3.4.3.4.1.10.
+            // 3.4.3.4.1.11.
             // Calculate the arrival_time for each stop
             // Start by collecting the arrival time of the first stop in the path
             // and hold it outside the path loop to keep updating it relative to each iteration
             let currentArrivalTime = scheduleData.start_time;
 
-            // 3.4.3.4.1.11.
+            // 3.4.3.4.1.12.
             // Calculate the accumulated trip distance for each stop
             // Trip distance is incremented relative to each iteration
             // so hold the variable outside the path loop, and initiate it with zero
             let currentTripDistance = 0;
 
-            // 3.4.3.4.1.12.
+            // 3.4.3.4.1.13.
             // Hold a flag to ensure that all stop_times in this trip are valid
             let allStopTimesForThisTripAreValid = false;
 
-            // 3.4.3.4.1.13.
+            // 3.4.3.4.1.14.
             // In order to only write valid stop_times entries,
             // hold them in a variable outside the path loop and write them all at once
             const parsedStopTimes = [];
 
-            // 3.4.3.4.1.14.
+            // 3.4.3.4.1.15.
             // Iterate on all the calendars associated with this schedule
             pathLoop: for (const [pathIndex, pathData] of patternData.path.entries()) {
               //
-              // 3.4.3.4.1.14.0.
+              // 3.4.3.4.1.15.0.
               // Reset the flag to ensure that it is set
               // on every stop for this path
               allStopTimesForThisTripAreValid = false;
 
-              // 3.4.3.4.1.14.1.
+              // 3.4.3.4.1.15.1.
               // Skip to the next pattern if this pathStop has no associated stop
               if (!pathData.stop) continue pathLoop; // throw new Error({ code: 5301, short_message: 'Path without defined stop.', references: { pattern_code: patternData.code } });
 
-              // 3.4.3.4.1.14.2.
+              // 3.4.3.4.1.15.2.
               // Fetch stop from database. Exit the loop early if not found.
               const stopData = await StopModel.findOne({ _id: pathData.stop }, 'code');
               if (!stopData) break pathLoop; // throw new Error({ code: 5302, short_message: 'Stop not found with _id on path.', references: { pattern_code: patternData.code } });
 
-              // 3.4.3.4.1.14.3.
+              // 3.4.3.4.1.15.3.
               // Append the stop codes for this path to the scoped variable
               referencedStopCodes.add(stopData.code);
 
-              // 3.4.3.4.1.14.4.
+              // 3.4.3.4.1.15.4.
               // Increment the arrival_time for this stop with the travel time for this path segment
               // If the schedule has a travel time override, then use that instead of the default (not yet implemented)
               // In the first iteration, the travel time is zero, so we get the start_time as the current trip time.
               currentArrivalTime = incrementTime(currentArrivalTime, pathData.default_travel_time);
 
-              // 3.4.3.4.1.14.5.
+              // 3.4.3.4.1.15.5.
               // Increment the arrival_time for this stop with the dwell time
               // If the schedule has a dwell time override, then use that instead of the default (not yet implemented)
               const departureTime = incrementTime(currentArrivalTime, pathData.default_dwell_time);
 
-              // 3.4.3.4.1.14.6.
+              // 3.4.3.4.1.15.6.
               // Increment the traveled distance for this path segment with the distance delta
               currentTripDistance = currentTripDistance + pathData.distance_delta;
 
-              // 3.4.3.4.1.14.7.
+              // 3.4.3.4.1.15.7.
               // Add to the sequence index the value from the client (start with 1 or 0)
               const currentStopSequence = pathIndex + exportOptions.stop_sequence_start;
 
-              // 3.4.3.4.1.14.8.
+              // 3.4.3.4.1.15.8.
               // Format the shape_dist_traveled for the given precision
               const currentShapeDistTraveled = parseFloat((currentTripDistance / 1000).toFixed(15));
 
-              // 3.4.3.4.1.14.9.
+              // 3.4.3.4.1.15.9.
               // Write the stop_times.txt entry for this stop_time
               parsedStopTimes.push({
                 trip_id: thisTripCode,
@@ -753,27 +765,27 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
                 timepoint: 1,
               });
 
-              // 3.4.3.4.1.14.10.
+              // 3.4.3.4.1.15.10.
               // The current trip time should now be equal to the departure time, so that the next iteration
               // also takes into the account the dwell time on the current stop.
               currentArrivalTime = departureTime;
 
-              // 3.4.3.4.1.14.11.
+              // 3.4.3.4.1.15.11.
               // Set the flag to true to indicate that this stop_time was valid
               allStopTimesForThisTripAreValid = true;
 
               // End of path loop
             }
 
-            // 3.4.3.4.1.15.
+            // 3.4.3.4.1.16.
             // Abort creating this trip if there were invalid stop_times entries
             if (!allStopTimesForThisTripAreValid) continue calendarOnLoop;
 
-            // 3.4.3.4.1.16.
+            // 3.4.3.4.1.17.
             // Write the stop_times.txt entries for this trip
             writeCsvToFile(progress.workdir, 'stop_times.txt', parsedStopTimes);
 
-            // 3.4.3.4.1.17.
+            // 3.4.3.4.1.18.
             // Write the trips.txt entry for this trip
             writeCsvToFile(progress.workdir, 'trips.txt', {
               route_id: routeData.code,
@@ -787,7 +799,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               calendar_desc: resultingCalendarDescription.replaceAll(',', ''),
             });
 
-            // 3.4.3.4.1.18.
+            // 3.4.3.4.1.19.
             // Set the flag to true to instruct that there is at least
             // one valid trip written to the trips.txt file
             thisPatternHasAtLeastOneTrip = true;

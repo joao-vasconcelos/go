@@ -237,6 +237,10 @@
                 "label": "Calendar Code",
                 "placeholder": "WD"
             },
+            "numeric_code": {
+                "label": "Numeric Code",
+                "placeholder": "99"
+            },
             "name": {
                 "label": "Calendar Name",
                 "placeholder": "Weekdays"
@@ -2073,6 +2077,10 @@
                 "label": "Calendars End Date",
                 "description": "Service ends on this date.",
                 "placeholder": "Select a date..."
+            },
+            "numeric_calendar_codes": {
+                "label": "Use Numeric Calendar Codes",
+                "description": "If this option is enabled, the exported service_ids will be based on the numeric codes for each calendar."
             },
             "stop_sequence_start": {
                 "label": "Stop Sequence start value",

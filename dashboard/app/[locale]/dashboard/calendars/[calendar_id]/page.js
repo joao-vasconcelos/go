@@ -8,7 +8,7 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { CalendarValidation } from '@/schemas/Calendar/validation';
 import { CalendarDefault } from '@/schemas/Calendar/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, NumberInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import { Section } from '@/components/Layouts/Layouts';
@@ -222,6 +222,7 @@ export default function Page() {
           </div>
           <SimpleGrid cols={4}>
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
+            <NumberInput label={t('form.numeric_code.label')} placeholder={t('form.numeric_code.placeholder')} {...form.getInputProps('numeric_code')} readOnly={isReadOnly} min={0} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
