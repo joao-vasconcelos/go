@@ -25,7 +25,7 @@ export default function AuthLayout({ children }) {
   useEffect(() => {
     if (status === 'authenticated') {
       if (searchParams.get('callbackUrl')) router.push(searchParams.get('callbackUrl'));
-      else router.push('/dashboard/');
+      else router.push('/dashboard/', { scroll: false });
     }
   }, [router, status, searchParams]);
 

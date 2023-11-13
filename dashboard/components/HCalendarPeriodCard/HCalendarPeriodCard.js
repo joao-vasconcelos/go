@@ -86,7 +86,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
             <Select
               label={t('form.period.label')}
               placeholder={t('form.period.placeholder')}
-              nothingFound={t('form.period.nothingFound')}
+              nothingFoundMessage={t('form.period.nothingFound')}
               {...form.getInputProps('period')}
               data={[
                 { value: '1', label: '1 - Período Escolar' },

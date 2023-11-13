@@ -175,7 +175,7 @@ export default function Page() {
             {t('title')}
           </Text>
           <AuthGate scope="dates" permission="create_edit">
-            <Button leftIcon={<IconCalendarPlus size={20} />} onClick={openModal} variant="light" color="blue" size="sm">
+            <Button leftSection={<IconCalendarPlus size={20} />} onClick={openModal} variant="light" color="blue" size="sm">
               {t('operations.manage.title')}
             </Button>
           </AuthGate>
@@ -195,11 +195,7 @@ export default function Page() {
               ]}
             />
 
-            {selectedCalendarType === 'range' ? (
-              <DatePicker type="range" value={selectedDateRange} onChange={setSelectedDateRange} numberOfColumns={3} />
-            ) : (
-              <DatePicker type="multiple" value={selectedDatesCollection} onChange={setSelectedDatesCollection} numberOfColumns={3} />
-            )}
+            {selectedCalendarType === 'range' ? <DatePicker type="range" value={selectedDateRange} onChange={setSelectedDateRange} numberOfColumns={3} /> : <DatePicker type="multiple" value={selectedDatesCollection} onChange={setSelectedDatesCollection} numberOfColumns={3} />}
 
             <Divider />
 
@@ -207,7 +203,7 @@ export default function Page() {
               <Select
                 label={t('form.period.label')}
                 placeholder={t('form.period.placeholder')}
-                nothingFound={t('form.period.nothingFound')}
+                nothingFoundMessage={t('form.period.nothingFound')}
                 {...form.getInputProps('period')}
                 data={[
                   { value: '1', label: '1 - Período Escolar' },

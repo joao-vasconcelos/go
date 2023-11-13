@@ -144,17 +144,7 @@ export default function Page() {
       loading={agencyLoading || isDeleting}
       header={
         <>
-          <AutoSave
-            isValid={form.isValid()}
-            isDirty={form.isDirty()}
-            isLoading={agencyLoading}
-            isErrorValidating={agencyError}
-            isSaving={isSaving}
-            isErrorSaving={hasErrorSaving}
-            onValidate={() => handleValidate()}
-            onSave={async () => await handleSave()}
-            onClose={async () => await handleClose()}
-          />
+          <AutoSave isValid={form.isValid()} isDirty={form.isDirty()} isLoading={agencyLoading} isErrorValidating={agencyError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={() => handleValidate()} onSave={async () => await handleSave()} onClose={async () => await handleClose()} />
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
@@ -182,16 +172,8 @@ export default function Page() {
           </SimpleGrid>
           <SimpleGrid cols={3}>
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
-            <Select
-              label={t('form.lang.label')}
-              placeholder={t('form.lang.placeholder')}
-              nothingFound={t('form.lang.nothingFound')}
-              data={[{ value: 'pt', label: 'Português (Portugal)' }]}
-              {...form.getInputProps('lang')}
-              searchable
-              readOnly={isReadOnly}
-            />
-            <Select label={t('form.timezone.label')} placeholder={t('form.timezone.placeholder')} nothingFound={t('form.timezone.nothingFound')} data={['Europe/Lisbon']} {...form.getInputProps('timezone')} searchable readOnly={isReadOnly} />
+            <Select label={t('form.lang.label')} placeholder={t('form.lang.placeholder')} nothingFoundMessage={t('form.lang.nothingFound')} data={[{ value: 'pt', label: 'Português (Portugal)' }]} {...form.getInputProps('lang')} searchable readOnly={isReadOnly} />
+            <Select label={t('form.timezone.label')} placeholder={t('form.timezone.placeholder')} nothingFoundMessage={t('form.timezone.nothingFound')} data={['Europe/Lisbon']} {...form.getInputProps('timezone')} searchable readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
             <TextInput label={t('form.phone.label')} placeholder={t('form.phone.placeholder')} {...form.getInputProps('phone')} readOnly={isReadOnly} />

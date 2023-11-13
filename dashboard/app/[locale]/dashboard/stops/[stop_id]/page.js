@@ -214,17 +214,7 @@ export default function Page() {
       loading={stopLoading || isDeleting}
       header={
         <>
-          <AutoSave
-            isValid={form.isValid()}
-            isDirty={form.isDirty()}
-            isLoading={stopLoading}
-            isErrorValidating={stopError}
-            isSaving={isSaving}
-            isErrorSaving={hasErrorSaving}
-            onValidate={() => handleValidate()}
-            onSave={async () => await handleSave()}
-            onClose={async () => await handleClose()}
-          />
+          <AutoSave isValid={form.isValid()} isDirty={form.isDirty()} isLoading={stopLoading} isErrorValidating={stopError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={() => handleValidate()} onSave={async () => await handleSave()} onClose={async () => await handleClose()} />
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
@@ -276,19 +266,7 @@ export default function Page() {
               {...form.getInputProps('latitude')}
               readOnly={isReadOnly}
             />
-            <NumberInput
-              label={t('form.longitude.label')}
-              placeholder={t('form.longitude.placeholder')}
-              precision={6}
-              min={-10}
-              max={-7}
-              step={0.000001}
-              stepHoldDelay={500}
-              stepHoldInterval={100}
-              hideControls
-              icon={<IconWorldLongitude size="18px" />}
-              {...form.getInputProps('longitude')}
-            />
+            <NumberInput label={t('form.longitude.label')} placeholder={t('form.longitude.placeholder')} precision={6} min={-10} max={-7} step={0.000001} stepHoldDelay={500} stepHoldInterval={100} hideControls icon={<IconWorldLongitude size="18px" />} {...form.getInputProps('longitude')} />
           </SimpleGrid>
           <SimpleGrid cols={1}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} />
@@ -359,7 +337,7 @@ export default function Page() {
             <Select
               label={t('form.has_pole.label')}
               placeholder={t('form.has_pole.placeholder')}
-              nothingFound={t('form.has_pole.nothingFound')}
+              nothingFoundMessage={t('form.has_pole.nothingFound')}
               {...form.getInputProps('has_pole')}
               data={[
                 { value: '0', label: '0 - Não Aplicável' },
@@ -376,7 +354,7 @@ export default function Page() {
             <Select
               label={t('form.has_shelter.label')}
               placeholder={t('form.has_shelter.placeholder')}
-              nothingFound={t('form.has_shelter.nothingFound')}
+              nothingFoundMessage={t('form.has_shelter.nothingFound')}
               {...form.getInputProps('has_shelter')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -396,7 +374,7 @@ export default function Page() {
             <Select
               label={t('form.has_mupi.label')}
               placeholder={t('form.has_mupi.placeholder')}
-              nothingFound={t('form.has_mupi.nothingFound')}
+              nothingFoundMessage={t('form.has_mupi.nothingFound')}
               {...form.getInputProps('has_mupi')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -412,7 +390,7 @@ export default function Page() {
             <Select
               label={t('form.has_bench.label')}
               placeholder={t('form.has_bench.placeholder')}
-              nothingFound={t('form.has_bench.nothingFound')}
+              nothingFoundMessage={t('form.has_bench.nothingFound')}
               {...form.getInputProps('has_bench')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -428,7 +406,7 @@ export default function Page() {
             <Select
               label={t('form.has_trash_bin.label')}
               placeholder={t('form.has_trash_bin.placeholder')}
-              nothingFound={t('form.has_trash_bin.nothingFound')}
+              nothingFoundMessage={t('form.has_trash_bin.nothingFound')}
               {...form.getInputProps('has_trash_bin')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -446,7 +424,7 @@ export default function Page() {
             <Select
               label={t('form.has_lighting.label')}
               placeholder={t('form.has_lighting.placeholder')}
-              nothingFound={t('form.has_lighting.nothingFound')}
+              nothingFoundMessage={t('form.has_lighting.nothingFound')}
               {...form.getInputProps('has_lighting')}
               data={[
                 { value: '0', label: '0 - Sem qualquer iluminação' },
@@ -460,7 +438,7 @@ export default function Page() {
             <Select
               label={t('form.has_electricity.label')}
               placeholder={t('form.has_electricity.placeholder')}
-              nothingFound={t('form.has_electricity.nothingFound')}
+              nothingFoundMessage={t('form.has_electricity.nothingFound')}
               {...form.getInputProps('has_electricity')}
               data={[
                 { value: '0', label: '0 - Indisponível' },
@@ -472,7 +450,7 @@ export default function Page() {
             <Select
               label={t('form.docking_bay_type.label')}
               placeholder={t('form.docking_bay_type.placeholder')}
-              nothingFound={t('form.docking_bay_type.nothingFound')}
+              nothingFoundMessage={t('form.docking_bay_type.nothingFound')}
               {...form.getInputProps('docking_bay_type')}
               data={[
                 { value: '0', label: '0 - Indisponível' },
@@ -497,7 +475,7 @@ export default function Page() {
             <Select
               label={t('form.has_stop_sign.label')}
               placeholder={t('form.has_stop_sign.placeholder')}
-              nothingFound={t('form.has_stop_sign.nothingFound')}
+              nothingFoundMessage={t('form.has_stop_sign.nothingFound')}
               {...form.getInputProps('has_stop_sign')}
               data={[
                 { value: '0', label: '0 - Não Aplicável' },
@@ -514,7 +492,7 @@ export default function Page() {
             <Select
               label={t('form.has_pole_frame.label')}
               placeholder={t('form.has_pole_frame.placeholder')}
-              nothingFound={t('form.has_pole_frame.nothingFound')}
+              nothingFoundMessage={t('form.has_pole_frame.nothingFound')}
               {...form.getInputProps('has_pole_frame')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -531,7 +509,7 @@ export default function Page() {
             <Select
               label={t('form.has_pip_real_time.label')}
               placeholder={t('form.has_pip_real_time.placeholder')}
-              nothingFound={t('form.has_pip_real_time.nothingFound')}
+              nothingFoundMessage={t('form.has_pip_real_time.nothingFound')}
               {...form.getInputProps('has_pip_real_time')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -548,7 +526,7 @@ export default function Page() {
             <Select
               label={t('form.has_h2oa_signage.label')}
               placeholder={t('form.has_h2oa_signage.placeholder')}
-              nothingFound={t('form.has_h2oa_signage.nothingFound')}
+              nothingFoundMessage={t('form.has_h2oa_signage.nothingFound')}
               {...form.getInputProps('has_h2oa_signage')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -564,7 +542,7 @@ export default function Page() {
             <Select
               label={t('form.has_schedules.label')}
               placeholder={t('form.has_schedules.placeholder')}
-              nothingFound={t('form.has_schedules.nothingFound')}
+              nothingFoundMessage={t('form.has_schedules.nothingFound')}
               {...form.getInputProps('has_schedules')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -580,7 +558,7 @@ export default function Page() {
             <Select
               label={t('form.has_network_map.label')}
               placeholder={t('form.has_network_map.placeholder')}
-              nothingFound={t('form.has_network_map.nothingFound')}
+              nothingFoundMessage={t('form.has_network_map.nothingFound')}
               {...form.getInputProps('has_network_map')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -611,7 +589,7 @@ export default function Page() {
             <Select
               label={t('form.has_sidewalk.label')}
               placeholder={t('form.has_sidewalk.placeholder')}
-              nothingFound={t('form.has_sidewalk.nothingFound')}
+              nothingFoundMessage={t('form.has_sidewalk.nothingFound')}
               {...form.getInputProps('has_sidewalk')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -628,7 +606,7 @@ export default function Page() {
             <Select
               label={t('form.has_tactile_schedules.label')}
               placeholder={t('form.has_tactile_schedules.placeholder')}
-              nothingFound={t('form.has_tactile_schedules.nothingFound')}
+              nothingFoundMessage={t('form.has_tactile_schedules.nothingFound')}
               {...form.getInputProps('has_tactile_schedules')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -644,7 +622,7 @@ export default function Page() {
             <Select
               label={t('form.stop_access_type.label')}
               placeholder={t('form.stop_access_type.placeholder')}
-              nothingFound={t('form.stop_access_type.nothingFound')}
+              nothingFoundMessage={t('form.stop_access_type.nothingFound')}
               {...form.getInputProps('stop_access_type')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -660,7 +638,7 @@ export default function Page() {
             <Select
               label={t('form.has_crosswalk.label')}
               placeholder={t('form.has_crosswalk.placeholder')}
-              nothingFound={t('form.has_crosswalk.nothingFound')}
+              nothingFoundMessage={t('form.has_crosswalk.nothingFound')}
               {...form.getInputProps('has_crosswalk')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -676,7 +654,7 @@ export default function Page() {
             <Select
               label={t('form.has_tactile_pavement.label')}
               placeholder={t('form.has_tactile_pavement.placeholder')}
-              nothingFound={t('form.has_tactile_pavement.nothingFound')}
+              nothingFoundMessage={t('form.has_tactile_pavement.nothingFound')}
               {...form.getInputProps('has_tactile_pavement')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -692,7 +670,7 @@ export default function Page() {
             <Select
               label={t('form.has_abusive_parking.label')}
               placeholder={t('form.has_abusive_parking.placeholder')}
-              nothingFound={t('form.has_abusive_parking.nothingFound')}
+              nothingFoundMessage={t('form.has_abusive_parking.nothingFound')}
               {...form.getInputProps('has_abusive_parking')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -708,7 +686,7 @@ export default function Page() {
             <Select
               label={t('form.has_audio_stop_info.label')}
               placeholder={t('form.has_audio_stop_info.placeholder')}
-              nothingFound={t('form.has_audio_stop_info.nothingFound')}
+              nothingFoundMessage={t('form.has_audio_stop_info.nothingFound')}
               {...form.getInputProps('has_audio_stop_info')}
               data={[
                 { value: '0', label: '0 - Não Existe' },
@@ -724,7 +702,7 @@ export default function Page() {
             <Select
               label={t('form.wheelchair_boarding.label')}
               placeholder={t('form.wheelchair_boarding.placeholder')}
-              nothingFound={t('form.wheelchair_boarding.nothingFound')}
+              nothingFoundMessage={t('form.wheelchair_boarding.nothingFound')}
               {...form.getInputProps('wheelchair_boarding')}
               data={[
                 { value: '0', label: '0 - Não Existe' },

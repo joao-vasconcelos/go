@@ -147,17 +147,7 @@ export default function Page() {
       loading={userLoading || isDeleting}
       header={
         <>
-          <AutoSave
-            isValid={userForm.isValid()}
-            isDirty={userForm.isDirty()}
-            isLoading={userLoading}
-            isErrorValidating={userError}
-            isSaving={isSaving}
-            isErrorSaving={hasErrorSaving}
-            onValidate={handleValidate}
-            onSave={handleSave}
-            onClose={handleClose}
-          />
+          <AutoSave isValid={userForm.isValid()} isDirty={userForm.isDirty()} isLoading={userLoading} isErrorValidating={userError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={handleValidate} onSave={handleSave} onClose={handleClose} />
           <Text size="h1" style={!userForm.values.name && 'untitled'} full>
             {userForm.values.name || t('untitled')}
           </Text>
@@ -272,7 +262,7 @@ export default function Page() {
               <MultiSelect
                 label={t('form.permissions.exports.agencies.label')}
                 placeholder={t('form.permissions.exports.agencies.placeholder')}
-                nothingFound={t('form.permissions.exports.agencies.nothingFound')}
+                nothingFoundMessage={t('form.permissions.exports.agencies.nothingFound')}
                 {...userForm.getInputProps('permissions.exports.agencies')}
                 data={agenciesFormattedForSelect}
                 disabled={!userForm.values.permissions.exports.view}
@@ -299,14 +289,7 @@ export default function Page() {
                 disabled={!userForm.values.permissions.users.view}
                 readOnly={isReadOnly}
               />
-              <Switch
-                size="md"
-                label={t('form.permissions.users.delete.label')}
-                description={t('form.permissions.users.delete.description')}
-                {...userForm.getInputProps('permissions.users.delete', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.users.view}
-                readOnly={isReadOnly}
-              />
+              <Switch size="md" label={t('form.permissions.users.delete.label')} description={t('form.permissions.users.delete.description')} {...userForm.getInputProps('permissions.users.delete', { type: 'checkbox' })} disabled={!userForm.values.permissions.users.view} readOnly={isReadOnly} />
             </SimpleGrid>
           </Section>
 
@@ -327,28 +310,14 @@ export default function Page() {
                 disabled={!userForm.values.permissions.lines.view}
                 readOnly={isReadOnly}
               />
-              <Switch
-                size="md"
-                label={t('form.permissions.lines.lock.label')}
-                description={t('form.permissions.lines.lock.description')}
-                {...userForm.getInputProps('permissions.lines.lock', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.lines.view}
-                readOnly={isReadOnly}
-              />
-              <Switch
-                size="md"
-                label={t('form.permissions.lines.delete.label')}
-                description={t('form.permissions.lines.delete.description')}
-                {...userForm.getInputProps('permissions.lines.delete', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.lines.view}
-                readOnly={isReadOnly}
-              />
+              <Switch size="md" label={t('form.permissions.lines.lock.label')} description={t('form.permissions.lines.lock.description')} {...userForm.getInputProps('permissions.lines.lock', { type: 'checkbox' })} disabled={!userForm.values.permissions.lines.view} readOnly={isReadOnly} />
+              <Switch size="md" label={t('form.permissions.lines.delete.label')} description={t('form.permissions.lines.delete.description')} {...userForm.getInputProps('permissions.lines.delete', { type: 'checkbox' })} disabled={!userForm.values.permissions.lines.view} readOnly={isReadOnly} />
             </SimpleGrid>
             <SimpleGrid cols={1} mt="md">
               <MultiSelect
                 label={t('form.permissions.lines.agencies.label')}
                 placeholder={t('form.permissions.lines.agencies.placeholder')}
-                nothingFound={t('form.permissions.lines.agencies.nothingFound')}
+                nothingFoundMessage={t('form.permissions.lines.agencies.nothingFound')}
                 {...userForm.getInputProps('permissions.lines.agencies')}
                 data={agenciesFormattedForSelect}
                 disabled={!userForm.values.permissions.lines.view}
@@ -366,13 +335,7 @@ export default function Page() {
               <Text size="h4">{t('form.permissions.typologies.description')}</Text>
             </div>
             <SimpleGrid cols={3} mt="md">
-              <Switch
-                label={t('form.permissions.typologies.view.label')}
-                description={t('form.permissions.typologies.view.description')}
-                size="md"
-                {...userForm.getInputProps('permissions.typologies.view', { type: 'checkbox' })}
-                readOnly={isReadOnly}
-              />
+              <Switch label={t('form.permissions.typologies.view.label')} description={t('form.permissions.typologies.view.description')} size="md" {...userForm.getInputProps('permissions.typologies.view', { type: 'checkbox' })} readOnly={isReadOnly} />
               <Switch
                 size="md"
                 label={t('form.permissions.typologies.create_edit.label')}
@@ -417,22 +380,8 @@ export default function Page() {
                 disabled={!userForm.values.permissions.fares.view}
                 readOnly={isReadOnly}
               />
-              <Switch
-                size="md"
-                label={t('form.permissions.fares.lock.label')}
-                description={t('form.permissions.fares.lock.description')}
-                {...userForm.getInputProps('permissions.fares.lock', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.fares.view}
-                readOnly={isReadOnly}
-              />
-              <Switch
-                size="md"
-                label={t('form.permissions.fares.delete.label')}
-                description={t('form.permissions.fares.delete.description')}
-                {...userForm.getInputProps('permissions.fares.delete', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.fares.view}
-                readOnly={isReadOnly}
-              />
+              <Switch size="md" label={t('form.permissions.fares.lock.label')} description={t('form.permissions.fares.lock.description')} {...userForm.getInputProps('permissions.fares.lock', { type: 'checkbox' })} disabled={!userForm.values.permissions.fares.view} readOnly={isReadOnly} />
+              <Switch size="md" label={t('form.permissions.fares.delete.label')} description={t('form.permissions.fares.delete.description')} {...userForm.getInputProps('permissions.fares.delete', { type: 'checkbox' })} disabled={!userForm.values.permissions.fares.view} readOnly={isReadOnly} />
             </SimpleGrid>
           </Section>
 
@@ -453,22 +402,8 @@ export default function Page() {
                 disabled={!userForm.values.permissions.zones.view}
                 readOnly={isReadOnly}
               />
-              <Switch
-                size="md"
-                label={t('form.permissions.zones.lock.label')}
-                description={t('form.permissions.zones.lock.description')}
-                {...userForm.getInputProps('permissions.zones.lock', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.zones.view}
-                readOnly={isReadOnly}
-              />
-              <Switch
-                size="md"
-                label={t('form.permissions.zones.delete.label')}
-                description={t('form.permissions.zones.delete.description')}
-                {...userForm.getInputProps('permissions.zones.delete', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.zones.view}
-                readOnly={isReadOnly}
-              />
+              <Switch size="md" label={t('form.permissions.zones.lock.label')} description={t('form.permissions.zones.lock.description')} {...userForm.getInputProps('permissions.zones.lock', { type: 'checkbox' })} disabled={!userForm.values.permissions.zones.view} readOnly={isReadOnly} />
+              <Switch size="md" label={t('form.permissions.zones.delete.label')} description={t('form.permissions.zones.delete.description')} {...userForm.getInputProps('permissions.zones.delete', { type: 'checkbox' })} disabled={!userForm.values.permissions.zones.view} readOnly={isReadOnly} />
             </SimpleGrid>
           </Section>
 
@@ -481,14 +416,7 @@ export default function Page() {
             </div>
             <SimpleGrid cols={3} mt="md">
               <Switch label={t('form.permissions.stops.view.label')} description={t('form.permissions.stops.view.description')} size="md" {...userForm.getInputProps('permissions.stops.view', { type: 'checkbox' })} readOnly={isReadOnly} />
-              <Switch
-                size="md"
-                label={t('form.permissions.stops.propose.label')}
-                description={t('form.permissions.stops.propose.description')}
-                {...userForm.getInputProps('permissions.stops.propose', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.stops.view}
-                readOnly={isReadOnly}
-              />
+              <Switch size="md" label={t('form.permissions.stops.propose.label')} description={t('form.permissions.stops.propose.description')} {...userForm.getInputProps('permissions.stops.propose', { type: 'checkbox' })} disabled={!userForm.values.permissions.stops.view} readOnly={isReadOnly} />
               <Switch
                 size="md"
                 label={t('form.permissions.stops.create_edit.label')}
@@ -505,22 +433,8 @@ export default function Page() {
                 disabled={!userForm.values.permissions.stops.view || !userForm.values.permissions.stops.create_edit}
                 readOnly={isReadOnly}
               />
-              <Switch
-                size="md"
-                label={t('form.permissions.stops.lock.label')}
-                description={t('form.permissions.stops.lock.description')}
-                {...userForm.getInputProps('permissions.stops.lock', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.stops.view}
-                readOnly={isReadOnly}
-              />
-              <Switch
-                size="md"
-                label={t('form.permissions.stops.delete.label')}
-                description={t('form.permissions.stops.delete.description')}
-                {...userForm.getInputProps('permissions.stops.delete', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.stops.view}
-                readOnly={isReadOnly}
-              />
+              <Switch size="md" label={t('form.permissions.stops.lock.label')} description={t('form.permissions.stops.lock.description')} {...userForm.getInputProps('permissions.stops.lock', { type: 'checkbox' })} disabled={!userForm.values.permissions.stops.view} readOnly={isReadOnly} />
+              <Switch size="md" label={t('form.permissions.stops.delete.label')} description={t('form.permissions.stops.delete.description')} {...userForm.getInputProps('permissions.stops.delete', { type: 'checkbox' })} disabled={!userForm.values.permissions.stops.view} readOnly={isReadOnly} />
               <Switch
                 size="md"
                 label={t('form.permissions.stops.batch_update.label')}
@@ -534,7 +448,7 @@ export default function Page() {
               <MultiSelect
                 label={t('form.permissions.stops.municipalities.label')}
                 placeholder={t('form.permissions.stops.municipalities.placeholder')}
-                nothingFound={t('form.permissions.stops.municipalities.nothingFound')}
+                nothingFoundMessage={t('form.permissions.stops.municipalities.nothingFound')}
                 {...userForm.getInputProps('permissions.stops.municipalities')}
                 data={municipalitiesFormattedForSelect}
                 disabled={!userForm.values.permissions.stops.view}
@@ -552,13 +466,7 @@ export default function Page() {
               <Text size="h4">{t('form.permissions.municipalities.description')}</Text>
             </div>
             <SimpleGrid cols={3} mt="md">
-              <Switch
-                label={t('form.permissions.municipalities.view.label')}
-                description={t('form.permissions.municipalities.view.description')}
-                size="md"
-                {...userForm.getInputProps('permissions.municipalities.view', { type: 'checkbox' })}
-                readOnly={isReadOnly}
-              />
+              <Switch label={t('form.permissions.municipalities.view.label')} description={t('form.permissions.municipalities.view.description')} size="md" {...userForm.getInputProps('permissions.municipalities.view', { type: 'checkbox' })} readOnly={isReadOnly} />
               <Switch
                 size="md"
                 label={t('form.permissions.municipalities.create_edit.label')}
@@ -611,14 +519,7 @@ export default function Page() {
                 disabled={!userForm.values.permissions.alerts.view}
                 readOnly={isReadOnly}
               />
-              <Switch
-                size="md"
-                label={t('form.permissions.alerts.delete.label')}
-                description={t('form.permissions.alerts.delete.description')}
-                {...userForm.getInputProps('permissions.alerts.delete', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.alerts.view}
-                readOnly={isReadOnly}
-              />
+              <Switch size="md" label={t('form.permissions.alerts.delete.label')} description={t('form.permissions.alerts.delete.description')} {...userForm.getInputProps('permissions.alerts.delete', { type: 'checkbox' })} disabled={!userForm.values.permissions.alerts.view} readOnly={isReadOnly} />
             </SimpleGrid>
           </Section>
 
@@ -675,14 +576,7 @@ export default function Page() {
                 disabled={!userForm.values.permissions.dates.view}
                 readOnly={isReadOnly}
               />
-              <Switch
-                size="md"
-                label={t('form.permissions.dates.delete.label')}
-                description={t('form.permissions.dates.delete.description')}
-                {...userForm.getInputProps('permissions.dates.delete', { type: 'checkbox' })}
-                disabled={!userForm.values.permissions.dates.view}
-                readOnly={isReadOnly}
-              />
+              <Switch size="md" label={t('form.permissions.dates.delete.label')} description={t('form.permissions.dates.delete.description')} {...userForm.getInputProps('permissions.dates.delete', { type: 'checkbox' })} disabled={!userForm.values.permissions.dates.view} readOnly={isReadOnly} />
             </SimpleGrid>
           </Section>
 

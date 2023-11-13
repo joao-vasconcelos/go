@@ -94,10 +94,10 @@ export default function Page() {
     <OneFullColumn
       first={
         <>
-          <Button leftIcon={<IconCalendarPlus size='20px' />} onClick={openModal} variant='light' color='blue' size='sm'>
+          <Button leftSection={<IconCalendarPlus size="20px" />} onClick={openModal} variant="light" color="blue" size="sm">
             {t('operations.create.title')}
           </Button>
-          <AuthGate permission='dates_edit'></AuthGate>
+          <AuthGate permission="dates_edit"></AuthGate>
           <Modal opened={isModalPresented} onClose={closeModal} title={t('operations.create.title')} size={1000} centered>
             <Loader visible={isCreating} full />
             <form onSubmit={form.onSubmit(handleCreate)}>
@@ -106,7 +106,7 @@ export default function Page() {
                 <Select
                   label={t('form.theme.label')}
                   placeholder={t('form.theme.placeholder')}
-                  nothingFound={t('form.theme.nothingFound')}
+                  nothingFoundMessage={t('form.theme.nothingFound')}
                   data={[
                     { value: 'stops', label: t('form.theme.options.stops') },
                     { value: 'lines', label: t('form.theme.options.lines') },
@@ -116,24 +116,10 @@ export default function Page() {
                   searchable
                   withAsterisk
                 />
-                <MultiSelect
-                  label={t('form.associated_lines.label')}
-                  placeholder={t('form.associated_lines.placeholder')}
-                  nothingFound={t('form.associated_lines.nothingFound')}
-                  data={linesDataFormatted}
-                  {...form.getInputProps('associated_lines')}
-                  searchable
-                />
-                <MultiSelect
-                  label={t('form.associated_stops.label')}
-                  placeholder={t('form.associated_stops.placeholder')}
-                  nothingFound={t('form.associated_stops.nothingFound')}
-                  data={stopsDataFormatted}
-                  {...form.getInputProps('associated_stops')}
-                  searchable
-                />
+                <MultiSelect label={t('form.associated_lines.label')} placeholder={t('form.associated_lines.placeholder')} nothingFoundMessage={t('form.associated_lines.nothingFound')} data={linesDataFormatted} {...form.getInputProps('associated_lines')} searchable />
+                <MultiSelect label={t('form.associated_stops.label')} placeholder={t('form.associated_stops.placeholder')} nothingFoundMessage={t('form.associated_stops.nothingFound')} data={stopsDataFormatted} {...form.getInputProps('associated_stops')} searchable />
                 <Textarea label={t('form.associated_stops.label')} placeholder={t('form.associated_stops.placeholder')} />
-                <Button size='lg' onClick={handleCreate} disabled={!form.isValid()}>
+                <Button size="lg" onClick={handleCreate} disabled={!form.isValid()}>
                   {t('operations.create.title')}
                 </Button>
               </SimpleGrid>

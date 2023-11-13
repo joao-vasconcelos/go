@@ -165,7 +165,7 @@ export default function ExportFileForm() {
           label={t('form.export_type.label')}
           description={t('form.export_type.description')}
           placeholder={t('form.export_type.placeholder')}
-          nothingFound={t('form.export_type.nothingFound')}
+          nothingFoundMessage={t('form.export_type.nothingFound')}
           data={availableExportTypes}
           value={selectedExportType}
           onChange={setSelectedExportType}
@@ -181,7 +181,7 @@ export default function ExportFileForm() {
           label={t('form.agencies.label')}
           description={t('form.agencies.description')}
           placeholder={t('form.agencies.placeholder')}
-          nothingFound={t('form.agencies.nothingFound')}
+          nothingFoundMessage={t('form.agencies.nothingFound')}
           data={availableAgencies}
           value={selectedAgencyId}
           onChange={setSelectedAgencyId}
@@ -198,7 +198,7 @@ export default function ExportFileForm() {
           label={t('form.lines_include.label')}
           placeholder={t('form.lines_include.placeholder')}
           description={t('form.lines_include.description')}
-          nothingFound={t('form.lines_include.nothingFound')}
+          nothingFoundMessage={t('form.lines_include.nothingFound')}
           data={availableLinesToInclude}
           value={selectedLineIdsToInclude}
           onChange={setSelectedLineIdsToInclude}
@@ -210,7 +210,7 @@ export default function ExportFileForm() {
           label={t('form.lines_exclude.label')}
           placeholder={t('form.lines_exclude.placeholder')}
           description={t('form.lines_exclude.description')}
-          nothingFound={t('form.lines_exclude.nothingFound')}
+          nothingFoundMessage={t('form.lines_exclude.nothingFound')}
           data={availableLinesToExclude}
           value={selectedLineIdsToExclude}
           onChange={setSelectedLineIdsToExclude}

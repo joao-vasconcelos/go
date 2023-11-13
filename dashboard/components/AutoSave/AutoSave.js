@@ -39,7 +39,7 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
   if (isErrorSaving && isSaving) {
     return (
-      <Button size="xs" leftIcon={<IconAlertTriangleFilled size="20px" />} variant="light" color="red" loading>
+      <Button size="xs" leftSection={<IconAlertTriangleFilled size="20px" />} variant="light" color="red" loading>
         {t('retry.title')}
       </Button>
     );
@@ -53,7 +53,7 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
   if (isErrorSaving) {
     return (
       <Tooltip label={`Ocorreu um erro ao salvar as alterações: ${isErrorSaving.message}`} color="red" position="bottom" width={300} multiline withArrow>
-        <Button size="xs" leftIcon={<IconAlertTriangleFilled size="20px" />} variant="light" color="red" onClick={onSave}>
+        <Button size="xs" leftSection={<IconAlertTriangleFilled size="20px" />} variant="light" color="red" onClick={onSave}>
           Salvar Alterações
         </Button>
       </Tooltip>

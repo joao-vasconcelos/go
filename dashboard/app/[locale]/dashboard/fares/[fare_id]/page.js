@@ -144,17 +144,7 @@ export default function Page() {
       loading={fareLoading || isDeleting}
       header={
         <>
-          <AutoSave
-            isValid={form.isValid()}
-            isDirty={form.isDirty()}
-            isLoading={fareLoading}
-            isErrorValidating={fareError}
-            isSaving={isSaving}
-            isErrorSaving={hasErrorSaving}
-            onValidate={() => handleValidate()}
-            onSave={async () => await handleSave()}
-            onClose={async () => await handleClose()}
-          />
+          <AutoSave isValid={form.isValid()} isDirty={form.isDirty()} isLoading={fareLoading} isErrorValidating={fareError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={() => handleValidate()} onSave={async () => await handleSave()} onClose={async () => await handleClose()} />
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
@@ -184,7 +174,7 @@ export default function Page() {
             <Select
               label={t('form.currency_type.label')}
               placeholder={t('form.currency_type.placeholder')}
-              nothingFound={t('form.currency_type.nothingFound')}
+              nothingFoundMessage={t('form.currency_type.nothingFound')}
               {...form.getInputProps('currency_type')}
               data={[{ value: 'EUR', label: t('form.currency_type.options.EUR') }]}
               readOnly={isReadOnly}
@@ -195,7 +185,7 @@ export default function Page() {
             <Select
               label={t('form.payment_method.label')}
               placeholder={t('form.payment_method.placeholder')}
-              nothingFound={t('form.payment_method.nothingFound')}
+              nothingFoundMessage={t('form.payment_method.nothingFound')}
               {...form.getInputProps('payment_method')}
               data={[
                 { value: '0', label: t('form.payment_method.options.0') },
@@ -207,7 +197,7 @@ export default function Page() {
             <Select
               label={t('form.transfers.label')}
               placeholder={t('form.transfers.placeholder')}
-              nothingFound={t('form.transfers.nothingFound')}
+              nothingFoundMessage={t('form.transfers.nothingFound')}
               {...form.getInputProps('transfers')}
               data={[
                 { value: '0', label: t('form.transfers.options.0') },

@@ -134,10 +134,10 @@ export default function Page() {
 
   const handleDelete = async () => {
     openConfirmModal({
-      title: <Text size='h2'>{t('operations.delete.title')}</Text>,
+      title: <Text size="h2">{t('operations.delete.title')}</Text>,
       centered: true,
       closeOnClickOutside: true,
-      children: <Text size='h3'>{t('operations.delete.description')}</Text>,
+      children: <Text size="h3">{t('operations.delete.description')}</Text>,
       labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
@@ -166,24 +166,14 @@ export default function Page() {
       loading={alertLoading || isDeleting}
       header={
         <>
-          <AutoSave
-            isValid={form.isValid()}
-            isDirty={form.isDirty()}
-            isLoading={alertLoading}
-            isErrorValidating={alertError}
-            isSaving={isSaving}
-            isErrorSaving={hasErrorSaving}
-            onValidate={() => handleValidate()}
-            onSave={async () => await handleSave()}
-            onClose={async () => await handleClose()}
-          />
-          <Text size='h1' style={!form.values.title && 'untitled'} full>
+          <AutoSave isValid={form.isValid()} isDirty={form.isDirty()} isLoading={alertLoading} isErrorValidating={alertError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={() => handleValidate()} onSave={async () => await handleSave()} onClose={async () => await handleClose()} />
+          <Text size="h1" style={!form.values.title && 'untitled'} full>
             {form.values.title || t('untitled')}
           </Text>
-          <AuthGate scope='alerts' permission='delete'>
-            <Tooltip label={t('operations.delete.title')} color='red' position='bottom' withArrow>
-              <ActionIcon color='red' variant='light' size='lg' onClick={handleDelete}>
-                <IconTrash size='20px' />
+          <AuthGate scope="alerts" permission="delete">
+            <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
+              <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
+                <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
           </AuthGate>
@@ -193,8 +183,8 @@ export default function Page() {
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
         <Section>
           <div>
-            <Text size='h2'>{t('sections.status.title')}</Text>
-            <Text size='h4'>{t('sections.status.description')}</Text>
+            <Text size="h2">{t('sections.status.title')}</Text>
+            <Text size="h4">{t('sections.status.description')}</Text>
           </div>
           <SimpleGrid cols={1}>
             <Switch label={t('form.published.label')} description={t('form.published.description')} {...form.getInputProps('published', { type: 'checkbox' })} readOnly={isReadOnly} />
@@ -205,8 +195,8 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.messages.title')}</Text>
-            <Text size='h4'>{t('sections.messages.description')}</Text>
+            <Text size="h2">{t('sections.messages.title')}</Text>
+            <Text size="h4">{t('sections.messages.description')}</Text>
           </div>
           <SimpleGrid cols={1}>
             <TextInput label={t('form.title.label')} placeholder={t('form.title.placeholder')} description={t('form.title.description')} {...form.getInputProps('title')} readOnly={isReadOnly} />
@@ -218,30 +208,12 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.cause_effect.title')}</Text>
-            <Text size='h4'>{t('sections.cause_effect.description')}</Text>
+            <Text size="h2">{t('sections.cause_effect.title')}</Text>
+            <Text size="h4">{t('sections.cause_effect.description')}</Text>
           </div>
           <SimpleGrid cols={2}>
-            <Select
-              label={t('form.cause.label')}
-              placeholder={t('form.cause.placeholder')}
-              description={t('form.cause.description')}
-              nothingFound={t('form.cause.nothingFound')}
-              {...form.getInputProps('cause')}
-              data={availableCauses}
-              readOnly={isReadOnly}
-              searchable
-            />
-            <Select
-              label={t('form.effect.label')}
-              placeholder={t('form.effect.placeholder')}
-              description={t('form.effect.description')}
-              nothingFound={t('form.effect.nothingFound')}
-              {...form.getInputProps('effect')}
-              data={availableEffects}
-              readOnly={isReadOnly}
-              searchable
-            />
+            <Select label={t('form.cause.label')} placeholder={t('form.cause.placeholder')} description={t('form.cause.description')} nothingFoundMessage={t('form.cause.nothingFound')} {...form.getInputProps('cause')} data={availableCauses} readOnly={isReadOnly} searchable />
+            <Select label={t('form.effect.label')} placeholder={t('form.effect.placeholder')} description={t('form.effect.description')} nothingFoundMessage={t('form.effect.nothingFound')} {...form.getInputProps('effect')} data={availableEffects} readOnly={isReadOnly} searchable />
           </SimpleGrid>
         </Section>
 
@@ -249,43 +221,23 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.references.title')}</Text>
-            <Text size='h4'>{t('sections.references.description')}</Text>
+            <Text size="h2">{t('sections.references.title')}</Text>
+            <Text size="h4">{t('sections.references.description')}</Text>
           </div>
           <SimpleGrid cols={1}>
             <MultiSelect
               label={t('form.municipalities.label')}
               placeholder={t('form.municipalities.placeholder')}
               description={t('form.municipalities.description')}
-              nothingFound={t('form.municipalities.nothingFound')}
+              nothingFoundMessage={t('form.municipalities.nothingFound')}
               {...form.getInputProps('municipalities')}
               data={availableMunicipalities}
               readOnly={isReadOnly}
               searchable
               clearable
             />
-            <MultiSelect
-              label={t('form.lines.label')}
-              placeholder={t('form.lines.placeholder')}
-              description={t('form.lines.description')}
-              nothingFound={t('form.lines.nothingFound')}
-              {...form.getInputProps('lines')}
-              data={availableLines}
-              readOnly={isReadOnly}
-              searchable
-              clearable
-            />
-            <MultiSelect
-              label={t('form.stops.label')}
-              placeholder={t('form.stops.placeholder')}
-              description={t('form.stops.description')}
-              nothingFound={t('form.stops.nothingFound')}
-              {...form.getInputProps('stops')}
-              data={availableStops}
-              readOnly={isReadOnly}
-              searchable
-              clearable
-            />
+            <MultiSelect label={t('form.lines.label')} placeholder={t('form.lines.placeholder')} description={t('form.lines.description')} nothingFoundMessage={t('form.lines.nothingFound')} {...form.getInputProps('lines')} data={availableLines} readOnly={isReadOnly} searchable clearable />
+            <MultiSelect label={t('form.stops.label')} placeholder={t('form.stops.placeholder')} description={t('form.stops.description')} nothingFoundMessage={t('form.stops.nothingFound')} {...form.getInputProps('stops')} data={availableStops} readOnly={isReadOnly} searchable clearable />
           </SimpleGrid>
         </Section>
 
@@ -293,12 +245,12 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.active_period.title')}</Text>
-            <Text size='h4'>{t('sections.active_period.description')}</Text>
+            <Text size="h2">{t('sections.active_period.title')}</Text>
+            <Text size="h4">{t('sections.active_period.description')}</Text>
           </div>
           <SimpleGrid cols={2}>
             <DateTimePicker
-              dropdownType='modal'
+              dropdownType="modal"
               label={t('form.active_period_start.label')}
               placeholder={t('form.active_period_start.placeholder')}
               description={t('form.active_period_start.description')}
@@ -308,7 +260,7 @@ export default function Page() {
               clearable
             />
             <DateTimePicker
-              dropdownType='modal'
+              dropdownType="modal"
               label={t('form.active_period_end.label')}
               placeholder={t('form.active_period_end.placeholder')}
               description={t('form.active_period_end.description')}
@@ -324,8 +276,8 @@ export default function Page() {
 
         <Section>
           <div>
-            <Text size='h2'>{t('sections.media.title')}</Text>
-            <Text size='h4'>{t('sections.media.description')}</Text>
+            <Text size="h2">{t('sections.media.title')}</Text>
+            <Text size="h4">{t('sections.media.description')}</Text>
           </div>
           <SimpleGrid cols={2}></SimpleGrid>
         </Section>
