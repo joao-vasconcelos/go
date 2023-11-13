@@ -193,15 +193,15 @@ function parseRoute(agencyData, lineData, typologyData, routeData) {
   try {
     return {
       line_id: lineData.code,
-      line_short_name: lineData.short_name,
-      line_long_name: lineData.name.replaceAll(',', ''),
+      line_short_name: lineData.short_name.replace(/  +/g, ' ').trim(),
+      line_long_name: lineData.name.replaceAll(',', '').replace(/  +/g, ' ').trim(),
       line_type: getLineType(typologyData.code),
       route_id: routeData.code,
       agency_id: agencyData.code,
       route_origin: 'deprecated-origin',
       route_destination: 'deprecated-destination',
-      route_short_name: lineData.short_name,
-      route_long_name: routeData.name.replaceAll(',', ''),
+      route_short_name: lineData.short_name.replace(/  +/g, ' ').trim(),
+      route_long_name: routeData.name.replaceAll(',', '').replace(/  +/g, ' ').trim(),
       route_type: lineData.transport_type,
       path_type: routeData.path_type,
       circular: lineData.circular ? 1 : 0,
@@ -790,13 +790,13 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
             writeCsvToFile(progress.workdir, 'trips.txt', {
               route_id: routeData.code,
               pattern_id: patternData.code,
-              pattern_short_name: patternData.headsign.replaceAll(',', ''),
+              pattern_short_name: patternData.headsign.replaceAll(',', '').replace(/  +/g, ' ').trim(),
               service_id: resultingCalendarCode,
               trip_id: thisTripCode,
-              trip_headsign: patternData.headsign.replaceAll(',', ''),
+              trip_headsign: patternData.headsign.replaceAll(',', '').replace(/  +/g, ' ').trim(),
               direction_id: patternIndex,
               shape_id: thisShapeCode,
-              calendar_desc: resultingCalendarDescription.replaceAll(',', ''),
+              calendar_desc: resultingCalendarDescription.replaceAll(',', '').replace(/  +/g, ' ').trim(),
             });
 
             // 3.4.3.4.1.19.
