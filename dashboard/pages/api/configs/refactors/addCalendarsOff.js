@@ -132,7 +132,7 @@ export default async function handler(req, res) {
 
       patternData.schedules = newSchedulesForThisPattern;
 
-      await PatternModel.findOneAndReplace({ _id: patternData._id }, { ...patternData });
+      await PatternModel.findOneAndReplace({ _id: patternData._id }, patternData, { new: true });
 
       console.log(`Updated pattern ${patternData.code}`);
 
