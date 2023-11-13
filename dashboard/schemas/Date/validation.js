@@ -12,5 +12,8 @@ export const DateValidation = yup.object({
   period: yup.number(),
   day_type: yup.number(),
   is_holiday: yup.boolean(),
-  notes: yup.string().max(5000),
+  notes: yup
+    .string()
+    .max(5000)
+    .transform((value) => value.replace(/  +/g, ' ').trim()),
 });

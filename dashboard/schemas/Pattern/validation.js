@@ -14,13 +14,15 @@ export const PatternValidation = yup.object({
     .required()
     .max(25)
     .uppercase()
-    .matches(/^[0-9_\s]+$/),
+    .matches(/^[0-9_\s]+$/)
+    .transform((value) => value.replace(/  +/g, ' ').trim()),
   parent_route: yup.string().required(),
   headsign: yup
     .string()
     .required()
     .max(50)
-    .matches(/^[a-zA-ZÀ-ÿ0-9()|ºª.'-\s]+$/),
+    .matches(/^[a-zA-ZÀ-ÿ0-9()|ºª.'-\s]+$/)
+    .transform((value) => value.replace(/  +/g, ' ').trim()),
   presets: yup.object({
     velocity: yup.number().integer(),
     dwell_time: yup.number().integer(),
