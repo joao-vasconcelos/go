@@ -78,7 +78,7 @@ export default async function handler(req, res) {
 
           // VESPERA DE NATAL
           if (calendarOnData.dates.includes('20231224')) {
-            if (scheduleStartTimeInt > 2159) {
+            if (scheduleStartTimeInt > 2200) {
               addedCalendarsOff.add('ESP_NATAL_VESP');
             }
           }
@@ -94,7 +94,7 @@ export default async function handler(req, res) {
           if (calendarOnData.dates.includes('20231231')) {
             const exceptionLines = new Set(['4512', '4513', '4600', '4602', '4603', '4604', '4701', '4703', '4707', '4715', '4725', '4730']);
             if (!exceptionLines.has(patternCode.code.substring(0, 4))) {
-              if (scheduleStartTimeInt > 2159) {
+              if (scheduleStartTimeInt > 2200) {
                 addedCalendarsOff.add('ESP_ANONOVO_VESP');
               }
             }
@@ -111,6 +111,9 @@ export default async function handler(req, res) {
         }
 
         if (addedCalendarsOff.size > 0) {
+          // Reset what was set before
+          scheduleData.calendars_off = [];
+          // Apply the new rules
           for (const calendarOffCodeToAdd of [...addedCalendarsOff]) {
             const calendarOffData = await CalendarModel.findOne({ code: calendarOffCodeToAdd });
             if (calendarOffData?._id) {
@@ -129,7 +132,7 @@ export default async function handler(req, res) {
 
       patternData.schedules = newSchedulesForThisPattern;
 
-      await patternData.save();
+      await PatternModel.findOneAndReplace({ _id: patternData._id }, { ...patternData });
 
       console.log(`Updated pattern ${patternData.code}`);
 
