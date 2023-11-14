@@ -173,8 +173,8 @@ export default async function handler(req, res) {
       feed_start_date: req.body.feed_start_date,
       feed_end_date: req.body.feed_end_date,
       clip_calendars: req.body.clip_calendars ? true : false,
-      calendars_start_date: req.body.calendars_clip_start_date,
-      calendars_end_date: req.body.calendars_clip_end_date,
+      calendars_clip_start_date: req.body.calendars_clip_start_date,
+      calendars_clip_end_date: req.body.calendars_clip_end_date,
       numeric_calendar_codes: req.body.numeric_calendar_codes ? true : false,
       stop_sequence_start: req.body.stop_sequence_start,
     };
