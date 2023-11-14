@@ -110,9 +110,10 @@ export default async function handler(req, res) {
           //
         }
 
+        // Reset what was set before
+        scheduleData.calendars_off = [];
+
         if (addedCalendarsOff.size > 0) {
-          // Reset what was set before
-          scheduleData.calendars_off = [];
           // Apply the new rules
           for (const calendarOffCodeToAdd of [...addedCalendarsOff]) {
             const calendarOffData = await CalendarModel.findOne({ code: calendarOffCodeToAdd });
