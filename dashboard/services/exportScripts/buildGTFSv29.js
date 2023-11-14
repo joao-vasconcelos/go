@@ -634,10 +634,8 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               if (currentCalendarOnWasModified) {
                 // Include the OFF flag if this is the first calendar OFF code being appended
                 if (resultingCalendarCode === currentCalendarOnCode) {
-                  // Append '000' as the divider if numeric codes are required
-                  if (exportOptions.numeric_calendar_codes) resultingCalendarCode = `${resultingCalendarCode}000`;
-                  // Append 'OFF' as the divider otherwise
-                  else resultingCalendarCode = `${resultingCalendarCode}-OFF`;
+                  // Append 'OFF' as the divider if not using numeric codes
+                  if (!exportOptions.numeric_calendar_codes) resultingCalendarCode = `${resultingCalendarCode}-OFF`;
                 }
                 // Append the current calendar OFF code (numeric or regular)
                 if (exportOptions.numeric_calendar_codes) resultingCalendarCode = `${resultingCalendarCode}${calendarOffData.numeric_code}`;
