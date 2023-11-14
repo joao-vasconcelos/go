@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/go",
-    "version": "2023.11.14-1528",
+    "version": "2023.11.14-1026",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -26,7 +26,7 @@
         "formidable": "3.5.1",
         "inflected": "2.1.0",
         "lodash": "4.17.21",
-        "maplibre-gl": "3.6.1",
+        "maplibre-gl": "3.6.0",
         "minio": "7.1.3",
         "mongodb": "6.2.0",
         "mongoose": "8.0.0",
