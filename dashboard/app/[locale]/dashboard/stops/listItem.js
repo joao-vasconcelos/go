@@ -1,5 +1,5 @@
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import Text from '@/components/Text/Text';
 import Badge from '@/components/Badge/Badge';
@@ -18,7 +18,7 @@ export default function ListItem({ style, _id, name, code, latitude, longitude }
 
   return (
     <BaseListItem onClick={handleClick} isSelected={stop_id === _id} withChevron style={style}>
-      <Text size='subtitle' style={!name && 'untitled'}>
+      <Text size="subtitle" style={!name && 'untitled'}>
         {name || 'Paragem Sem Nome'}
       </Text>
       <Group>

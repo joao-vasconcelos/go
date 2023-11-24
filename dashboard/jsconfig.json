@@ -10,7 +10,8 @@
       "@/hooks/*": ["hooks/*"],
       "@/contexts/*": ["contexts/*"],
       "@/services/*": ["services/*"],
-      "@/schemas/*": ["schemas/*"]
+      "@/schemas/*": ["schemas/*"],
+      "@/translations/*": ["translations/*"]
     }
   }
 }

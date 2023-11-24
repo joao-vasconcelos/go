@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import Loader from '@/components/Loader/Loader';
 import styles from './layout.module.css';
 import appBackground from 'public/background.jpg';

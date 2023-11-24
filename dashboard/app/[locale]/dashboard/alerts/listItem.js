@@ -2,7 +2,7 @@
 
 import useSWR from 'swr';
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { useTranslations } from 'next-intl';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import Text from '@/components/Text/Text';
@@ -37,7 +37,7 @@ export default function ListItem({ _id, title, published, created_by }) {
 
   return (
     <BaseListItem onClick={handleClick} isSelected={alert_id === _id} withChevron>
-      <Text size='title' style={!title && 'untitled'}>
+      <Text size="title" style={!title && 'untitled'}>
         {title || t('untitled')}
       </Text>
       <Group>

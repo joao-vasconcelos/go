@@ -3,7 +3,7 @@
 import useSWR from 'swr';
 import { useState, useCallback } from 'react';
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { Validation as ThreadValidation } from '@/schemas/Thread/validation';
@@ -54,12 +54,12 @@ export default function Page() {
       loading={threadLoading}
       header={
         <>
-          <Tooltip label={t('operations.close.title')} color='gray' position='bottom' withArrow>
-            <ActionIcon color='gray' variant='subtle' size='lg' onClick={() => router.push('/dashboard/threads')}>
-              <IconX size='20px' />
+          <Tooltip label={t('operations.close.title')} color="gray" position="bottom" withArrow>
+            <ActionIcon color="gray" variant="subtle" size="lg" onClick={() => router.push('/dashboard/threads')}>
+              <IconX size="20px" />
             </ActionIcon>
           </Tooltip>
-          <Text size='h1' style={threadData && !threadData.subject && 'untitled'} full>
+          <Text size="h1" style={threadData && !threadData.subject && 'untitled'} full>
             {(threadData && threadData.subject) || t('untitled')}
           </Text>
         </>

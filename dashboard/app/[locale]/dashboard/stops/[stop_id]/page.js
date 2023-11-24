@@ -3,7 +3,7 @@
 import useSWR from 'swr';
 import { useState, useMemo } from 'react';
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import { useMap, Source, Layer } from 'react-map-gl/maplibre';
 import API from '@/services/API';

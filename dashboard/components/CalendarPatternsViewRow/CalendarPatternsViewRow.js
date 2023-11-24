@@ -2,7 +2,7 @@
 
 import useSWR from 'swr';
 import styles from './CalendarPatternsViewRow.module.css';
-import Link from 'next/link';
+import { Link } from '@/translations/navigation';
 
 export default function CalendarPatternsViewRow({ patternData }) {
   //

@@ -1,5 +1,5 @@
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { useTranslations } from 'next-intl';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import Text from '@/components/Text/Text';

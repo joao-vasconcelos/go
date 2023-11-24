@@ -1,5 +1,5 @@
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { useTranslations } from 'next-intl';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import Text from '@/components/Text/Text';
@@ -17,7 +17,7 @@ export default function ListItem({ _id, subject }) {
 
   return (
     <BaseListItem onClick={handleClick} isSelected={thread_id === _id} withChevron>
-      <Text size='title' style={!subject && 'untitled'}>
+      <Text size="title" style={!subject && 'untitled'}>
         {subject || t('untitled')}
       </Text>
     </BaseListItem>

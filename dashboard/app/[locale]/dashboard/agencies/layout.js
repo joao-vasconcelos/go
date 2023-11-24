@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import useSearch from '@/hooks/useSearch';
 import useSWR from 'swr';
 import API from '@/services/API';

@@ -3,7 +3,7 @@
 import useSWR from 'swr';
 import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { yupResolver } from '@mantine/form';
 import StatCard from '@/components/StatCard/StatCard';
 import bbox from '@turf/bbox';

@@ -3,7 +3,7 @@
 import useSWR from 'swr';
 import { useState, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { UserFormProvider, useUserForm } from '@/schemas/User/form';
 import { yupResolver } from '@mantine/form';
 import API from '@/services/API';

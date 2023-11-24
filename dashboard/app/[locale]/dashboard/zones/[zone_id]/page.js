@@ -3,7 +3,7 @@
 import useSWR from 'swr';
 import { useState, useCallback, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import bbox from '@turf/bbox';
@@ -218,17 +218,7 @@ export default function Page() {
       loading={zoneLoading || isDeleting}
       header={
         <>
-          <AutoSave
-            isValid={form.isValid()}
-            isDirty={form.isDirty()}
-            isLoading={zoneLoading}
-            isErrorValidating={zoneError}
-            isSaving={isSaving}
-            isErrorSaving={hasErrorSaving}
-            onValidate={() => handleValidate()}
-            onSave={async () => await handleSave()}
-            onClose={async () => await handleClose()}
-          />
+          <AutoSave isValid={form.isValid()} isDirty={form.isDirty()} isLoading={zoneLoading} isErrorValidating={zoneError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={() => handleValidate()} onSave={async () => await handleSave()} onClose={async () => await handleClose()} />
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
@@ -340,18 +330,7 @@ export default function Page() {
             <Text size="h4">{t('sections.geojson.description')}</Text>
           </div>
           <SimpleGrid cols={1}>
-            <JsonInput
-              label={t('form.geojson.label')}
-              placeholder={t('form.geojson.placeholder')}
-              validationError={t('form.geojson.validation_error')}
-              value={newGeojson}
-              onChange={setNewGeojson}
-              readOnly={isReadOnly}
-              autosize
-              formatOnBlur
-              minRows={5}
-              maxRows={10}
-            />
+            <JsonInput label={t('form.geojson.label')} placeholder={t('form.geojson.placeholder')} validationError={t('form.geojson.validation_error')} value={newGeojson} onChange={setNewGeojson} readOnly={isReadOnly} autosize formatOnBlur minRows={5} maxRows={10} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
             <Button onClick={handleImportGeojson} disabled={!newGeojson || isReadOnly}>

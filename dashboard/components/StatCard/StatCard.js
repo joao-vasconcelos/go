@@ -2,7 +2,7 @@ import styles from './StatCard.module.css';
 import Loader from '../Loader/Loader';
 import Text from '../Text/Text';
 import { CopyButton } from '@mantine/core';
-import Link from 'next/link';
+import { Link } from '@/translations/navigation';
 import { IconChevronRight } from '@tabler/icons-react';
 
 /* */
@@ -21,7 +21,7 @@ export default function StatCard({ title, value, link, type = 'copy' }) {
       {({ copied, copy }) => (
         <div className={styles.container} onClick={copy}>
           <div className={styles.wrapper}>
-            <Text size='h4'>{copied ? 'Value Copied' : title}</Text>
+            <Text size="h4">{copied ? 'Value Copied' : title}</Text>
             <div className={styles.value}>{value}</div>
           </div>
         </div>
@@ -30,10 +30,10 @@ export default function StatCard({ title, value, link, type = 'copy' }) {
   );
 
   const LinkCard = () => (
-    <Link href={link} target='_blank'>
+    <Link href={link} target="_blank">
       <div className={styles.container}>
         <div className={styles.wrapper}>
-          <Text size='h4'>{title}</Text>
+          <Text size="h4">{title}</Text>
           <div className={styles.value}>{value}</div>
         </div>
         <IconChevronRight className={styles.chevron} />

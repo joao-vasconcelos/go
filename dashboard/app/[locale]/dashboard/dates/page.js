@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import useSWR from 'swr';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import API from '@/services/API';
 import Pannel from '@/components/Pannel/Pannel';
 import { useDisclosure } from '@mantine/hooks';

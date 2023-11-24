@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { Button, SimpleGrid, Text } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 
@@ -15,8 +15,8 @@ export default function AuthVerify() {
 
   return (
     <SimpleGrid>
-      <Text align='center'>{t('instruction')}</Text>
-      <Button fullWidth variant='light' onClick={handleSignInRetry}>
+      <Text align="center">{t('instruction')}</Text>
+      <Button fullWidth variant="light" onClick={handleSignInRetry}>
         {t('submit')}
       </Button>
     </SimpleGrid>

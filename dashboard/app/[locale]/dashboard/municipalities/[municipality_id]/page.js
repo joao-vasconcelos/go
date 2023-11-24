@@ -3,7 +3,7 @@
 import useSWR from 'swr';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { MunicipalityValidation } from '@/schemas/Municipality/validation';
@@ -183,15 +183,7 @@ export default function Page() {
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <Select
-              label={t('form.district.label')}
-              placeholder={t('form.district.placeholder')}
-              nothingFoundMessage={t('form.district.nothingFound')}
-              {...form.getInputProps('district')}
-              data={MunicipalityOptions.district}
-              readOnly={isReadOnly}
-              searchable
-            />
+            <Select label={t('form.district.label')} placeholder={t('form.district.placeholder')} nothingFoundMessage={t('form.district.nothingFound')} {...form.getInputProps('district')} data={MunicipalityOptions.district} readOnly={isReadOnly} searchable />
             <Select label={t('form.region.label')} placeholder={t('form.region.placeholder')} nothingFoundMessage={t('form.region.nothingFound')} {...form.getInputProps('region')} data={MunicipalityOptions.region} readOnly={isReadOnly} searchable />
           </SimpleGrid>
         </Section>

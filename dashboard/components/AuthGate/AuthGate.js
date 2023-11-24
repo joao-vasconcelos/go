@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { useEffect, useMemo } from 'react';
 
 export default function AuthGate({ scope = '', permission = '', redirect = false, children }) {

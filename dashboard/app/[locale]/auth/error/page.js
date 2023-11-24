@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/translations/navigation';
 import { Button, SimpleGrid, Text } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 

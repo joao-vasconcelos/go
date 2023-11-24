@@ -1,10 +1,10 @@
 import pjson from '../../package.json';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
-import { usePathname } from 'next-intl/client';
+import { usePathname } from '@/translations/navigation';
 import { Menu, ActionIcon } from '@mantine/core';
 import { IconSettings, IconLanguage, IconLogin } from '@tabler/icons-react';
-import { availableLocales } from '../../translations/config';
+import { availableLocales } from '@/translations/config';
 import { signOut } from 'next-auth/react';
 
 export default function LocaleSwitcher() {

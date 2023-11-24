@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/translations/navigation';
 import { CMIcon } from '@/components/AppLogos/AppLogos';
 import styles from './AppWrapper.module.css';
 import AppHeader from '@/components/AppHeader/AppHeader';

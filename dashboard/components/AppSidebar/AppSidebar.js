@@ -1,5 +1,5 @@
 import styles from './AppSidebar.module.css';
-import Link from 'next-intl/link';
+import { Link } from '@/translations/navigation';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Tooltip, ActionIcon } from '@mantine/core';
