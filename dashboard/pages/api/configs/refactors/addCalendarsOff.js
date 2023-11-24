@@ -12,6 +12,8 @@ export default async function handler(req, res) {
   //
   await delay();
 
+  return await res.status(403).json({ message: 'Feature is disabled' });
+
   // 0.
   // Refuse request if not GET
 
