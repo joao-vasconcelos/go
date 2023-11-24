@@ -52,8 +52,8 @@ export default async function handler(req, res) {
     for (const patternCode of allPatternCodes) {
       //
 
-      // Do only for Area 4
-      if (!patternCode.code.startsWith('4')) continue;
+      // Do only for Area 2
+      if (!patternCode.code.startsWith('2')) continue;
 
       // Fetch pattern data from database
       const patternData = await PatternModel.findOne({ code: patternCode.code });
@@ -78,8 +78,15 @@ export default async function handler(req, res) {
 
           // VESPERA DE NATAL
           if (calendarOnData.dates.includes('20231224')) {
-            if (scheduleStartTimeInt > 2200) {
+            if (scheduleStartTimeInt > 2159) {
               addedCalendarsOff.add('ESP_NATAL_VESP');
+            }
+          }
+
+          // VESPERA DE ANO NOVO
+          if (calendarOnData.dates.includes('20231231')) {
+            if (scheduleStartTimeInt > 2159) {
+              addedCalendarsOff.add('ESP_ANONOVO_VESP');
             }
           }
 
@@ -87,16 +94,6 @@ export default async function handler(req, res) {
           if (calendarOnData.dates.includes('20231225')) {
             if (scheduleStartTimeInt < 730) {
               addedCalendarsOff.add('ESP_NATAL_DIA');
-            }
-          }
-
-          // VESPERA DE ANO NOVO
-          if (calendarOnData.dates.includes('20231231')) {
-            const exceptionLines = new Set(['4512', '4513', '4600', '4602', '4603', '4604', '4701', '4703', '4707', '4715', '4725', '4730']);
-            if (!exceptionLines.has(patternCode.code.substring(0, 4))) {
-              if (scheduleStartTimeInt > 2200) {
-                addedCalendarsOff.add('ESP_ANONOVO_VESP');
-              }
             }
           }
 
