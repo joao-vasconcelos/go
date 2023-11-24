@@ -53,8 +53,8 @@ export default async function handler(req, res) {
     for (const patternCode of allPatternCodes) {
       //
 
-      // Skip if not A2
-      if (!patternCode.code.startsWith('2')) continue;
+      // Skip if not A1
+      if (!patternCode.code.startsWith('1')) continue;
 
       //
 
@@ -86,20 +86,20 @@ export default async function handler(req, res) {
         /* * * * * * * * * */
 
         //
-        // if (associatedCalendarCodes.has('P1_1701')) {
-        //   standardizedCalendars.add('CM_ESC_DOM');
-        //   associatedCalendarCodes.delete('P1_1701');
-        // }
+        if (associatedCalendarCodes.has('REF2024_0_1')) {
+          standardizedCalendars.add('ESC_DU');
+          associatedCalendarCodes.delete('REF2024_0_1');
+        }
 
         //
-        if (associatedCalendarCodes.has('VU') && associatedCalendarCodes.has('8S') && associatedCalendarCodes.has('YU') && associatedCalendarCodes.has('TM') && associatedCalendarCodes.has('P1_1501_2')) {
-          standardizedCalendars.add('CM_ESC_DU');
-          associatedCalendarCodes.delete('VU');
-          associatedCalendarCodes.delete('8S');
-          associatedCalendarCodes.delete('YU');
-          associatedCalendarCodes.delete('TM');
-          associatedCalendarCodes.delete('P1_1501_2');
-        }
+        // if (associatedCalendarCodes.has('VU') && associatedCalendarCodes.has('8S') && associatedCalendarCodes.has('YU') && associatedCalendarCodes.has('TM') && associatedCalendarCodes.has('P1_1501_2')) {
+        //   standardizedCalendars.add('CM_ESC_DU');
+        //   associatedCalendarCodes.delete('VU');
+        //   associatedCalendarCodes.delete('8S');
+        //   associatedCalendarCodes.delete('YU');
+        //   associatedCalendarCodes.delete('TM');
+        //   associatedCalendarCodes.delete('P1_1501_2');
+        // }
 
         /* * * * * * * * * */
 

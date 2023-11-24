@@ -22,29 +22,29 @@ export default function Page() {
   //
   // D. Handle refactors
 
-  //   const handleAddCalendarsOff = async () => {
-  //     openConfirmModal({
-  //       title: <Text size="h2">Add Calendars OFF?</Text>,
-  //       centered: true,
-  //       closeOnClickOutside: true,
-  //       children: <Text size="h3">Are you sure?</Text>,
-  //       labels: { confirm: 'Yes, Add Calendars OFF', cancel: 'Cancel' },
-  //       confirmProps: { color: 'red' },
-  //       onConfirm: async () => {
-  //         try {
-  //           setIsImporting(true);
-  //           notify('fix-calendars', 'loading', 'Loading');
-  //           await API({ service: 'configs/refactors/addCalendarsOff', method: 'GET' });
-  //           notify('fix-calendars', 'success', 'success');
-  //           setIsImporting(false);
-  //         } catch (err) {
-  //           console.log(err);
-  //           notify('fix-calendars', 'error', err.message || 'Error');
-  //           setIsImporting(false);
-  //         }
-  //       },
-  //     });
-  //   };
+  const handleStandardizeCalendars = async () => {
+    openConfirmModal({
+      title: <Text size="h2">Standardize Calendars?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">Are you sure?</Text>,
+      labels: { confirm: 'Yes, Standardize Calendars', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('replace-calendar', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/standardizeCalendars', method: 'GET' });
+          notify('replace-calendar', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          notify('replace-calendar', 'error', err.message || 'Error');
+          setIsImporting(false);
+        }
+      },
+    });
+  };
 
   //
   // E. Render components
@@ -55,9 +55,9 @@ export default function Page() {
         <Section>
           <Text size="h2">No operations available</Text>
           <SimpleGrid cols={3}>
-            {/* <Button onClick={handleAddCalendarsOff} color="red">
-              Add Calendars OFF
-            </Button> */}
+            <Button onClick={handleStandardizeCalendars} color="red" loading={isImporting}>
+              Standardize Calendars
+            </Button>
           </SimpleGrid>
         </Section>
       </Pannel>
