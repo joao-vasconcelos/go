@@ -106,7 +106,7 @@ export default async function handler(req, res) {
       // Throw an error if no stop is found
       if (!associatedStopDocument) throw Error('This pattern contains one or more stops that do not exist.');
       // Get original path stop from non-modified document
-      const originalPathStop = patternDocumentToUpdate.path.find((item) => item.stop.id === associatedStopDocument.id);
+      const originalPathStop = patternDocumentToUpdate.path.find((item) => item.stop.id === associatedStopDocument?.id);
       // Calculate distance delta
       const distanceDelta = pathIndex === 0 ? 0 : parseInt(pathItem.shape_dist_traveled) - prevDistance;
       prevDistance = parseInt(pathItem.shape_dist_traveled);
