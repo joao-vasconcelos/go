@@ -874,10 +874,10 @@
             },
             "batch_update": {
                 "title": "Update All Stops",
-                "description": "Updating is irreversible, and you will not be able to cancel once it starts. Are you sure you want to import and update all Stops?",
-                "confirm": "Update All Stops",
+                "description": "Updating all stops takes ~3 minutes on average, and you will not be able to cancel once it starts. Are you sure you want to import and update all Stops?",
+                "confirm": "Update All Stops (~3 min)",
                 "cancel": "Do Not Update",
-                "loading": "Updating all Stops...",
+                "loading": "Updating all Stops (~3 minutes)...",
                 "success": "All Stops were updated.",
                 "error": "An error occurred while updating all Stops."
             }

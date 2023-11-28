@@ -26,7 +26,7 @@ export const StopSchema = new mongoose.Schema(
     },
     tts_name: {
       type: String,
-      maxlength: 100,
+      maxlength: 500,
     },
     latitude: {
       type: Number,

@@ -12,8 +12,13 @@ import * as turf from '@turf/turf';
 /* Explanation needed. */
 /* * */
 
+let IS_TASK_RUNNING = false;
+
 export default async function handler(req, res) {
   //
+
+  if (IS_TASK_RUNNING) return await res.status(503).json({ message: `Task is already running.` });
+
   await delay();
 
   // 0.
@@ -60,47 +65,54 @@ export default async function handler(req, res) {
   try {
     //
 
-    // 6.0.
-    // Initate a temporary variable to hold updated Stops
-    let updatedStopIds = [];
+    IS_TASK_RUNNING = true;
 
     // 6.1.
-    // Retrieve Zones and Municipalities from the database
+    // Log the start of the operation
+    const start = new Date();
+    console.log(`⤷ Batch Update Stops: started at ${start}`);
+
+    // 6.2.
+    // Retrieve all Zones from the database
     const allZones = await ZoneModel.find();
     const allMunicipalities = await MunicipalityModel.find();
 
-    // 6.2.
-    // Fetch all Stops from API v2
-    const allStopsRes = await fetch('https://api.carrismetropolitana.pt/stops');
-    const allStopsApi = await allStopsRes.json();
-
     // 6.3.
+    // Build a hash map of the Municipalities array
+    const allMunicipalitiesMap = {};
+    allMunicipalities.forEach((municipality) => (allMunicipalitiesMap[municipality.code] = municipality));
+
+    // 6.4.
+    // Fetch all Stops from API v2
+    console.log('⤷ Fetching all stops from API...');
+    const allStopsResponse = await fetch('https://api.carrismetropolitana.pt/stops');
+    const allStopsApi = await allStopsResponse.json();
+
+    // 6.5.
     // Iterate through each available stop
-    for (const stopApi of allStopsApi) {
+    console.log(`⤷ Parsing ${allStopsApi.length} stops...`);
+    const replaceOperations = allStopsApi.map((stopApi) => {
       //
 
-      // 6.3.1.
+      // 6.5.1.
       // Find out to which Zones this stop belongs to
       let zoneIdsForThisStop = [];
       zoneLoop: for (const zoneData of allZones) {
         // Skip if no geometry is set for this zone
         if (!zoneData.geojson?.geometry?.coordinates.length) continue zoneLoop;
-        // Setup turf point for this stop
-        const turfPoint = turf.point([stopApi.lon, stopApi.lat]);
         // Check if this stop is inside this zone boundary
-        const isStopInThisZone = turf.booleanPointInPolygon(turfPoint, zoneData.geojson);
+        const isStopInThisZone = turf.booleanPointInPolygon([stopApi.lon, stopApi.lat], zoneData.geojson);
         // If it is, add this zone id to the stop
         if (isStopInThisZone) zoneIdsForThisStop.push(zoneData._id);
         //
       }
 
-      // 6.3.2.
+      // 6.5.2.
       // Find out to which Municipality this stop belongs to
-      const matchedMunicipality = allMunicipalities.find((item) => item.code === stopApi.municipality_id);
-      const municipalityIdForThisStop = matchedMunicipality ? matchedMunicipality._id : null;
-      if (!municipalityIdForThisStop) throw new Error(`Could not match Municipality for this stop. "stop_id ${stopApi.id}" "municipality_id ${stopApi.municipality_id}"`);
+      const matchedMunicipality = allMunicipalitiesMap[stopApi.municipality_id];
+      if (!matchedMunicipality?._id) throw new Error(`Could not match Municipality for this stop. "stop_id ${stopApi.id}" "municipality_id ${stopApi.municipality_id}"`);
 
-      // 6.3.3.
+      // 6.5.3.
       // Format stop to match GO schema
       const formattedStop = {
         ...StopDefault,
@@ -114,7 +126,7 @@ export default async function handler(req, res) {
         // Zoning
         zones: zoneIdsForThisStop,
         // Administrative
-        municipality: municipalityIdForThisStop,
+        municipality: matchedMunicipality._id,
         parish_code: stopApi.parish_id,
         parish_name: stopApi.parish_name,
         locality: stopApi.locality,
@@ -139,35 +151,49 @@ export default async function handler(req, res) {
         near_car_parking: stopApi.facilities.includes('car_parking'),
       };
 
-      // 6.3.4.
-      // Update the stop
-      const updatedStopDocument = await StopModel.findOneAndReplace({ code: stopApi.id }, formattedStop, { new: true, upsert: true });
+      //   console.log(`⤷ Parsed Stop ${formattedStop.code} zones: ${formattedStop.zones.length} municipality: ${matchedMunicipality.code}`);
 
-      // 6.3.5.
-      // Save this stop_id to the set to delete any dangling stops
-      updatedStopIds.push(updatedStopDocument._id);
-
-      // 6.3.6.
-      // Log progress
-      console.log(`⤷ Updated Stop ${formattedStop.code}.`);
+      // 6.5.4.
+      // Return the databse operation object for this stop
+      return {
+        replaceOne: {
+          filter: { code: formattedStop.code },
+          replacement: formattedStop,
+          upsert: true,
+        },
+      };
 
       //
-    }
+    });
 
-    // 6.4.
+    // 6.6.
+    // Perform the database replace operations
+    console.log('⤷ Replacing all stops with new data...');
+    const replacedStops = await StopModel.bulkWrite(replaceOperations);
+    console.log(`⤷ Modified ${replacedStops.modifiedCount} stops, ${replacedStops.upsertedCount} new.`);
+
+    // 6.5.
     // Delete all Stops not present in the current update
-    const deletedStaleStops = await StopModel.deleteMany({ _id: { $nin: updatedStopIds } });
-    console.log(`⤷ Deleted ${deletedStaleStops.deletedCount} stale Stops.`);
+    console.log('⤷ Deleting stale stops...');
+    const thisBatchStopCodes = allStopsApi.map((stopApi) => stopApi.id);
+    const deletedStaleStops = await StopModel.deleteMany({ code: { $nin: thisBatchStopCodes } });
+    console.log(`⤷ Deleted ${deletedStaleStops.deletedCount} stale stops.`);
+
+    const syncDuration = new Date() - start;
+    console.log(`⤷ Complete. Operation took ${syncDuration / 1000} seconds.`);
+
+    IS_TASK_RUNNING = false;
 
     //
   } catch (err) {
     console.log(err);
+    IS_TASK_RUNNING = false;
     return await res.status(500).json({ message: 'Import Error' });
   }
 
   // 7.
   // Log progress
-  console.log('⤷ Done. Sending response to client...');
+  console.log(`⤷ Done. Sending response to client...`);
   return await res.status(200).json('Update complete.');
 
   //

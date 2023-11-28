@@ -161,15 +161,7 @@ export default function Layout({ children }) {
                 {({ height, width }) => (
                   <List className="List" height={height} itemCount={filteredStopsData.length} itemSize={85} width={width}>
                     {({ index, style }) => (
-                      <ListItem
-                        key={filteredStopsData[index]._id}
-                        style={style}
-                        _id={filteredStopsData[index]._id}
-                        code={filteredStopsData[index].code}
-                        name={filteredStopsData[index].name}
-                        latitude={filteredStopsData[index].latitude}
-                        longitude={filteredStopsData[index].longitude}
-                      />
+                      <ListItem key={filteredStopsData[index]._id} style={style} _id={filteredStopsData[index]._id} code={filteredStopsData[index].code} name={filteredStopsData[index].name} latitude={filteredStopsData[index].latitude} longitude={filteredStopsData[index].longitude} />
                     )}
                   </List>
                 )}
