@@ -2097,5 +2097,9 @@
         "title": "Patterns that have at least one schedule with this calendar:",
         "label": "View Patterns using this calendar"
     },
+    "StopPatternsView": {
+        "title": "Patterns that use this stop:",
+        "label": "View Patterns using this stop"
+    },
     "CalendarPatternsViewAsLine": {}
 }

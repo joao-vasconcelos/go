@@ -23,6 +23,7 @@ import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
+import StopPatternsView from '@/components/StopPatternsView/StopPatternsView';
 
 export default function Page() {
   //
@@ -218,6 +219,9 @@ export default function Page() {
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
+          <AuthGate scope="lines" permission="view">
+            <StopPatternsView stop_id={stop_id} />
+          </AuthGate>
           <AuthGate scope="stops" permission="lock">
             <LockButton isLocked={stopData?.is_locked} setLocked={handleLock} loading={isLocking} />
           </AuthGate>
@@ -252,21 +256,8 @@ export default function Page() {
           </div>
           <SimpleGrid cols={3}>
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly && !canEditStopCode} />
-            <NumberInput
-              label={t('form.latitude.label')}
-              placeholder={t('form.latitude.placeholder')}
-              precision={6}
-              min={37}
-              max={40}
-              step={0.000001}
-              stepHoldDelay={500}
-              stepHoldInterval={100}
-              hideControls
-              icon={<IconWorldLatitude size="18px" />}
-              {...form.getInputProps('latitude')}
-              readOnly={isReadOnly}
-            />
-            <NumberInput label={t('form.longitude.label')} placeholder={t('form.longitude.placeholder')} precision={6} min={-10} max={-7} step={0.000001} stepHoldDelay={500} stepHoldInterval={100} hideControls icon={<IconWorldLongitude size="18px" />} {...form.getInputProps('longitude')} />
+            <NumberInput label={t('form.latitude.label')} placeholder={t('form.latitude.placeholder')} precision={6} min={37} max={40} step={0.000001} stepHoldDelay={500} hideControls icon={<IconWorldLatitude size="18px" />} {...form.getInputProps('latitude')} readOnly={isReadOnly} />
+            <NumberInput label={t('form.longitude.label')} placeholder={t('form.longitude.placeholder')} precision={6} min={-10} max={-7} step={0.000001} stepHoldDelay={500} hideControls icon={<IconWorldLongitude size="18px" />} {...form.getInputProps('longitude')} />
           </SimpleGrid>
           <SimpleGrid cols={1}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} />
