@@ -104,7 +104,7 @@ export default async function handler(req, res) {
       // Get _id of associated Stop document
       const associatedStopDocument = await StopModel.findOne({ code: pathItem.stop_id });
       // Throw an error if no stop is found
-      if (!associatedStopDocument) throw Error('This pattern contains one or more stops that do not exist.');
+      if (!associatedStopDocument) throw Error(`The stop "${pathItem.stop_id}" does not exist in GO.`);
       // Get original path stop from non-modified document
       const originalPathStop = patternDocumentToUpdate.path.find((item) => item.stop?.id === associatedStopDocument?.id);
       // Calculate distance delta
