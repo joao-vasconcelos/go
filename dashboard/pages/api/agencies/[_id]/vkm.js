@@ -103,6 +103,7 @@ export default async function handler(req, res) {
       totalVkm += lineVkm;
     }
     console.log('end vkm');
+    console.log(totalVkm / 1000);
     return await res.status(200).json({ totalVkm: totalVkm / 1000 });
   } catch (error) {
     console.log(err);
