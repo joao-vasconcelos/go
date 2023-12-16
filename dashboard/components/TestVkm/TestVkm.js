@@ -16,8 +16,8 @@ export default function TestVkm() {
   //
   // B. Fetch data
 
-  const { data: allAgenciesData, isLoading: allAgenciesLoading } = useSWR('/api/agencies/644976034212abfd6e160d1a/vkm');
-  console.log(allAgenciesData);
+  const { data: agencyVkmData, isLoading: allAgenciesLoading } = useSWR('/api/agencies/644976034212abfd6e160d1a/vkm');
+  console.log('agencyVkmData:', agencyVkmData);
 
   //
   // C. Render components
