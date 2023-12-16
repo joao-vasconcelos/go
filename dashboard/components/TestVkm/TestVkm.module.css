@@ -1,0 +1,11 @@
+.container {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 1px;
+  line-height: 1;
+  color: var(--gray9);
+  border: 1px solid var(--gray6);
+  padding: 3px 6px 2px 6px;
+  border-radius: var(--size-xs);
+}
