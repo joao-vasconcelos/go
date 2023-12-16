@@ -8,6 +8,7 @@ import { LineModel } from '@/schemas/Line/model';
 import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
+import { DateModel } from '@/schemas/Date/model';
 
 /* * */
 
@@ -44,6 +45,15 @@ export default async function handler(req, res) {
   }
 
   // 3.
+  // Fetch all Dates and create a hashmap
+
+  const allDates = await DateModel.find().lean();
+  const allDatesMap = {};
+  for (const dateData of allDates) {
+    allDatesMap[dateData.date] = dateData;
+  }
+
+  // 3.
   // Setup variables
 
   let allAgencyLines = [];
@@ -55,15 +65,45 @@ export default async function handler(req, res) {
     allAgencyLines = await LineModel.find({ agency: { $eq: req.query._id } }, 'code short_name name routes').populate({
       path: 'routes',
       select: 'code name patterns',
-      populate: { path: 'patterns', select: 'shape.extension schedules.start_time schedules.calendars_on schedules.calendars_off', populate: { path: 'schedules.calendars_on', select: 'dates' } },
+      populate: {
+        path: 'patterns',
+        select: 'shape.extension schedules.start_time schedules.calendars_on schedules.calendars_off',
+        populate: {
+          path: 'schedules.calendars_on',
+          select: 'dates',
+        },
+      },
     });
-    for (const lineData of allAgencyLines) {
-      console.log(lineData);
-    }
-    return res.send(allAgencyLines);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot fetch this Agency.' });
+    return await res.status(500).json({ message: 'Cannot fetch Lines for this Agency.' });
+  }
+
+  // 3.
+  // Calculate vkm for the whole agency
+
+  try {
+    let totalVkm = 0;
+    for (const lineData of allAgencyLines) {
+      let lineVkm = 0;
+      for (const routeData of lineData.routes) {
+        for (const patternData of routeData.patterns) {
+          for (const scheduleData of patternData.schedules) {
+            for (const calendarData of scheduleData.calendars_on) {
+              for (const dateData of calendarData.dates) {
+                const date = allDatesMap[dateData];
+                lineVkm += patternData.shape.extension;
+              }
+            }
+          }
+        }
+      }
+      totalVkm += lineVkm;
+    }
+    return await res.status(200).json({ totalVkm: totalVkm / 1000 });
+  } catch (error) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot calculate V.Km for this Agency.' });
   }
 
   //
