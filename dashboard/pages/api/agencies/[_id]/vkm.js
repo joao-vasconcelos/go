@@ -44,6 +44,8 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
+  console.log('start vkm');
+
   // 3.
   // Fetch all Dates and create a hashmap
 
@@ -100,6 +102,7 @@ export default async function handler(req, res) {
       }
       totalVkm += lineVkm;
     }
+    console.log('end vkm');
     return await res.status(200).json({ totalVkm: totalVkm / 1000 });
   } catch (error) {
     console.log(err);
