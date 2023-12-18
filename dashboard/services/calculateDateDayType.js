@@ -1,8 +1,9 @@
+/* * */
+
 import dayjs from 'dayjs';
 
 /* * */
-/* GET DAY TYPE FOR DATE */
-/* Return 1, 2 or 3 for a given date */
+
 export default function calculateDateDayType(dateString, isHoliday) {
   // Return 3 immediately if it is a holiday
   if (isHoliday) return 3;

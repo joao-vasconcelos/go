@@ -15,5 +15,6 @@ export const AgencyDefault = {
   url: '',
   fare_url: '',
   price_per_km: 0,
+  total_vkm_per_year: 0,
   is_locked: false,
 };

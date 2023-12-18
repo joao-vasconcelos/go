@@ -30,4 +30,5 @@ export const AgencyValidation = yup.object({
   url: yup.string().transform((value) => value.replace(/  +/g, ' ').trim()),
   fare_url: yup.string().transform((value) => value.replace(/  +/g, ' ').trim()),
   price_per_km: yup.number(),
+  total_vkm_per_year: yup.number(),
 });

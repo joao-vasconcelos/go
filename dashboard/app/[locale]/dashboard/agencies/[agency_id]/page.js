@@ -198,13 +198,27 @@ export default function Page() {
               {...form.getInputProps('price_per_km')}
               precision={2}
               min={0}
-              stepHoldDelay={500}
-              stepHoldInterval={100}
               step={0.01}
               fixedDecimalScale
               decimalScale={2}
+              thousandSeparator=" "
               decimalSeparator="."
               prefix={'€ '}
+              readOnly={isReadOnly}
+            />
+            <NumberInput
+              label={t('form.total_vkm_per_year.label')}
+              description={t('form.total_vkm_per_year.description')}
+              placeholder={t('form.total_vkm_per_year.placeholder')}
+              {...form.getInputProps('total_vkm_per_year')}
+              precision={0}
+              min={0}
+              step={1}
+              fixedDecimalScale
+              decimalScale={0}
+              thousandSeparator=" "
+              decimalSeparator="."
+              suffix={' km'}
               readOnly={isReadOnly}
             />
           </SimpleGrid>

@@ -3,7 +3,7 @@ import styles from './Loader.module.css';
 export default function Loader({ visible, full, fixed, size = 30 }) {
   //
 
-  if (!visible) return <div />;
+  if (!visible) return;
 
   // Setup spinner
   const Spinner = () => <div className={styles.spinner} style={{ width: size, height: size, borderWidth: size / 7 }} />;

@@ -1,12 +1,9 @@
-'use client';
+/* * */
 
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import { useTranslations } from 'next-intl';
+import LinesVkmSummary from '@/components/LinesVkmSummary/LinesVkmSummary';
+
+/* * */
 
 export default function Page() {
-  //
-
-  const t = useTranslations('lines');
-
-  return <NoDataLabel fill text={t('list.no_selection')} />;
+  return <LinesVkmSummary />;
 }

@@ -1,0 +1,33 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px;
+}
+
+/* * */
+/* DATE PICKERS WRAPPER */
+
+.datePickersWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* * */
+/* RESULTS WRAPPER */
+
+.resultsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.resultsWrapperRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
