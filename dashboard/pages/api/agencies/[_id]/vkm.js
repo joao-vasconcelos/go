@@ -227,7 +227,7 @@ export default async function handler(req, res) {
       total_from_distance: vehicleDistanceInMetersTotal,
       total_from_shape: 0,
       total_in_euros: vehicleDistanceInKilometersTotal * agencyData.price_per_km,
-      total_relative_to_contract: vehicleDistanceInKilometersTotal / agencyData.total_vkm_per_year,
+      total_relative_to_contract: agencyData.total_vkm_per_year ? vehicleDistanceInKilometersTotal / agencyData.total_vkm_per_year : 0,
       //
       period_one: vehicleDistanceInMetersForPeriodOne,
       period_two: vehicleDistanceInMetersForPeriodTwo,
