@@ -1,6 +1,7 @@
 .text {
   font-size: 16px;
   color: var(--reference-1);
+  line-height: 1.2;
 }
 
 .md {

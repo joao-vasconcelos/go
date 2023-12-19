@@ -10,7 +10,7 @@ const PUBLIC_PAGES = ['/', '/auth/signin', '/auth/verify', '/auth/error'];
 
 /* * */
 
-const intlMiddleware = createIntlMiddleware({ locales: availableLocales, defaultLocale: 'en', localePrefix: 'as-needed' });
+const intlMiddleware = createIntlMiddleware({ locales: availableLocales, defaultLocale: 'pt-PT', localePrefix: 'as-needed' });
 
 const authMiddleware = withAuth((req) => intlMiddleware(req));
 

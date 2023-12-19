@@ -1630,7 +1630,10 @@
     "AppOptions": {
         "language": {
             "label": "Language",
-            "locale": "{locale, select, en {English} pt {Português} other {Unknown}}"
+            "locale": {
+                "en": "English",
+                "pt-PT": "Português"
+            }
         },
         "auth": {
             "logout": "Logout"
@@ -2108,19 +2111,20 @@
     },
     "CalendarPatternsViewAsLine": {},
     "LinesVkmSummary": {
-        "title": "VKm Explorer",
+        "title": "Explorar VKm",
+        "no_data": "Selecione um operador e uma data de início",
         "form": {
             "agency": {
-                "label": "Select an Agency",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "label": "Selecione um Operador",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "calculation_method": {
                 "title": "Sobre o Método de Cálculo",
-                "description": "A forma de cálculo dos VKm é um assunto sensível que deve ser entendido por todos. Dispomos de dois métodos de cálculo deste indicador, mas apenas um é recomendado e é o que deve ser utilizado oficialmente. O método 'Ano Rolante' contabiliza os VKm considerando a data selecionada (ex: hoje) e 1 ano após essa data (ex: de hoje a 1 ano). Isto permite estimar os VKm que serão executados ao longo dos próximos 365 dias, independentemente do ano operacional, e sem cometer o erro de assumir números falsos de circulações ou extensões de percurso do passado.",
+                "description": "A forma de cálculo dos VKm é um assunto sensível que deve ser entendido por todos. Dispomos de dois métodos de cálculo deste indicador, mas apenas um é recomendado e é o que deve ser utilizado oficialmente. O método 'Ano Móvel' contabiliza os VKm considerando a data selecionada (ex: hoje) e 1 ano após essa data (ex: de hoje a 1 ano). Isto permite estimar os VKm que serão executados ao longo dos próximos 365 dias, independentemente do ano operacional, e sem cometer o erro de assumir números falsos de circulações ou extensões de percurso do passado.",
                 "options": {
                     "rolling_year": {
-                        "label": "Ano Rolante (recomendado)"
+                        "label": "Ano Móvel (recomendado)"
                     },
                     "fixed_range": {
                         "label": "Intervalo de Datas"
@@ -2129,40 +2133,63 @@
             },
             "start_date": {
                 "label": "Data de Início",
-                "placeholder": "Choose a date..."
+                "placeholder": "Escolha uma data..."
             },
             "end_date": {
                 "label": "Data de Fim",
-                "placeholder": "Choose a date..."
+                "placeholder": "Escolha uma data..."
             }
         },
-        "dividers": {
-            "by_period": "Totais por Período",
-            "by_day_type": "Totais por Dia Tipo",
-            "by_period_one_and_day_type": "Totais por Período Escolar",
-            "by_period_two_and_day_type": "Totais por Período de Férias Escolares",
-            "by_period_three_and_day_type": "Totais por Período de Verão"
-        },
-        "stats": {
-            "total_from_distance": "Total de Kilómetros Percorridos",
-            "total_from_shape": "Total (cálculo alternativo)",
-            "total_relative_to_contract": "Total Relativo ao Contrato",
-            "total_in_euros": "Custo Total",
-            "period_one": "Período Escolar",
-            "period_two": "Período de Férias Escolares",
-            "period_three": "Período de Verão",
-            "day_type_one": "Dias Úteis",
-            "day_type_two": "Sábados",
-            "day_type_three": "Domingos e Feriados",
-            "period_one_and_day_type_one": "Dias Úteis de Período Escolar",
-            "period_one_and_day_type_two": "Sábados de Período Escolar",
-            "period_one_and_day_type_three": "Domingos e Feriados de Período Escolar",
-            "period_two_and_day_type_one": "Dias Úteis de Férias Escolares",
-            "period_two_and_day_type_two": "Sábados de Férias Escolares",
-            "period_two_and_day_type_three": "Domingos e Feriados de Férias Escolares",
-            "period_three_and_day_type_one": "Dias Úteis de Verão",
-            "period_three_and_day_type_two": "Sábados de Verão",
-            "period_three_and_day_type_three": "Domingos e Feriados de Verão"
+        "sections": {
+            "overview": {
+                "title": "Visão Geral",
+                "description": "Para o operador {agency_name}, o valor do custo total foi calculado tendo por base o valor por Km contratado igual a {price_per_km, number, currency_euro}. Para avaliar se o valor total de Km está dentro dos limites contratados foi considerado como 100% o valor {total_vkm_per_year, number, kilometers}.",
+                "cards": {
+                    "total_from_distance": "Total de Kilómetros Percorridos",
+                    "total_from_shape": "Total (cálculo alternativo)",
+                    "total_relative_to_contract": "Total Relativo ao Contrato",
+                    "total_in_euros": "Custo Total"
+                }
+            },
+            "totals_by_day_type": {
+                "title": "Totais por Dia Tipo",
+                "description": "",
+                "cards": {
+                    "day_type_one": "Dias Úteis",
+                    "day_type_two": "Sábados",
+                    "day_type_three": "Domingos e Feriados"
+                }
+            },
+            "totals_for_period_one": {
+                "title": "Totais para o Período Escolar",
+                "description": "",
+                "cards": {
+                    "period_one": "Período Escolar",
+                    "period_one_and_day_type_one": "Dias Úteis de Período Escolar",
+                    "period_one_and_day_type_two": "Sábados de Período Escolar",
+                    "period_one_and_day_type_three": "Domingos e Feriados de Período Escolar"
+                }
+            },
+            "totals_for_period_two": {
+                "title": "Totais para o Período de Férias Escolares",
+                "description": "",
+                "cards": {
+                    "period_two": "Período de Férias Escolares",
+                    "period_two_and_day_type_one": "Dias Úteis de Férias Escolares",
+                    "period_two_and_day_type_two": "Sábados de Férias Escolares",
+                    "period_two_and_day_type_three": "Domingos e Feriados de Férias Escolares"
+                }
+            },
+            "totals_for_period_three": {
+                "title": "Totais para o Período de Verão",
+                "description": "",
+                "cards": {
+                    "period_three": "Período de Verão",
+                    "period_three_and_day_type_one": "Dias Úteis de Verão",
+                    "period_three_and_day_type_two": "Sábados de Verão",
+                    "period_three_and_day_type_three": "Domingos e Feriados de Verão"
+                }
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
   flex-direction: column;
   gap: 20px;
   padding: 30px;
+  position: relative;
 }
 
 /* * */
@@ -18,16 +19,15 @@
 }
 
 /* * */
-/* RESULTS WRAPPER */
+/* CARDS WRAPPER */
 
-.resultsWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.cardsWrapperWithOneRow,
+.cardsWrapperWithTwoRows {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
-.resultsWrapperRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
+.cardsWrapperWithTwoRows div:first-child {
+  grid-column: 1/4;
 }

@@ -1,6 +1,6 @@
 import styles from './Loader.module.css';
 
-export default function Loader({ visible, full, fixed, size = 30 }) {
+export default function Loader({ visible = false, full = false, fill = false, fixed = false, size = 30 }) {
   //
 
   if (!visible) return;
@@ -21,6 +21,15 @@ export default function Loader({ visible, full, fixed, size = 30 }) {
   if (fixed) {
     return (
       <div className={styles.fixed}>
+        <Spinner />
+      </div>
+    );
+  }
+
+  // If
+  if (fill) {
+    return (
+      <div className={styles.fill}>
         <Spinner />
       </div>
     );

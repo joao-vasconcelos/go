@@ -35,7 +35,7 @@ export default function LocaleSwitcher() {
         <Menu.Label>{t('language.label')}</Menu.Label>
         {availableLocales.map((availableLocale) => (
           <Menu.Item key={availableLocale} icon={<IconLanguage size={20} />} onClick={() => handleLocaleSwitch(availableLocale)} disabled={locale === availableLocale}>
-            {t('language.locale', { locale: availableLocale })}
+            {t(`language.locale.${availableLocale}`)}
           </Menu.Item>
         ))}
         <Menu.Divider />

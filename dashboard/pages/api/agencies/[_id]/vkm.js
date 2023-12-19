@@ -222,32 +222,34 @@ export default async function handler(req, res) {
         end_date: endDateString,
         price_per_km: agencyData.price_per_km,
         total_vkm_per_year: agencyData.total_vkm_per_year,
+        agency_id: agencyData._id,
+        agency_name: agencyData.name,
       },
       //
-      total_from_distance: vehicleDistanceInMetersTotal,
+      total_from_distance: vehicleDistanceInKilometersTotal,
       total_from_shape: 0,
       total_in_euros: vehicleDistanceInKilometersTotal * agencyData.price_per_km,
       total_relative_to_contract: agencyData.total_vkm_per_year ? vehicleDistanceInKilometersTotal / agencyData.total_vkm_per_year : 0,
       //
-      period_one: vehicleDistanceInMetersForPeriodOne,
-      period_two: vehicleDistanceInMetersForPeriodTwo,
-      period_three: vehicleDistanceInMetersForPeriodThree,
+      period_one: vehicleDistanceInMetersForPeriodOne / 1000,
+      period_two: vehicleDistanceInMetersForPeriodTwo / 1000,
+      period_three: vehicleDistanceInMetersForPeriodThree / 1000,
       //
-      day_type_one: vehicleDistanceInMetersForDayTypeOne,
-      day_type_two: vehicleDistanceInMetersForDayTypeTwo,
-      day_type_three: vehicleDistanceInMetersForDayTypeThree,
+      day_type_one: vehicleDistanceInMetersForDayTypeOne / 1000,
+      day_type_two: vehicleDistanceInMetersForDayTypeTwo / 1000,
+      day_type_three: vehicleDistanceInMetersForDayTypeThree / 1000,
       //
-      period_one_and_day_type_one: vehicleDistanceInMetersForPeriodOneAndDayTypeOne,
-      period_one_and_day_type_two: vehicleDistanceInMetersForPeriodOneAndDayTypeTwo,
-      period_one_and_day_type_three: vehicleDistanceInMetersForPeriodOneAndDayTypeThree,
+      period_one_and_day_type_one: vehicleDistanceInMetersForPeriodOneAndDayTypeOne / 1000,
+      period_one_and_day_type_two: vehicleDistanceInMetersForPeriodOneAndDayTypeTwo / 1000,
+      period_one_and_day_type_three: vehicleDistanceInMetersForPeriodOneAndDayTypeThree / 1000,
       //
-      period_two_and_day_type_one: vehicleDistanceInMetersForPeriodTwoAndDayTypeOne,
-      period_two_and_day_type_two: vehicleDistanceInMetersForPeriodTwoAndDayTypeTwo,
-      period_two_and_day_type_three: vehicleDistanceInMetersForPeriodTwoAndDayTypeThree,
+      period_two_and_day_type_one: vehicleDistanceInMetersForPeriodTwoAndDayTypeOne / 1000,
+      period_two_and_day_type_two: vehicleDistanceInMetersForPeriodTwoAndDayTypeTwo / 1000,
+      period_two_and_day_type_three: vehicleDistanceInMetersForPeriodTwoAndDayTypeThree / 1000,
       //
-      period_three_and_day_type_one: vehicleDistanceInMetersForPeriodThreeAndDayTypeOne,
-      period_three_and_day_type_two: vehicleDistanceInMetersForPeriodThreeAndDayTypeTwo,
-      period_three_and_day_type_three: vehicleDistanceInMetersForPeriodThreeAndDayTypeThree,
+      period_three_and_day_type_one: vehicleDistanceInMetersForPeriodThreeAndDayTypeOne / 1000,
+      period_three_and_day_type_two: vehicleDistanceInMetersForPeriodThreeAndDayTypeTwo / 1000,
+      period_three_and_day_type_three: vehicleDistanceInMetersForPeriodThreeAndDayTypeThree / 1000,
       //
     });
 
