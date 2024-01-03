@@ -1,0 +1,123 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+}
+
+/* * */
+/* COORDINATES */
+
+.coordinates {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid var(--color-gray-2);
+  background-color: var(--color-gray-0);
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  .coordinates {
+    border-color: var(--color-gray-3);
+    background-color: var(--color-gray-2);
+  }
+}
+
+/* * */
+/* COORDINATES VALUE */
+
+.coordinatesValue {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--reference-1);
+  padding: 12px 15px;
+  line-height: 1;
+  font-family: monospace;
+  cursor: pointer;
+}
+
+.coordinatesValue:first-child {
+  border-right: 1px solid var(--color-gray-2);
+}
+
+@media (prefers-color-scheme: dark) {
+  .coordinatesValue:first-child {
+    border-right-color: var(--color-gray-3);
+  }
+}
+
+.coordinatesValue:hover {
+  background-color: var(--color-gray-1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .coordinatesValue:hover {
+    background-color: var(--color-gray-3);
+  }
+}
+
+.coordinatesValue:active {
+  background-color: var(--color-gray-2);
+}
+
+@media (prefers-color-scheme: dark) {
+  .coordinatesValue:active {
+    background-color: var(--color-gray-1);
+  }
+}
+
+/* * */
+/* MUNICIPALITY */
+
+.municipality,
+.invalidMunicipality {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--reference-1);
+}
+
+.municipalityPrefix {
+  font-weight: 500;
+  opacity: 0.5;
+}
+
+.municipalityName {
+  font-weight: 700;
+  color: var(--reference-1);
+}
+
+.invalidMunicipality {
+  font-weight: 700;
+  color: var(--danger6);
+}
+
+/* * */
+/* ACTIONS */
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}

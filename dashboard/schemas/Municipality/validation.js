@@ -1,12 +1,9 @@
+/* * */
+
 import * as yup from 'yup';
 
 /* * */
-/* DOCUMENT TYPE: MUNICIPALITY */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. YUP Validation Schema */
 export const MunicipalityValidation = yup.object({
   code: yup
     .string()
@@ -33,4 +30,5 @@ export const MunicipalityValidation = yup.object({
     .required()
     .max(5)
     .transform((value) => value.replace(/  +/g, ' ').trim()),
+  //   geojson: yup.object(),
 });

@@ -1,0 +1,17 @@
+/* * */
+/* ROWS */
+
+.oneColumnRow,
+.twoColumnRow {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+}
+
+.oneColumnRow {
+  grid-template-columns: 1fr;
+}
+
+.twoColumnRow {
+  grid-template-columns: 1fr 1fr;
+}

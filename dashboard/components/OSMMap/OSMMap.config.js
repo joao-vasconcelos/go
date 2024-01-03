@@ -11,7 +11,7 @@ const defaultZoom = 9.5;
 
 // Min and Max Zoom
 const minZoom = 5;
-const maxZoom = 18;
+const maxZoom = 20;
 
 //
 // MAP STYLES
@@ -20,13 +20,14 @@ const styleMap = 'https://maps.carrismetropolitana.pt/styles/default/style.json'
 
 const styleSatellite = {
   version: 8,
+  minZoom: 5,
+  maxZoom: 18,
   sources: {
     'raster-tiles': {
       type: 'raster',
       tiles: ['https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
       tileSize: 256,
-      attribution:
-        'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>',
+      attribution: 'Esri, Maxar, Earthstar Geographics, and the GIS User Community',
     },
   },
   layers: [

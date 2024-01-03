@@ -549,11 +549,38 @@
                 "loading": "Deleting Municipality...",
                 "success": "Municipality was deleted.",
                 "error": "An error occurred while deleting this Municipality."
+            },
+            "import_geojson": {
+                "title": "Import Geojson",
+                "description": "Importing is irreversible. Are you sure you want to replace the Geojson representation for this Municipality?",
+                "confirm": "Import Geojson",
+                "cancel": "Do Not Import",
+                "loading": "Updating Geojson...",
+                "success": "Geojson was updated.",
+                "error": "An error occurred while updating the Geojson for this Municipality."
+            },
+            "delete_geojson": {
+                "title": "Delete Geojson",
+                "description": "Deleting is irreversible. Are you sure you want to delete the Geojson representation for this Municipality forever?",
+                "confirm": "Delete Geojson",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Geojson...",
+                "success": "Geojson was deleted.",
+                "error": "An error occurred while deleting the Geojson for this Municipality."
             }
         },
         "sections": {
             "config": {
-                "title": "Details"
+                "title": "Details",
+                "description": "Something about this section"
+            },
+            "map_representation": {
+                "title": "Map Settings",
+                "description": "Something about this section"
+            },
+            "geojson": {
+                "title": "Update Geojson",
+                "description": "Something about this section"
             }
         },
         "form": {
@@ -578,6 +605,28 @@
                 "label": "Region",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
+            },
+            "fill_color": {
+                "label": "Fill Color",
+                "placeholder": "#ffffff"
+            },
+            "fill_opacity": {
+                "label": "Fill Opacity"
+            },
+            "border_color": {
+                "label": "Border Color",
+                "placeholder": "#ffffff"
+            },
+            "border_opacity": {
+                "label": "Border Opacity"
+            },
+            "border_width": {
+                "label": "Border Width"
+            },
+            "geojson": {
+                "label": "Import Geojson",
+                "placeholder": "Copy and paste a valid geojson object here.",
+                "validation_error": "This Geojson is invalid."
             }
         }
     },
@@ -2190,6 +2239,115 @@
                     "period_three_and_day_type_three": "Domingos e Feriados de Verão"
                 }
             }
+        }
+    },
+    "StopsExplorerNewStopWizardHeader": {
+        "step_0": {
+            "label": "Localização",
+            "description": "Definir coordenadas"
+        },
+        "step_1": {
+            "label": "Identificação",
+            "description": "Nomes e Morada"
+        },
+        "step_2": {
+            "label": "Confirmação",
+            "description": "Resumo da nova paragem"
+        }
+    },
+    "StopsExplorerNewStopWizardSteps0Info": {
+        "no_data": "Selecione uma localização no mapa",
+        "coordinates": {
+            "latitude": {
+                "label": "Latitude",
+                "copied": "Latitude Copiada"
+            },
+            "longitude": {
+                "label": "Longitude",
+                "copied": "Longitude Copiada"
+            }
+        },
+        "actions": {
+            "copy_coordinates": {
+                "idle": "Copiar Coordenadas",
+                "copied": "Coordenadas Copiadas"
+            },
+            "open_in_google_maps": {
+                "label": "Abrir no Google Maps"
+            },
+            "open_in_street_view": {
+                "label": "Abrir no Street View"
+            }
+        }
+    },
+    "StopsExplorerNewStopWizardSteps0Nav": {
+        "cancel": {
+            "label": "Cancelar"
+        },
+        "next_step": {
+            "label": "Avançar"
+        }
+    },
+    "StopsExplorerNewStopWizardSteps1Form": {
+        "name": {
+            "label": "Nome da Paragem",
+            "description": "Introduza o nome completo da paragem, sem abreviaturas.",
+            "placeholder": "Rua Marechal Gomes da Costa 14"
+        },
+        "short_name": {
+            "label": "Nome Curto da Paragem",
+            "description": "O nome curto é automaticamente construído com base nas abreviaturas mais comuns.",
+            "placeholder": "R. Mrch. Gomes da Costa 14"
+        },
+        "locality": {
+            "label": "Localidade da Paragem (opcional)",
+            "description": "Introduza uma localidade para esta paragem.",
+            "placeholder": "Vila Nogueira de Azeitão"
+        }
+    },
+    "StopsExplorerNewStopWizardSteps1Nav": {
+        "previous_step": {
+            "label": "Voltar"
+        },
+        "next_step": {
+            "label": "Avançar"
+        }
+    },
+    "StopsExplorerNewStopWizardSteps2Summary": {
+        "name": {
+            "label": "Nome da Paragem",
+            "description": "Introduza o nome completo da paragem, sem abreviaturas.",
+            "placeholder": "Rua Marechal Gomes da Costa 14"
+        },
+        "short_name": {
+            "label": "Nome Curto da Paragem",
+            "description": "O nome curto é automaticamente construído com base nas abreviaturas mais comuns.",
+            "placeholder": "R. Mrch. Gomes da Costa 14"
+        }
+    },
+    "StopsExplorerNewStopWizardSteps2Nav": {
+        "previous_step": {
+            "label": "Voltar"
+        },
+        "create": {
+            "label": "Criar Paragem"
+        }
+    },
+    "StopsExplorerNewStopWizardSteps3Nav": {
+        "close": {
+            "label": "Fechar e Ver Paragem"
+        }
+    },
+    "StopsExplorerNewStopWizardSteps3Summary": {
+        "name": {
+            "label": "Nome da Paragem",
+            "description": "Introduza o nome completo da paragem, sem abreviaturas.",
+            "placeholder": "Rua Marechal Gomes da Costa 14"
+        },
+        "short_name": {
+            "label": "Nome Curto da Paragem",
+            "description": "O nome curto é automaticamente construído com base nas abreviaturas mais comuns.",
+            "placeholder": "R. Mrch. Gomes da Costa 14"
         }
     }
 }

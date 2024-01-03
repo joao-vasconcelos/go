@@ -1,12 +1,9 @@
+/* * */
+
 import * as yup from 'yup';
 
 /* * */
-/* DOCUMENT TYPE: STOP */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. YUP Validation Schema */
 export const StopValidation = yup.object({});
 /*
   // General

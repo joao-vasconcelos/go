@@ -48,7 +48,6 @@ export default function Page() {
 
   const { mutate: allStopsMutate } = useSWR('/api/stops');
   const { data: stopData, error: stopError, isLoading: stopLoading, mutate: stopMutate } = useSWR(stop_id && `/api/stops/${stop_id}`, { onSuccess: (data) => keepFormUpdated(data) });
-  const { data: allAgenciesData } = useSWR('/api/agencies');
   const { data: allMunicipalitiesData } = useSWR('/api/municipalities');
   const { data: allZonesData } = useSWR('/api/zones');
 
@@ -241,11 +240,13 @@ export default function Page() {
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
-        <OSMMap id="singleStop" height="400px" scrollZoom={false} onClick={handleMapClick} interactiveLayerIds={['stop']}>
-          <Source id="stop" type="geojson" data={mapData}>
-            <Layer id="stop" type="circle" source="stop" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
-          </Source>
-        </OSMMap>
+        <div style={{ height: 400 }}>
+          <OSMMap id="singleStop" scrollZoom={false} onClick={handleMapClick} interactiveLayerIds={['stop']}>
+            <Source id="stop" type="geojson" data={mapData}>
+              <Layer id="stop" type="circle" source="stop" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
+            </Source>
+          </OSMMap>
+        </div>
 
         <Divider />
 
@@ -256,8 +257,8 @@ export default function Page() {
           </div>
           <SimpleGrid cols={3}>
             <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly && !canEditStopCode} />
-            <NumberInput label={t('form.latitude.label')} placeholder={t('form.latitude.placeholder')} precision={6} min={37} max={40} step={0.000001} stepHoldDelay={500} hideControls icon={<IconWorldLatitude size="18px" />} {...form.getInputProps('latitude')} readOnly={isReadOnly} />
-            <NumberInput label={t('form.longitude.label')} placeholder={t('form.longitude.placeholder')} precision={6} min={-10} max={-7} step={0.000001} stepHoldDelay={500} hideControls icon={<IconWorldLongitude size="18px" />} {...form.getInputProps('longitude')} />
+            <NumberInput label={t('form.latitude.label')} placeholder={t('form.latitude.placeholder')} precision={6} min={37} max={40} step={0.000001} hideControls icon={<IconWorldLatitude size="18px" />} {...form.getInputProps('latitude')} readOnly={isReadOnly} />
+            <NumberInput label={t('form.longitude.label')} placeholder={t('form.longitude.placeholder')} precision={6} min={-10} max={-7} step={0.000001} hideControls icon={<IconWorldLongitude size="18px" />} {...form.getInputProps('longitude')} />
           </SimpleGrid>
           <SimpleGrid cols={1}>
             <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} />

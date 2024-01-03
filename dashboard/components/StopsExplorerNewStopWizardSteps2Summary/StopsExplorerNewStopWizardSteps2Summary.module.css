@@ -1,0 +1,49 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 50px;
+  text-align: center;
+}
+
+/* * */
+/* STOP NAME */
+
+.stopName {
+  line-height: 1;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--reference-1);
+}
+
+/* * */
+/* STOP LOCATION */
+
+.stopLocation {
+  line-height: 1;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-gray-7);
+}
+
+/* * */
+/* STOP COORDINATES */
+
+.stopCoordinates {
+  line-height: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-gray-6);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  background-color: var(--color-gray-1);
+  border-radius: 999px;
+}

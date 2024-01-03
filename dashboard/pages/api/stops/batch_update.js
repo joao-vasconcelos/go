@@ -119,8 +119,8 @@ export default async function handler(req, res) {
         // General
         code: stopApi.id,
         name: stopApi.name,
-        short_name: stopApi.short_name,
-        tts_name: stopApi.tts_name,
+        short_name: stopApi.short_name || '',
+        tts_name: stopApi.tts_name || '',
         latitude: stopApi.lat,
         longitude: stopApi.lon,
         // Zoning
@@ -129,7 +129,7 @@ export default async function handler(req, res) {
         municipality: matchedMunicipality._id,
         parish_code: stopApi.parish_id,
         parish_name: stopApi.parish_name,
-        locality: stopApi.locality,
+        locality: stopApi.locality || '',
         // Services
         near_health_clinic: stopApi.facilities.includes('health_clinic'),
         near_hospital: stopApi.facilities.includes('hospital'),
@@ -151,7 +151,7 @@ export default async function handler(req, res) {
         near_car_parking: stopApi.facilities.includes('car_parking'),
       };
 
-      //   console.log(`⤷ Parsed Stop ${formattedStop.code} zones: ${formattedStop.zones.length} municipality: ${matchedMunicipality.code}`);
+      console.log(`⤷ Parsed Stop ${formattedStop.code} zones: ${formattedStop.zones.length} municipality: ${matchedMunicipality.code}`);
 
       // 6.5.4.
       // Return the databse operation object for this stop

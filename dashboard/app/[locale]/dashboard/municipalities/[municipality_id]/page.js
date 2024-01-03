@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from '@/translations/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -9,7 +9,7 @@ import API from '@/services/API';
 import { MunicipalityValidation } from '@/schemas/Municipality/validation';
 import { MunicipalityDefault } from '@/schemas/Municipality/default';
 import { MunicipalityOptions } from '@/schemas/Municipality/options';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Select } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Select, ColorInput, Slider, Divider, JsonInput, Button } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -22,6 +22,8 @@ import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
+import OSMMap from '@/components/OSMMap/OSMMap';
+import { useMap, Layer, Source } from 'react-map-gl/maplibre';
 
 export default function Page() {
   //
@@ -36,8 +38,9 @@ export default function Page() {
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
   const { data: session } = useSession();
-
+  const [newGeojson, setNewGeojson] = useState('');
   const { municipality_id } = useParams();
+  const { singleMunicipalityMap } = useMap();
 
   //
   // B. Fetch data
@@ -137,6 +140,75 @@ export default function Page() {
     });
   };
 
+  const handleImportGeojson = async () => {
+    openConfirmModal({
+      title: <Text size="h2">{t('operations.import_geojson.title')}</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">{t('operations.import_geojson.description')}</Text>,
+      labels: { confirm: t('operations.import_geojson.confirm'), cancel: t('operations.import_geojson.cancel') },
+      onConfirm: async () => {
+        try {
+          notify(`${municipality_id}-import_geojson`, 'loading', t('operations.import_geojson.loading'));
+          const parsedGeojson = JSON.parse(newGeojson);
+          form.setFieldValue('geojson', parsedGeojson);
+          await handleSave();
+          setNewGeojson('');
+          notify(`${municipality_id}-import_geojson`, 'success', t('operations.import_geojson.success'));
+        } catch (err) {
+          console.log(err);
+          notify(`${municipality_id}-import_geojson`, 'error', err.message || t('operations.import_geojson.error'));
+        }
+      },
+    });
+  };
+
+  const handleDeleteGeojson = async () => {
+    openConfirmModal({
+      title: <Text size="h2">{t('operations.delete_geojson.title')}</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">{t('operations.delete_geojson.description')}</Text>,
+      labels: { confirm: t('operations.delete_geojson.confirm'), cancel: t('operations.delete_geojson.cancel') },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          notify(`${municipality_id}-delete_geojson`, 'loading', t('operations.delete_geojson.loading'));
+          form.setFieldValue('geojson', MunicipalityDefault.geojson);
+          await handleSave();
+          setNewGeojson('');
+          notify(`${municipality_id}-delete_geojson`, 'success', t('operations.delete_geojson.success'));
+        } catch (err) {
+          console.log(err);
+          notify(`${municipality_id}-delete_geojson`, 'error', err.message || t('operations.delete_geojson.error'));
+        }
+      },
+    });
+  };
+
+  //
+  // E. Transform data
+
+  useEffect(() => {
+    try {
+      if (form.values?.geojson?.geometry?.coordinates?.length > 0) {
+        // Calculate the bounding box of the feature
+        const [minLng, minLat, maxLng, maxLat] = bbox(form.values.geojson);
+        // Calculate the bounding box of the feature
+        singleMunicipalityMap?.fitBounds(
+          [
+            [minLng, minLat],
+            [maxLng, maxLat],
+          ],
+          { padding: 100, duration: 2000 }
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    //
+  }, [form.values.geojson, singleMunicipalityMap]);
+
   //
   // E. Render components
 
@@ -173,6 +245,16 @@ export default function Page() {
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
+        <div style={{ height: 400 }}>
+          <OSMMap id="singleMunicipality" scrollZoom={false} mapStyle="map">
+            {form.values?.geojson?.geometry?.coordinates?.length > 0 && (
+              <Source id="single-municipality" type="geojson" data={form.values.geojson}>
+                <Layer id="single-municipality-fill" type="fill" layout={{}} source="single-municipality" paint={{ 'fill-color': form.values.fill_color, 'fill-opacity': form.values.fill_opacity }} />
+                <Layer id="single-municipality-border" type="line" layout={{}} source="single-municipality" paint={{ 'line-color': form.values.border_color, 'line-opacity': form.values.border_opacity, 'line-width': form.values.border_width }} />
+              </Source>
+            )}
+          </OSMMap>
+        </div>
         <Section>
           <Text size="h2">{t('sections.config.title')}</Text>
           <SimpleGrid cols={2}>
@@ -185,6 +267,90 @@ export default function Page() {
           <SimpleGrid cols={2}>
             <Select label={t('form.district.label')} placeholder={t('form.district.placeholder')} nothingFoundMessage={t('form.district.nothingFound')} {...form.getInputProps('district')} data={MunicipalityOptions.district} readOnly={isReadOnly} searchable />
             <Select label={t('form.region.label')} placeholder={t('form.region.placeholder')} nothingFoundMessage={t('form.region.nothingFound')} {...form.getInputProps('region')} data={MunicipalityOptions.region} readOnly={isReadOnly} searchable />
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size="h2">{t('sections.map_representation.title')}</Text>
+            <Text size="h4">{t('sections.map_representation.description')}</Text>
+          </div>
+          <SimpleGrid cols={2}>
+            <ColorInput label={t('form.fill_color.label')} placeholder={t('form.fill_color.placeholder')} {...form.getInputProps('fill_color')} readOnly={isReadOnly} />
+            <ColorInput label={t('form.border_color.label')} placeholder={t('form.border_color.placeholder')} {...form.getInputProps('border_color')} readOnly={isReadOnly} />
+          </SimpleGrid>
+          <SimpleGrid cols={3}>
+            <div>
+              <Text size="h4">{t('form.fill_opacity.label')}</Text>
+              <Slider
+                {...form.getInputProps('fill_opacity')}
+                min={0}
+                max={1}
+                step={0.01}
+                precision={2}
+                marks={[
+                  { value: 0.2, label: '20%' },
+                  { value: 0.5, label: '50%' },
+                  { value: 0.8, label: '80%' },
+                ]}
+                disabled={isReadOnly}
+              />
+            </div>
+            <div>
+              <Text size="h4">{t('form.border_opacity.label')}</Text>
+              <Slider
+                {...form.getInputProps('border_opacity')}
+                min={0}
+                max={1}
+                step={0.01}
+                precision={2}
+                marks={[
+                  { value: 0.2, label: '20%' },
+                  { value: 0.5, label: '50%' },
+                  { value: 0.8, label: '80%' },
+                ]}
+                disabled={isReadOnly}
+              />
+            </div>
+            <div>
+              <Text size="h4">{t('form.border_width.label')}</Text>
+              <Slider
+                {...form.getInputProps('border_width')}
+                min={0}
+                max={6}
+                step={0.5}
+                precision={1}
+                marks={[
+                  { value: 0, label: '0' },
+                  { value: 2, label: '2' },
+                  { value: 4, label: '4' },
+                  { value: 6, label: '6' },
+                ]}
+                disabled={isReadOnly}
+              />
+            </div>
+          </SimpleGrid>
+        </Section>
+
+        <Divider />
+
+        <Section>
+          <div>
+            <Text size="h2">{t('sections.geojson.title')}</Text>
+            <Text size="h4">{t('sections.geojson.description')}</Text>
+          </div>
+          <SimpleGrid cols={1}>
+            <JsonInput label={t('form.geojson.label')} placeholder={t('form.geojson.placeholder')} validationError={t('form.geojson.validation_error')} value={newGeojson} onChange={setNewGeojson} readOnly={isReadOnly} autosize formatOnBlur minRows={5} maxRows={10} />
+          </SimpleGrid>
+          <SimpleGrid cols={2}>
+            <Button onClick={handleImportGeojson} disabled={!newGeojson || isReadOnly}>
+              {t('operations.import_geojson.title')}
+            </Button>
+            <Button onClick={handleDeleteGeojson} disabled={form.values.geojson?.geometry?.coordinates?.length === 0 || isReadOnly} color="red">
+              {t('operations.delete_geojson.title')}
+            </Button>
           </SimpleGrid>
         </Section>
       </form>

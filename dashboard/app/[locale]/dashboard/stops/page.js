@@ -84,17 +84,17 @@ export default function Page() {
     <Pannel
       header={
         <>
-          <Tooltip label={t('operations.recenter.title')} position='bottom' withArrow>
-            <ActionIcon color='gray' variant='light' size='lg' onClick={handleMapReCenter}>
-              <IconArrowsMinimize size='20px' />
+          <Tooltip label={t('operations.recenter.title')} position="bottom" withArrow>
+            <ActionIcon color="gray" variant="light" size="lg" onClick={handleMapReCenter}>
+              <IconArrowsMinimize size="20px" />
             </ActionIcon>
           </Tooltip>
-          <Text size='h1' full>
+          <Text size="h1" full>
             {t('page.title')}
           </Text>
-          <Tooltip label={t('operations.gmaps.title')} position='bottom' withArrow>
-            <ActionIcon color='gray' variant='light' size='lg' onClick={handleOpenInGoogleMaps}>
-              <IconBrandGoogleMaps size='20px' />
+          <Tooltip label={t('operations.gmaps.title')} position="bottom" withArrow>
+            <ActionIcon color="gray" variant="light" size="lg" onClick={handleOpenInGoogleMaps}>
+              <IconBrandGoogleMaps size="20px" />
             </ActionIcon>
           </Tooltip>
           <div>
@@ -110,9 +110,9 @@ export default function Page() {
         </>
       }
     >
-      <OSMMap id='allStops' mapStyle={mapStyle} onClick={handleMapClick} interactiveLayerIds={['all-stops']}>
-        <Source id='all-stops' type='geojson' data={mapData}>
-          <Layer id='all-stops' type='circle' source='all-stops' paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
+      <OSMMap id="allStopsMap" mapStyle={mapStyle} onClick={handleMapClick} interactiveLayerIds={['all-stops']}>
+        <Source id="all-stops" type="geojson" data={mapData}>
+          <Layer id="all-stops" type="circle" source="all-stops" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
         </Source>
       </OSMMap>
     </Pannel>

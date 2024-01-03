@@ -208,7 +208,7 @@ export default function Page() {
       console.log(error);
     }
     //
-  }, [form.values.geojson, singleZoneMap, zoneData]);
+  }, [form.values.geojson, singleZoneMap]);
 
   //
   // E. Render components
@@ -236,14 +236,16 @@ export default function Page() {
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>
-        <OSMMap id="singleZone" height="400px" scrollZoom={false} mapStyle="map">
-          {form.values?.geojson?.geometry?.coordinates?.length > 0 && (
-            <Source id="single-zone" type="geojson" data={form.values.geojson}>
-              <Layer id="single-zone-fill" type="fill" layout={{}} source="single-zone" paint={{ 'fill-color': form.values.fill_color, 'fill-opacity': form.values.fill_opacity }} />
-              <Layer id="single-zone-border" type="line" layout={{}} source="single-zone" paint={{ 'line-color': form.values.border_color, 'line-opacity': form.values.border_opacity, 'line-width': form.values.border_width }} />
-            </Source>
-          )}
-        </OSMMap>
+        <div style={{ height: 400 }}>
+          <OSMMap id="singleZone" scrollZoom={false} mapStyle="map">
+            {form.values?.geojson?.geometry?.coordinates?.length > 0 && (
+              <Source id="single-zone" type="geojson" data={form.values.geojson}>
+                <Layer id="single-zone-fill" type="fill" layout={{}} source="single-zone" paint={{ 'fill-color': form.values.fill_color, 'fill-opacity': form.values.fill_opacity }} />
+                <Layer id="single-zone-border" type="line" layout={{}} source="single-zone" paint={{ 'line-color': form.values.border_color, 'line-opacity': form.values.border_opacity, 'line-width': form.values.border_width }} />
+              </Source>
+            )}
+          </OSMMap>
+        </div>
 
         <Divider />
 

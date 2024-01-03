@@ -1,0 +1,25 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  grid-template-columns: 1fr;
+}
+
+/* * */
+/* SHORT NAME LENGTH */
+
+.shortNameLength {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--color-gray-5);
+}
+
+.shortNameLengthTooLong {
+  color: var(--danger6);
+}

@@ -1,0 +1,17 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* * */
+/* INFO */
+
+.info {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
