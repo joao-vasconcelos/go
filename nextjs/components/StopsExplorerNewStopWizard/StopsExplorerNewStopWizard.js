@@ -21,8 +21,8 @@ export default function StopsExplorerNewStopWizard() {
 
   return (
     <Modal.Root opened={stopsExplorerNewStopWizardContext.wizard.is_open} onClose={() => {}} size="xl">
-      <Modal.Overlay />
-      <Modal.Content>
+      <Modal.Overlay className={styles.modalOverlay} blur={15} />
+      <Modal.Content className={styles.modalContent}>
         <Modal.Body className={styles.modalBody}>
           <StopsExplorerNewStopWizardHeader />
           <StopsExplorerNewStopWizardSteps />

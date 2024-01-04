@@ -1,8 +1,29 @@
 /* * */
+/* MODAL OVERLAY */
+
+.modalOverlay {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+/* * */
+/* MODAL CONTENT */
+
+.modalContent {
+  background: transparent;
+}
+
+/* * */
 /* MODAL BODY */
 
 .modalBody {
   display: flex;
   flex-direction: column;
   padding: 0;
+  background-color: var(--reference-0);
+}
+
+@media (prefers-color-scheme: dark) {
+  .modalBody {
+    background-color: var(--color-gray-2);
+  }
 }
