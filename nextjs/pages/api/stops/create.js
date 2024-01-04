@@ -8,6 +8,7 @@ import { StopModel } from '@/schemas/Stop/model';
 import generator from '@/services/generator';
 import { ZoneModel } from '@/schemas/Zone/model';
 import * as turf from '@turf/turf';
+import { ForbiddenStopIds } from '@/schemas/Stop/forbiddenStopIds';
 
 /* * */
 
@@ -103,7 +104,7 @@ export default async function handler(req, res) {
     // Create a new document for this stop
     const newDocument = { ...StopDefault, ...parsedData, zones: zoneIdsForThisStop, code: `${parsedData.municipality.prefix}${generator({ length: 4, type: 'numeric' })}` };
     // The values that need to be unique are ['code'].
-    while (await StopModel.exists({ code: newDocument.code })) {
+    while ((await StopModel.exists({ code: newDocument.code })) || ForbiddenStopIds.includes(newDocument.code)) {
       newDocument.code = `${parsedData.municipality.prefix}${generator({ length: 4, type: 'numeric' })}`;
     }
     const createdDocument = await StopModel(newDocument).save();
