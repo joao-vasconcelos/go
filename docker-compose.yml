@@ -85,8 +85,8 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  dashboard:
-    image: ghcr.io/joao-vasconcelos/go-dashboard:production
+  nextjs:
+    image: ghcr.io/joao-vasconcelos/go-nextjs:production
     restart: unless-stopped
     logging:
       options:

@@ -8,7 +8,7 @@
       "script": "dev",
       "problemMatcher": [],
       "options": {
-        "cwd": "${workspaceFolder}/dashboard"
+        "cwd": "${workspaceFolder}/nextjs"
       }
     },
     {
@@ -18,7 +18,7 @@
       "script": "install",
       "problemMatcher": [],
       "options": {
-        "cwd": "${workspaceFolder}/dashboard"
+        "cwd": "${workspaceFolder}/nextjs"
       }
     },
     {
@@ -28,7 +28,7 @@
       "label": "Bump Dashboard Version",
       "detail": "Increase version number to now.",
       "options": {
-        "cwd": "${workspaceFolder}/dashboard"
+        "cwd": "${workspaceFolder}/nextjs"
       }
     }
   ]
