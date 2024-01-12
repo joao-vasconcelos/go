@@ -53,7 +53,7 @@ export default async function handler(req, res) {
       //
 
       // Do only for Area 1
-      if (!patternCode.code.startsWith('1')) continue patternLoop;
+      if (!patternCode.code.startsWith('3')) continue patternLoop;
 
       // Fetch pattern data from database
       const patternData = await PatternModel.findOne({ code: patternCode.code });

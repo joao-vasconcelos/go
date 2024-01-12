@@ -24,11 +24,11 @@ export default function Page() {
 
   const handleModifyOfferForSpecialCalendars = async () => {
     openConfirmModal({
-      title: <Text size="h2">Modify Offer for Special Calendars (Carnaval) A1?</Text>,
+      title: <Text size="h2">Modify Offer for Special Calendars (Carnaval) A3?</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Modify Offer for Special Calendars (Carnaval) A1', cancel: 'Cancel' },
+      labels: { confirm: 'Yes, Modify Offer for Special Calendars (Carnaval) A3', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
@@ -56,7 +56,7 @@ export default function Page() {
           <Text size="h2">No operations available</Text>
           <SimpleGrid cols={3}>
             <Button onClick={handleModifyOfferForSpecialCalendars} color="red" loading={isImporting}>
-              Modify Offer for Special Calendars (Carnaval) A1
+              Modify Offer for Special Calendars (Carnaval) A3
             </Button>
           </SimpleGrid>
         </Section>
