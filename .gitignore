@@ -37,3 +37,6 @@ yarn-error.log*
 */tmp
 */exports
 */package-lock.json
+
+# Backup files
+go-backup-*
