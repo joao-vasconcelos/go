@@ -104,7 +104,7 @@ export default function StopsExplorerLayout({ children }) {
                       </Menu.Item>
                     </AuthGate>
                     <Menu.Divider />
-                    <AuthGate scope="stops" permission="batch_update">
+                    <AuthGate scope="configs" permission="admin">
                       <Menu.Item leftSection={<IconRefresh size={20} />} onClick={handleBatchUpdate}>
                         {t('operations.batch_update.title')}
                       </Menu.Item>
