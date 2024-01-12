@@ -1,5 +1,7 @@
 'use client';
 
+/* * */
+
 import { useState } from 'react';
 import API from '@/services/API';
 import { SimpleGrid, Button } from '@mantine/core';
@@ -9,32 +11,57 @@ import { Section } from '@/components/Layouts/Layouts';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import AuthGate from '@/components/AuthGate/AuthGate';
-import { useTranslations } from 'next-intl';
+
+/* * */
 
 export default function Page() {
   //
 
   //
   // A. Setup variables
-  const t = useTranslations('configs');
+
   const [isImporting, setIsImporting] = useState(false);
 
   //
-  // D. Handle refactors
+  // D. Handle actiona
 
-  const handleModifyOfferForSpecialCalendars = async () => {
+  //   const handleModifyOfferForSpecialCalendars = async () => {
+  //     openConfirmModal({
+  //       title: <Text size="h2">Modify Offer for Special Calendars (Carnaval) A2?</Text>,
+  //       centered: true,
+  //       closeOnClickOutside: true,
+  //       children: <Text size="h3">Are you sure?</Text>,
+  //       labels: { confirm: 'Yes, Modify Offer for Special Calendars (Carnaval) A2', cancel: 'Cancel' },
+  //       confirmProps: { color: 'red' },
+  //       onConfirm: async () => {
+  //         try {
+  //           setIsImporting(true);
+  //           notify('replace-calendar', 'loading', 'Loading');
+  //           await API({ service: 'configs/refactors/modifyOfferForSpecialCalendars', method: 'GET' });
+  //           notify('replace-calendar', 'success', 'success');
+  //           setIsImporting(false);
+  //         } catch (err) {
+  //           console.log(err);
+  //           notify('replace-calendar', 'error', err.message || 'Error');
+  //           setIsImporting(false);
+  //         }
+  //       },
+  //     });
+  //   };
+
+  const handleStandardizeCalendars = async () => {
     openConfirmModal({
-      title: <Text size="h2">Modify Offer for Special Calendars (Carnaval) A3?</Text>,
+      title: <Text size="h2">Standardize Calendars A2?</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Modify Offer for Special Calendars (Carnaval) A3', cancel: 'Cancel' },
+      labels: { confirm: 'Yes, Standardize Calendars A2', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
           setIsImporting(true);
           notify('replace-calendar', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/modifyOfferForSpecialCalendars', method: 'GET' });
+          await API({ service: 'configs/refactors/standardizeCalendars', method: 'GET' });
           notify('replace-calendar', 'success', 'success');
           setIsImporting(false);
         } catch (err) {
@@ -47,7 +74,7 @@ export default function Page() {
   };
 
   //
-  // E. Render components
+  // C. Render components
 
   return (
     <AuthGate scope="configs" permission="admin" redirect>
@@ -55,12 +82,17 @@ export default function Page() {
         <Section>
           <Text size="h2">No operations available</Text>
           <SimpleGrid cols={3}>
-            <Button onClick={handleModifyOfferForSpecialCalendars} color="red" loading={isImporting}>
-              Modify Offer for Special Calendars (Carnaval) A3
+            {/* <Button onClick={handleModifyOfferForSpecialCalendars} color="red" loading={isImporting}>
+              Modify Offer for Special Calendars (Carnaval) A2
+            </Button> */}
+            <Button onClick={handleStandardizeCalendars} color="red" loading={isImporting}>
+              Standardize Calendars A2
             </Button>
           </SimpleGrid>
         </Section>
       </Pannel>
     </AuthGate>
   );
+
+  //
 }

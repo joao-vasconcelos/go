@@ -1,19 +1,16 @@
-import delay from '@/services/delay';
+/* * */
+
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
-/* REPEATED SCHEDULES */
-/* Explanation needed. */
-/* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
-  throw new Error('Feature is disabled.');
+  //   throw new Error('Feature is disabled.');
 
   // 0.
   // Refuse request if not GET
@@ -52,11 +49,11 @@ export default async function handler(req, res) {
     const allPatternCodes = await PatternModel.find({}, 'code');
 
     // For each pattern
-    for (const patternCode of allPatternCodes) {
+    patternsLoop: for (const patternCode of allPatternCodes) {
       //
 
-      // Skip if not A1
-      if (!patternCode.code.startsWith('1')) continue;
+      // Skip if not A2
+      if (!patternCode.code.startsWith('2')) continue patternsLoop;
 
       //
 
@@ -69,7 +66,7 @@ export default async function handler(req, res) {
       let schedulesWithFinalCalendars = [];
 
       // For each stop time in the path
-      for (const scheduleData of patternData.schedules) {
+      schedulesLoop: for (const scheduleData of patternData.schedules) {
         //
 
         // Associated calendar codes
@@ -81,39 +78,19 @@ export default async function handler(req, res) {
           associatedCalendarCodes.add(associatedCalendarData.code);
         }
 
-        // Create variable to hold result
-
-        let standardizedCalendars = new Set();
-
         /* * * * * * * * * */
 
-        //
-        if (associatedCalendarCodes.has('REF2024_0_1')) {
-          standardizedCalendars.add('ESC_DU');
-          associatedCalendarCodes.delete('REF2024_0_1');
+        if (associatedCalendarCodes.has('P1_1212')) {
+          associatedCalendarCodes.delete('P1_1212');
+          associatedCalendarCodes.add('ESP_CARNAVAL_DIA');
         }
-
-        //
-        // if (associatedCalendarCodes.has('VU') && associatedCalendarCodes.has('8S') && associatedCalendarCodes.has('YU') && associatedCalendarCodes.has('TM') && associatedCalendarCodes.has('P1_1501_2')) {
-        //   standardizedCalendars.add('CM_ESC_DU');
-        //   associatedCalendarCodes.delete('VU');
-        //   associatedCalendarCodes.delete('8S');
-        //   associatedCalendarCodes.delete('YU');
-        //   associatedCalendarCodes.delete('TM');
-        //   associatedCalendarCodes.delete('P1_1501_2');
-        // }
 
         /* * * * * * * * * */
-
-        // Add remaining calendars
-        for (const remainingCalendarCodes of associatedCalendarCodes.values()) {
-          standardizedCalendars.add(remainingCalendarCodes);
-        }
 
         let finalCalendarIdsForStandardizedCalendars = [];
 
         // Get calendars ids
-        for (const standardizedCalendarCode of standardizedCalendars.values()) {
+        for (const standardizedCalendarCode of associatedCalendarCodes.values()) {
           const calendarData = await CalendarModel.findOne({ code: standardizedCalendarCode });
           finalCalendarIdsForStandardizedCalendars.push(calendarData._id);
         }
