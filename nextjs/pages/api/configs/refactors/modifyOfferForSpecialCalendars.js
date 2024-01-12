@@ -1,6 +1,5 @@
 /* * */
 
-import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { PatternModel } from '@/schemas/Pattern/model';
@@ -10,9 +9,8 @@ import { CalendarModel } from '@/schemas/Calendar/model';
 
 export default async function handler(req, res) {
   //
-  await delay();
 
-  throw new Error('Feature is disabled.');
+  //   throw new Error('Feature is disabled.');
 
   // 0.
   // Refuse request if not GET
@@ -51,11 +49,11 @@ export default async function handler(req, res) {
     const allPatternCodes = await PatternModel.find({}, 'code');
 
     // For each pattern
-    for (const patternCode of allPatternCodes) {
+    patternLoop: for (const patternCode of allPatternCodes) {
       //
 
-      // Do only for Area 2
-      if (!patternCode.code.startsWith('2')) continue;
+      // Do only for Area 1
+      if (!patternCode.code.startsWith('1')) continue patternLoop;
 
       // Fetch pattern data from database
       const patternData = await PatternModel.findOne({ code: patternCode.code });
@@ -63,54 +61,62 @@ export default async function handler(req, res) {
       const newSchedulesForThisPattern = [];
 
       // For each schedule
-      for (const scheduleData of patternData.schedules) {
+      scheduleLoop: for (const scheduleData of patternData.schedules) {
         //
 
         // Transform the start time string to integer
-        const scheduleStartTimeInt = parseInt(scheduleData.start_time.split(':').join(''));
+        // const scheduleStartTimeInt = parseInt(scheduleData.start_time.split(':').join(''));
 
         // Create a temporary variable
+        const addedCalendarsOn = new Set();
         const addedCalendarsOff = new Set();
 
-        // For each calendar ON
+        // Get info for each associated calendar_on of this schedule
+        const allCalendarsOnData = [];
         for (const calendarOnId of scheduleData.calendars_on) {
-          //
           // Fetch calendar data from database
           const calendarOnData = await CalendarModel.findOne({ _id: calendarOnId });
-
-          // VESPERA DE NATAL
-          if (calendarOnData.dates.includes('20231224')) {
-            if (scheduleStartTimeInt > 2159) {
-              addedCalendarsOff.add('ESP_NATAL_VESP');
-            }
-          }
-
-          // VESPERA DE ANO NOVO
-          if (calendarOnData.dates.includes('20231231')) {
-            if (scheduleStartTimeInt > 2159) {
-              addedCalendarsOff.add('ESP_ANONOVO_VESP');
-            }
-          }
-
-          // DIA DE NATAL
-          if (calendarOnData.dates.includes('20231225')) {
-            if (scheduleStartTimeInt < 730) {
-              addedCalendarsOff.add('ESP_NATAL_DIA');
-            }
-          }
-
-          // DIA DE ANO NOVO
-          if (calendarOnData.dates.includes('20240101')) {
-            if (scheduleStartTimeInt < 730) {
-              addedCalendarsOff.add('ESP_ANONOVO_DIA');
-            }
-          }
-
-          //
+          allCalendarsOnData.push(calendarOnData);
         }
 
-        // Reset what was set before
-        scheduleData.calendars_off = [];
+        // Get info for each associated calendar_off of this schedule
+        const allCalendarsOffData = [];
+        for (const calendarOffId of scheduleData.calendars_off) {
+          // Fetch calendar data from database
+          const calendarOffData = await CalendarModel.findOne({ _id: calendarOffId });
+          allCalendarsOffData.push(calendarOffData);
+        }
+
+        // Check if this schedule has the following calendars
+        const hasCalendarFerSab = allCalendarsOnData.findIndex((c) => c.code === 'FER_SAB') >= 0;
+        const hasCalendarFerDu = allCalendarsOnData.findIndex((c) => c.code === 'FER_DU') >= 0;
+
+        /* * * * * * * * * */
+
+        if (hasCalendarFerSab && hasCalendarFerDu) {
+          continue scheduleLoop;
+        }
+
+        if (hasCalendarFerSab && !hasCalendarFerDu) {
+          addedCalendarsOn.add('ESP_CARNAVAL_DIA');
+        }
+
+        if (!hasCalendarFerSab && hasCalendarFerDu) {
+          addedCalendarsOff.add('ESP_CARNAVAL_DIA');
+        }
+
+        /* * * * * * * * * */
+
+        if (addedCalendarsOn.size > 0) {
+          // Apply the new rules
+          for (const calendarOnCodeToAdd of [...addedCalendarsOn]) {
+            const calendarOnData = await CalendarModel.findOne({ code: calendarOnCodeToAdd });
+            if (calendarOnData?._id) {
+              scheduleData.calendars_on.push(calendarOnData._id);
+              console.log(`pattern.code: ${patternCode.code} | schedule.start_time: ${scheduleData.start_time} | Added calendar ON "${calendarOnData.code}"`);
+            }
+          }
+        }
 
         if (addedCalendarsOff.size > 0) {
           // Apply the new rules
@@ -118,7 +124,7 @@ export default async function handler(req, res) {
             const calendarOffData = await CalendarModel.findOne({ code: calendarOffCodeToAdd });
             if (calendarOffData?._id) {
               scheduleData.calendars_off.push(calendarOffData._id);
-              console.log(`Added calendar OFF "${calendarOffData.code}"`);
+              console.log(`pattern.code: ${patternCode.code} | schedule.start_time: ${scheduleData.start_time} | Added calendar OFF "${calendarOffData.code}"`);
             }
           }
         }
