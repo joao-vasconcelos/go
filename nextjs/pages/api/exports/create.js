@@ -203,8 +203,8 @@ export default async function handler(req, res) {
       await SMTP.sendMail({
         from: process.env.EMAIL_FROM,
         to: session.user.email,
-        subject: '✅ Exportação Finalizada',
-        text: 'Por favor verifique o ficheiro em anexo. A exportação também está disponível no GO durante as próximas 4 horas.',
+        subject: '✅ Exportação Concluída',
+        html: `Por favor verifique o ficheiro em anexo. A exportação também está disponível no GO durante as próximas 4 horas. <pre>${exportSummary}</pre>`,
         attachments: [{ filename: exportSummary.filename, content: outputZip.toBuffer(), contentType: 'application/zip' }],
       });
     }
@@ -218,7 +218,7 @@ export default async function handler(req, res) {
         from: process.env.EMAIL_FROM,
         to: session.user.email,
         subject: '❤️‍🩹 Ocorreu um erro na Exportação',
-        html: `Infelizmente ocorreu um erro na exportação. A mensagem de erro foi: <pre>${err.message}</pre>`,
+        html: `Infelizmente ocorreu um erro na exportação. A mensagem de erro foi: <pre>${err.message}</pre> As opções de exportação foram: <pre>${exportSummary}</pre>`,
       });
     }
   }
