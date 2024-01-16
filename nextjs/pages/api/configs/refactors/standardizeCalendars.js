@@ -121,4 +121,6 @@ export default async function handler(req, res) {
 
   console.log('Done. Sending response to client...');
   return await res.status(200).json('Import complete.');
+
+  //
 }

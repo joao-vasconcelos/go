@@ -1,16 +1,13 @@
-import delay from '@/services/delay';
+/* * */
+
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
-/* IMPORT PATTERNS */
-/* Explanation needed. */
-/* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
   throw new Error('Feature is disabled.');
 
@@ -85,4 +82,6 @@ export default async function handler(req, res) {
 
   console.log('Done. Sending response to client...');
   return await res.status(200).json('Import complete.');
+
+  //
 }
