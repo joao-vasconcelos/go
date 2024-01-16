@@ -52,8 +52,11 @@ export default async function handler(req, res) {
     patternLoop: for (const patternCode of allPatternCodes) {
       //
 
-      // Do only for Area 1
-      if (!patternCode.code.startsWith('2')) continue patternLoop;
+      // Do only for Area 1 and Area 3
+      if (!(patternCode.code.startsWith('1') || patternCode.code.startsWith('3'))) {
+        console.log('this case', patternCode.code);
+        continue patternLoop;
+      }
 
       // Fetch pattern data from database
       const patternData = await PatternModel.findOne({ code: patternCode.code });
@@ -90,12 +93,9 @@ export default async function handler(req, res) {
         // Check if this schedule has the following calendars
         const hasCalendarFerSab = allCalendarsOnData.findIndex((c) => c.code === 'FER_SAB') >= 0;
         const hasCalendarFerDu = allCalendarsOnData.findIndex((c) => c.code === 'FER_DU') >= 0;
+        // const hasCalendarFerTer = allCalendarsOnData.findIndex((c) => c.code === 'FER_TER') >= 0;
 
         /* * * * * * * * * */
-
-        if (hasCalendarFerSab && hasCalendarFerDu) {
-          continue scheduleLoop;
-        }
 
         if (hasCalendarFerSab && !hasCalendarFerDu) {
           addedCalendarsOn.add('ESP_CARNAVAL_DIA');

@@ -1,9 +1,7 @@
 /* * */
 
-import delay from '@/services/delay';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import parseDate from '@/services/parseDate';
 import { AgencyModel } from '@/schemas/Agency/model';
 import { LineModel } from '@/schemas/Line/model';
 import { RouteModel } from '@/schemas/Route/model';
@@ -92,16 +90,16 @@ export default async function handler(req, res) {
   // Fetch lines for the requested agency
 
   try {
-    allLinesData = await LineModel.find({ agency: { $eq: req.query._id } }, 'routes')
+    allLinesData = await LineModel.find({ agency: { $eq: req.query._id } }, { select: 'routes' })
       .populate({
         path: 'routes',
         select: 'patterns',
         populate: {
           path: 'patterns',
-          select: 'shape.extension schedules.calendars_on schedules.calendars_off',
+          select: 'code shape.extension shape.points.shape_dist_traveled path.distance_delta schedules.calendars_on schedules.calendars_off',
           populate: {
-            path: 'schedules.calendars_on',
-            select: 'dates',
+            path: 'schedules.calendars_on schedules.calendars_off',
+            select: 'code dates',
           },
         },
       })
@@ -119,9 +117,6 @@ export default async function handler(req, res) {
 
     // 7.1.
     // Prepare the result variables
-
-    let startDateString;
-    let endDateString;
 
     let vehicleDistanceInMetersTotal = 0;
 
@@ -146,18 +141,17 @@ export default async function handler(req, res) {
     let vehicleDistanceInMetersForPeriodThreeAndDayTypeThree = 0;
 
     // 7.2.
-    // Parse the dates into YYYYMMDD strings
+    // Prepare the date variables in YYYYMMDD string format
 
-    startDateString = parseDate(new Date(parsedData.start_date));
-
-    // Parse the end date into YYYYMMDD strings
-    if (parsedData.calculation_method === 'fixed_range') endDateString = parseDate(new Date(parsedData.end_date));
-    // Add one year to the start date to get the end date
-    else if (parsedData.calculation_method === 'rolling_year') endDateString = DateTime.fromFormat(startDateString, 'yyyyMMdd').plus({ years: 1 }).toFormat('yyyyMMdd');
-    // Throw error if calculation method is not supported
-    else throw new Error('Calculation method not supported.');
+    let startDateString = parsedData.start_date;
+    let endDateString = parsedData.end_date;
 
     // 7.3.
+    // Add one year to the start date to get the end date
+
+    if (parsedData.calculation_method === 'rolling_year') endDateString = DateTime.fromFormat(startDateString, 'yyyyMMdd').plus({ years: 1 }).toFormat('yyyyMMdd');
+
+    // 7.4.
     // Iterate on all objects to get the total distance ran,
     // in meters, for the desired period
 
@@ -167,41 +161,66 @@ export default async function handler(req, res) {
           scheduleLoop: for (const scheduleData of patternData.schedules) {
             calendarOnLopp: for (const calendarOnData of scheduleData.calendars_on) {
               dateLoop: for (const dateOn of calendarOnData.dates) {
+                //
+
                 // Get the date attributes from the hashmap
                 const dateData = allDatesMap[dateOn];
+
                 // Skip if the date does not exist
                 if (!dateData) throw new Error(`Date "${dateOn}" does not exist in GO.`);
+
                 // Check if the date is within the desired period
                 if (Number(dateData.date) < Number(startDateString)) continue;
                 if (Number(dateData.date) > Number(endDateString)) continue;
+
                 // Check if the date should be removed by any calendars_off
                 calendarOffLoop: for (const calendarOffData of scheduleData.calendars_off) {
+                  // Skip this date if it should be removed by this calendar_off
                   if (calendarOffData.dates?.includes(dateOn)) continue dateLoop;
                 }
+
+                // Setup a variable to hold the shape extension
+                let shapeExtension = 0;
+
+                // If the source is 'shape' get the max shape_dist_traveled
+                if (parsedData.extension_source === 'shape') shapeExtension = patternData.shape.points[patternData.shape.points.length - 1].shape_dist_traveled;
+                // If the source is 'stop_times' sum all segments between each stop
+                else if (parsedData.extension_source === 'stop_times') patternData.path.forEach((stopPath) => (shapeExtension += Number(stopPath.distance_delta)));
+                // If the source is 'go' use the TurfJS uniformization
+                else if (parsedData.extension_source === 'go') shapeExtension = patternData.shape.extension;
+
                 // If the date should be considered, then add the pattern extension to the total variable
-                vehicleDistanceInMetersTotal += patternData.shape.extension;
+                vehicleDistanceInMetersTotal += shapeExtension;
+
                 // Based on the period this date belongs to, add the pattern extension to the relevant variable
-                if (dateData.period === 1) vehicleDistanceInMetersForPeriodOne += patternData.shape.extension;
-                if (dateData.period === 2) vehicleDistanceInMetersForPeriodTwo += patternData.shape.extension;
-                if (dateData.period === 3) vehicleDistanceInMetersForPeriodThree += patternData.shape.extension;
+                if (dateData.period === 1) vehicleDistanceInMetersForPeriodOne += shapeExtension;
+                if (dateData.period === 2) vehicleDistanceInMetersForPeriodTwo += shapeExtension;
+                if (dateData.period === 3) vehicleDistanceInMetersForPeriodThree += shapeExtension;
+
                 // Calulate day type for the current date
                 const dayType = calculateDateDayType(dateData.date, dateData.is_holiday);
+
                 // Based on the day_type this date belongs to, add the pattern extension to the relevant variable
-                if (dayType === 1) vehicleDistanceInMetersForDayTypeOne += patternData.shape.extension;
-                if (dayType === 2) vehicleDistanceInMetersForDayTypeTwo += patternData.shape.extension;
-                if (dayType === 3) vehicleDistanceInMetersForDayTypeThree += patternData.shape.extension;
+                if (dayType === 1) vehicleDistanceInMetersForDayTypeOne += shapeExtension;
+                if (dayType === 2) vehicleDistanceInMetersForDayTypeTwo += shapeExtension;
+                if (dayType === 3) vehicleDistanceInMetersForDayTypeThree += shapeExtension;
+
                 // Set the relevant variables for the combination of period = 1 and day type
-                if (dateData.period === 1 && dayType === 1) vehicleDistanceInMetersForPeriodOneAndDayTypeOne += patternData.shape.extension;
-                if (dateData.period === 1 && dayType === 2) vehicleDistanceInMetersForPeriodOneAndDayTypeTwo += patternData.shape.extension;
-                if (dateData.period === 1 && dayType === 3) vehicleDistanceInMetersForPeriodOneAndDayTypeThree += patternData.shape.extension;
+                if (dateData.period === 1 && dayType === 1) vehicleDistanceInMetersForPeriodOneAndDayTypeOne += shapeExtension;
+                if (dateData.period === 1 && dayType === 2) vehicleDistanceInMetersForPeriodOneAndDayTypeTwo += shapeExtension;
+                if (dateData.period === 1 && dayType === 3) vehicleDistanceInMetersForPeriodOneAndDayTypeThree += shapeExtension;
+
                 // Set the relevant variables for the combination of period = 2 and day type
-                if (dateData.period === 2 && dayType === 1) vehicleDistanceInMetersForPeriodTwoAndDayTypeOne += patternData.shape.extension;
-                if (dateData.period === 2 && dayType === 2) vehicleDistanceInMetersForPeriodTwoAndDayTypeTwo += patternData.shape.extension;
-                if (dateData.period === 2 && dayType === 3) vehicleDistanceInMetersForPeriodTwoAndDayTypeThree += patternData.shape.extension;
+                if (dateData.period === 2 && dayType === 1) vehicleDistanceInMetersForPeriodTwoAndDayTypeOne += shapeExtension;
+                if (dateData.period === 2 && dayType === 2) vehicleDistanceInMetersForPeriodTwoAndDayTypeTwo += shapeExtension;
+                if (dateData.period === 2 && dayType === 3) vehicleDistanceInMetersForPeriodTwoAndDayTypeThree += shapeExtension;
+
                 // Set the relevant variables for the combination of period = 3 and day type
-                if (dateData.period === 3 && dayType === 1) vehicleDistanceInMetersForPeriodThreeAndDayTypeOne += patternData.shape.extension;
-                if (dateData.period === 3 && dayType === 2) vehicleDistanceInMetersForPeriodThreeAndDayTypeTwo += patternData.shape.extension;
-                if (dateData.period === 3 && dayType === 3) vehicleDistanceInMetersForPeriodThreeAndDayTypeThree += patternData.shape.extension;
+                if (dateData.period === 3 && dayType === 1) vehicleDistanceInMetersForPeriodThreeAndDayTypeOne += shapeExtension;
+                if (dateData.period === 3 && dayType === 2) vehicleDistanceInMetersForPeriodThreeAndDayTypeTwo += shapeExtension;
+                if (dateData.period === 3 && dayType === 3) vehicleDistanceInMetersForPeriodThreeAndDayTypeThree += shapeExtension;
+
+                //
               }
             }
           }

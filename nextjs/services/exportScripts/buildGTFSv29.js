@@ -470,7 +470,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
   // 0.
   // Update progress
-  await update(progress, { status: 1, progress_current: 1, progress_total: 7 });
+  await update(progress, { progress_current: 1, progress_total: 7 });
 
   // 0.1.
   // In order to build stops.txt, shapes.txt and calendar_dates.txt it is necessary
@@ -853,7 +853,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
   // 4.
   // Update progress
-  await update(progress, { status: 1, progress_current: 5, progress_total: 7 });
+  await update(progress, { progress_current: 5, progress_total: 7 });
 
   // 4.1.
   // Fetch the referenced stops and write the stops.txt file
@@ -866,7 +866,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
   // 5.
   // Update progress
-  await update(progress, { status: 1, progress_current: 6, progress_total: 7 });
+  await update(progress, { progress_current: 6, progress_total: 7 });
 
   // 5.1.
   // Fetch the referenced fares and write the fare_attributes.txt file
@@ -878,7 +878,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
   // 6.
   // Update progress
-  await update(progress, { status: 1, progress_current: 7, progress_total: 7 });
+  await update(progress, { progress_current: 7, progress_total: 7 });
 
   // 6.1.
   // Create the feed_info file

@@ -21,6 +21,9 @@ import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
+import { DatePickerInput } from '@mantine/dates';
+import parseDate from '@/services/parseDate';
+import parseStringToDate from '@/services/parseStringToDate';
 
 export default function Page() {
   //
@@ -182,6 +185,28 @@ export default function Page() {
           <SimpleGrid cols={2}>
             <TextInput label={t('form.url.label')} placeholder={t('form.url.placeholder')} {...form.getInputProps('url')} readOnly={isReadOnly} />
             <TextInput label={t('form.fare_url.label')} placeholder={t('form.fare_url.placeholder')} {...form.getInputProps('fare_url')} readOnly={isReadOnly} />
+          </SimpleGrid>
+        </Section>
+        <Divider />
+        <Section>
+          <div>
+            <Text size="h2">{t('sections.operation.title')}</Text>
+            <Text size="h4">{t('sections.operation.description')}</Text>
+          </div>
+          <SimpleGrid cols={2}>
+            <DatePickerInput
+              label={t('form.operation_start_date.label')}
+              description={t('form.operation_start_date.description')}
+              placeholder={t('form.operation_start_date.placeholder')}
+              value={parseStringToDate(form.values.operation_start_date)}
+              onChange={(date) => {
+                console.log(date);
+                form.setFieldValue('operation_start_date', parseDate(date));
+              }}
+              readOnly={isReadOnly}
+              dropdownType="modal"
+              clearable
+            />
           </SimpleGrid>
         </Section>
         <Divider />

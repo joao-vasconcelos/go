@@ -1,12 +1,9 @@
+/* * */
+
 import * as yup from 'yup';
 
 /* * */
-/* DOCUMENT TYPE: AGENCY */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. YUP Validation Schema */
 export const AgencyValidation = yup.object({
   code: yup
     .string()
@@ -29,6 +26,7 @@ export const AgencyValidation = yup.object({
   email: yup.string().transform((value) => value.replace(/  +/g, ' ').trim()),
   url: yup.string().transform((value) => value.replace(/  +/g, ' ').trim()),
   fare_url: yup.string().transform((value) => value.replace(/  +/g, ' ').trim()),
+  operation_start_date: yup.string().max(8, 'Data de Início da Operação deve ter apenas ${max} caracteres.'),
   price_per_km: yup.number(),
   total_vkm_per_year: yup.number(),
 });

@@ -45,8 +45,12 @@
                 "title": "Details",
                 "description": "Something about this section"
             },
+            "operation": {
+                "title": "Operação",
+                "description": "Something about this section"
+            },
             "financials": {
-                "title": "Financials",
+                "title": "Dados Financeiros",
                 "description": "Something about this section"
             }
         },
@@ -84,6 +88,11 @@
             "fare_url": {
                 "label": "Website for Fares Information",
                 "placeholder": "https://agency.com/fares"
+            },
+            "operation_start_date": {
+                "label": "Data de Início da Operação",
+                "description": "Set here the start date of the operation for this Agency.",
+                "placeholder": "1 Janeiro 2023"
             },
             "price_per_km": {
                 "label": "Price per Km",
@@ -2017,49 +2026,22 @@
     },
     "ExportOptions": {
         "export_type": {
-            "gtfs_v18": {
-                "label": "GTFS Reference Plan (v18)",
-                "description": "For A1 and A2 until December 2023."
-            },
             "gtfs_v29": {
                 "label": "GTFS Reference Plan (v29)",
                 "description": "For A3 and A4."
-            },
-            "gtfs_v30": {
-                "label": "GTFS Reference Plan (v30)",
-                "description": "For testing."
             },
             "netex_v1": {
                 "label": "NETEX (v1) (Teste)",
                 "description": "For testing."
             }
-        },
-        "status": {
-            "0": "Starting",
-            "1": "Processing",
-            "2": "Completed",
-            "5": "Error"
         }
     },
-    "ExportErrors": {
-        "5101": "Line {line_code} has no associated routes.",
-        "5301": "Missing stop on pattern {pattern_code}.",
-        "5302": "Invalid stop on pattern {pattern_code}."
-    },
-    "ExportResult": {
+    "ExportsExplorerQueueItem": {
         "exported_by": "Exported by {name} {time}",
         "type": {
-            "gtfs_v18": {
-                "label": "GTFS v18",
-                "description": "For A1 and A2 until December 2023."
-            },
             "gtfs_v29": {
                 "label": "GTFS v29",
                 "description": "For A3 and A4."
-            },
-            "gtfs_v30": {
-                "label": "GTFS v30",
-                "description": "For testing."
             },
             "netex_v1": {
                 "label": "NETEX v1",
@@ -2067,82 +2049,93 @@
             }
         },
         "status": {
-            "0": "Starting",
-            "1": "Processing",
-            "2": "Completed",
-            "5": "Error"
+            "PROCESSING": "Processing",
+            "COMPLETED": "Completed",
+            "ERROR": "Error"
+        },
+        "operations": {
+            "delete": {
+                "title": "Eliminar Exportação?",
+                "description": "Ao eliminar a exportação o processamento será imediatamente interrompido e os ficheiros exportados até agora serão eliminados.",
+                "confirm": "Sim, eliminar Exportação",
+                "cancel": "Não, deixar como está"
+            }
         }
     },
-    "ExportedFilesList": {
-        "title": "Available Exports",
-        "description": "Here you can find all the previous exports by all users.",
-        "no_data": "No Exports Available"
+    "ExportsExplorerQueue": {
+        "title": "Exportações Recentes",
+        "description": "Aqui encontram-se as últimas exportações iniciadas por todos os utilizadores. As exportações são automaticamente eliminadas ao final de 4 horas.",
+        "no_data": "Nenhuma Exportação Disponível"
     },
-    "ExportFileForm": {
-        "title": "Start New Export",
-        "description": "To create a new export you need to select the type, date, etc.",
+    "ExportsExplorerForm": {
+        "title": "Iniciar Nova Exportação",
+        "description": "Para iniciar uma nova exportação é necessário selecionar a versão do plano, o operador, opcionalmente um conjunto de linhas a incluir ou excluir, e uma data de início e de fim para a validade do plano. É também necessário definir o primeiro e o último dia dos calendários a incluir no plano.",
         "operations": {
             "start": {
-                "label": "Start Export"
+                "label": "Iniciar Exportação"
             }
         },
         "form": {
             "export_type": {
-                "label": "What do you want to export?",
-                "description": "Choose the type of archive you need.",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "label": "Tipo e Versão do Plano",
+                "description": "Selecione o tipo de arquivo que pretende obter.",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "agencies": {
-                "label": "Choose an Agency",
-                "description": "Select the Agency that you'd like to get the GTFS for.",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "label": "Selecione um Operador",
+                "description": "Selecione o operador para o qual pretende obter um plano.",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "lines_include": {
-                "label": "Export for specific Lines",
-                "description": "Choose Lines to create an archive with only this selection, or leave empty for all.",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "label": "Conjunto de Linhas a incluir (opcional)",
+                "description": "Opcionalmente selecione uma ou mais linhas que devem ser incluídas no plano, ou então deixe em branco para incluir todas as linhas do operador selecionado.",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "lines_exclude": {
-                "label": "Exclude specific Lines",
-                "description": "Choose Lines to exlude from the archive or leave empty for all.",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "label": "Conjunto de Linhas a excluir (opcional)",
+                "description": "Opcionalmente selecione uma ou mais linhas que devem ser retiradas do conjunto total de linhas do operador, ou então deixe em branco para incluir todas.",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "feed_start_date": {
                 "label": "Feed Start Date",
-                "description": "The feed is valid starting from this date.",
-                "placeholder": "Select a date..."
+                "description": "O plano é válido a partir desta data.",
+                "placeholder": "Escolha uma data..."
             },
             "feed_end_date": {
                 "label": "Feed End Date",
-                "description": "The feed is valid until this date.",
-                "placeholder": "Select a date..."
+                "description": "O plano é válido até esta data.",
+                "placeholder": "Escolha uma data..."
             },
             "clip_calendars": {
-                "label": "Clip Calendars",
-                "description": "If this option is enabled, the exported feed will only contain calendars with dates between the start and end dates selected below (inclusive)."
+                "label": "Cortar Calendários (recomendado)",
+                "description": "Selecione o conjunto de datas a incluir no ficheiro 'calendar_dates.txt', que frequentemente deverão ser as datas de início e fim do ano operacional em vigor."
             },
             "calendars_clip_start_date": {
-                "label": "Calendars Start Date",
-                "description": "Service starts on this date.",
-                "placeholder": "Select a date..."
+                "label": "Primeira Data do Calendário",
+                "description": "O serviço inicia nesta data, inclusive.",
+                "placeholder": "Escolha uma data..."
             },
             "calendars_clip_end_date": {
-                "label": "Calendars End Date",
-                "description": "Service ends on this date.",
-                "placeholder": "Select a date..."
+                "label": "Última Data do Calendário",
+                "description": "O serviço termina nesta data, inclusive.",
+                "placeholder": "Escolha uma data..."
             },
             "numeric_calendar_codes": {
-                "label": "Use Numeric Calendar Codes",
-                "description": "If this option is enabled, the exported service_ids will be based on the numeric codes for each calendar."
+                "label": "Utilizar Códigos Numéricos para Calendários",
+                "description": "Esta opção substitui os códigos de calendário alfanuméricos normalmente utilizados por números inteiros."
             },
             "stop_sequence_start": {
-                "label": "Stop Sequence start value",
-                "description": "The order of stops in stop_times.txt should start with 1, but it is possible to start on 0.",
+                "label": "Base de Contagem da Sequência de Paragens",
+                "description": "As paragens de um percurso são ordenadas sequencialmente por um número inteiro. É recomendado que se inicie a contagem com o número '1', no entanto é possível alterar (por exemplo para '0') em casos específicos.",
                 "placeholder": "1"
+            },
+            "notify_user": {
+                "label": "Notificar-me por email ao concluir a exportação",
+                "description": "Indique se pretende receber um email quando a exportação estiver concluída."
             }
         }
     },
@@ -2177,6 +2170,21 @@
                     },
                     "fixed_range": {
                         "label": "Intervalo de Datas"
+                    }
+                }
+            },
+            "extension_source": {
+                "title": "Sobre a Extensão do Percurso",
+                "description": "Existem 3 formas de calcular a extensão do percurso, e todas devem devolver aproximadamente o mesmo resultado. A forma recomendada é através da extensão da shape, que é efetivamente a soma da extensão das muitas linhas retas que compõem o percurso de um pattern. Este valor é calculado pelo Remix quando se exporta o GTFS que depois é importado para o GO. A segunda forma é através do valor indicado no stop_times de cada viagem, e apesar deste valor ter de ser muito próximo do anterior, este é calculado intersetando a posição das paragens ao longo do percurso, e por isso introduz um nível extra de erro devido a uma potencial posição errónea das paragens, ou algum caso particular do algoritmo de interseção. Este valor também é calculado pelo Remix. Por fim, existe um terceiro método que é através do re-cálculo da extensão da shape pelo GO, que descarta o valor do Remix e através de um algoritmo semelhante calcula a extensão tendo por base apenas as coordenadas da shape. Este método é útil pois é uniforme para todas as shapes, independentemente de quem gerou o percurso inicial.",
+                "options": {
+                    "shape": {
+                        "label": "Extensão da Shape (recomendado)"
+                    },
+                    "stop_times": {
+                        "label": "Extensão do Stop Times"
+                    },
+                    "go": {
+                        "label": "Uniformização do GO"
                     }
                 }
             },

@@ -1,11 +1,15 @@
 'use client';
 
+/* * */
+
 import { SWRConfig } from 'swr';
 import { SessionProvider } from 'next-auth/react';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
+
+/* * */
 
 export default function Providers({ children, session }) {
   //

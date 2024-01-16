@@ -1,12 +1,9 @@
+/* * */
+
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: AGENCY */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Mongoose Schema */
 export const AgencySchema = new mongoose.Schema(
   {
     code: {
@@ -42,6 +39,10 @@ export const AgencySchema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
+    operation_start_date: {
+      type: String,
+      maxlength: 8,
+    },
     price_per_km: {
       type: Number,
     },
@@ -56,5 +57,5 @@ export const AgencySchema = new mongoose.Schema(
 );
 
 /* * */
-/* C. Mongoose Model */
+
 export const AgencyModel = mongoose?.models?.Agency || mongoose.model('Agency', AgencySchema);

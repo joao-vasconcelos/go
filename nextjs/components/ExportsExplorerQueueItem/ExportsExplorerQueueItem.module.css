@@ -2,20 +2,49 @@
 /* CONTAINER */
 
 .container {
-  /* display: flex;
-  flex-direction: row; */
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  border: 1px solid var(--color-gray-2);
+  border-radius: var(--size-xs);
+  align-items: center;
+  justify-content: flex-start;
+  line-height: 1;
+  transition: all 200ms ease;
+  overflow: hidden;
+}
+
+/* * */
+/* MAIN SECTION */
+
+.mainSection {
   display: grid;
   grid-template-columns: 50px 1fr;
-
-  border-width: 1px;
-  border-style: solid;
   padding: var(--size-md);
-  border-radius: var(--size-xs);
   align-items: center;
   justify-content: flex-start;
   gap: var(--size-md);
   line-height: 1;
   transition: all 200ms ease;
+}
+
+/* * */
+/* ACTIONS SECTION */
+
+.actionsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--danger6);
+  border-left: 1px solid var(--color-gray-2);
+  transition: all 200ms ease;
+  cursor: pointer;
+}
+
+.actionsSection:hover {
+  background-color: var(--color-gray-0);
 }
 
 /* * */
@@ -87,42 +116,25 @@
 }
 
 /* * */
-/* WAITING */
+/* PROCESSING */
 
-.waiting {
-  opacity: 0.75;
-  border-color: var(--color-gray-2);
-  background-color: transparent;
-}
-
-.waiting .badge {
-  color: var(--color-gray-6);
-  background-color: var(--color-gray-0);
-}
-
-@media (prefers-color-scheme: dark) {
-  .waiting .badge {
-    color: var(--color-gray-8);
-    background-color: var(--color-gray-2);
-  }
-}
-
-/* * */
-/* IN PROGRESS */
-
-.inProgress {
+.processing {
   opacity: 1;
   border-color: var(--color-gray-2);
   background-color: transparent;
 }
 
-.inProgress .badge {
+.processing .badge {
   color: var(--color-gray-6);
   background-color: var(--color-gray-0);
 }
 
+.processing .actionsSection {
+  color: var(--color-gray-6);
+}
+
 @media (prefers-color-scheme: dark) {
-  .inProgress .badge {
+  .processing .badge {
     color: var(--color-gray-8);
     background-color: var(--color-gray-2);
   }
@@ -142,9 +154,14 @@
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
 }
 
-.completed:active {
-  border-color: var(--color-gray-8);
-  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
+.completed .mainSection:hover,
+.completed .actionsSection:hover {
+  background-color: var(--color-gray-1);
+}
+
+.completed .mainSection:active,
+.completed .actionsSection:active {
+  background-color: var(--color-gray-2);
 }
 
 .completed .badge {
@@ -174,11 +191,11 @@
 .error {
   border-color: var(--danger6);
   background-color: var(--danger1);
-  opacity: 0.25;
+  opacity: 0.5;
 }
 
 .error:hover {
-  opacity: 0.75;
+  opacity: 1;
 }
 
 .error .badge {
@@ -190,6 +207,16 @@
 .error .iconWrapper,
 .error .exportedBy {
   color: var(--danger9);
+}
+
+.error .actionsSection {
+  color: var(--danger9);
+  border-color: var(--danger6);
+  background-color: var(--danger1);
+}
+
+.error .actionsSection:hover {
+  background-color: var(--danger2);
 }
 
 @media (prefers-color-scheme: dark) {

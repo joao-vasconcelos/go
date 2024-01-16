@@ -1,3 +1,5 @@
+/* * */
+
 export default function parseDate(date, returnType = 'string') {
   //
   if (!date) return null;

@@ -1,23 +1,24 @@
+/* * */
+
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: EXPORT */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Mongoose Schema */
 export const ExportSchema = new mongoose.Schema({
   type: {
     type: String,
     maxlength: 50,
   },
   status: {
-    type: Number,
+    type: String,
+    maxlength: 50,
   },
   exported_by: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+  },
+  notify_user: {
+    type: Boolean,
   },
   progress_current: {
     type: Number,
@@ -41,5 +42,5 @@ export const ExportSchema = new mongoose.Schema({
 });
 
 /* * */
-/* C. Mongoose Model */
+
 export const ExportModel = mongoose?.models?.Export || mongoose.model('Export', ExportSchema);

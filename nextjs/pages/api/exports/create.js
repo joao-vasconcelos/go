@@ -1,4 +1,5 @@
-import delay from '@/services/delay';
+/* * */
+
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import * as fs from 'fs';
@@ -9,15 +10,12 @@ import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportOptions } from '@/schemas/Export/options';
 import buildGTFSv29 from '@/services/exportScripts/buildGTFSv29';
 import buildNETEXv1 from '@/services/exportScripts/buildNETEXv1';
+import SMTP from '@/services/SMTP';
 
-/* * */
-/* EXPORT ARCHIVES */
-/* This endpoint returns a zip file. */
 /* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
   // 0.
   // Refuse request if not POST
@@ -108,26 +106,17 @@ export default async function handler(req, res) {
     // 7.3.
     // Associate this export to the use who requested it
     exportSummary.exported_by = session.user._id;
+    exportSummary.notify_user = req.body.notify_user ? true : false;
 
     // 7.4.
     // Define the filename format for the resulting archive
     switch (exportSummary.type) {
       // 7.4.1.
-      // For v18 the name consists of the agency code, the version and the export date.
-      case 'gtfs_v18':
-        exportSummary.filename = `GTFS_${agencyData.code}_REF_v18_${today()}.zip`;
-        break;
-      // 7.4.2.
       // For v29 the name consists of the agency code, the version and the export date.
       case 'gtfs_v29':
         exportSummary.filename = `GTFS_${agencyData.code}_REF_v29_${today()}.zip`;
         break;
-      // 7.4.3.
-      // For v30 the name consists of the agency code, the version and the export date.
-      case 'gtfs_v30':
-        exportSummary.filename = `GTFS_${agencyData.code}_REF_v30_${today()}.zip`;
-        break;
-      // 7.4.4.
+      // 7.4.2.
       // For v30 the name consists of the agency code, the version and the export date.
       case 'netex_v1':
         exportSummary.filename = `NETEX_${agencyData.code}_v1_${today()}.zip`;
@@ -183,22 +172,12 @@ export default async function handler(req, res) {
     // Initiate the main export operation
     switch (exportSummary.type) {
       // 8.3.1.
-      // Build GTFS v18
-      case 'gtfs_v18':
-        throw new Error('v18 not implemented');
-        break;
-      // 8.3.2.
       // Build GTFS v29
       case 'gtfs_v29':
         await buildGTFSv29(exportSummary, agencyData, exportOptions);
         await update(exportSummary, { progress_current: 1, progress_total: 2 });
         break;
-      // 8.3.3.
-      // Build GTFS v30
-      case 'gtfs_v30':
-        throw new Error('v30 not implemented');
-        break;
-      // 8.3.4.
+      // 8.3.2.
       // Build NETEX v1
       case 'netex_v1':
         await buildNETEXv1(exportSummary, agencyData, exportOptions);
@@ -216,12 +195,32 @@ export default async function handler(req, res) {
 
     // 8.5.
     // Update progress to indicate the requested operation is complete
-    await update(exportSummary, { status: 2 });
+    await update(exportSummary, { status: 'COMPLETED' });
+
+    // 8.6.
+    // Send an email to the user using the email address of the user who requested the export.
+    if (exportSummary.notify_user && session.user?.email) {
+      await SMTP.sendMail({
+        from: process.env.EMAIL_FROM,
+        to: session.user.email,
+        subject: '✅ Exportação Finalizada',
+        text: 'Por favor verifique o ficheiro em anexo. A exportação também está disponível no GO durante as próximas 4 horas.',
+        attachments: [{ filename: exportSummary.filename, content: outputZip.toBuffer(), contentType: 'application/zip' }],
+      });
+    }
 
     //
   } catch (err) {
     console.log(err);
-    await update(exportSummary, { status: 5 });
+    await update(exportSummary, { status: 'ERROR' });
+    if (exportSummary.notify_user && session.user?.email) {
+      await SMTP.sendMail({
+        from: process.env.EMAIL_FROM,
+        to: session.user.email,
+        subject: '❤️‍🩹 Ocorreu um erro na Exportação',
+        html: `Infelizmente ocorreu um erro na exportação. A mensagem de erro foi: <pre>${err.message}</pre>`,
+      });
+    }
   }
 
   //

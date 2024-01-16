@@ -19,6 +19,15 @@
 }
 
 /* * */
+/* RESULTS WRAPPER */
+
+.resultsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* * */
 /* CARDS WRAPPER */
 
 .cardsWrapperWithOneRow,

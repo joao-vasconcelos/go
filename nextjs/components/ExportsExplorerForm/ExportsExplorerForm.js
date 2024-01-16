@@ -1,5 +1,7 @@
 'use client';
 
+/* * */
+
 import useSWR from 'swr';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -9,39 +11,41 @@ import { ExportOptions } from '@/schemas/Export/options';
 import { useSession } from 'next-auth/react';
 import { isAllowed } from '@/components/AuthGate/AuthGate';
 import { IconCloudPlus } from '@tabler/icons-react';
-import { SimpleGrid, Select, MultiSelect, Button, Divider, Switch, SegmentedControl, Slider, NumberInput } from '@mantine/core';
+import { SimpleGrid, Select, MultiSelect, Button, Divider, Switch, NumberInput } from '@mantine/core';
 import { Section } from '@/components/Layouts/Layouts';
 import { useState, useMemo } from 'react';
 import API from '@/services/API';
 import { DatePickerInput } from '@mantine/dates';
+import { DateTime } from 'luxon';
+import { set } from 'lodash';
 
 /* * */
-/* EXPORT FILE FORM */
 
-export default function ExportFileForm() {
+export default function ExportsExplorerForm() {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('ExportFileForm');
+  const t = useTranslations('ExportsExplorerForm');
   const exportOptionsTranslations = useTranslations('ExportOptions');
 
   const { data: session } = useSession();
 
   const [isCreatingExport, setIsCreatingExport] = useState(false);
 
-  const [selectedExportType, setSelectedExportType] = useState(null);
-  const [selectedAgencyId, setSelectedAgencyId] = useState(null);
-  const [selectedLineIdsToInclude, setSelectedLineIdsToInclude] = useState([]);
-  const [selectedLineIdsToExclude, setSelectedLineIdsToExclude] = useState([]);
-  const [selectedFeedStartDate, setSelectedFeedStartDate] = useState(null);
-  const [selectedFeedEndDate, setSelectedFeedEndDate] = useState(null);
-  const [shouldClipCalendars, setShouldClipCalendars] = useState(false);
-  const [selectedCalendarsClipStartDate, setSelectedCalendarsClipStartDate] = useState(null);
-  const [selectedCalendarsClipEndDate, setSelectedCalendarsClipEndDate] = useState(null);
-  const [outputNumericCalendarCodes, setOutputNumericCalendarCodes] = useState(false);
-  const [selectedStopSequenceStart, setSelectedStopSequenceStart] = useState(1);
+  const [selectedExportType, setSelectedExportType] = useState(ExportOptions.defaults.export_type);
+  const [selectedAgencyId, setSelectedAgencyId] = useState(ExportOptions.defaults.agency_id);
+  const [selectedLineIdsToInclude, setSelectedLineIdsToInclude] = useState(ExportOptions.defaults.lines_included);
+  const [selectedLineIdsToExclude, setSelectedLineIdsToExclude] = useState(ExportOptions.defaults.lines_excluded);
+  const [selectedFeedStartDate, setSelectedFeedStartDate] = useState(ExportOptions.defaults.feed_start_date);
+  const [selectedFeedEndDate, setSelectedFeedEndDate] = useState(ExportOptions.defaults.feed_end_date);
+  const [shouldClipCalendars, setShouldClipCalendars] = useState(ExportOptions.defaults.clip_calendars);
+  const [selectedCalendarsClipStartDate, setSelectedCalendarsClipStartDate] = useState(ExportOptions.defaults.calendars_clip_start_date);
+  const [selectedCalendarsClipEndDate, setSelectedCalendarsClipEndDate] = useState(ExportOptions.defaults.calendars_clip_end_date);
+  const [outputNumericCalendarCodes, setOutputNumericCalendarCodes] = useState(ExportOptions.defaults.numeric_calendar_codes);
+  const [selectedStopSequenceStart, setSelectedStopSequenceStart] = useState(ExportOptions.defaults.stop_sequence_start);
+  const [shouldNotifyUser, setShouldNotifyUser] = useState(ExportOptions.defaults.notify_user);
 
   //
   // B. Fetch data
@@ -55,45 +59,66 @@ export default function ExportFileForm() {
 
   const availableExportTypes = useMemo(() => {
     if (!ExportOptions.export_type) return [];
-    return ExportOptions.export_type
-      .filter((type) => {
-        return isAllowed(session, 'exports', type);
-      })
-      .map((type) => {
-        return { value: type, label: exportOptionsTranslations(`export_type.${type}.label`) };
-      });
+    return ExportOptions.export_type.filter((type) => isAllowed(session, 'exports', type)).map((type) => ({ value: type, label: exportOptionsTranslations(`export_type.${type}.label`) }));
   }, [exportOptionsTranslations, session]);
 
   const availableAgencies = useMemo(() => {
     if (!allAgenciesData) return [];
-    return allAgenciesData
-      .filter((agency) => {
-        const isAllowed = true; // !isAllowed(session, 'export', type)
-        return isAllowed;
-      })
-      .map((agency) => {
-        return { value: agency._id, label: agency.name || '-' };
-      });
+    return allAgenciesData.map((agency) => ({ value: agency._id, label: agency.name || '-' }));
   }, [allAgenciesData]);
 
   const availableLinesToInclude = useMemo(() => {
     if (!allLinesData && !selectedAgencyId) return [];
     const filteredLinesBySelectedAgency = allLinesData.filter((item) => item.agency === selectedAgencyId);
-    return filteredLinesBySelectedAgency.map((item) => {
-      return { value: item._id, label: `(${item.short_name}) ${item.name}` };
-    });
+    return filteredLinesBySelectedAgency.map((item) => ({ value: item._id, label: `(${item.short_name}) ${item.name}` }));
   }, [allLinesData, selectedAgencyId]);
 
   const availableLinesToExclude = useMemo(() => {
     if (!allLinesData || !selectedAgencyId) return [];
     const filteredLinesBySelectedAgency = allLinesData.filter((item) => item.agency === selectedAgencyId);
-    return filteredLinesBySelectedAgency.map((item) => {
-      return { value: item._id, label: `(${item.short_name}) ${item.name}` };
-    });
+    return filteredLinesBySelectedAgency.map((item) => ({ value: item._id, label: `(${item.short_name}) ${item.name}` }));
   }, [allLinesData, selectedAgencyId]);
 
   //
   // D. Handle actions
+
+  const handleSelectAgency = (agencyId) => {
+    // Set the selected agency
+    setSelectedAgencyId(agencyId);
+    // Set Feed Start Date, since it does not require any agency information
+    const firstDayOfNextMonth = DateTime.now().plus({ months: 1 }).startOf('month');
+    setSelectedFeedStartDate(firstDayOfNextMonth.toJSDate());
+    // Get the selected agency data
+    const agencyData = allAgenciesData.find((agency) => agency._id === agencyId);
+    // Exit if no agency found or agency has not set an operation start date
+    if (!agencyData || !agencyData.operation_start_date) return;
+    // Setup variables to hold the start and end dates of the current operational year
+    let currentOperationYearStartDate;
+    let currentOperationYearEndDate;
+    // Get the operation start date into a DateTime object
+    const operationStartDate = DateTime.fromFormat(agencyData.operation_start_date, 'yyyyMMdd');
+    // If now is before the start date of the operationation if it was this year...
+    if (DateTime.now() < operationStartDate.set({ year: DateTime.now().year })) {
+      // ...then it means the current operation year started last year
+      currentOperationYearStartDate = operationStartDate.set({ year: DateTime.now().year - 1 });
+      currentOperationYearEndDate = currentOperationYearStartDate.plus({ year: 1 }).minus({ day: 1 });
+      // Set the corresponding fields
+      setSelectedCalendarsClipStartDate(currentOperationYearStartDate.toJSDate());
+      setSelectedCalendarsClipEndDate(currentOperationYearEndDate.toJSDate());
+      setSelectedFeedEndDate(currentOperationYearEndDate.toJSDate());
+      //
+    } else {
+      // ...else it means the current operation year is in the current year
+      currentOperationYearStartDate = operationStartDate.set({ year: DateTime.now().year });
+      currentOperationYearEndDate = currentOperationYearStartDate.plus({ year: 1 }).minus({ day: 1 });
+      // Set the corresponding fields
+      setSelectedCalendarsClipStartDate(currentOperationYearStartDate.toJSDate());
+      setSelectedCalendarsClipEndDate(currentOperationYearEndDate.toJSDate());
+      setSelectedFeedEndDate(currentOperationYearEndDate.toJSDate());
+      //
+    }
+    //
+  };
 
   const handleStartExport = async () => {
     try {
@@ -114,22 +139,24 @@ export default function ExportFileForm() {
           calendars_clip_end_date: parseDate(selectedCalendarsClipEndDate),
           numeric_calendar_codes: outputNumericCalendarCodes,
           stop_sequence_start: selectedStopSequenceStart,
+          notify_user: shouldNotifyUser,
         },
       });
       // Mutate results
       allExportsMutate();
       // Reset form
-      setSelectedExportType(null);
-      setSelectedAgencyId(null);
-      setSelectedLineIdsToInclude([]);
-      setSelectedLineIdsToExclude([]);
-      setSelectedFeedStartDate(null);
-      setSelectedFeedEndDate(null);
-      setShouldClipCalendars(false);
-      setSelectedCalendarsClipStartDate(null);
-      setSelectedCalendarsClipEndDate(null);
-      setOutputNumericCalendarCodes(false);
-      setSelectedStopSequenceStart(1);
+      setSelectedExportType(ExportOptions.defaults.export_type);
+      setSelectedAgencyId(ExportOptions.defaults.agency_id);
+      setSelectedLineIdsToInclude(ExportOptions.defaults.lines_included);
+      setSelectedLineIdsToExclude(ExportOptions.defaults.lines_excluded);
+      setSelectedFeedStartDate(ExportOptions.defaults.feed_start_date);
+      setSelectedFeedEndDate(ExportOptions.defaults.feed_end_date);
+      setShouldClipCalendars(ExportOptions.defaults.clip_calendars);
+      setSelectedCalendarsClipStartDate(ExportOptions.defaults.calendars_clip_start_date);
+      setSelectedCalendarsClipEndDate(ExportOptions.defaults.calendars_clip_end_date);
+      setOutputNumericCalendarCodes(ExportOptions.defaults.numeric_calendar_codes);
+      setSelectedStopSequenceStart(ExportOptions.defaults.stop_sequence_start);
+      setShouldNotifyUser(ExportOptions.defaults.notify_user);
       // Reset state
       setIsCreatingExport(false);
     } catch (err) {
@@ -184,7 +211,7 @@ export default function ExportFileForm() {
           nothingFoundMessage={t('form.agencies.nothingFound')}
           data={availableAgencies}
           value={selectedAgencyId}
-          onChange={setSelectedAgencyId}
+          onChange={handleSelectAgency}
           disabled={!selectedExportType}
           searchable
           clearable
@@ -300,6 +327,14 @@ export default function ExportFileForm() {
             max={1}
             min={0}
           />
+        </SimpleGrid>
+      </Section>
+
+      <Divider />
+
+      <Section>
+        <SimpleGrid cols={1}>
+          <Switch label={t('form.notify_user.label')} description={t('form.notify_user.description')} checked={shouldNotifyUser} onChange={(event) => setShouldNotifyUser(event.currentTarget.checked)} disabled={!selectedAgencyId || !selectedFeedStartDate || !selectedFeedEndDate} />
         </SimpleGrid>
       </Section>
 
