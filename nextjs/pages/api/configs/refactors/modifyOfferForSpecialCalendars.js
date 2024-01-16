@@ -53,7 +53,7 @@ export default async function handler(req, res) {
       //
 
       // Do only for Area 2
-      if (!patternCode.code.startsWith('2')) {
+      if (!patternCode.code.startsWith('4')) {
         console.log('this case', patternCode.code);
         continue patternLoop;
       }
@@ -91,17 +91,37 @@ export default async function handler(req, res) {
         }
 
         // Check if this schedule has the following calendars
-        const hasCalendarFerSab = allCalendarsOnData.findIndex((c) => c.code === 'FER_SAB') >= 0;
-        const hasCalendarFerDu = allCalendarsOnData.findIndex((c) => c.code === 'FER_DU') >= 0;
-        // const hasCalendarFerTer = allCalendarsOnData.findIndex((c) => c.code === 'FER_TER') >= 0;
+
+        // Não tem dia 13 e é para adicionar. Adicionar ESP_CARNAVAL_DIA aos calendários_ON
+        const hasCalendar7 = allCalendarsOnData.findIndex((c) => c.code === '7') >= 0;
+        const hasCalendar38 = allCalendarsOnData.findIndex((c) => c.code === '38') >= 0;
+        const hasCalendar102 = allCalendarsOnData.findIndex((c) => c.code === '102') >= 0;
+        const hasCalendar100 = allCalendarsOnData.findIndex((c) => c.code === '100') >= 0;
+        const hasCalendar111 = allCalendarsOnData.findIndex((c) => c.code === '111') >= 0;
+        const hasCalendar183 = allCalendarsOnData.findIndex((c) => c.code === '183') >= 0;
+        const hasCalendar8 = allCalendarsOnData.findIndex((c) => c.code === '8') >= 0;
+        const hasCalendar11 = allCalendarsOnData.findIndex((c) => c.code === '11') >= 0;
+        const hasCalendar115 = allCalendarsOnData.findIndex((c) => c.code === '115') >= 0;
+
+        // Tem dia 13 e é para retirar. Adicionar ESP_CARNAVAL_DIA aos calendários_OFF
+        const hasCalendar77 = allCalendarsOnData.findIndex((c) => c.code === '77') >= 0;
+        const hasCalendar41 = allCalendarsOnData.findIndex((c) => c.code === '41') >= 0;
+        const hasCalendar2 = allCalendarsOnData.findIndex((c) => c.code === '2') >= 0;
+        const hasCalendar36 = allCalendarsOnData.findIndex((c) => c.code === '36') >= 0;
+        const hasCalendar50 = allCalendarsOnData.findIndex((c) => c.code === '50') >= 0;
+        const hasCalendar4 = allCalendarsOnData.findIndex((c) => c.code === '4') >= 0;
+        const hasCalendar163 = allCalendarsOnData.findIndex((c) => c.code === '163') >= 0;
+        const hasCalendar190 = allCalendarsOnData.findIndex((c) => c.code === '190') >= 0;
+        const hasCalendar109 = allCalendarsOnData.findIndex((c) => c.code === '109') >= 0;
+        const hasCalendar113 = allCalendarsOnData.findIndex((c) => c.code === '113') >= 0;
 
         /* * * * * * * * * */
 
-        if (hasCalendarFerSab && !hasCalendarFerDu) {
+        if (hasCalendar7 || hasCalendar38 || hasCalendar102 || hasCalendar100 || hasCalendar111 || hasCalendar183 || hasCalendar8 || hasCalendar11 || hasCalendar115) {
           addedCalendarsOn.add('ESP_CARNAVAL_DIA');
         }
 
-        if (!hasCalendarFerSab && hasCalendarFerDu) {
+        if (hasCalendar77 || hasCalendar41 || hasCalendar2 || hasCalendar36 || hasCalendar50 || hasCalendar4 || hasCalendar163 || hasCalendar190 || hasCalendar109 || hasCalendar113) {
           addedCalendarsOff.add('ESP_CARNAVAL_DIA');
         }
 
