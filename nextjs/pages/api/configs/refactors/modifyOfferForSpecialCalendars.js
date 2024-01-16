@@ -52,8 +52,8 @@ export default async function handler(req, res) {
     patternLoop: for (const patternCode of allPatternCodes) {
       //
 
-      // Do only for Area 1 and Area 3
-      if (!(patternCode.code.startsWith('1') || patternCode.code.startsWith('3'))) {
+      // Do only for Area 2
+      if (!patternCode.code.startsWith('2')) {
         console.log('this case', patternCode.code);
         continue patternLoop;
       }
