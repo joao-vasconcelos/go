@@ -1,13 +1,4 @@
-/*
- * FIXED OPTIONS FOR PATTERN
- * These options are here because they should not, or don't need to be,
- * editable by any user. Most of them are encoded as part of the GTFS specification.
- *
- */
-
-//
-//
-//
+/* * */
 
 export const PatternOptions = {
   //

@@ -64,6 +64,8 @@ export const PatternScheduleDefault = {
 export const PatternDefault = {
   code: '',
   parent_route: null,
+  origin: '',
+  destination: '',
   headsign: '',
   presets: PatternPresetsDefault,
   shape: PatternShapeDefault,

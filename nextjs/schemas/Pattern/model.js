@@ -1,12 +1,9 @@
+/* * */
+
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: PATTERN */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Mongoose Schema */
 export const PatternSchema = new mongoose.Schema(
   {
     code: {
@@ -17,6 +14,14 @@ export const PatternSchema = new mongoose.Schema(
     parent_route: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Route',
+    },
+    origin: {
+      type: String,
+      maxlength: 100,
+    },
+    destination: {
+      type: String,
+      maxlength: 100,
     },
     headsign: {
       type: String,
@@ -176,5 +181,5 @@ export const PatternSchema = new mongoose.Schema(
 );
 
 /* * */
-/* C. Mongoose Model */
+
 export const PatternModel = mongoose?.models?.Pattern || mongoose.model('Pattern', PatternSchema);

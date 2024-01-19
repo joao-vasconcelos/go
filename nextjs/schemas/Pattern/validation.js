@@ -1,12 +1,8 @@
+/* * */
+
 import * as yup from 'yup';
 
 /* * */
-/* DOCUMENT TYPE: PATTERN */
-/* Explanation needed. */
-/* * */
-
-/* * */
-/* A. YUP Validation Schema */
 
 export const PatternValidation = yup.object({
   code: yup
@@ -17,6 +13,18 @@ export const PatternValidation = yup.object({
     .matches(/^[0-9_\s]+$/)
     .transform((value) => value.replace(/  +/g, ' ').trim()),
   parent_route: yup.string().required(),
+  origin: yup
+    .string()
+    .required()
+    .max(50)
+    .matches(/^[a-zA-ZÀ-ÿ0-9()|ºª.'-\s]+$/)
+    .transform((value) => value.replace(/  +/g, ' ').trim()),
+  destination: yup
+    .string()
+    .required()
+    .max(50)
+    .matches(/^[a-zA-ZÀ-ÿ0-9()|ºª.'-\s]+$/)
+    .transform((value) => value.replace(/  +/g, ' ').trim()),
   headsign: yup
     .string()
     .required()
