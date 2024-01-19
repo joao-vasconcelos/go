@@ -150,20 +150,20 @@ export default function LinesVkmSummary() {
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_by_day_type.cards.day_type_one')}
-                  value={vkmCalculationResult ? vkmCalculationResult.day_type_one / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.day_type_one / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.day_type_one : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.day_type_one} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_by_day_type.cards.day_type_two')}
-                  value={vkmCalculationResult ? vkmCalculationResult.day_type_two / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.day_type_two / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.day_type_two : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.day_type_two} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_by_day_type.cards.day_type_three')}
-                  value={vkmCalculationResult ? vkmCalculationResult.day_type_three / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.day_type_three / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.day_type_three : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.day_type_three} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
               </div>
             </Standout>
@@ -173,26 +173,26 @@ export default function LinesVkmSummary() {
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_one.cards.period_one')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_one / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_one / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_one : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_one} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_one.cards.period_one_and_day_type_one')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_one_and_day_type_one / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_one_and_day_type_one / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_one_and_day_type_one : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_one_and_day_type_one} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_one.cards.period_one_and_day_type_two')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_one_and_day_type_two / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_one_and_day_type_two / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_one_and_day_type_two : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_one_and_day_type_two} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_one.cards.period_one_and_day_type_three')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_one_and_day_type_three / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_one_and_day_type_three / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_one_and_day_type_three : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_one_and_day_type_three} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
               </div>
             </Standout>
@@ -202,26 +202,26 @@ export default function LinesVkmSummary() {
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_two.cards.period_two')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_two / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_two / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_two : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_two} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_two.cards.period_two_and_day_type_one')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_two_and_day_type_one / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_two_and_day_type_one / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_two_and_day_type_one : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_two_and_day_type_one} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_two.cards.period_two_and_day_type_two')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_two_and_day_type_two / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_two_and_day_type_two / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_two_and_day_type_two : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_two_and_day_type_two} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_two.cards.period_two_and_day_type_three')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_two_and_day_type_three / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_two_and_day_type_three / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_two_and_day_type_three : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_two_and_day_type_three} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
               </div>
             </Standout>
@@ -231,26 +231,26 @@ export default function LinesVkmSummary() {
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_three.cards.period_three')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_three / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_three / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_three : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_three} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_three.cards.period_three_and_day_type_one')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_three_and_day_type_one / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_three_and_day_type_one / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_three_and_day_type_one : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_three_and_day_type_one} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_three.cards.period_three_and_day_type_two')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_three_and_day_type_two / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_three_and_day_type_two / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_three_and_day_type_two : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_three_and_day_type_two} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
                 <StatCard
                   isLoading={isLoading}
                   title={t('sections.totals_for_period_three.cards.period_three_and_day_type_three')}
-                  value={vkmCalculationResult ? vkmCalculationResult.period_three_and_day_type_three / 1000 : '-'}
-                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_three_and_day_type_three / 1000} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
+                  value={vkmCalculationResult ? vkmCalculationResult.period_three_and_day_type_three : '-'}
+                  displayValue={vkmCalculationResult ? <NumberFormatter value={vkmCalculationResult.period_three_and_day_type_three} suffix=" km" thousandSeparator=" " decimalSeparator="," decimalScale={2} /> : '-'}
                 />
               </div>
             </Standout>
