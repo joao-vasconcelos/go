@@ -890,8 +890,18 @@
                 "label": "Pattern Code",
                 "placeholder": "1234"
             },
+            "origin": {
+                "label": "Origem",
+                "placeholder": "Campo Grande",
+                "description": "Onde se inicia este percurso."
+            },
+            "destination": {
+                "label": "Destino",
+                "placeholder": "Venda do Pinheiro",
+                "description": "Onde termina este percurso."
+            },
             "headsign": {
-                "label": "Headsign",
+                "label": "Bandeira / Headsign",
                 "placeholder": "Destination (via Known Place)",
                 "description": "This is what should be displayed outside the bus."
             },

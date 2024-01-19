@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import styles from './StopSequenceTable.module.css';
 import { usePatternFormContext } from '@/schemas/Pattern/form';
 import { IconSortAscendingNumbers, IconArrowBarUp, IconArrowBarToDown } from '@tabler/icons-react';
-import { Checkbox, Tooltip, NumberInput, MultiSelect, ActionIcon, TextInput } from '@mantine/core';
+import { Checkbox, Tooltip, NumberInput, MultiSelect, ActionIcon, TextInput, Button } from '@mantine/core';
 import { IconX, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowAutofitContent, IconClockHour4, IconTicket, IconRotate2 } from '@tabler/icons-react';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import Loader from '../Loader/Loader';
@@ -325,18 +325,7 @@ function StopSequenceTableDwellTimeColumn({ rowIndex, isReadOnly }) {
   return (
     <div className={styles.column}>
       <Tooltip label={t('description')} position="bottom" width={350} multiline withArrow>
-        <NumberInput
-          aria-label={t('label')}
-          placeholder={t('placeholder')}
-          defaultValue={30}
-          min={0}
-          max={900}
-          step={10}
-          leftSection={<IconClockPause size={20} />}
-          suffix=" seg"
-          {...patternForm.getInputProps(`path.${rowIndex}.default_dwell_time`)}
-          readOnly={isReadOnly}
-        />
+        <NumberInput aria-label={t('label')} placeholder={t('placeholder')} defaultValue={30} min={0} max={900} step={10} leftSection={<IconClockPause size={20} />} suffix=" seg" {...patternForm.getInputProps(`path.${rowIndex}.default_dwell_time`)} readOnly={isReadOnly} />
       </Tooltip>
     </div>
   );
@@ -396,8 +385,8 @@ function StopSequenceTableZonesColumn({ rowIndex, stopId, isReadOnly }) {
         nothingFoundMessage={t('nothingFound')}
         {...patternForm.getInputProps(`path.${rowIndex}.zones`)}
         data={allZonesDataFormatted}
-        leftSection={<IconTicket size={20} />}
-        rightSection={
+        // leftSection={<IconTicket size={20} />}
+        leftSection={
           <AuthGate scope="lines" permission="create_edit">
             <ActionIcon onClick={handleResetZones} loading={stopLoading} disabled={!stopData || isReadOnly} variant="subtle" color="gray">
               <IconRotate2 size={20} />

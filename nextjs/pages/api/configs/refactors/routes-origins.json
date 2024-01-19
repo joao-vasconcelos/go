@@ -1,0 +1,5517 @@
+[
+    {
+        "route_id": "1608_0",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Taguspark (Rotunda Sef)"
+    },
+    {
+        "route_id": "1525_3",
+        "origin": "Caxias (Estação)",
+        "destination": "Barcarena (Rotunda)"
+    },
+    {
+        "route_id": "1626_0",
+        "origin": "Alcoitão (Rotunda)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1717_2",
+        "origin": "Tercena",
+        "destination": "Colégio Militar (Metro)"
+    },
+    {
+        "route_id": "1225_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Agualva - Cacém (Estação)"
+    },
+    {
+        "route_id": "1720_1",
+        "origin": "A-da-Beja",
+        "destination": "Colégio Militar (Metro)"
+    },
+    {
+        "route_id": "1226_0",
+        "origin": "Massamá (Casal Olival)",
+        "destination": "Queluz - Belas (Estação)"
+    },
+    {
+        "route_id": "1730_0",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Queluz Baixo (Centro Comercial)"
+    },
+    {
+        "route_id": "1004_0",
+        "origin": "Amadora (Estação Norte)",
+        "destination": "Amadora (Estação Norte)"
+    },
+    {
+        "route_id": "1709_0",
+        "origin": "Caneças (Largo Jardim)",
+        "destination": "Colégio Militar (Metro)"
+    },
+    {
+        "route_id": "1218_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Mira Sintra (Mercado)"
+    },
+    {
+        "route_id": "1204_2",
+        "origin": "Alto do Forte (Centro Comercial)",
+        "destination": "Rio De Mouro (Estação Norte)"
+    },
+    {
+        "route_id": "1204_1",
+        "origin": "Rio De Mouro (Estação Norte)",
+        "destination": "Rio De Mouro (Estação Norte)"
+    },
+    {
+        "route_id": "1520_0",
+        "origin": "Algés (Estação)",
+        "destination": "Agualva - Cacém (Estação)"
+    },
+    {
+        "route_id": "1527_0",
+        "origin": "Cruz Quebrada (Estação)",
+        "destination": "Queluz - Belas (Estação)"
+    },
+    {
+        "route_id": "1530_1",
+        "origin": "Oeiras (Medrosa)",
+        "destination": "Queluz (4 Caminhos)"
+    },
+    {
+        "route_id": "1720_0",
+        "origin": "Casal Cambra",
+        "destination": "Colégio Militar (Metro)"
+    },
+    {
+        "route_id": "1102_0",
+        "origin": "Cruz Quebrada (Piscinas)",
+        "destination": "Algés Junça (Centro Comercial)"
+    },
+    {
+        "route_id": "1112_0",
+        "origin": "Caxias (Estação)",
+        "destination": "Queijas (Psp)"
+    },
+    {
+        "route_id": "1609_0",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Talaíde (Igreja)"
+    },
+    {
+        "route_id": "1611_0",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Talaíde (Campo Futebol)"
+    },
+    {
+        "route_id": "1728_0",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Queijas (PSP)"
+    },
+    {
+        "route_id": "1617_1",
+        "origin": "Talaíde (Igreja)",
+        "destination": "Paço De Arcos (Estação Norte)"
+    },
+    {
+        "route_id": "1531_0",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "São Marcos (Rotunda)"
+    },
+    {
+        "route_id": "1616_1",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Taguspark (Rotunda Sef)"
+    },
+    {
+        "route_id": "1612_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Carcavelos (Estação)"
+    },
+    {
+        "route_id": "1204_0",
+        "origin": "Alto do Forte (Centro Comercial)",
+        "destination": "Alto do Forte (Centro Comercial)"
+    },
+    {
+        "route_id": "1009_0",
+        "origin": "Amadora (Hospital)",
+        "destination": "Amadora (Hospital)"
+    },
+    {
+        "route_id": "1601_0",
+        "origin": "Amadora Este (Metro)",
+        "destination": "Carcavelos (Praia)"
+    },
+    {
+        "route_id": "1513_4",
+        "origin": "Amadora (Hospital)",
+        "destination": "Amadora (Hospital)"
+    },
+    {
+        "route_id": "1124_0",
+        "origin": "Paço De Arcos (Estação Sul)",
+        "destination": "Paço De Arcos (Estação Sul)"
+    },
+    {
+        "route_id": "1213_0",
+        "origin": "Bº Joaquim Fontes (Centro Comercial)",
+        "destination": "Agualva - Cacém (Estação)"
+    },
+    {
+        "route_id": "1601_2",
+        "origin": "Amadora Este (Metro)",
+        "destination": "Oeiras (Estação Norte)"
+    },
+    {
+        "route_id": "1606_0",
+        "origin": "Carnaxide (Urbanização Norte)",
+        "destination": "Carcavelos (Sbe)"
+    },
+    {
+        "route_id": "1710_1",
+        "origin": "Casal Cambra",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "1601_4",
+        "origin": "Porto Salvo (Centro)",
+        "destination": "Amadora Este (Metro)"
+    },
+    {
+        "route_id": "1629_0",
+        "origin": "Estoril (Estação)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1704_0",
+        "origin": "Amadora (Hospital)",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1103_0",
+        "origin": "Algés (Estação)",
+        "destination": "Queijas (Psp)"
+    },
+    {
+        "route_id": "1224_0",
+        "origin": "Carregueira (Estabelecimento Prisional)",
+        "destination": "Monte Abraão (Estação)"
+    },
+    {
+        "route_id": "1630_2",
+        "origin": "Bº Cruz Vermelha",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1115_2",
+        "origin": "Caxias (Estação)",
+        "destination": "Paço De Arcos (Estação Norte)"
+    },
+    {
+        "route_id": "1522_0",
+        "origin": "Algés (Estação)",
+        "destination": "Monte Abraão (Estação)"
+    },
+    {
+        "route_id": "1233_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Agualva - Cacém (Estação)"
+    },
+    {
+        "route_id": "1511_0",
+        "origin": "Monte Abraão (Estação)",
+        "destination": "Monte Abraão (Estação)"
+    },
+    {
+        "route_id": "1706_0",
+        "origin": "Colégio Militar (Metro)",
+        "destination": "Casal Mira (Centro Comercial)"
+    },
+    {
+        "route_id": "1733_2",
+        "origin": "São Marcos (Rotunda)",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1724_1",
+        "origin": "Linda-A-Velha (Alto Stª Catarina)",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1714_0",
+        "origin": "Amadora (Estação Sul)",
+        "destination": "Belém (Estação)"
+    },
+    {
+        "route_id": "1638_3",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Parede Terminal Rodoviário"
+    },
+    {
+        "route_id": "1632_0",
+        "origin": "Carvalhal (Largo)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1253_0",
+        "origin": "Sintra (Estação)",
+        "destination": "Sintra (Estação)"
+    },
+    {
+        "route_id": "1717_1",
+        "origin": "Queluz (4 Caminhos)",
+        "destination": "Tercena"
+    },
+    {
+        "route_id": "1729_0",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Queluz Baixo (Centro Comercial)"
+    },
+    {
+        "route_id": "1503_0",
+        "origin": "Algés (Estação)",
+        "destination": "Bº Zambujal"
+    },
+    {
+        "route_id": "1704_3",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Amadora (Hospital)"
+    },
+    {
+        "route_id": "1015_0",
+        "origin": "Reboleira (Estação)",
+        "destination": "Reboleira (Estação)"
+    },
+    {
+        "route_id": "1724_2",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1223_2",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Alto do Forte (Centro Comercial)"
+    },
+    {
+        "route_id": "1721_1",
+        "origin": "Massamá (Casal Olival)",
+        "destination": "Colégio Militar (Metro)"
+    },
+    {
+        "route_id": "1210_0",
+        "origin": "Bairro Fitares",
+        "destination": "Mem Martins (Escola Secundária)"
+    },
+    {
+        "route_id": "1245_0",
+        "origin": "Catribana (Largo)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1525_0",
+        "origin": "Caxias (Estação)",
+        "destination": "Monte Abraão (Estação)"
+    },
+    {
+        "route_id": "1605_0",
+        "origin": "Carnaxide (Urbanização Norte)",
+        "destination": "Carcavelos (Sbe)"
+    },
+    {
+        "route_id": "1631_0",
+        "origin": "Estoril (Estação)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1251_3",
+        "origin": "Alto do Forte (Centro Comercial)",
+        "destination": "Alto do Forte (Centro Comercial)"
+    },
+    {
+        "route_id": "1514_0",
+        "origin": "Amadora (Hospital)",
+        "destination": "Amadora (Hospital)"
+    },
+    {
+        "route_id": "1512_0",
+        "origin": "Queluz (Cemitério)",
+        "destination": "Montelavar (Largo)"
+    },
+    {
+        "route_id": "1008_0",
+        "origin": "Amadora Este (Metro)",
+        "destination": "Amadora Este (Metro)"
+    },
+    {
+        "route_id": "1713_1",
+        "origin": "Algés (Estação)",
+        "destination": "Damaia (Estação Norte)"
+    },
+    {
+        "route_id": "1516_0",
+        "origin": "Casal Cambra (Igreja)",
+        "destination": "Monte Abraão (Estação)"
+    },
+    {
+        "route_id": "1635_0",
+        "origin": "Almargem Bispo (Largo)",
+        "destination": "Caneças (Largo Vieira Caldas)"
+    },
+    {
+        "route_id": "1716_0",
+        "origin": "Idanha (Urb Campinas)",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1713_0",
+        "origin": "Algés (Estação)",
+        "destination": "Amadora Este (Metro)"
+    },
+    {
+        "route_id": "1624_1",
+        "origin": "Cascais (Terminal)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1638_2",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Parede Terminal Rodoviário"
+    },
+    {
+        "route_id": "1244_0",
+        "origin": "Casal Cambra (Escola)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1248_0",
+        "origin": "Portela Sintra (Estação Norte)",
+        "destination": "Praia Maçãs (Mercado)"
+    },
+    {
+        "route_id": "1528_0",
+        "origin": "Linda-A-Velha (Esc Secundária)",
+        "destination": "Queluz - Belas (Estação)"
+    },
+    {
+        "route_id": "1616_2",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Taguspark (Rotunda Sef)"
+    },
+    {
+        "route_id": "1718_0",
+        "origin": "Grajal",
+        "destination": "Belém (Estação)"
+    },
+    {
+        "route_id": "1708_2",
+        "origin": "Casal Mira (Centro Comercial)",
+        "destination": "Brandoa (Alto)"
+    },
+    {
+        "route_id": "1106_1",
+        "origin": "Algés (Estação)",
+        "destination": "Queijas (Psp)"
+    },
+    {
+        "route_id": "1602_0",
+        "origin": "Carcavelos (Praia)",
+        "destination": "Queluz (4 Caminhos)"
+    },
+    {
+        "route_id": "1614_2",
+        "origin": "Abóboda",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1635_1",
+        "origin": "Almargem Bispo (Largo)",
+        "destination": "Caneças (Largo Vieira Caldas)"
+    },
+    {
+        "route_id": "1704_1",
+        "origin": "Reboleira (Estação)",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1241_0",
+        "origin": "Almoçageme (Mercado)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1011_0",
+        "origin": "Brandoa (Largo)",
+        "destination": "Reboleira (Metro)"
+    },
+    {
+        "route_id": "1217_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Massamá (Urbanização Norte)"
+    },
+    {
+        "route_id": "1212_0",
+        "origin": "Venda Seca",
+        "destination": "Queluz - Belas (Estação)"
+    },
+    {
+        "route_id": "1613_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Oeiras (Estação Sul)"
+    },
+    {
+        "route_id": "1125_0",
+        "origin": "Porto Salvo (Sociedade Musical)",
+        "destination": "Leião"
+    },
+    {
+        "route_id": "1227_0",
+        "origin": "Massamá (Casal Olival)",
+        "destination": "Queluz (4 Caminhos)"
+    },
+    {
+        "route_id": "1012_0",
+        "origin": "Brandoa (Largo)",
+        "destination": "Brandoa (Largo)"
+    },
+    {
+        "route_id": "1723_1",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Carnaxide (Escola Secundária)"
+    },
+    {
+        "route_id": "1638_1",
+        "origin": "Aboboda (Sociedade)",
+        "destination": "Parede Terminal Rodoviário"
+    },
+    {
+        "route_id": "1707_1",
+        "origin": "Casal Mira (Escola Primária)",
+        "destination": "Colégio Militar (Metro)"
+    },
+    {
+        "route_id": "1731_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Hospital S Francisco Xavier"
+    },
+    {
+        "route_id": "1117_1",
+        "origin": "Caxias (Qta Moura)",
+        "destination": "Lage (Centro)"
+    },
+    {
+        "route_id": "1209_1",
+        "origin": "Casal Flosa",
+        "destination": "Mira Sintra (Mercado)"
+    },
+    {
+        "route_id": "1604_0",
+        "origin": "Carcavelos (Estação)",
+        "destination": "Parede Terminal Rodoviário"
+    },
+    {
+        "route_id": "1523_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Oeiras (Estação Norte)"
+    },
+    {
+        "route_id": "1616_3",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Talaíde (Campo Futebol)"
+    },
+    {
+        "route_id": "1525_1",
+        "origin": "Caxias (Estação)",
+        "destination": "Tercena (Av Sto António)"
+    },
+    {
+        "route_id": "1111_0",
+        "origin": "Massamá - Barcarena (Estação Sul)",
+        "destination": "Barcarena (Fábrica Pólvora Acesso Sul)"
+    },
+    {
+        "route_id": "1119_1",
+        "origin": "Leceia (Rotunda Idade Cobre)",
+        "destination": "Paço De Arcos (Estação Norte)"
+    },
+    {
+        "route_id": "1530_0",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Queluz (4 Caminhos)"
+    },
+    {
+        "route_id": "1216_0",
+        "origin": "Tercena (Estação)",
+        "destination": "Tercena (Estação)"
+    },
+    {
+        "route_id": "1251_2",
+        "origin": "Mem Martins (Estação)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1525_2",
+        "origin": "Caxias (Estação)",
+        "destination": "Tercena (Igreja)"
+    },
+    {
+        "route_id": "1637_0",
+        "origin": "Casal Cambra",
+        "destination": "Vale Lobos (Largo)"
+    },
+    {
+        "route_id": "1101_1",
+        "origin": "Alfragide (Centro Comercial)",
+        "destination": "Algés (Estação)"
+    },
+    {
+        "route_id": "1529_0",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Oeiras Golf Residence (Rotunda)"
+    },
+    {
+        "route_id": "1503_1",
+        "origin": "Algés (Estação)",
+        "destination": "Alfragide (Zona Comercial)"
+    },
+    {
+        "route_id": "1608_1",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Conceição Abóboda (Rotunda)"
+    },
+    {
+        "route_id": "1518_0",
+        "origin": "Monte Abraão (Pavilhão Desportivo)",
+        "destination": "Reboleira (Metro)"
+    },
+    {
+        "route_id": "1206_0",
+        "origin": "Algueirão (Estação)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1733_1",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "São Marcos (Rotunda)"
+    },
+    {
+        "route_id": "1518_1",
+        "origin": "Monte Abraão (Pavilhão Desportivo)",
+        "destination": "Queluz (4 Caminhos)"
+    },
+    {
+        "route_id": "1711_0",
+        "origin": "Caneças (Escola Secundária)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "1222_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Agualva - Cacém (Estação)"
+    },
+    {
+        "route_id": "1101_0",
+        "origin": "Alfragide (Centro Comercial)",
+        "destination": "Algés (Estação)"
+    },
+    {
+        "route_id": "1231_0",
+        "origin": "Escola Ferreira Castro",
+        "destination": "Coutinho Afonso (Largo)"
+    },
+    {
+        "route_id": "1121_0",
+        "origin": "Oeiras (Piscina Oceânica)",
+        "destination": "Oeiras (Aerlis)"
+    },
+    {
+        "route_id": "1501_0",
+        "origin": "Reboleira (Estação)",
+        "destination": "Reboleira (Estação)"
+    },
+    {
+        "route_id": "1628_0",
+        "origin": "Estoril (Estação)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1625_0",
+        "origin": "Cascais (Terminal)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1003_0",
+        "origin": "Amadora (Estação Norte)",
+        "destination": "Amadora Este (Metro)"
+    },
+    {
+        "route_id": "1007_0",
+        "origin": "Amadora (Estação Norte)",
+        "destination": "Amadora (Estação Norte)"
+    },
+    {
+        "route_id": "1601_1",
+        "origin": "Amadora Este (Metro)",
+        "destination": "Carcavelos (Praia)"
+    },
+    {
+        "route_id": "1613_1",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Abóboda"
+    },
+    {
+        "route_id": "1508_0",
+        "origin": "Almargem Bispo (Centro Saúde)",
+        "destination": "Amadora Este (Metro)"
+    },
+    {
+        "route_id": "1625_1",
+        "origin": "Cascais (Terminal)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1707_0",
+        "origin": "Colégio Militar (Metro)",
+        "destination": "Casal Mira (Centro Comercial)"
+    },
+    {
+        "route_id": "1604_1",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Oeiras (Estação Norte)"
+    },
+    {
+        "route_id": "1729_1",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Queijas (PSP)"
+    },
+    {
+        "route_id": "1221_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Agualva - Cacém (Estação)"
+    },
+    {
+        "route_id": "1005_0",
+        "origin": "Amadora (Estação Norte)",
+        "destination": "Casal Mira (Centro Comercial)"
+    },
+    {
+        "route_id": "1717_0",
+        "origin": "Colégio Militar (Metro)",
+        "destination": "Tercena"
+    },
+    {
+        "route_id": "1604_3",
+        "origin": "Oeiras (Bº Augusto Castro)",
+        "destination": "Carcavelos (Estação)"
+    },
+    {
+        "route_id": "1115_3",
+        "origin": "Caxias (Ped Italiana)",
+        "destination": "Paço De Arcos (Estação Norte)"
+    },
+    {
+        "route_id": "1703_0",
+        "origin": "Amadora (Estação Norte)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "1206_1",
+        "origin": "Algueirão (Estação)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1730_2",
+        "origin": "Queluz Baixo (Centro Comercial)",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1109_0",
+        "origin": "Carnaxide (Centro Cívico)",
+        "destination": "Carnaxide (Centro Cívico)"
+    },
+    {
+        "route_id": "1633_0",
+        "origin": "Ericeira (Terminal Rodoviário)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1710_0",
+        "origin": "Caneças (Largo Jardim)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "1630_3",
+        "origin": "Alcabideche (Gnr)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1614_0",
+        "origin": "Carcavelos (Estação)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1708_0",
+        "origin": "Casal Mira (Centro Comercial)",
+        "destination": "Casal Mira (Centro Comercial)"
+    },
+    {
+        "route_id": "1733_0",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "São Marcos (Rotunda)"
+    },
+    {
+        "route_id": "1710_3",
+        "origin": "Caneças (Qtª São Carlos)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "1011_1",
+        "origin": "Reboleira (Metro)",
+        "destination": "Reboleira (Metro)"
+    },
+    {
+        "route_id": "1230_0",
+        "origin": "Monte Abraão (Estação)",
+        "destination": "Monte Abraão (Estação)"
+    },
+    {
+        "route_id": "1254_0",
+        "origin": "Portela Sintra (Estação Norte)",
+        "destination": "Magoito (Praia)"
+    },
+    {
+        "route_id": "1512_1",
+        "origin": "Amadora (Hospital)",
+        "destination": "Montelavar (Largo)"
+    },
+    {
+        "route_id": "1722_0",
+        "origin": "Alfragide (Centro Comercial)",
+        "destination": "Hospital S Francisco Xavier"
+    },
+    {
+        "route_id": "1235_0",
+        "origin": "Covas Ferro",
+        "destination": "Mercês (Estação Norte)"
+    },
+    {
+        "route_id": "1220_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Agualva - Cacém (Estação)"
+    },
+    {
+        "route_id": "1716_1",
+        "origin": "Idanha (Urb Campinas)",
+        "destination": "Queluz - Belas (Estação)"
+    },
+    {
+        "route_id": "1232_0",
+        "origin": "Rio De Mouro (Estação Sul)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1229_0",
+        "origin": "Massamá - Barcarena (Estação Norte)",
+        "destination": "Massamá - Barcarena (Estação Norte)"
+    },
+    {
+        "route_id": "1623_0",
+        "origin": "Cascais (Terminal)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1205_0",
+        "origin": "Algueirão (Estação)",
+        "destination": "Mem Martins (Escola Secundária)"
+    },
+    {
+        "route_id": "1710_2",
+        "origin": "Presa",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "1250_0",
+        "origin": "Portela Sintra (Estação Norte)",
+        "destination": "Praia Grande"
+    },
+    {
+        "route_id": "1123_1",
+        "origin": "Porto Salvo (Lagoas Park)",
+        "destination": "Paço De Arcos (Estação Norte)"
+    },
+    {
+        "route_id": "1013_0",
+        "origin": "Amadora (Cemitério)",
+        "destination": "Atalaia (Escola Secundária)"
+    },
+    {
+        "route_id": "1515_0",
+        "origin": "Amadora Este (Metro)",
+        "destination": "Casal Cambra"
+    },
+    {
+        "route_id": "1632_2",
+        "origin": "Terrugem (Igreja)",
+        "destination": "Carvalhal (Largo)"
+    },
+    {
+        "route_id": "1208_0",
+        "origin": "Almargem Bispo (Cemitério)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1524_0",
+        "origin": "Tercena (Estação)",
+        "destination": "Tercena (Estação)"
+    },
+    {
+        "route_id": "1633_1",
+        "origin": "Ericeira (Terminal Rodoviário)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1603_0",
+        "origin": "Amadora (Estação Norte)",
+        "destination": "Caneças (Largo Vieira Caldas)"
+    },
+    {
+        "route_id": "1234_0",
+        "origin": "São Pedro Sintra (Chão Meninos)",
+        "destination": "Mira Sintra (Junta Freguesia)"
+    },
+    {
+        "route_id": "1115_0",
+        "origin": "Caxias (Ped Italiana)",
+        "destination": "Lage (Centro)"
+    },
+    {
+        "route_id": "1615_2",
+        "origin": "Abóboda",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1509_0",
+        "origin": "Amadora (Hospital)",
+        "destination": "Casal Cambra (Centro Saúde)"
+    },
+    {
+        "route_id": "1617_0",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Talaíde (Igreja)"
+    },
+    {
+        "route_id": "1228_0",
+        "origin": "Massamá - Barcarena (Estação Norte)",
+        "destination": "Massamá - Barcarena (Estação Norte)"
+    },
+    {
+        "route_id": "1115_1",
+        "origin": "Caxias (Ped Italiana)",
+        "destination": "Lage (Centro)"
+    },
+    {
+        "route_id": "1706_2",
+        "origin": "Colégio Militar (Metro)",
+        "destination": "Brandoa (Alto)"
+    },
+    {
+        "route_id": "1251_1",
+        "origin": "Alto do Forte (Centro Comercial)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1706_1",
+        "origin": "Benfica (R Pereira Bernardes)",
+        "destination": "Brandoa (Alto)"
+    },
+    {
+        "route_id": "1014_0",
+        "origin": "Amadora (Cemitério)",
+        "destination": "Vila Chã"
+    },
+    {
+        "route_id": "1511_1",
+        "origin": "Monte Abraão (Estação)",
+        "destination": "Monte Abraão (Estação)"
+    },
+    {
+        "route_id": "1513_2",
+        "origin": "Amadora (Hospital)",
+        "destination": "Amadora (Hospital)"
+    },
+    {
+        "route_id": "1724_0",
+        "origin": "Linda-A-Velha",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1107_0",
+        "origin": "Algés (Estação)",
+        "destination": "Queluz Baixo (Centro Comercial)"
+    },
+    {
+        "route_id": "1610_1",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Talaíde (Campo Futebol)"
+    },
+    {
+        "route_id": "1252_0",
+        "origin": "Portela Sintra (Estação Sul)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1249_0",
+        "origin": "Portela Sintra (Estação Norte)",
+        "destination": "Magoito (Praia)"
+    },
+    {
+        "route_id": "1106_0",
+        "origin": "Queluz Baixo (Centro Comercial)",
+        "destination": "Algés (Estação)"
+    },
+    {
+        "route_id": "1615_0",
+        "origin": "Carcavelos (Estação)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1223_1",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1504_0",
+        "origin": "Algés (Estação)",
+        "destination": "Bº Zambujal"
+    },
+    {
+        "route_id": "1001_0",
+        "origin": "Alfragide (Hosp Veterinário)",
+        "destination": "Reboleira (Estação)"
+    },
+    {
+        "route_id": "1630_4",
+        "origin": "Portela Sintra (Estação Sul)",
+        "destination": "Alcoitão (Rotunda)"
+    },
+    {
+        "route_id": "1255_0",
+        "origin": "Rebanque",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1999_0",
+        "origin": "Algés",
+        "destination": "Cais do Sodré"
+    },
+    {
+        "route_id": "1517_0",
+        "origin": "Casal Rebentão (Rotunda)",
+        "destination": "Reboleira (Metro)"
+    },
+    {
+        "route_id": "1638_0",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Parede Terminal Rodoviário"
+    },
+    {
+        "route_id": "1730_3",
+        "origin": "Queluz Baixo (Centro Comercial)",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1715_0",
+        "origin": "Belém (Estação)",
+        "destination": "Mira Sintra (Mercado)"
+    },
+    {
+        "route_id": "1610_0",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Talaíde (Campo Futebol)"
+    },
+    {
+        "route_id": "1242_0",
+        "origin": "Casais Cabrela (Largo)",
+        "destination": "Almoçageme (Mercado)"
+    },
+    {
+        "route_id": "1616_0",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Taguspark (Rotunda Sef)"
+    },
+    {
+        "route_id": "1627_0",
+        "origin": "Alcoitão (Rotunda)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1252_1",
+        "origin": "Portela Sintra (Estação Sul)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1513_0",
+        "origin": "Amadora (Hospital)",
+        "destination": "Amadora (Hospital)"
+    },
+    {
+        "route_id": "1527_1",
+        "origin": "Cruz Quebrada (Estação)",
+        "destination": "Queluz Baixo (Centro Comercial)"
+    },
+    {
+        "route_id": "1728_1",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Queijas (PSP)"
+    },
+    {
+        "route_id": "1634_0",
+        "origin": "Fonte Da Aranha",
+        "destination": "Montelavar (Largo)"
+    },
+    {
+        "route_id": "1115_4",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Qta Torneiro"
+    },
+    {
+        "route_id": "1515_1",
+        "origin": "A-da-Beja",
+        "destination": "Amadora Este (Metro)"
+    },
+    {
+        "route_id": "1510_0",
+        "origin": "Amadora (Hospital)",
+        "destination": "Damaia De Baixo"
+    },
+    {
+        "route_id": "1513_1",
+        "origin": "Amadora (Hospital)",
+        "destination": "Queluz - Belas (Estação)"
+    },
+    {
+        "route_id": "1219_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Mira Sintra (Mercado)"
+    },
+    {
+        "route_id": "1117_3",
+        "origin": "Caxias (Qta Moura)",
+        "destination": "Paço De Arcos (Estação Norte)"
+    },
+    {
+        "route_id": "1117_0",
+        "origin": "Caxias (Qta Moura)",
+        "destination": "Lage (Centro)"
+    },
+    {
+        "route_id": "1726_1",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Queijas (PSP)"
+    },
+    {
+        "route_id": "1243_0",
+        "origin": "Casais Cabrela (Largo)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1624_0",
+        "origin": "Cascais (Terminal)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1122_0",
+        "origin": "Bº Joaquim Matias",
+        "destination": "Caxias (Ped Italiana)"
+    },
+    {
+        "route_id": "1712_0",
+        "origin": "Algés (Estação)",
+        "destination": "Amadora (Estação Sul)"
+    },
+    {
+        "route_id": "1010_0",
+        "origin": "Brandoa (Escola)",
+        "destination": "Casal Mira"
+    },
+    {
+        "route_id": "1240_0",
+        "origin": "Negrais (Soc Recreativa)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1006_0",
+        "origin": "Amadora (Estação Norte)",
+        "destination": "Casal Mira (Centro Comercial)"
+    },
+    {
+        "route_id": "1105_0",
+        "origin": "Algés (Estação)",
+        "destination": "Queluz Baixo (Centro Comercial)"
+    },
+    {
+        "route_id": "1119_0",
+        "origin": "Leceia (Sociedade)",
+        "destination": "Paço De Arcos (Estação Norte)"
+    },
+    {
+        "route_id": "1604_2",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Carcavelos (Estação)"
+    },
+    {
+        "route_id": "1105_1",
+        "origin": "Carnaxide (Escola Secundária)",
+        "destination": "Queluz Baixo (Centro Comercial)"
+    },
+    {
+        "route_id": "1521_0",
+        "origin": "Algés (Estação)",
+        "destination": "Agualva - Cacém (Estação)"
+    },
+    {
+        "route_id": "1123_0",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Porto Salvo (Lagoas Park)"
+    },
+    {
+        "route_id": "1502_0",
+        "origin": "Algés (Estação)",
+        "destination": "Amadora (Estação Sul)"
+    },
+    {
+        "route_id": "1726_0",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Queijas (PSP)"
+    },
+    {
+        "route_id": "1602_1",
+        "origin": "Amadora (B Janeiro)",
+        "destination": "Carcavelos (Praia)"
+    },
+    {
+        "route_id": "1007_1",
+        "origin": "Casal São Brás",
+        "destination": "Amadora (Estação Norte)"
+    },
+    {
+        "route_id": "1519_0",
+        "origin": "Queluz (Palácio)",
+        "destination": "Serra Silveira"
+    },
+    {
+        "route_id": "1525_4",
+        "origin": "Escola S Bruno",
+        "destination": "Leceia (Igreja)"
+    },
+    {
+        "route_id": "1215_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Agualva - Cacém (Estação)"
+    },
+    {
+        "route_id": "1630_0",
+        "origin": "Estoril (Estação)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1622_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Carcavelos (Estação)"
+    },
+    {
+        "route_id": "1504_1",
+        "origin": "Algés (Estação)",
+        "destination": "Bº Zambujal"
+    },
+    {
+        "route_id": "1723_0",
+        "origin": "Carnaxide (Av Portugal)",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1117_2",
+        "origin": "Paço De Arcos (Estação Norte)",
+        "destination": "Lage (Centro)"
+    },
+    {
+        "route_id": "1110_0",
+        "origin": "Carnaxide (Centro Cívico)",
+        "destination": "Carnaxide (Centro Cívico)"
+    },
+    {
+        "route_id": "1236_0",
+        "origin": "Alto do Forte (Centro Comercial)",
+        "destination": "Queluz - Belas (Estação)"
+    },
+    {
+        "route_id": "1725_0",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Oeiras (Estação Norte)"
+    },
+    {
+        "route_id": "1721_0",
+        "origin": "Colégio Militar (Metro)",
+        "destination": "Massamá (Casal Olival)"
+    },
+    {
+        "route_id": "1209_0",
+        "origin": "Casal Flosa",
+        "destination": "Mira Sintra (Mercado)"
+    },
+    {
+        "route_id": "1513_3",
+        "origin": "Amadora (Hospital)",
+        "destination": "Amadora (Hospital)"
+    },
+    {
+        "route_id": "1724_3",
+        "origin": "Linda-A-Velha",
+        "destination": "Marquês Pombal (Metro)"
+    },
+    {
+        "route_id": "1601_3",
+        "origin": "Amadora Este (Metro)",
+        "destination": "Oeiras (Medrosa)"
+    },
+    {
+        "route_id": "1636_1",
+        "origin": "Caneças (Largo Vieira Caldas)",
+        "destination": "D Maria (Igreja)"
+    },
+    {
+        "route_id": "1526_0",
+        "origin": "Caxias (Estabelecimento Prisional)",
+        "destination": "Monte Abraão (Estação)"
+    },
+    {
+        "route_id": "1251_0",
+        "origin": "Portela Sintra (Estação Sul)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1615_1",
+        "origin": "Carcavelos (Estação)",
+        "destination": "Rio De Mouro (Estação Sul)"
+    },
+    {
+        "route_id": "1630_1",
+        "origin": "Linhó",
+        "destination": "Estoril (Estação)"
+    },
+    {
+        "route_id": "1708_1",
+        "origin": "Brandoa (Alto)",
+        "destination": "Brandoa (Alto)"
+    },
+    {
+        "route_id": "1002_0",
+        "origin": "Alfragide (Força Aérea)",
+        "destination": "Amadora (Estação Norte)"
+    },
+    {
+        "route_id": "1507_0",
+        "origin": "Caxias (Estação)",
+        "destination": "Reboleira (Metro)"
+    },
+    {
+        "route_id": "1730_1",
+        "origin": "Marquês Pombal (Metro)",
+        "destination": "Queluz Baixo (Centro Comercial)"
+    },
+    {
+        "route_id": "1201_0",
+        "origin": "Terrugem (Escola Secundária)",
+        "destination": "Terrugem (Escola Secundária)"
+    },
+    {
+        "route_id": "1247_0",
+        "origin": "Fontanelas (Largo)",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1719_0",
+        "origin": "Casal Cambra",
+        "destination": "Colégio Militar (Metro)"
+    },
+    {
+        "route_id": "1614_1",
+        "origin": "Carcavelos (Estação)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1006_1",
+        "origin": "Amadora (Estação Norte)",
+        "destination": "Moinhos Funcheira (Rotunda)"
+    },
+    {
+        "route_id": "1223_0",
+        "origin": "Agualva - Cacém (Estação)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1211_0",
+        "origin": "Belas (Samaritana)",
+        "destination": "Agualva - Cacém (Estação)"
+    },
+    {
+        "route_id": "1506_0",
+        "origin": "Amadora (Hospital)",
+        "destination": "Amadora (Hospital)"
+    },
+    {
+        "route_id": "1246_0",
+        "origin": "Fontanelas",
+        "destination": "Portela Sintra (Estação Norte)"
+    },
+    {
+        "route_id": "1120_0",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Paço De Arcos (Estação Norte)"
+    },
+    {
+        "route_id": "1623_1",
+        "origin": "Cascais (Terminal)",
+        "destination": "Portela Sintra (Estação Sul)"
+    },
+    {
+        "route_id": "1632_1",
+        "origin": "Casais Cabrela (Largo)",
+        "destination": "Terrugem (Igreja)"
+    },
+    {
+        "route_id": "1529_1",
+        "origin": "Oeiras (Estação Norte)",
+        "destination": "Oeiras Golf Residence (Rotunda)"
+    },
+    {
+        "route_id": "1636_0",
+        "origin": "Caneças (Bº Maria Teresa)",
+        "destination": "D Maria (Igreja)"
+    },
+    {
+        "route_id": "2002_0",
+        "origin": "A-dos-Cãos",
+        "destination": "Loures (Centro Saúde)"
+    },
+    {
+        "route_id": "2003_0",
+        "origin": "Guerreiros",
+        "destination": "Guerreiros"
+    },
+    {
+        "route_id": "2003_1",
+        "origin": "Guerreiros",
+        "destination": "Guerreiros"
+    },
+    {
+        "route_id": "2004_0",
+        "origin": "Bairro de Santa Maria",
+        "destination": "Loures (C.Saúde)"
+    },
+    {
+        "route_id": "2006_0",
+        "origin": "Bemposta",
+        "destination": "Bucelas"
+    },
+    {
+        "route_id": "2008_0",
+        "origin": "Bucelas",
+        "destination": "Bucelas"
+    },
+    {
+        "route_id": "2011_0",
+        "origin": "Cabeço de Montachique",
+        "destination": "Loures (C.Saúde)"
+    },
+    {
+        "route_id": "2011_1",
+        "origin": "Tocadelos",
+        "destination": "Loures (C.Saúde)"
+    },
+    {
+        "route_id": "2013_0",
+        "origin": "Conventinho",
+        "destination": "Torres da Bela Vista"
+    },
+    {
+        "route_id": "2014_0",
+        "origin": "Escola Maria Veleda",
+        "destination": "Frielas"
+    },
+    {
+        "route_id": "2015_0",
+        "origin": "Flamenga",
+        "destination": "Torres da Bela Vista"
+    },
+    {
+        "route_id": "2016_0",
+        "origin": "Guerreiros",
+        "destination": "Loures (Hospital)"
+    },
+    {
+        "route_id": "2016_1",
+        "origin": "Torre dos Trotes",
+        "destination": "Loures (Hospital)"
+    },
+    {
+        "route_id": "2017_0",
+        "origin": "Guerreiros",
+        "destination": "Loures (C.Saúde)"
+    },
+    {
+        "route_id": "2020_0",
+        "origin": "Sto. Ant. Cavaleiros",
+        "destination": "Sto Ant Cavaleiros"
+    },
+    {
+        "route_id": "2020_1",
+        "origin": "Conventinho",
+        "destination": "Sto. Ant. Cavaleiros"
+    },
+    {
+        "route_id": "2021_0",
+        "origin": "Infantado",
+        "destination": "Tojal"
+    },
+    {
+        "route_id": "2021_1",
+        "origin": "Infantado",
+        "destination": "Tojal"
+    },
+    {
+        "route_id": "2021_2",
+        "origin": "Infantado (C. Comercial)",
+        "destination": "Tojal"
+    },
+    {
+        "route_id": "2021_3",
+        "origin": "Santo Antão do Tojal",
+        "destination": "Loures"
+    },
+    {
+        "route_id": "2022_0",
+        "origin": "",
+        "destination": "Monte Esperança"
+    },
+    {
+        "route_id": "2023_0",
+        "origin": "Loures C.Com.",
+        "destination": "Sacavém (Estádio)"
+    },
+    {
+        "route_id": "2023_1",
+        "origin": "Loures (Urmeira)",
+        "destination": "Sacavém (Estádio)"
+    },
+    {
+        "route_id": "2025_0",
+        "origin": "",
+        "destination": "Sacavém (Estação)"
+    },
+    {
+        "route_id": "2025_1",
+        "origin": "Bº Espinhal",
+        "destination": "Sacavém (Estação)"
+    },
+    {
+        "route_id": "2026_0",
+        "origin": "Loures",
+        "destination": "Loures"
+    },
+    {
+        "route_id": "2027_0",
+        "origin": "Loures",
+        "destination": "Loures (Urmeira)"
+    },
+    {
+        "route_id": "2027_1",
+        "origin": "Torres da Bela Vista",
+        "destination": "Loures (Urmeira)"
+    },
+    {
+        "route_id": "2028_0",
+        "origin": "Loures",
+        "destination": "Loures (Urmeira)"
+    },
+    {
+        "route_id": "2029_0",
+        "origin": "Moscavide (Metro)",
+        "destination": "Moscavide (Metro)"
+    },
+    {
+        "route_id": "2030_0",
+        "origin": "Sacavém (C.Saúde)",
+        "destination": "Sacavém (Centro Saúde)"
+    },
+    {
+        "route_id": "2031_0",
+        "origin": "Sacavém (C.Saúde)",
+        "destination": "Sacavém (Centro Saúde)"
+    },
+    {
+        "route_id": "2031_1",
+        "origin": "Sacavém (Praça República)",
+        "destination": "Sacavém (Centro Saúde)"
+    },
+    {
+        "route_id": "2032_0",
+        "origin": "Sacavém (Est)",
+        "destination": "Santa Iria Azoia (Estação)"
+    },
+    {
+        "route_id": "2033_0",
+        "origin": "S.João Talha",
+        "destination": "Sao João Talha"
+    },
+    {
+        "route_id": "2034_0",
+        "origin": "S.Iria (Apeadeiro)",
+        "destination": "Sta Iria Azoia (Est)"
+    },
+    {
+        "route_id": "2035_0",
+        "origin": "Tojal Jardim",
+        "destination": "Sto Antão Tojal"
+    },
+    {
+        "route_id": "2036_0",
+        "origin": "Bairro Angola",
+        "destination": "Bairro Angola"
+    },
+    {
+        "route_id": "2036_1",
+        "origin": "Bairro Angola",
+        "destination": "Bairro Bogalheira"
+    },
+    {
+        "route_id": "2037_0",
+        "origin": "Zambujal",
+        "destination": "Zambujal"
+    },
+    {
+        "route_id": "2037_1",
+        "origin": "Zambujal",
+        "destination": "Tojal"
+    },
+    {
+        "route_id": "2037_2",
+        "origin": "Zambujal",
+        "destination": "Zambujal"
+    },
+    {
+        "route_id": "2037_3",
+        "origin": "",
+        "destination": "Zambujal"
+    },
+    {
+        "route_id": "2101_0",
+        "origin": "Achada",
+        "destination": "Lagoa (Colégio Miramar)"
+    },
+    {
+        "route_id": "2102_0",
+        "origin": "Salgados",
+        "destination": "Lagoa (Colégio Miramar)"
+    },
+    {
+        "route_id": "2103_0",
+        "origin": "Antas",
+        "destination": "Mafra (Parque Desportivo)"
+    },
+    {
+        "route_id": "2103_1",
+        "origin": "Mafra (Parque Desportivo)",
+        "destination": "Mafra (Parque Desportivo)"
+    },
+    {
+        "route_id": "2104_0",
+        "origin": "Avessada",
+        "destination": "Malveira (Terminal)"
+    },
+    {
+        "route_id": "2105_0",
+        "origin": "Barreiralva",
+        "destination": "Mafra (Parque Desportivo)"
+    },
+    {
+        "route_id": "2106_0",
+        "origin": "Bocal",
+        "destination": "Mafra (Parque Desportivo)"
+    },
+    {
+        "route_id": "2106_1",
+        "origin": "Mafra (Parque Desportivo)",
+        "destination": "Bocal"
+    },
+    {
+        "route_id": "2107_0",
+        "origin": "Bocal",
+        "destination": "Malveira (Terminal)"
+    },
+    {
+        "route_id": "2107_1",
+        "origin": "Bocal",
+        "destination": "Malveira (Terminal)"
+    },
+    {
+        "route_id": "2108_0",
+        "origin": "Cachoeira",
+        "destination": "Malveira"
+    },
+    {
+        "route_id": "2109_0",
+        "origin": "Cachoeira",
+        "destination": "Venda do Pinheiro"
+    },
+    {
+        "route_id": "2110_0",
+        "origin": "Carvalhal",
+        "destination": "Mafra (Parque Desportivo)"
+    },
+    {
+        "route_id": "2110_1",
+        "origin": "Carvalhal",
+        "destination": "Mafra (Parque Desportivo)"
+    },
+    {
+        "route_id": "2110_2",
+        "origin": "Carvalhal",
+        "destination": "Mafra (Parque Desportivo)"
+    },
+    {
+        "route_id": "2111_0",
+        "origin": "Casais da Areia",
+        "destination": "Lagoa (Colégio Miramar)"
+    },
+    {
+        "route_id": "2112_0",
+        "origin": "Casais de São Lourenço",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2113_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Casais São Lourenço"
+    },
+    {
+        "route_id": "2113_1",
+        "origin": "Casais de São Lourenço",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2114_0",
+        "origin": "Charneca",
+        "destination": "Lagoa (Colégio Miramar)"
+    },
+    {
+        "route_id": "2115_0",
+        "origin": "Codeçal (Tapada Nacional)",
+        "destination": "Lagoa (Colégio Miramar)"
+    },
+    {
+        "route_id": "2116_0",
+        "origin": "Encarnação",
+        "destination": "Mafra (Parque Desportivo)"
+    },
+    {
+        "route_id": "2117_0",
+        "origin": "Encarnação (Cemitério)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2117_1",
+        "origin": "Encarnação (Cemitério)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2117_2",
+        "origin": "Talefe",
+        "destination": "Encarnação Cruz"
+    },
+    {
+        "route_id": "2118_0",
+        "origin": "Encarnação (Cemitério)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2118_1",
+        "origin": "Monte Bom Cruz",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2118_2",
+        "origin": "Encarnação (Cemitério)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2118_3",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Achada (Cabeça Alta)"
+    },
+    {
+        "route_id": "2118_4",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Monte Bom Cruz"
+    },
+    {
+        "route_id": "2118_5",
+        "origin": "Santo Isidoro",
+        "destination": "Monte Bom Cruz"
+    },
+    {
+        "route_id": "2119_0",
+        "origin": "Encarnação (Cemitério)",
+        "destination": "Lagoa (Colégio Miramar)"
+    },
+    {
+        "route_id": "2119_1",
+        "origin": "Encarnação",
+        "destination": "Lagoa (Colégio Miramar)"
+    },
+    {
+        "route_id": "2120_0",
+        "origin": "Enxara do Bispo",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2121_0",
+        "origin": "Enxara do Bispo",
+        "destination": "Gradil"
+    },
+    {
+        "route_id": "2122_0",
+        "origin": "Livramento",
+        "destination": "Enxara do Bispo"
+    },
+    {
+        "route_id": "2124_0",
+        "origin": "Urbana da Ericeira 1",
+        "destination": "Urbana da Ericeira 1"
+    },
+    {
+        "route_id": "2125_0",
+        "origin": "Urbana da Ericeira 2",
+        "destination": "Urbana da Ericeira 2"
+    },
+    {
+        "route_id": "2125_1",
+        "origin": "Urbana da Ericeira 2",
+        "destination": "Urbana da Ericeira 2"
+    },
+    {
+        "route_id": "2126_0",
+        "origin": "Ericeira",
+        "destination": "Ericeira | Circular"
+    },
+    {
+        "route_id": "2127_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Barril"
+    },
+    {
+        "route_id": "2128_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Fonte Boa da Brincosa"
+    },
+    {
+        "route_id": "2129_0",
+        "origin": "Lagoa (Colégio Miramar)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2130_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lagoa (Colégio Miramar)"
+    },
+    {
+        "route_id": "2130_1",
+        "origin": "Lagoa (Colégio Miramar)",
+        "destination": "Ribamar"
+    },
+    {
+        "route_id": "2131_0",
+        "origin": "Lagoa (Colégio Miramar)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2131_1",
+        "origin": "Lagoa (Colégio Miramar)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2132_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Mafra (Terminal)"
+    },
+    {
+        "route_id": "2132_1",
+        "origin": "Mafra (Palácio)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2133_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Mafra (Palácio)"
+    },
+    {
+        "route_id": "2133_1",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Mafra (Palácio)"
+    },
+    {
+        "route_id": "2133_2",
+        "origin": "Mafra (Palácio)",
+        "destination": "Carvoeira"
+    },
+    {
+        "route_id": "2133_3",
+        "origin": "Mafra (Palácio)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2133_4",
+        "origin": "Mafra (Palácio)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2134_0",
+        "origin": "Ervideira",
+        "destination": "Gradil"
+    },
+    {
+        "route_id": "2135_0",
+        "origin": "Igreja Nova",
+        "destination": "Venda do Pinheiro (Cemiterio)"
+    },
+    {
+        "route_id": "2136_0",
+        "origin": "Jerumelo",
+        "destination": "Mafra (Terminal)"
+    },
+    {
+        "route_id": "2137_0",
+        "origin": "Lagoa (Colégio Miramar)",
+        "destination": "Mafra (Palácio)"
+    },
+    {
+        "route_id": "2137_1",
+        "origin": "Mafra (Alto da Vela)",
+        "destination": "Lagoa (Colégio Miramar)"
+    },
+    {
+        "route_id": "2138_0",
+        "origin": "Lagoa (Colégio Miramar)",
+        "destination": "São Domingos"
+    },
+    {
+        "route_id": "2139_0",
+        "origin": "Lagoa (Colégio Miramar)",
+        "destination": "Sobral da Abelheira"
+    },
+    {
+        "route_id": "2140_0",
+        "origin": "Lagoa (Colégio Miramar)",
+        "destination": "Sobreiro"
+    },
+    {
+        "route_id": "2141_0",
+        "origin": "Mafra (Terminal)",
+        "destination": "Ribamar"
+    },
+    {
+        "route_id": "2142_0",
+        "origin": "Mafra (Almada)",
+        "destination": "Mafra (Almada) | Circular"
+    },
+    {
+        "route_id": "2142_1",
+        "origin": "Mafra (Almada)",
+        "destination": "Mafra (Almada)"
+    },
+    {
+        "route_id": "2142_2",
+        "origin": "Mafra (Almada)",
+        "destination": "Mafra (Terminal)"
+    },
+    {
+        "route_id": "2143_0",
+        "origin": "Mafra (Palácio)",
+        "destination": "Zambujal"
+    },
+    {
+        "route_id": "2144_0",
+        "origin": "Mafra (Parque Desportivo)",
+        "destination": "Livramento"
+    },
+    {
+        "route_id": "2144_1",
+        "origin": "Mafra (Parque Desportivo)",
+        "destination": "Santo Isidoro"
+    },
+    {
+        "route_id": "2144_2",
+        "origin": "Monte Bom",
+        "destination": "Mafra (Parque Desportivo)"
+    },
+    {
+        "route_id": "2144_3",
+        "origin": "Monte Bom",
+        "destination": "Mafra (Parque Desportivo)"
+    },
+    {
+        "route_id": "2145_0",
+        "origin": "Mafra",
+        "destination": "Mafra (Parque Desportivo)| Circular"
+    },
+    {
+        "route_id": "2145_1",
+        "origin": "Mafra",
+        "destination": "Mafra (Parque Desportivo)| Circular"
+    },
+    {
+        "route_id": "2146_0",
+        "origin": "Malveira (Centro Saúde)",
+        "destination": "Malveira (C.Saúde)"
+    },
+    {
+        "route_id": "2147_0",
+        "origin": "Milharado",
+        "destination": "Venda do Pinheiro"
+    },
+    {
+        "route_id": "2147_1",
+        "origin": "Venda do Pinheiro (Terminal)",
+        "destination": "Póvoa da Galega"
+    },
+    {
+        "route_id": "2148_0",
+        "origin": "Póvoa da Galega",
+        "destination": "Venda do Pinheiro"
+    },
+    {
+        "route_id": "2148_1",
+        "origin": "Venda do Pinheiro (Terminal)",
+        "destination": "Póvoa da Galega"
+    },
+    {
+        "route_id": "2149_0",
+        "origin": "Prezinheira",
+        "destination": "Venda do Pinheiro"
+    },
+    {
+        "route_id": "2150_0",
+        "origin": "Carvalhal",
+        "destination": "Venda do Pinheiro (Colégio Santo André)"
+    },
+    {
+        "route_id": "2150_1",
+        "origin": "Venda do Pinheiro",
+        "destination": "Cheleiros"
+    },
+    {
+        "route_id": "2151_0",
+        "origin": "Venda do Pinheiro (Terminal)",
+        "destination": "Vila de Canas"
+    },
+    {
+        "route_id": "2152_0",
+        "origin": "Antas",
+        "destination": "Malveira (Escola)"
+    },
+    {
+        "route_id": "2201_0",
+        "origin": "Arroja",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2202_0",
+        "origin": "Arroja",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2203_0",
+        "origin": "Arroja",
+        "destination": "Arroja"
+    },
+    {
+        "route_id": "2203_1",
+        "origin": "Arroja",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2204_0",
+        "origin": "Caneças",
+        "destination": "Famões"
+    },
+    {
+        "route_id": "2205_0",
+        "origin": "Caneças (Esc. Secundária)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2206_0",
+        "origin": "Caneças (Esc. Secundária)",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2207_0",
+        "origin": "Caneças (Esc. Secundária)",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2208_0",
+        "origin": "Caneças (Jardim)",
+        "destination": "Vale Nogueira"
+    },
+    {
+        "route_id": "2209_0",
+        "origin": "Casal Bispo",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2210_0",
+        "origin": "Jardim da Amoreira",
+        "destination": "Colinas do Cruzeiro"
+    },
+    {
+        "route_id": "2211_0",
+        "origin": "Jardim da Amoreira",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2212_0",
+        "origin": "Odivelas (C. Comercial)",
+        "destination": "Voltas Odivelas"
+    },
+    {
+        "route_id": "2213_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2213_1",
+        "origin": "Odivelas (Metro)",
+        "destination": "Famões"
+    },
+    {
+        "route_id": "2213_2",
+        "origin": "Famões",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2215_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Bons Dias"
+    },
+    {
+        "route_id": "2216_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Jardim da Radial"
+    },
+    {
+        "route_id": "2217_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2217_1",
+        "origin": "Odivelas (Metro)",
+        "destination": "Arroja"
+    },
+    {
+        "route_id": "2217_2",
+        "origin": "Pedernais",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2218_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2219_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2219_1",
+        "origin": "Sete Castelos",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2220_0",
+        "origin": "Olival Basto",
+        "destination": "Voltas O. Basto - P. Sto Adrião"
+    },
+    {
+        "route_id": "2220_2",
+        "origin": "Odivelas (Metro)",
+        "destination": "Voltas Olival - Póvoa"
+    },
+    {
+        "route_id": "2220_3",
+        "origin": "Olival Basto",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2221_0",
+        "origin": "Póvoa de Santo Adrião (Parque Urbano)",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2221_1",
+        "origin": "Póvoa de Santo Adrião (Parque Urbano)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2222_0",
+        "origin": "Ramada",
+        "destination": "Voltas Ramada"
+    },
+    {
+        "route_id": "2223_0",
+        "origin": "Sr. Roubado (Metro)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2223_1",
+        "origin": "Casal Novo (Trigache)",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2224_0",
+        "origin": "Arroja",
+        "destination": "Arroja circular"
+    },
+    {
+        "route_id": "2225_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2225_1",
+        "origin": "Arroja",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2225_2",
+        "origin": "Odivelas (Metro)",
+        "destination": "Pedernais"
+    },
+    {
+        "route_id": "2225_3",
+        "origin": "Ramada (Esc. Secundária)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2303_0",
+        "origin": "Alverca (Est)",
+        "destination": "Arcena"
+    },
+    {
+        "route_id": "2304_0",
+        "origin": "Alverca (Est)",
+        "destination": "Alhandra"
+    },
+    {
+        "route_id": "2305_0",
+        "origin": "Alverca (Est)",
+        "destination": "Alverca (Est)"
+    },
+    {
+        "route_id": "2306_0",
+        "origin": "Alverca (Est)",
+        "destination": "Vila Franca Xira"
+    },
+    {
+        "route_id": "2307_0",
+        "origin": "Arcena",
+        "destination": "Vila Franca Xira"
+    },
+    {
+        "route_id": "2309_0",
+        "origin": "Bogalhão",
+        "destination": "Vila Franca Xira"
+    },
+    {
+        "route_id": "2310_0",
+        "origin": "Torre de Cima e Capelas",
+        "destination": "Carregado (Estação)"
+    },
+    {
+        "route_id": "2315_0",
+        "origin": "Castanheira (Est)",
+        "destination": "Castanheira (Est)"
+    },
+    {
+        "route_id": "2316_0",
+        "origin": "Cotovios",
+        "destination": "Vila Franca Xira"
+    },
+    {
+        "route_id": "2317_0",
+        "origin": "Fonte Santa",
+        "destination": "Póvoa Santa Iria (Estação)"
+    },
+    {
+        "route_id": "2317_1",
+        "origin": "Fonte Santa",
+        "destination": "P. Sta Iria (Est)"
+    },
+    {
+        "route_id": "2317_2",
+        "origin": "BºIcesa",
+        "destination": "Póvoa Santa Iria (Estação)"
+    },
+    {
+        "route_id": "2318_0",
+        "origin": "P.S.I.(Est)",
+        "destination": "P. Sta Iria (Est)"
+    },
+    {
+        "route_id": "2318_1",
+        "origin": "P.S.I.(Est)",
+        "destination": "Póvoa Santa Iria (EN 10)"
+    },
+    {
+        "route_id": "2318_2",
+        "origin": "F. Casa(A.R.)",
+        "destination": "Póvoa Santa Iria (Estação)"
+    },
+    {
+        "route_id": "2319_0",
+        "origin": "F. Casa(Lgo)",
+        "destination": "Forte Casa (Largo)"
+    },
+    {
+        "route_id": "2319_1",
+        "origin": "Bº Caniços",
+        "destination": "Forte Casa (Largo)"
+    },
+    {
+        "route_id": "2320_0",
+        "origin": "Monte Gordo",
+        "destination": "Vila Franca Xira"
+    },
+    {
+        "route_id": "2321_0",
+        "origin": "Monte Gordo",
+        "destination": "Vila Franca Xira"
+    },
+    {
+        "route_id": "2325_0",
+        "origin": "P.S.I.(Est)",
+        "destination": "Verdelha Ruivo"
+    },
+    {
+        "route_id": "2327_0",
+        "origin": "P.S.I.(Est)",
+        "destination": "P. S. Iria (Est)"
+    },
+    {
+        "route_id": "2327_1",
+        "origin": "P.S.I.(Est)",
+        "destination": "Vialonga (Parque Residencial)"
+    },
+    {
+        "route_id": "2328_0",
+        "origin": "QªPied",
+        "destination": "Vila Franca Xira"
+    },
+    {
+        "route_id": "2329_0",
+        "origin": "Alhandra(Esc)",
+        "destination": "Sobralinho"
+    },
+    {
+        "route_id": "2331_0",
+        "origin": "Torre Cima i Capela",
+        "destination": "Hospital VFX"
+    },
+    {
+        "route_id": "2333_0",
+        "origin": "V.Franca Xira",
+        "destination": "Hospital VFX"
+    },
+    {
+        "route_id": "2335_0",
+        "origin": "P.S.Iria (Praça República)",
+        "destination": "Póvoa Sta Iria"
+    },
+    {
+        "route_id": "2336_0",
+        "origin": "P.S.Iria(Rep)",
+        "destination": "P.S.Iria(Rep)"
+    },
+    {
+        "route_id": "2501_0",
+        "origin": "Bocal",
+        "destination": "Malveira (Terminal)"
+    },
+    {
+        "route_id": "2502_0",
+        "origin": "Bucelas",
+        "destination": "Malveira"
+    },
+    {
+        "route_id": "2503_0",
+        "origin": "Bucelas",
+        "destination": "Tojal"
+    },
+    {
+        "route_id": "2503_1",
+        "origin": "Casainhos",
+        "destination": "Tojal"
+    },
+    {
+        "route_id": "2504_0",
+        "origin": "Carrascal",
+        "destination": "Ponte de Lousa"
+    },
+    {
+        "route_id": "2505_0",
+        "origin": "Loures (C. Comercial)",
+        "destination": "Malveira (Terminal)"
+    },
+    {
+        "route_id": "2506_0",
+        "origin": "Milharado (CASO)",
+        "destination": "Ponte de Lousa"
+    },
+    {
+        "route_id": "2510_0",
+        "origin": "Bucelas",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2510_1",
+        "origin": "Bucelas",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2510_2",
+        "origin": "Sr. Roubado (Metro)",
+        "destination": "Bucelas"
+    },
+    {
+        "route_id": "2510_4",
+        "origin": "Casainhos",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2510_5",
+        "origin": "Casainhos",
+        "destination": "Sr. Roubado"
+    },
+    {
+        "route_id": "2510_6",
+        "origin": "Santo Antão do Tojal",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2511_0",
+        "origin": "Bairro dos CTT",
+        "destination": "Loures"
+    },
+    {
+        "route_id": "2512_0",
+        "origin": "Bucelas",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2513_0",
+        "origin": "",
+        "destination": "Loures"
+    },
+    {
+        "route_id": "2513_1",
+        "origin": "",
+        "destination": "Loures"
+    },
+    {
+        "route_id": "2513_2",
+        "origin": "",
+        "destination": "Caneças"
+    },
+    {
+        "route_id": "2515_0",
+        "origin": "Casal Paradela",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2515_1",
+        "origin": "Odivelas (Metro)",
+        "destination": "Casal Paradela"
+    },
+    {
+        "route_id": "2516_0",
+        "origin": "Casal Paradela",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2517_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2517_1",
+        "origin": "Hospital Beatriz Ângelo",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2518_0",
+        "origin": "Frielas (Zona Comercial)",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2519_0",
+        "origin": "Loures (C. Comercial C. Loures)",
+        "destination": "Colinas do Cruzeiro"
+    },
+    {
+        "route_id": "2520_0",
+        "origin": "Loures (C.Comercial)",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2520_1",
+        "origin": "Infantado (X)",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2521_0",
+        "origin": "",
+        "destination": ""
+    },
+    {
+        "route_id": "2522_0",
+        "origin": "Montemor",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2523_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Montemor"
+    },
+    {
+        "route_id": "2523_1",
+        "origin": "Odivelas (Metro)",
+        "destination": "Amoreira (Aires)"
+    },
+    {
+        "route_id": "2524_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2524_1",
+        "origin": "",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2525_0",
+        "origin": "Santo Antão do Tojal",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2530_0",
+        "origin": "Alverca (Estação)",
+        "destination": "Bucelas"
+    },
+    {
+        "route_id": "2530_1",
+        "origin": "Alverca (Estação)",
+        "destination": "Bucelas"
+    },
+    {
+        "route_id": "2532_0",
+        "origin": "Alverca(Est)",
+        "destination": "Loures"
+    },
+    {
+        "route_id": "2532_1",
+        "origin": "Alverca(Est)",
+        "destination": "Santo Antão Tojal"
+    },
+    {
+        "route_id": "2532_3",
+        "origin": "Granja",
+        "destination": "Alverca (Estação)"
+    },
+    {
+        "route_id": "2533_0",
+        "origin": "Alverca(Est)",
+        "destination": "Sto Antão Tojal"
+    },
+    {
+        "route_id": "2534_0",
+        "origin": "",
+        "destination": "Santa Iria Azoia"
+    },
+    {
+        "route_id": "2535_0",
+        "origin": "",
+        "destination": "Vila Franca de Xira"
+    },
+    {
+        "route_id": "2536_0",
+        "origin": "Mojões",
+        "destination": "Bairro Monjoes"
+    },
+    {
+        "route_id": "2537_0",
+        "origin": "P.S.I.(Est)",
+        "destination": "Santo Antão Tojal"
+    },
+    {
+        "route_id": "2537_1",
+        "origin": "P.S.I.(Est)",
+        "destination": "Sto Antão Tojal"
+    },
+    {
+        "route_id": "2538_0",
+        "origin": "P.S.I.(Est)",
+        "destination": "Santo Antão Tojal"
+    },
+    {
+        "route_id": "2538_1",
+        "origin": "P.S.I. (Est)",
+        "destination": "Santo Antão Tojal"
+    },
+    {
+        "route_id": "2539_0",
+        "origin": "Sacavém (Est)",
+        "destination": "Sta Iria (Est)"
+    },
+    {
+        "route_id": "2540_0",
+        "origin": "",
+        "destination": "MARL"
+    },
+    {
+        "route_id": "2601_0",
+        "origin": "Loures (C. Comercial C. Loures)",
+        "destination": "Reboleira (Metro)"
+    },
+    {
+        "route_id": "2601_1",
+        "origin": "Loures (C. Comercial C. Loures)",
+        "destination": "Reboleira (Metro)"
+    },
+    {
+        "route_id": "2605_0",
+        "origin": "",
+        "destination": "Loures"
+    },
+    {
+        "route_id": "2605_1",
+        "origin": "Cacém (Estação)",
+        "destination": "Loures (Hospital)"
+    },
+    {
+        "route_id": "2605_2",
+        "origin": "",
+        "destination": "Loures"
+    },
+    {
+        "route_id": "2605_3",
+        "origin": "Cacém (Estação)",
+        "destination": "Caneças"
+    },
+    {
+        "route_id": "2610_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Centro Comercial"
+    },
+    {
+        "route_id": "2611_0",
+        "origin": "Ramada (Bons Dias)",
+        "destination": "Centro Comercial"
+    },
+    {
+        "route_id": "2620_0",
+        "origin": "Covas de Ferro",
+        "destination": "Loures (C.Saúde)"
+    },
+    {
+        "route_id": "2621_0",
+        "origin": "Covas de Ferro",
+        "destination": "Pinheiro de Loures"
+    },
+    {
+        "route_id": "2621_1",
+        "origin": "Pinheiro de Loures",
+        "destination": "A-dos-Cãos"
+    },
+    {
+        "route_id": "2625_0",
+        "origin": "Mafra (Terminal)",
+        "destination": "São João das Lampas"
+    },
+    {
+        "route_id": "2626_0",
+        "origin": "Mafra (Parque Desportivo)",
+        "destination": "Portela de Sintra (Estação)"
+    },
+    {
+        "route_id": "2626_1",
+        "origin": "Mafra (Parque Desportivo)",
+        "destination": "Cheleiros"
+    },
+    {
+        "route_id": "2627_0",
+        "origin": "Mafra (Parque Desportivo)",
+        "destination": "Ribeira dos Tostões"
+    },
+    {
+        "route_id": "2627_1",
+        "origin": "Ribeira dos Tostões",
+        "destination": "Igreja Nova"
+    },
+    {
+        "route_id": "2630_0",
+        "origin": "Caneças (Esc. Secundária)",
+        "destination": "Caneças (Esc. Secundária)"
+    },
+    {
+        "route_id": "2630_1",
+        "origin": "Caneças (Esc. Secundária)",
+        "destination": "Caneças"
+    },
+    {
+        "route_id": "2632_0",
+        "origin": "Casal de Cambra (C. Saúde)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2632_1",
+        "origin": "Casal de Cambra (C. Saúde)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2652_0",
+        "origin": "C. Caparica",
+        "destination": "Forte Casa (Largo)"
+    },
+    {
+        "route_id": "2701_0",
+        "origin": "Pontinha (Metro)",
+        "destination": "Vale Grande"
+    },
+    {
+        "route_id": "2702_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2703_0",
+        "origin": "Campo Grande",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2703_1",
+        "origin": "Bogalheira",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2705_0",
+        "origin": "Estação Oriente",
+        "destination": "Estação Oriente"
+    },
+    {
+        "route_id": "2705_3",
+        "origin": "Estação Oriente",
+        "destination": "Bairro Espinhal"
+    },
+    {
+        "route_id": "2706_0",
+        "origin": "Bucelas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2706_1",
+        "origin": "Bucelas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2708_0",
+        "origin": "C.Aguieira",
+        "destination": "Estação Oriente"
+    },
+    {
+        "route_id": "2708_2",
+        "origin": "",
+        "destination": ""
+    },
+    {
+        "route_id": "2709_0",
+        "origin": "Camarate",
+        "destination": "Camarate"
+    },
+    {
+        "route_id": "2710_0",
+        "origin": "A. Moinho",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2711_0",
+        "origin": "Charneca",
+        "destination": "Estação Oriente"
+    },
+    {
+        "route_id": "2711_1",
+        "origin": "Charneca",
+        "destination": "Est Oriente"
+    },
+    {
+        "route_id": "2711_3",
+        "origin": "Fonte Pipa",
+        "destination": "Camarate (Escola)"
+    },
+    {
+        "route_id": "2711_4",
+        "origin": "Estação Oriente",
+        "destination": "Fetais"
+    },
+    {
+        "route_id": "2711_5",
+        "origin": "Charneca",
+        "destination": "Sacavém (Jardim)"
+    },
+    {
+        "route_id": "2711_6",
+        "origin": "Charneca",
+        "destination": "Sacavém (Jardim)"
+    },
+    {
+        "route_id": "2713_0",
+        "origin": "Campo Grande",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2713_1",
+        "origin": "Campo Grande",
+        "destination": "Sacavém"
+    },
+    {
+        "route_id": "2713_2",
+        "origin": "Apelação",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2713_3",
+        "origin": "Campo Grande",
+        "destination": "Apelação"
+    },
+    {
+        "route_id": "2713_4",
+        "origin": "Bº S.José",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2713_5",
+        "origin": "Campo Grande",
+        "destination": "Apelação"
+    },
+    {
+        "route_id": "2714_0",
+        "origin": "Campo Grande",
+        "destination": "Sacavém (Jardim)"
+    },
+    {
+        "route_id": "2715_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Cidade Nova"
+    },
+    {
+        "route_id": "2716_0",
+        "origin": "Cidade Nova",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2717_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Torres da Bela Vista"
+    },
+    {
+        "route_id": "2718_0",
+        "origin": "Infantado",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2719_0",
+        "origin": "",
+        "destination": "Loures"
+    },
+    {
+        "route_id": "2720_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Loures (Urmeira)"
+    },
+    {
+        "route_id": "2722_0",
+        "origin": "Areeiro",
+        "destination": "Via Rara"
+    },
+    {
+        "route_id": "2722_1",
+        "origin": "Areeiro",
+        "destination": "Santa Iria Azóia"
+    },
+    {
+        "route_id": "2723_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Zambujal"
+    },
+    {
+        "route_id": "2724_0",
+        "origin": "",
+        "destination": "Loures C. COM."
+    },
+    {
+        "route_id": "2725_0",
+        "origin": "Estação Oriente",
+        "destination": "Loures (zona comercial)"
+    },
+    {
+        "route_id": "2725_1",
+        "origin": "Loures (Urmeira)",
+        "destination": "Estação Oriente"
+    },
+    {
+        "route_id": "2725_2",
+        "origin": "Estação Oriente",
+        "destination": "Loures (Urb Urmeira)"
+    },
+    {
+        "route_id": "2726_0",
+        "origin": "",
+        "destination": "Loures C.COM."
+    },
+    {
+        "route_id": "2727_0",
+        "origin": "",
+        "destination": "Loures (Av 25 de Abril)"
+    },
+    {
+        "route_id": "2727_1",
+        "origin": "Estação Oriente",
+        "destination": "Bairro Espinhal"
+    },
+    {
+        "route_id": "2728_0",
+        "origin": "Bairro Covina",
+        "destination": "Estação Oriente"
+    },
+    {
+        "route_id": "2729_0",
+        "origin": "Estação Oriente",
+        "destination": "Portela Azóia"
+    },
+    {
+        "route_id": "2730_0",
+        "origin": "Estação Oriente",
+        "destination": "Santa Iria Azóia"
+    },
+    {
+        "route_id": "2731_0",
+        "origin": "Estação Oriente",
+        "destination": "Estação Oriente"
+    },
+    {
+        "route_id": "2731_1",
+        "origin": "Estação Oriente",
+        "destination": "Sacavém (Estação)"
+    },
+    {
+        "route_id": "2732_0",
+        "origin": "Praça J.Q",
+        "destination": "Praça José Queirós"
+    },
+    {
+        "route_id": "2732_1",
+        "origin": "",
+        "destination": "Camarate (CTT)"
+    },
+    {
+        "route_id": "2733_0",
+        "origin": "",
+        "destination": "Moscavide (Metro)"
+    },
+    {
+        "route_id": "2734_0",
+        "origin": "Prior Velho",
+        "destination": "Sacavém (Estação)"
+    },
+    {
+        "route_id": "2735_0",
+        "origin": "",
+        "destination": "Sacavém (Estação)"
+    },
+    {
+        "route_id": "2736_0",
+        "origin": "Campo Grande",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2736_1",
+        "origin": "Campo Grande",
+        "destination": "Apelação"
+    },
+    {
+        "route_id": "2736_2",
+        "origin": "Apl (Av Brasilia)",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2736_3",
+        "origin": "Apelação",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2740_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2740_1",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2740_2",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2741_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2741_1",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2742_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Mafra (Terminal)"
+    },
+    {
+        "route_id": "2743_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Póvoa da Galega"
+    },
+    {
+        "route_id": "2744_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Póvoa da Galega"
+    },
+    {
+        "route_id": "2745_0",
+        "origin": "Póvoa da Galega",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2745_1",
+        "origin": "Cabeço de Montachique",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2746_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2750_0",
+        "origin": "Bucelas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2750_1",
+        "origin": "Bucelas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2750_2",
+        "origin": "Bucelas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2750_3",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Bucelas"
+    },
+    {
+        "route_id": "2750_4",
+        "origin": "Casainhos",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2750_5",
+        "origin": "Casainhos",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2750_6",
+        "origin": "Casainhos",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2750_7",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Tojal"
+    },
+    {
+        "route_id": "2751_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2751_1",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2752_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Malveira (Terminal)"
+    },
+    {
+        "route_id": "2753_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Milharado"
+    },
+    {
+        "route_id": "2754_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Póvoa da Galega"
+    },
+    {
+        "route_id": "2754_1",
+        "origin": "Póvoa da Galega",
+        "destination": "Loures (C.Saúde)"
+    },
+    {
+        "route_id": "2754_2",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Póvoa da Galega"
+    },
+    {
+        "route_id": "2755_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Póvoa da Galega"
+    },
+    {
+        "route_id": "2756_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Póvoa da Galega"
+    },
+    {
+        "route_id": "2756_1",
+        "origin": "Póvoa da Galega",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2758_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Mafra (Terminal)"
+    },
+    {
+        "route_id": "2762_0",
+        "origin": "Bucelas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2762_1",
+        "origin": "Bucelas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2764_0",
+        "origin": "Bucelas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2764_1",
+        "origin": "Bucelas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2764_2",
+        "origin": "Bucelas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2765_0",
+        "origin": "Cabeço de Montachique",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2765_1",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2768_0",
+        "origin": "Casal Paradela",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2769_0",
+        "origin": "Cidade Nova",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2769_1",
+        "origin": "Cidade Nova",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2769_2",
+        "origin": "Cidade Nova",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2769_3",
+        "origin": "AMSAC",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2772_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Torres da Bela Vista"
+    },
+    {
+        "route_id": "2772_1",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Torres da Bela Vista"
+    },
+    {
+        "route_id": "2772_2",
+        "origin": "Torres da Bela Vista",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2772_3",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Torres da Bela Vista"
+    },
+    {
+        "route_id": "2772_4",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Torres da Bela Vista"
+    },
+    {
+        "route_id": "2772_5",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Torres da Bela Vista"
+    },
+    {
+        "route_id": "2774_0",
+        "origin": "Frielas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2774_1",
+        "origin": "Frielas",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2776_0",
+        "origin": "Guerreiros",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2776_1",
+        "origin": "Guerreiros",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2778_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Tojal"
+    },
+    {
+        "route_id": "2778_1",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Tojal"
+    },
+    {
+        "route_id": "2778_2",
+        "origin": "Santo Antão do Tojal",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2779_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Tojal"
+    },
+    {
+        "route_id": "2780_0",
+        "origin": "Loures (C.C. Continente)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2781_0",
+        "origin": "Loures (C.C. Continente)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2781_1",
+        "origin": "Loures (C.C. Continente)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2785_0",
+        "origin": "Covas de Ferro",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2785_1",
+        "origin": "A-dos-Cãos",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2790_0",
+        "origin": "Alverca(Est)",
+        "destination": "Areeiro"
+    },
+    {
+        "route_id": "2790_1",
+        "origin": "F. Casa (Lgo)",
+        "destination": "Areeiro"
+    },
+    {
+        "route_id": "2790_2",
+        "origin": "Santa Iria (Sores)",
+        "destination": "Areeiro"
+    },
+    {
+        "route_id": "2791_0",
+        "origin": "Alverca (Z.Ind)",
+        "destination": "Areeiro"
+    },
+    {
+        "route_id": "2791_2",
+        "origin": "Sacavém (Praça República)",
+        "destination": "Areeiro"
+    },
+    {
+        "route_id": "2791_3",
+        "origin": "EN10(X Bº Funchal)",
+        "destination": "Alverca (zona industrial)"
+    },
+    {
+        "route_id": "2792_0",
+        "origin": "Arcena",
+        "destination": "Estação Oriente"
+    },
+    {
+        "route_id": "2792_1",
+        "origin": "Arcena",
+        "destination": "Estação Oriente"
+    },
+    {
+        "route_id": "2794_0",
+        "origin": "F. Casa(Lgo)",
+        "destination": "Estação Oriente"
+    },
+    {
+        "route_id": "2794_1",
+        "origin": "QªPied(IIªF)",
+        "destination": "Estação Oriente"
+    },
+    {
+        "route_id": "2795_0",
+        "origin": "Campo Grande",
+        "destination": "Quinta Piedade"
+    },
+    {
+        "route_id": "2795_1",
+        "origin": "Campo Grande",
+        "destination": "Pirescoxe"
+    },
+    {
+        "route_id": "2795_2",
+        "origin": "Santa Iria(AV Sta Iria)",
+        "destination": "Quinta Piedade"
+    },
+    {
+        "route_id": "2795_3",
+        "origin": "S.João Talha",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2796_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Vialonga"
+    },
+    {
+        "route_id": "2796_1",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Vialonga"
+    },
+    {
+        "route_id": "2797_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Vialonga"
+    },
+    {
+        "route_id": "2797_1",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Vialonga"
+    },
+    {
+        "route_id": "2797_2",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Vialonga"
+    },
+    {
+        "route_id": "2801_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2801_1",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2801_2",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2802_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Mafra (Terminal)"
+    },
+    {
+        "route_id": "2803_0",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2803_1",
+        "origin": "Ericeira (Terminal)",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2804_0",
+        "origin": "Mafra",
+        "destination": "Mafra (Terminal)"
+    },
+    {
+        "route_id": "2804_1",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Mafra (Quinta das Pevides)"
+    },
+    {
+        "route_id": "2805_0",
+        "origin": "Encarnação",
+        "destination": "Lisboa (C. Grande)"
+    },
+    {
+        "route_id": "2806_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Livramento"
+    },
+    {
+        "route_id": "2807_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Zambujal, via Mafra"
+    },
+    {
+        "route_id": "2810_0",
+        "origin": "Arroja",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2811_0",
+        "origin": "Caneças (Bairro do Monte Verde)",
+        "destination": "Colégio Militar"
+    },
+    {
+        "route_id": "2811_1",
+        "origin": "Pedernais (Girassol)",
+        "destination": "Colégio Militar"
+    },
+    {
+        "route_id": "2812_0",
+        "origin": "Caneças (Esc. Secundária)",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2812_1",
+        "origin": "Caneças (Esc. Secundária)",
+        "destination": "Campo Grande"
+    },
+    {
+        "route_id": "2812_2",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Caneças"
+    },
+    {
+        "route_id": "2813_0",
+        "origin": "Casal Novo",
+        "destination": "Colégio Militar"
+    },
+    {
+        "route_id": "2814_0",
+        "origin": "Casal Novo",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2816_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Bons Dias"
+    },
+    {
+        "route_id": "2817_0",
+        "origin": "Lisboa (C. Militar)",
+        "destination": "Odivelas (Metro)"
+    },
+    {
+        "route_id": "2818_0",
+        "origin": "Lisboa (C. Militar)",
+        "destination": "Serra Amoreira"
+    },
+    {
+        "route_id": "2819_0",
+        "origin": "Lisboa (C. Militar)",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2820_0",
+        "origin": "Odivelas (Colinas do Cruzeiro)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2821_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2821_1",
+        "origin": "Póvoa Sto Adrião",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2822_0",
+        "origin": "Odivelas (Metro)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2823_0",
+        "origin": "Pedernais (Bairro Girassol)",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2824_0",
+        "origin": "Pontinha (Metro)",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2824_1",
+        "origin": "Paiã",
+        "destination": "Sr. Roubado (Metro)"
+    },
+    {
+        "route_id": "2830_1",
+        "origin": "Casal do Bispo",
+        "destination": "Colégio Militar"
+    },
+    {
+        "route_id": "2831_0",
+        "origin": "Casal do Bispo",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2832_0",
+        "origin": "Casal Novo",
+        "destination": "Colégio Militar"
+    },
+    {
+        "route_id": "2833_0",
+        "origin": "Pontinha (Metro)",
+        "destination": "Casal Novo"
+    },
+    {
+        "route_id": "2833_1",
+        "origin": "Casal Novo",
+        "destination": "Pontinha (Metro)"
+    },
+    {
+        "route_id": "2841_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Sobralinho"
+    },
+    {
+        "route_id": "2841_1",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Alverca"
+    },
+    {
+        "route_id": "2841_2",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Sobralinho"
+    },
+    {
+        "route_id": "2842_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "Vila Franca Xira"
+    },
+    {
+        "route_id": "2900_0",
+        "origin": "Lisboa (C. Grande)",
+        "destination": "São Sebastião"
+    },
+    {
+        "route_id": "2901_0",
+        "origin": "Rolia",
+        "destination": "Venda do Pinheiro"
+    },
+    {
+        "route_id": "2901_1",
+        "origin": "Povoa da Galega",
+        "destination": "Venda do Pinheiro"
+    },
+    {
+        "route_id": "2905_0",
+        "origin": "Aranha (Rotunda)",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2906_0",
+        "origin": "Assenta",
+        "destination": "Encarnação Cruz"
+    },
+    {
+        "route_id": "2907_0",
+        "origin": "Assenta",
+        "destination": "Ericeira (Terminal)"
+    },
+    {
+        "route_id": "2908_0",
+        "origin": "Cambelas",
+        "destination": "Encarnação Cruz"
+    },
+    {
+        "route_id": "2908_1",
+        "origin": "Encarnação Cruz",
+        "destination": "Barril"
+    },
+    {
+        "route_id": "2909_0",
+        "origin": "Cambelas",
+        "destination": "Freiria (E.B. 2-3)"
+    },
+    {
+        "route_id": "2909_1",
+        "origin": "Cambelas",
+        "destination": "Freiria (E.B. 2-3)"
+    },
+    {
+        "route_id": "2910_0",
+        "origin": "Ervideira",
+        "destination": "Malveira (Terminal)"
+    },
+    {
+        "route_id": "2910_1",
+        "origin": "São Sebastião",
+        "destination": "Malveira (Terminal)"
+    },
+    {
+        "route_id": "2911_0",
+        "origin": "Ervideira",
+        "destination": "Malveira (Terminal)"
+    },
+    {
+        "route_id": "2911_1",
+        "origin": "Malveira (Terminal)",
+        "destination": "São Sebastião"
+    },
+    {
+        "route_id": "2912_0",
+        "origin": "Malveira (Terminal)",
+        "destination": "São Sebastião"
+    },
+    {
+        "route_id": "2913_0",
+        "origin": "Mafra (Parque Desportivo)",
+        "destination": "Pero Negro (Estação)"
+    },
+    {
+        "route_id": "2913_1",
+        "origin": "Mafra (Parque Desportivo)",
+        "destination": "Gradil"
+    },
+    {
+        "route_id": "2914_0",
+        "origin": "Mafra (Parque Desportivo)",
+        "destination": "Aranha (Rotunda)"
+    },
+    {
+        "route_id": "2915_0",
+        "origin": "Vila Franca do Rosário",
+        "destination": "Malveira (Terminal)"
+    },
+    {
+        "route_id": "2920_0",
+        "origin": "A-do-Mourão",
+        "destination": "Alverca (Estação)"
+    },
+    {
+        "route_id": "2921_0",
+        "origin": "Vila Franca Xira",
+        "destination": "Arruda Vinhos"
+    },
+    {
+        "route_id": "2926_0",
+        "origin": "Castanheira(Est)",
+        "destination": "Vila Franca de Xira"
+    },
+    {
+        "route_id": "2927_0",
+        "origin": "Castanheira(Est)",
+        "destination": "Vila Franca Xira"
+    },
+    {
+        "route_id": "2928_0",
+        "origin": "V.Franca Xira",
+        "destination": "Vila Franca Xira"
+    },
+    {
+        "route_id": "3001_0",
+        "origin": "ALMADA (LARGO CRISTO REI) TERMINAL",
+        "destination": "CACILHAS (LGO ALF DINIS ALEX)"
+    },
+    {
+        "route_id": "3003_0",
+        "origin": "FEIJÓ (ALMADA FÓRUM)",
+        "destination": "CACILHAS (LARGO ALFR DINIS ALEX)"
+    },
+    {
+        "route_id": "3004_0",
+        "origin": "FEIJÓ (ALMADA FÓRUM)",
+        "destination": "MARISOL (R ANTÓNIO SOARES N10)"
+    },
+    {
+        "route_id": "3005_0",
+        "origin": "CACILHAS (LARGO ALF DINIS ALEX)",
+        "destination": "CACILHAS (LARGO ALF DINIS ALEX)"
+    },
+    {
+        "route_id": "3006_0",
+        "origin": "AROEIRA (AV BELVERDE 1)",
+        "destination": "AROEIRA (AV BELVERDE 1)"
+    },
+    {
+        "route_id": "3007_0",
+        "origin": "Bº F FOMENTO R 3 VALES (ESCOLA BÁSICA)",
+        "destination": "CACILHAS (LARGO ALFR DINIS ALEX)"
+    },
+    {
+        "route_id": "3008_0",
+        "origin": "MTE CAPARICAAV TORRADO SILVA (X) FOMEGA",
+        "destination": "QUINTINHAS R QTA CIMA (X) R 1º MAIO"
+    },
+    {
+        "route_id": "3009_0",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "TRAFARIA (LGO PORTO LISBOA) TERMINAL"
+    },
+    {
+        "route_id": "3011_1",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "COSTA CAPARICA (TORRE ARGOLAS) P4"
+    },
+    {
+        "route_id": "3011_0",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "COSTA CAPARICA (TORRE ARGOLAS) P4"
+    },
+    {
+        "route_id": "3012_0",
+        "origin": "COSTA CAPARICA (TORRE ARGOLAS) P1",
+        "destination": "FONTE TELHA (PRAIA)"
+    },
+    {
+        "route_id": "3012_1",
+        "origin": "COSTA CAPARICA (TORRE ARGOLAS) P1",
+        "destination": "FONTE TELHA (PRAIA)"
+    },
+    {
+        "route_id": "3013_0",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "FEIJÓ (ALMADA FÓRUM)"
+    },
+    {
+        "route_id": "3014_0",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "QTA RAPOSEIRA (R BENTO GONC N78)"
+    },
+    {
+        "route_id": "3015_0",
+        "origin": "CH CAPARICA (R PEDRO COSTA) TREMOCEIRA",
+        "destination": "COVA VAPOR (R PARQUE 149) POSTO EDP"
+    },
+    {
+        "route_id": "3017_0",
+        "origin": "CH CAPARICA (R PEDRO COSTA) TREMOCEIRA",
+        "destination": "PRAGAL (AV JOSE CARDOSO PIRES) ESTAÇÃO"
+    },
+    {
+        "route_id": "3017_1",
+        "origin": "CH CAPARICA (R PEDRO COSTA) TREMOCEIRA",
+        "destination": "PRAGAL (AV JOSE CARDOSO PIRES) ESTAÇÃO"
+    },
+    {
+        "route_id": "3018_0",
+        "origin": "CH CAPARICA (ESTR BELA VISTA 191)",
+        "destination": "SOBREDA (R MANUEL PARADA) ESCOLA SEC"
+    },
+    {
+        "route_id": "3019_0",
+        "origin": "CH CAPARICA (R PEDRO COSTA) TREMOCEIRA",
+        "destination": "TRAFARIA (LGO PORTO LISBOA) TERMINAL"
+    },
+    {
+        "route_id": "3020_0",
+        "origin": "CH CAPARICA AL AMÁLIA RODRIGUES (ROT)",
+        "destination": "CH CAPARICA AL AMÁLIA RODRIGUES (ROT)"
+    },
+    {
+        "route_id": "3021_0",
+        "origin": "COSTA CAPARICA (TORRE ARGOLAS) P5",
+        "destination": "MONTE CAPARICA (FCT) ROTUNDA"
+    },
+    {
+        "route_id": "3022_0",
+        "origin": "COSTA CAPARICA (TORRE ARGOLAS) P1",
+        "destination": "CACILHAS (LARGO ALFR DINIS ALEX)"
+    },
+    {
+        "route_id": "3023_1",
+        "origin": "COSTA CAPARICA (TORRE ARGOLAS) P1",
+        "destination": "LARANJEIRO (R D MANUEL 11) ESTACIONA"
+    },
+    {
+        "route_id": "3024_0",
+        "origin": "COSTA CAPARICA (TORRE ARGOLAS) P2",
+        "destination": "PRAGAL (AV JOSE CARDOSO PIRES) ESTAÇÃO"
+    },
+    {
+        "route_id": "3025_0",
+        "origin": "COSTA CAPARICA (TORRE ARGOLAS) P3",
+        "destination": "PRAGAL (AV JOSE CARDOSO PIRES) ESTAÇÃO"
+    },
+    {
+        "route_id": "3026_1",
+        "origin": "COVA PIEDADE (LGO 5 OUTUBRO) JARDIM",
+        "destination": "Hosp. Garcia de Orta (Cons. Externas)"
+    },
+    {
+        "route_id": "3026_0",
+        "origin": "COVA PIEDADE (LGO 5 OUTUBRO) JARDIM",
+        "destination": "Hosp. Garcia de Orta (Cons. Externas)"
+    },
+    {
+        "route_id": "3027_0",
+        "origin": "Hosp. Garcia de Orta (Cons. Externas)",
+        "destination": "SOBREDA AV REPÚBLICA (CENTRO COMERCIAL)"
+    },
+    {
+        "route_id": "3027_9",
+        "origin": "Hosp. Garcia de Orta (Cons. Externas)",
+        "destination": "SOBREDA AV REPÚBLICA (CENTRO COMERCIAL)"
+    },
+    {
+        "route_id": "3029_0",
+        "origin": "CH CAPARICA AL AMÁLIA RODRIGUES (ROT)",
+        "destination": "CH CAPARICA AL AMÁLIA RODRIGUES (ROT)"
+    },
+    {
+        "route_id": "3030_0",
+        "origin": "FONTE TELHA (PRAIA)",
+        "destination": "MONTE CAPARICA (FCT) ROTUNDA"
+    },
+    {
+        "route_id": "3033_0",
+        "origin": "MTE CAPARICA R ALFREDO CUNHA (ESCOLA)",
+        "destination": "MTE CAPARICA R ALFREDO CUNHA (ESCOLA)"
+    },
+    {
+        "route_id": "3034_0",
+        "origin": "PORTO BRANDÃO (CAIS) TERMINAL",
+        "destination": "QTA TEXUGO (R HEL FÉLIX 30) CASSAPO"
+    },
+    {
+        "route_id": "3037_0",
+        "origin": "CH CAPARICA (R PEDRO COSTA) TREMOCEIRA",
+        "destination": "CH CAPARICA (R PEDRO COSTA) TREMOCEIRA"
+    },
+    {
+        "route_id": "3038_0",
+        "origin": "BANÁTICA (TERMINAL) R CONS MAN LUIS FER",
+        "destination": "PORTO BRANDÃO (CAIS) TERMINAL"
+    },
+    {
+        "route_id": "3040_1",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "QTA TEXUGO (R HEL FÉLIX 30) CASSAPO"
+    },
+    {
+        "route_id": "3040_0",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "QTA TEXUGO (R HEL FÉLIX 30) CASSAPO"
+    },
+    {
+        "route_id": "3041_0",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "PILOTOS (R NUNO TRISTÃO) ESCOLA BÁSICA"
+    },
+    {
+        "route_id": "3041_1",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "PILOTOS (R NUNO TRISTÃO) ESCOLA BÁSICA"
+    },
+    {
+        "route_id": "3101_0",
+        "origin": "AMORA R 1º MAIO (X) AV BAÍA NAT SEIXAL",
+        "destination": "FOROS DE AMORA P1"
+    },
+    {
+        "route_id": "3103_0",
+        "origin": "CORROIOS (EST FERROVIÁRIA)",
+        "destination": "AV GEN H DELGADO - FARMÁC CENTRAL"
+    },
+    {
+        "route_id": "3104_0",
+        "origin": "CORROIOS (EST FERROVIÁRIA)",
+        "destination": "VL MILHAÇOS (R INF D HENRIQ) ESCOLA"
+    },
+    {
+        "route_id": "3105_0",
+        "origin": "R BENTO GONÇALVES 1355",
+        "destination": "ESTAÇÃO DO FOGUETEIRO P3"
+    },
+    {
+        "route_id": "3106_0",
+        "origin": "COINA (EST FERROVIÁRIA)",
+        "destination": "RUA GIL VICENTE 281 (PARQUE)"
+    },
+    {
+        "route_id": "3107_0",
+        "origin": "FERNÃO FERRO EN378 (X) R COLMEIAS",
+        "destination": "AV 25 ABRIL (ESCOLA BÁSICA P FRADES)"
+    },
+    {
+        "route_id": "3107_1",
+        "origin": "FERNÃO FERRO EN378 (X) R COLMEIAS",
+        "destination": "AV 25 ABRIL (ESCOLA BÁSICA P FRADES)"
+    },
+    {
+        "route_id": "3108_0",
+        "origin": "FOGUETEIRO (QTA MATA) R ROQUE (ROTUNDA)",
+        "destination": "Foros de Amora P2"
+    },
+    {
+        "route_id": "3109_0",
+        "origin": "ESTAÇÃO DO FOGUETEIRO P4",
+        "destination": "Rua Lino de Carvalho (Serv. Ope. CMSeixal)"
+    },
+    {
+        "route_id": "3110_0",
+        "origin": "ESTAÇÃO DO FOGUETEIRO P6",
+        "destination": "REDONDOS TR RIO COINA 133 (x) R MIRA"
+    },
+    {
+        "route_id": "3111_1",
+        "origin": "FOGUETEIRO (EST FERROVIÁRIA) P5",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P2"
+    },
+    {
+        "route_id": "3111_0",
+        "origin": "FOGUETEIRO (EST FERROVIÁRIA) P5",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P2"
+    },
+    {
+        "route_id": "3112_0",
+        "origin": "ESTAÇÃO DO FOGUETEIRO P1",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P2"
+    },
+    {
+        "route_id": "3113_0",
+        "origin": "ESTAÇÃO DO FOGUETEIRO P2",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P4"
+    },
+    {
+        "route_id": "3114_0",
+        "origin": "Foros de Amora P3",
+        "destination": "PAIO PIRES (QTA FLAMÂNCIA)R GEN H DEL 34"
+    },
+    {
+        "route_id": "3116_0",
+        "origin": "AV DA MARISOL 266",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P4"
+    },
+    {
+        "route_id": "3116_1",
+        "origin": "AV DA MARISOL 266",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P4"
+    },
+    {
+        "route_id": "3118_0",
+        "origin": "AV DA MARISOL 266",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P4"
+    },
+    {
+        "route_id": "3118_1",
+        "origin": "AV DA MARISOL 266",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P4"
+    },
+    {
+        "route_id": "3119_0",
+        "origin": "PINHAL C CUNHA (R ADOLFO CAS MONT) 74",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P3"
+    },
+    {
+        "route_id": "3120_0",
+        "origin": "REDONDOS TR RIO COINA 133 (x) R MIRA",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P3"
+    },
+    {
+        "route_id": "3121_0",
+        "origin": "AV ALBANO NARCISO PEREIRA N21A",
+        "destination": "AV ALBANO NARCISO PEREIRA N21A"
+    },
+    {
+        "route_id": "3201_0",
+        "origin": "ALDEIA MECO (R PRAIA M BAIXO) CENTRO",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3202_0",
+        "origin": "ALFARIM (EN377) CENTRO",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3203_0",
+        "origin": "AZÓIA (ESTR CABO) XAVIER LIMA",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3204_0",
+        "origin": "AZÓIA (ESTR CABO) XAVIER LIMA",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3205_0",
+        "origin": "CABO ESPICHEL",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3206_0",
+        "origin": "CARRASQUEIRA (EN 378) LAR",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3207_0",
+        "origin": "CARRASQUEIRA (R DAS ORQUIDEAS)",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3208_0",
+        "origin": "ALDEIA MECO (R PRAIA M BAIXO) CENTRO",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3209_0",
+        "origin": "FETAIS ( RUA DA FONTE)",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3210_0",
+        "origin": "Mercado Lagoa de Albufeira",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3211_0",
+        "origin": "LAGOA A (AV ALCAIDE (X) R D JOSÉ)",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3212_0",
+        "origin": "MAÇÃ (R MACIEIRA (X) EN 379)",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3213_0",
+        "origin": "SESIMBRA (TERMINAL)",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3214_0",
+        "origin": "SAMPAIO (ESCOLAS) TERMINAL",
+        "destination": "SANTANA (R ALMOINHA) P TÁXIS"
+    },
+    {
+        "route_id": "3215_0",
+        "origin": "FORNOS TERMINAL",
+        "destination": "SAMPAIO (ESCOLAS) TERMINAL"
+    },
+    {
+        "route_id": "3216_0",
+        "origin": "MAÇÃ (R MACIEIRA (X) EN 379)",
+        "destination": "SAMPAIO (ESCOLAS) TERMINAL"
+    },
+    {
+        "route_id": "3217_0",
+        "origin": "AZÓIA (ESTR CABO) XAVIER LIMA",
+        "destination": "SAMPAIO (ESCOLAS) TERMINAL"
+    },
+    {
+        "route_id": "3218_2",
+        "origin": "PORTO ABRIGO",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3218_3",
+        "origin": "PORTO ABRIGO",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3220_1",
+        "origin": "AVª LIBERDADE - JARDIM",
+        "destination": "AVª LIBERDADE - JARDIM"
+    },
+    {
+        "route_id": "3221_0",
+        "origin": "CH COTOVIA (R CH COTOVIA) PARQ CAMPISMO",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3222_0",
+        "origin": "QTA CONDE (R MANUEL ARRIAGA) MERCADO",
+        "destination": "QTA CONDE (R MANUEL ARRIAGA) MERCADO"
+    },
+    {
+        "route_id": "3223_0",
+        "origin": "SANTANA (AV S V MELO) SUPERMERCADO",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3502_0",
+        "origin": "FEIJÓ (ALMADA FÓRUM)",
+        "destination": "SOC FILARMÓNICA 5 OUT"
+    },
+    {
+        "route_id": "3503_0",
+        "origin": "FEIJÓ (ALMADA FÓRUM)",
+        "destination": "AV VALE MILHAÇOS 190 CENTRO CONVIVIO"
+    },
+    {
+        "route_id": "3504_0",
+        "origin": "PRAGAL (AVª TORRADO SILVA) FTE HOSPITAL G ORTA",
+        "destination": "R EUGÉNIO SALVADOR 21"
+    },
+    {
+        "route_id": "3504_1",
+        "origin": "PRAGAL (AVª TORRADO SILVA) FTE HOSPITAL G ORTA",
+        "destination": "R EUGÉNIO SALVADOR 21"
+    },
+    {
+        "route_id": "3505_0",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "FARINHEIRAS (AV 8 MARÇO)"
+    },
+    {
+        "route_id": "3506_0",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "CORROIOS (EST FERROVIÁRIA)"
+    },
+    {
+        "route_id": "3507_0",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "MARISOL (R VIEIRA LUSITANO 36) TERMINAL"
+    },
+    {
+        "route_id": "3508_0",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "SOC FILARMÓNICA 5 OUT"
+    },
+    {
+        "route_id": "3508_1",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "SOC FILARMÓNICA 5 OUT"
+    },
+    {
+        "route_id": "3508_2",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "SOC FILARMÓNICA 5 OUT"
+    },
+    {
+        "route_id": "3508_3",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "SOC FILARMÓNICA 5 OUT"
+    },
+    {
+        "route_id": "3509_0",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "SOC FILARMÓNICA 5 OUT"
+    },
+    {
+        "route_id": "3509_1",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "SOC FILARMÓNICA 5 OUT"
+    },
+    {
+        "route_id": "3510_1",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "PILOTOS (R NUNO TRISTÃO) ESCOLA BÁSICA"
+    },
+    {
+        "route_id": "3511_0",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "PINHEIRINHO (R CIDADE M DOURO LTE 79)"
+    },
+    {
+        "route_id": "3511_1",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "PINHEIRINHO (R CIDADE M DOURO LTE 79)"
+    },
+    {
+        "route_id": "3512_0",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "QTA PRINCESA (R CIDADE LUANDA)"
+    },
+    {
+        "route_id": "3513_1",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "STA MTA PINHAL (CEMITÉRIO) R P ESTACADA"
+    },
+    {
+        "route_id": "3513_0",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "STA MTA PINHAL (CEMITÉRIO) R P ESTACADA"
+    },
+    {
+        "route_id": "3514_0",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "VL MILHAÇOS (R INF D HENRIQ) ESCOLA"
+    },
+    {
+        "route_id": "3515_1",
+        "origin": "CORROIOS (EST FERROVIÁRIA)",
+        "destination": "PILOTOS (R NUNO TRISTÃO) ESCOLA BÁSICA"
+    },
+    {
+        "route_id": "3516_0",
+        "origin": "CH CAPARICA (ESTR BELA VISTA 191)",
+        "destination": "CORROIOS (EST FERROVIÁRIA)"
+    },
+    {
+        "route_id": "3517_0",
+        "origin": "Bº GONÇALVES R ALM NEG 4 (ESCOLA)",
+        "destination": "CORROIOS (EST FERROVIÁRIA)"
+    },
+    {
+        "route_id": "3518_0",
+        "origin": "CORROIOS (EST FERROVIÁRIA)",
+        "destination": "VALE FIGUEIRA R DR A ARAÚJO (ESCOLA)"
+    },
+    {
+        "route_id": "3519_0",
+        "origin": "COSTA CAPARICA (TERMINAL P1)",
+        "destination": "CORROIOS (EST FERROVIÁRIA)"
+    },
+    {
+        "route_id": "3520_0",
+        "origin": "COSTA CAPARICA (TERMINAL P1)",
+        "destination": "QTA BRASILEIRO (R PALMEIRAS 12)"
+    },
+    {
+        "route_id": "3521_0",
+        "origin": "C PAU(AV MARCOS PORTUGAL) FARM/EXTERNATO",
+        "destination": "FONTE TELHA (PRAIA)"
+    },
+    {
+        "route_id": "3521_1",
+        "origin": "C PAU(AV MARCOS PORTUGAL) FARM/EXTERNATO",
+        "destination": "FONTE TELHA (PRAIA)"
+    },
+    {
+        "route_id": "3522_0",
+        "origin": "FONTE TELHA (PRAIA)",
+        "destination": "SOC FILARMÓNICA 5 OUT"
+    },
+    {
+        "route_id": "3523_0",
+        "origin": "FONTE TELHA (PRAIA)",
+        "destination": "PAIO PIRES (QTA FLAMÂNCIA)R GEN H DEL 34"
+    },
+    {
+        "route_id": "3523_1",
+        "origin": "FONTE TELHA (PRAIA)",
+        "destination": "PAIO PIRES (QTA FLAMÂNCIA)R GEN H DEL 34"
+    },
+    {
+        "route_id": "3524_0",
+        "origin": "PRAGAL (AVª TORRADO SILVA) FTE HOSPITAL G ORTA",
+        "destination": "MARISOL (R VIEIRA LUSITANO 36) TERMINAL"
+    },
+    {
+        "route_id": "3524_2",
+        "origin": "PRAGAL (AVª TORRADO SILVA) FTE HOSPITAL G ORTA",
+        "destination": "MARISOL (R VIEIRA LUSITANO 36) TERMINAL"
+    },
+    {
+        "route_id": "3525_0",
+        "origin": "PRAGAL (AVª TORRADO SILVA) FTE HOSPITAL G ORTA",
+        "destination": "MIRATEJO ALAMEDA 25 ABRIL 11 (ROTUNDA)"
+    },
+    {
+        "route_id": "3526_0",
+        "origin": "LARANJEIRO (R D DUARTE 14A) MESQUITA",
+        "destination": "PINHEIRINHO (R CIDADE M DOURO LTE 79)"
+    },
+    {
+        "route_id": "3526_1",
+        "origin": "LARANJEIRO (R D DUARTE 14A) MESQUITA",
+        "destination": "PINHEIRINHO (R CIDADE M DOURO LTE 79)"
+    },
+    {
+        "route_id": "3527_0",
+        "origin": "MONTE CAPARICA (FCT) ROTUNDA",
+        "destination": "PAIO PIRES (X) Bº CUCENA (R DESEMBARG)"
+    },
+    {
+        "route_id": "3527_1",
+        "origin": "MONTE CAPARICA (FCT) ROTUNDA",
+        "destination": "PAIO PIRES (X) Bº CUCENA (R DESEMBARG)"
+    },
+    {
+        "route_id": "3528_0",
+        "origin": "MONTE CAPARICA (FCT) ROTUNDA",
+        "destination": "SOC FILARMÓNICA 5 OUT"
+    },
+    {
+        "route_id": "3535_0",
+        "origin": "CACILHAS (LGO ALFREDO DINIS ALEX)",
+        "destination": "QTA CONDE (R RIO TEJO 544B)"
+    },
+    {
+        "route_id": "3536_0",
+        "origin": "CACILHAS (LGO ALF DINIS ALEX)",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3540_0",
+        "origin": "ZAMBUJAL (AV 25 ABRIL (X) EN 378)",
+        "destination": "COINA (EST FERROVIÁRIA)"
+    },
+    {
+        "route_id": "3541_0",
+        "origin": "COINA (EST FERROVIÁRIA)",
+        "destination": "RUA GIL VICENTE 281 (PARQUE)"
+    },
+    {
+        "route_id": "3542_0",
+        "origin": "COINA (EST FERROVIÁRIA)",
+        "destination": "A MECO (R PRAIA M BAIXO) TORRÕES"
+    },
+    {
+        "route_id": "3543_0",
+        "origin": "ESTAÇÃO DE COINA",
+        "destination": "QTA CONDE (AV 1º MAIO) ROT SUL"
+    },
+    {
+        "route_id": "3544_0",
+        "origin": "SESIMBRA (TERMINAL)",
+        "destination": "COINA (EST FERROVIÁRIA)"
+    },
+    {
+        "route_id": "3545_0",
+        "origin": "CORROIOS (EST FERROVIÁRIA)",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3546_0",
+        "origin": "CRUZ PAU (AV 1º MAIO 4)",
+        "destination": "QTA CONDE (R RIO TEJO 544B)"
+    },
+    {
+        "route_id": "3547_0",
+        "origin": "Estação do Fogueteiro P7",
+        "destination": "QTA CONDE (R RIO TEJO 544B)"
+    },
+    {
+        "route_id": "3548_0",
+        "origin": "MARCO GRILO (AV 10 DE JUNHO) ROT NATO",
+        "destination": "QTA CONDE (R NORTON MATOS) PARQUE"
+    },
+    {
+        "route_id": "3549_0",
+        "origin": "QTA CONDE (R NORTON MATOS) PARQUE VILA",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3549_1",
+        "origin": "QTA CONDE (R NORTON MATOS) PARQUE VILA",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3601_0",
+        "origin": "R STARA ZAGORA 1 - FORUM BARREIRO",
+        "destination": "CV PIEDADE R SAMEIRO ANTUNES FARMÁCIA"
+    },
+    {
+        "route_id": "3605_0",
+        "origin": "CACILHAS (LARGO ALFR DINIS ALEX)",
+        "destination": "SETÚBAL (ITS INTERIOR P11)"
+    },
+    {
+        "route_id": "3615_0",
+        "origin": "BARREIRO (TERMINAL)",
+        "destination": "SEIXAL (TERMINAL FLUVIAL) P3"
+    },
+    {
+        "route_id": "3620_0",
+        "origin": "ESTAÇÃO DE COINA",
+        "destination": "QTA CONDE (R SERRA ARRÁBIDA (X) R TEJO)"
+    },
+    {
+        "route_id": "3625_0",
+        "origin": "R STARA ZAGORA 1 - FORUM BARREIRO",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3626_0",
+        "origin": "ESTAÇÃO DE COINA",
+        "destination": "VILA NOGUEIRA AZEITÃO (EN10)PÇ REPÚBLICA"
+    },
+    {
+        "route_id": "3635_0",
+        "origin": "COINA (EST FERROVIÁRIA)",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3635_1",
+        "origin": "COINA (EST FERROVIÁRIA)",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3640_0",
+        "origin": "AZÓIA (ESTR CABO) (X) R ESCOLA",
+        "destination": "VILA NOG AZEITÃO (AV 25 ABR) (MERCADO)"
+    },
+    {
+        "route_id": "3641_0",
+        "origin": "QTA CONDE (R NORTON MATOS) PARQUE VILA",
+        "destination": "SAMPAIO (ESCOLAS) TERMINAL"
+    },
+    {
+        "route_id": "3650_0",
+        "origin": "MOITA (AV MARGINAL) CÂMARA MUNICIPAL",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "3701_0",
+        "origin": "R CONCEIÇÃO SAMEIRO ANTUNES 18 - C SUL",
+        "destination": "Algés (Estação)"
+    },
+    {
+        "route_id": "3702_0",
+        "origin": "ALMADA (R RAINHA D LEONOR) PARQUE URBANO",
+        "destination": "Cidade Universitária"
+    },
+    {
+        "route_id": "3703_0",
+        "origin": "ALMADA (R RAINHA D LEONOR) PARQUE URBANO",
+        "destination": "Lisboa (Pç Areeiro)"
+    },
+    {
+        "route_id": "3703_1",
+        "origin": "ALMADA (R RAINHA D LEONOR) PARQUE URBANO",
+        "destination": "Lisboa (Pç Areeiro)"
+    },
+    {
+        "route_id": "3704_0",
+        "origin": "CH CAPARICA (R FRED FREITAS) PAVILHÃO",
+        "destination": "LISBOA (MARQUÊS POMBAL)"
+    },
+    {
+        "route_id": "3705_0",
+        "origin": "CH CAPARICA (R ANTÓNIO ANDRADE) CENTRO",
+        "destination": "SETE RIOS"
+    },
+    {
+        "route_id": "3706_0",
+        "origin": "CH CAPARICA (R PEDRO COSTA) TREMOCEIRA",
+        "destination": "SETE RIOS"
+    },
+    {
+        "route_id": "3708_0",
+        "origin": "COSTA CAPARICA (TORRE ARGOLAS) P4",
+        "destination": "CAIS DO SODRÉ - PÇA DUQUE DA TERCEIRA"
+    },
+    {
+        "route_id": "3709_0",
+        "origin": "COSTA CAPARICA (TORRE ARGOLAS) P6",
+        "destination": "LISBOA (MARQUÊS POMBAL)"
+    },
+    {
+        "route_id": "3710_0",
+        "origin": "COSTA CAPARICA (TORRE ARGOLAS) P5",
+        "destination": "Lisboa (Pç Areeiro)"
+    },
+    {
+        "route_id": "3711_0",
+        "origin": "MONTE CAPARICA (FCT) ROTUNDA",
+        "destination": "SETE RIOS"
+    },
+    {
+        "route_id": "3715_0",
+        "origin": "LISBOA (MARQUÊS POMBAL)",
+        "destination": "AV VIEIRA DA SILVA (UNCSP)"
+    },
+    {
+        "route_id": "3716_0",
+        "origin": "SETE RIOS",
+        "destination": "MARISOL (R AMADEU S CARDOSO 31A)"
+    },
+    {
+        "route_id": "3717_0",
+        "origin": "SETE RIOS",
+        "destination": "QTA BRASILEIRO (R PALMEIRAS 12)"
+    },
+    {
+        "route_id": "3720_0",
+        "origin": "SETE RIOS",
+        "destination": "QTA CONDE (R NORTON MATOS) PARQUE"
+    },
+    {
+        "route_id": "3721_0",
+        "origin": "SETE RIOS",
+        "destination": "SESIMBRA (TERMINAL)"
+    },
+    {
+        "route_id": "4001_0",
+        "origin": "Alcochete",
+        "destination": "Alcochete"
+    },
+    {
+        "route_id": "4002_0",
+        "origin": "São Francisco",
+        "destination": "São Francisco"
+    },
+    {
+        "route_id": "4101_0",
+        "origin": "Alhos Vedros (Escola José Afonso)",
+        "destination": "Arroteias"
+    },
+    {
+        "route_id": "4102_0",
+        "origin": "Moita (Estação)",
+        "destination": "Moita (Estação)"
+    },
+    {
+        "route_id": "4103_0",
+        "origin": "Moita (Estação)",
+        "destination": "Sarilhos Pequenos"
+    },
+    {
+        "route_id": "4104_0",
+        "origin": "Moita",
+        "destination": "Moita"
+    },
+    {
+        "route_id": "4201_0",
+        "origin": "Afonsoeiro",
+        "destination": "Bairro da Liberdade"
+    },
+    {
+        "route_id": "4202_0",
+        "origin": "Afonsoeiro",
+        "destination": "Bairro do Saldanha"
+    },
+    {
+        "route_id": "4203_0",
+        "origin": "Afonsoeiro",
+        "destination": "Montijo (Terminal Fluvial)"
+    },
+    {
+        "route_id": "4204_0",
+        "origin": "Bairro do Charqueirão",
+        "destination": "Montijo (Terminal Fluvial)"
+    },
+    {
+        "route_id": "4205_0",
+        "origin": "Bairro do Charqueirão",
+        "destination": "Montijo (Terminal Fluvial)"
+    },
+    {
+        "route_id": "4205_1",
+        "origin": "Montijo (Área Comercial)",
+        "destination": "Montijo (Terminal Rodoviário)"
+    },
+    {
+        "route_id": "4206_0",
+        "origin": "Bairro Esteval",
+        "destination": "Montijo (Terminal Fluvial)"
+    },
+    {
+        "route_id": "4207_0",
+        "origin": "Montijo (Área Comercial)",
+        "destination": "Montijo (Terminal Fluvial)"
+    },
+    {
+        "route_id": "4207_1",
+        "origin": "Montijo (Escola Joaquim Serra)",
+        "destination": "Montijo (Terminal Fluvial)"
+    },
+    {
+        "route_id": "4207_2",
+        "origin": "Bela Vista",
+        "destination": "Montijo (Terminal Fluvial)"
+    },
+    {
+        "route_id": "4208_0",
+        "origin": "Montijo (Terminal Fluvial)",
+        "destination": "Sarilhos Grandes (Estr. 4 Marcos)"
+    },
+    {
+        "route_id": "4211_0",
+        "origin": "Craveiras - Pegões",
+        "destination": "Craveiras - Pegões"
+    },
+    {
+        "route_id": "4212_0",
+        "origin": "Foros Boavista",
+        "destination": "Pegões"
+    },
+    {
+        "route_id": "4301_0",
+        "origin": "Palmela (Centro)",
+        "destination": "Palmela (Terminal)"
+    },
+    {
+        "route_id": "4302_0",
+        "origin": "Palmela (Estação)",
+        "destination": "Palmela (Terminal)"
+    },
+    {
+        "route_id": "4303_0",
+        "origin": "Palmela",
+        "destination": "Palmela"
+    },
+    {
+        "route_id": "4304_0",
+        "origin": "Palmela (Terminal)",
+        "destination": "Penalva"
+    },
+    {
+        "route_id": "4305_0",
+        "origin": "Brejos do Assa",
+        "destination": "Palmela (Terminal)"
+    },
+    {
+        "route_id": "4306_0",
+        "origin": "Cabanas",
+        "destination": "Palmela (Terminal)"
+    },
+    {
+        "route_id": "4307_0",
+        "origin": "Loja Nova",
+        "destination": "Palmela (Terminal)"
+    },
+    {
+        "route_id": "4307_1",
+        "origin": "Loja Nova",
+        "destination": "Palmela (Terminal)"
+    },
+    {
+        "route_id": "4308_0",
+        "origin": "Palmela (Terminal)",
+        "destination": "Pinhal Novo (Estação)"
+    },
+    {
+        "route_id": "4310_0",
+        "origin": "Águas de Moura",
+        "destination": "Poceirão"
+    },
+    {
+        "route_id": "4311_0",
+        "origin": "Asseiceira",
+        "destination": "Poceirão"
+    },
+    {
+        "route_id": "4312_0",
+        "origin": "Poceirão",
+        "destination": "Vale Abrunheira (X)"
+    },
+    {
+        "route_id": "4312_1",
+        "origin": "Poceirão",
+        "destination": "Vale Abrunheira (X)"
+    },
+    {
+        "route_id": "4312_2",
+        "origin": "Poceirão",
+        "destination": "Agualva de Cima"
+    },
+    {
+        "route_id": "4313_0",
+        "origin": "Cabanas",
+        "destination": "Penalva"
+    },
+    {
+        "route_id": "4320_0",
+        "origin": "Pinhal Novo",
+        "destination": "Pinhal Novo"
+    },
+    {
+        "route_id": "4321_0",
+        "origin": "Pinhal Novo",
+        "destination": "Qta do Anjo"
+    },
+    {
+        "route_id": "4322_0",
+        "origin": "Pinhal Novo",
+        "destination": "Rio Frio"
+    },
+    {
+        "route_id": "4322_1",
+        "origin": "Pinhal Novo",
+        "destination": "Rio Frio"
+    },
+    {
+        "route_id": "4401_0",
+        "origin": "Cachofarra",
+        "destination": "Setúbal (Hospital)"
+    },
+    {
+        "route_id": "4402_0",
+        "origin": "Estefanilha",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4403_0",
+        "origin": "Fonte da Talha",
+        "destination": "Setúbal (Av. Luísa Todi)"
+    },
+    {
+        "route_id": "4404_0",
+        "origin": "Interfaces Setúbal",
+        "destination": "Interfaces Setúbal"
+    },
+    {
+        "route_id": "4405_0",
+        "origin": "Montebelo",
+        "destination": "Montebelo"
+    },
+    {
+        "route_id": "4406_0",
+        "origin": "Manteigadas",
+        "destination": "Setúbal (Mercado)"
+    },
+    {
+        "route_id": "4406_1",
+        "origin": "Setúbal (Politécnico)",
+        "destination": "Setúbal (Mercado)"
+    },
+    {
+        "route_id": "4406_2",
+        "origin": "Manteigadas (Feira de Santiago)",
+        "destination": "Setúbal (Mercado)"
+    },
+    {
+        "route_id": "4407_0",
+        "origin": "Manteigadas",
+        "destination": "Setúbal (Mercado)"
+    },
+    {
+        "route_id": "4407_1",
+        "origin": "Setúbal (Av. Pinheiro)",
+        "destination": "Setúbal (Mercado)"
+    },
+    {
+        "route_id": "4408_0",
+        "origin": "Manteigadas",
+        "destination": "Setúbal (Mercado)"
+    },
+    {
+        "route_id": "4409_0",
+        "origin": "Setúbal (Bº Quinta Santo António)",
+        "destination": "Setúbal (Bº Viso)"
+    },
+    {
+        "route_id": "4410_0",
+        "origin": "Manteigadas (Esc. Profissional)",
+        "destination": "Setúbal (Alegro)"
+    },
+    {
+        "route_id": "4410_1",
+        "origin": "Manteigadas (Feira de Santiago)",
+        "destination": "Setúbal (Av. Lima de Freitas"
+    },
+    {
+        "route_id": "4410_2",
+        "origin": "Manteigadas (Feira de Santiago)",
+        "destination": "Poço Mouro via Centro Comercial"
+    },
+    {
+        "route_id": "4411_0",
+        "origin": "Morgada",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4412_0",
+        "origin": "Morgada",
+        "destination": "Setúbal (Mercado)"
+    },
+    {
+        "route_id": "4413_0",
+        "origin": "Morgada",
+        "destination": "Setúbal (Mercado)"
+    },
+    {
+        "route_id": "4414_0",
+        "origin": "Outão (Hospital)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4415_0",
+        "origin": "Outão (Hospital)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4416_0",
+        "origin": "Poço Mouro",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4417_0",
+        "origin": "Poço Mouro",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4418_0",
+        "origin": "Setúbal (Alegro)",
+        "destination": "Setúbal (Av. 5 Outubro)"
+    },
+    {
+        "route_id": "4419_0",
+        "origin": "Brejos Canes",
+        "destination": "Setúbal (Saboaria)"
+    },
+    {
+        "route_id": "4420_0",
+        "origin": "Setúbal (Alegro)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4421_0",
+        "origin": "Setúbal (Bairro Camolas)",
+        "destination": "Setúbal (Casal Figueiras)"
+    },
+    {
+        "route_id": "4422_0",
+        "origin": "Setúbal (Bairro Camolas)",
+        "destination": "Setúbal (Casal Figueiras)"
+    },
+    {
+        "route_id": "4422_1",
+        "origin": "Setúbal (Bairro Camolas)",
+        "destination": "Setúbal (Bairro do Viso)"
+    },
+    {
+        "route_id": "4422_2",
+        "origin": "Setúbal (ITS)",
+        "destination": "Setúbal (Casal Figueiras)"
+    },
+    {
+        "route_id": "4424_0",
+        "origin": "Setúbal (Bairro Viso)",
+        "destination": "Manteigadas (Piscinas)"
+    },
+    {
+        "route_id": "4425_0",
+        "origin": "Setúbal (Escola Viso)",
+        "destination": "Mitrena"
+    },
+    {
+        "route_id": "4425_1",
+        "origin": "Setúbal (Bairro Viso)",
+        "destination": "Mitrena"
+    },
+    {
+        "route_id": "4426_0",
+        "origin": "Setúbal (Bairro do Viso)",
+        "destination": "Setúbal (Bairro Quinta Santo António)"
+    },
+    {
+        "route_id": "4426_1",
+        "origin": "Setúbal (Escola Viso)",
+        "destination": "Setúbal (Bairro Quinta Santo António)"
+    },
+    {
+        "route_id": "4426_2",
+        "origin": "Setúbal (Escola Viso)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4426_3",
+        "origin": "Setúbal (Escola Viso)",
+        "destination": "Setúbal (Bonfim)"
+    },
+    {
+        "route_id": "4426_4",
+        "origin": "Setúbal (Escola Viso)",
+        "destination": "Setúbal (Mercado 2 de Abril)"
+    },
+    {
+        "route_id": "4427_0",
+        "origin": "Setúbal (Mercado)",
+        "destination": "Setúbal (Bela Vista)"
+    },
+    {
+        "route_id": "4428_0",
+        "origin": "Setúbal (Casal Figueiras)",
+        "destination": "Vale Ana Gomes"
+    },
+    {
+        "route_id": "4429_0",
+        "origin": "Setúbal (Centro Saúde)",
+        "destination": "Setúbal (Mercado)"
+    },
+    {
+        "route_id": "4430_0",
+        "origin": "Setúbal (Hospital)",
+        "destination": "Setúbal (Montalvão)"
+    },
+    {
+        "route_id": "4431_0",
+        "origin": "Setúbal (ITS)",
+        "destination": "Setúbal (Quinta Varzinha)"
+    },
+    {
+        "route_id": "4432_0",
+        "origin": "Setúbal (ITS)",
+        "destination": "Vale de Choupo"
+    },
+    {
+        "route_id": "4433_0",
+        "origin": "Alto Guerra",
+        "destination": "Setúbal (Casal Figueiras)"
+    },
+    {
+        "route_id": "4434_0",
+        "origin": "Setúbal (Mercado 2 de Abril)",
+        "destination": "Setúbal (R. Timor)"
+    },
+    {
+        "route_id": "4434_1",
+        "origin": "Manteigadas",
+        "destination": "Setúbal (R. Timor)"
+    },
+    {
+        "route_id": "4435_0",
+        "origin": "Biscainho",
+        "destination": "Faralhão"
+    },
+    {
+        "route_id": "4436_0",
+        "origin": "Setúbal (Mercado)",
+        "destination": "Setúbal (Terroa)"
+    },
+    {
+        "route_id": "4437_0",
+        "origin": "Faralhão",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4438_0",
+        "origin": "Setúbal (Monte Belo Norte)",
+        "destination": "Setúbal (Saboaria)"
+    },
+    {
+        "route_id": "4438_1",
+        "origin": "Setúbal (Monte Belo Norte)",
+        "destination": "Setúbal (Saboaria)"
+    },
+    {
+        "route_id": "4439_0",
+        "origin": "Praias do Sado",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4440_0",
+        "origin": "Setúbal (Monte Belo Norte)",
+        "destination": "Setúbal (Saboaria)"
+    },
+    {
+        "route_id": "4441_0",
+        "origin": "Setúbal (Saboaria)",
+        "destination": "Setúbal (Vale Cobro)"
+    },
+    {
+        "route_id": "4442_0",
+        "origin": "Praias do Sado (Estação)",
+        "destination": "Setúbal (Bela Vista)"
+    },
+    {
+        "route_id": "4442_1",
+        "origin": "Praias do Sado (Estação)",
+        "destination": "Setúbal (Escola Luisa Todi)"
+    },
+    {
+        "route_id": "4443_0",
+        "origin": "Setúbal (Politécnico)",
+        "destination": "Praias do Sado"
+    },
+    {
+        "route_id": "4451_0",
+        "origin": "Mitrena (Lisnave)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4452_0",
+        "origin": "Mitrena (Portucel)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4452_1",
+        "origin": "Mitrena (Lisnave)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4453_0",
+        "origin": "Mitrena (Portucel)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4460_0",
+        "origin": "Azeitão",
+        "destination": "Azeitão"
+    },
+    {
+        "route_id": "4470_0",
+        "origin": "Praia do Creiro",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4470_1",
+        "origin": "Brejos Azeitão",
+        "destination": "Praia do Creiro"
+    },
+    {
+        "route_id": "4471_0",
+        "origin": "Praia Albarquel",
+        "destination": "Praia Albarquel"
+    },
+    {
+        "route_id": "4474_1",
+        "origin": "Praia da Figueirinha",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4474_2",
+        "origin": "Praia da Figueirinha",
+        "destination": "Setúbal (Várzea)"
+    },
+    {
+        "route_id": "4476_1",
+        "origin": "Praias Arrábida",
+        "destination": "Praias Arrábida"
+    },
+    {
+        "route_id": "4501_0",
+        "origin": "Alcochete",
+        "destination": "Montijo (Terminal Fluvial)"
+    },
+    {
+        "route_id": "4501_1",
+        "origin": "Alcochete",
+        "destination": "Montijo (Terminal Rodoviário)"
+    },
+    {
+        "route_id": "4502_0",
+        "origin": "Alcochete",
+        "destination": "Passil"
+    },
+    {
+        "route_id": "4503_0",
+        "origin": "Atalaia (Bairro do Chiqueirão)",
+        "destination": "Montijo (Bairro Areias)"
+    },
+    {
+        "route_id": "4504_0",
+        "origin": "Montijo (Terminal Fluvial)",
+        "destination": "Passil"
+    },
+    {
+        "route_id": "4510_0",
+        "origin": "Alcochete (Freeport)",
+        "destination": "Montijo (Terminal Rodoviário)"
+    },
+    {
+        "route_id": "4511_0",
+        "origin": "Alcochete (Freeport)",
+        "destination": "Montijo (Terminal Rodoviário)"
+    },
+    {
+        "route_id": "4512_0",
+        "origin": "Alcochete (Freeport)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4512_1",
+        "origin": "Alcochete (Freeport)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4513_0",
+        "origin": "Alcochete (Freeport)",
+        "destination": "Pinhal Novo"
+    },
+    {
+        "route_id": "4514_0",
+        "origin": "Canha",
+        "destination": "Montijo (Terminal Rodoviário)"
+    },
+    {
+        "route_id": "4514_1",
+        "origin": "Canha",
+        "destination": "Montijo (Terminal Rodoviário)"
+    },
+    {
+        "route_id": "4514_3",
+        "origin": "Canha",
+        "destination": "Montijo (Terminal Rodoviário)"
+    },
+    {
+        "route_id": "4515_0",
+        "origin": "Montijo (Terminal Rodoviário)",
+        "destination": "Pegões"
+    },
+    {
+        "route_id": "4516_0",
+        "origin": "Montijo (Terminal Rodoviário)",
+        "destination": "Rio Frio"
+    },
+    {
+        "route_id": "4516_1",
+        "origin": "Montijo (Terminal Rodoviário)",
+        "destination": "Charnequinha"
+    },
+    {
+        "route_id": "4517_0",
+        "origin": "Montijo (Terminal Rodoviário)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4520_0",
+        "origin": "Faias",
+        "destination": "Pegões"
+    },
+    {
+        "route_id": "4521_0",
+        "origin": "Faias",
+        "destination": "Pinhal Novo"
+    },
+    {
+        "route_id": "4521_2",
+        "origin": "Poceirão",
+        "destination": "Pinhal Novo"
+    },
+    {
+        "route_id": "4521_3",
+        "origin": "Poceirão",
+        "destination": "Faias"
+    },
+    {
+        "route_id": "4522_0",
+        "origin": "Faias",
+        "destination": "Poceirão"
+    },
+    {
+        "route_id": "4523_0",
+        "origin": "Montijo (Terminal Rodoviário)",
+        "destination": "Pinhal Novo"
+    },
+    {
+        "route_id": "4524_0",
+        "origin": "Palmela (Terminal)",
+        "destination": "Pegões"
+    },
+    {
+        "route_id": "4525_0",
+        "origin": "Faias",
+        "destination": "Pinhal Novo"
+    },
+    {
+        "route_id": "4530_0",
+        "origin": "Bairro Vila Morena",
+        "destination": "Pinhal Novo"
+    },
+    {
+        "route_id": "4531_0",
+        "origin": "Moita",
+        "destination": "Palmela (Terminal)"
+    },
+    {
+        "route_id": "4532_0",
+        "origin": "Moita",
+        "destination": "Quatro Marcos"
+    },
+    {
+        "route_id": "4540_0",
+        "origin": "Águas de Moura",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4540_1",
+        "origin": "Águas de Moura",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4541_0",
+        "origin": "Algeruz",
+        "destination": "Setúbal (Av. Luísa Todi)"
+    },
+    {
+        "route_id": "4542_0",
+        "origin": "Algeruz",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4543_0",
+        "origin": "Algeruz",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4544_0",
+        "origin": "Bairro Margaça",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4544_1",
+        "origin": "Bairro Margaça",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4544_2",
+        "origin": "Bairro Margaça",
+        "destination": "Setúbal (Av. 5 de Outubro)"
+    },
+    {
+        "route_id": "4545_0",
+        "origin": "Biscainho",
+        "destination": "Setúbal (Bela Vista)"
+    },
+    {
+        "route_id": "4546_0",
+        "origin": "Biscainho",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4547_0",
+        "origin": "Cabanas",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4548_0",
+        "origin": "Lagameças",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4549_0",
+        "origin": "Palmela (Terminal)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4550_0",
+        "origin": "Palmela (Terminal)",
+        "destination": "Vila Nogueira de Azeitão"
+    },
+    {
+        "route_id": "4550_2",
+        "origin": "São Gonçalo",
+        "destination": "Palmela (Terminal)"
+    },
+    {
+        "route_id": "4551_0",
+        "origin": "Palmela (Alameda Nun'Álvares Pereira)",
+        "destination": "Setúbal (Av. Luísa Todi)"
+    },
+    {
+        "route_id": "4560_0",
+        "origin": "São Gonçalo",
+        "destination": "Vila Nogueira de Azeitão"
+    },
+    {
+        "route_id": "4560_1",
+        "origin": "Brejos de Azeitão",
+        "destination": "Vila Nogueira de Azeitão"
+    },
+    {
+        "route_id": "4562_0",
+        "origin": "Setúbal (ITS)",
+        "destination": "Vila Nogueira de Azeitão"
+    },
+    {
+        "route_id": "4562_2",
+        "origin": "Setúbal (ITS)",
+        "destination": "Vila Nogueira de Azeitão"
+    },
+    {
+        "route_id": "4562_3",
+        "origin": "Setúbal (ITS)",
+        "destination": "Azeitão (EB 2 3)"
+    },
+    {
+        "route_id": "4600_0",
+        "origin": "Alcochete (Freeport)",
+        "destination": "Barreiro (Terminal)"
+    },
+    {
+        "route_id": "4601_0",
+        "origin": "Barreiro (Terminal)",
+        "destination": "Montijo (Terminal Rodoviário)"
+    },
+    {
+        "route_id": "4602_0",
+        "origin": "Alhos Vedros (Estação)",
+        "destination": "Barreiro (Terminal)"
+    },
+    {
+        "route_id": "4603_0",
+        "origin": "Barreiro (Terminal)",
+        "destination": "Chão Duro"
+    },
+    {
+        "route_id": "4604_0",
+        "origin": "Barreiro (Terminal)",
+        "destination": "Moita (Esc. Secundária)"
+    },
+    {
+        "route_id": "4605_0",
+        "origin": "Lavradio",
+        "destination": "Pinhal do Forno"
+    },
+    {
+        "route_id": "4610_0",
+        "origin": "Bairro dos Marinheiros",
+        "destination": "Barreiro (Terminal)"
+    },
+    {
+        "route_id": "4611_0",
+        "origin": "Penalva",
+        "destination": "Moita (Esc. Secundária)"
+    },
+    {
+        "route_id": "4612_0",
+        "origin": "Bairro dos Marinheiros",
+        "destination": "Palmela (Terminal)"
+    },
+    {
+        "route_id": "4620_0",
+        "origin": "Moita",
+        "destination": "Paio Pires"
+    },
+    {
+        "route_id": "4620_1",
+        "origin": "Moita",
+        "destination": "Seixal (Atalaia - Festa do Avante)"
+    },
+    {
+        "route_id": "4621_0",
+        "origin": "Moita",
+        "destination": "Seixal (Terminal Fluvial)"
+    },
+    {
+        "route_id": "4632_0",
+        "origin": "Coina (Estação)",
+        "destination": "Quinta do Anjo"
+    },
+    {
+        "route_id": "4640_0",
+        "origin": "Casais da Serra",
+        "destination": "Vila Nogueira de Azeitão"
+    },
+    {
+        "route_id": "4641_0",
+        "origin": "Quinta do Conde",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4641_1",
+        "origin": "Quinta do Conde",
+        "destination": "Setúbal (Escola Lima Freitas)"
+    },
+    {
+        "route_id": "4642_0",
+        "origin": "Sesimbra (Terminal)",
+        "destination": "Setúbal (Hospital)"
+    },
+    {
+        "route_id": "4643_0",
+        "origin": "Montijo (Av. Inf. D. Henrique)",
+        "destination": "Sesimbra (Terminal)"
+    },
+    {
+        "route_id": "4701_0",
+        "origin": "Lisboa (Oriente)",
+        "destination": "Vale da Amoreira"
+    },
+    {
+        "route_id": "4701_1",
+        "origin": "Lisboa (Oriente)",
+        "destination": "Moita"
+    },
+    {
+        "route_id": "4701_2",
+        "origin": "Lisboa (Oriente)",
+        "destination": "Vale da Amoreira"
+    },
+    {
+        "route_id": "4702_0",
+        "origin": "Lisboa (Oriente)",
+        "destination": "Valbom"
+    },
+    {
+        "route_id": "4703_0",
+        "origin": "Lisboa (Oriente)",
+        "destination": "Montijo (Terminal Rodoviário)"
+    },
+    {
+        "route_id": "4704_0",
+        "origin": "Atalaia",
+        "destination": "Lisboa (Oriente)"
+    },
+    {
+        "route_id": "4705_0",
+        "origin": "Lisboa (Oriente)",
+        "destination": "Samouco"
+    },
+    {
+        "route_id": "4706_0",
+        "origin": "São Francisco",
+        "destination": "Lisboa (Oriente)"
+    },
+    {
+        "route_id": "4707_0",
+        "origin": "Lisboa (Oriente)",
+        "destination": "Montijo (Terminal Rodoviário)"
+    },
+    {
+        "route_id": "4710_0",
+        "origin": "Lisboa (Oriente)",
+        "destination": "Palmela (Terminal)"
+    },
+    {
+        "route_id": "4711_0",
+        "origin": "Lisboa (Oriente)",
+        "destination": "Pinhal Novo"
+    },
+    {
+        "route_id": "4715_0",
+        "origin": "Lisboa (Oriente)",
+        "destination": "SETÚBAL (TERMINAL VÁRZEA)"
+    },
+    {
+        "route_id": "4720_0",
+        "origin": "Lisboa (Oriente)",
+        "destination": "SETÚBAL (TERMINAL VÁRZEA)"
+    },
+    {
+        "route_id": "4725_0",
+        "origin": "Lisboa (Sete Rios)",
+        "destination": "SETÚBAL (TERMINAL VÁRZEA)"
+    },
+    {
+        "route_id": "4730_0",
+        "origin": "Lisboa (Sete Rios)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4730_1",
+        "origin": "Fogueteiro (Estação)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4730_2",
+        "origin": "Corroios (Estação)",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4901_0",
+        "origin": "Landeira",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4901_1",
+        "origin": "Landeira",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "4902_0",
+        "origin": "Landeira",
+        "destination": "Pegões"
+    },
+    {
+        "route_id": "4905_0",
+        "origin": "Faias",
+        "destination": "Vendas Novas"
+    },
+    {
+        "route_id": "4906_0",
+        "origin": "Setúbal (ITS)",
+        "destination": "Vendas Novas"
+    },
+    {
+        "route_id": "4906_1",
+        "origin": "Setúbal (ITS)",
+        "destination": "Vendas Novas"
+    },
+    {
+        "route_id": "4461_0",
+        "origin": "Escola Básica 2 3 Azeitão",
+        "destination": "Escola Básica da Brejoeira"
+    },
+    {
+        "route_id": "4462_0",
+        "origin": "Escola Básica 2 3 Azeitão",
+        "destination": "Escola Básica da Brejoeira"
+    },
+    {
+        "route_id": "4462_1",
+        "origin": "Escola Básica 2 3 Azeitão",
+        "destination": "Escola Básica da Brejoeira"
+    },
+    {
+        "route_id": "4472_1",
+        "origin": "Praia da Figueirinha",
+        "destination": "Setúbal (ITS)"
+    },
+    {
+        "route_id": "CP_0",
+        "origin": "Algés (Estação)",
+        "destination": "Cais do Sodré"
+    },
+    {
+        "route_id": "A_0",
+        "origin": "Cais do Sodré",
+        "destination": "Depósito Varzinha"
+    },
+    {
+        "route_id": "C_0",
+        "origin": "Algés (Estação)",
+        "destination": "Depósito Varzinha"
+    }
+]

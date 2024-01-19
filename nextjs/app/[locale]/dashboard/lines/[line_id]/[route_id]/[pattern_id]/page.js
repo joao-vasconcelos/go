@@ -1,5 +1,7 @@
 'use client';
 
+/* * */
+
 import useSWR from 'swr';
 import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
@@ -11,7 +13,7 @@ import { PatternFormProvider, usePatternForm } from '@/schemas/Pattern/form';
 import API from '@/services/API';
 import { PatternValidation } from '@/schemas/Pattern/validation';
 import { PatternDefault } from '@/schemas/Pattern/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl, Accordion, Group, JsonInput } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl, Accordion, JsonInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import OSMMap from '@/components/OSMMap/OSMMap';
 import { useMap, Source, Layer } from 'react-map-gl/maplibre';
@@ -31,6 +33,8 @@ import ImportPatternFromGTFS from '@/components/ImportPatternFromGTFS/ImportPatt
 import populate from '@/services/populate';
 import PatternPresetsTable from '@/components/PatternPresetsTable/PatternPresetsTable';
 import LockButton from '@/components/LockButton/LockButton';
+
+/* * */
 
 export default function Page() {
   //
@@ -361,6 +365,10 @@ export default function Page() {
             <SimpleGrid cols={4}>
               <TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...patternForm.getInputProps('code')} readOnly={isReadOnly} />
             </SimpleGrid>
+            <SimpleGrid cols={2}>
+              <TextInput label={t('form.origin.label')} placeholder={t('form.origin.placeholder')} description={t('form.origin.description')} {...patternForm.getInputProps('origin')} readOnly={isReadOnly} />
+              <TextInput label={t('form.destination.label')} placeholder={t('form.destination.placeholder')} description={t('form.destination.description')} {...patternForm.getInputProps('destination')} readOnly={isReadOnly} />
+            </SimpleGrid>
             <SimpleGrid cols={1}>
               <TextInput label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} description={t('form.headsign.description')} {...patternForm.getInputProps('headsign')} readOnly={isReadOnly} />
             </SimpleGrid>
@@ -562,4 +570,6 @@ export default function Page() {
       </PatternFormProvider>
     </Pannel>
   );
+
+  //
 }
