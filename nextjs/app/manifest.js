@@ -1,3 +1,5 @@
+/* * */
+
 export default function manifest() {
   return {
     name: 'GO | Gestor de Oferta',
