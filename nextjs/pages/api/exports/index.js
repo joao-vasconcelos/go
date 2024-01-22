@@ -1,17 +1,14 @@
-import delay from '@/services/delay';
+/* * */
+
+import * as fs from 'fs';
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import * as fs from 'fs';
 import { ExportModel } from '@/schemas/Export/model';
 
-/* * */
-/* LIST ALL EXPORTS */
-/* This endpoint returns all exports. */
 /* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
   // 0.
   // Refuse request if not GET
@@ -62,7 +59,7 @@ export default async function handler(req, res) {
 
     // 3.4.
     // Set the workdir path
-    const workdir = `${process.env.PWD}/exported_files/`;
+    const workdir = `${process.env.PWD}/exports/`;
 
     // 3.5.
     // Only continue if workdir exists.
@@ -93,4 +90,6 @@ export default async function handler(req, res) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot list Exports.' });
   }
+
+  //
 }
