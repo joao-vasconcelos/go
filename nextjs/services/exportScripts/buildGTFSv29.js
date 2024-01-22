@@ -13,8 +13,6 @@ import { PatternModel } from '@/schemas/Pattern/model';
 import { StopModel } from '@/schemas/Stop/model';
 import { DateModel } from '@/schemas/Date/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
-import { date } from 'yup';
-import hashStringToInt from '../hashStringToInt';
 
 /* * */
 /* EXPORT GTFS V29 */
@@ -198,8 +196,8 @@ function parseRoute(agencyData, lineData, typologyData, routeData) {
       line_type: getLineType(typologyData.code),
       route_id: routeData.code,
       agency_id: agencyData.code,
-      route_origin: 'deprecated-origin',
-      route_destination: 'deprecated-destination',
+      route_origin: routeData.patterns[0]?.origin || '',
+      route_destination: routeData.patterns[0]?.destination || '',
       route_short_name: lineData.short_name.replace(/  +/g, ' ').trim(),
       route_long_name: routeData.name.replaceAll(',', '').replace(/  +/g, ' ').trim(),
       route_type: lineData.transport_type,
@@ -531,7 +529,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
       //
       // 3.4.0.
       // Fetch route from database
-      const routeData = await RouteModel.findOne({ _id: routeId });
+      const routeData = await RouteModel.findOne({ _id: routeId }).populate({ path: 'patterns', populate: { path: 'schedules.calendars_on schedules.calendars_off path.stop' } });
       if (!routeData) continue routeLoop; // throw new Error({ code: 5201, short_message: 'Route not found.', references: { line_code: lineData.code } });
 
       // 3.4.1.
@@ -546,11 +544,10 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
       // 3.4.3.
       // Iterate on all the patterns for the given route
-      patternLoop: for (const [patternIndex, patternId] of routeData.patterns.entries()) {
+      patternLoop: for (const [patternIndex, patternData] of routeData.patterns.entries()) {
         //
         // 3.4.3.0.
-        // Fetch pattern from database
-        const patternData = await PatternModel.findOne({ _id: patternId });
+        // Check if there is a pattern here
         if (!patternData) continue patternLoop; // throw new Error({ code: 5301, short_message: 'Pattern not found.', references: { route_code: routeData.code } });
 
         // 3.4.3.1.
@@ -579,11 +576,10 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
           // 3.4.3.4.1.
           // The rule for this GTFS version is to create as many trips as associated calendars.
           // For this, iterate on all the calendars associated with this schedule and build the trips.
-          calendarOnLoop: for (const calendarOnId of scheduleData.calendars_on) {
+          calendarOnLoop: for (const calendarOnData of scheduleData.calendars_on) {
             //
             // 3.4.3.4.1.0.
-            // Fetch calendar from database
-            const calendarOnData = await CalendarModel.findOne({ _id: calendarOnId });
+            // Check if there is a calendar here
             if (!calendarOnData) continue calendarOnLoop; // throw new Error({ code: 5501, short_message: 'Calendar not found.', references: { pattern_code: patternData.code, schedule_start_time: scheduleData.start_time } });
 
             // 3.4.3.4.1.1.
@@ -605,11 +601,10 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
             // 3.4.3.4.1.5.
             // Subtract all calendars_off dates from the current calendar ON
-            calendarOffLoop: for (const calendarOffId of scheduleData.calendars_off) {
+            calendarOffLoop: for (const calendarOffData of scheduleData.calendars_off) {
               //
               // 3.4.3.4.1.5.1.
-              // Fetch calendar from database
-              const calendarOffData = await CalendarModel.findOne({ _id: calendarOffId });
+              // Check if there is a calendar here
               if (!calendarOffData) continue calendarOffLoop;
 
               // 3.4.3.4.1.5.2.
@@ -718,13 +713,12 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
               if (!pathData.stop) continue pathLoop; // throw new Error({ code: 5301, short_message: 'Path without defined stop.', references: { pattern_code: patternData.code } });
 
               // 3.4.3.4.1.15.2.
-              // Fetch stop from database. Exit the loop early if not found.
-              const stopData = await StopModel.findOne({ _id: pathData.stop }, 'code');
-              if (!stopData) break pathLoop; // throw new Error({ code: 5302, short_message: 'Stop not found with _id on path.', references: { pattern_code: patternData.code } });
+              // Check if there is a stop here. Exit the loop early if not found.
+              if (!pathData.stop) break pathLoop; // throw new Error({ code: 5302, short_message: 'Stop not found with _id on path.', references: { pattern_code: patternData.code } });
 
               // 3.4.3.4.1.15.3.
               // Append the stop codes for this path to the scoped variable
-              referencedStopCodes.add(stopData.code);
+              referencedStopCodes.add(pathData.stop.code);
 
               // 3.4.3.4.1.15.4.
               // Increment the arrival_time for this stop with the travel time for this path segment
@@ -755,7 +749,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
                 trip_id: thisTripCode,
                 arrival_time: currentArrivalTime,
                 departure_time: departureTime,
-                stop_id: stopData.code,
+                stop_id: pathData.stop.code,
                 stop_sequence: currentStopSequence,
                 pickup_type: pathData.allow_pickup ? 0 : 1,
                 drop_off_type: pathData.allow_drop_off ? 0 : 1,
