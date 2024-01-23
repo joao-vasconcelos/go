@@ -17,7 +17,6 @@ import { useState, useMemo } from 'react';
 import API from '@/services/API';
 import { DatePickerInput } from '@mantine/dates';
 import { DateTime } from 'luxon';
-import { set } from 'lodash';
 
 /* * */
 
