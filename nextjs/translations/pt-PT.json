@@ -1711,18 +1711,13 @@
         }
     },
     "AppSidebar": {
-        "statistics": "Statistics",
-        "alerts": "Alerts",
-        "stops": "Stops",
-        "lines": "Lines",
-        "calendars": "Calendars",
-        "shapes": "Shapes",
-        "fares": "Fares",
-        "agencies": "Agencies",
-        "threads": "Threads",
-        "exports": "Export",
-        "users": "Users",
-        "configs": "DB Config"
+        "stops": "Paragens",
+        "lines": "Linhas",
+        "calendars": "Calendários",
+        "exports": "Exportações",
+        "realtime": "Tempo Real",
+        "users": "Utilizadores",
+        "configs": "Configurações"
     },
     "NoDataLabel": {
         "title": "No Data Available"
@@ -2074,7 +2069,7 @@
     },
     "ExportsExplorerQueue": {
         "title": "Exportações Recentes",
-        "description": "Aqui encontram-se as últimas exportações iniciadas por todos os utilizadores. As exportações são automaticamente eliminadas ao final de 4 horas.",
+        "description": "Aqui encontram-se as últimas exportações iniciadas por todos os utilizadores. As exportações são automaticamente eliminadas ao fim de 4 horas.",
         "no_data": "Nenhuma Exportação Disponível"
     },
     "ExportsExplorerForm": {
