@@ -39,7 +39,7 @@ class REALTIMEDB {
       this.client = new MongoClient(process.env.REALTIMEDB_MONGODB_URI, {
         minPoolSize: 2,
         maxPoolSize: 200,
-        serverSelectionTimeoutMS: 5000,
+        // serverSelectionTimeoutMS: 5000,
         family: 4,
         // directConnection: true,
       });

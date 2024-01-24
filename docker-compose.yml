@@ -4,6 +4,10 @@ volumes:
   certbotdata:
   mongodbdata:
 
+secrets:
+  realtimedbkey:
+    file: REALTIMEDB.key
+
 services:
   #
 
@@ -96,3 +100,5 @@ services:
       - ./exports/:/app/exports
     env_file:
       - .env.production
+    secrets:
+      - realtimedbkey
