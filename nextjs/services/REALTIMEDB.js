@@ -41,7 +41,7 @@ class REALTIMEDB {
         maxPoolSize: 200,
         // serverSelectionTimeoutMS: 5000,
         family: 4,
-        // directConnection: true,
+        directConnection: true,
       });
 
       await this.client.connect(); // Wait for MongoDB connection
