@@ -33,29 +33,38 @@ class REALTIMEDB {
   async connect() {
     try {
       // Establish SSH tunnel
-      const [server, conn] = await createTunnel(this.tunnelOptions, this.serverOptions, this.sshOptions, this.forwardOptions);
-
-      // MongoDB connection
+      await createTunnel(this.tunnelOptions, this.serverOptions, this.sshOptions, this.forwardOptions);
+      // Setup MongoDB connection
       this.client = new MongoClient(process.env.REALTIMEDB_MONGODB_URI, {
         minPoolSize: 2,
         maxPoolSize: 200,
-        // serverSelectionTimeoutMS: 5000,
-        family: 4,
         directConnection: true,
       });
-
+      // Connect to MongoDB client
       await this.client.connect(); // Wait for MongoDB connection
+      // Setup databases
       this.CoreManagement = this.client.db('CoreManagement');
+      this.SiitIntegrator = this.client.db('SiitIntegrator');
+      // Setup collections
       this.VehicleEvents = this.CoreManagement.collection('VehicleEvents');
+      this.validationTransactionEntity = this.CoreManagement.collection('validationTransactionEntity');
+      //
     } catch (error) {
       console.error('Error initializing REALTIMEDB:', error);
     }
   }
+
   toObjectId(string) {
     return new ObjectId(string);
   }
+
+  //
 }
 
+/* * */
+
 const realtimeDB = new REALTIMEDB();
+
+/* * */
 
 export default realtimeDB;
