@@ -16,4 +16,7 @@ module.exports = withNextIntl({
       },
     ];
   },
+  images: {
+    remotePatterns: [{ protocol: 'https', hostname: 'cataas.com' }],
+  },
 });

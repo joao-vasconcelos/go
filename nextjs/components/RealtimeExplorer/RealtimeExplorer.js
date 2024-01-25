@@ -3,9 +3,10 @@
 /* * */
 
 import AuthGate from '@/components/AuthGate/AuthGate';
-import { TwoEvenColumns } from '@/components/Layouts/Layouts';
+import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
+import RealtimeExplorerResult from '@/components/RealtimeExplorerResult/RealtimeExplorerResult';
 import { RealtimeExplorerContextProvider } from '@/contexts/RealtimeExplorerContext';
-import RealtimeExplorerOverview from '@/components/RealtimeExplorerOverview/RealtimeExplorerOverview';
+import RealtimeExplorerForm from '@/components/RealtimeExplorerForm/RealtimeExplorerForm';
 
 /* * */
 
@@ -13,7 +14,7 @@ export default function RealtimeExplorer() {
   return (
     <AuthGate scope="configs" permission="admin" redirect>
       <RealtimeExplorerContextProvider>
-        <TwoEvenColumns first={<RealtimeExplorerOverview />} second={<></>} />
+        <TwoUnevenColumns first={<RealtimeExplorerForm />} second={<RealtimeExplorerResult />} />
       </RealtimeExplorerContextProvider>
     </AuthGate>
   );

@@ -30,10 +30,45 @@ class REALTIMEDB {
     };
   }
 
+  async setupSshTunnel() {
+    try {
+      // Check if tunnel is already connected
+      if (this.isTunnelConnected) return;
+      // Setup a flag to indicate tunnel is connecting
+      this.isTunnelConnected = true;
+      // Setup the tunnel connection
+      const [server, conn] = await createTunnel(this.tunnelOptions, this.serverOptions, this.sshOptions, this.forwardOptions);
+      this.tunnelConnection = conn;
+      this.tunnelServer = server;
+      // Change the flag if the connection closes
+      server.on('close', this.closeSshTunnel);
+      server.on('drop', this.closeSshTunnel);
+      server.on('error', this.closeSshTunnel);
+      conn.on('close', this.closeSshTunnel);
+      conn.on('end', this.closeSshTunnel);
+      conn.on('error', this.closeSshTunnel);
+      //
+    } catch (error) {
+      this.closeSshTunnel();
+      console.error('Error connecting to REALTIMEDB (SSH Tunnel):', error);
+    }
+  }
+
+  async closeSshTunnel() {
+    try {
+      console.log('this.tunnelConnection', this.tunnelConnection);
+      if (this.tunnelConnection) this.tunnelConnection.end();
+      this.isTunnelConnected = false;
+      //
+    } catch (error) {
+      console.error('Error connecting to REALTIMEDB (SSH Tunnel):', error);
+    }
+  }
+
   async connect() {
     try {
       // Establish SSH tunnel
-      await createTunnel(this.tunnelOptions, this.serverOptions, this.sshOptions, this.forwardOptions);
+      await this.setupSshTunnel();
       // Setup MongoDB connection
       this.client = new MongoClient(process.env.REALTIMEDB_MONGODB_URI, {
         minPoolSize: 2,
@@ -41,16 +76,16 @@ class REALTIMEDB {
         directConnection: true,
       });
       // Connect to MongoDB client
-      await this.client.connect(); // Wait for MongoDB connection
+      await this.client.connect();
       // Setup databases
       this.CoreManagement = this.client.db('CoreManagement');
       this.SiitIntegrator = this.client.db('SiitIntegrator');
       // Setup collections
       this.VehicleEvents = this.CoreManagement.collection('VehicleEvents');
-      this.validationTransactionEntity = this.CoreManagement.collection('validationTransactionEntity');
+      this.validationTransactionEntity = this.SiitIntegrator.collection('validationTransactionEntity');
       //
     } catch (error) {
-      console.error('Error initializing REALTIMEDB:', error);
+      console.error('Error connecting to REALTIMEDB (MongoDB):', error);
     }
   }
 

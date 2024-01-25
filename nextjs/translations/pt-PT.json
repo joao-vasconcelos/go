@@ -2363,13 +2363,25 @@
             "placeholder": "R. Mrch. Gomes da Costa 14"
         }
     },
-    "RealtimeExplorerOverview": {
-        "title": "Histórico de Circulações",
-        "description": "Sobre o Realtime e histórico de circulações..."
-    },
-    "RealtimeExplorerOverviewForm": {
+    "RealtimeExplorerForm": {
+        "summary": "Sobre o Realtime e histórico de circulações...",
+        "operations": {
+            "submit": {
+                "label": "Procurar"
+            }
+        },
+        "info": {
+            "is_loading": {
+                "title": "A procurar eventos...",
+                "description": "Esta operação pode demorar algum tempo devido à elevada quantidade de dados. Por favor aguarde alguns momentos."
+            },
+            "is_processing": {
+                "title": "A processar {value} eventos...",
+                "description": "Os eventos estão a ser agrupados em circulações. Por favor aguarde mais alguns momentos."
+            }
+        },
         "form": {
-            "agency_id": {
+            "agency_code": {
                 "label": "Operador",
                 "description": "Selecione o operador pretendido.",
                 "placeholder": "Escolha uma opção...",
@@ -2379,51 +2391,31 @@
                 "label": "Dia Operacional",
                 "description": "Selecione o dia operacional.",
                 "placeholder": "Escolha uma data..."
-            },
-            "lines_include": {
-                "label": "Conjunto de Linhas a incluir (opcional)",
-                "description": "Opcionalmente selecione uma ou mais linhas que devem ser incluídas no plano, ou então deixe em branco para incluir todas as linhas do operador selecionado.",
-                "placeholder": "Escolha uma opção...",
-                "nothingFound": "Nenhum Resultado Encontrado"
-            },
-            "lines_exclude": {
-                "label": "Conjunto de Linhas a excluir (opcional)",
-                "description": "Opcionalmente selecione uma ou mais linhas que devem ser retiradas do conjunto total de linhas do operador, ou então deixe em branco para incluir todas.",
-                "placeholder": "Escolha uma opção...",
-                "nothingFound": "Nenhum Resultado Encontrado"
-            },
-            "feed_end_date": {
-                "label": "Feed End Date",
-                "description": "O plano é válido até esta data.",
-                "placeholder": "Escolha uma data..."
-            },
-            "clip_calendars": {
-                "label": "Cortar Calendários (recomendado)",
-                "description": "Selecione o conjunto de datas a incluir no ficheiro 'calendar_dates.txt', que frequentemente deverão ser as datas de início e fim do ano operacional em vigor."
-            },
-            "calendars_clip_start_date": {
-                "label": "Primeira Data do Calendário",
-                "description": "O serviço inicia nesta data, inclusive.",
-                "placeholder": "Escolha uma data..."
-            },
-            "calendars_clip_end_date": {
-                "label": "Última Data do Calendário",
-                "description": "O serviço termina nesta data, inclusive.",
-                "placeholder": "Escolha uma data..."
-            },
-            "numeric_calendar_codes": {
-                "label": "Utilizar Códigos Numéricos para Calendários",
-                "description": "Esta opção substitui os códigos de calendário alfanuméricos normalmente utilizados por números inteiros."
-            },
-            "stop_sequence_start": {
-                "label": "Base de Contagem da Sequência de Paragens",
-                "description": "As paragens de um percurso são ordenadas sequencialmente por um número inteiro. É recomendado que se inicie a contagem com o número '1', no entanto é possível alterar (por exemplo para '0') em casos específicos.",
-                "placeholder": "1"
-            },
-            "notify_user": {
-                "label": "Notificar-me por email ao concluir a exportação",
-                "description": "Indique se pretende receber um email quando a exportação estiver concluída."
             }
         }
-    }
+    },
+    "RealtimeExplorerResult": {
+        "no_data": "Inicie uma nova procura",
+        "title": "Resultado da Pesquisa de Eventos"
+    },
+    "RealtimeExplorerResultLoading": {
+        "alt": "Um gatinho ao calhas.",
+        "no_data": "A carregar gatinho..."
+    },
+    "RealtimeExplorerResultOverviewHeader": {
+        "title": "Resultado da Pesquisa de Eventos"
+    },
+    "RealtimeExplorerResultOverviewSummary": {
+        "summary": "Resumo do dia escolhido..."
+    },
+    "RealtimeExplorerResultTripDetailHeader": {
+        "title": "Detalhe da Viagem {trip_id}"
+    },
+    "RealtimeExplorerResultTripDetailSummary": {
+        "summary": "Sobre esta circulação específica..."
+    },
+    "RealtimeExplorerResultOverview": {},
+    "RealtimeExplorerResultOverviewMetrics": {},
+    "RealtimeExplorerResultOverviewTable": {},
+    "RealtimeExplorerDetail": {}
 }

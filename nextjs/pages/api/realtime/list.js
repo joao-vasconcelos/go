@@ -1,5 +1,7 @@
 /* * */
 
+import { DateTime } from 'luxon';
+import JSONStream from 'JSONStream';
 import REALTIMEDB from '@/services/REALTIMEDB';
 import checkAuthentication from '@/services/checkAuthentication';
 
@@ -20,7 +22,6 @@ export default async function handler(req, res) {
   // Check for correct Authentication and valid Permissions
 
   try {
-    console.log('before auth');
     await checkAuthentication({ scope: 'configs', permission: 'admin', req, res });
   } catch (err) {
     console.log(err);
@@ -28,27 +29,52 @@ export default async function handler(req, res) {
   }
 
   // 2.
-  // Connect to MongoDB
+  // Parse request body into JSON
 
   try {
-    await REALTIMEDB.connect();
-    const testEvent = await REALTIMEDB.VehicleEvents.findOne({ _id: REALTIMEDB.toObjectId('63f3c6a1ed979d22848c296f') });
-    console.log('testEvent', testEvent);
-    return res.send({});
+    req.body = await JSON.parse(req.body);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
+    return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
   // 3.
-  // List all documents
+  // Prepare datetime variables
+
+  let operationDayStartMilis;
+  let operationDayEndMilis;
 
   try {
-    const allDocuments = await AgencyModel.find();
-    return await res.status(200).send(allDocuments);
+    operationDayStartMilis = DateTime.fromFormat(req.body.operation_day, 'yyyyMMdd').setZone('Europe/Lisbon').startOf('day').set({ hour: 4, minute: 0 }).toMillis();
+    operationDayEndMilis = DateTime.fromFormat(req.body.operation_day, 'yyyyMMdd').setZone('Europe/Lisbon').startOf('day').set({ hour: 5, minute: 0 }).toMillis();
+    // operationDayEndMilis = DateTime.fromFormat(req.body.operation_day, 'yyyyMMdd').setZone('Europe/Lisbon').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59 }).toMillis();
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list Agencies.' });
+    return await res.status(500).json({ message: 'Error converting date boundaries to miliseconds.' });
+  }
+
+  // 4.
+  // Connect to REALTIMEDB
+
+  try {
+    await REALTIMEDB.connect();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
+  }
+
+  // 5.
+  // Fetch matching events
+
+  try {
+    console.log('Finding events...');
+    const allMatchingEventsCursor = REALTIMEDB.VehicleEvents.find({ 'content.entity.vehicle.agencyId': req.body.agency_code, millis: { $gte: operationDayStartMilis, $lte: operationDayEndMilis } });
+    console.log('Streaming events...');
+    await allMatchingEventsCursor.stream().pipe(JSONStream.stringify()).pipe(res);
+    console.log('Done streaming events.');
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot list VehicleEvents.' });
   }
 
   //
