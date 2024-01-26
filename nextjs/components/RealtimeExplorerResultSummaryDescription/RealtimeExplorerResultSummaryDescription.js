@@ -1,5 +1,3 @@
-'use client';
-
 /* * */
 
 import Text from '@/components/Text/Text';
@@ -8,13 +6,13 @@ import { useTranslations } from 'next-intl';
 
 /* * */
 
-export default function RealtimeExplorerResultOverviewSummary() {
+export default function RealtimeExplorerResultSummaryDescription() {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('RealtimeExplorerResultOverviewSummary');
+  const t = useTranslations('RealtimeExplorerResultSummaryDescription');
 
   //
   // B. Render components
@@ -22,7 +20,7 @@ export default function RealtimeExplorerResultOverviewSummary() {
   return (
     <Section>
       <Text size="h4" color="muted">
-        {t('summary')}
+        {t('description')}
       </Text>
     </Section>
   );

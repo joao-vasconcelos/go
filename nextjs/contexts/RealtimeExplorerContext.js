@@ -18,6 +18,8 @@ const initialFormState = {
   agency_code: '41', // Should be agency_code
   operation_day: new Date(2024, 0, 2),
   //
+  table_search_query: '',
+  //
 };
 
 const initialRequestState = {
@@ -27,7 +29,7 @@ const initialRequestState = {
   agency_code: null,
   operation_day: null,
   //
-  unique_trips: null,
+  summary: [],
   //
 };
 
@@ -44,8 +46,6 @@ const initialSelectedTripState = {
   schedule_relationship: null,
   //
   found_vehicles: null,
-  //
-  raw_events: null,
   //
 };
 
@@ -83,77 +83,6 @@ export function RealtimeExplorerContextProvider({ children }) {
   //
   // C. Setup actions
 
-  const extractUniqueTripsFromEvents = (rawEvents) => {
-    //
-
-    const groupedByTripId = {};
-
-    // await INDEXEDDB.iterateOnIndexFrom(INDEXEDDB.objectStores.vehicleEvents, 'trip_id', (indexKey, primaryKey, value) => {
-    //   if (!groupedByTripId[value.trip_id]) {
-    //     console.log('new trip found:', value.trip_id);
-    //     groupedByTripId[value.trip_id] = {
-    //       trip_id: value.trip_id,
-    //       line_id: value.line_id,
-    //       route_id: value.route_id,
-    //       pattern_id: value.pattern_id,
-    //       event_ids: [],
-    //       raw_events: [],
-    //     };
-    //   }
-    //   //
-    //   groupedByTripId[value.trip_id].event_ids.push(value._id);
-    // });
-
-    // const arrayOfUniqueTrips = Object.values(groupedByTripId);
-
-    // // const arrayOfUniqueTripsSorted = arrayOfUniqueTrips.map((trip) => ({ ...trip, raw_events: trip.raw_events.sort((a, b) => a.content?.entity[0]?.vehicle?.timestamp - b.content?.entity[0]?.vehicle?.timestamp) }));
-
-    // return arrayOfUniqueTrips;
-
-    // await INDEXEDDB.iterateOnIndexFrom(INDEXEDDB.objectStores.vehicleEvents, 'trip_id', (indexKey, primaryKey, value) => {});
-
-    if (!rawEvents) return;
-
-    // // Iterate on each event
-
-    rawEvents.forEach((event) => {
-      //
-      //   const tripId = event.content?.entity[0]?.vehicle?.trip?.tripId;
-      //   const lineId = event.content?.entity[0]?.vehicle?.trip?.lineId;
-      //   const routeId = event.content?.entity[0]?.vehicle?.trip?.routeId;
-      //   const patternId = event.content?.entity[0]?.vehicle?.trip?.patternId;
-      //   const scheduleRelationship = event.content?.entity[0]?.vehicle?.trip?.scheduleRelationship;
-      //   const vehicleTimestamp = event.content?.entity[0]?.vehicle?.timestamp;
-      //
-      if (!event.trip_id) return;
-      //
-      if (!groupedByTripId[event.trip_id]) {
-        groupedByTripId[event.trip_id] = {
-          trip_id: event.trip_id,
-          line_id: event.line_id,
-          route_id: event.route_id,
-          pattern_id: event.pattern_id,
-          //   schedule_relationship: event.schedule_relationship,
-          raw_events: [],
-        };
-      }
-      //
-      groupedByTripId[event.trip_id].raw_events.push(event);
-      //
-    });
-
-    const arrayOfUniqueTrips = Object.values(groupedByTripId);
-
-    // const arrayOfUniqueTripsSorted = arrayOfUniqueTrips.map((trip) => ({ ...trip, raw_events: trip.raw_events.sort((a, b) => a.content?.entity[0]?.vehicle?.timestamp - b.content?.entity[0]?.vehicle?.timestamp) }));
-
-    return arrayOfUniqueTrips;
-
-    //
-  };
-
-  //
-  // C. Setup actions
-
   const selectOperationDay = useCallback((operationDay) => {
     setFormState((prev) => ({ ...prev, operation_day: operationDay }));
   }, []);
@@ -170,19 +99,27 @@ export function RealtimeExplorerContextProvider({ children }) {
     setFormState((prev) => ({ ...prev, agency_code: null }));
   }, []);
 
+  const updateTableSearchQuery = useCallback((value) => {
+    setFormState((prev) => ({ ...prev, table_search_query: value }));
+  }, []);
+
+  const clearTableSearchQuery = useCallback(() => {
+    setFormState((prev) => ({ ...prev, table_search_query: '' }));
+  }, []);
+
   const selectTripId = useCallback(
     (tripId) => {
       // Check if there are parsed unique trips
-      if (!requestState.unique_trips) return;
+      if (!requestState.summary) return;
       // Retrieve the desired trip from the list of unique trips
-      const foundTripData = requestState.unique_trips.find((trip) => trip.trip_id === tripId);
+      const foundTripData = requestState.summary.find((trip) => trip.trip_id === tripId);
       // Return early if no trip is found
       if (!foundTripData) return;
       // Set the selected trip state
       setSelectedTripState({ ...foundTripData });
       //
     },
-    [requestState.unique_trips]
+    [requestState.summary]
   );
 
   const clearTripId = useCallback(() => {
@@ -196,71 +133,31 @@ export function RealtimeExplorerContextProvider({ children }) {
   }, []);
 
   const fetchEvents = useCallback(async () => {
-    // return;
     // Return empty if filters are empty
     if (!formState.agency_code || !formState.operation_day) return;
-    // Set the flag to indicate progress
-    setRequestState({ ...initialRequestState, is_loading: true, agency_code: formState.agency_code, operation_day: formState.operation_day, unique_trips: [] });
-    //
-
-    const response = await fetch('/api/realtime/list', {
-      method: 'POST',
-      body: JSON.stringify({
-        agency_code: formState.agency_code,
-        operation_day: parseDate(formState.operation_day),
-      }),
-    });
-
-    const jsonparser = new JSONParser({ stringBufferSize: undefined, paths: ['$.*'], keepStack: false });
-    jsonparser.onValue = async ({ value, key, parent, stack }) => {
-      if (stack > 0) return; // I don't know what this is for, but it works
-      // Skip if deadrun
-      //   if (value.content.entity[0].vehicle.deadRunId) return;
-      // Get essential info from event
-      try {
-        console.log(value);
-        setRequestState((prev) => ({ ...prev, unique_trips: [...prev.unique_trips, value] }));
-        // const parsedEvent = {
-        //   _id: value._id,
-        //   millis: value.millis,
-        //   line_id: value.content.entity[0].vehicle.trip.lineId,
-        //   route_id: value.content.entity[0].vehicle.trip.routeId,
-        //   pattern_id: value.content.entity[0].vehicle.trip.patternId,
-        //   trip_id: value.content.entity[0].vehicle.trip.tripId,
-        //   stop_id: value.content.entity[0].vehicle.stopId,
-        //   vehicle_id: value.content.entity[0].vehicle.vehicle._id,
-        //   driver_id: value.content.entity[0].vehicle.vehicle.driverId,
-        //   operator_event_id: value.content.entity[0]._id,
-        //   operation_plan_id: value.content.entity[0].vehicle.operationPlanId,
-        //   raw: value,
-        // };
-        // await INDEXEDDB.addRowTo(INDEXEDDB.objectStores.vehicleEvents, value);
-      } catch (error) {
-        console.log('------');
-        console.log(error);
-        console.log('--- the above error was caused by the following object: ---');
-        console.log(value);
-        console.log('------');
-      }
+    // Update state to include request details
+    setRequestState({ ...initialRequestState, is_loading: true, agency_code: formState.agency_code, operation_day: formState.operation_day });
+    // Fetch the trips summary
+    const summaryResponse = await API({ service: 'realtime', operation: 'summary', method: 'POST', body: { agency_code: formState.agency_code, operation_day: parseDate(formState.operation_day) }, parseType: 'raw' });
+    // Setup the JSON parser to handle streaming response in the following pattern: [ {•••}, {•••}, {•••}, ... ]
+    const jsonStreamParser = new JSONParser({ stringBufferSize: undefined, paths: ['$.*'], keepStack: false });
+    // Set what happens when a new value is parsed
+    jsonStreamParser.onValue = async ({ value, stack }) => {
+      // Only procceed if value is a complete object
+      if (stack > 0) return;
+      // Update the state summary to save the streamed events
+      setRequestState((prev) => ({ ...prev, summary: [...prev.summary, value] }));
     };
-
-    const reader = response.body.getReader(TextDecoderStream);
+    // Get response Reader object
+    const reader = summaryResponse.body.getReader(TextDecoderStream);
+    // Parse reader values while data is available
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      jsonparser.write(value);
+      jsonStreamParser.write(value);
     }
-
-    // setRequestState((prev) => ({ ...prev, is_loading: false, }));
-
-    // const allRawData = await INDEXEDDB.getAllRowsFrom(INDEXEDDB.objectStores.vehicleEvents);
-
-    // const allUniqueTrips = await extractUniqueTripsFromEvents();
-
-    // console.log(allUniqueTrips);
-
+    // Update state to indicate progress
     setRequestState((prev) => ({ ...prev, is_loading: false }));
-
     //
   }, [formState.agency_code, formState.operation_day]);
 
@@ -282,13 +179,16 @@ export function RealtimeExplorerContextProvider({ children }) {
       selectAgencyId: selectAgencyId,
       clearAgencyId: clearAgencyId,
       //
+      updateTableSearchQuery: updateTableSearchQuery,
+      clearTableSearchQuery: clearTableSearchQuery,
+      //
       fetchEvents: fetchEvents,
       //
       selectTripId: selectTripId,
       clearTripId: clearTripId,
       //
     }),
-    [formState, requestState, selectedTripState, clearAllData, selectOperationDay, clearOperationDay, selectAgencyId, clearAgencyId, fetchEvents, selectTripId, clearTripId]
+    [formState, requestState, selectedTripState, clearAllData, selectOperationDay, clearOperationDay, selectAgencyId, clearAgencyId, updateTableSearchQuery, clearTableSearchQuery, fetchEvents, selectTripId, clearTripId]
   );
 
   //

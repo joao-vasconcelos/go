@@ -2402,20 +2402,43 @@
         "alt": "Um gatinho ao calhas.",
         "no_data": "A carregar gatinho..."
     },
-    "RealtimeExplorerResultOverviewHeader": {
+    "RealtimeExplorerResultSummaryHeader": {
         "title": "Resultado da Pesquisa de Eventos"
     },
-    "RealtimeExplorerResultOverviewSummary": {
-        "summary": "Resumo do dia escolhido..."
+    "RealtimeExplorerResultSummaryDescription": {
+        "description": "Resumo do dia escolhido..."
+    },
+    "RealtimeExplorerResultSummaryMetrics": {
+        "total_events": {
+            "title": "Total de Eventos"
+        },
+        "total_trips": {
+            "title": "Total de Circulações"
+        }
+    },
+    "RealtimeExplorerResultSummaryTable": {
+        "search": {
+            "placeholder": "Procurar por trip_id..."
+        },
+        "table": {
+            "header": {
+                "pattern_id": {
+                    "title": "Pattern ID"
+                },
+                "trip_id": {
+                    "title": "Trip ID"
+                },
+                "num_events": {
+                    "title": "# Eventos"
+                }
+            }
+        }
     },
     "RealtimeExplorerResultTripDetailHeader": {
         "title": "Detalhe da Viagem {trip_id}"
     },
-    "RealtimeExplorerResultTripDetailSummary": {
+    "RealtimeExplorerResultTripDetailDescription": {
         "summary": "Sobre esta circulação específica..."
     },
-    "RealtimeExplorerResultOverview": {},
-    "RealtimeExplorerResultOverviewMetrics": {},
-    "RealtimeExplorerResultOverviewTable": {},
     "RealtimeExplorerDetail": {}
 }

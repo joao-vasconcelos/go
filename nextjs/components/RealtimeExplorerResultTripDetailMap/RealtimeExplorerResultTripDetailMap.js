@@ -3,11 +3,11 @@
 /* * */
 
 import useSWR from 'swr';
-import { SegmentedControl, Switch } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
-import { useRealtimeExplorerContext } from '@/contexts/RealtimeExplorerContext';
 import OSMMap from '@/components/OSMMap/OSMMap';
+import { useEffect, useMemo, useState } from 'react';
+import { SegmentedControl, Switch } from '@mantine/core';
 import { Layer, Source, useMap } from 'react-map-gl/maplibre';
+import { useRealtimeExplorerContext } from '@/contexts/RealtimeExplorerContext';
 
 /* * */
 

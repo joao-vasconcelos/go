@@ -10,13 +10,13 @@ import StatCard from '@/components/StatCard/StatCard';
 
 /* * */
 
-export default function RealtimeExplorerResultOverviewMetrics() {
+export default function RealtimeExplorerResultSummaryMetrics() {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('RealtimeExplorerResultOverviewMetrics');
+  const t = useTranslations('RealtimeExplorerResultSummaryMetrics');
   const realtimeExplorerContext = useRealtimeExplorerContext();
 
   //
@@ -25,8 +25,8 @@ export default function RealtimeExplorerResultOverviewMetrics() {
   return (
     <Section>
       <SimpleGrid cols={2}>
-        <StatCard title={'Total Eventos'} value={-1} displayValue={-1} />
-        <StatCard title={'Total Circulações'} value={realtimeExplorerContext.request.unique_trips.length} displayValue={realtimeExplorerContext.request.unique_trips.length} />
+        <StatCard title={t('total_events.title')} value={-1} displayValue={-1} />
+        <StatCard title={t('total_trips.title')} value={realtimeExplorerContext.request.summary.length} displayValue={realtimeExplorerContext.request.summary.length} />
       </SimpleGrid>
     </Section>
   );

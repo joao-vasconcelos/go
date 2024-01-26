@@ -1,5 +1,3 @@
-'use client';
-
 /* * */
 
 import Image from 'next/image';
@@ -23,7 +21,7 @@ export default function RealtimeExplorerResultLoading() {
   return (
     <Pannel>
       <NoDataLabel text={t('no_data')} fill />
-      {/* <Image src={`https://cataas.com/cat?r=${new Date().getMilliseconds()}`} alt={t('alt')} sizes="500px" priority fill style={{ objectFit: 'fill' }} /> */}
+      <Image src={`https://cataas.com/cat?r=${new Date().getMilliseconds()}`} alt={t('alt')} sizes="5000px" priority fill style={{ objectFit: 'cover' }} />
     </Pannel>
   );
 

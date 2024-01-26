@@ -3,7 +3,7 @@
 /* * */
 
 import useSWR from 'swr';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { Select, Button, Alert, Divider } from '@mantine/core';
 import { Section } from '@/components/Layouts/Layouts';
@@ -12,7 +12,6 @@ import Loader from '@/components/Loader/Loader';
 import Pannel from '@/components/Pannel/Pannel';
 import { DatePickerInput } from '@mantine/dates';
 import { useRealtimeExplorerContext } from '@/contexts/RealtimeExplorerContext';
-import INDEXEDDB from '@/services/INDEXEDDB';
 
 /* * */
 
@@ -24,8 +23,6 @@ export default function RealtimeExplorerForm() {
 
   const t = useTranslations('RealtimeExplorerForm');
   const realtimeExplorerContext = useRealtimeExplorerContext();
-
-  const [rawEventsCount, setRawEventsCount] = useState(0);
 
   //
   // B. Fetch data
@@ -60,6 +57,7 @@ export default function RealtimeExplorerForm() {
           data={availableAgencies}
           value={realtimeExplorerContext.form.agency_code}
           onChange={realtimeExplorerContext.selectAgencyId}
+          disabled={realtimeExplorerContext.request.is_loading}
           searchable
           clearable
         />
@@ -69,29 +67,25 @@ export default function RealtimeExplorerForm() {
           placeholder={t('form.operation_day.placeholder')}
           value={realtimeExplorerContext.form.operation_day}
           onChange={realtimeExplorerContext.selectOperationDay}
-          disabled={!realtimeExplorerContext.form.agency_code}
+          disabled={realtimeExplorerContext.request.is_loading || !realtimeExplorerContext.form.agency_code}
           dropdownType="modal"
           clearable
         />
       </Section>
       <Divider />
       <Section>
-        {realtimeExplorerContext.request.is_loading && !realtimeExplorerContext.request.unique_trips?.length && (
+        {realtimeExplorerContext.request.is_loading && !realtimeExplorerContext.request.summary?.length && (
           <Alert icon={<Loader visible size={20} />} title={t('info.is_loading.title')} color="gray">
             {t('info.is_loading.description')}
           </Alert>
         )}
-        {realtimeExplorerContext.request.is_loading && realtimeExplorerContext.request.unique_trips?.length > 0 && (
-          <Alert icon={<Loader visible size={20} />} title={t('info.is_loading_found_trips.title', { value: realtimeExplorerContext.request.unique_trips?.length || 0 })} color="green">
+        {realtimeExplorerContext.request.is_loading && realtimeExplorerContext.request.summary?.length > 0 && (
+          <Alert icon={<Loader visible size={20} />} title={t('info.is_loading_found_trips.title', { value: realtimeExplorerContext.request.summary?.length || 0 })} color="green">
             {t('info.is_loading_found_trips.description')}
           </Alert>
         )}
         {!realtimeExplorerContext.request.is_loading && (
-          <Button
-            onClick={realtimeExplorerContext.fetchEvents}
-            disabled={!realtimeExplorerContext.form.agency_code || !realtimeExplorerContext.form.operation_day || realtimeExplorerContext.form.raw_events}
-            loading={realtimeExplorerContext.request.is_loading || realtimeExplorerContext.request.is_processing}
-          >
+          <Button onClick={realtimeExplorerContext.fetchEvents} disabled={!realtimeExplorerContext.form.agency_code || !realtimeExplorerContext.form.operation_day || realtimeExplorerContext.request.summary?.length > 0} loading={realtimeExplorerContext.request.is_loading}>
             {t('operations.submit.label')}
           </Button>
         )}

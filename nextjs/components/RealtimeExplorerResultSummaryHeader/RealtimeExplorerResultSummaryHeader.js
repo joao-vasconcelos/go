@@ -3,20 +3,20 @@
 /* * */
 
 import Text from '@/components/Text/Text';
+import { IconX } from '@tabler/icons-react';
 import { ActionIcon } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { useRealtimeExplorerContext } from '@/contexts/RealtimeExplorerContext';
-import { IconX } from '@tabler/icons-react';
 
 /* * */
 
-export default function RealtimeExplorerResultOverviewHeader() {
+export default function RealtimeExplorerResultSummaryHeader() {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('RealtimeExplorerResultOverviewHeader');
+  const t = useTranslations('RealtimeExplorerResultSummaryHeader');
   const realtimeExplorerContext = useRealtimeExplorerContext();
 
   //

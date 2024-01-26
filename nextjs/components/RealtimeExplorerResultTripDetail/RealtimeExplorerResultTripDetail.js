@@ -3,8 +3,8 @@
 import { Divider } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
 import RealtimeExplorerResultTripDetailHeader from '@/components/RealtimeExplorerResultTripDetailHeader/RealtimeExplorerResultTripDetailHeader';
-import RealtimeExplorerResultTripDetailSummary from '@/components/RealtimeExplorerResultTripDetailSummary/RealtimeExplorerResultTripDetailSummary';
 import RealtimeExplorerResultTripDetailMap from '@/components/RealtimeExplorerResultTripDetailMap/RealtimeExplorerResultTripDetailMap';
+import RealtimeExplorerResultTripDetailDescription from '@/components/RealtimeExplorerResultTripDetailDescription/RealtimeExplorerResultTripDetailDescription';
 
 /* * */
 
@@ -13,7 +13,7 @@ export default function RealtimeExplorerResultTripDetail() {
     <Pannel header={<RealtimeExplorerResultTripDetailHeader />}>
       <RealtimeExplorerResultTripDetailMap />
       <Divider />
-      <RealtimeExplorerResultTripDetailSummary />
+      <RealtimeExplorerResultTripDetailDescription />
     </Pannel>
   );
 }
