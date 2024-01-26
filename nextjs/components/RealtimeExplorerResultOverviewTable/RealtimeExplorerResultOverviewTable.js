@@ -29,7 +29,7 @@ export default function RealtimeExplorerResultOverviewTable() {
     // Return empty if data is not ready
     if (!realtimeExplorerContext.request.unique_trips) return [];
     // Map each trip into a table row
-    return realtimeExplorerContext.request.unique_trips.map((trip) => ({ pattern_id: trip.pattern_id, trip_id: trip.trip_id, events_count: trip.raw_events.length }));
+    return realtimeExplorerContext.request.unique_trips.map((trip) => ({ pattern_id: trip.pattern_id, trip_id: trip.trip_id, events_count: trip.num_events }));
     //
   }, [realtimeExplorerContext.request.unique_trips]);
 

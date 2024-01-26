@@ -3,7 +3,9 @@
 /* * */
 
 import API from '@/services/API';
+import INDEXEDDB from '@/services/INDEXEDDB';
 import parseDate from '@/services/parseDate';
+import { JSONParser } from '@streamparser/json';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 /* * */
@@ -21,12 +23,10 @@ const initialFormState = {
 const initialRequestState = {
   //
   is_loading: false,
-  is_processing: false,
   //
   agency_code: null,
   operation_day: null,
   //
-  raw_events: null,
   unique_trips: null,
   //
 };
@@ -85,43 +85,68 @@ export function RealtimeExplorerContextProvider({ children }) {
 
   const extractUniqueTripsFromEvents = (rawEvents) => {
     //
-    if (!rawEvents) return;
-
-    // Iterate on each event
 
     const groupedByTripId = {};
 
+    // await INDEXEDDB.iterateOnIndexFrom(INDEXEDDB.objectStores.vehicleEvents, 'trip_id', (indexKey, primaryKey, value) => {
+    //   if (!groupedByTripId[value.trip_id]) {
+    //     console.log('new trip found:', value.trip_id);
+    //     groupedByTripId[value.trip_id] = {
+    //       trip_id: value.trip_id,
+    //       line_id: value.line_id,
+    //       route_id: value.route_id,
+    //       pattern_id: value.pattern_id,
+    //       event_ids: [],
+    //       raw_events: [],
+    //     };
+    //   }
+    //   //
+    //   groupedByTripId[value.trip_id].event_ids.push(value._id);
+    // });
+
+    // const arrayOfUniqueTrips = Object.values(groupedByTripId);
+
+    // // const arrayOfUniqueTripsSorted = arrayOfUniqueTrips.map((trip) => ({ ...trip, raw_events: trip.raw_events.sort((a, b) => a.content?.entity[0]?.vehicle?.timestamp - b.content?.entity[0]?.vehicle?.timestamp) }));
+
+    // return arrayOfUniqueTrips;
+
+    // await INDEXEDDB.iterateOnIndexFrom(INDEXEDDB.objectStores.vehicleEvents, 'trip_id', (indexKey, primaryKey, value) => {});
+
+    if (!rawEvents) return;
+
+    // // Iterate on each event
+
     rawEvents.forEach((event) => {
       //
-      const tripId = event.content?.entity[0]?.vehicle?.trip?.tripId;
-      const lineId = event.content?.entity[0]?.vehicle?.trip?.lineId;
-      const routeId = event.content?.entity[0]?.vehicle?.trip?.routeId;
-      const patternId = event.content?.entity[0]?.vehicle?.trip?.patternId;
-      const scheduleRelationship = event.content?.entity[0]?.vehicle?.trip?.scheduleRelationship;
-      const vehicleTimestamp = event.content?.entity[0]?.vehicle?.timestamp;
+      //   const tripId = event.content?.entity[0]?.vehicle?.trip?.tripId;
+      //   const lineId = event.content?.entity[0]?.vehicle?.trip?.lineId;
+      //   const routeId = event.content?.entity[0]?.vehicle?.trip?.routeId;
+      //   const patternId = event.content?.entity[0]?.vehicle?.trip?.patternId;
+      //   const scheduleRelationship = event.content?.entity[0]?.vehicle?.trip?.scheduleRelationship;
+      //   const vehicleTimestamp = event.content?.entity[0]?.vehicle?.timestamp;
       //
-      if (!tripId) return;
+      if (!event.trip_id) return;
       //
-      if (!groupedByTripId[tripId]) {
-        groupedByTripId[tripId] = {
-          trip_id: tripId,
-          line_id: lineId,
-          route_id: routeId,
-          pattern_id: patternId,
-          schedule_relationship: scheduleRelationship,
+      if (!groupedByTripId[event.trip_id]) {
+        groupedByTripId[event.trip_id] = {
+          trip_id: event.trip_id,
+          line_id: event.line_id,
+          route_id: event.route_id,
+          pattern_id: event.pattern_id,
+          //   schedule_relationship: event.schedule_relationship,
           raw_events: [],
         };
       }
       //
-      groupedByTripId[tripId].raw_events.push(event);
+      groupedByTripId[event.trip_id].raw_events.push(event);
       //
     });
 
     const arrayOfUniqueTrips = Object.values(groupedByTripId);
 
-    const arrayOfUniqueTripsSorted = arrayOfUniqueTrips.map((trip) => ({ ...trip, raw_events: trip.raw_events.sort((a, b) => a.content?.entity[0]?.vehicle?.timestamp - b.content?.entity[0]?.vehicle?.timestamp) }));
+    // const arrayOfUniqueTripsSorted = arrayOfUniqueTrips.map((trip) => ({ ...trip, raw_events: trip.raw_events.sort((a, b) => a.content?.entity[0]?.vehicle?.timestamp - b.content?.entity[0]?.vehicle?.timestamp) }));
 
-    return arrayOfUniqueTripsSorted;
+    return arrayOfUniqueTrips;
 
     //
   };
@@ -164,30 +189,78 @@ export function RealtimeExplorerContextProvider({ children }) {
     setSelectedTripState(initialSelectedTripState);
   }, []);
 
-  const clearAllData = useCallback(() => {
-    setFormState(initialFormState);
+  const clearAllData = useCallback(async () => {
+    setRequestState(initialRequestState);
+    setSelectedTripState(initialSelectedTripState);
+    await INDEXEDDB.clearAllRowsFrom(INDEXEDDB.objectStores.vehicleEvents);
   }, []);
 
   const fetchEvents = useCallback(async () => {
+    // return;
     // Return empty if filters are empty
     if (!formState.agency_code || !formState.operation_day) return;
     // Set the flag to indicate progress
-    setRequestState({ ...initialRequestState, is_loading: true, agency_code: formState.agency_code, operation_day: formState.operation_day });
-    // Fetch all events matching filters
-    const allEventsData = await API({
-      service: 'realtime',
-      operation: 'list',
+    setRequestState({ ...initialRequestState, is_loading: true, agency_code: formState.agency_code, operation_day: formState.operation_day, unique_trips: [] });
+    //
+
+    const response = await fetch('/api/realtime/list', {
       method: 'POST',
-      body: {
+      body: JSON.stringify({
         agency_code: formState.agency_code,
         operation_day: parseDate(formState.operation_day),
-      },
+      }),
     });
-    // Save events to state and update the flag
-    setRequestState((prev) => ({ ...prev, is_loading: false, is_processing: true, raw_events: allEventsData }));
-    //
-    const uniqueTrips = extractUniqueTripsFromEvents(allEventsData);
-    setRequestState((prev) => ({ ...prev, is_processing: false, unique_trips: uniqueTrips }));
+
+    const jsonparser = new JSONParser({ stringBufferSize: undefined, paths: ['$.*'], keepStack: false });
+    jsonparser.onValue = async ({ value, key, parent, stack }) => {
+      if (stack > 0) return; // I don't know what this is for, but it works
+      // Skip if deadrun
+      //   if (value.content.entity[0].vehicle.deadRunId) return;
+      // Get essential info from event
+      try {
+        console.log(value);
+        setRequestState((prev) => ({ ...prev, unique_trips: [...prev.unique_trips, value] }));
+        // const parsedEvent = {
+        //   _id: value._id,
+        //   millis: value.millis,
+        //   line_id: value.content.entity[0].vehicle.trip.lineId,
+        //   route_id: value.content.entity[0].vehicle.trip.routeId,
+        //   pattern_id: value.content.entity[0].vehicle.trip.patternId,
+        //   trip_id: value.content.entity[0].vehicle.trip.tripId,
+        //   stop_id: value.content.entity[0].vehicle.stopId,
+        //   vehicle_id: value.content.entity[0].vehicle.vehicle._id,
+        //   driver_id: value.content.entity[0].vehicle.vehicle.driverId,
+        //   operator_event_id: value.content.entity[0]._id,
+        //   operation_plan_id: value.content.entity[0].vehicle.operationPlanId,
+        //   raw: value,
+        // };
+        // await INDEXEDDB.addRowTo(INDEXEDDB.objectStores.vehicleEvents, value);
+      } catch (error) {
+        console.log('------');
+        console.log(error);
+        console.log('--- the above error was caused by the following object: ---');
+        console.log(value);
+        console.log('------');
+      }
+    };
+
+    const reader = response.body.getReader(TextDecoderStream);
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      jsonparser.write(value);
+    }
+
+    // setRequestState((prev) => ({ ...prev, is_loading: false, }));
+
+    // const allRawData = await INDEXEDDB.getAllRowsFrom(INDEXEDDB.objectStores.vehicleEvents);
+
+    // const allUniqueTrips = await extractUniqueTripsFromEvents();
+
+    // console.log(allUniqueTrips);
+
+    setRequestState((prev) => ({ ...prev, is_loading: false }));
+
     //
   }, [formState.agency_code, formState.operation_day]);
 

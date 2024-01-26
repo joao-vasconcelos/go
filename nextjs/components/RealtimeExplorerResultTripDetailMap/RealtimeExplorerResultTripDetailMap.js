@@ -3,11 +3,10 @@
 /* * */
 
 import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
 import { SegmentedControl, Switch } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { useRealtimeExplorerContext } from '@/contexts/RealtimeExplorerContext';
-import OSMMap from '../OSMMap/OSMMap';
+import OSMMap from '@/components/OSMMap/OSMMap';
 import { Layer, Source, useMap } from 'react-map-gl/maplibre';
 
 /* * */
@@ -24,7 +23,7 @@ export default function RealtimeExplorerResultTripDetailMap() {
 
   const [showAllZonesOnMap, setShowAllZonesOnMap] = useState(false);
   const [showAllStopsOnMap, setShowAllStopsOnMap] = useState(false);
-  const [allowScrollOnMap, setAllowScrollOnMap] = useState(false);
+  const [allowScrollOnMap, setAllowScrollOnMap] = useState(true);
   const [mapStyle, setMapStyle] = useState('map');
 
   //
@@ -51,27 +50,28 @@ export default function RealtimeExplorerResultTripDetailMap() {
       type: 'FeatureCollection',
       features: [],
     };
-    if (realtimeExplorerContext.selectedTrip.raw_events?.length > 1) {
-      for (const [index, rawEventData] of realtimeExplorerContext.selectedTrip.raw_events.entries()) {
+    if (realtimeExplorerContext.selectedTrip.positions?.length > 1) {
+      const sortedPositions = realtimeExplorerContext.selectedTrip.positions.sort((a, b) => a.timestamp - b.timestamp);
+      for (const [index, positionData] of sortedPositions.entries()) {
         geoJSON.features.push({
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [rawEventData.content?.entity[0]?.vehicle?.position?.longitude, rawEventData.content?.entity[0]?.vehicle?.position?.latitude],
+            coordinates: [positionData.lon, positionData.lat],
           },
           properties: {
             index: index + 1,
-            _id: rawEventData.content?.entity[0]?._id,
+            // _id: rawEventData.content?.entity[0]?._id,
             // code: pathSequence.stop?.code,
             // name: pathSequence.stop?.name,
-            latitude: rawEventData.content?.entity[0]?.vehicle?.position?.latitude,
-            longitude: rawEventData.content?.entity[0]?.vehicle?.position?.longitude,
+            latitude: positionData.lat,
+            longitude: positionData.lon,
           },
         });
       }
     }
     return geoJSON;
-  }, [realtimeExplorerContext.selectedTrip.raw_events]);
+  }, [realtimeExplorerContext.selectedTrip.positions]);
 
   const allTripEventsAsShapeMapData = useMemo(() => {
     // Create a GeoJSON object
@@ -83,13 +83,14 @@ export default function RealtimeExplorerResultTripDetailMap() {
         coordinates: [],
       },
     };
-    if (realtimeExplorerContext.selectedTrip.raw_events?.length > 1) {
-      for (const [index, rawEventData] of realtimeExplorerContext.selectedTrip.raw_events.entries()) {
-        geoJSON.geometry.coordinates.push([rawEventData.content?.entity[0]?.vehicle?.position?.longitude, rawEventData.content?.entity[0]?.vehicle?.position?.latitude]);
+    if (realtimeExplorerContext.selectedTrip.positions?.length > 1) {
+      const sortedPositions = realtimeExplorerContext.selectedTrip.positions.sort((a, b) => a.timestamp - b.timestamp);
+      for (const [index, positionData] of sortedPositions.entries()) {
+        geoJSON.geometry.coordinates.push([positionData.lon, positionData.lat]);
       }
     }
     return geoJSON;
-  }, [realtimeExplorerContext.selectedTrip.raw_events]);
+  }, [realtimeExplorerContext.selectedTrip.positions]);
 
   //
   // D. Render components
@@ -131,11 +132,11 @@ export default function RealtimeExplorerResultTripDetailMap() {
           </Source>
         )} */}
         {shapeData?.geojson && (
-          <Source id="pattern-shape" type="geojson" data={shapeData.geojson}>
+          <Source id="planned-shape" type="geojson" data={shapeData.geojson}>
             <Layer
-              id="pattern-shape-direction"
+              id="planned-shape-direction"
               type="symbol"
-              source="pattern-shape"
+              source="planned-shape"
               layout={{
                 'icon-allow-overlap': true,
                 'icon-ignore-placement': true,
@@ -153,10 +154,10 @@ export default function RealtimeExplorerResultTripDetailMap() {
               }}
             />
             <Layer
-              id="pattern-shape-line"
+              id="planned-shape-line"
               type="line"
-              source="pattern-shape"
-              beforeId="pattern-shape-direction"
+              source="planned-shape"
+              beforeId="planned-shape-direction"
               layout={{
                 'line-join': 'round',
                 'line-cap': 'round',
@@ -169,11 +170,11 @@ export default function RealtimeExplorerResultTripDetailMap() {
           </Source>
         )}
         {allTripEventsAsShapeMapData && (
-          <Source id="pattern-shape" type="geojson" data={allTripEventsAsShapeMapData}>
+          <Source id="trip-events" type="geojson" data={allTripEventsAsShapeMapData}>
             <Layer
-              id="pattern-shape-direction"
+              id="trip-events-direction"
               type="symbol"
-              source="pattern-shape"
+              source="trip-events"
               layout={{
                 'icon-allow-overlap': true,
                 'icon-ignore-placement': true,
@@ -191,10 +192,10 @@ export default function RealtimeExplorerResultTripDetailMap() {
               }}
             />
             <Layer
-              id="pattern-shape-line"
+              id="trip-events-line"
               type="line"
-              source="pattern-shape"
-              beforeId="pattern-shape-direction"
+              source="trip-events"
+              beforeId="trip-events-direction"
               layout={{
                 'line-join': 'round',
                 'line-cap': 'round',

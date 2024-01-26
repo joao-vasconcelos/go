@@ -2375,8 +2375,8 @@
                 "title": "A procurar eventos...",
                 "description": "Esta operação pode demorar algum tempo devido à elevada quantidade de dados. Por favor aguarde alguns momentos."
             },
-            "is_processing": {
-                "title": "A processar {value} eventos...",
+            "is_loading_found_trips": {
+                "title": "Encontradas {value} circulações..",
                 "description": "Os eventos estão a ser agrupados em circulações. Por favor aguarde mais alguns momentos."
             }
         },

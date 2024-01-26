@@ -3,7 +3,7 @@
 /* * */
 
 import useSWR from 'swr';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Select, Button, Alert, Divider } from '@mantine/core';
 import { Section } from '@/components/Layouts/Layouts';
@@ -12,6 +12,7 @@ import Loader from '@/components/Loader/Loader';
 import Pannel from '@/components/Pannel/Pannel';
 import { DatePickerInput } from '@mantine/dates';
 import { useRealtimeExplorerContext } from '@/contexts/RealtimeExplorerContext';
+import INDEXEDDB from '@/services/INDEXEDDB';
 
 /* * */
 
@@ -23,6 +24,8 @@ export default function RealtimeExplorerForm() {
 
   const t = useTranslations('RealtimeExplorerForm');
   const realtimeExplorerContext = useRealtimeExplorerContext();
+
+  const [rawEventsCount, setRawEventsCount] = useState(0);
 
   //
   // B. Fetch data
@@ -73,21 +76,21 @@ export default function RealtimeExplorerForm() {
       </Section>
       <Divider />
       <Section>
-        {realtimeExplorerContext.form.is_loading && (
+        {realtimeExplorerContext.request.is_loading && !realtimeExplorerContext.request.unique_trips?.length && (
           <Alert icon={<Loader visible size={20} />} title={t('info.is_loading.title')} color="gray">
             {t('info.is_loading.description')}
           </Alert>
         )}
-        {realtimeExplorerContext.form.is_processing && (
-          <Alert icon={<Loader visible size={20} />} title={t('info.is_processing.title', { value: realtimeExplorerContext.form.raw_events?.length || 0 })} color="green">
-            {t('info.is_processing.description')}
+        {realtimeExplorerContext.request.is_loading && realtimeExplorerContext.request.unique_trips?.length > 0 && (
+          <Alert icon={<Loader visible size={20} />} title={t('info.is_loading_found_trips.title', { value: realtimeExplorerContext.request.unique_trips?.length || 0 })} color="green">
+            {t('info.is_loading_found_trips.description')}
           </Alert>
         )}
-        {!realtimeExplorerContext.form.is_loading && !realtimeExplorerContext.form.is_processing && (
+        {!realtimeExplorerContext.request.is_loading && (
           <Button
             onClick={realtimeExplorerContext.fetchEvents}
             disabled={!realtimeExplorerContext.form.agency_code || !realtimeExplorerContext.form.operation_day || realtimeExplorerContext.form.raw_events}
-            loading={realtimeExplorerContext.form.is_loading || realtimeExplorerContext.form.is_processing}
+            loading={realtimeExplorerContext.request.is_loading || realtimeExplorerContext.request.is_processing}
           >
             {t('operations.submit.label')}
           </Button>

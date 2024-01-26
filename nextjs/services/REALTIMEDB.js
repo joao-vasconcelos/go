@@ -98,8 +98,8 @@ class REALTIMEDB {
 
 /* * */
 
-const realtimeDB = new REALTIMEDB();
+const realtimedb = new REALTIMEDB();
 
 /* * */
 
-export default realtimeDB;
+export default realtimedb;

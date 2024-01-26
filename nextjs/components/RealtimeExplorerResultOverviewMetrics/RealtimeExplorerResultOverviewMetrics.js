@@ -25,7 +25,7 @@ export default function RealtimeExplorerResultOverviewMetrics() {
   return (
     <Section>
       <SimpleGrid cols={2}>
-        <StatCard title={'Total Eventos'} value={realtimeExplorerContext.request.raw_events.length} displayValue={realtimeExplorerContext.request.raw_events.length} />
+        <StatCard title={'Total Eventos'} value={-1} displayValue={-1} />
         <StatCard title={'Total Circulações'} value={realtimeExplorerContext.request.unique_trips.length} displayValue={realtimeExplorerContext.request.unique_trips.length} />
       </SimpleGrid>
     </Section>

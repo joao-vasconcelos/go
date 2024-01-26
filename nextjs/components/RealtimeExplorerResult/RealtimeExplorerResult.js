@@ -31,7 +31,7 @@ export default function RealtimeExplorerResult() {
     return <RealtimeExplorerResultTripDetail />;
   }
 
-  if (realtimeExplorerContext.request.raw_events) {
+  if (realtimeExplorerContext.request.unique_trips) {
     return <RealtimeExplorerResultOverview />;
   }
 

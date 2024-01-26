@@ -24,6 +24,7 @@ export default async function API(request) {
   // Parse the response to JSON or BLOB
   if (!request.parseType || request.parseType === 'json') parsedResponse = await response.json();
   else if (request.parseType === 'blob') parsedResponse = await response.blob();
+  else if (request.parseType === 'raw') return response;
 
   // Throw an error if the response is not OK
   if (!response.ok) throw new Error(parsedResponse.message);
