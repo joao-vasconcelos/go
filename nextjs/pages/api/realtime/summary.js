@@ -7,6 +7,10 @@ import checkAuthentication from '@/services/checkAuthentication';
 
 /* * */
 
+export const config = { api: { responseLimit: false } };
+
+/* * */
+
 export default async function handler(req, res) {
   //
 

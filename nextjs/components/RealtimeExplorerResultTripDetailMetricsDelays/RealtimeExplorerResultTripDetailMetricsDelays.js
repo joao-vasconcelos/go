@@ -50,7 +50,7 @@ export default function RealtimeExplorerResultTripDetailMetricsDelays() {
   // D. Render components
 
   return (
-    <Standout title={t('title')} description={t('description')} collapsible defaultOpen={false}>
+    <Standout title={t('title')} description={t('description')} collapsible defaultOpen={true}>
       <SimpleGrid cols={3}>
         <StatCard
           title={t('metrics.avg_delay_from_vehicle_to_insert.title')}
