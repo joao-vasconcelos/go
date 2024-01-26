@@ -133,10 +133,8 @@ export default async function handler(req, res) {
   // Perform database search
 
   try {
-    console.log('Init DB search...');
-    const allMatchingEventsCursor = REALTIMEDB.VehicleEvents.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true });
-    console.log('Streaming result...');
-    await allMatchingEventsCursor.stream().pipe(JSONStream.stringify()).pipe(res);
+    console.log('Searching events...');
+    await REALTIMEDB.VehicleEvents.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true }).stream().pipe(JSONStream.stringify()).pipe(res);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot list VehicleEvents.' });
