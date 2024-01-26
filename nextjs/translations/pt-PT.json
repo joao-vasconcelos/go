@@ -2440,5 +2440,19 @@
     "RealtimeExplorerResultTripDetailDescription": {
         "summary": "Sobre esta circulação específica..."
     },
-    "RealtimeExplorerDetail": {}
+    "RealtimeExplorerResultTripDetailMetricsDelays": {
+        "title": "Delays Médios",
+        "description": "O delay deve ser o menor possível, idealmente zero, no entanto é aceitável um pequeno delay (max. 2-3 segundos) para garantir uma boa qualidade de informação ao público.",
+        "metrics": {
+            "avg_delay_from_vehicle_to_insert": {
+                "title": "Delay Médio entre o Veículo e a TML"
+            },
+            "avg_delay_from_vehicle_to_header": {
+                "title": "Delay Médio entre o Veículo e o Operador"
+            },
+            "avg_delay_from_header_to_insert": {
+                "title": "Delay Médio entre o Operador e a TML"
+            }
+        }
+    }
 }

@@ -3,7 +3,6 @@
 /* * */
 
 import API from '@/services/API';
-import INDEXEDDB from '@/services/INDEXEDDB';
 import parseDate from '@/services/parseDate';
 import { JSONParser } from '@streamparser/json';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
@@ -15,10 +14,12 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 
 const initialFormState = {
   //
-  agency_code: '41', // Should be agency_code
+  agency_code: '41',
   operation_day: new Date(2024, 0, 2),
   //
   table_search_query: '',
+  //
+  time_distribution_graph_timeframe: '30',
   //
 };
 
@@ -107,6 +108,10 @@ export function RealtimeExplorerContextProvider({ children }) {
     setFormState((prev) => ({ ...prev, table_search_query: '' }));
   }, []);
 
+  const updateTimeDistributionGraphTimeframe = useCallback((value) => {
+    setFormState((prev) => ({ ...prev, time_distribution_graph_timeframe: value }));
+  }, []);
+
   const selectTripId = useCallback(
     (tripId) => {
       // Check if there are parsed unique trips
@@ -129,7 +134,6 @@ export function RealtimeExplorerContextProvider({ children }) {
   const clearAllData = useCallback(async () => {
     setRequestState(initialRequestState);
     setSelectedTripState(initialSelectedTripState);
-    await INDEXEDDB.clearAllRowsFrom(INDEXEDDB.objectStores.vehicleEvents);
   }, []);
 
   const fetchEvents = useCallback(async () => {
@@ -182,13 +186,15 @@ export function RealtimeExplorerContextProvider({ children }) {
       updateTableSearchQuery: updateTableSearchQuery,
       clearTableSearchQuery: clearTableSearchQuery,
       //
+      updateTimeDistributionGraphTimeframe: updateTimeDistributionGraphTimeframe,
+      //
       fetchEvents: fetchEvents,
       //
       selectTripId: selectTripId,
       clearTripId: clearTripId,
       //
     }),
-    [formState, requestState, selectedTripState, clearAllData, selectOperationDay, clearOperationDay, selectAgencyId, clearAgencyId, updateTableSearchQuery, clearTableSearchQuery, fetchEvents, selectTripId, clearTripId]
+    [formState, requestState, selectedTripState, clearAllData, selectOperationDay, clearOperationDay, selectAgencyId, clearAgencyId, updateTableSearchQuery, clearTableSearchQuery, updateTimeDistributionGraphTimeframe, fetchEvents, selectTripId, clearTripId]
   );
 
   //

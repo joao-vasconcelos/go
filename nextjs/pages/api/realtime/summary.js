@@ -82,12 +82,17 @@ export default async function handler(req, res) {
       line_id: { $first: '$content.entity.vehicle.trip.lineId' },
       route_id: { $first: '$content.entity.vehicle.trip.routeId' },
       pattern_id: { $first: '$content.entity.vehicle.trip.patternId' },
-      num_events: { $sum: 1 },
       vehicle_id: { $addToSet: '$content.entity.vehicle.vehicle._id' },
       driver_id: { $addToSet: '$content.entity.vehicle.vehicle.driverId' },
+      num_events: { $sum: 1 },
       positions: {
         $push: {
-          timestamp: '$content.entity.vehicle.timestamp',
+          tml_event_id: '$_id',
+          operator_event_id: '$content.entity._id',
+          insert_timestamp: '$millis',
+          header_timestamp: '$content.header.timestamp',
+          vehicle_timestamp: '$content.entity.vehicle.timestamp',
+          odometer: '$content.entity.vehicle.position.odometer',
           lat: '$content.entity.vehicle.position.latitude',
           lon: '$content.entity.vehicle.position.longitude',
         },
@@ -97,25 +102,30 @@ export default async function handler(req, res) {
 
   const projectClause = {
     $project: {
+      _id: 0,
       trip_id: { $first: '$trip_id' },
       line_id: { $first: '$line_id' },
       route_id: { $first: '$route_id' },
       pattern_id: { $first: '$pattern_id' },
+      vehicle_id: 1,
+      driver_id: 1,
+      num_events: 1,
       positions: {
         $map: {
           input: '$positions',
           as: 'position',
           in: {
-            timestamp: { $first: '$$position.timestamp' },
+            tml_event_id: '$$position.tml_event_id',
+            operator_event_id: { $first: '$$position.operator_event_id' },
+            insert_timestamp: '$$position.insert_timestamp',
+            header_timestamp: '$$position.header_timestamp',
+            vehicle_timestamp: { $first: '$$position.vehicle_timestamp' },
+            odometer: { $first: '$$position.odometer' },
             lat: { $first: '$$position.lat' },
             lon: { $first: '$$position.lon' },
           },
         },
       },
-      num_events: 1,
-      vehicle_id: 1,
-      driver_id: 1,
-      _id: 0,
     },
   };
 

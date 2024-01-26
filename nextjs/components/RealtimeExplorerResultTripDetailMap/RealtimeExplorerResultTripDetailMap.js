@@ -96,10 +96,10 @@ export default function RealtimeExplorerResultTripDetailMap() {
   // D. Render components
 
   return (
-    <div style={{ height: 600 }}>
+    <div style={{ height: 500, minHeight: 500 }}>
       <OSMMap
         id="realtimeExplorerResultTripDetailMap"
-        height={600}
+        height={500}
         scrollZoom={allowScrollOnMap}
         mapStyle={mapStyle}
         toolbar={
