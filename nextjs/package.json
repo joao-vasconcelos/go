@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/go",
-    "version": "2024.01.26-1916",
+    "version": "2024.01.27-0124",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -10,7 +10,7 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@auth/mongodb-adapter": "2.0.15",
+        "@auth/mongodb-adapter": "2.1.0",
         "@mantine/charts": "7.5.0",
         "@mantine/core": "7.5.0",
         "@mantine/dates": "7.5.0",
