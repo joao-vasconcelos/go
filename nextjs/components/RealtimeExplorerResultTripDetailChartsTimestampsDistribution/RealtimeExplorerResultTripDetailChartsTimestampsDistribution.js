@@ -3,9 +3,9 @@
 /* * */
 
 import { useMemo } from 'react';
-import { SegmentedControl, Select, SimpleGrid } from '@mantine/core';
-import { BarChart, LineChart } from '@mantine/charts';
 import { Section } from '@/components/Layouts/Layouts';
+import { BarChart, LineChart } from '@mantine/charts';
+import { SegmentedControl, Select, SimpleGrid } from '@mantine/core';
 import { useRealtimeExplorerContext } from '@/contexts/RealtimeExplorerContext';
 
 /* * */
@@ -18,14 +18,13 @@ function formatTime(time) {
   return new Date(time).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 
-export default function RealtimeExplorerResultTripDetailTimeDistributionGraph() {
+export default function RealtimeExplorerResultTripDetailChartsTimestampsDistribution() {
   //
 
   //
   // A. Setup variables
 
   const realtimeExplorerContext = useRealtimeExplorerContext();
-  //   const t = useTranslations('RealtimeExplorerResultTripDetailTimeDistributionGraph');
 
   //
   // C. Transform data

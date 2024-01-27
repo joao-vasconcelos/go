@@ -6,7 +6,7 @@ import RealtimeExplorerResultTripDetailHeader from '@/components/RealtimeExplore
 import RealtimeExplorerResultTripDetailMap from '@/components/RealtimeExplorerResultTripDetailMap/RealtimeExplorerResultTripDetailMap';
 import RealtimeExplorerResultTripDetailDescription from '@/components/RealtimeExplorerResultTripDetailDescription/RealtimeExplorerResultTripDetailDescription';
 import RealtimeExplorerResultTripDetailMetrics from '@/components/RealtimeExplorerResultTripDetailMetrics/RealtimeExplorerResultTripDetailMetrics';
-import RealtimeExplorerResultTripDetailTimeDistributionGraph from '@/components/RealtimeExplorerResultTripDetailTimeDistributionGraph/RealtimeExplorerResultTripDetailTimeDistributionGraph';
+import RealtimeExplorerResultTripDetailChartsTimestampsDistribution from '@/components/RealtimeExplorerResultTripDetailChartsTimestampsDistribution/RealtimeExplorerResultTripDetailChartsTimestampsDistribution';
 import RealtimeExplorerResultTripDetailTools from '@/components/RealtimeExplorerResultTripDetailTools/RealtimeExplorerResultTripDetailTools';
 
 /* * */
@@ -22,7 +22,7 @@ export default function RealtimeExplorerResultTripDetail() {
       <Divider />
       <RealtimeExplorerResultTripDetailMetrics />
       <Divider />
-      <RealtimeExplorerResultTripDetailTimeDistributionGraph />
+      <RealtimeExplorerResultTripDetailChartsTimestampsDistribution />
     </Pannel>
   );
 }
