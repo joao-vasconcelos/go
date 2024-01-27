@@ -112,9 +112,9 @@ export default function RealtimeExplorerResultTripDetailChartsTimestampsDistribu
             withLegend
             dataKey="timeframe"
             series={[
-              { name: 'insert_timestamp', color: 'orange' },
-              { name: 'header_timestamp', color: 'blue' },
-              { name: 'vehicle_timestamp', color: 'red' },
+              { name: 'insert_timestamp', label: 'Hora Recebida', color: 'orange' },
+              { name: 'header_timestamp', label: 'Hora do Operador', color: 'blue' },
+              { name: 'vehicle_timestamp', label: 'Hora do Veículo', color: 'red' },
             ]}
             yAxisProps={{ domain: [0, 6] }}
             tickLine="xy"
@@ -123,16 +123,14 @@ export default function RealtimeExplorerResultTripDetailChartsTimestampsDistribu
         {realtimeExplorerContext.form.time_distribution_graph_type === 'bar' && (
           <BarChart
             h={200}
-            curveType="linear"
-            connectNulls={false}
             tooltipAnimationDuration={200}
             data={allTripEventsChartData}
             withLegend
             dataKey="timeframe"
             series={[
-              { name: 'insert_timestamp', color: 'orange' },
-              { name: 'header_timestamp', color: 'blue' },
-              { name: 'vehicle_timestamp', color: 'red' },
+              { name: 'insert_timestamp', label: 'Hora Recebida', color: 'orange' },
+              { name: 'header_timestamp', label: 'Hora do Operador', color: 'blue' },
+              { name: 'vehicle_timestamp', label: 'Hora do Veículo', color: 'red' },
             ]}
             yAxisProps={{ domain: [0, 6] }}
             tickLine="xy"

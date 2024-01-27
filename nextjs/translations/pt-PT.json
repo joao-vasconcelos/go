@@ -2477,5 +2477,32 @@
             "play": "Iniciar Animação",
             "pause": "Pausar Animação"
         }
+    },
+    "RealtimeExplorerResultTripDetailEventsTable": {
+        "search": {
+            "placeholder": "Procurar eventos..."
+        },
+        "table": {
+            "header": {
+                "tml_event_id": {
+                    "title": "Event ID (TML)"
+                },
+                "operator_event_id": {
+                    "title": "Event ID (Operator)"
+                },
+                "vehicle_timestamp": {
+                    "title": "Hora do Veículo"
+                },
+                "header_timestamp": {
+                    "title": "Hora do Operador"
+                },
+                "insert_timestamp": {
+                    "title": "Hora de Receção"
+                },
+                "vehicle_to_insert_delay": {
+                    "title": "Delay entre Veículo e TML"
+                }
+            }
+        }
     }
 }

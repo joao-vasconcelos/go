@@ -8,6 +8,7 @@ import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
+import { theme } from '@/styles/theme';
 
 /* * */
 
@@ -38,7 +39,7 @@ export default function Providers({ children, session }) {
   return (
     <SessionProvider session={session} refetchInterval={15}>
       <SWRConfig value={swrOptions}>
-        <MantineProvider defaultColorScheme="auto">
+        <MantineProvider theme={theme} defaultColorScheme="auto">
           <DatesProvider settings={{ locale: 'pt' }}>
             <Notifications />
             <ModalsProvider>{children}</ModalsProvider>
