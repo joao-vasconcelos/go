@@ -3,7 +3,6 @@
 /* * */
 
 import { useState } from 'react';
-import { ActionIcon } from '@mantine/core';
 import { IconCaretDownFilled, IconCaretLeftFilled } from '@tabler/icons-react';
 import styles from './Standout.module.css';
 

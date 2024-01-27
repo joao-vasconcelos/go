@@ -19,7 +19,6 @@ export default function RealtimeExplorerResultTripDetailMap() {
 
   const { realtimeExplorerResultTripDetailMap } = useMap();
   const realtimeExplorerContext = useRealtimeExplorerContext();
-  //   const t = useTranslations('RealtimeExplorerResultTripDetailMap');
 
   const [showAllZonesOnMap, setShowAllZonesOnMap] = useState(false);
   const [showAllStopsOnMap, setShowAllStopsOnMap] = useState(false);
@@ -51,8 +50,9 @@ export default function RealtimeExplorerResultTripDetailMap() {
       features: [],
     };
     if (realtimeExplorerContext.selectedTrip.positions?.length > 1) {
-      const sortedPositions = realtimeExplorerContext.selectedTrip.positions.sort((a, b) => a.timestamp - b.timestamp);
-      for (const [index, positionData] of sortedPositions.entries()) {
+      const sortedPositions = realtimeExplorerContext.selectedTrip.positions.sort((a, b) => Number(a[realtimeExplorerContext.form.event_order_type]) - Number(b[realtimeExplorerContext.form.event_order_type]));
+      const clippedPositions = sortedPositions.slice(0, realtimeExplorerContext.selectedTrip.event_animation_index);
+      for (const [index, positionData] of clippedPositions.entries()) {
         geoJSON.features.push({
           type: 'Feature',
           geometry: {
@@ -71,7 +71,7 @@ export default function RealtimeExplorerResultTripDetailMap() {
       }
     }
     return geoJSON;
-  }, [realtimeExplorerContext.selectedTrip.positions]);
+  }, [realtimeExplorerContext.selectedTrip.event_animation_index, realtimeExplorerContext.form.event_order_type, realtimeExplorerContext.selectedTrip.positions]);
 
   const allTripEventsAsShapeMapData = useMemo(() => {
     // Create a GeoJSON object
@@ -84,13 +84,14 @@ export default function RealtimeExplorerResultTripDetailMap() {
       },
     };
     if (realtimeExplorerContext.selectedTrip.positions?.length > 1) {
-      const sortedPositions = realtimeExplorerContext.selectedTrip.positions.sort((a, b) => a.timestamp - b.timestamp);
-      for (const [index, positionData] of sortedPositions.entries()) {
+      const sortedPositions = realtimeExplorerContext.selectedTrip.positions.sort((a, b) => Number(a[realtimeExplorerContext.form.event_order_type]) - Number(b[realtimeExplorerContext.form.event_order_type]));
+      const clippedPositions = sortedPositions.slice(0, realtimeExplorerContext.selectedTrip.event_animation_index);
+      for (const [index, positionData] of clippedPositions.entries()) {
         geoJSON.geometry.coordinates.push([positionData.lon, positionData.lat]);
       }
     }
     return geoJSON;
-  }, [realtimeExplorerContext.selectedTrip.positions]);
+  }, [realtimeExplorerContext.selectedTrip.event_animation_index, realtimeExplorerContext.form.event_order_type, realtimeExplorerContext.selectedTrip.positions]);
 
   //
   // D. Render components

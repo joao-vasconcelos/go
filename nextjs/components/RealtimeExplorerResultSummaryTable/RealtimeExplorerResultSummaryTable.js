@@ -74,6 +74,8 @@ export default function RealtimeExplorerResultSummaryTable() {
               <Table.Th>{t('table.header.pattern_id.title')}</Table.Th>
               <Table.Th>{t('table.header.trip_id.title')}</Table.Th>
               <Table.Th>{t('table.header.num_events.title')}</Table.Th>
+              <Table.Th>{t('table.header.vehicle_id.title')}</Table.Th>
+              <Table.Th>{t('table.header.driver_id.title')}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
@@ -82,6 +84,8 @@ export default function RealtimeExplorerResultSummaryTable() {
                 <Table.Td>{row.pattern_id}</Table.Td>
                 <Table.Td>{row.trip_id}</Table.Td>
                 <Table.Td>{row.num_events}</Table.Td>
+                <Table.Td>{row.vehicle_id.join(', ')}</Table.Td>
+                <Table.Td>{row.driver_id.join(', ')}</Table.Td>
               </Table.Tr>
             ))}
           </Table.Tbody>

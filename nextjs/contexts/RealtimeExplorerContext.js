@@ -20,6 +20,8 @@ const initialFormState = {
   table_search_query: '',
   //
   time_distribution_graph_timeframe: '30',
+  time_distribution_graph_type: 'line',
+  event_order_type: 'insert_timestamp',
   //
 };
 
@@ -30,7 +32,7 @@ const initialRequestState = {
   agency_code: null,
   operation_day: null,
   //
-  summary: [],
+  summary: null,
   //
 };
 
@@ -47,6 +49,8 @@ const initialSelectedTripState = {
   schedule_relationship: null,
   //
   found_vehicles: null,
+  //
+  event_animation_index: null,
   //
 };
 
@@ -112,6 +116,18 @@ export function RealtimeExplorerContextProvider({ children }) {
     setFormState((prev) => ({ ...prev, time_distribution_graph_timeframe: value }));
   }, []);
 
+  const updateTimeDistributionGraphType = useCallback((value) => {
+    setFormState((prev) => ({ ...prev, time_distribution_graph_type: value }));
+  }, []);
+
+  const updateEventOrderType = useCallback((value) => {
+    setFormState((prev) => ({ ...prev, event_order_type: value }));
+  }, []);
+
+  const updateEventAnimationIndex = useCallback((value) => {
+    setSelectedTripState((prev) => ({ ...prev, event_animation_index: value }));
+  }, []);
+
   const selectTripId = useCallback(
     (tripId) => {
       // Check if there are parsed unique trips
@@ -121,7 +137,7 @@ export function RealtimeExplorerContextProvider({ children }) {
       // Return early if no trip is found
       if (!foundTripData) return;
       // Set the selected trip state
-      setSelectedTripState({ ...foundTripData });
+      setSelectedTripState({ ...foundTripData, event_animation_index: foundTripData.positions.length });
       //
     },
     [requestState.summary]
@@ -140,7 +156,7 @@ export function RealtimeExplorerContextProvider({ children }) {
     // Return empty if filters are empty
     if (!formState.agency_code || !formState.operation_day) return;
     // Update state to include request details
-    setRequestState({ ...initialRequestState, is_loading: true, agency_code: formState.agency_code, operation_day: formState.operation_day });
+    setRequestState({ ...initialRequestState, is_loading: true, agency_code: formState.agency_code, operation_day: formState.operation_day, summary: [] });
     // Fetch the trips summary
     const summaryResponse = await API({ service: 'realtime', operation: 'summary', method: 'POST', body: { agency_code: formState.agency_code, operation_day: parseDate(formState.operation_day) }, parseType: 'raw' });
     // Setup the JSON parser to handle streaming response in the following pattern: [ {•••}, {•••}, {•••}, ... ]
@@ -150,6 +166,7 @@ export function RealtimeExplorerContextProvider({ children }) {
       // Only procceed if value is a complete object
       if (stack > 0) return;
       // Update the state summary to save the streamed events
+      console.log(value);
       setRequestState((prev) => ({ ...prev, summary: [...prev.summary, value] }));
     };
     // Get response Reader object
@@ -187,6 +204,9 @@ export function RealtimeExplorerContextProvider({ children }) {
       clearTableSearchQuery: clearTableSearchQuery,
       //
       updateTimeDistributionGraphTimeframe: updateTimeDistributionGraphTimeframe,
+      updateTimeDistributionGraphType: updateTimeDistributionGraphType,
+      updateEventOrderType: updateEventOrderType,
+      updateEventAnimationIndex: updateEventAnimationIndex,
       //
       fetchEvents: fetchEvents,
       //
@@ -194,7 +214,25 @@ export function RealtimeExplorerContextProvider({ children }) {
       clearTripId: clearTripId,
       //
     }),
-    [formState, requestState, selectedTripState, clearAllData, selectOperationDay, clearOperationDay, selectAgencyId, clearAgencyId, updateTableSearchQuery, clearTableSearchQuery, updateTimeDistributionGraphTimeframe, fetchEvents, selectTripId, clearTripId]
+    [
+      formState,
+      requestState,
+      selectedTripState,
+      clearAllData,
+      selectOperationDay,
+      clearOperationDay,
+      selectAgencyId,
+      clearAgencyId,
+      updateTableSearchQuery,
+      clearTableSearchQuery,
+      updateTimeDistributionGraphTimeframe,
+      updateTimeDistributionGraphType,
+      updateEventOrderType,
+      updateEventAnimationIndex,
+      fetchEvents,
+      selectTripId,
+      clearTripId,
+    ]
   );
 
   //

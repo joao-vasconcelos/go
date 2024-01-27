@@ -2399,8 +2399,8 @@
         "title": "Resultado da Pesquisa de Eventos"
     },
     "RealtimeExplorerResultLoading": {
-        "alt": "Um gatinho ao calhas.",
-        "no_data": "A carregar gatinho..."
+        "refresh_image": "Mudar de Gatinho",
+        "alt": "Um gatinho ao calhas."
     },
     "RealtimeExplorerResultSummaryHeader": {
         "title": "Resultado da Pesquisa de Eventos"
@@ -2430,6 +2430,12 @@
                 },
                 "num_events": {
                     "title": "# Eventos"
+                },
+                "vehicle_id": {
+                    "title": "Vehicle ID"
+                },
+                "driver_id": {
+                    "title": "Driver ID"
                 }
             }
         }
@@ -2445,14 +2451,31 @@
         "description": "O delay deve ser o menor possível, idealmente zero, no entanto é aceitável um pequeno delay (max. 2-3 segundos) para garantir uma boa qualidade de informação ao público.",
         "metrics": {
             "avg_delay_from_vehicle_to_insert": {
-                "title": "Delay Médio entre o Veículo e a TML"
+                "title": "Do Veículo para a TML"
             },
             "avg_delay_from_vehicle_to_header": {
-                "title": "Delay Médio entre o Veículo e o Operador"
+                "title": "Do Veículo para o Operador"
             },
             "avg_delay_from_header_to_insert": {
-                "title": "Delay Médio entre o Operador e a TML"
+                "title": "Do Operador para a TML"
             }
+        }
+    },
+    "RealtimeExplorerResultTripDetailToolsOrdering": {
+        "title": "Ordem dos Eventos e Inversão de Cronologia",
+        "description": "Há várias formas de ordenar os eventos...",
+        "event_order_type": {
+            "insert_timestamp": "Hora de Receção",
+            "header_timestamp": "Hora do Operador",
+            "vehicle_timestamp": "Hora do Veículo"
+        }
+    },
+    "RealtimeExplorerResultTripDetailToolsAnimation": {
+        "title": "Animar progressão da viagem",
+        "description": "Ao animar os eventos dá para ver o que aconteceu...",
+        "actions": {
+            "play": "Iniciar Animação",
+            "pause": "Pausar Animação"
         }
     }
 }

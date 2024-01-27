@@ -25,17 +25,13 @@ export default function RealtimeExplorerResult() {
 
   if (realtimeExplorerContext.request.is_loading) {
     return <RealtimeExplorerResultLoading />;
-  }
-
-  if (realtimeExplorerContext.selectedTrip.trip_id) {
+  } else if (realtimeExplorerContext.selectedTrip.trip_id) {
     return <RealtimeExplorerResultTripDetail />;
-  }
-
-  if (realtimeExplorerContext.request.summary?.length > 0) {
+  } else if (realtimeExplorerContext.request.summary?.length > 0) {
     return <RealtimeExplorerResultSummary />;
+  } else {
+    return <NoDataLabel text={t('no_data')} fill />;
   }
-
-  return <NoDataLabel text={t('no_data')} fill />;
 
   //
 }

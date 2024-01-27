@@ -61,7 +61,7 @@ class REALTIMEDB {
       this.isTunnelConnected = false;
       //
     } catch (error) {
-      console.error('Error connecting to REALTIMEDB (SSH Tunnel):', error);
+      console.error('Error disconnecting from REALTIMEDB (SSH Tunnel):', error);
     }
   }
 

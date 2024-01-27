@@ -115,10 +115,16 @@ export default function LinesVkmSummary() {
     >
       <div className={styles.container}>
         <Standout icon={<IconInfoCircle size={20} />} title={t('form.calculation_method.title')} description={t('form.calculation_method.description')}>
-          <SegmentedControl value={selectedCalculationMethod} onChange={setSelectedCalculationMethod} data={AVAILABLE_CALCULATION_METHODS.map((option) => ({ value: option, label: t(`form.calculation_method.options.${option}.label`) }))} placeholder="Select method" />
+          <SegmentedControl
+            value={selectedCalculationMethod}
+            onChange={setSelectedCalculationMethod}
+            data={AVAILABLE_CALCULATION_METHODS.map((option) => ({ value: option, label: t(`form.calculation_method.options.${option}.label`) }))}
+            placeholder="Select method"
+            style={{ alignSelf: 'flex-start' }}
+          />
         </Standout>
         <Standout icon={<IconInfoCircle size={20} />} title={t('form.extension_source.title')} description={t('form.extension_source.description')}>
-          <SegmentedControl value={selectedExtensionSource} onChange={setSelectedExtensionSource} data={AVAILABLE_EXTENSION_SOURCES.map((option) => ({ value: option, label: t(`form.extension_source.options.${option}.label`) }))} placeholder="Select method" />
+          <SegmentedControl value={selectedExtensionSource} onChange={setSelectedExtensionSource} data={AVAILABLE_EXTENSION_SOURCES.map((option) => ({ value: option, label: t(`form.extension_source.options.${option}.label`) }))} placeholder="Select method" style={{ alignSelf: 'flex-start' }} />
         </Standout>
         <Select label={t('form.agency.label')} placeholder={t('form.agency.placeholder')} data={allAgenciesFormatted} value={selectedAgency} onChange={setSelectedAgency} />
         <div className={styles.datePickersWrapper}>
