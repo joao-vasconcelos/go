@@ -25,29 +25,29 @@ export default function Page() {
   //
   // D. Handle actiona
 
-  const handleStandardizeCalendars = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Standardize Calendars (A1)?</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Standardize Calendars (A1)', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('standardizeCalendars', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/standardizeCalendars', method: 'GET' });
-          notify('standardizeCalendars', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          notify('standardizeCalendars', 'error', err.message || 'Error');
-          setIsImporting(false);
-        }
-      },
-    });
-  };
+  //   const handleStandardizeCalendars = async () => {
+  //     openConfirmModal({
+  //       title: <Text size="h2">Standardize Calendars (A1)?</Text>,
+  //       centered: true,
+  //       closeOnClickOutside: true,
+  //       children: <Text size="h3">Are you sure?</Text>,
+  //       labels: { confirm: 'Yes, Standardize Calendars (A1)', cancel: 'Cancel' },
+  //       confirmProps: { color: 'red' },
+  //       onConfirm: async () => {
+  //         try {
+  //           setIsImporting(true);
+  //           notify('standardizeCalendars', 'loading', 'Loading');
+  //           await API({ service: 'configs/refactors/standardizeCalendars', method: 'GET' });
+  //           notify('standardizeCalendars', 'success', 'success');
+  //           setIsImporting(false);
+  //         } catch (err) {
+  //           console.log(err);
+  //           notify('standardizeCalendars', 'error', err.message || 'Error');
+  //           setIsImporting(false);
+  //         }
+  //       },
+  //     });
+  //   };
 
   //
   // C. Render components
@@ -57,11 +57,11 @@ export default function Page() {
       <Pannel>
         <Section>
           <Text size="h2">No operations available</Text>
-          <SimpleGrid cols={3}>
+          {/* <SimpleGrid cols={3}>
             <Button onClick={handleStandardizeCalendars} color="red" loading={isImporting}>
               Standardize Calendars (A1)
             </Button>
-          </SimpleGrid>
+          </SimpleGrid> */}
         </Section>
       </Pannel>
     </AuthGate>
