@@ -48,7 +48,10 @@ class REALTIMEDB {
       conn.on('end', this.closeSshTunnel);
       conn.on('error', this.closeSshTunnel);
       //
-      conn.on('ready', () => (this.isTunnelConnected = true));
+      conn.on('ready', () => {
+        console.log('Connected to REALTIMEDB (SSH Tunnel).');
+        this.isTunnelConnected = true;
+      });
       //
     } catch (error) {
       this.closeSshTunnel();
@@ -58,6 +61,7 @@ class REALTIMEDB {
 
   async closeSshTunnel() {
     try {
+      console.log('Closing SSH Tunnel.');
       this.isTunnelConnected = false;
       if (this.tunnelConnection) this.tunnelConnection.end();
       //
@@ -80,10 +84,10 @@ class REALTIMEDB {
       await this.client.connect();
       // Setup databases
       this.CoreManagement = this.client.db('CoreManagement');
-      this.SiitIntegrator = this.client.db('SiitIntegrator');
+      //   this.SiitIntegrator = this.client.db('SiitIntegrator');
       // Setup collections
       this.VehicleEvents = this.CoreManagement.collection('VehicleEvents');
-      this.validationTransactionEntity = this.SiitIntegrator.collection('validationTransactionEntity');
+      //   this.validationTransactionEntity = this.SiitIntegrator.collection('validationTransactionEntity');
       //
     } catch (error) {
       console.error('Error connecting to REALTIMEDB (MongoDB):', error);
