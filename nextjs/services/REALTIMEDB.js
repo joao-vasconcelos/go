@@ -9,7 +9,7 @@ import { MongoClient, ObjectId } from 'mongodb';
 class REALTIMEDB {
   //
 
-  isTunnelConnected = false;
+  sshTunnelConnection = false;
 
   constructor() {
     this.tunnelOptions = {
@@ -33,47 +33,29 @@ class REALTIMEDB {
   }
 
   async setupSshTunnel() {
-    try {
-      // Check if tunnel is already connected
-      console.log(this.isTunnelConnected);
-      if (this.isTunnelConnected) return;
-      // Setup the tunnel connection
-      const [server, conn] = await createTunnel(this.tunnelOptions, this.serverOptions, this.sshOptions, this.forwardOptions);
-      this.tunnelConnection = conn;
-      this.tunnelServer = server;
-      // Change the flag if the connection closes
-      server.on('close', this.closeSshTunnel);
-      server.on('drop', this.closeSshTunnel);
-      server.on('error', this.closeSshTunnel);
-      conn.on('close', this.closeSshTunnel);
-      conn.on('end', this.closeSshTunnel);
-      conn.on('error', this.closeSshTunnel);
-      //
-      conn.on('ready', () => {
-        console.log('Connected to REALTIMEDB (SSH Tunnel).');
-        this.isTunnelConnected = true;
-      });
-      //
-    } catch (error) {
-      this.closeSshTunnel();
-      console.error('Error connecting to REALTIMEDB (SSH Tunnel):', error);
-    }
-  }
-
-  async closeSshTunnel() {
-    try {
-      console.log('Closing SSH Tunnel.');
-      this.isTunnelConnected = false;
-      if (this.tunnelConnection) this.tunnelConnection.end();
-      //
-    } catch (error) {
-      console.error('Error disconnecting from REALTIMEDB (SSH Tunnel):', error);
-    }
+    return new Promise((resolve, reject) => {
+      try {
+        // Check if there is already an active SSH connection
+        if (this.sshTunnelConnection || global._sshTunnelConnection) return resolve();
+        // Setup the tunnel connection
+        createTunnel(this.tunnelOptions, this.serverOptions, this.sshOptions, this.forwardOptions)
+          .then((tunnel) => {
+            if (process.env.NODE_ENV === 'development') global._sshTunnelConnection = tunnel;
+            else this.sshTunnelConnection = tunnel;
+            resolve();
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      } catch (error) {
+        console.error('Error connecting to REALTIMEDB (SSH Tunnel):', error);
+        reject(error);
+      }
+    });
   }
 
   async connect() {
     try {
-      console.log('connect(): this.isTunnelConnected:', this.isTunnelConnected);
       // Establish SSH tunnel
       await this.setupSshTunnel();
       // Setup MongoDB connection
@@ -90,7 +72,6 @@ class REALTIMEDB {
       // Setup collections
       this.VehicleEvents = this.CoreManagement.collection('VehicleEvents');
       //   this.validationTransactionEntity = this.SiitIntegrator.collection('validationTransactionEntity');
-      //
     } catch (error) {
       console.error('Error connecting to REALTIMEDB (MongoDB):', error);
     }
