@@ -150,9 +150,6 @@ export default async function handler(req, res) {
 
   try {
     console.log('Searching events...');
-    // console.log('matchClause', matchClause);
-    // console.log('groupClause', groupClause);
-    // console.log('projectClause', projectClause);
     await REALTIMEDB.VehicleEvents.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 20000 }).stream().pipe(JSONStream.stringify()).pipe(res);
   } catch (err) {
     console.log(err);
