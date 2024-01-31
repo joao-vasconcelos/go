@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useRealtimeExplorerContext } from '@/contexts/RealtimeExplorerContext';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import RealtimeExplorerResultLoading from '@/components/RealtimeExplorerResultLoading/RealtimeExplorerResultLoading';
+import RealtimeExplorerResultError from '@/components/RealtimeExplorerResultError/RealtimeExplorerResultError';
 import RealtimeExplorerResultSummary from '@/components/RealtimeExplorerResultSummary/RealtimeExplorerResultSummary';
 import RealtimeExplorerResultTripDetail from '@/components/RealtimeExplorerResultTripDetail/RealtimeExplorerResultTripDetail';
 
@@ -23,7 +24,9 @@ export default function RealtimeExplorerResult() {
   //
   // B. Render components
 
-  if (realtimeExplorerContext.request.is_loading) {
+  if (realtimeExplorerContext.request.is_error) {
+    return <RealtimeExplorerResultError />;
+  } else if (realtimeExplorerContext.request.is_loading) {
     return <RealtimeExplorerResultLoading />;
   } else if (realtimeExplorerContext.selectedTrip.trip_id) {
     return <RealtimeExplorerResultTripDetail />;

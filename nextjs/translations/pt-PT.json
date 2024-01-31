@@ -2369,9 +2369,16 @@
         "operations": {
             "submit": {
                 "label": "Procurar"
+            },
+            "retry": {
+                "label": "Tentar novamente"
             }
         },
         "info": {
+            "is_error": {
+                "title": "Ocorreu um erro ao procurar eventos",
+                "description": "O servidor devolveu a seguinte mensagem: {errorMessage}"
+            },
             "is_loading": {
                 "title": "A procurar eventos...",
                 "description": "Esta operação pode demorar algum tempo devido à elevada quantidade de dados. Por favor aguarde alguns momentos."
@@ -2402,6 +2409,9 @@
     "RealtimeExplorerResultLoading": {
         "refresh_image": "Mudar de Gatinho",
         "alt": "Um gatinho ao calhas."
+    },
+    "RealtimeExplorerResultError": {
+        "text": "Ocorreu um Erro"
     },
     "RealtimeExplorerResultSummaryHeader": {
         "title": "Resultado da Pesquisa de Eventos"

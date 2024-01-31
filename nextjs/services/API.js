@@ -20,15 +20,19 @@ export default async function API(request) {
   // Fetch the API with the given values
   const response = await fetch(endpoint, options);
 
-  let parsedResponse;
-  // Parse the response to JSON or BLOB
-  if (!request.parseType || request.parseType === 'json') parsedResponse = await response.json();
-  else if (request.parseType === 'blob') parsedResponse = await response.blob();
+  // Throw an error if the response is not OK
+  if (!response.ok) {
+    // Parse the error message from JSON
+    const jsonErrorMessage = await response.json();
+    // Throw the error to be caught by the caller component
+    throw new Error(jsonErrorMessage.message);
+  }
+
+  // Parse the response to JSON, BLOB or RAW
+  if (!request.parseType || request.parseType === 'json') return await response.json();
+  else if (request.parseType === 'blob') return await response.blob();
   else if (request.parseType === 'raw') return response;
   else throw new Error(`Unknown API parseType for ${endpoint}`);
 
-  // Throw an error if the response is not OK
-  if (!response.ok) throw new Error(parsedResponse.message);
-  // If everything is OK return the parsedResponse
-  else return parsedResponse;
+  //
 }

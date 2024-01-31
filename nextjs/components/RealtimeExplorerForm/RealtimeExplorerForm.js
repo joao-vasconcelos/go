@@ -12,6 +12,7 @@ import Loader from '@/components/Loader/Loader';
 import Pannel from '@/components/Pannel/Pannel';
 import { DatePickerInput } from '@mantine/dates';
 import { useRealtimeExplorerContext } from '@/contexts/RealtimeExplorerContext';
+import { IconMoodAnnoyed } from '@tabler/icons-react';
 
 /* * */
 
@@ -74,6 +75,11 @@ export default function RealtimeExplorerForm() {
       </Section>
       <Divider />
       <Section>
+        {realtimeExplorerContext.request.is_error && (
+          <Alert icon={<IconMoodAnnoyed size={20} />} title={t('info.is_error.title')} color="red">
+            {t('info.is_error.description', { errorMessage: realtimeExplorerContext.request.is_error })}
+          </Alert>
+        )}
         {realtimeExplorerContext.request.is_loading && !realtimeExplorerContext.request.summary?.length && (
           <Alert icon={<Loader visible size={20} />} title={t('info.is_loading.title')} color="gray">
             {t('info.is_loading.description')}
@@ -86,7 +92,7 @@ export default function RealtimeExplorerForm() {
         )}
         {!realtimeExplorerContext.request.is_loading && (
           <Button onClick={realtimeExplorerContext.fetchEvents} disabled={!realtimeExplorerContext.form.agency_code || !realtimeExplorerContext.form.operation_day || realtimeExplorerContext.request.summary?.length > 0} loading={realtimeExplorerContext.request.is_loading}>
-            {t('operations.submit.label')}
+            {realtimeExplorerContext.request.is_error ? t('operations.retry.label') : t('operations.submit.label')}
           </Button>
         )}
       </Section>

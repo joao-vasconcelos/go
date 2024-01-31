@@ -28,6 +28,7 @@ const initialFormState = {
 const initialRequestState = {
   //
   is_loading: false,
+  is_error: false,
   //
   agency_code: null,
   operation_day: null,
@@ -90,18 +91,22 @@ export function RealtimeExplorerContextProvider({ children }) {
 
   const selectOperationDay = useCallback((operationDay) => {
     setFormState((prev) => ({ ...prev, operation_day: operationDay }));
+    setRequestState((prev) => ({ ...prev, is_error: false }));
   }, []);
 
   const clearOperationDay = useCallback(() => {
     setFormState((prev) => ({ ...prev, operation_day: null }));
+    setRequestState((prev) => ({ ...prev, is_error: false }));
   }, []);
 
   const selectAgencyId = useCallback((agencyId) => {
     setFormState((prev) => ({ ...prev, agency_code: agencyId }));
+    setRequestState((prev) => ({ ...prev, is_error: false }));
   }, []);
 
   const clearAgencyId = useCallback(() => {
     setFormState((prev) => ({ ...prev, agency_code: null }));
+    setRequestState((prev) => ({ ...prev, is_error: false }));
   }, []);
 
   const updateTableSearchQuery = useCallback((value) => {
@@ -153,33 +158,37 @@ export function RealtimeExplorerContextProvider({ children }) {
   }, []);
 
   const fetchEvents = useCallback(async () => {
-    // Return empty if filters are empty
-    if (!formState.agency_code || !formState.operation_day) return;
-    // Update state to include request details
-    setRequestState({ ...initialRequestState, is_loading: true, agency_code: formState.agency_code, operation_day: formState.operation_day, summary: [] });
-    // Fetch the trips summary
-    const summaryResponse = await API({ service: 'realtime', operation: 'summary', method: 'POST', body: { agency_code: formState.agency_code, operation_day: parseDate(formState.operation_day) }, parseType: 'raw' });
-    // Setup the JSON parser to handle streaming response in the following pattern: [ {•••}, {•••}, {•••}, ... ]
-    const jsonStreamParser = new JSONParser({ stringBufferSize: undefined, paths: ['$.*'], keepStack: false });
-    // Set what happens when a new value is parsed
-    jsonStreamParser.onValue = async ({ value, stack }) => {
-      // Only procceed if value is a complete object
-      if (stack > 0) return;
-      // Update the state summary to save the streamed events
-      console.log(value);
-      setRequestState((prev) => ({ ...prev, summary: [...prev.summary, value] }));
-    };
-    // Get response Reader object
-    const reader = summaryResponse.body.getReader(TextDecoderStream);
-    // Parse reader values while data is available
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      jsonStreamParser.write(value);
+    try {
+      // Return empty if filters are empty
+      if (!formState.agency_code || !formState.operation_day) return;
+      // Update state to include request details
+      setRequestState({ ...initialRequestState, is_loading: true, is_error: false, agency_code: formState.agency_code, operation_day: formState.operation_day, summary: [] });
+      // Fetch the trips summary
+      const summaryResponse = await API({ service: 'realtime', operation: 'summary', method: 'POST', body: { agency_code: formState.agency_code, operation_day: parseDate(formState.operation_day) }, parseType: 'raw' });
+      // Setup the JSON parser to handle streaming response in the following pattern: [ {•••}, {•••}, {•••}, ... ]
+      const jsonStreamParser = new JSONParser({ stringBufferSize: undefined, paths: ['$.*'], keepStack: false });
+      // Set what happens when a new value is parsed
+      jsonStreamParser.onValue = async ({ value, stack }) => {
+        // Only procceed if value is a complete object
+        if (stack > 0) return;
+        // Update the state summary to save the streamed events
+        setRequestState((prev) => ({ ...prev, summary: [...prev.summary, value] }));
+      };
+      // Get response Reader object
+      const reader = summaryResponse.body.getReader(TextDecoderStream);
+      // Parse reader values while data is available
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        jsonStreamParser.write(value);
+      }
+      // Update state to indicate progress
+      setRequestState((prev) => ({ ...prev, is_loading: false }));
+      //
+    } catch (error) {
+      // Update state to indicate progress
+      setRequestState((prev) => ({ ...prev, is_loading: false, is_error: error.message, summary: null }));
     }
-    // Update state to indicate progress
-    setRequestState((prev) => ({ ...prev, is_loading: false }));
-    //
   }, [formState.agency_code, formState.operation_day]);
 
   //
