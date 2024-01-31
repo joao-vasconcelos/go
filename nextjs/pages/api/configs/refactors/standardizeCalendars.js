@@ -10,7 +10,7 @@ import { CalendarModel } from '@/schemas/Calendar/model';
 export default async function handler(req, res) {
   //
 
-  throw new Error('Feature is disabled.');
+  //   throw new Error('Feature is disabled.');
 
   // 0.
   // Refuse request if not GET
@@ -52,8 +52,8 @@ export default async function handler(req, res) {
     patternsLoop: for (const patternCode of allPatternCodes) {
       //
 
-      // Skip if not A2
-      if (!patternCode.code.startsWith('2')) continue patternsLoop;
+      // Skip if not A1
+      if (!patternCode.code.startsWith('1')) continue patternsLoop;
 
       //
 
@@ -80,9 +80,40 @@ export default async function handler(req, res) {
 
         /* * * * * * * * * */
 
-        if (associatedCalendarCodes.has('P1_1212')) {
-          associatedCalendarCodes.delete('P1_1212');
-          associatedCalendarCodes.add('ESP_CARNAVAL_DIA');
+        if (associatedCalendarCodes.has('ZR')) {
+          console.log('Found calendar "ZR"');
+          associatedCalendarCodes.delete('ZR');
+        }
+
+        if (associatedCalendarCodes.has('P0_5A')) {
+          console.log('Found calendar "P0_5A"');
+          associatedCalendarCodes.delete('P0_5A');
+        }
+
+        if (associatedCalendarCodes.has('07')) {
+          console.log('Found calendar "07"');
+          associatedCalendarCodes.delete('07');
+        }
+
+        if (associatedCalendarCodes.has('8J')) {
+          console.log('Found calendar "8J"');
+          associatedCalendarCodes.delete('8J');
+          associatedCalendarCodes.add('VER_DU');
+          associatedCalendarCodes.add('FER_DU_1ASEMSET');
+        }
+
+        if (associatedCalendarCodes.has('UZ')) {
+          console.log('Found calendar "UZ"');
+          associatedCalendarCodes.delete('UZ');
+          associatedCalendarCodes.add('VER_DOM');
+          associatedCalendarCodes.add('FER_DOM_1ASEMSET');
+        }
+
+        if (associatedCalendarCodes.has('P0_8')) {
+          console.log('Found calendar "P0_8"');
+          associatedCalendarCodes.delete('P0_8');
+          associatedCalendarCodes.add('VER_SAB');
+          associatedCalendarCodes.add('FER_SAB_1ASEMSET');
         }
 
         /* * * * * * * * * */
