@@ -73,9 +73,21 @@ export default async function handler(req, res) {
 
   const matchClause = {
     $match: {
-      millis: { $gte: operationDayStartMilis, $lte: operationDayEndMilis },
-      'content.entity.vehicle.agencyId': req.body.agency_code,
-      'content.entity.vehicle.trip.tripId': { $exists: true, $ne: null },
+      $and: [
+        {
+          millis: { $gte: operationDayStartMilis, $lte: operationDayEndMilis },
+          $and: [
+            {
+              'content.entity.vehicle.agencyId': req.body.agency_code,
+              $and: [
+                {
+                  'content.entity.vehicle.trip.tripId': { $exists: true, $ne: null },
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
   };
 
@@ -138,6 +150,9 @@ export default async function handler(req, res) {
 
   try {
     console.log('Searching events...');
+    // console.log('matchClause', matchClause);
+    // console.log('groupClause', groupClause);
+    // console.log('projectClause', projectClause);
     await REALTIMEDB.VehicleEvents.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 20000 }).stream().pipe(JSONStream.stringify()).pipe(res);
   } catch (err) {
     console.log(err);
