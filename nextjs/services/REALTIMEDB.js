@@ -35,6 +35,7 @@ class REALTIMEDB {
   async setupSshTunnel() {
     try {
       // Check if tunnel is already connected
+      console.log(this.isTunnelConnected);
       if (this.isTunnelConnected) return;
       // Setup the tunnel connection
       const [server, conn] = await createTunnel(this.tunnelOptions, this.serverOptions, this.sshOptions, this.forwardOptions);
@@ -72,6 +73,7 @@ class REALTIMEDB {
 
   async connect() {
     try {
+      console.log('connect(): this.isTunnelConnected:', this.isTunnelConnected);
       // Establish SSH tunnel
       await this.setupSshTunnel();
       // Setup MongoDB connection
