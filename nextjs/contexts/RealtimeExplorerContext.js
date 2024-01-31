@@ -14,8 +14,8 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 
 const initialFormState = {
   //
-  agency_code: '41',
-  operation_day: new Date(2024, 0, 2),
+  agency_code: null,
+  operation_day: null,
   //
   table_search_query: '',
   //

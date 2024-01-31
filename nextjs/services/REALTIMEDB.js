@@ -9,6 +9,8 @@ import { MongoClient, ObjectId } from 'mongodb';
 class REALTIMEDB {
   //
 
+  isTunnelConnected = false;
+
   constructor() {
     this.tunnelOptions = {
       autoClose: true,
@@ -34,8 +36,6 @@ class REALTIMEDB {
     try {
       // Check if tunnel is already connected
       if (this.isTunnelConnected) return;
-      // Setup a flag to indicate tunnel is connecting
-      this.isTunnelConnected = true;
       // Setup the tunnel connection
       const [server, conn] = await createTunnel(this.tunnelOptions, this.serverOptions, this.sshOptions, this.forwardOptions);
       this.tunnelConnection = conn;
@@ -48,6 +48,8 @@ class REALTIMEDB {
       conn.on('end', this.closeSshTunnel);
       conn.on('error', this.closeSshTunnel);
       //
+      conn.on('ready', () => (this.isTunnelConnected = true));
+      //
     } catch (error) {
       this.closeSshTunnel();
       console.error('Error connecting to REALTIMEDB (SSH Tunnel):', error);
@@ -56,9 +58,8 @@ class REALTIMEDB {
 
   async closeSshTunnel() {
     try {
-      console.log('this.tunnelConnection', this.tunnelConnection);
-      if (this.tunnelConnection) this.tunnelConnection.end();
       this.isTunnelConnected = false;
+      if (this.tunnelConnection) this.tunnelConnection.end();
       //
     } catch (error) {
       console.error('Error disconnecting from REALTIMEDB (SSH Tunnel):', error);
