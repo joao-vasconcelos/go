@@ -150,10 +150,10 @@ export default async function handler(req, res) {
 
   try {
     console.log('Searching events...');
-    await REALTIMEDB.VehicleEvents.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 45000 }).stream().pipe(JSONStream.stringify()).pipe(res);
+    await REALTIMEDB.VehicleEvents.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).stream().pipe(JSONStream.stringify()).pipe(res);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot list VehicleEvents.' });
+    return await res.status(500).json({ message: err.message || 'Cannot list VehicleEvents.' });
   }
 
   //
