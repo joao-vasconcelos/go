@@ -14,7 +14,7 @@ export const Default = {
   status: 'open',
   priority: '',
   due_date: '',
-  assigned_to: '',
+  assigned_to: null,
   //
   related_lines: [],
   related_stops: [],
@@ -23,20 +23,30 @@ export const Default = {
   //
   media: [],
   //
-  comments: [
-    {
-      created_by: '',
-      created_at: '',
-      text: '',
-    },
-  ],
+  comments: [],
   //
-  milestones: [
-    {
-      created_by: '',
-      created_at: '',
-      type: '',
-    },
-  ],
+  milestones: [],
+  //
+  is_locked: false,
+  //
+};
+
+/* * */
+
+export const DefaultCommment = {
+  //
+  created_by: null,
+  created_at: '',
+  text: '',
+  //
+};
+
+/* * */
+
+export const DefaultMilestone = {
+  //
+  created_by: '',
+  created_at: '',
+  type: '',
   //
 };

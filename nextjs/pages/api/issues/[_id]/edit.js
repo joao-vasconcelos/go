@@ -28,7 +28,7 @@ export default async function handler(req, res) {
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'tags', permission: 'create_edit', req, res });
+    await checkAuthentication({ scope: 'issues', permission: 'create_edit', req, res });
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });

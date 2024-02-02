@@ -39,6 +39,21 @@ export const UserSchema = new mongoose.Schema(
         },
       },
       //
+      issues: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        lock: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
+      },
+      //
       agencies: {
         view: {
           type: Boolean,

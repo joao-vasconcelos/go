@@ -20,7 +20,7 @@ export default function AppSidebar() {
   const t = useTranslations('AppSidebar');
 
   const links = [
-    { href: 'issues', label: t('issues'), icon: <IconChartArcs />, auth_scope: 'configs', auth_permission: 'admin' },
+    { href: 'issues', label: t('issues'), icon: <IconChartArcs />, auth_scope: 'issues', auth_permission: 'view' },
     { href: 'tags', label: t('tags'), icon: <IconTag />, auth_scope: 'tags', auth_permission: 'view' },
     { href: 'stops', label: t('stops'), icon: <IconBusStop />, auth_scope: 'stops', auth_permission: 'view' },
     { href: 'lines', label: t('lines'), icon: <IconArrowLoopRight />, auth_scope: 'lines', auth_permission: 'view' },

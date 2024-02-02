@@ -11,9 +11,7 @@ import AuthGate from '@/components/AuthGate/AuthGate';
 import LockButton from '@/components/LockButton/LockButton';
 import DeleteButton from '@/components/DeleteButton/DeleteButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
-import { useTagsExplorerContext } from '@/contexts/TagsExplorerContext';
-import TagsExplorerTag from '@/components/TagsExplorerTag/TagsExplorerTag';
-import styles from './IssuesExplorerIdPageHeader.module.css';
+import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 
 /* * */
 
@@ -24,7 +22,7 @@ export default function IssuesExplorerIdPageHeader() {
   // A. Setup variables
 
   const t = useTranslations('IssuesExplorerIdPageHeader');
-  const tagsExplorerContext = useTagsExplorerContext();
+  const issuesExplorerContext = useIssuesExplorerContext();
 
   //
   // B. Handle actions
@@ -39,12 +37,12 @@ export default function IssuesExplorerIdPageHeader() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          notify(tagsExplorerContext.item_id, 'loading', t('operations.delete.loading'));
-          await tagsExplorerContext.deleteItem();
-          notify(tagsExplorerContext.item_id, 'success', t('operations.delete.success'));
+          notify(issuesExplorerContext.item_id, 'loading', t('operations.delete.loading'));
+          await issuesExplorerContext.deleteItem();
+          notify(issuesExplorerContext.item_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
-          notify(tagsExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
+          notify(issuesExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
         }
       },
     });
@@ -56,28 +54,23 @@ export default function IssuesExplorerIdPageHeader() {
   return (
     <ListHeader>
       <AutoSave
-        isValid={tagsExplorerContext.form.isValid()}
-        isDirty={tagsExplorerContext.form.isDirty()}
-        onValidate={tagsExplorerContext.validateItem}
-        isErrorValidating={tagsExplorerContext.page.is_error}
-        isErrorSaving={tagsExplorerContext.page.is_error_saving}
-        isSaving={tagsExplorerContext.page.is_saving}
-        onSave={tagsExplorerContext.saveItem}
-        onClose={tagsExplorerContext.closeItem}
+        isValid={issuesExplorerContext.form.isValid()}
+        isDirty={issuesExplorerContext.form.isDirty()}
+        onValidate={issuesExplorerContext.validateItem}
+        isErrorValidating={issuesExplorerContext.page.is_error}
+        isErrorSaving={issuesExplorerContext.page.is_error_saving}
+        isSaving={issuesExplorerContext.page.is_saving}
+        onSave={issuesExplorerContext.saveItem}
+        onClose={issuesExplorerContext.closeItem}
       />
-      {tagsExplorerContext.form.values.label ? (
-        <TagsExplorerTag tagData={tagsExplorerContext.form.values} />
-      ) : (
-        <Text size="h1" style="untitled" full>
-          {t('untitled')}
-        </Text>
-      )}
-      <div className={styles.spacer} />
-      <AuthGate scope="tags" permission="lock">
-        <LockButton isLocked={tagsExplorerContext.item_data?.is_locked} onClick={tagsExplorerContext.lockItem} />
+      <Text size="h1" style={!issuesExplorerContext.form.values.title && 'untitled'} full>
+        {issuesExplorerContext.form.values.title || t('untitled')}
+      </Text>
+      <AuthGate scope="issues" permission="lock">
+        <LockButton isLocked={issuesExplorerContext.item_data?.is_locked} onClick={issuesExplorerContext.lockItem} />
       </AuthGate>
-      <AuthGate scope="tags" permission="delete">
-        <DeleteButton onClick={handleDelete} disabled={tagsExplorerContext.page.is_read_only} />
+      <AuthGate scope="issues" permission="delete">
+        <DeleteButton onClick={handleDelete} disabled={issuesExplorerContext.page.is_read_only} />
       </AuthGate>
     </ListHeader>
   );

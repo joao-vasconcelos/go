@@ -1424,6 +1424,26 @@
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
+                "issues": {
+                    "title": "Issues",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Issues",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Issues",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "lock": {
+                        "label": "Lock Issues",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Issues",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
                 "agencies": {
                     "title": "Agencies",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
@@ -2620,7 +2640,73 @@
     "IssuesExplorerPage": {
         "no_data": "Escolha um Issue"
     },
+    "IssuesExplorerList": {},
     "IssuesExplorerListFooter": {
         "found_items": "Found {count, plural, =1 {1 Issue} other {# Issues}}"
+    },
+    "IssuesExplorerListItem": {
+        "untitled": "Etiqueta sem título"
+    },
+    "IssuesExplorerListHeader": {
+        "operations": {
+            "create": {
+                "title": "Create New issue",
+                "loading": "Creating new issue...",
+                "success": "A new issue was created!",
+                "error": "An error occurred while creating this issue."
+            }
+        }
+    },
+    "IssuesExplorerTag": {},
+    "IssuesExplorerTagHoverCard": {
+        "created_by": "Criada a {date} por {name}"
+    },
+    "IssuesExplorerIdPageHeader": {
+        "untitled": "Etiqueta sem título",
+        "operations": {
+            "delete": {
+                "title": "Eliminar Etiqueta",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Etiqueta forever?",
+                "confirm": "Delete Etiqueta Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Etiqueta...",
+                "success": "Etiqueta was deleted.",
+                "error": "An error occurred while deleting this Etiqueta."
+            }
+        }
+    },
+    "IssuesExplorerIdPage": {
+        "sections": {
+            "config": {
+                "title": "Details",
+                "description": "Something about this section"
+            },
+            "operation": {
+                "title": "Operação",
+                "description": "Something about this section"
+            },
+            "financials": {
+                "title": "Dados Financeiros",
+                "description": "Something about this section"
+            }
+        },
+        "form": {
+            "label": {
+                "label": "Rótulo da Etiqueta",
+                "placeholder": "ÁREA 2"
+            },
+            "description": {
+                "label": "Descrição",
+                "placeholder": "Tudo sobre esta etiqueta..."
+            },
+            "color": {
+                "label": "Cor do Fundo",
+                "placeholder": "#FEFEFE"
+            },
+            "text_color": {
+                "label": "Cor do Texto",
+                "placeholder": "#000000"
+            }
+        }
     }
 }

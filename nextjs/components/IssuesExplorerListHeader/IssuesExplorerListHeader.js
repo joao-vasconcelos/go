@@ -12,7 +12,7 @@ import notify from '@/services/notify';
 import { useTranslations } from 'next-intl';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
-import { useTagsExplorerContext } from '@/contexts/TagsExplorerContext';
+import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 import ListHeader from '@/components/ListHeader/ListHeader';
 
 /* * */
@@ -26,12 +26,12 @@ export default function IssuesExplorerListHeader() {
   const router = useRouter();
   const t = useTranslations('IssuesExplorerListHeader');
   const [isCreating, setIsCreating] = useState(false);
-  const tagsExplorerContext = useTagsExplorerContext();
+  const issuesExplorerContext = useIssuesExplorerContext();
 
   //
   // B. Fetch data
 
-  const { isLoading: allTagsLoading, mutate: allTagsMutate } = useSWR('/api/tags');
+  const { isLoading: allIssuesLoading, mutate: allIssuesMutate } = useSWR('/api/issues');
 
   //
   // C. Handle actions
@@ -40,9 +40,9 @@ export default function IssuesExplorerListHeader() {
     try {
       setIsCreating(true);
       notify('new', 'loading', t('operations.create.loading'));
-      const response = await API({ service: 'tags', operation: 'create', method: 'GET' });
-      allTagsMutate();
-      router.push(`/dashboard/tags/${response._id}`);
+      const response = await API({ service: 'issues', operation: 'create', method: 'GET' });
+      allIssuesMutate();
+      router.push(`/dashboard/issues/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
@@ -57,10 +57,10 @@ export default function IssuesExplorerListHeader() {
 
   return (
     <ListHeader>
-      <SearchField query={tagsExplorerContext.list.search_query} onChange={tagsExplorerContext.updateSearchQuery} />
+      <SearchField query={issuesExplorerContext.list.search_query} onChange={issuesExplorerContext.updateSearchQuery} />
       <Menu shadow="md" position="bottom-end">
         <Menu.Target>
-          <ActionIcon variant="light" size="lg" color="gray" loading={allTagsLoading || isCreating}>
+          <ActionIcon variant="light" size="lg" color="gray" loading={allIssuesLoading || isCreating}>
             <IconDots size={20} />
           </ActionIcon>
         </Menu.Target>

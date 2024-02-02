@@ -15,6 +15,13 @@ export const UserDefault = {
       delete: false,
     },
     //
+    issues: {
+      view: false,
+      create_edit: false,
+      lock: false,
+      delete: false,
+    },
+    //
     agencies: {
       view: false,
       create_edit: false,

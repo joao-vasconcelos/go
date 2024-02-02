@@ -117,6 +117,10 @@ export const Schema = new mongoose.Schema({
     },
   ],
   //
+  is_locked: {
+    type: Boolean,
+  },
+  //
 });
 
 /* * */

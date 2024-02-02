@@ -241,6 +241,28 @@ export default function Page() {
 
           <Section>
             <div>
+              <Text size="h2">{t('form.permissions.issues.title')}</Text>
+              <Text size="h4">{t('form.permissions.issues.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt="md">
+              <Switch label={t('form.permissions.issues.view.label')} description={t('form.permissions.issues.view.description')} size="md" {...userForm.getInputProps('permissions.issues.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size="md"
+                label={t('form.permissions.issues.create_edit.label')}
+                description={t('form.permissions.issues.create_edit.description')}
+                {...userForm.getInputProps('permissions.issues.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.issues.view}
+                readOnly={isReadOnly}
+              />
+              <Switch size="md" label={t('form.permissions.issues.lock.label')} description={t('form.permissions.issues.lock.description')} {...userForm.getInputProps('permissions.issues.lock', { type: 'checkbox' })} disabled={!userForm.values.permissions.issues.view} readOnly={isReadOnly} />
+              <Switch size="md" label={t('form.permissions.issues.delete.label')} description={t('form.permissions.issues.delete.description')} {...userForm.getInputProps('permissions.issues.delete', { type: 'checkbox' })} disabled={!userForm.values.permissions.issues.view} readOnly={isReadOnly} />
+            </SimpleGrid>
+          </Section>
+
+          <Divider />
+
+          <Section>
+            <div>
               <Text size="h2">{t('form.permissions.exports.title')}</Text>
               <Text size="h4">{t('form.permissions.exports.description')}</Text>
             </div>
