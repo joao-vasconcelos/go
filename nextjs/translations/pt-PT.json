@@ -2578,8 +2578,9 @@
             }
         }
     },
-    "TagsExplorerList": {
-        "footer": "Found {count, plural, =1 {1 Tag} other {# Tags}}"
+    "TagsExplorerList": {},
+    "TagsExplorerListFooter": {
+        "found_items": "Found {count, plural, =1 {1 Tag} other {# Tags}}"
     },
     "TagsExplorerListItem": {
         "untitled": "Etiqueta sem título"
@@ -2615,5 +2616,11 @@
     "PanelError": {
         "retry": "Tentar Novamente",
         "retrying": "Por favor aguarde..."
+    },
+    "IssuesExplorerPage": {
+        "no_data": "Escolha um Issue"
+    },
+    "IssuesExplorerListFooter": {
+        "found_items": "Found {count, plural, =1 {1 Issue} other {# Issues}}"
     }
 }

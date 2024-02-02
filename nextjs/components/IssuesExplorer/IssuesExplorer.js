@@ -11,7 +11,7 @@ import { IssuesExplorerContextProvider } from '@/contexts/IssuesExplorerContext'
 
 export default function IssuesExplorer({ children }) {
   return (
-    <AuthGate scope="configs" permission="admin" redirect>
+    <AuthGate scope="issues" permission="view" redirect>
       <IssuesExplorerContextProvider>
         <TwoUnevenColumns first={<IssuesExplorerList />} second={children} />
       </IssuesExplorerContextProvider>

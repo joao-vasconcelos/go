@@ -20,7 +20,7 @@ export default function TagsExplorerListFooter() {
   //
   // B. Render components
 
-  return <ListFooter>{t('footer', { count: tagsExplorerContext.list.items.length })}</ListFooter>;
+  return <ListFooter>{t('found_items', { count: tagsExplorerContext.list.items.length })}</ListFooter>;
 
   //
 }
