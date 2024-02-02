@@ -11,7 +11,7 @@ import { TagsExplorerContextProvider } from '@/contexts/TagsExplorerContext';
 
 export default function TagsExplorer({ children }) {
   return (
-    <AuthGate scope="configs" permission="admin" redirect>
+    <AuthGate scope="tags" permission="view" redirect>
       <TagsExplorerContextProvider>
         <TwoUnevenColumns first={<TagsExplorerList />} second={children} />
       </TagsExplorerContextProvider>
