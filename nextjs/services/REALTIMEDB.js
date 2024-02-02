@@ -63,15 +63,16 @@ class REALTIMEDB {
         minPoolSize: 2,
         maxPoolSize: 200,
         directConnection: true,
+        readPreference: 'primaryPreferred',
       });
       // Connect to MongoDB client
       await this.client.connect();
       // Setup databases
       this.CoreManagement = this.client.db('CoreManagement');
-      //   this.SiitIntegrator = this.client.db('SiitIntegrator');
+      this.ValidationsManagement = this.client.db('ValidationsManagement');
       // Setup collections
       this.VehicleEvents = this.CoreManagement.collection('VehicleEvents');
-      //   this.validationTransactionEntity = this.SiitIntegrator.collection('validationTransactionEntity');
+      this.ValidationEntity = this.ValidationsManagement.collection('validationEntity');
     } catch (error) {
       console.error('Error connecting to REALTIMEDB (MongoDB):', error);
     }
