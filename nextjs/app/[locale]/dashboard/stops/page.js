@@ -10,6 +10,7 @@ import OSMMapDefaults from '@/components/OSMMap/OSMMap.config';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { useTranslations } from 'next-intl';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Page() {
   //
@@ -83,7 +84,7 @@ export default function Page() {
   return (
     <Pannel
       header={
-        <>
+        <ListHeader>
           <Tooltip label={t('operations.recenter.title')} position="bottom" withArrow>
             <ActionIcon color="gray" variant="light" size="lg" onClick={handleMapReCenter}>
               <IconArrowsMinimize size="20px" />
@@ -107,7 +108,7 @@ export default function Page() {
               ]}
             />
           </div>
-        </>
+        </ListHeader>
       }
     >
       <OSMMap id="allStopsMap" mapStyle={mapStyle} onClick={handleMapClick} interactiveLayerIds={['all-stops']}>

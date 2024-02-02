@@ -17,6 +17,7 @@ import Standout from '../Standout/Standout';
 import NoDataLabel from '../NoDataLabel/NoDataLabel';
 import Loader from '../Loader/Loader';
 import parseDate from '@/services/parseDate';
+import ListHeader from '../ListHeader/ListHeader';
 
 /* * */
 
@@ -105,12 +106,12 @@ export default function LinesVkmSummary() {
     <Pannel
       loading={allAgenciesLoading}
       header={
-        <>
+        <ListHeader>
           <IconRulerMeasure size={22} />
           <Text size="h1" full>
             {t('title')}
           </Text>
-        </>
+        </ListHeader>
       }
     >
       <div className={styles.container}>
