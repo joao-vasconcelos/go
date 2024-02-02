@@ -137,7 +137,7 @@ export function TagsExplorerContextProvider({ children }) {
     try {
       setPageState((prev) => ({ ...prev, is_saving: true, is_error_saving: false }));
       await API({ service: 'tags', resourceId: itemId, operation: 'edit', method: 'PUT', body: formState.values });
-      itemMutate();
+      itemMutate(formState.values);
       allItemsMutate();
       formState.resetDirty();
       setPageState((prev) => ({ ...prev, is_saving: false }));
