@@ -21,7 +21,7 @@ export default function AppSidebar() {
 
   const links = [
     { href: 'issues', label: t('issues'), icon: <IconChartArcs />, auth_scope: 'configs', auth_permission: 'admin' },
-    { href: 'tags', label: t('tags'), icon: <IconTag />, auth_scope: 'configs', auth_permission: 'admin' },
+    { href: 'tags', label: t('tags'), icon: <IconTag />, auth_scope: 'tags', auth_permission: 'view' },
     { href: 'stops', label: t('stops'), icon: <IconBusStop />, auth_scope: 'stops', auth_permission: 'view' },
     { href: 'lines', label: t('lines'), icon: <IconArrowLoopRight />, auth_scope: 'lines', auth_permission: 'view' },
     { href: 'calendars', label: t('calendars'), icon: <IconCalendarDue />, auth_scope: 'calendars', auth_permission: 'view' },
