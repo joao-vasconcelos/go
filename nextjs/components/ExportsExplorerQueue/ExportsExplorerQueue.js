@@ -11,6 +11,7 @@ import Pannel from '@/components/Pannel/Pannel';
 import { Section } from '@/components/Layouts/Layouts';
 import NoDataLabel from '../NoDataLabel/NoDataLabel';
 import ExportsExplorerQueueItem from '@/components/ExportsExplorerQueueItem/ExportsExplorerQueueItem';
+import ListHeader from '../ListHeader/ListHeader';
 
 /* * */
 
@@ -34,12 +35,12 @@ export default function ExportsExplorerQueue() {
     <Pannel
       loading={allExportsLoading}
       header={
-        <>
+        <ListHeader>
           <IconCloudDownload size={22} />
           <Text size="h2" full>
             {t('title')}
           </Text>
-        </>
+        </ListHeader>
       }
     >
       <Section>

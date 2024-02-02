@@ -24,6 +24,7 @@ import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Page() {
   //
@@ -217,13 +218,13 @@ export default function Page() {
     <Pannel
       loading={zoneLoading || isDeleting}
       header={
-        <>
+        <ListHeader>
           <AutoSave isValid={form.isValid()} isDirty={form.isDirty()} isLoading={zoneLoading} isErrorValidating={zoneError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={() => handleValidate()} onSave={async () => await handleSave()} onClose={async () => await handleClose()} />
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
           <AuthGate scope="zones" permission="lock">
-            <LockButton isLocked={zoneData?.is_locked} setLocked={handleLock} loading={isLocking} />
+            <LockButton isLocked={zoneData?.is_locked} onClick={handleLock} loading={isLocking} />
           </AuthGate>
           <AuthGate scope="zones" permission="delete">
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
@@ -232,7 +233,7 @@ export default function Page() {
               </ActionIcon>
             </Tooltip>
           </AuthGate>
-        </>
+        </ListHeader>
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>

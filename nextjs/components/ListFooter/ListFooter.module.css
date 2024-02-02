@@ -7,4 +7,5 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--gray9);
+  padding: var(--size-sm);
 }

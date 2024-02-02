@@ -22,6 +22,7 @@ import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import populate from '@/services/populate';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Page() {
   //
@@ -146,7 +147,7 @@ export default function Page() {
     <Pannel
       loading={userLoading || isDeleting}
       header={
-        <>
+        <ListHeader>
           <AutoSave isValid={userForm.isValid()} isDirty={userForm.isDirty()} isLoading={userLoading} isErrorValidating={userError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={handleValidate} onSave={handleSave} onClose={handleClose} />
           <Text size="h1" style={!userForm.values.name && 'untitled'} full>
             {userForm.values.name || t('untitled')}
@@ -158,7 +159,7 @@ export default function Page() {
               </ActionIcon>
             </Tooltip>
           </AuthGate>
-        </>
+        </ListHeader>
       }
     >
       <UserFormProvider form={userForm}>
@@ -211,6 +212,28 @@ export default function Page() {
                 disabled={!userForm.values.permissions.agencies.view}
                 readOnly={isReadOnly}
               />
+            </SimpleGrid>
+          </Section>
+
+          <Divider />
+
+          <Section>
+            <div>
+              <Text size="h2">{t('form.permissions.tags.title')}</Text>
+              <Text size="h4">{t('form.permissions.tags.description')}</Text>
+            </div>
+            <SimpleGrid cols={3} mt="md">
+              <Switch label={t('form.permissions.tags.view.label')} description={t('form.permissions.tags.view.description')} size="md" {...userForm.getInputProps('permissions.tags.view', { type: 'checkbox' })} readOnly={isReadOnly} />
+              <Switch
+                size="md"
+                label={t('form.permissions.tags.create_edit.label')}
+                description={t('form.permissions.tags.create_edit.description')}
+                {...userForm.getInputProps('permissions.tags.create_edit', { type: 'checkbox' })}
+                disabled={!userForm.values.permissions.tags.view}
+                readOnly={isReadOnly}
+              />
+              <Switch size="md" label={t('form.permissions.tags.lock.label')} description={t('form.permissions.tags.lock.description')} {...userForm.getInputProps('permissions.tags.lock', { type: 'checkbox' })} disabled={!userForm.values.permissions.tags.view} readOnly={isReadOnly} />
+              <Switch size="md" label={t('form.permissions.tags.delete.label')} description={t('form.permissions.tags.delete.description')} {...userForm.getInputProps('permissions.tags.delete', { type: 'checkbox' })} disabled={!userForm.values.permissions.tags.view} readOnly={isReadOnly} />
             </SimpleGrid>
           </Section>
 

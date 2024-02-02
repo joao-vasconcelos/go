@@ -25,6 +25,7 @@ import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Page() {
   //
@@ -198,7 +199,7 @@ export default function Page() {
     <Pannel
       loading={lineLoading || isDeleting}
       header={
-        <>
+        <ListHeader>
           <AutoSave
             isValid={lineForm.isValid()}
             isDirty={lineForm.isDirty()}
@@ -212,7 +213,7 @@ export default function Page() {
           />
           <LineDisplay short_name={lineForm.values.short_name} name={lineForm.values.name || t('untitled')} color={selectedLineTypologyData?.color} text_color={selectedLineTypologyData?.text_color} />
           <AuthGate scope="lines" permission="lock">
-            <LockButton isLocked={lineData?.is_locked} setLocked={handleLock} loading={isLocking} />
+            <LockButton isLocked={lineData?.is_locked} onClick={handleLock} loading={isLocking} />
           </AuthGate>
           <AuthGate scope="lines" permission="delete">
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
@@ -221,7 +222,7 @@ export default function Page() {
               </ActionIcon>
             </Tooltip>
           </AuthGate>
-        </>
+        </ListHeader>
       }
     >
       <LineFormProvider form={lineForm}>

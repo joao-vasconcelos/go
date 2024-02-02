@@ -22,6 +22,7 @@ import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import calculateDateDayType from '@/services/calculateDateDayType';
 import { openConfirmModal } from '@mantine/modals';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Page() {
   //
@@ -165,7 +166,7 @@ export default function Page() {
     <Pannel
       loading={allDatesLoading}
       header={
-        <>
+        <ListHeader>
           <Tooltip label={t('operations.close.title')} color="gray" position="bottom" withArrow>
             <ActionIcon color="gray" variant="subtle" size="lg" onClick={() => router.push('/dashboard/calendars')}>
               <IconChevronLeft size={20} />
@@ -179,7 +180,7 @@ export default function Page() {
               {t('operations.manage.title')}
             </Button>
           </AuthGate>
-        </>
+        </ListHeader>
       }
     >
       <Modal opened={isModalPresented} onClose={closeModal} title={t('operations.manage.title')} size="auto" centered>

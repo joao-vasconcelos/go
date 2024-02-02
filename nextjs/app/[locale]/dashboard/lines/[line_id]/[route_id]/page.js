@@ -25,6 +25,7 @@ import { useSession } from 'next-auth/react';
 import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Page() {
   //
@@ -162,7 +163,7 @@ export default function Page() {
     <Pannel
       loading={routeLoading}
       header={
-        <>
+        <ListHeader>
           <AutoSave
             isValid={routeForm.isValid()}
             isDirty={routeForm.isDirty()}
@@ -177,7 +178,7 @@ export default function Page() {
           />
           <LineDisplay short_name={lineData && lineData.short_name} name={routeForm.values.name || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
           <AuthGate scope="lines" permission="lock">
-            <LockButton isLocked={routeData?.is_locked} setLocked={handleLock} loading={isLocking} disabled={lineData?.is_locked} />
+            <LockButton isLocked={routeData?.is_locked} onClick={handleLock} loading={isLocking} disabled={lineData?.is_locked} />
           </AuthGate>
           <AuthGate scope="lines" permission="delete">
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
@@ -186,7 +187,7 @@ export default function Page() {
               </ActionIcon>
             </Tooltip>
           </AuthGate>
-        </>
+        </ListHeader>
       }
     >
       <RouteFormProvider form={routeForm}>

@@ -1,4 +1,8 @@
+/* * */
+
 import { transliterate } from 'inflected';
+
+/* * */
 
 export default function useSearch(query, data, options) {
   //

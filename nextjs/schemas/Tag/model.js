@@ -27,10 +27,12 @@ export const Schema = new mongoose.Schema({
   color: {
     type: String,
     maxlength: 50,
+    default: '#5aaf00',
   },
   text_color: {
     type: String,
     maxlength: 50,
+    default: '#ffffff',
   },
   //
   is_locked: {

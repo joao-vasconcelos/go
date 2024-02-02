@@ -7,8 +7,8 @@ export const Default = {
   //
   label: '',
   description: '',
-  color: '',
-  text_color: '',
+  color: '#5aaf00',
+  text_color: '#ffffff',
   //
   is_locked: false,
   //

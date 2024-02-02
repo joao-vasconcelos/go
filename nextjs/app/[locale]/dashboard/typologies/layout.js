@@ -17,6 +17,7 @@ import { useTranslations } from 'next-intl';
 import ListFooter from '@/components/ListFooter/ListFooter';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Layout({ children }) {
   //
@@ -69,7 +70,7 @@ export default function Layout({ children }) {
           <Pannel
             loading={allTypologiesLoading}
             header={
-              <>
+              <ListHeader>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
@@ -85,7 +86,7 @@ export default function Layout({ children }) {
                     </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
-              </>
+              </ListHeader>
             }
             footer={filteredTypologiesData && <ListFooter>{t('list.footer', { count: filteredTypologiesData.length })}</ListFooter>}
           >

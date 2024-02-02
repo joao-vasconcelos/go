@@ -17,6 +17,7 @@ import { useState, useMemo } from 'react';
 import API from '@/services/API';
 import { DatePickerInput } from '@mantine/dates';
 import { DateTime } from 'luxon';
+import ListHeader from '../ListHeader/ListHeader';
 
 /* * */
 
@@ -170,12 +171,12 @@ export default function ExportsExplorerForm() {
   return (
     <Pannel
       header={
-        <>
+        <ListHeader>
           <IconCloudPlus size={22} />
           <Text size="h2" full>
             {t('title')}
           </Text>
-        </>
+        </ListHeader>
       }
     >
       <Section>

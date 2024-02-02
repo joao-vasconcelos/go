@@ -24,6 +24,7 @@ import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
 import StopsExplorerNewStopWizard from '@/components/StopsExplorerNewStopWizard/StopsExplorerNewStopWizard';
 import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
+import ListHeader from '../ListHeader/ListHeader';
 
 /* * */
 
@@ -89,7 +90,7 @@ export default function StopsExplorerLayout({ children }) {
           <Pannel
             loading={allStopsLoading || isCreating || isBatchUpdating}
             header={
-              <>
+              <ListHeader>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
@@ -117,7 +118,7 @@ export default function StopsExplorerLayout({ children }) {
                     </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
-              </>
+              </ListHeader>
             }
             footer={filteredStopsData && <ListFooter>{t('list.footer', { count: filteredStopsData.length })}</ListFooter>}
           >

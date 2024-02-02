@@ -17,6 +17,7 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
 import useSearch from '@/hooks/useSearch';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Layout({ children }) {
   //
@@ -68,7 +69,7 @@ export default function Layout({ children }) {
           <Pannel
             loading={allMunicipalitiesLoading}
             header={
-              <>
+              <ListHeader>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
@@ -84,16 +85,12 @@ export default function Layout({ children }) {
                     </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
-              </>
+              </ListHeader>
             }
             footer={filteredMunicipalitiesData && <ListFooter>{t('list.footer', { count: filteredMunicipalitiesData.length })}</ListFooter>}
           >
             <ErrorDisplay error={allMunicipalitiesError} loading={allMunicipalitiesValidating} />
-            {filteredMunicipalitiesData && filteredMunicipalitiesData.length > 0 ? (
-              filteredMunicipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} region={item.region} />)
-            ) : (
-              <NoDataLabel />
-            )}
+            {filteredMunicipalitiesData && filteredMunicipalitiesData.length > 0 ? filteredMunicipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} region={item.region} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

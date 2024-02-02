@@ -20,6 +20,7 @@ export default function Providers({ children, session }) {
 
   const swrOptions = {
     refreshInterval: 30000,
+    revalidateOnMount: true,
     fetcher: async (...args) => {
       const res = await fetch(...args);
       if (!res.ok) {

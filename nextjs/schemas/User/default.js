@@ -1,10 +1,5 @@
 /* * */
-/* DOCUMENT TYPE: USER */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Default Values */
 export const UserDefault = {
   name: '',
   email: '',
@@ -12,7 +7,14 @@ export const UserDefault = {
   emailVerified: '',
   last_active: '',
   permissions: {
-    // AGENCIES
+    //
+    tags: {
+      view: false,
+      create_edit: false,
+      lock: false,
+      delete: false,
+    },
+    //
     agencies: {
       view: false,
       create_edit: false,

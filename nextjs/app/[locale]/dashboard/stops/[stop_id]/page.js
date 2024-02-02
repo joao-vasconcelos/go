@@ -24,6 +24,7 @@ import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
 import StopPatternsView from '@/components/StopPatternsView/StopPatternsView';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Page() {
   //
@@ -213,7 +214,7 @@ export default function Page() {
     <Pannel
       loading={stopLoading || isDeleting}
       header={
-        <>
+        <ListHeader>
           <AutoSave isValid={form.isValid()} isDirty={form.isDirty()} isLoading={stopLoading} isErrorValidating={stopError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={() => handleValidate()} onSave={async () => await handleSave()} onClose={async () => await handleClose()} />
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
@@ -222,7 +223,7 @@ export default function Page() {
             <StopPatternsView stop_id={stop_id} />
           </AuthGate>
           <AuthGate scope="stops" permission="lock">
-            <LockButton isLocked={stopData?.is_locked} setLocked={handleLock} loading={isLocking} />
+            <LockButton isLocked={stopData?.is_locked} onClick={handleLock} loading={isLocking} />
           </AuthGate>
           <Tooltip label={t('operations.gmaps.title')} position="bottom" withArrow>
             <ActionIcon color="blue" variant="light" size="lg" onClick={handleOpenInGoogleMaps}>
@@ -236,7 +237,7 @@ export default function Page() {
               </ActionIcon>
             </Tooltip>
           </AuthGate>
-        </>
+        </ListHeader>
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>

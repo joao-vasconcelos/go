@@ -24,6 +24,7 @@ import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
 import LockButton from '@/components/LockButton/LockButton';
 import populate from '@/services/populate';
 import CalendarPatternsView from '@/components/CalendarPatternsView/CalendarPatternsView';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Page() {
   //
@@ -183,7 +184,7 @@ export default function Page() {
     <Pannel
       loading={calendarLoading || isDeleting}
       header={
-        <>
+        <ListHeader>
           <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
@@ -202,7 +203,7 @@ export default function Page() {
             <CalendarPatternsView calendar_id={calendar_id} />
           </AuthGate>
           <AuthGate scope="calendars" permission="lock">
-            <LockButton isLocked={calendarData?.is_locked} setLocked={handleLock} loading={isLocking} />
+            <LockButton isLocked={calendarData?.is_locked} onClick={handleLock} loading={isLocking} />
           </AuthGate>
           <AuthGate scope="calendars" permission="delete">
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow disabled={calendarData?.is_locked || allCalendarAssociatedPatternsData?.length > 0}>
@@ -211,7 +212,7 @@ export default function Page() {
               </ActionIcon>
             </Tooltip>
           </AuthGate>
-        </>
+        </ListHeader>
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>

@@ -1,12 +1,9 @@
+/* * */
+
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: USER */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Mongoose Schema */
 export const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -27,7 +24,21 @@ export const UserSchema = new mongoose.Schema(
     },
     permissions: {
       //
-      // AGENCIES
+      tags: {
+        view: {
+          type: Boolean,
+        },
+        create_edit: {
+          type: Boolean,
+        },
+        lock: {
+          type: Boolean,
+        },
+        delete: {
+          type: Boolean,
+        },
+      },
+      //
       agencies: {
         view: {
           type: Boolean,
@@ -268,5 +279,5 @@ export const UserSchema = new mongoose.Schema(
 );
 
 /* * */
-/* B. Mongoose Model */
+
 export const UserModel = mongoose?.models?.User || mongoose.model('User', UserSchema);

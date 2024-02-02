@@ -17,6 +17,7 @@ import { useTranslations } from 'next-intl';
 import ListFooter from '@/components/ListFooter/ListFooter';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Layout({ children }) {
   //
@@ -69,7 +70,7 @@ export default function Layout({ children }) {
           <Pannel
             loading={allFaresLoading}
             header={
-              <>
+              <ListHeader>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
@@ -85,16 +86,12 @@ export default function Layout({ children }) {
                     </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
-              </>
+              </ListHeader>
             }
             footer={filteredFaresData && <ListFooter>{t('list.footer', { count: filteredFaresData.length })}</ListFooter>}
           >
             <ErrorDisplay error={allFaresError} loading={allFaresValidating} />
-            {filteredFaresData && filteredFaresData.length > 0 ? (
-              filteredFaresData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} name={item.name} price={item.price} currency_type={item.currency_type} />)
-            ) : (
-              <NoDataLabel />
-            )}
+            {filteredFaresData && filteredFaresData.length > 0 ? filteredFaresData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} short_name={item.short_name} name={item.name} price={item.price} currency_type={item.currency_type} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

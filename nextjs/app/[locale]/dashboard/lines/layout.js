@@ -17,6 +17,7 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
 import useSearch from '@/hooks/useSearch';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Layout({ children }) {
   //
@@ -68,7 +69,7 @@ export default function Layout({ children }) {
           <Pannel
             loading={allLinesLoading}
             header={
-              <>
+              <ListHeader>
                 <SearchField query={searchQuery} onChange={setSearchQuery} />
                 <Menu shadow="md" position="bottom-end">
                   <Menu.Target>
@@ -110,16 +111,12 @@ export default function Layout({ children }) {
                     </AuthGate>
                   </Menu.Dropdown>
                 </Menu>
-              </>
+              </ListHeader>
             }
             footer={filteredLinesData && <ListFooter>{t('list.footer', { count: filteredLinesData.length })}</ListFooter>}
           >
             <ErrorDisplay error={allLinesError} loading={allLinesValidating} />
-            {filteredLinesData && filteredLinesData.length > 0 ? (
-              filteredLinesData.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} name={item.name} color={item.typology?.color} text_color={item.typology?.text_color} />)
-            ) : (
-              <NoDataLabel />
-            )}
+            {filteredLinesData && filteredLinesData.length > 0 ? filteredLinesData.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} name={item.name} color={item.typology?.color} text_color={item.typology?.text_color} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}

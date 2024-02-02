@@ -24,6 +24,7 @@ import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
 import OSMMap from '@/components/OSMMap/OSMMap';
 import { useMap, Layer, Source } from 'react-map-gl/maplibre';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 export default function Page() {
   //
@@ -216,7 +217,7 @@ export default function Page() {
     <Pannel
       loading={municipalityLoading || isDeleting}
       header={
-        <>
+        <ListHeader>
           <AutoSave
             isValid={form.isValid()}
             isDirty={form.isDirty()}
@@ -232,7 +233,7 @@ export default function Page() {
             {form.values.name || t('untitled')}
           </Text>
           <AuthGate scope="municipalities" permission="lock">
-            <LockButton isLocked={municipalityData?.is_locked} setLocked={handleLock} loading={isLocking} />
+            <LockButton isLocked={municipalityData?.is_locked} onClick={handleLock} loading={isLocking} />
           </AuthGate>
           <AuthGate scope="municipalities" permission="delete">
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
@@ -241,7 +242,7 @@ export default function Page() {
               </ActionIcon>
             </Tooltip>
           </AuthGate>
-        </>
+        </ListHeader>
       }
     >
       <form onSubmit={form.onSubmit(async () => await handleSave())}>

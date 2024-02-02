@@ -1404,6 +1404,26 @@
                 "nothingFound": "No Results Found"
             },
             "permissions": {
+                "tags": {
+                    "title": "Tags",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+                    "view": {
+                        "label": "View Tags",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "create_edit": {
+                        "label": "Create & Edit Tags",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "lock": {
+                        "label": "Lock Tags",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    },
+                    "delete": {
+                        "label": "Delete Tags",
+                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                    }
+                },
                 "agencies": {
                     "title": "Agencies",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
@@ -1711,11 +1731,12 @@
         }
     },
     "AppSidebar": {
+        "issues": "Issues",
+        "tags": "Tags",
         "stops": "Paragens",
         "lines": "Linhas",
         "calendars": "Calendários",
         "exports": "Exportações",
-        "issues": "Issues",
         "realtime": "Tempo Real",
         "users": "Utilizadores",
         "configs": "Configurações"
@@ -2146,8 +2167,11 @@
         }
     },
     "LockButton": {
-        "locked": "Locked",
-        "unlocked": "Unlocked"
+        "locked": "Desbloquear",
+        "unlocked": "Bloquear"
+    },
+    "DeleteButton": {
+        "label": "Eliminar"
     },
     "CalendarPatternsView": {
         "title": "Patterns that have at least one schedule with this calendar:",
@@ -2515,5 +2539,81 @@
                 }
             }
         }
+    },
+    "TagsExplorer": {},
+    "TagsExplorerPage": {
+        "no_data": "Escolha uma Etiqueta"
+    },
+    "TagsExplorerIdPage": {
+        "sections": {
+            "config": {
+                "title": "Details",
+                "description": "Something about this section"
+            },
+            "operation": {
+                "title": "Operação",
+                "description": "Something about this section"
+            },
+            "financials": {
+                "title": "Dados Financeiros",
+                "description": "Something about this section"
+            }
+        },
+        "form": {
+            "label": {
+                "label": "Rótulo da Etiqueta",
+                "placeholder": "ÁREA 2"
+            },
+            "description": {
+                "label": "Descrição",
+                "placeholder": "Tudo sobre esta etiqueta..."
+            },
+            "color": {
+                "label": "Cor do Fundo",
+                "placeholder": "#FEFEFE"
+            },
+            "text_color": {
+                "label": "Cor do Texto",
+                "placeholder": "#000000"
+            }
+        }
+    },
+    "TagsExplorerList": {
+        "footer": "Found {count, plural, =1 {1 Tag} other {# Tags}}"
+    },
+    "TagsExplorerListItem": {
+        "untitled": "Etiqueta sem título"
+    },
+    "TagsExplorerListHeader": {
+        "operations": {
+            "create": {
+                "title": "Create New Tag",
+                "loading": "Creating new Tag...",
+                "success": "A new Tag was created!",
+                "error": "An error occurred while creating this Tag."
+            }
+        }
+    },
+    "TagsExplorerTag": {},
+    "TagsExplorerTagHoverCard": {
+        "created_by": "Criada a {date} por {name}"
+    },
+    "TagsExplorerIdPageHeader": {
+        "untitled": "Etiqueta sem título",
+        "operations": {
+            "delete": {
+                "title": "Eliminar Etiqueta",
+                "description": "Deleting is irreversible. Are you sure you want to delete this Etiqueta forever?",
+                "confirm": "Delete Etiqueta Forever",
+                "cancel": "Do Not Delete",
+                "loading": "Deleting Etiqueta...",
+                "success": "Etiqueta was deleted.",
+                "error": "An error occurred while deleting this Etiqueta."
+            }
+        }
+    },
+    "PanelError": {
+        "retry": "Tentar Novamente",
+        "retrying": "Por favor aguarde..."
     }
 }

@@ -40,8 +40,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--size-sm);
-  padding: var(--size-sm);
+  /* gap: var(--size-sm); */
+  /* padding: var(--size-sm); */
   width: 100%;
 }
 
