@@ -27,6 +27,10 @@
   grid-template-columns: 350px 1fr;
 }
 
+.twoUnevenColumnsReversed {
+  grid-template-columns: 1fr 350px;
+}
+
 .twoEvenColumns {
   grid-template-columns: 1fr 1fr;
 }

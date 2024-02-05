@@ -7,7 +7,7 @@ import { Button, Modal, SimpleGrid, TextInput } from '@mantine/core';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 import TagsExplorerTag from '@/components/TagsExplorerTag/TagsExplorerTag';
 import useSWR from 'swr';
-import styles from './IssuesExplorerIdPageItemTags.module.css';
+import styles from './IssuesExplorerIdPageItemMilestones.module.css';
 import { useMemo, useState } from 'react';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import { IconCircle, IconCircleCheckFilled } from '@tabler/icons-react';
@@ -15,13 +15,13 @@ import doSearch from '@/services/doSearch';
 
 /* * */
 
-export default function IssuesExplorerIdPageItemTags() {
+export default function IssuesExplorerIdPageItemMilestones() {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('IssuesExplorerIdPageItemTags');
+  const t = useTranslations('IssuesExplorerIdPageItemMilestones');
   const issuesExplorerContext = useIssuesExplorerContext();
   const [isEditMode, setIsEditMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');

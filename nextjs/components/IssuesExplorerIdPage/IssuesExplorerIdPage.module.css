@@ -1,0 +1,16 @@
+/* * */
+/* UNEVEN COLUMNS */
+
+.unevenColumns {
+  display: grid;
+  grid-template-rows: 1fr;
+  align-items: stretch;
+  justify-content: stretch;
+  gap: var(--size-sm);
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+  grid-template-columns: 2fr 1fr;
+}

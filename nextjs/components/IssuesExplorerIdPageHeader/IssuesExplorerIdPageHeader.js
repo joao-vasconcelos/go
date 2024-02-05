@@ -12,6 +12,10 @@ import LockButton from '@/components/LockButton/LockButton';
 import DeleteButton from '@/components/DeleteButton/DeleteButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
+import IssuesExplorerIdPageItemStatus from '../IssuesExplorerIdPageItemStatus/IssuesExplorerIdPageItemStatus';
+import styles from './IssuesExplorerIdPageHeader.module.css';
+import IssuesExplorerIdPageItemPriority from '../IssuesExplorerIdPageItemPriority/IssuesExplorerIdPageItemPriority';
+import IssuesExplorerIdPageItemCreatedByAt from '../IssuesExplorerIdPageItemCreatedByAt/IssuesExplorerIdPageItemCreatedByAt';
 
 /* * */
 
@@ -63,9 +67,11 @@ export default function IssuesExplorerIdPageHeader() {
         onSave={issuesExplorerContext.saveItem}
         onClose={issuesExplorerContext.closeItem}
       />
-      {/* <Text size="h1" full>
-        #{issuesExplorerContext.form.values.code}
-      </Text> */}
+      <div className={styles.wrapper}>
+        <IssuesExplorerIdPageItemStatus />
+        <IssuesExplorerIdPageItemPriority />
+      </div>
+      <IssuesExplorerIdPageItemCreatedByAt />
       <AuthGate scope="issues" permission="lock">
         <LockButton isLocked={issuesExplorerContext.item_data?.is_locked} onClick={issuesExplorerContext.lockItem} />
       </AuthGate>

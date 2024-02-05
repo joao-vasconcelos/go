@@ -8,7 +8,7 @@ import styles from './IssuesExplorerAttributePriority.module.css';
 
 /* * */
 
-export default function IssuesExplorerAttributePriority({ priority = 'moderate' }) {
+export default function IssuesExplorerAttributePriority({ priority }) {
   //
 
   //

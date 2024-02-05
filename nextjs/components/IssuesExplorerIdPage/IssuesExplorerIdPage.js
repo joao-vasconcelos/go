@@ -5,11 +5,14 @@
 import Pannel from '@/components/Pannel/Pannel';
 import { Section } from '@/components/Layouts/Layouts';
 import { useTranslations } from 'next-intl';
-import { SimpleGrid, Divider, ColorInput } from '@mantine/core';
+import { SimpleGrid, Divider } from '@mantine/core';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
+import styles from './IssuesExplorerIdPage.module.css';
 import IssuesExplorerIdPageHeader from '@/components/IssuesExplorerIdPageHeader/IssuesExplorerIdPageHeader';
-import IssuesExplorerIdPageItemTitle from '../IssuesExplorerIdPageItemTitle/IssuesExplorerIdPageItemTitle';
-import IssuesExplorerIdPageItemTags from '../IssuesExplorerIdPageItemTags/IssuesExplorerIdPageItemTags';
+import IssuesExplorerIdPageItemTitle from '@/components/IssuesExplorerIdPageItemTitle/IssuesExplorerIdPageItemTitle';
+import IssuesExplorerIdPageItemTags from '@/components/IssuesExplorerIdPageItemTags/IssuesExplorerIdPageItemTags';
+import IssuesExplorerIdPageItemMilestones from '@/components/IssuesExplorerIdPageItemMilestones/IssuesExplorerIdPageItemMilestones';
+import IssuesExplorerIdPageItemComments from '@/components/IssuesExplorerIdPageItemComments/IssuesExplorerIdPageItemComments';
 
 /* * */
 
@@ -33,17 +36,28 @@ export default function IssuesExplorerIdPage() {
       </Section>
       <Divider />
       <Section>
+        <p>Media (fotos, vídeos)</p>
+      </Section>
+      <Divider />
+      <Section>
         <SimpleGrid cols={2}>
-          <ColorInput label={t('form.color.label')} placeholder={t('form.color.placeholder')} {...issuesExplorerContext.form.getInputProps('color')} readOnly={issuesExplorerContext.page.is_read_only} />
-          <ColorInput label={t('form.text_color.label')} placeholder={t('form.text_color.placeholder')} {...issuesExplorerContext.form.getInputProps('text_color')} readOnly={issuesExplorerContext.page.is_read_only} />
+          <p>Linhas Associadas</p>
+          <p>Paragens Associadas</p>
         </SimpleGrid>
       </Section>
       <Divider />
       <Section>
         <SimpleGrid cols={2}>
-          <ColorInput label={t('form.color.label')} placeholder={t('form.color.placeholder')} {...issuesExplorerContext.form.getInputProps('color')} readOnly={issuesExplorerContext.page.is_read_only} />
-          <ColorInput label={t('form.text_color.label')} placeholder={t('form.text_color.placeholder')} {...issuesExplorerContext.form.getInputProps('text_color')} readOnly={issuesExplorerContext.page.is_read_only} />
+          <p>Relatórios Associados</p>
+          <p>Outros Issues Associados</p>
         </SimpleGrid>
+      </Section>
+      <Divider />
+      <Section>
+        <div className={styles.unevenColumns}>
+          <IssuesExplorerIdPageItemComments />
+          <IssuesExplorerIdPageItemMilestones />
+        </div>
       </Section>
     </Pannel>
   );

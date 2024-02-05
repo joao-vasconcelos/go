@@ -39,7 +39,7 @@ export default function IssuesExplorerListTableRow({ item }) {
       </Table.Td>
       <Table.Td>
         <div className={styles.columnWrapper}>
-          <IssuesExplorerAttributePriority status={item.priority} />
+          <IssuesExplorerAttributePriority priority={item.priority} />
         </div>
       </Table.Td>
       <Table.Td w="100%">

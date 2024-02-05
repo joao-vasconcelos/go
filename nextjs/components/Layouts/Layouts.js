@@ -18,6 +18,17 @@ export function TwoUnevenColumns({ first, second }) {
 }
 
 //
+// TWO UNEVEN COLUMNS REVERSED
+export function TwoUnevenColumnsReversed({ first, second }) {
+  return (
+    <div className={`${styles.baseLayout} ${styles.twoUnevenColumnsReversed}`}>
+      <div className={styles.innerWrapper}>{first}</div>
+      <div className={styles.innerWrapper}>{second}</div>
+    </div>
+  );
+}
+
+//
 // TWO EVEN COLUMNS
 export function TwoEvenColumns({ first, second }) {
   return (

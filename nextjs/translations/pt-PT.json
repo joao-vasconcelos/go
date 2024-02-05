@@ -2780,11 +2780,25 @@
             "label": "Gerir Etiquetas"
         },
         "modal": {
-            "title": "Gerir Etiquetas",
+            "title": "Gerir Etiquetas do Issue",
             "search": {
                 "placeholder": "Procurar etiquetas..."
             }
         }
     },
-    "UsersExplorerUser": {}
+    "IssuesExplorerIdPageItemStatus": {
+        "modal": {
+            "title": "Gerir Estado do Issue"
+        }
+    },
+    "IssuesExplorerIdPageItemCreatedByAt": {
+        "label": "Criado a {value, date, ::yyyyMd} por"
+    },
+    "IssuesExplorerIdPageItemPriority": {
+        "modal": {
+            "title": "Gerir Prioridade do Issue"
+        }
+    },
+    "UsersExplorerUser": {},
+    "IssuesExplorerIdPageItemComments": {}
 }
