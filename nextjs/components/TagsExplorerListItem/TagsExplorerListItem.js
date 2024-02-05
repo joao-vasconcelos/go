@@ -31,7 +31,7 @@ export default function TagsExplorerListItem({ item }) {
 
   return (
     <BaseListItem onClick={handleClick} isSelected={tag_id === item._id} withChevron>
-      <TagsExplorerTag tagData={item} withHoverCard={false} />
+      <TagsExplorerTag tagId={item._id} withHoverCard={false} />
     </BaseListItem>
   );
 

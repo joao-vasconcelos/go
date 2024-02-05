@@ -1,0 +1,70 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 10px 3px 8px;
+  border-radius: 9999px;
+  color: var(--gray6);
+  background-color: var(--gray2);
+  border: 1px solid var(--gray4);
+}
+
+/* * */
+/* LABEL */
+
+.label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* * */
+/* STATUS › DRAFT */
+
+.draft {
+  color: var(--gray6);
+  background-color: var(--gray1);
+  border-color: var(--gray6);
+}
+
+/* * */
+/* STATUS › OPEN */
+
+.open {
+  color: #973aeb;
+  background-color: #f7e9ff;
+  border-color: #973aeb;
+}
+
+/* * */
+/* STATUS › IN PROGRESS */
+
+.inProgress {
+  color: #007e01;
+  background-color: #dbf9c7;
+  border-color: #007e01;
+}
+
+/* * */
+/* STATUS › BLOCKED */
+
+.blocked {
+  color: #db481b;
+  background-color: #ffecd3;
+  border-color: #db481b;
+}
+
+/* * */
+/* STATUS › CLOSED */
+
+.closed {
+  color: #0059db;
+  background-color: #ccecff;
+  border-color: #0059db;
+}

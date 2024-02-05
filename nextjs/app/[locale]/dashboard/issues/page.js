@@ -1,9 +1,9 @@
 /* * */
 
-import IssuesExplorerPage from '@/components/IssuesExplorerPage/IssuesExplorerPage';
+import IssuesExplorerList from '@/components/IssuesExplorerList/IssuesExplorerList';
 
 /* * */
 
 export default function Page() {
-  return <IssuesExplorerPage />;
+  return <IssuesExplorerList />;
 }

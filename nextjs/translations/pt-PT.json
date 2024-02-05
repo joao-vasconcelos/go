@@ -2691,11 +2691,11 @@
             }
         },
         "form": {
-            "label": {
-                "label": "Rótulo da Etiqueta",
+            "title": {
+                "label": "Título do Issue",
                 "placeholder": "ÁREA 2"
             },
-            "description": {
+            "summary": {
                 "label": "Descrição",
                 "placeholder": "Tudo sobre esta etiqueta..."
             },
@@ -2708,5 +2708,54 @@
                 "placeholder": "#000000"
             }
         }
-    }
+    },
+    "IssuesExplorerListTableHeader": {
+        "status": {
+            "title": "Estado"
+        },
+        "priority": {
+            "title": "Prioridade"
+        },
+        "title": {
+            "title": "Título"
+        },
+        "tags": {
+            "title": "Etiquetas"
+        },
+        "created_by": {
+            "title": "Aberto por"
+        },
+        "created_at": {
+            "title": "Aberto a"
+        }
+    },
+    "IssuesExplorerAttributeStatus": {
+        "draft": {
+            "label": "Rascunho"
+        },
+        "open": {
+            "label": "Aberto"
+        },
+        "in_progress": {
+            "label": "Em Tratamento"
+        },
+        "blocked": {
+            "label": "Bloqueado"
+        },
+        "closed": {
+            "label": "Fechado"
+        }
+    },
+    "IssuesExplorerAttributePriority": {
+        "urgent": {
+            "label": "Urgente"
+        },
+        "important": {
+            "label": "Importante"
+        },
+        "moderate": {
+            "label": "Moderado"
+        }
+    },
+    "UsersExplorerUser": {}
 }

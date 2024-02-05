@@ -2,14 +2,30 @@
 
 /* * */
 
+import useSWR from 'swr';
 import { HoverCard } from '@mantine/core';
-import styles from './TagsExplorerTag.module.css';
+import Loader from '@/components/Loader/Loader';
 import TagsExplorerTagHoverCard from '@/components/TagsExplorerTagHoverCard/TagsExplorerTagHoverCard';
+import styles from './TagsExplorerTag.module.css';
 
 /* * */
 
-export default function TagsExplorerTag({ tagData, withHoverCard = true }) {
-  return (
+export default function TagsExplorerTag({ tagId, withHoverCard = true }) {
+  //
+
+  //
+  // A. Fetch data
+
+  const { data: tagData, isLoading: tagLoading, error: tagError } = useSWR(tagId && `/api/tags/${tagId}`);
+
+  //
+  // B. Render components
+
+  return !tagData ? (
+    <div className={styles.container}>
+      <Loader size={15} visible />
+    </div>
+  ) : (
     <HoverCard width={280} openDelay={500} shadow="md">
       <HoverCard.Target>
         <div className={styles.container} style={{ color: tagData.text_color, backgroundColor: tagData.color }}>
@@ -23,4 +39,6 @@ export default function TagsExplorerTag({ tagData, withHoverCard = true }) {
       )}
     </HoverCard>
   );
+
+  //
 }

@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/go",
-    "version": "2024.02.02-1930",
+    "version": "2024.02.05-0051",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -10,7 +10,7 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@auth/mongodb-adapter": "2.2.0",
+        "@auth/mongodb-adapter": "2.2.1",
         "@mantine/charts": "7.5.1",
         "@mantine/code-highlight": "^7.5.1",
         "@mantine/core": "7.5.1",
@@ -43,7 +43,7 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-map-gl": "7.1.7",
-        "react-virtualized-auto-sizer": "1.0.21",
+        "react-virtualized-auto-sizer": "1.0.22",
         "react-window": "1.8.10",
         "recharts": "2.11.0",
         "sharp": "0.33.2",
@@ -53,7 +53,7 @@
     },
     "devDependencies": {
         "@types/node": "20.11.16",
-        "@types/react": "18.2.51",
+        "@types/react": "18.2.52",
         "@types/react-dom": "18.2.18",
         "eslint": "8.56.0",
         "eslint-config-next": "14.1.0",

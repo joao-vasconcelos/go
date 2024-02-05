@@ -66,7 +66,7 @@ export default function TagsExplorerIdPageHeader() {
         onClose={tagsExplorerContext.closeItem}
       />
       {tagsExplorerContext.form.values.label ? (
-        <TagsExplorerTag tagData={tagsExplorerContext.form.values} />
+        <TagsExplorerTag tagId={tagsExplorerContext.item_id} />
       ) : (
         <Text size="h1" style="untitled" full>
           {t('untitled')}

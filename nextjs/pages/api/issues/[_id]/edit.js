@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   // Setup variables
 
   let parsedData;
-  let agencyDocument;
+  let issueDocument;
 
   // 2.
   // Refuse request if not PUT
@@ -69,7 +69,7 @@ export default async function handler(req, res) {
   // Validate req.body against schema
 
   try {
-    parsedData = IssueValidation.cast(parsedData);
+    // parsedData = IssueValidation.cast(parsedData);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
@@ -79,8 +79,8 @@ export default async function handler(req, res) {
   // Retrieve requested document from the database
 
   try {
-    agencyDocument = await IssueModel.findOne({ _id: { $eq: req.query._id } });
-    if (!agencyDocument) return await res.status(404).json({ message: `Issue with _id: ${req.query._id} not found.` });
+    issueDocument = await IssueModel.findOne({ _id: { $eq: req.query._id } });
+    if (!issueDocument) return await res.status(404).json({ message: `Issue with _id: ${req.query._id} not found.` });
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Issue not found.' });
@@ -103,7 +103,7 @@ export default async function handler(req, res) {
   // 9.
   // Check if document is locked
 
-  if (agencyDocument.is_locked) {
+  if (issueDocument.is_locked) {
     return await res.status(423).json({ message: 'Issue is locked.' });
   }
 

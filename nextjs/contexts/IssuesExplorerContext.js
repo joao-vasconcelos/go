@@ -10,8 +10,8 @@ import { isAllowed } from '@/components/AuthGate/AuthGate';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import { Validation as TagValidation } from '@/schemas/Tag/validation';
-import { Default as TagDefault } from '@/schemas/Tag/default';
+import { Validation as IssueValidation } from '@/schemas/Issue/validation';
+import { Default as IssueDefault } from '@/schemas/Issue/default';
 import populate from '@/services/populate';
 import API from '@/services/API';
 
@@ -71,8 +71,8 @@ export function IssuesExplorerContextProvider({ children }) {
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
-    validate: yupResolver(TagValidation),
-    initialValues: TagDefault,
+    validate: yupResolver(IssueValidation),
+    initialValues: IssueDefault,
   });
 
   //
@@ -111,7 +111,7 @@ export function IssuesExplorerContextProvider({ children }) {
     // Exit if no data is available or form is dirty
     if (!itemData || formState.isDirty()) return;
     // Merge the data with the default
-    const populated = populate(TagDefault, itemData);
+    const populated = populate(IssueDefault, itemData);
     // Update form
     formState.setValues(populated);
     formState.resetDirty(populated);

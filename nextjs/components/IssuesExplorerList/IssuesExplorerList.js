@@ -6,10 +6,12 @@ import useSWR from 'swr';
 import { useTranslations } from 'next-intl';
 import Pannel from '@/components/Pannel/Pannel';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import IssuesExplorerListItem from '@/components/IssuesExplorerListItem/IssuesExplorerListItem';
+import IssuesExplorerListTableRow from '@/components/IssuesExplorerListTableRow/IssuesExplorerListTableRow';
 import IssuesExplorerListHeader from '@/components/IssuesExplorerListHeader/IssuesExplorerListHeader';
 import IssuesExplorerListFooter from '@/components/IssuesExplorerListFooter/IssuesExplorerListFooter';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
+import IssuesExplorerListTableHeader from '../IssuesExplorerListTableHeader/IssuesExplorerListTableHeader';
+import { Table } from '@mantine/core';
 
 /* * */
 
@@ -32,7 +34,18 @@ export default function IssuesExplorerList() {
 
   return (
     <Pannel loading={allIssuesLoading} validating={allIssuesValidating} error={allIssuesError} header={<IssuesExplorerListHeader />} footer={<IssuesExplorerListFooter />}>
-      {issuesExplorerContext.list.items.length > 0 ? issuesExplorerContext.list.items.map((item) => <IssuesExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+      {issuesExplorerContext.list.items.length > 0 ? (
+        <Table highlightOnHover>
+          <IssuesExplorerListTableHeader />
+          <Table.Tbody>
+            {issuesExplorerContext.list.items.map((item) => (
+              <IssuesExplorerListTableRow key={item._id} item={item} />
+            ))}
+          </Table.Tbody>
+        </Table>
+      ) : (
+        <NoDataLabel fill />
+      )}
     </Pannel>
   );
 

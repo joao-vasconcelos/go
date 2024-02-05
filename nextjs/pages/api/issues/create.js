@@ -45,9 +45,9 @@ export default async function handler(req, res) {
   // Save a new document with default values
 
   try {
-    const newDocument = { ...IssueDefault, label: generator({ length: 5 }), created_at: new Date().toISOString(), created_by: sessionData.user._id };
-    while (await IssueModel.exists({ label: newDocument.label })) {
-      newDocument.label = generator({ length: 5 });
+    const newDocument = { ...IssueDefault, code: generator({ length: 4, type: 'numeric' }), created_at: new Date().toISOString(), created_by: sessionData.user._id };
+    while (await IssueModel.exists({ code: newDocument.code })) {
+      newDocument.code = generator({ length: 4, type: 'numeric' });
     }
     const createdDocument = await IssueModel(newDocument).save();
     return await res.status(201).json(createdDocument);

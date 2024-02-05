@@ -3,12 +3,13 @@
 /* * */
 
 import Pannel from '@/components/Pannel/Pannel';
-import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
 import { useTranslations } from 'next-intl';
-import { SimpleGrid, TextInput, Divider, ColorInput } from '@mantine/core';
+import { SimpleGrid, Divider, ColorInput } from '@mantine/core';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 import IssuesExplorerIdPageHeader from '@/components/IssuesExplorerIdPageHeader/IssuesExplorerIdPageHeader';
+import IssuesExplorerIdPageItemTitle from '../IssuesExplorerIdPageItemTitle/IssuesExplorerIdPageItemTitle';
+import IssuesExplorerIdPageItemTags from '../IssuesExplorerIdPageItemTags/IssuesExplorerIdPageItemTags';
 
 /* * */
 
@@ -26,16 +27,14 @@ export default function IssuesExplorerIdPage() {
 
   return (
     <Pannel loading={issuesExplorerContext.page.is_loading} header={<IssuesExplorerIdPageHeader />}>
+      {issuesExplorerContext.form.values.created_by || 'not found'}
+      <IssuesExplorerIdPageItemTitle />
+      <IssuesExplorerIdPageItemTags />
+      <Divider />
       <Section>
-        <div>
-          <Text size="h2">{t('sections.config.title')}</Text>
-          <Text size="h4">{t('sections.config.description')}</Text>
-        </div>
-        <SimpleGrid cols={3}>
-          <TextInput label={t('form.label.label')} placeholder={t('form.label.placeholder')} {...issuesExplorerContext.form.getInputProps('label')} readOnly={issuesExplorerContext.page.is_read_only} />
-        </SimpleGrid>
-        <SimpleGrid cols={1}>
-          <TextInput label={t('form.description.label')} placeholder={t('form.description.placeholder')} {...issuesExplorerContext.form.getInputProps('description')} readOnly={issuesExplorerContext.page.is_read_only} />
+        <SimpleGrid cols={2}>
+          <ColorInput label={t('form.color.label')} placeholder={t('form.color.placeholder')} {...issuesExplorerContext.form.getInputProps('color')} readOnly={issuesExplorerContext.page.is_read_only} />
+          <ColorInput label={t('form.text_color.label')} placeholder={t('form.text_color.placeholder')} {...issuesExplorerContext.form.getInputProps('text_color')} readOnly={issuesExplorerContext.page.is_read_only} />
         </SimpleGrid>
       </Section>
       <Divider />

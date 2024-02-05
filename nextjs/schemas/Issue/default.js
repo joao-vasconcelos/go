@@ -1,18 +1,22 @@
 /* * */
 
+import { Options } from './options';
+
+/* * */
+
 export const Default = {
   //
   code: '',
   //
-  created_by: '',
-  created_at: '',
+  created_by: null,
+  created_at: new Date(),
   //
   title: '',
   summary: '',
   tags: [],
   //
-  status: 'open',
-  priority: '',
+  status: Options.status[0],
+  priority: Options.priority[0],
   due_date: '',
   assigned_to: null,
   //
@@ -36,7 +40,7 @@ export const Default = {
 export const DefaultCommment = {
   //
   created_by: null,
-  created_at: '',
+  created_at: new Date(),
   text: '',
   //
 };
@@ -45,8 +49,8 @@ export const DefaultCommment = {
 
 export const DefaultMilestone = {
   //
-  created_by: '',
-  created_at: '',
+  created_by: null,
+  created_at: new Date(),
   type: '',
   //
 };
