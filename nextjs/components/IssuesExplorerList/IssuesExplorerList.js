@@ -35,7 +35,7 @@ export default function IssuesExplorerList() {
   return (
     <Pannel loading={allIssuesLoading} validating={allIssuesValidating} error={allIssuesError} header={<IssuesExplorerListHeader />} footer={<IssuesExplorerListFooter />}>
       {issuesExplorerContext.list.items.length > 0 ? (
-        <Table highlightOnHover>
+        <Table highlightOnHover horizontalSpacing="md">
           <IssuesExplorerListTableHeader />
           <Table.Tbody>
             {issuesExplorerContext.list.items.map((item) => (

@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   // Setup variables
 
   let parsedData;
-  let agencyDocument;
+  let tagDocument;
 
   // 2.
   // Refuse request if not PUT
@@ -79,8 +79,8 @@ export default async function handler(req, res) {
   // Retrieve requested document from the database
 
   try {
-    agencyDocument = await TagModel.findOne({ _id: { $eq: req.query._id } });
-    if (!agencyDocument) return await res.status(404).json({ message: `Tag with _id: ${req.query._id} not found.` });
+    tagDocument = await TagModel.findOne({ _id: { $eq: req.query._id } });
+    if (!tagDocument) return await res.status(404).json({ message: `Tag with _id: ${req.query._id} not found.` });
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Tag not found.' });
@@ -90,10 +90,10 @@ export default async function handler(req, res) {
   // Check for uniqueness
 
   try {
-    // The values that need to be unique are ['code'].
-    const foundDocumentWithTagCode = await TagModel.exists({ code: { $eq: parsedData.code } });
-    if (foundDocumentWithTagCode && foundDocumentWithTagCode._id != req.query._id) {
-      throw new Error('An Tag with the same "code" already exists.');
+    // The values that need to be unique are ['label'].
+    const foundDocumentWithTagLabel = await TagModel.exists({ label: { $eq: parsedData.label } });
+    if (foundDocumentWithTagLabel && foundDocumentWithTagLabel._id != req.query._id) {
+      throw new Error('An Tag with the same "label" already exists.');
     }
   } catch (err) {
     console.log(err);
@@ -103,7 +103,7 @@ export default async function handler(req, res) {
   // 9.
   // Check if document is locked
 
-  if (agencyDocument.is_locked) {
+  if (tagDocument.is_locked) {
     return await res.status(423).json({ message: 'Tag is locked.' });
   }
 

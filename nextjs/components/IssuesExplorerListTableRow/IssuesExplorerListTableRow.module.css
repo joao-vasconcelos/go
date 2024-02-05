@@ -27,6 +27,7 @@
   align-items: flex-start;
   justify-content: center;
   gap: 3px;
+  width: 100%;
 }
 
 /* * */
@@ -47,4 +48,16 @@
   font-weight: 600;
   line-height: 1.2;
   color: var(--reference-1);
+}
+
+/* * */
+/* TAGS WRAPPER */
+
+.tagsWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  padding-top: 3px;
 }

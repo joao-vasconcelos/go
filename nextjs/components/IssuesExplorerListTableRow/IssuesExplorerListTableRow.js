@@ -42,21 +42,26 @@ export default function IssuesExplorerListTableRow({ item }) {
           <IssuesExplorerAttributePriority status={item.priority} />
         </div>
       </Table.Td>
-      <Table.Td>
+      <Table.Td w="100%">
         <div className={styles.columnWrapper}>
           <div className={styles.titleWrapper}>
-            <p className={styles.issueTitle}>{item.title}</p>
             <p className={styles.issueCode}>#{item.code}</p>
+            <p className={styles.issueTitle}>{item.title}</p>
+            <div className={styles.tagsWrapper}>
+              {item.tags.map((tagId) => (
+                <TagsExplorerTag key={tagId} tagId={tagId} />
+              ))}
+            </div>
           </div>
         </div>
       </Table.Td>
-      <Table.Td>
+      {/* <Table.Td>
         <div className={styles.columnWrapper}>
           {item.tags.map((tagId) => (
             <TagsExplorerTag key={tagId} tagId={tagId} />
           ))}
         </div>
-      </Table.Td>
+      </Table.Td> */}
       <Table.Td>
         <div className={styles.columnWrapper}>
           <UsersExplorerUser userId={item.created_by} />
