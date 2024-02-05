@@ -2757,5 +2757,34 @@
             "label": "Moderado"
         }
     },
+    "IssuesExplorerIdPageItemTitle": {
+        "edit": {
+            "label": "Editar"
+        },
+        "modal": {
+            "title": "Editar Título e Sumário",
+            "fields": {
+                "title": {
+                    "label": "Título do Issue",
+                    "placeholder": "ÁREA 2"
+                },
+                "summary": {
+                    "label": "Descrição",
+                    "placeholder": "Tudo sobre esta etiqueta..."
+                }
+            }
+        }
+    },
+    "IssuesExplorerIdPageItemTags": {
+        "edit": {
+            "label": "Gerir Etiquetas"
+        },
+        "modal": {
+            "title": "Gerir Etiquetas",
+            "search": {
+                "placeholder": "Procurar etiquetas..."
+            }
+        }
+    },
     "UsersExplorerUser": {}
 }

@@ -1,0 +1,54 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+/* * */
+/* BYLINE WRAPPER */
+
+.bylineWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+/* * */
+/* CODE */
+
+.code {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-gray-4);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* * */
+/* TITLE */
+
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-reference-1);
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+/* * */
+/* SUMMARY */
+
+.summary {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-reference-1);
+  line-height: 1.4;
+  letter-spacing: 0;
+}

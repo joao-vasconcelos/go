@@ -63,9 +63,9 @@ export default function IssuesExplorerIdPageHeader() {
         onSave={issuesExplorerContext.saveItem}
         onClose={issuesExplorerContext.closeItem}
       />
-      <Text size="h1" full>
+      {/* <Text size="h1" full>
         #{issuesExplorerContext.form.values.code}
-      </Text>
+      </Text> */}
       <AuthGate scope="issues" permission="lock">
         <LockButton isLocked={issuesExplorerContext.item_data?.is_locked} onClick={issuesExplorerContext.lockItem} />
       </AuthGate>

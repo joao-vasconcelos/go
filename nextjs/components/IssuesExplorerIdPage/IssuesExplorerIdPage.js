@@ -27,9 +27,10 @@ export default function IssuesExplorerIdPage() {
 
   return (
     <Pannel loading={issuesExplorerContext.page.is_loading} header={<IssuesExplorerIdPageHeader />}>
-      {issuesExplorerContext.form.values.created_by || 'not found'}
-      <IssuesExplorerIdPageItemTitle />
-      <IssuesExplorerIdPageItemTags />
+      <Section>
+        <IssuesExplorerIdPageItemTitle />
+        <IssuesExplorerIdPageItemTags />
+      </Section>
       <Divider />
       <Section>
         <SimpleGrid cols={2}>

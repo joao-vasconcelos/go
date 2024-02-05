@@ -4,10 +4,9 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Modal, SimpleGrid, TextInput, Textarea } from '@mantine/core';
-import Text from '@/components/Text/Text';
+import { Button, Modal, SimpleGrid, TextInput, Textarea } from '@mantine/core';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
-import { Section } from '../Layouts/Layouts';
+import styles from './IssuesExplorerIdPageItemTitle.module.css';
 
 /* * */
 
@@ -22,7 +21,7 @@ export default function IssuesExplorerIdPageItemTitle() {
   const [isEditMode, setIsEditMode] = useState(false);
 
   //
-  // B. Render components
+  // B. Handle actions
 
   const handleEnterEditMode = () => {
     setIsEditMode(true);
@@ -33,24 +32,26 @@ export default function IssuesExplorerIdPageItemTitle() {
   };
 
   //
-  // B. Render components
+  // C. Render components
 
   return (
     <>
-      <Modal opened={isEditMode} onClose={handleExitEditMode} title="Focus demo" size={600}>
+      <Modal opened={isEditMode} onClose={handleExitEditMode} title={t('modal.title')} size={600}>
         <SimpleGrid cols={1}>
-          <TextInput label={t('form.title.label')} placeholder={t('form.title.placeholder')} {...issuesExplorerContext.form.getInputProps('title')} readOnly={issuesExplorerContext.page.is_read_only} />
-          <Textarea label={t('form.summary.label')} placeholder={t('form.summary.placeholder')} {...issuesExplorerContext.form.getInputProps('summary')} readOnly={issuesExplorerContext.page.is_read_only} minRows={5} autosize />
+          <TextInput label={t('modal.fields.title.label')} placeholder={t('modal.fields.title.placeholder')} {...issuesExplorerContext.form.getInputProps('title')} readOnly={issuesExplorerContext.page.is_read_only} />
+          <Textarea label={t('modal.fields.summary.label')} placeholder={t('modal.fields.summary.placeholder')} {...issuesExplorerContext.form.getInputProps('summary')} readOnly={issuesExplorerContext.page.is_read_only} minRows={5} autosize />
         </SimpleGrid>
       </Modal>
-      <Section>
-        <SimpleGrid cols={1}>
-          <Text size="h2" onClick={handleEnterEditMode}>
-            {issuesExplorerContext.form.values.title || 'untitled'}
-          </Text>
-          <Text size="h4">{issuesExplorerContext.form.values.summary || 'untitled'}</Text>
-        </SimpleGrid>
-      </Section>
+      <div className={styles.container}>
+        <div className={styles.bylineWrapper}>
+          <p className={styles.code}>#{issuesExplorerContext.form.values.code}</p>
+          <Button variant="subtle" size="compact-xs" color="gray" onClick={handleEnterEditMode}>
+            {t('edit.label')}
+          </Button>
+        </div>
+        <h2 className={styles.title}>{issuesExplorerContext.form.values.title || 'untitled'}</h2>
+        <p className={styles.summary}>{issuesExplorerContext.form.values.summary || 'untitled'}</p>
+      </div>
     </>
   );
 }

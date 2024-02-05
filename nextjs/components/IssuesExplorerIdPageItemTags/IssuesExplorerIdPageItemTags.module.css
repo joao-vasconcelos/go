@@ -1,0 +1,35 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+/* * */
+/* TAG WRAPPER */
+
+.tagWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 5px;
+  color: var(--color-gray-6);
+  cursor: pointer;
+  border: 1px solid var(--color-gray-0);
+}
+
+.tagWrapper:hover {
+  border-color: var(--color-gray-1);
+}
+
+.tagWrapper.isSelected {
+  border-color: var(--color-gray-1);
+  background-color: var(--color-gray-0);
+  color: var(--color-gray-6);
+}

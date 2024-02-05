@@ -55,15 +55,8 @@ export default function IssuesExplorerListTableRow({ item }) {
           </div>
         </div>
       </Table.Td>
-      {/* <Table.Td>
-        <div className={styles.columnWrapper}>
-          {item.tags.map((tagId) => (
-            <TagsExplorerTag key={tagId} tagId={tagId} />
-          ))}
-        </div>
-      </Table.Td> */}
       <Table.Td>
-        <div className={styles.columnWrapper}>
+        <div className={styles.columnWrapper} style={{ minWidth: 100 }}>
           <UsersExplorerUser userId={item.created_by} />
         </div>
       </Table.Td>
