@@ -13,6 +13,7 @@ import IssuesExplorerIdPageItemTitle from '@/components/IssuesExplorerIdPageItem
 import IssuesExplorerIdPageItemTags from '@/components/IssuesExplorerIdPageItemTags/IssuesExplorerIdPageItemTags';
 import IssuesExplorerIdPageItemMilestones from '@/components/IssuesExplorerIdPageItemMilestones/IssuesExplorerIdPageItemMilestones';
 import IssuesExplorerIdPageItemComments from '@/components/IssuesExplorerIdPageItemComments/IssuesExplorerIdPageItemComments';
+import IssuesExplorerIdPageItemMedia from '../IssuesExplorerIdPageItemMedia/IssuesExplorerIdPageItemMedia';
 
 /* * */
 
@@ -36,7 +37,7 @@ export default function IssuesExplorerIdPage() {
       </Section>
       <Divider />
       <Section>
-        <p>Media (fotos, vídeos)</p>
+        <IssuesExplorerIdPageItemMedia />
       </Section>
       <Divider />
       <Section>

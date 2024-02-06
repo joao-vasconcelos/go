@@ -2832,5 +2832,7 @@
     "UsersExplorerUserPopover": {},
     "IssuesExplorerIdPageItemMilestones": {},
     "IssuesExplorerIdPageItemComments": {},
-    "IssuesExplorerIdPageItemCommentsAddComment": {}
+    "IssuesExplorerIdPageItemCommentsAddComment": {},
+    "MediaExplorerPage": {},
+    "IssuesExplorerIdPageItemMedia": {}
 }

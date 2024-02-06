@@ -13,6 +13,12 @@ export const ExportOptions = {
   //
 
   /*
+   * WORKDIR
+   */
+
+  workdir: 'exports',
+
+  /*
    * TYPE
    */
 

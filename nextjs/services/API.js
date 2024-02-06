@@ -15,7 +15,8 @@ export default async function API(request) {
     method: request.method,
   };
   // If request has body, then add it to the options
-  if (request.body) options.body = JSON.stringify(request.body);
+  if (request.body && request.bodyType === 'raw') options.body = request.body;
+  else if (request.body) options.body = JSON.stringify(request.body);
 
   // Fetch the API with the given values
   const response = await fetch(endpoint, options);

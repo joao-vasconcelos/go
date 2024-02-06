@@ -5,7 +5,7 @@ import { Link } from '@/translations/navigation';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Tooltip, ActionIcon } from '@mantine/core';
-import { IconChartArcs, IconBusStop, IconArrowLoopRight, IconCalendarDue, IconFileZip, IconChartArrowsVertical, IconUsers, IconDatabaseCog, IconTag } from '@tabler/icons-react';
+import { IconChartArcs, IconBusStop, IconArrowLoopRight, IconCalendarDue, IconFileZip, IconChartArrowsVertical, IconUsers, IconDatabaseCog, IconTag, IconFile3d } from '@tabler/icons-react';
 import AuthGate from '@/components/AuthGate/AuthGate';
 
 /* * */
@@ -22,6 +22,7 @@ export default function AppSidebar() {
   const links = [
     { href: 'issues', label: t('issues'), icon: <IconChartArcs />, auth_scope: 'issues', auth_permission: 'view' },
     { href: 'tags', label: t('tags'), icon: <IconTag />, auth_scope: 'tags', auth_permission: 'view' },
+    { href: 'media', label: t('tags'), icon: <IconFile3d />, auth_scope: 'tags', auth_permission: 'view' },
     { href: 'stops', label: t('stops'), icon: <IconBusStop />, auth_scope: 'stops', auth_permission: 'view' },
     { href: 'lines', label: t('lines'), icon: <IconArrowLoopRight />, auth_scope: 'lines', auth_permission: 'view' },
     { href: 'calendars', label: t('calendars'), icon: <IconCalendarDue />, auth_scope: 'calendars', auth_permission: 'view' },
