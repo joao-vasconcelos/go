@@ -95,7 +95,7 @@ export const Schema = new mongoose.Schema({
       },
       text: {
         type: String,
-        maxlength: 50,
+        maxlength: 5000,
       },
     },
   ],
@@ -113,6 +113,10 @@ export const Schema = new mongoose.Schema({
       type: {
         type: String,
         maxlength: 50,
+      },
+      value: {
+        type: String,
+        maxlength: 100,
       },
     },
   ],

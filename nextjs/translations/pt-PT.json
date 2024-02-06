@@ -2757,6 +2757,33 @@
             "label": "Moderado"
         }
     },
+    "IssuesExplorerAttributeMilestone": {
+        "tag_added": {
+            "title": "Etiqueta Adicionada",
+            "action": "adicionou a etiqueta"
+        },
+        "tag_removed": {
+            "title": "Etiqueta Removida",
+            "action": "removeu a etiqueta"
+        },
+        "moderate": {
+            "label": "Moderado"
+        }
+    },
+    "IssuesExplorerAttributeComment": {
+        "created_at": "comentou a {value, date, ::yyyyMdkm}",
+        "tag_added": {
+            "title": "Etiqueta Adicionada",
+            "action": "adicionou a etiqueta"
+        },
+        "tag_removed": {
+            "title": "Etiqueta Removida",
+            "action": "removeu a etiqueta"
+        },
+        "moderate": {
+            "label": "Moderado"
+        }
+    },
     "IssuesExplorerIdPageItemTitle": {
         "edit": {
             "label": "Editar"
@@ -2800,5 +2827,10 @@
         }
     },
     "UsersExplorerUser": {},
-    "IssuesExplorerIdPageItemComments": {}
+    "UsersExplorerUserSimple": {},
+    "UsersExplorerUserAvatar": {},
+    "UsersExplorerUserPopover": {},
+    "IssuesExplorerIdPageItemMilestones": {},
+    "IssuesExplorerIdPageItemComments": {},
+    "IssuesExplorerIdPageItemCommentsAddComment": {}
 }

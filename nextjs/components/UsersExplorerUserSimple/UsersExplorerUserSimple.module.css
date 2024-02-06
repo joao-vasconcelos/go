@@ -1,0 +1,13 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-gray-7);
+  cursor: help;
+}
+
+.container:hover {
+  text-decoration: underline;
+}

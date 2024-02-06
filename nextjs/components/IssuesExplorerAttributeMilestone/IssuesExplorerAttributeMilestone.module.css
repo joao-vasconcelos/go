@@ -1,0 +1,54 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-top: 8px;
+  padding-bottom: 20px;
+}
+
+/* * */
+/* TITLE */
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-gray-6);
+  text-transform: uppercase;
+}
+
+/* * */
+/* DETAILS */
+
+.details {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* * */
+/* ACTION */
+
+.action {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-gray-7);
+}
+
+/* * */
+/* CREATED AT */
+
+.createdAt {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-gray-5);
+}

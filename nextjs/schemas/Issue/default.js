@@ -52,5 +52,6 @@ export const DefaultMilestone = {
   created_by: null,
   created_at: new Date(),
   type: '',
+  value: null,
   //
 };

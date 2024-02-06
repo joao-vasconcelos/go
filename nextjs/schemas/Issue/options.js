@@ -19,7 +19,7 @@ export const Options = {
    * MILESTONE TYPES
    */
 
-  milestone_type: ['issue_created', 'issue_closed', 'issue_updated', 'issue_commented', 'issue_assigned', 'issue_unassigned', 'issue_due_date_changed', 'issue_status_changed'],
+  milestone_type: ['tag_added', 'issue_created', 'issue_status_changed', 'issue_closed', 'issue_updated', 'issue_commented', 'issue_assigned', 'issue_unassigned', 'issue_due_date_changed'],
 
   //
 };

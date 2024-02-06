@@ -42,6 +42,9 @@
   background-color: var(--color-gray-0);
 }
 
-.itemWrapper.isSelected {
+.isSelected.itemWrapper,
+.isSelected.itemWrapper:hover {
   color: var(--color-gray-6);
+  background-color: transparent;
+  cursor: default;
 }

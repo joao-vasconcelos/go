@@ -11,7 +11,7 @@ import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import { Validation as IssueValidation } from '@/schemas/Issue/validation';
-import { Default as IssueDefault } from '@/schemas/Issue/default';
+import { Default as IssueDefault, DefaultMilestone, DefaultCommment } from '@/schemas/Issue/default';
 import populate from '@/services/populate';
 import API from '@/services/API';
 
@@ -179,6 +179,40 @@ export function IssuesExplorerContextProvider({ children }) {
     router.push('/dashboard/issues');
   }, [router]);
 
+  const addMilestone = useCallback(
+    async (type, value) => {
+      const newMilestone = { ...DefaultMilestone, created_by: userSession.user._id, type, value };
+      formState.insertListItem('milestones', newMilestone);
+    },
+    [formState, userSession.user._id]
+  );
+
+  const addTag = useCallback(
+    async (tagId) => {
+      // Create a set of tag ids for this issue
+      const uniqueSetOfTags = new Set(formState.values.tags);
+      if (uniqueSetOfTags.has(tagId)) {
+        // Remove the tag and a milestone
+        addMilestone('tag_added', tagId);
+        uniqueSetOfTags.delete(tagId);
+      } else {
+        // Add the tag and a milestone
+        addMilestone('tag_removed', tagId);
+        uniqueSetOfTags.add(tagId);
+      }
+      formState.setFieldValue('tags', [...uniqueSetOfTags]);
+    },
+    [addMilestone, formState]
+  );
+
+  const addComment = useCallback(
+    async (commentText) => {
+      const newComment = { ...DefaultCommment, created_by: userSession.user._id, text: commentText };
+      formState.insertListItem('comments', newComment);
+    },
+    [formState, userSession.user._id]
+  );
+
   //
   // G. Setup context object
 
@@ -201,8 +235,11 @@ export function IssuesExplorerContextProvider({ children }) {
       deleteItem: deleteItem,
       closeItem: closeItem,
       //
+      addTag: addTag,
+      addComment: addComment,
+      //
     }),
-    [listState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, validateItem, saveItem, lockItem, deleteItem, closeItem]
+    [listState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, validateItem, saveItem, lockItem, deleteItem, closeItem, addTag, addComment]
   );
 
   //

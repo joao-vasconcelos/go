@@ -55,14 +55,6 @@ export default function IssuesExplorerIdPageItemTags() {
     setIsEditMode(false);
   };
 
-  const handleAddTag = (tagId) => {
-    // Create a set of tag ids for this issue
-    const uniqueSetOfTags = new Set(issuesExplorerContext.form.values.tags);
-    if (uniqueSetOfTags.has(tagId)) uniqueSetOfTags.delete(tagId);
-    else uniqueSetOfTags.add(tagId);
-    issuesExplorerContext.form.setFieldValue('tags', [...uniqueSetOfTags]);
-  };
-
   //
   // B. Render components
 
@@ -74,7 +66,7 @@ export default function IssuesExplorerIdPageItemTags() {
           {allTagsDataFormatted.length > 0 ? (
             <SimpleGrid cols={3}>
               {allTagsDataFormatted.map((tagData) => (
-                <div key={tagData._id} className={`${styles.itemWrapper} ${tagData.is_selected && styles.isSelected}`} onClick={() => handleAddTag(tagData._id)}>
+                <div key={tagData._id} className={`${styles.itemWrapper} ${tagData.is_selected && styles.isSelected}`} onClick={() => issuesExplorerContext.addTag(tagData._id)}>
                   {tagData.is_selected ? <IconCircleCheckFilled size={18} /> : <IconCircle size={18} />}
                   <TagsExplorerTag tagId={tagData._id} withHoverCard={false} />
                 </div>
