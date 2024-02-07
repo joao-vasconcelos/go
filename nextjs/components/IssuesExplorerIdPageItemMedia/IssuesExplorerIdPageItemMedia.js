@@ -3,7 +3,7 @@
 /* * */
 
 import { useTranslations } from 'next-intl';
-import { Button, Modal, SimpleGrid, TextInput } from '@mantine/core';
+import styles from './IssuesExplorerIdPageItemMedia.module.css';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 import MediaExplorerMediaUpload from '../MediaExplorerMediaUpload/MediaExplorerMediaUpload';
 import MediaExplorerMedia from '../MediaExplorerMedia/MediaExplorerMedia';
@@ -27,20 +27,21 @@ export default function IssuesExplorerIdPageItemMedia() {
   };
 
   const handleMediaDelete = (mediaId) => {
-    // issuesExplorerContext.form.removeListItem('media');
+    const index = issuesExplorerContext.form.values.media.indexOf(mediaId);
+    if (index > -1) issuesExplorerContext.form.removeListItem('media', index);
   };
 
   //
   // B. Render components
 
   return (
-    <div>
-      <SimpleGrid cols={5}>
+    <div className={styles.container}>
+      <div className={styles.mediaList}>
         {issuesExplorerContext.form.values.media.map((mediaId) => (
           <MediaExplorerMedia key={mediaId} mediaId={mediaId} onDelete={handleMediaDelete} />
         ))}
-      </SimpleGrid>
-      <MediaExplorerMediaUpload onUploadComplete={handleUploadComplete} />
+        <MediaExplorerMediaUpload onUploadComplete={handleUploadComplete} />
+      </div>
     </div>
   );
 }

@@ -2834,5 +2834,45 @@
     "IssuesExplorerIdPageItemComments": {},
     "IssuesExplorerIdPageItemCommentsAddComment": {},
     "MediaExplorerPage": {},
-    "IssuesExplorerIdPageItemMedia": {}
+    "IssuesExplorerIdPageItemMedia": {},
+    "GlobalAuthorTimestamp": {
+        "timestamp": "{verb} a {timestamp, date, ::yyyyMdkm}"
+    },
+    "MediaExplorerMedia": {
+        "action_verb": "adicionou",
+        "operations": {
+            "delete": {
+                "title": "Eliminar Ficheiro",
+                "description": "Este ficheiro será imediatamente eliminado de forma irreversivel.",
+                "confirm": "Sim, eliminar Ficheiro",
+                "cancel": "Não, deixar como está"
+            }
+        }
+    },
+    "MediaExplorerMediaUpload": {
+        "upload_error": {
+            "title": "Ocorreu um erro ao enviar o ficheiro",
+            "description": "Por favor tente novamente. Se o erro persistir manda mensagem."
+        },
+        "form": {
+            "file": {
+                "label": "Selecionar Ficheiro",
+                "placeholder": "Selecionar Ficheiro"
+            },
+            "title": {
+                "label": "Título",
+                "placeholder": "Fotografia do poste caído"
+            },
+            "description": {
+                "label": "Descrição (opcional)",
+                "placeholder": "Descrição do conteúdo do ficheiro..."
+            },
+            "submit": {
+                "label": "Upload"
+            },
+            "close": {
+                "label": "Fechar"
+            }
+        }
+    }
 }

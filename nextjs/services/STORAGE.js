@@ -40,6 +40,14 @@ class STORAGE {
     //
   }
 
+  removeFile(scope, filename) {
+    // Build the scoped directory path
+    const scopedPath = `${this.base_path}/${scope}/${filename}`;
+    // Check if the file exists
+    return fs.rmSync(scopedPath, { force: true });
+    //
+  }
+
   getFileExtension(filepath, includeDot = true) {
     if (includeDot) return path.extname(filepath);
     else return path.extname(filepath).replace('.', '');

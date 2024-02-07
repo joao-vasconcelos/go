@@ -1,10 +1,10 @@
 /* * */
 
-import * as fs from 'fs';
-import checkAuthentication from '@/services/checkAuthentication';
-import mongodb from '@/services/mongodb';
-import { Model as MediaModel } from '@/schemas/Media/model';
+import fs from 'fs';
 import STORAGE from '@/services/STORAGE';
+import mongodb from '@/services/mongodb';
+import checkAuthentication from '@/services/checkAuthentication';
+import { Model as MediaModel } from '@/schemas/Media/model';
 import { Options as MediaOptions } from '@/schemas/Media/options';
 
 /* * */

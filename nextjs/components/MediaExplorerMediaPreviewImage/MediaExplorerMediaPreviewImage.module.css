@@ -1,0 +1,24 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* * */
+/* MODAL PREVIEW */
+
+.modalPreview {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  border-radius: 10px;
+}

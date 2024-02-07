@@ -5,8 +5,7 @@
 import { useTranslations } from 'next-intl';
 import styles from './UsersExplorerUser.module.css';
 import useSWR from 'swr';
-import { Anchor, Avatar, Box, Group, HoverCard, Stack, Text } from '@mantine/core';
-import Loader from '../Loader/Loader';
+import { Box, HoverCard } from '@mantine/core';
 import UsersExplorerUserAvatar from '../UsersExplorerUserAvatar/UsersExplorerUserAvatar';
 import UsersExplorerUserSimple from '../UsersExplorerUserSimple/UsersExplorerUserSimple';
 import UsersExplorerUserPopover from '../UsersExplorerUserPopover/UsersExplorerUserPopover';
@@ -30,7 +29,7 @@ export default function UsersExplorerUser({ userId, type = 'avatar', withHoverCa
   // C. Render components
 
   return userData ? (
-    <HoverCard width={400} shadow="md" withArrow openDelay={200}>
+    <HoverCard width={400} shadow="md" withArrow openDelay={200} closeDelay={200}>
       <HoverCard.Target>
         <Box>
           {type === 'avatar' && <UsersExplorerUserAvatar userData={userData} />}
