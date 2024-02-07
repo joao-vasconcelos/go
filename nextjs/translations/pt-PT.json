@@ -2771,6 +2771,7 @@
         }
     },
     "IssuesExplorerAttributeComment": {
+        "action_verb": "comentou",
         "created_at": "comentou a {value, date, ::yyyyMdkm}",
         "tag_added": {
             "title": "Etiqueta Adicionada",
@@ -2831,8 +2832,27 @@
     "UsersExplorerUserAvatar": {},
     "UsersExplorerUserPopover": {},
     "IssuesExplorerIdPageItemMilestones": {},
-    "IssuesExplorerIdPageItemComments": {},
-    "IssuesExplorerIdPageItemCommentsAddComment": {},
+    "IssuesExplorerIdPageItemComments": {
+        "operations": {
+            "delete": {
+                "title": "Eliminar Comentário",
+                "description": "Este comentário será imediatamente eliminado de forma irreversivel.",
+                "confirm": "Sim, eliminar Comentário",
+                "cancel": "Não, deixar como está"
+            }
+        }
+    },
+    "IssuesExplorerIdPageItemCommentsAddComment": {
+        "form": {
+            "text": {
+                "label": "Novo Comentário",
+                "placeholder": "Segundo o que vi..."
+            },
+            "submit": {
+                "label": "Publicar Comentário"
+            }
+        }
+    },
     "MediaExplorerPage": {},
     "IssuesExplorerIdPageItemMedia": {},
     "GlobalAuthorTimestamp": {

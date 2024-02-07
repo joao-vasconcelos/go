@@ -33,8 +33,8 @@ export default function IssuesExplorerIdPageItemCommentsAddComment() {
 
   return (
     <div className={styles.container}>
-      <Textarea w="100%" value={commentText} onChange={({ currentTarget }) => setCommentText(currentTarget.value)} />
-      <Button onClick={handleAddComment}>Publicar Comentário</Button>
+      <Textarea label={t('form.text.label')} placeholder={t('form.text.placeholder')} w="100%" value={commentText} onChange={({ currentTarget }) => setCommentText(currentTarget.value)} />
+      <Button onClick={handleAddComment}>{t('form.submit.label')}</Button>
     </div>
   );
 }
