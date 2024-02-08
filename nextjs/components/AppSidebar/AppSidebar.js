@@ -5,7 +5,7 @@ import { Link } from '@/translations/navigation';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Tooltip, ActionIcon } from '@mantine/core';
-import { IconChartArcs, IconBusStop, IconArrowLoopRight, IconCalendarDue, IconFileZip, IconChartArrowsVertical, IconUsers, IconDatabaseCog, IconTag, IconFile3d } from '@tabler/icons-react';
+import { IconChartArcs, IconBusStop, IconArrowLoopRight, IconCalendarDue, IconFileZip, IconChartArrowsVertical, IconUsers, IconDatabaseCog, IconTag, IconFile3d, IconAlertTriangle } from '@tabler/icons-react';
 import AuthGate from '@/components/AuthGate/AuthGate';
 
 /* * */
@@ -20,6 +20,7 @@ export default function AppSidebar() {
   const t = useTranslations('AppSidebar');
 
   const links = [
+    { href: 'alerts', label: t('alerts'), icon: <IconAlertTriangle />, auth_scope: 'alerts', auth_permission: 'view' },
     { href: 'issues', label: t('issues'), icon: <IconChartArcs />, auth_scope: 'issues', auth_permission: 'view' },
     { href: 'tags', label: t('tags'), icon: <IconTag />, auth_scope: 'tags', auth_permission: 'view' },
     { href: 'media', label: t('tags'), icon: <IconFile3d />, auth_scope: 'tags', auth_permission: 'view' },
@@ -30,7 +31,6 @@ export default function AppSidebar() {
     { href: 'realtime', label: t('realtime'), icon: <IconChartArrowsVertical />, auth_scope: 'configs', auth_permission: 'admin' },
     { href: 'users', label: t('users'), icon: <IconUsers />, auth_scope: 'users', auth_permission: 'view' },
     { href: 'configs', label: t('configs'), icon: <IconDatabaseCog />, auth_scope: 'configs', auth_permission: 'admin' },
-    // { href: 'alerts', label: t('alerts'), icon: <IconAlertTriangle />, auth_scope: 'alerts', auth_permission: 'view' },
     // { href: 'statistics', label: t('statistics'), icon: <IconChartPie />, auth_scope: 'configs', auth_permission: 'admin' },
     // { href: 'feedback', label: t('feedback'), icon: <IconMoodSearch />, auth_scope: 'users', auth_permission: 'view' },
   ];

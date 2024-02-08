@@ -110,7 +110,7 @@ export default function MediaExplorerMedia({ mediaId, onDelete }) {
           {mediaData.description && <p className={styles.description}>{mediaData.description}</p>}
         </div>
         <GlobalAuthorTimestamp userId={mediaData.created_by} timestamp={mediaData.created_at} actionVerb={t('action_verb')} />
-        <Menu trigger="hover" openDelay={300} closeDelay={300} shadow="md" position="right" withArrow>
+        <Menu trigger="hover" openDelay={300} closeDelay={100} shadow="md" position="right" withArrow>
           <Menu.Target>
             <Box className={styles.actionsTrigger}>
               <IconDots size={18} />

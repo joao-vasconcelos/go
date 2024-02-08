@@ -1,26 +1,71 @@
 /* * */
-/* DOCUMENT TYPE: FARE */
-/* Explanation needed. */
-/* * */
+
+import { AlertOptions } from './options';
 
 /* * */
-/* A. Default Values */
+
 export const AlertDefault = {
+  //
   code: '',
-  published: false,
+  //
+  created_by: null,
+  created_at: new Date(),
+  //
   title: '',
+  description: '',
+  tags: [],
+  //
+  publish_start: new Date(),
+  publish_end: null,
+  //
   active_period_start: null,
   active_period_end: null,
-  municipalities: [],
-  lines: [],
-  stops: [],
-  cause: '',
-  effect: '',
-  description: '',
-  images: [],
+  //
+  cause: null,
+  effect: null,
+  //
+  type: AlertOptions.type[0],
+  //
+  affected_stops: [],
+  affected_routes: [],
+  affected_agencies: [],
+  affected_municipalities: [],
+  //
   url: '',
-  created_by: undefined,
+  media: null,
+  //
+  is_locked: false,
+  //
 };
+
+/* * */
+
+export const AlertAffectedStopDefault = {
+  //
+  stop_id: null,
+  //
+};
+
+export const AlertAffectedRouteDefault = {
+  //
+  route_id: null,
+  route_stops: [],
+  //
+};
+
+export const AlertAffectedAgencyDefault = {
+  //
+  agency_id: 'CM',
+  //
+};
+
+export const AlertAffectedMunicipalityDefault = {
+  //
+  municipality_id: null,
+  //
+};
+
+/* * */
 
 //
 //
