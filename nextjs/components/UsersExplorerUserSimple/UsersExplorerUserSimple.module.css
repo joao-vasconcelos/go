@@ -2,15 +2,19 @@
 /* CONTAINER */
 
 .container {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--color-gray-4);
-  cursor: help;
+  color: var(--color-gray-5);
   transition: all 300ms ease;
-  line-height: 1;
+  line-height: 1.1;
 }
 
-.container:hover {
-  color: var(--color-gray-7);
-  text-decoration: underline;
+/* SIZES */
+
+.container.sm {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.container.md {
+  font-size: 12px;
+  font-weight: 700;
 }

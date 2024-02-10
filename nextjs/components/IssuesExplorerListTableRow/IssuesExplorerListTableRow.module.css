@@ -18,6 +18,10 @@
   padding-bottom: 10px;
 }
 
+.columnWrapper.alignCenter {
+  justify-content: center;
+}
+
 /* * */
 /* ISSUE TITLE WRAPPER */
 

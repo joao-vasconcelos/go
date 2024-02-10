@@ -3,8 +3,7 @@
 import mongodb from '@/services/mongodb';
 import STORAGE from '@/services/STORAGE';
 import checkAuthentication from '@/services/checkAuthentication';
-import { Model as MediaModel } from '@/schemas/Media/model';
-import { Options as MediaOptions } from '@/schemas/Media/options';
+import { MediaModel } from '@/schemas/Media/model';
 
 /* * */
 
@@ -45,7 +44,7 @@ export default async function handler(req, res) {
   try {
     const deletedDocument = await MediaModel.findOneAndDelete({ _id: { $eq: req.query._id } });
     if (!deletedDocument) return await res.status(404).json({ message: `Media with _id: ${req.query._id} not found.` });
-    STORAGE.removeFile(MediaOptions.workdir, `${deletedDocument._id}${deletedDocument.file_extension}`);
+    STORAGE.removeFile(deletedDocument.storage_scope, `${deletedDocument._id}${deletedDocument.file_extension}`);
     return await res.status(200).send(deletedDocument);
   } catch (err) {
     console.log(err);

@@ -7,7 +7,9 @@
   gap: 4px;
   align-items: center;
   justify-content: center;
-  color: var(--gray6);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: all 200ms ease;
 }
 
 /* * */
@@ -39,4 +41,21 @@
 
 .moderate {
   color: #006086;
+}
+
+/* * */
+/* PRIORITY › DEFAULT */
+
+.default {
+  color: var(--color-gray-6);
+  background-color: var(--color-gray-0);
+  padding: 3px 10px 3px 8px;
+  border-radius: 9999px;
+  border: 1px solid var(--color-gray-1);
+}
+
+.default:hover {
+  color: var(--color-gray-6);
+  background-color: var(--color-gray-0);
+  border-color: var(--color-gray-3);
 }

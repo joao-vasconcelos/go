@@ -4,14 +4,8 @@ import { MIME_TYPES } from '@mantine/dropzone';
 
 /* * */
 
-export const Options = {
+export const MediaOptions = {
   //
-
-  /*
-   * WORKDIR
-   */
-
-  workdir: 'media',
 
   /*
    * ALLOWED MIME TYPES

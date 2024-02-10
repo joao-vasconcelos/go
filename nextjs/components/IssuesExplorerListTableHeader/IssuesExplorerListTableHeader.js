@@ -4,7 +4,7 @@
 
 import { Table } from '@mantine/core';
 import { useTranslations } from 'next-intl';
-import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
+import styles from './IssuesExplorerListTableHeader.module.css';
 
 /* * */
 
@@ -21,13 +21,12 @@ export default function IssuesExplorerListTableHeader() {
 
   return (
     <Table.Thead>
-      <Table.Tr>
+      <Table.Tr className={styles.headerRow}>
         <Table.Th>{t('status.title')}</Table.Th>
         <Table.Th>{t('priority.title')}</Table.Th>
         <Table.Th>{t('title.title')}</Table.Th>
         <Table.Th>{t('created_by.title')}</Table.Th>
         <Table.Th>{t('created_at.title')}</Table.Th>
-        {/* <Table.Th>{t('table.header.driver_id.title')}</Table.Th> */}
       </Table.Tr>
     </Table.Thead>
   );

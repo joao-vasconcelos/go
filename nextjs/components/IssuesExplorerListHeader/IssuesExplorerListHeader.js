@@ -6,14 +6,19 @@ import { useState } from 'react';
 import { useRouter } from '@/translations/navigation';
 import useSWR from 'swr';
 import API from '@/services/API';
-import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots } from '@tabler/icons-react';
+import { Button } from '@mantine/core';
+import { IconPlus } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import { useTranslations } from 'next-intl';
 import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
-import ListHeader from '@/components/ListHeader/ListHeader';
+import styles from './IssuesExplorerListHeader.module.css';
+import GlobalFilterBy from '@/components/GlobalFilterBy/GlobalFilterBy';
+import IssuesExplorerAttributeStatus from '@/components/IssuesExplorerAttributeStatus/IssuesExplorerAttributeStatus';
+import IssuesExplorerAttributePriority from '@/components/IssuesExplorerAttributePriority/IssuesExplorerAttributePriority';
+import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser';
+import TagsExplorerTag from '@/components/TagsExplorerTag/TagsExplorerTag';
 
 /* * */
 
@@ -31,7 +36,7 @@ export default function IssuesExplorerListHeader() {
   //
   // B. Fetch data
 
-  const { isLoading: allIssuesLoading, mutate: allIssuesMutate } = useSWR('/api/issues');
+  const { mutate: allIssuesMutate } = useSWR('/api/issues');
 
   //
   // C. Handle actions
@@ -56,23 +61,38 @@ export default function IssuesExplorerListHeader() {
   // D. Render components
 
   return (
-    <ListHeader>
-      <SearchField query={issuesExplorerContext.list.search_query} onChange={issuesExplorerContext.updateSearchQuery} />
-      <Menu shadow="md" position="bottom-end">
-        <Menu.Target>
-          <ActionIcon variant="light" size="lg" color="gray" loading={allIssuesLoading || isCreating}>
-            <IconDots size={20} />
-          </ActionIcon>
-        </Menu.Target>
-        <Menu.Dropdown>
-          <AuthGate scope="configs" permission="admin">
-            <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
-              {t('operations.create.title')}
-            </Menu.Item>
-          </AuthGate>
-        </Menu.Dropdown>
-      </Menu>
-    </ListHeader>
+    <div className={styles.container}>
+      <div className={styles.row}>
+        <SearchField query={issuesExplorerContext.list.search_query} onChange={issuesExplorerContext.updateSearchQuery} />
+        <div>
+          <Button leftSection={<IconPlus size={16} />} onClick={handleCreate} size="sm" variant="light">
+            {t('operations.create.title')}
+          </Button>
+        </div>
+      </div>
+      <div className={styles.row}>
+        <p className={styles.label}>{t('filter_by.label')}</p>
+        <GlobalFilterBy label={t('filters.status')} options={issuesExplorerContext.list.available_status} value={issuesExplorerContext.list.filter_status} onChange={issuesExplorerContext.updateFilterStatus} optionComponent={<IssuesExplorerAttributeStatus />} />
+        <GlobalFilterBy label={t('filters.priority')} options={issuesExplorerContext.list.available_priority} value={issuesExplorerContext.list.filter_priority} onChange={issuesExplorerContext.updateFilterPriority} optionComponent={<IssuesExplorerAttributePriority />} />
+        <GlobalFilterBy label={t('filters.tags')} options={issuesExplorerContext.list.available_tags} value={issuesExplorerContext.list.filter_tags} onChange={issuesExplorerContext.updateFilterTags} optionComponent={<TagsExplorerTag withHoverCard={false} />} valueKey="tagId" />
+        <GlobalFilterBy
+          label={t('filters.created_by')}
+          options={issuesExplorerContext.list.available_created_by}
+          value={issuesExplorerContext.list.filter_created_by}
+          onChange={issuesExplorerContext.updateFilterCreatedBy}
+          optionComponent={<UsersExplorerUser type="full" withHoverCard={false} />}
+          valueKey="userId"
+        />
+        <GlobalFilterBy
+          label={t('filters.assigned_to')}
+          options={issuesExplorerContext.list.available_assigned_to}
+          value={issuesExplorerContext.list.filter_assigned_to}
+          onChange={issuesExplorerContext.updateFilterAssignedTo}
+          optionComponent={<UsersExplorerUser type="full" withHoverCard={false} />}
+          valueKey="userId"
+        />
+      </div>
+    </div>
   );
 
   //

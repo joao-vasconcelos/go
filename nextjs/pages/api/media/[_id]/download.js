@@ -4,8 +4,7 @@ import fs from 'fs';
 import STORAGE from '@/services/STORAGE';
 import mongodb from '@/services/mongodb';
 import checkAuthentication from '@/services/checkAuthentication';
-import { Model as MediaModel } from '@/schemas/Media/model';
-import { Options as MediaOptions } from '@/schemas/Media/options';
+import { MediaModel } from '@/schemas/Media/model';
 
 /* * */
 
@@ -54,7 +53,7 @@ export default async function handler(req, res) {
     // 3.3.
     // Read the previously zipped archive from the filesystem and pipe it to the response.
     await res.writeHead(200, { 'Content-Type': foundDocument.file_mime_type, 'Content-Disposition': `attachment; filename=${foundDocument.title}${foundDocument.file_extension}` });
-    fs.createReadStream(STORAGE.getFilePath(MediaOptions.workdir, `${foundDocument._id}${foundDocument.file_extension}`)).pipe(res);
+    fs.createReadStream(STORAGE.getFilePath(foundDocument.storage_scope, `${foundDocument._id}${foundDocument.file_extension}`)).pipe(res);
 
     //
   } catch (err) {

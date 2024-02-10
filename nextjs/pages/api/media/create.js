@@ -5,9 +5,8 @@ import Formidable from 'formidable';
 import STORAGE from '@/services/STORAGE';
 import mongodb from '@/services/mongodb';
 import checkAuthentication from '@/services/checkAuthentication';
-import { Model as MediaModel } from '@/schemas/Media/model';
-import { Default as MediaDefault } from '@/schemas/Media/default';
-import { Options as MediaOptions } from '@/schemas/Media/options';
+import { MediaModel } from '@/schemas/Media/model';
+import { MediaDefault } from '@/schemas/Media/default';
 
 /* * */
 
@@ -74,6 +73,8 @@ export default async function parseGTFS(req, res) {
 
   try {
     // Check if title is present
+    if (formFields.storage_scope.length !== 1) throw new Error('Storage Scope is required.');
+    // Check if title is present
     if (formFields.title.length !== 1) throw new Error('Title is required.');
     // Check if file is present
     if (formFiles.file.length !== 1) throw new Error('File is required.');
@@ -100,6 +101,8 @@ export default async function parseGTFS(req, res) {
       title: formFields.title[0],
       description: formFields.description?.length > 0 ? formFields.description[0] : '',
       //
+      storage_scope: formFields.storage_scope[0],
+      //
       file_size: formFiles.file[0].size,
       file_mime_type: formFiles.file[0].mimetype,
       file_extension: STORAGE.getFileExtension(formFiles.file[0].originalFilename),
@@ -110,7 +113,7 @@ export default async function parseGTFS(req, res) {
     const createdDocument = await MediaModel(newDocument).save();
 
     // Get the storage directory for Media files
-    const mediaDirectory = STORAGE.getScopeDirPath(MediaOptions.workdir);
+    const mediaDirectory = STORAGE.getScopeDirPath(createdDocument.storage_scope);
 
     // Save the file to the correct directory
     fs.renameSync(formFiles.file[0].filepath, `${mediaDirectory}/${createdDocument._id}${createdDocument.file_extension}`);
@@ -120,7 +123,7 @@ export default async function parseGTFS(req, res) {
     //
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
+    return await res.status(500).json({ message: 'Could not save file to disk.' });
   }
 
   //

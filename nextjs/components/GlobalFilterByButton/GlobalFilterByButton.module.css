@@ -1,0 +1,44 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: all 200ms ease;
+  padding: 3px 10px 3px 8px;
+  border-radius: 9999px;
+  color: var(--color-gray-5);
+  background-color: var(--color-gray-0);
+  border: 1px solid transparent;
+}
+
+.container:hover {
+  color: var(--color-gray-6);
+  background-color: var(--color-gray-0);
+  border-color: var(--color-gray-3);
+}
+
+/* * */
+/* LABEL */
+
+.label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+/* * */
+/* ACTIVE STYLES */
+
+.active.container {
+  color: var(--info6);
+  background-color: var(--info1);
+  border-color: var(--info6);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+}

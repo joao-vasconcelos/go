@@ -1,6 +1,6 @@
 /* * */
 
-import { Options } from './options';
+import { IssueOptions } from './options';
 
 /* * */
 
@@ -15,8 +15,8 @@ export const Default = {
   summary: '',
   tags: [],
   //
-  status: Options.status[0],
-  priority: Options.priority[0],
+  status: IssueOptions.status[0],
+  priority: IssueOptions.priority[0],
   due_date: '',
   assigned_to: null,
   //

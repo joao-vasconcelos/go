@@ -11,7 +11,7 @@ import styles from './MediaExplorerMediaUpload.module.css';
 
 /* * */
 
-export default function MediaExplorerMediaUpload({ onUploadComplete }) {
+export default function MediaExplorerMediaUpload({ storageScope, onUploadComplete }) {
   //
 
   //
@@ -39,6 +39,7 @@ export default function MediaExplorerMediaUpload({ onUploadComplete }) {
       setIsUploading(true);
       setIsUploadError(null);
       const formData = new FormData();
+      formData.append('storage_scope', storageScope);
       formData.append('file', formFile);
       formData.append('title', formTitle);
       formData.append('description', formDescription);

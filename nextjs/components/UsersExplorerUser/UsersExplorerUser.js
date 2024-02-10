@@ -2,13 +2,12 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import styles from './UsersExplorerUser.module.css';
 import useSWR from 'swr';
 import { Box, HoverCard } from '@mantine/core';
-import UsersExplorerUserAvatar from '../UsersExplorerUserAvatar/UsersExplorerUserAvatar';
-import UsersExplorerUserSimple from '../UsersExplorerUserSimple/UsersExplorerUserSimple';
-import UsersExplorerUserPopover from '../UsersExplorerUserPopover/UsersExplorerUserPopover';
+import UsersExplorerUserSimple from '@/components/UsersExplorerUserSimple/UsersExplorerUserSimple';
+import UsersExplorerUserAvatar from '@/components/UsersExplorerUserAvatar/UsersExplorerUserAvatar';
+import UsersExplorerUserFull from '@/components/UsersExplorerUserFull/UsersExplorerUserFull';
+import UsersExplorerUserPopover from '@/components/UsersExplorerUserPopover/UsersExplorerUserPopover';
 
 /* * */
 
@@ -16,24 +15,20 @@ export default function UsersExplorerUser({ userId, type = 'avatar', withHoverCa
   //
 
   //
-  // A. Setup variables
-
-  const t = useTranslations('UsersExplorerUser');
-
-  //
-  // B. Fetch data
+  // A. Fetch data
 
   const { data: userData } = useSWR(userId && `/api/users/${userId}`);
 
   //
-  // C. Render components
+  // B. Render components
 
   return userData ? (
     <HoverCard width={400} shadow="md" withArrow openDelay={200} closeDelay={200}>
       <HoverCard.Target>
-        <Box>
-          {type === 'avatar' && <UsersExplorerUserAvatar userData={userData} />}
+        <Box style={{ cursor: withHoverCard ? 'help' : 'inherit' }}>
           {type === 'simple' && <UsersExplorerUserSimple userData={userData} />}
+          {type === 'avatar' && <UsersExplorerUserAvatar userData={userData} />}
+          {type === 'full' && <UsersExplorerUserFull userData={userData} />}
         </Box>
       </HoverCard.Target>
       {withHoverCard && (

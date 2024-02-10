@@ -2,7 +2,7 @@
 
 /* * */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button, Modal, SimpleGrid, TextInput, Textarea } from '@mantine/core';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
@@ -20,6 +20,10 @@ export default function IssuesExplorerIdPageItemTitle() {
   const issuesExplorerContext = useIssuesExplorerContext();
   const [isEditMode, setIsEditMode] = useState(false);
 
+  useEffect(() => {
+    if (!issuesExplorerContext.form.values.title) setIsEditMode(true);
+  }, [issuesExplorerContext.form.values.title]);
+
   //
   // B. Handle actions
 
@@ -28,6 +32,7 @@ export default function IssuesExplorerIdPageItemTitle() {
   };
 
   const handleExitEditMode = () => {
+    if (!issuesExplorerContext.form.values.title) return;
     setIsEditMode(false);
   };
 

@@ -12,10 +12,10 @@ import LockButton from '@/components/LockButton/LockButton';
 import DeleteButton from '@/components/DeleteButton/DeleteButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
-import IssuesExplorerIdPageItemStatus from '../IssuesExplorerIdPageItemStatus/IssuesExplorerIdPageItemStatus';
+import IssuesExplorerAttributeStatusSelect from '@/components/IssuesExplorerAttributeStatusSelect/IssuesExplorerAttributeStatusSelect';
+import IssuesExplorerAttributePrioritySelect from '@/components/IssuesExplorerAttributePrioritySelect/IssuesExplorerAttributePrioritySelect';
+import IssuesExplorerIdPageItemCreatedByAt from '@/components/IssuesExplorerIdPageItemCreatedByAt/IssuesExplorerIdPageItemCreatedByAt';
 import styles from './IssuesExplorerIdPageHeader.module.css';
-import IssuesExplorerIdPageItemPriority from '../IssuesExplorerIdPageItemPriority/IssuesExplorerIdPageItemPriority';
-import IssuesExplorerIdPageItemCreatedByAt from '../IssuesExplorerIdPageItemCreatedByAt/IssuesExplorerIdPageItemCreatedByAt';
 
 /* * */
 
@@ -30,6 +30,14 @@ export default function IssuesExplorerIdPageHeader() {
 
   //
   // B. Handle actions
+
+  const handleChangeStatus = (newValue) => {
+    issuesExplorerContext.form.setFieldValue('status', newValue);
+  };
+
+  const handleChangePriority = (newValue) => {
+    issuesExplorerContext.form.setFieldValue('priority', newValue);
+  };
 
   const handleDelete = async () => {
     openConfirmModal({
@@ -68,8 +76,8 @@ export default function IssuesExplorerIdPageHeader() {
         onClose={issuesExplorerContext.closeItem}
       />
       <div className={styles.wrapper}>
-        <IssuesExplorerIdPageItemStatus />
-        <IssuesExplorerIdPageItemPriority />
+        <IssuesExplorerAttributeStatusSelect value={issuesExplorerContext.form.values.status} onChange={handleChangeStatus} />
+        <IssuesExplorerAttributePrioritySelect value={issuesExplorerContext.form.values.priority} onChange={handleChangePriority} />
       </div>
       <IssuesExplorerIdPageItemCreatedByAt />
       <AuthGate scope="issues" permission="lock">

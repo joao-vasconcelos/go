@@ -3,14 +3,13 @@
 /* * */
 
 import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
 import Pannel from '@/components/Pannel/Pannel';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import IssuesExplorerListTableRow from '@/components/IssuesExplorerListTableRow/IssuesExplorerListTableRow';
 import IssuesExplorerListHeader from '@/components/IssuesExplorerListHeader/IssuesExplorerListHeader';
 import IssuesExplorerListFooter from '@/components/IssuesExplorerListFooter/IssuesExplorerListFooter';
+import IssuesExplorerListTableHeader from '@/components/IssuesExplorerListTableHeader/IssuesExplorerListTableHeader';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
-import IssuesExplorerListTableHeader from '../IssuesExplorerListTableHeader/IssuesExplorerListTableHeader';
 import { Table } from '@mantine/core';
 
 /* * */
@@ -21,7 +20,6 @@ export default function IssuesExplorerList() {
   //
   // A. Setup variables
 
-  const t = useTranslations('IssuesExplorerList');
   const issuesExplorerContext = useIssuesExplorerContext();
 
   //
@@ -35,7 +33,7 @@ export default function IssuesExplorerList() {
   return (
     <Pannel loading={allIssuesLoading} validating={allIssuesValidating} error={allIssuesError} header={<IssuesExplorerListHeader />} footer={<IssuesExplorerListFooter />}>
       {issuesExplorerContext.list.items.length > 0 ? (
-        <Table highlightOnHover horizontalSpacing="md">
+        <Table highlightOnHover horizontalSpacing="md" stickyHeader>
           <IssuesExplorerListTableHeader />
           <Table.Tbody>
             {issuesExplorerContext.list.items.map((item) => (

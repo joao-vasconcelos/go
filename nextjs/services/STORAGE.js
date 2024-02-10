@@ -10,17 +10,15 @@ class STORAGE {
 
   storage_directory_name = 'storage';
 
-  constructor() {
-    // Build the base storage directory path
-    this.base_path = `${process.env.PWD}/${this.storage_directory_name}`;
-    // Create the directory if it does not exist
-    if (!fs.existsSync(this.base_path)) fs.mkdirSync(this.base_path, { recursive: true });
-    //
-  }
+  allowed_scopes = { alerts: 'alerts', issues: 'issues', stops: 'stops' };
 
   getScopeDirPath(scope) {
+    // Get the scope path from allowed list
+    const scopePath = this.allowed_scopes[scope];
+    // Return if there is not a valid scope here
+    if (!scopePath) throw new Error(`Storage scope not allowed: "${scope}"`);
     // Build the scoped directory path
-    const scopedPath = `${this.base_path}/${scope}`;
+    const scopedPath = `${process.env.PWD}/${this.storage_directory_name}/${scopePath}`;
     // Create the directory if it does not exist
     if (!fs.existsSync(scopedPath)) fs.mkdirSync(scopedPath, { recursive: true });
     // Return scoped path
@@ -29,23 +27,18 @@ class STORAGE {
   }
 
   getFilePath(scope, filename) {
-    return `${this.base_path}/${scope}/${filename}`;
+    const scopeDirPath = this.getScopeDirPath(scope);
+    return `${scopeDirPath}/${filename}`;
   }
 
   exists(scope, filename) {
-    // Build the scoped directory path
-    const scopedPath = `${this.base_path}/${scope}/${filename}`;
-    // Check if the file exists
-    return fs.existsSync(scopedPath);
-    //
+    const scopeDirPath = this.getScopeDirPath(scope);
+    return fs.existsSync(`${scopeDirPath}/${filename}`);
   }
 
   removeFile(scope, filename) {
-    // Build the scoped directory path
-    const scopedPath = `${this.base_path}/${scope}/${filename}`;
-    // Check if the file exists
-    return fs.rmSync(scopedPath, { force: true });
-    //
+    const scopeDirPath = this.getScopeDirPath(scope);
+    return fs.rmSync(`${scopeDirPath}/${filename}`, { force: true });
   }
 
   getFileExtension(filepath, includeDot = true) {

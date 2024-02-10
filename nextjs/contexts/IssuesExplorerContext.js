@@ -32,7 +32,25 @@ const initialListState = {
   //
   search_query: '',
   //
+  sort_key: '',
+  //
+  filter_status: null,
+  filter_priority: null,
+  filter_tags: null,
+  filter_lines: null,
+  filter_stops: null,
+  filter_reports: null,
+  filter_created_by: null,
+  filter_assigned_to: null,
+  //
   items: [],
+  //
+  available_tags: [],
+  available_lines: [],
+  available_stops: [],
+  available_reports: [],
+  available_created_by: [],
+  available_assigned_to: [],
   //
 };
 
@@ -79,7 +97,7 @@ export function IssuesExplorerContextProvider({ children }) {
   // D. Fetch data
 
   const { data: userSession } = useSession();
-  const { data: allItemsData, isLoading: allItemsLoading, mutate: allItemsMutate } = useSWR('/api/issues');
+  const { data: allItemsData, mutate: allItemsMutate } = useSWR('/api/issues');
   const { data: itemData, isLoading: itemLoading, mutate: itemMutate } = useSWR(itemId && `/api/issues/${itemId}`);
 
   //
@@ -92,12 +110,22 @@ export function IssuesExplorerContextProvider({ children }) {
   useEffect(() => {
     // Return if no data is available
     if (!allItemsData) return;
+    // Create a variable to hold the filtered items
+    let filteredItems = allItemsData;
+    // Filter items based on selected status
+    if (listState.filter_status) filteredItems = filteredItems.filter((item) => item.status === listState.filter_status);
+    // Filter items based on selected priority
+    if (listState.filter_priority) filteredItems = filteredItems.filter((item) => item.priority === listState.filter_priority);
+    // Filter items based on selected tag
+    if (listState.filter_tags) filteredItems = filteredItems.filter((item) => item.tags.includes(listState.filter_tags));
+    // Filter items based on selected created_by
+    if (listState.filter_created_by) filteredItems = filteredItems.filter((item) => item.created_by === listState.filter_created_by);
     // Filter items based on search query
-    const filteredItems = doSearch(listState.search_query, allItemsData, { keys: ['name', 'code'] });
+    filteredItems = doSearch(listState.search_query, filteredItems, { keys: ['code', 'title', 'summary'] });
     // Update state
     setListState((prev) => ({ ...prev, items: filteredItems }));
     //
-  }, [allItemsData, listState.search_query]);
+  }, [allItemsData, listState.filter_status, listState.filter_priority, listState.search_query, listState.filter_tags, listState.filter_created_by]);
 
   useEffect(() => {
     // Check if the use is allowed to edit the current page
@@ -118,6 +146,34 @@ export function IssuesExplorerContextProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState.isDirty(), itemData]);
 
+  useEffect(() => {
+    if (!allItemsData) return setListState((prev) => ({ ...prev, available_status: [] }));
+    const allValues = allItemsData.map((item) => item.status);
+    const allUniqueValues = new Set(allValues);
+    setListState((prev) => ({ ...prev, available_status: Array.from(allUniqueValues) }));
+  }, [allItemsData]);
+
+  useEffect(() => {
+    if (!allItemsData) return setListState((prev) => ({ ...prev, available_priority: [] }));
+    const allValues = allItemsData.map((item) => item.priority);
+    const allUniqueValues = new Set(allValues);
+    setListState((prev) => ({ ...prev, available_priority: Array.from(allUniqueValues) }));
+  }, [allItemsData]);
+
+  useEffect(() => {
+    if (!allItemsData) return setListState((prev) => ({ ...prev, available_created_by: [] }));
+    const allValues = allItemsData.map((item) => item.created_by);
+    const allUniqueValues = new Set(allValues);
+    setListState((prev) => ({ ...prev, available_created_by: Array.from(allUniqueValues) }));
+  }, [allItemsData]);
+
+  useEffect(() => {
+    if (!allItemsData) return setListState((prev) => ({ ...prev, available_tags: [] }));
+    const allValues = allItemsData.flatMap((item) => item.tags);
+    const allUniqueValues = new Set(allValues);
+    setListState((prev) => ({ ...prev, available_tags: Array.from(allUniqueValues) }));
+  }, [allItemsData]);
+
   //
   // F. Setup actions
 
@@ -127,6 +183,49 @@ export function IssuesExplorerContextProvider({ children }) {
 
   const clearSearchQuery = useCallback(() => {
     setListState((prev) => ({ ...prev, search_query: '' }));
+  }, []);
+
+  const updateSortKey = useCallback((value) => {
+    setListState((prev) => ({ ...prev, sort_key: value }));
+  }, []);
+
+  const clearSortKey = useCallback(() => {
+    setListState((prev) => ({ ...prev, sort_key: '' }));
+  }, []);
+
+  const updateFilterStatus = useCallback((value) => {
+    setListState((prev) => {
+      if (prev.filter_status === value) return { ...prev, filter_status: null };
+      else return { ...prev, filter_status: value };
+    });
+  }, []);
+
+  const updateFilterPriority = useCallback((value) => {
+    setListState((prev) => {
+      if (prev.filter_priority === value) return { ...prev, filter_priority: null };
+      else return { ...prev, filter_priority: value };
+    });
+  }, []);
+
+  const updateFilterTags = useCallback((value) => {
+    setListState((prev) => {
+      if (prev.filter_tags === value) return { ...prev, filter_tags: null };
+      else return { ...prev, filter_tags: value };
+    });
+  }, []);
+
+  const updateFilterCreatedBy = useCallback((value) => {
+    setListState((prev) => {
+      if (prev.filter_created_by === value) return { ...prev, filter_created_by: null };
+      else return { ...prev, filter_created_by: value };
+    });
+  }, []);
+
+  const updateFilterAssignedTo = useCallback((value) => {
+    setListState((prev) => {
+      if (prev.filter_assigned_to === value) return { ...prev, filter_assigned_to: null };
+      else return { ...prev, filter_assigned_to: value };
+    });
   }, []);
 
   const validateItem = useCallback(async () => {
@@ -228,6 +327,13 @@ export function IssuesExplorerContextProvider({ children }) {
       //
       updateSearchQuery: updateSearchQuery,
       clearSearchQuery: clearSearchQuery,
+      updateSortKey: updateSortKey,
+      clearSortKey: clearSortKey,
+      updateFilterStatus: updateFilterStatus,
+      updateFilterPriority: updateFilterPriority,
+      updateFilterTags: updateFilterTags,
+      updateFilterCreatedBy: updateFilterCreatedBy,
+      updateFilterAssignedTo: updateFilterAssignedTo,
       //
       validateItem: validateItem,
       saveItem: saveItem,
@@ -239,7 +345,29 @@ export function IssuesExplorerContextProvider({ children }) {
       addComment: addComment,
       //
     }),
-    [listState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, validateItem, saveItem, lockItem, deleteItem, closeItem, addTag, addComment]
+    [
+      listState,
+      pageState,
+      formState,
+      itemId,
+      itemData,
+      updateSearchQuery,
+      clearSearchQuery,
+      updateSortKey,
+      clearSortKey,
+      updateFilterStatus,
+      updateFilterPriority,
+      updateFilterTags,
+      updateFilterCreatedBy,
+      updateFilterAssignedTo,
+      validateItem,
+      saveItem,
+      lockItem,
+      deleteItem,
+      closeItem,
+      addTag,
+      addComment,
+    ]
   );
 
   //

@@ -2,7 +2,7 @@
 
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as MediaModel } from '@/schemas/Media/model';
+import { MediaModel } from '@/schemas/Media/model';
 
 /* * */
 

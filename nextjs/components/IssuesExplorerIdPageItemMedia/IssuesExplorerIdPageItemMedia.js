@@ -2,11 +2,11 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
 import styles from './IssuesExplorerIdPageItemMedia.module.css';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
-import MediaExplorerMediaUpload from '../MediaExplorerMediaUpload/MediaExplorerMediaUpload';
-import MediaExplorerMedia from '../MediaExplorerMedia/MediaExplorerMedia';
+import MediaExplorerMediaUpload from '@/components/MediaExplorerMediaUpload/MediaExplorerMediaUpload';
+import MediaExplorerMedia from '@/components/MediaExplorerMedia/MediaExplorerMedia';
+import { IssueOptions } from '@/schemas/Issue/options';
 
 /* * */
 
@@ -16,7 +16,6 @@ export default function IssuesExplorerIdPageItemMedia() {
   //
   // A. Setup variables
 
-  const t = useTranslations('IssuesExplorerIdPageItemMedia');
   const issuesExplorerContext = useIssuesExplorerContext();
 
   //
@@ -40,7 +39,7 @@ export default function IssuesExplorerIdPageItemMedia() {
         {issuesExplorerContext.form.values.media.map((mediaId) => (
           <MediaExplorerMedia key={mediaId} mediaId={mediaId} onDelete={handleMediaDelete} />
         ))}
-        <MediaExplorerMediaUpload onUploadComplete={handleUploadComplete} />
+        <MediaExplorerMediaUpload storageScope={IssueOptions.storage_scope} onUploadComplete={handleUploadComplete} />
       </div>
     </div>
   );

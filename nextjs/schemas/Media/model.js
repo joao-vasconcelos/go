@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 /* * */
 
-export const Schema = new mongoose.Schema({
+export const MediaSchema = new mongoose.Schema({
   //
   created_by: {
     type: mongoose.Schema.Types.ObjectId,
@@ -22,6 +22,11 @@ export const Schema = new mongoose.Schema({
   description: {
     type: String,
     maxlength: 500,
+  },
+  //
+  storage_scope: {
+    type: String,
+    maxlength: 50,
   },
   //
   file_size: {
@@ -44,4 +49,4 @@ export const Schema = new mongoose.Schema({
 
 /* * */
 
-export const Model = mongoose?.models?.Media || mongoose.model('Media', Schema);
+export const MediaModel = mongoose?.models?.Media || mongoose.model('Media', MediaSchema);

@@ -1,7 +1,13 @@
 /* * */
 
-export const Options = {
+export const IssueOptions = {
   //
+
+  /*
+   * STORAGE SCOPE
+   */
+
+  storage_scope: 'issues',
 
   /*
    * STATUS

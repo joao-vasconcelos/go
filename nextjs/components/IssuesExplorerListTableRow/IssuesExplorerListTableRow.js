@@ -9,6 +9,7 @@ import IssuesExplorerAttributeStatus from '@/components/IssuesExplorerAttributeS
 import IssuesExplorerAttributePriority from '@/components/IssuesExplorerAttributePriority/IssuesExplorerAttributePriority';
 import TagsExplorerTag from '@/components/TagsExplorerTag/TagsExplorerTag';
 import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser';
+import GlobalDateFormatter from '../GlobalDateFormatter/GlobalDateFormatter';
 
 /* * */
 
@@ -32,18 +33,18 @@ export default function IssuesExplorerListTableRow({ item }) {
 
   return (
     <Table.Tr key={item._id} onClick={handleClick} className={styles.container}>
-      <Table.Td>
-        <div className={styles.columnWrapper}>
-          <IssuesExplorerAttributeStatus status={item.status} />
+      <Table.Td miw={180}>
+        <div className={`${styles.columnWrapper}`}>
+          <IssuesExplorerAttributeStatus value={item.status} />
         </div>
       </Table.Td>
-      <Table.Td>
-        <div className={styles.columnWrapper}>
-          <IssuesExplorerAttributePriority priority={item.priority} />
+      <Table.Td miw={180}>
+        <div className={`${styles.columnWrapper}`}>
+          <IssuesExplorerAttributePriority value={item.priority} />
         </div>
       </Table.Td>
       <Table.Td w="100%">
-        <div className={styles.columnWrapper}>
+        <div className={`${styles.columnWrapper}`}>
           <div className={styles.titleWrapper}>
             <p className={styles.issueCode}>#{item.code}</p>
             <p className={styles.issueTitle}>{item.title}</p>
@@ -55,13 +56,15 @@ export default function IssuesExplorerListTableRow({ item }) {
           </div>
         </div>
       </Table.Td>
-      <Table.Td>
-        <div className={styles.columnWrapper} style={{ minWidth: 100 }}>
-          <UsersExplorerUser userId={item.created_by} />
+      <Table.Td miw={250}>
+        <div className={`${styles.columnWrapper}`}>
+          <UsersExplorerUser userId={item.created_by} type="full" withHoverCard={false} />
         </div>
       </Table.Td>
-      <Table.Td>
-        <div className={styles.columnWrapper}>{item.created_at}</div>
+      <Table.Td miw={180}>
+        <div className={`${styles.columnWrapper}`}>
+          <GlobalDateFormatter value={item.created_at} />
+        </div>
       </Table.Td>
     </Table.Tr>
   );

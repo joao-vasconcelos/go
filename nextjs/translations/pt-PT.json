@@ -1790,7 +1790,7 @@
         }
     },
     "SearchField": {
-        "placeholder": "Search..."
+        "placeholder": "Pesquisar..."
     },
     "AutoSave": {
         "retry": {
@@ -1798,10 +1798,10 @@
         },
         "idle": {
             "close": {
-                "title": "Close"
+                "title": "Fechar"
             },
             "back": {
-                "title": "Go Back"
+                "title": "Voltar"
             }
         }
     },
@@ -2660,6 +2660,16 @@
         "untitled": "Etiqueta sem título"
     },
     "IssuesExplorerListHeader": {
+        "filter_by": {
+            "label": "Filtrar por"
+        },
+        "filters": {
+            "status": "Estado",
+            "priority": "Prioridade",
+            "tags": "Etiquetas",
+            "created_by": "Autor",
+            "assigned_to": "Responsável"
+        },
         "operations": {
             "create": {
                 "title": "Create New issue",
@@ -2735,10 +2745,10 @@
             "title": "Etiquetas"
         },
         "created_by": {
-            "title": "Aberto por"
+            "title": "Autor"
         },
         "created_at": {
-            "title": "Aberto a"
+            "title": "Data"
         }
     },
     "IssuesExplorerAttributeStatus": {
@@ -2756,6 +2766,9 @@
         },
         "closed": {
             "label": "Fechado"
+        },
+        "default": {
+            "label": "Estado"
         }
     },
     "IssuesExplorerAttributePriority": {
@@ -2767,6 +2780,9 @@
         },
         "moderate": {
             "label": "Moderado"
+        },
+        "default": {
+            "label": "Prioridade"
         }
     },
     "IssuesExplorerAttributeMilestone": {
@@ -3023,7 +3039,7 @@
         "title": "Agência Afetada",
         "no_data": "Nenhuma Agência Selecionada",
         "form": {
-            "affected_Agencies": {
+            "affected_agencies": {
                 "placeholder": "[01] Nome da Agência",
                 "nothingFound": "Nenhum Resultado Encontrado"
             }
@@ -3114,5 +3130,8 @@
                 "label": "Remover Paragem da Rota"
             }
         }
+    },
+    "AlertsExplorerPage": {
+        "no_data": "Escolha um Alerta"
     }
 }
