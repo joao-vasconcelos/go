@@ -11,7 +11,7 @@ import { FixedSizeList as List } from 'react-window';
 import API from '@/services/API';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
-import ListItem from '../../app/[locale]/dashboard/stops/listItem';
+import ListItem from '../../app/[locale]/(dashboard)/stops/listItem';
 import { ActionIcon, Menu, Text } from '@mantine/core';
 import { IconCirclePlus, IconDots, IconPencil, IconRefresh } from '@tabler/icons-react';
 import { openConfirmModal } from '@mantine/modals';
