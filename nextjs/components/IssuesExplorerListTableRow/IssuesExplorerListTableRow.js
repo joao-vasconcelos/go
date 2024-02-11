@@ -25,7 +25,7 @@ export default function IssuesExplorerListTableRow({ item }) {
   // B. Handle actions
 
   const handleClick = () => {
-    router.push(`/dashboard/issues/${item._id}`);
+    router.push(`/issues/${item._id}`);
   };
 
   //

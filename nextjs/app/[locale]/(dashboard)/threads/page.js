@@ -76,7 +76,7 @@ export default function Page() {
         associated_stops: form.values.associated_stops,
       };
       const response = await API({ service: 'threads', operation: 'create', method: 'POST', body: newThread });
-      router.push(`/dashboard/threads/${response._id}`);
+      router.push(`/threads/${response._id}`);
       notify('create', 'success', t('operations.create.loading'));
       setIsCreating(false);
       closeModal();

@@ -82,7 +82,7 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/zones/`);
+    router.push(`/zones/`);
   };
 
   const handleSave = useCallback(async () => {
@@ -130,7 +130,7 @@ export default function Page() {
           notify(`${zone_id}-delete`, 'loading', t('operations.delete.loading'));
           await API({ service: 'zones', resourceId: zone_id, operation: 'delete', method: 'DELETE' });
           allZonesMutate();
-          router.push('/dashboard/zones');
+          router.push('/zones');
           notify(`${zone_id}-delete`, 'success', t('operations.delete.success'));
           setIsDeleting(false);
         } catch (err) {

@@ -26,7 +26,7 @@ export default function AssociatedPatternsViewRow({ patternData }) {
     (routeLoading ? (
       <Loader size={18} visible />
     ) : (
-      <Link className={styles.container} href={`/dashboard/lines/${routeData?.parent_line}/${patternData.parent_route}/${patternData._id}`} target="_blank">
+      <Link className={styles.container} href={`/lines/${routeData?.parent_line}/${patternData.parent_route}/${patternData._id}`} target="_blank">
         {patternData.code} -› {patternData.headsign}
       </Link>
     ))

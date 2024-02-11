@@ -227,7 +227,7 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/lines/${line_id}/${route_id}`);
+    router.push(`/lines/${line_id}/${route_id}`);
   };
 
   const handleSave = async () => {
@@ -274,7 +274,7 @@ export default function Page() {
           notify(pattern_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'patterns', resourceId: pattern_id, operation: 'delete', method: 'DELETE' });
           routeMutate();
-          router.push(`/dashboard/lines/${line_id}/${route_id}`);
+          router.push(`/lines/${line_id}/${route_id}`);
           notify(pattern_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);

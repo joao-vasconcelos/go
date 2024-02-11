@@ -112,7 +112,7 @@ export default function StopsExplorerLayout({ children }) {
                     </AuthGate>
                     <Menu.Divider />
                     <AuthGate scope="municipalities" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dashboard/municipalities')}>
+                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/municipalities')}>
                         Editar Municípios
                       </Menu.Item>
                     </AuthGate>

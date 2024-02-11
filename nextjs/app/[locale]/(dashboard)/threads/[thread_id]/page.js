@@ -55,7 +55,7 @@ export default function Page() {
       header={
         <>
           <Tooltip label={t('operations.close.title')} color="gray" position="bottom" withArrow>
-            <ActionIcon color="gray" variant="subtle" size="lg" onClick={() => router.push('/dashboard/threads')}>
+            <ActionIcon color="gray" variant="subtle" size="lg" onClick={() => router.push('/threads')}>
               <IconX size="20px" />
             </ActionIcon>
           </Tooltip>

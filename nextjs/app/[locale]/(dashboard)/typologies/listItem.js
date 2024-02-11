@@ -14,7 +14,7 @@ export default function ListItem({ _id, code, name }) {
 
   const handleClick = () => {
     if (typology_id === _id) return;
-    router.push(`/dashboard/typologies/${_id}`);
+    router.push(`/typologies/${_id}`);
   };
 
   return (

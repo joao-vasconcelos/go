@@ -25,7 +25,7 @@ export default function AuthError() {
   };
 
   const handleSignInRetry = () => {
-    router.push('/auth/signin');
+    router.push('/login');
   };
 
   return (

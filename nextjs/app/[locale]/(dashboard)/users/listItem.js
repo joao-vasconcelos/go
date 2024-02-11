@@ -15,7 +15,7 @@ export default function ListItem({ _id, name, email }) {
 
   const handleClick = () => {
     if (user_id === _id) return;
-    router.push(`/dashboard/users/${_id}`);
+    router.push(`/users/${_id}`);
   };
 
   return (

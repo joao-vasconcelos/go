@@ -263,7 +263,7 @@ export function IssuesExplorerContextProvider({ children }) {
     try {
       setPageState((prev) => ({ ...prev, is_error: false }));
       await API({ service: 'issues', resourceId: itemId, operation: 'delete', method: 'DELETE' });
-      router.push('/dashboard/issues');
+      router.push('/issues');
       allItemsMutate();
       formState.resetDirty();
     } catch (err) {
@@ -275,7 +275,7 @@ export function IssuesExplorerContextProvider({ children }) {
   }, [allItemsMutate, formState, itemId, itemMutate, router]);
 
   const closeItem = useCallback(async () => {
-    router.push('/dashboard/issues');
+    router.push('/issues');
   }, [router]);
 
   const addMilestone = useCallback(

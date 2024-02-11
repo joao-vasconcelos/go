@@ -168,7 +168,7 @@ export default function Page() {
       header={
         <ListHeader>
           <Tooltip label={t('operations.close.title')} color="gray" position="bottom" withArrow>
-            <ActionIcon color="gray" variant="subtle" size="lg" onClick={() => router.push('/dashboard/calendars')}>
+            <ActionIcon color="gray" variant="subtle" size="lg" onClick={() => router.push('/calendars')}>
               <IconChevronLeft size={20} />
             </ActionIcon>
           </Tooltip>

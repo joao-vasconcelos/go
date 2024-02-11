@@ -1,6 +1,6 @@
 {
     "auth": {
-        "signin": {
+        "login": {
             "submit": "Sign In"
         },
         "verify": {

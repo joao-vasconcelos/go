@@ -180,7 +180,7 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
       const response = await API({ service: 'stops', operation: 'create', method: 'POST', body: newStopState });
       setWizardState((prev) => ({ ...prev, is_loading: false }));
       setNewStopId(response._id);
-      router.push(`/dashboard/stops/${response._id}`);
+      router.push(`/stops/${response._id}`);
       advanceWizardToNextStep();
     } catch (err) {
       console.log(err);

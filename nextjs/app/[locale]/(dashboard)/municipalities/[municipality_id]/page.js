@@ -81,7 +81,7 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/municipalities/`);
+    router.push(`/municipalities/`);
   };
 
   const handleSave = async () => {
@@ -129,7 +129,7 @@ export default function Page() {
           notify(municipality_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'municipalities', resourceId: municipality_id, operation: 'delete', method: 'DELETE' });
           allMunicipalitiesMutate();
-          router.push('/dashboard/municipalities');
+          router.push('/municipalities');
           notify(municipality_id, 'success', t('operations.delete.success'));
           setIsDeleting(false);
         } catch (err) {

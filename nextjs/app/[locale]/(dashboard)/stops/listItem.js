@@ -13,7 +13,7 @@ export default function ListItem({ style, _id, name, code, latitude, longitude }
 
   const handleClick = () => {
     if (stop_id === _id) return;
-    router.push(`/dashboard/stops/${_id}`);
+    router.push(`/stops/${_id}`);
   };
 
   return (

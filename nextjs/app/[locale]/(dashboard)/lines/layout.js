@@ -49,7 +49,7 @@ export default function Layout({ children }) {
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'lines', operation: 'create', method: 'GET' });
       allLinesMutate();
-      router.push(`/dashboard/lines/${response._id}`);
+      router.push(`/lines/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
@@ -85,27 +85,27 @@ export default function Layout({ children }) {
                     </AuthGate>
                     <MenuDivider />
                     <AuthGate scope="agencies" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dashboard/agencies')}>
+                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/agencies')}>
                         Edit Agencies
                       </Menu.Item>
                     </AuthGate>
                     <AuthGate scope="typologies" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dashboard/typologies')}>
+                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/typologies')}>
                         Edit Typologies
                       </Menu.Item>
                     </AuthGate>
                     <AuthGate scope="zones" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dashboard/zones')}>
+                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/zones')}>
                         Edit Zones
                       </Menu.Item>
                     </AuthGate>
                     <AuthGate scope="fares" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dashboard/fares')}>
+                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/fares')}>
                         Edit Fares
                       </Menu.Item>
                     </AuthGate>
                     <AuthGate scope="municipalities" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dashboard/municipalities')}>
+                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/municipalities')}>
                         Edit Municipalities
                       </Menu.Item>
                     </AuthGate>

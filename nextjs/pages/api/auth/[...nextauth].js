@@ -23,10 +23,9 @@ export const authOptions = {
     }),
   ],
   pages: {
-    signIn: '/auth/signin',
-    verifyRequest: '/auth/verify',
-    signOut: '/auth/signout',
-    error: '/auth/error',
+    signIn: '/login',
+    verifyRequest: '/login/verify',
+    error: '/login/error',
   },
   callbacks: {
     async signIn({ user }) {

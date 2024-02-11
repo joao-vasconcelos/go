@@ -11,7 +11,7 @@ export default function ListItem({ _id, short_name, name, color, text_color }) {
 
   const handleClick = () => {
     if (line_id === _id) return;
-    router.push(`/dashboard/lines/${_id}`);
+    router.push(`/lines/${_id}`);
   };
 
   return (

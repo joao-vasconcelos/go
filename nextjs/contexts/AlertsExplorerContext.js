@@ -164,7 +164,7 @@ export function AlertsExplorerContextProvider({ children }) {
     try {
       setPageState((prev) => ({ ...prev, is_error: false }));
       await API({ service: 'alerts', resourceId: itemId, operation: 'delete', method: 'DELETE' });
-      router.push('/dashboard/alerts');
+      router.push('/alerts');
       allItemsMutate();
       formState.resetDirty();
     } catch (err) {
@@ -176,7 +176,7 @@ export function AlertsExplorerContextProvider({ children }) {
   }, [allItemsMutate, formState, itemId, itemMutate, router]);
 
   const closeItem = useCallback(async () => {
-    router.push('/dashboard/alerts');
+    router.push('/alerts');
   }, [router]);
 
   //

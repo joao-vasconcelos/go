@@ -80,7 +80,7 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/agencies/`);
+    router.push(`/agencies/`);
   };
 
   const handleSave = async () => {
@@ -128,7 +128,7 @@ export default function Page() {
           notify(agency_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'agencies', resourceId: agency_id, operation: 'delete', method: 'DELETE' });
           allAgenciesMutate();
-          router.push('/dashboard/agencies');
+          router.push('/agencies');
           notify(agency_id, 'success', t('operations.delete.success'));
           setIsDeleting(false);
         } catch (err) {

@@ -95,7 +95,7 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/users/`);
+    router.push(`/users/`);
   };
 
   const handleSave = useCallback(async () => {
@@ -128,7 +128,7 @@ export default function Page() {
           notify(user_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'users', resourceId: user_id, operation: 'delete', method: 'DELETE' });
           allUsersMutate();
-          router.push('/dashboard/users');
+          router.push('/users');
           notify(user_id, 'success', t('operations.delete.success'));
           setIsDeleting(false);
         } catch (err) {

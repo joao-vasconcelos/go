@@ -12,7 +12,7 @@ export default function ListItem({ _id, subject }) {
   const t = useTranslations('threads');
 
   const handleClick = () => {
-    router.push(`/dashboard/threads/${_id}`);
+    router.push(`/threads/${_id}`);
   };
 
   return (

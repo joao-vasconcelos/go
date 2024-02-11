@@ -49,7 +49,7 @@ export default function Layout({ children }) {
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'municipalities', operation: 'create', method: 'GET' });
       allMunicipalitiesMutate();
-      router.push(`/dashboard/municipalities/${response._id}`);
+      router.push(`/municipalities/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {

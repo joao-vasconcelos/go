@@ -22,7 +22,7 @@ export default function AlertsExplorerListItem({ item }) {
 
   const handleClick = () => {
     if (alert_id === item._id) return;
-    router.push(`/dashboard/alerts/${item._id}`);
+    router.push(`/alerts/${item._id}`);
   };
 
   //

@@ -164,7 +164,7 @@ export function TagsExplorerContextProvider({ children }) {
     try {
       setPageState((prev) => ({ ...prev, is_error: false }));
       await API({ service: 'tags', resourceId: itemId, operation: 'delete', method: 'DELETE' });
-      router.push('/dashboard/tags');
+      router.push('/tags');
       allItemsMutate();
       formState.resetDirty();
     } catch (err) {
@@ -176,7 +176,7 @@ export function TagsExplorerContextProvider({ children }) {
   }, [allItemsMutate, formState, itemId, itemMutate, router]);
 
   const closeItem = useCallback(async () => {
-    router.push('/dashboard/tags');
+    router.push('/tags');
   }, [router]);
 
   //

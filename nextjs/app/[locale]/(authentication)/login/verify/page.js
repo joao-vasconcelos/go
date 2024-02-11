@@ -10,7 +10,7 @@ export default function AuthVerify() {
   const t = useTranslations('auth.verify');
 
   const handleSignInRetry = () => {
-    router.push('/auth/signin');
+    router.push('/login');
   };
 
   return (

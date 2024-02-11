@@ -84,7 +84,7 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/stops/`);
+    router.push(`/stops/`);
   };
 
   const handleSave = async () => {
@@ -130,7 +130,7 @@ export default function Page() {
           notify(stop_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'stops', resourceId: stop_id, operation: 'delete', method: 'DELETE' });
           allStopsMutate();
-          router.push('/dashboard/stops');
+          router.push('/stops');
           notify(stop_id, 'success', t('operations.delete.success'));
           setIsDeleting(false);
         } catch (err) {

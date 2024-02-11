@@ -42,7 +42,7 @@ export default function MediaExplorerListHeader() {
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'media', operation: 'create', method: 'GET' });
       allMediaMutate();
-      router.push(`/dashboard/media/${response._id}`);
+      router.push(`/media/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {

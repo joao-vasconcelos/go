@@ -23,7 +23,7 @@ export default function TagsExplorerListItem({ item }) {
 
   const handleClick = () => {
     if (tag_id === item._id) return;
-    router.push(`/dashboard/tags/${item._id}`);
+    router.push(`/tags/${item._id}`);
   };
 
   //

@@ -65,7 +65,7 @@ function StopSequenceTableStopColumn({ stopId }) {
   // Handle actions
 
   const handleOpenStop = () => {
-    window.open(`/dashboard/stops/${stopId}`, '_blank');
+    window.open(`/stops/${stopId}`, '_blank');
   };
 
   //

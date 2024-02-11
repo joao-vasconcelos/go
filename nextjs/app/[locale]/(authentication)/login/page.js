@@ -11,7 +11,7 @@ import { useTranslations } from 'next-intl';
 export default function AuthSignIn() {
   //
 
-  const t = useTranslations('auth.signin');
+  const t = useTranslations('auth.login');
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +29,7 @@ export default function AuthSignIn() {
   return (
     <form onSubmit={form.onSubmit(handleSignIn)}>
       <SimpleGrid>
-        <TextInput placeholder='email@tmlmobilidade.pt' {...form.getInputProps('email')} />
+        <TextInput placeholder="email@tmlmobilidade.pt" {...form.getInputProps('email')} />
         <Button type={'submit'} fullWidth loading={isLoading}>
           {t('submit')}
         </Button>

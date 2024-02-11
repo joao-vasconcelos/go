@@ -15,7 +15,7 @@ export default function ListItem({ _id, code, name, district, region }) {
 
   const handleClick = () => {
     if (municipality_id === _id) return;
-    router.push(`/dashboard/municipalities/${_id}`);
+    router.push(`/municipalities/${_id}`);
   };
 
   return (

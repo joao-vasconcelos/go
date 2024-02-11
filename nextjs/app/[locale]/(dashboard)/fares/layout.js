@@ -50,7 +50,7 @@ export default function Layout({ children }) {
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'fares', operation: 'create', method: 'GET' });
       allFaresMutate();
-      router.push(`/dashboard/fares/${response._id}`);
+      router.push(`/fares/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {

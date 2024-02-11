@@ -15,7 +15,7 @@ export default function ListItem({ _id, code, short_name, name, price, currency_
 
   const handleClick = () => {
     if (fare_id === _id) return;
-    router.push(`/dashboard/fares/${_id}`);
+    router.push(`/fares/${_id}`);
   };
 
   return (

@@ -50,7 +50,7 @@ export default function Layout({ children }) {
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'typologies', operation: 'create', method: 'GET' });
       allTypologiesMutate();
-      router.push(`/dashboard/typologies/${response._id}`);
+      router.push(`/typologies/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {

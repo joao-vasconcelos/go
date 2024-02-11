@@ -82,7 +82,7 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/calendars/`);
+    router.push(`/calendars/`);
   };
 
   const handleSave = async () => {
@@ -130,7 +130,7 @@ export default function Page() {
           notify(calendar_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'calendars', resourceId: calendar_id, operation: 'delete', method: 'DELETE' });
           allCalendarsMutate();
-          router.push('/dashboard/calendars');
+          router.push('/calendars');
           notify(calendar_id, 'success', t('operations.delete.success'));
           setIsDeleting(false);
         } catch (err) {

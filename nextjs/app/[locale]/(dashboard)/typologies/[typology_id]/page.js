@@ -79,7 +79,7 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/typologies/`);
+    router.push(`/typologies/`);
   };
 
   const handleSave = async () => {
@@ -127,7 +127,7 @@ export default function Page() {
           notify(typology_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'typologies', resourceId: typology_id, operation: 'delete', method: 'DELETE' });
           allTypologiesMutate();
-          router.push('/dashboard/typologies');
+          router.push('/typologies');
           notify(typology_id, 'success', t('operations.delete.success'));
           setIsDeleting(false);
         } catch (err) {

@@ -164,7 +164,7 @@ export function MediaExplorerContextProvider({ children }) {
     try {
       setPageState((prev) => ({ ...prev, is_error: false }));
       await API({ service: 'media', resourceId: itemId, operation: 'delete', method: 'DELETE' });
-      router.push('/dashboard/media');
+      router.push('/media');
       allItemsMutate();
       formState.resetDirty();
     } catch (err) {
@@ -176,7 +176,7 @@ export function MediaExplorerContextProvider({ children }) {
   }, [allItemsMutate, formState, itemId, itemMutate, router]);
 
   const closeItem = useCallback(async () => {
-    router.push('/dashboard/media');
+    router.push('/media');
   }, [router]);
 
   //

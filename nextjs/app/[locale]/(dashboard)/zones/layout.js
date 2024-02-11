@@ -50,7 +50,7 @@ export default function Layout({ children }) {
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'zones', operation: 'create', method: 'GET' });
       allZonesMutate();
-      router.push(`/dashboard/zones/${response._id}`);
+      router.push(`/zones/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {

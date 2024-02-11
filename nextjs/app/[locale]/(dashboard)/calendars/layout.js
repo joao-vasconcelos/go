@@ -49,7 +49,7 @@ export default function Layout({ children }) {
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'calendars', operation: 'create', method: 'GET' });
       allCalendarsMutate();
-      router.push(`/dashboard/calendars/${response._id}`);
+      router.push(`/calendars/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
@@ -83,7 +83,7 @@ export default function Layout({ children }) {
                     </Menu.Item>
                     <Menu.Divider />
                     <AuthGate scope="dates" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dashboard/dates')}>
+                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dates')}>
                         Editar Datas
                       </Menu.Item>
                     </AuthGate>

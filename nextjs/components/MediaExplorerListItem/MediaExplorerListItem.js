@@ -23,7 +23,7 @@ export default function MediaExplorerListItem({ item }) {
 
   const handleClick = () => {
     if (tag_id === item._id) return;
-    router.push(`/dashboard/media/${item._id}`);
+    router.push(`/media/${item._id}`);
   };
 
   //

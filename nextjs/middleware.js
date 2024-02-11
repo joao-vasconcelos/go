@@ -6,7 +6,7 @@ import createIntlMiddleware from 'next-intl/middleware';
 
 /* * */
 
-const PUBLIC_PAGES = ['/', '/auth/signin', '/auth/verify', '/auth/error'];
+const PUBLIC_PAGES = ['/', '/login', '/login/verify', '/login/error'];
 
 /* * */
 

@@ -42,7 +42,7 @@ export default function TagsExplorerListHeader() {
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'tags', operation: 'create', method: 'GET' });
       allTagsMutate();
-      router.push(`/dashboard/tags/${response._id}`);
+      router.push(`/tags/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {

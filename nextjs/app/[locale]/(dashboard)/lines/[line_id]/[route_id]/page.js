@@ -82,7 +82,7 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/lines/${line_id}`);
+    router.push(`/lines/${line_id}`);
   };
 
   const handleSave = async () => {
@@ -127,7 +127,7 @@ export default function Page() {
         try {
           notify(route_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'routes', resourceId: route_id, operation: 'delete', method: 'DELETE' });
-          router.push(`/dashboard/lines/${line_id}`);
+          router.push(`/lines/${line_id}`);
           notify(route_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
@@ -153,7 +153,7 @@ export default function Page() {
   };
 
   const handleOpenPattern = (pattern_id) => {
-    router.push(`/dashboard/lines/${line_id}/${route_id}/${pattern_id}`);
+    router.push(`/lines/${line_id}/${route_id}/${pattern_id}`);
   };
 
   //

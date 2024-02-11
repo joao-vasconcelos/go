@@ -42,7 +42,7 @@ export default function AlertsExplorerListHeader() {
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'alerts', operation: 'create', method: 'GET' });
       allAlertsMutate();
-      router.push(`/dashboard/alerts/${response._id}`);
+      router.push(`/alerts/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {

@@ -15,7 +15,7 @@ export default function ListItem({ _id, code, name }) {
 
   const handleClick = () => {
     if (calendar_id === _id) return;
-    router.push(`/dashboard/calendars/${_id}`);
+    router.push(`/calendars/${_id}`);
   };
 
   return (

@@ -13,7 +13,7 @@ export default function ListItem({ _id, name }) {
 
   const handleClick = () => {
     if (agency_id === _id) return;
-    router.push(`/dashboard/agencies/${_id}`);
+    router.push(`/agencies/${_id}`);
   };
 
   return (

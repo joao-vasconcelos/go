@@ -77,7 +77,7 @@ export default function Page() {
   };
 
   const handleClose = async () => {
-    router.push(`/dashboard/fares/`);
+    router.push(`/fares/`);
   };
 
   const handleSave = async () => {
@@ -125,7 +125,7 @@ export default function Page() {
           notify(fare_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'fares', resourceId: fare_id, operation: 'delete', method: 'DELETE' });
           allFaresMutate();
-          router.push('/dashboard/fares');
+          router.push('/fares');
           notify(fare_id, 'success', t('operations.delete.success'));
           setIsDeleting(false);
         } catch (err) {

@@ -16,12 +16,12 @@ while true; do
 
     # Backup the database to an archive
     echo "Starting backup..."
-    mongodump --uri="$MONGODB_CONNECTION_STRING" --gzip --archive="$directory/go-backup-$(date +\%Y\%m\%d\%H\%M\%S)"
+    mongodump --uri="$MONGODB_URI" --gzip --archive="$directory/go-backup-$(date +\%Y\%m\%d\%H\%M\%S)"
     echo "Backup complete!"
 
     # Restore the database from backup
     # echo "Starting restore..."
-    # mongorestore --uri="$MONGODB_CONNECTION_STRING" --drop --preserveUUID --gzip --archive="$directory/go-backup-20240112153325"
+    # mongorestore --uri="$MONGODB_URI" --drop --preserveUUID --gzip --archive="$directory/go-backup-20240112153325"
     # echo "Restore complete!"
 
     # Only keep the most recent files

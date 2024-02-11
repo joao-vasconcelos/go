@@ -47,7 +47,7 @@ export default function IssuesExplorerListHeader() {
       notify('new', 'loading', t('operations.create.loading'));
       const response = await API({ service: 'issues', operation: 'create', method: 'GET' });
       allIssuesMutate();
-      router.push(`/dashboard/issues/${response._id}`);
+      router.push(`/issues/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (err) {
