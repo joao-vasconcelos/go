@@ -16,6 +16,7 @@ import IssuesExplorerAttributeStatusSelect from '@/components/IssuesExplorerAttr
 import IssuesExplorerAttributePrioritySelect from '@/components/IssuesExplorerAttributePrioritySelect/IssuesExplorerAttributePrioritySelect';
 import IssuesExplorerIdPageItemCreatedByAt from '@/components/IssuesExplorerIdPageItemCreatedByAt/IssuesExplorerIdPageItemCreatedByAt';
 import styles from './IssuesExplorerIdPageHeader.module.css';
+import GlobalAuthorTimestamp from '../GlobalAuthorTimestamp/GlobalAuthorTimestamp';
 
 /* * */
 
@@ -79,7 +80,7 @@ export default function IssuesExplorerIdPageHeader() {
         <IssuesExplorerAttributeStatusSelect value={issuesExplorerContext.form.values.status} onChange={handleChangeStatus} />
         <IssuesExplorerAttributePrioritySelect value={issuesExplorerContext.form.values.priority} onChange={handleChangePriority} />
       </div>
-      <IssuesExplorerIdPageItemCreatedByAt />
+      <GlobalAuthorTimestamp actionVerb={'abriu'} timestamp={issuesExplorerContext.form.values.created_at} userId={issuesExplorerContext.form.values.created_by} />
       <AuthGate scope="issues" permission="lock">
         <LockButton isLocked={issuesExplorerContext.item_data?.is_locked} onClick={issuesExplorerContext.lockItem} />
       </AuthGate>
