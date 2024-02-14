@@ -36,10 +36,6 @@ export const LineSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Typology',
     },
-    fare: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Fare',
-    },
     fares: [
       {
         type: mongoose.Schema.Types.ObjectId,

@@ -25,29 +25,29 @@ export default function Page() {
   //
   // D. Handle actiona
 
-  const handleResetFare = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Reset Fare?</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Reset Fare', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('resetFare', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/resetFare', method: 'GET' });
-          notify('resetFare', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          notify('resetFare', 'error', err.message || 'Error');
-          setIsImporting(false);
-        }
-      },
-    });
-  };
+  //   const handleResetFare = async () => {
+  //     openConfirmModal({
+  //       title: <Text size="h2">Reset Fare?</Text>,
+  //       centered: true,
+  //       closeOnClickOutside: true,
+  //       children: <Text size="h3">Are you sure?</Text>,
+  //       labels: { confirm: 'Yes, Reset Fare', cancel: 'Cancel' },
+  //       confirmProps: { color: 'red' },
+  //       onConfirm: async () => {
+  //         try {
+  //           setIsImporting(true);
+  //           notify('resetFare', 'loading', 'Loading');
+  //           await API({ service: 'configs/refactors/resetFare', method: 'GET' });
+  //           notify('resetFare', 'success', 'success');
+  //           setIsImporting(false);
+  //         } catch (err) {
+  //           console.log(err);
+  //           notify('resetFare', 'error', err.message || 'Error');
+  //           setIsImporting(false);
+  //         }
+  //       },
+  //     });
+  //   };
 
   //
   // C. Render components
@@ -57,11 +57,11 @@ export default function Page() {
       <Pannel>
         <Section>
           <Text size="h2">No operations available</Text>
-          <SimpleGrid cols={3}>
+          {/* <SimpleGrid cols={3}>
             <Button onClick={handleResetFare} color="red" loading={isImporting}>
               Reset Fare
             </Button>
-          </SimpleGrid>
+          </SimpleGrid> */}
         </Section>
       </Pannel>
     </AuthGate>
