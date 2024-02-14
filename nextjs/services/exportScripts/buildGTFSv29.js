@@ -316,7 +316,7 @@ async function parseZoning(lineData, patternData, exportOptions) {
         line_type: lineData.typology.code || '',
         accepted_zones: formattedZones,
         accepted_fares: formattedFares,
-        interchange: 0, // 0 = transbordo não é possível 1 = só dentro do mesmo operador 2 = configurável
+        interchange: lineData.interchange || '0',
       });
 
       // End of afetacao loop

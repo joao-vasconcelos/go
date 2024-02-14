@@ -80,6 +80,16 @@ export default function Page() {
   //
   // E. Transform data
 
+  const allTransportTypeDataFormatted = useMemo(() => {
+    if (!LineOptions.transport_type) return [];
+    return LineOptions.transport_type.map((item) => ({ value: item, label: t(`form.transport_type.options.${item}.label`) }));
+  }, [t]);
+
+  const allInterchangeDataFormatted = useMemo(() => {
+    if (!LineOptions.interchange) return [];
+    return LineOptions.interchange.map((item) => ({ value: item, label: t(`form.interchange.options.${item}.label`) }));
+  }, [t]);
+
   const allTypologiesDataFormatted = useMemo(() => {
     if (!allTypologiesData) return [];
     return allTypologiesData.map((item) => {
@@ -236,20 +246,11 @@ export default function Page() {
             <SimpleGrid cols={1}>
               <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...lineForm.getInputProps('name')} readOnly={isReadOnly} />
             </SimpleGrid>
-            <SimpleGrid cols={3}>
+            <SimpleGrid cols={2}>
               <Select label={t('form.agency.label')} placeholder={t('form.agency.placeholder')} nothingFoundMessage={t('form.agency.nothingFound')} {...lineForm.getInputProps('agency')} data={allAgenciesDataFormatted} readOnly={isReadOnly} searchable />
               <Select label={t('form.typology.label')} placeholder={t('form.typology.placeholder')} nothingFoundMessage={t('form.typology.nothingFound')} {...lineForm.getInputProps('typology')} data={allTypologiesDataFormatted} readOnly={isReadOnly} searchable />
-              <Select
-                label={t('form.transport_type.label')}
-                placeholder={t('form.transport_type.placeholder')}
-                nothingFoundMessage={t('form.transport_type.nothingFound')}
-                {...lineForm.getInputProps('transport_type')}
-                data={LineOptions.transport_type.map((item) => {
-                  return { value: item, label: t(`form.transport_type.options.${item}.label`) };
-                })}
-                readOnly={isReadOnly}
-                searchable
-              />
+              <Select label={t('form.transport_type.label')} placeholder={t('form.transport_type.placeholder')} nothingFoundMessage={t('form.transport_type.nothingFound')} {...lineForm.getInputProps('transport_type')} data={allTransportTypeDataFormatted} readOnly={isReadOnly} searchable />
+              <Select label={t('form.interchange.label')} placeholder={t('form.interchange.placeholder')} nothingFoundMessage={t('form.interchange.nothingFound')} {...lineForm.getInputProps('interchange')} data={allInterchangeDataFormatted} readOnly={isReadOnly} searchable />
             </SimpleGrid>
             <SimpleGrid cols={1}>
               <MultiSelect label={t('form.fares.label')} placeholder={t('form.fares.placeholder')} nothingFoundMessage={t('form.fares.nothingFound')} {...lineForm.getInputProps('fares')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />

@@ -748,6 +748,22 @@
                     }
                 }
             },
+            "interchange": {
+                "label": "APEX Interchange",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found",
+                "options": {
+                    "0": {
+                        "label": "0 - Transbordos não são permitidos"
+                    },
+                    "1": {
+                        "label": "1 - Transbordos são permitidos dentro do mesmo operador"
+                    },
+                    "2": {
+                        "label": "2 - Transbordos devem ser configurados nos ficheiros APEX"
+                    }
+                }
+            },
             "typology": {
                 "label": "Line Type",
                 "placeholder": "Choose an option...",
