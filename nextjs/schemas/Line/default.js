@@ -9,7 +9,6 @@ export const LineDefault = {
   school: false,
   continuous: false,
   typology: null,
-  fare: null,
   fares: [],
   agency: null,
   routes: [],

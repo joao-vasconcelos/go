@@ -25,29 +25,29 @@ export default function Page() {
   //
   // D. Handle actiona
 
-  //   const handleMigrateFares = async () => {
-  //     openConfirmModal({
-  //       title: <Text size="h2">Migrate Fares?</Text>,
-  //       centered: true,
-  //       closeOnClickOutside: true,
-  //       children: <Text size="h3">Are you sure?</Text>,
-  //       labels: { confirm: 'Yes, Migrate Fares', cancel: 'Cancel' },
-  //       confirmProps: { color: 'red' },
-  //       onConfirm: async () => {
-  //         try {
-  //           setIsImporting(true);
-  //           notify('migrateFares', 'loading', 'Loading');
-  //           await API({ service: 'configs/refactors/migrateFares', method: 'GET' });
-  //           notify('migrateFares', 'success', 'success');
-  //           setIsImporting(false);
-  //         } catch (err) {
-  //           console.log(err);
-  //           notify('migrateFares', 'error', err.message || 'Error');
-  //           setIsImporting(false);
-  //         }
-  //       },
-  //     });
-  //   };
+  const handleResetFare = async () => {
+    openConfirmModal({
+      title: <Text size="h2">Reset Fare?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">Are you sure?</Text>,
+      labels: { confirm: 'Yes, Reset Fare', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('resetFare', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/resetFare', method: 'GET' });
+          notify('resetFare', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          notify('resetFare', 'error', err.message || 'Error');
+          setIsImporting(false);
+        }
+      },
+    });
+  };
 
   //
   // C. Render components
@@ -57,11 +57,11 @@ export default function Page() {
       <Pannel>
         <Section>
           <Text size="h2">No operations available</Text>
-          {/* <SimpleGrid cols={3}>
-            <Button onClick={handleMigrateFares} color="red" loading={isImporting}>
-              Migrate Fares
+          <SimpleGrid cols={3}>
+            <Button onClick={handleResetFare} color="red" loading={isImporting}>
+              Reset Fare
             </Button>
-          </SimpleGrid> */}
+          </SimpleGrid>
         </Section>
       </Pannel>
     </AuthGate>
