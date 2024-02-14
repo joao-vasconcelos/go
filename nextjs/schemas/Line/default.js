@@ -1,10 +1,5 @@
 /* * */
-/* DOCUMENT TYPE: LINE */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Default Values */
 export const LineDefault = {
   code: '',
   name: '',
@@ -15,6 +10,7 @@ export const LineDefault = {
   continuous: false,
   typology: null,
   fare: null,
+  fares: [],
   agency: null,
   routes: [],
   is_locked: false,

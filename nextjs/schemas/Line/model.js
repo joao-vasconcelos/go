@@ -1,12 +1,9 @@
+/* * */
+
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: LINE */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Mongoose Schema */
 export const LineSchema = new mongoose.Schema(
   {
     code: {
@@ -43,6 +40,12 @@ export const LineSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Fare',
     },
+    fares: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Fare',
+      },
+    ],
     agency: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Agency',
@@ -61,5 +64,5 @@ export const LineSchema = new mongoose.Schema(
 );
 
 /* * */
-/* C. Mongoose Model */
+
 export const LineModel = mongoose?.models?.Line || mongoose.model('Line', LineSchema);

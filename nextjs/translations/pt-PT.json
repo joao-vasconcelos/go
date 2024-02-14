@@ -758,6 +758,11 @@
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
+            "fares": {
+                "label": "Associated Fares",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found"
+            },
             "agency": {
                 "label": "Operated by this Agency",
                 "placeholder": "Choose an option...",
@@ -2667,6 +2672,8 @@
             "status": "Estado",
             "priority": "Prioridade",
             "tags": "Etiquetas",
+            "lines": "Linhas",
+            "stops": "Paragens",
             "created_by": "Autor",
             "assigned_to": "Responsável"
         },
@@ -3133,5 +3140,22 @@
     },
     "AlertsExplorerPage": {
         "no_data": "Escolha um Alerta"
+    },
+    "IssuesExplorerIdPageItemLines": {
+        "related_lines": {
+            "label": "Associar Linhas",
+            "placeholder": "[1001] Nome da Linha",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        }
+    },
+    "IssuesExplorerIdPageItemStops": {
+        "related_stops": {
+            "label": "Associar Paragens",
+            "placeholder": "[010101] Nome da Paragem",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        }
+    },
+    "LinesExplorerLine": {
+        "untitled": "Linha sem nome"
     }
 }

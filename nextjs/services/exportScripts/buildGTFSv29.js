@@ -1,5 +1,7 @@
+/* * */
+
 import Papa from 'papaparse';
-import * as fs from 'fs';
+import fs from 'fs';
 import { transliterate } from 'inflected';
 import calculateDateDayType from '../calculateDateDayType';
 import { ExportModel } from '@/schemas/Export/model';
@@ -7,9 +9,9 @@ import { LineModel } from '@/schemas/Line/model';
 import { FareModel } from '@/schemas/Fare/model';
 import { TypologyModel } from '@/schemas/Typology/model';
 import { RouteModel } from '@/schemas/Route/model';
+import { PatternModel } from '@/schemas/Pattern/model';
 import { MunicipalityModel } from '@/schemas/Municipality/model';
 import { ZoneModel } from '@/schemas/Zone/model';
-import { PatternModel } from '@/schemas/Pattern/model';
 import { StopModel } from '@/schemas/Stop/model';
 import { DateModel } from '@/schemas/Date/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
@@ -298,13 +300,12 @@ async function parseZoning(lineData, patternData, exportOptions) {
       // Skip if this pathStop has no associated stop
       if (!pathData.stop) continue;
       // Get stop, municipality and zones data for this stop
-      const stopData = await StopModel.findOne({ _id: pathData.stop }, 'code name latitude longitude municipality zones');
-      const municipalityData = await MunicipalityModel.findOne({ _id: stopData.municipality }, 'code name');
+      const stopData = await StopModel.findOne({ _id: pathData.stop }, 'code name zones');
       const allZonesData = await ZoneModel.find({ _id: pathData.zones }, 'code name');
       // Prepare zones in the file format
-      let formattedZones = allZonesData.filter((zone) => zone.code !== 'AML').map((zone) => transliterate(zone.name));
-      if (formattedZones.length === 0) formattedZones = '0';
-      else formattedZones = formattedZones.join('-');
+      let formattedZones = allZonesData.map((zone) => zone.code);
+
+      console.log('lineData.typology', lineData.typology);
       // Write the afetacao.txt entry for this path
       parsedZoning.push({
         line_id: lineData.code,
@@ -312,10 +313,10 @@ async function parseZoning(lineData, patternData, exportOptions) {
         stop_sequence: pathIndex + exportOptions.stop_sequence_start,
         stop_id: stopData.code,
         stop_name: stopData.name || '',
-        stop_lat: stopData.latitude || '0',
-        stop_lon: stopData.longitude || '0',
-        'Localizacao Paragem Municipios v2': municipalityData.name,
-        'Aceitacao passes municipais': formattedZones,
+        line_type: lineData.typology.code || '',
+        accepted_zones: formattedZones,
+        accepted_fares: '---',
+        interchange: 0, // 0 = transbordo não é possível 1 = só dentro do mesmo operador 2 = configurável
       });
 
       // End of afetacao loop
@@ -495,7 +496,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
   if (exportOptions.lines_included.length) linesFilterParams._id = { $in: exportOptions.lines_included };
   else if (exportOptions.lines_excluded.length) linesFilterParams._id = { $nin: exportOptions.lines_excluded };
 
-  const allLinesData = await LineModel.find(linesFilterParams);
+  const allLinesData = await LineModel.find(linesFilterParams).sort({ code: 1 }).populate(['typology', 'fare', 'routes']);
 
   await update(progress, { progress_current: 0, progress_total: allLinesData.length });
 
@@ -515,12 +516,12 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
     // 3.2.
     // Get fare associated with this line
-    const fareData = await FareModel.findOne({ _id: lineData.fare });
+    const fareData = lineData.fare; // await FareModel.findOne({ _id: lineData.fare });
     if (!fareData) throw new Error({ code: 5102, short_message: 'Fare not found.', references: { line_code: lineData.code } });
 
     // 3.3.
     // Get typology associated with this line
-    const typologyData = await TypologyModel.findOne({ _id: lineData.typology });
+    const typologyData = lineData.typology; // await TypologyModel.findOne({ _id: lineData.typology });
     if (!typologyData) throw new Error({ code: 5102, short_message: 'Typology not found.', references: { line_code: lineData.code } });
 
     // 3.4.
@@ -851,10 +852,12 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
   // 4.1.
   // Fetch the referenced stops and write the stops.txt file
-  for (const stopCode of referencedStopCodes) {
-    const stopData = await StopModel.findOne({ code: stopCode });
-    const municipalityData = await MunicipalityModel.findOne({ _id: stopData.municipality });
-    const parsedStop = parseStop(stopData, municipalityData);
+  const allReferencedStopsData = await StopModel.find({ code: { $in: Array.from(referencedStopCodes) } }).populate('municipality');
+
+  // 4.2.
+  // Fetch the referenced stops and write the stops.txt file
+  for (const stopData of allReferencedStopsData) {
+    const parsedStop = parseStop(stopData, stopData.municipality);
     writeCsvToFile(progress.workdir, 'stops.txt', parsedStop);
   }
 

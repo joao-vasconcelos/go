@@ -25,29 +25,29 @@ export default function Page() {
   //
   // D. Handle actiona
 
-  //   const handleStandardizeCalendars = async () => {
-  //     openConfirmModal({
-  //       title: <Text size="h2">Standardize Calendars (A1)?</Text>,
-  //       centered: true,
-  //       closeOnClickOutside: true,
-  //       children: <Text size="h3">Are you sure?</Text>,
-  //       labels: { confirm: 'Yes, Standardize Calendars (A1)', cancel: 'Cancel' },
-  //       confirmProps: { color: 'red' },
-  //       onConfirm: async () => {
-  //         try {
-  //           setIsImporting(true);
-  //           notify('standardizeCalendars', 'loading', 'Loading');
-  //           await API({ service: 'configs/refactors/standardizeCalendars', method: 'GET' });
-  //           notify('standardizeCalendars', 'success', 'success');
-  //           setIsImporting(false);
-  //         } catch (err) {
-  //           console.log(err);
-  //           notify('standardizeCalendars', 'error', err.message || 'Error');
-  //           setIsImporting(false);
-  //         }
-  //       },
-  //     });
-  //   };
+  const handleMigrateFares = async () => {
+    openConfirmModal({
+      title: <Text size="h2">Migrate Fares?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">Are you sure?</Text>,
+      labels: { confirm: 'Yes, Migrate Fares', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('migrateFares', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/migrateFares', method: 'GET' });
+          notify('migrateFares', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          notify('migrateFares', 'error', err.message || 'Error');
+          setIsImporting(false);
+        }
+      },
+    });
+  };
 
   //
   // C. Render components
@@ -57,11 +57,11 @@ export default function Page() {
       <Pannel>
         <Section>
           <Text size="h2">No operations available</Text>
-          {/* <SimpleGrid cols={3}>
-            <Button onClick={handleStandardizeCalendars} color="red" loading={isImporting}>
-              Standardize Calendars (A1)
+          <SimpleGrid cols={3}>
+            <Button onClick={handleMigrateFares} color="red" loading={isImporting}>
+              Migrate Fares
             </Button>
-          </SimpleGrid> */}
+          </SimpleGrid>
         </Section>
       </Pannel>
     </AuthGate>

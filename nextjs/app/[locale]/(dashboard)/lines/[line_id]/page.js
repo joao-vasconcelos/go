@@ -10,7 +10,7 @@ import API from '@/services/API';
 import { LineValidation } from '@/schemas/Line/validation';
 import { LineDefault } from '@/schemas/Line/default';
 import { LineOptions } from '@/schemas/Line/options';
-import { Tooltip, Select, Button, SimpleGrid, TextInput, ActionIcon, Divider, Switch, JsonInput } from '@mantine/core';
+import { Tooltip, Select, Button, SimpleGrid, TextInput, ActionIcon, Divider, Switch, JsonInput, MultiSelect } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
@@ -239,6 +239,7 @@ export default function Page() {
             <SimpleGrid cols={2}>
               <Select label={t('form.typology.label')} placeholder={t('form.typology.placeholder')} nothingFoundMessage={t('form.typology.nothingFound')} {...lineForm.getInputProps('typology')} data={allTypologiesDataFormatted} readOnly={isReadOnly} searchable />
               <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFoundMessage={t('form.fare.nothingFound')} {...lineForm.getInputProps('fare')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
+              <MultiSelect label={t('form.fares.label')} placeholder={t('form.fares.placeholder')} nothingFoundMessage={t('form.fares.nothingFound')} {...lineForm.getInputProps('fares')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
               <Select label={t('form.agency.label')} placeholder={t('form.agency.placeholder')} nothingFoundMessage={t('form.agency.nothingFound')} {...lineForm.getInputProps('agency')} data={allAgenciesDataFormatted} readOnly={isReadOnly} searchable />
               <Select
                 label={t('form.transport_type.label')}
