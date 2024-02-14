@@ -15,6 +15,7 @@ import IssuesExplorerIdPageItemMilestones from '@/components/IssuesExplorerIdPag
 import IssuesExplorerIdPageItemComments from '@/components/IssuesExplorerIdPageItemComments/IssuesExplorerIdPageItemComments';
 import IssuesExplorerIdPageItemMedia from '../IssuesExplorerIdPageItemMedia/IssuesExplorerIdPageItemMedia';
 import IssuesExplorerIdPageItemLines from '../IssuesExplorerIdPageItemLines/IssuesExplorerIdPageItemLines';
+import IssuesExplorerIdPageItemStops from '../IssuesExplorerIdPageItemStops/IssuesExplorerIdPageItemStops';
 
 /* * */
 
@@ -42,17 +43,15 @@ export default function IssuesExplorerIdPage() {
       </Section>
       <Divider />
       <Section>
-        <SimpleGrid cols={2}>
-          <IssuesExplorerIdPageItemLines />
-          <p>Paragens Associadas</p>
-        </SimpleGrid>
+        <IssuesExplorerIdPageItemLines />
       </Section>
       <Divider />
       <Section>
-        <SimpleGrid cols={2}>
-          <p>Relatórios Associados</p>
-          <p>Outros Issues Associados</p>
-        </SimpleGrid>
+        <IssuesExplorerIdPageItemStops />
+      </Section>
+      <Divider />
+      <Section>
+        <p>Outros Issues Associados</p>
       </Section>
       <Divider />
       <Section>

@@ -45,6 +45,8 @@ const initialListState = {
   //
   items: [],
   //
+  available_status: [],
+  available_priority: [],
   available_tags: [],
   available_lines: [],
   available_stops: [],
@@ -161,10 +163,18 @@ export function IssuesExplorerContextProvider({ children }) {
   }, [allItemsData]);
 
   useEffect(() => {
-    if (!allItemsData) return setListState((prev) => ({ ...prev, available_created_by: [] }));
-    const allValues = allItemsData.map((item) => item.created_by);
+    if (!allItemsData) return setListState((prev) => ({ ...prev, available_lines: [] }));
+    const allValues = allItemsData.flatMap((item) => item.related_lines);
     const allUniqueValues = new Set(allValues);
-    setListState((prev) => ({ ...prev, available_created_by: Array.from(allUniqueValues) }));
+    console.log('allValues', allValues);
+    setListState((prev) => ({ ...prev, available_lines: Array.from(allUniqueValues) }));
+  }, [allItemsData]);
+
+  useEffect(() => {
+    if (!allItemsData) return setListState((prev) => ({ ...prev, available_stops: [] }));
+    const allValues = allItemsData.flatMap((item) => item.stops);
+    const allUniqueValues = new Set(allValues);
+    setListState((prev) => ({ ...prev, available_stops: Array.from(allUniqueValues) }));
   }, [allItemsData]);
 
   useEffect(() => {
@@ -172,6 +182,13 @@ export function IssuesExplorerContextProvider({ children }) {
     const allValues = allItemsData.flatMap((item) => item.tags);
     const allUniqueValues = new Set(allValues);
     setListState((prev) => ({ ...prev, available_tags: Array.from(allUniqueValues) }));
+  }, [allItemsData]);
+
+  useEffect(() => {
+    if (!allItemsData) return setListState((prev) => ({ ...prev, available_created_by: [] }));
+    const allValues = allItemsData.map((item) => item.created_by);
+    const allUniqueValues = new Set(allValues);
+    setListState((prev) => ({ ...prev, available_created_by: Array.from(allUniqueValues) }));
   }, [allItemsData]);
 
   //
@@ -211,6 +228,13 @@ export function IssuesExplorerContextProvider({ children }) {
     setListState((prev) => {
       if (prev.filter_tags === value) return { ...prev, filter_tags: null };
       else return { ...prev, filter_tags: value };
+    });
+  }, []);
+
+  const updateFilterLines = useCallback((value) => {
+    setListState((prev) => {
+      if (prev.filter_lines === value) return { ...prev, filter_lines: null };
+      else return { ...prev, filter_lines: value };
     });
   }, []);
 
@@ -304,6 +328,25 @@ export function IssuesExplorerContextProvider({ children }) {
     [addMilestone, formState]
   );
 
+  const toggleRelatedLine = useCallback(
+    async (lineId) => {
+      console.log(lineId);
+      // Create a set of line ids for this issue
+      const uniqueSetOfLines = new Set(formState.values.related_lines);
+      if (uniqueSetOfLines.has(lineId)) {
+        // Remove the line and a milestone
+        addMilestone('line_added', lineId);
+        uniqueSetOfLines.delete(lineId);
+      } else {
+        // Add the line and a milestone
+        addMilestone('line_removed', lineId);
+        uniqueSetOfLines.add(lineId);
+      }
+      formState.setFieldValue('related_lines', [...uniqueSetOfLines]);
+    },
+    [addMilestone, formState]
+  );
+
   const addComment = useCallback(
     async (commentText) => {
       const newComment = { ...DefaultCommment, created_by: userSession.user._id, text: commentText };
@@ -331,6 +374,7 @@ export function IssuesExplorerContextProvider({ children }) {
       clearSortKey: clearSortKey,
       updateFilterStatus: updateFilterStatus,
       updateFilterPriority: updateFilterPriority,
+      updateFilterLines: updateFilterLines,
       updateFilterTags: updateFilterTags,
       updateFilterCreatedBy: updateFilterCreatedBy,
       updateFilterAssignedTo: updateFilterAssignedTo,
@@ -342,6 +386,7 @@ export function IssuesExplorerContextProvider({ children }) {
       closeItem: closeItem,
       //
       addTag: addTag,
+      toggleRelatedLine: toggleRelatedLine,
       addComment: addComment,
       //
     }),
@@ -357,6 +402,7 @@ export function IssuesExplorerContextProvider({ children }) {
       clearSortKey,
       updateFilterStatus,
       updateFilterPriority,
+      updateFilterLines,
       updateFilterTags,
       updateFilterCreatedBy,
       updateFilterAssignedTo,
@@ -366,6 +412,7 @@ export function IssuesExplorerContextProvider({ children }) {
       deleteItem,
       closeItem,
       addTag,
+      toggleRelatedLine,
       addComment,
     ]
   );
