@@ -303,9 +303,9 @@ async function parseZoning(lineData, patternData, exportOptions) {
       const stopData = await StopModel.findOne({ _id: pathData.stop }, 'code name zones');
       const allZonesData = await ZoneModel.find({ _id: pathData.zones }, 'code name');
       // Prepare zones in the file format
-      let formattedZones = allZonesData.map((zone) => zone.code);
-
-      console.log('lineData.typology', lineData.typology);
+      let formattedZones = allZonesData.map((zone) => zone.code).join('|');
+      // Prepare fares in the file format
+      let formattedFares = lineData.fares.map((fare) => fare.code).join('|');
       // Write the afetacao.txt entry for this path
       parsedZoning.push({
         line_id: lineData.code,
@@ -315,7 +315,7 @@ async function parseZoning(lineData, patternData, exportOptions) {
         stop_name: stopData.name || '',
         line_type: lineData.typology.code || '',
         accepted_zones: formattedZones,
-        accepted_fares: '---',
+        accepted_fares: formattedFares,
         interchange: 0, // 0 = transbordo não é possível 1 = só dentro do mesmo operador 2 = configurável
       });
 
@@ -496,7 +496,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
   if (exportOptions.lines_included.length) linesFilterParams._id = { $in: exportOptions.lines_included };
   else if (exportOptions.lines_excluded.length) linesFilterParams._id = { $nin: exportOptions.lines_excluded };
 
-  const allLinesData = await LineModel.find(linesFilterParams).sort({ code: 1 }).populate(['typology', 'fare', 'routes']);
+  const allLinesData = await LineModel.find(linesFilterParams).sort({ code: 1 }).populate(['typology', 'fares', 'routes']);
 
   await update(progress, { progress_current: 0, progress_total: allLinesData.length });
 
@@ -516,8 +516,8 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
     // 3.2.
     // Get fare associated with this line
-    const fareData = lineData.fare; // await FareModel.findOne({ _id: lineData.fare });
-    if (!fareData) throw new Error({ code: 5102, short_message: 'Fare not found.', references: { line_code: lineData.code } });
+    const faresData = lineData.fares; // await FareModel.findOne({ _id: lineData.fare });
+    if (!faresData) throw new Error({ code: 5102, short_message: 'Fare not found.', references: { line_code: lineData.code } });
 
     // 3.3.
     // Get typology associated with this line
@@ -836,9 +836,11 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
       // 3.4.6.
       // Write the fare_rules.txt entry for this route
-      const parsedFareRule = parseFareRule(agencyData, routeData, fareData);
-      writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
-      referencedFareCodes.add(fareData.code);
+      for (const fareData of lineData.fares) {
+        const parsedFareRule = parseFareRule(agencyData, routeData, fareData);
+        writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
+        referencedFareCodes.add(fareData.code);
+      }
 
       // End of routes loop
     }
@@ -867,8 +869,11 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
   // 5.1.
   // Fetch the referenced fares and write the fare_attributes.txt file
-  for (const fareCode of referencedFareCodes) {
-    const fareData = await FareModel.findOne({ code: fareCode });
+  const allReferencedFaresData = await FareModel.find({ code: { $in: Array.from(referencedFareCodes) } });
+
+  // 5.1.
+  // Fetch the referenced fares and write the fare_attributes.txt file
+  for (const fareData of allReferencedFaresData) {
     const parsedFare = parseFare(agencyData, fareData);
     writeCsvToFile(progress.workdir, 'fare_attributes.txt', parsedFare);
   }

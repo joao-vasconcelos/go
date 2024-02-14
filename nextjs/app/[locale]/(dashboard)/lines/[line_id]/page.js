@@ -236,11 +236,9 @@ export default function Page() {
             <SimpleGrid cols={1}>
               <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...lineForm.getInputProps('name')} readOnly={isReadOnly} />
             </SimpleGrid>
-            <SimpleGrid cols={2}>
-              <Select label={t('form.typology.label')} placeholder={t('form.typology.placeholder')} nothingFoundMessage={t('form.typology.nothingFound')} {...lineForm.getInputProps('typology')} data={allTypologiesDataFormatted} readOnly={isReadOnly} searchable />
-              <Select label={t('form.fare.label')} placeholder={t('form.fare.placeholder')} nothingFoundMessage={t('form.fare.nothingFound')} {...lineForm.getInputProps('fare')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
-              <MultiSelect label={t('form.fares.label')} placeholder={t('form.fares.placeholder')} nothingFoundMessage={t('form.fares.nothingFound')} {...lineForm.getInputProps('fares')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
+            <SimpleGrid cols={3}>
               <Select label={t('form.agency.label')} placeholder={t('form.agency.placeholder')} nothingFoundMessage={t('form.agency.nothingFound')} {...lineForm.getInputProps('agency')} data={allAgenciesDataFormatted} readOnly={isReadOnly} searchable />
+              <Select label={t('form.typology.label')} placeholder={t('form.typology.placeholder')} nothingFoundMessage={t('form.typology.nothingFound')} {...lineForm.getInputProps('typology')} data={allTypologiesDataFormatted} readOnly={isReadOnly} searchable />
               <Select
                 label={t('form.transport_type.label')}
                 placeholder={t('form.transport_type.placeholder')}
@@ -252,6 +250,9 @@ export default function Page() {
                 readOnly={isReadOnly}
                 searchable
               />
+            </SimpleGrid>
+            <SimpleGrid cols={1}>
+              <MultiSelect label={t('form.fares.label')} placeholder={t('form.fares.placeholder')} nothingFoundMessage={t('form.fares.nothingFound')} {...lineForm.getInputProps('fares')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
             </SimpleGrid>
           </Section>
 

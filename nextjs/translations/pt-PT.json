@@ -753,11 +753,6 @@
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
             },
-            "fare": {
-                "label": "Associated Fare",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
             "fares": {
                 "label": "Associated Fares",
                 "placeholder": "Choose an option...",
