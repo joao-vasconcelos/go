@@ -5,7 +5,7 @@
 import Pannel from '@/components/Pannel/Pannel';
 import { Section } from '@/components/Layouts/Layouts';
 import { useTranslations } from 'next-intl';
-import { SimpleGrid, Divider } from '@mantine/core';
+import { Divider } from '@mantine/core';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 import styles from './IssuesExplorerIdPage.module.css';
 import IssuesExplorerIdPageHeader from '@/components/IssuesExplorerIdPageHeader/IssuesExplorerIdPageHeader';
@@ -16,6 +16,7 @@ import IssuesExplorerIdPageItemComments from '@/components/IssuesExplorerIdPageI
 import IssuesExplorerIdPageItemMedia from '../IssuesExplorerIdPageItemMedia/IssuesExplorerIdPageItemMedia';
 import IssuesExplorerIdPageItemLines from '../IssuesExplorerIdPageItemLines/IssuesExplorerIdPageItemLines';
 import IssuesExplorerIdPageItemStops from '../IssuesExplorerIdPageItemStops/IssuesExplorerIdPageItemStops';
+import IssuesExplorerIdPageItemIssues from '../IssuesExplorerIdPageItemIssues/IssuesExplorerIdPageItemIssues';
 
 /* * */
 
@@ -51,7 +52,7 @@ export default function IssuesExplorerIdPage() {
       </Section>
       <Divider />
       <Section>
-        <p>Outros Issues Associados</p>
+        <IssuesExplorerIdPageItemIssues />
       </Section>
       <Divider />
       <Section>

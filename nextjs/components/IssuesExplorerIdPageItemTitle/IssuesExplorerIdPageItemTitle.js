@@ -20,10 +20,6 @@ export default function IssuesExplorerIdPageItemTitle() {
   const issuesExplorerContext = useIssuesExplorerContext();
   const [isEditMode, setIsEditMode] = useState(false);
 
-  useEffect(() => {
-    if (!issuesExplorerContext.form.values.title) setIsEditMode(true);
-  }, [issuesExplorerContext.form.values.title]);
-
   //
   // B. Handle actions
 
@@ -50,13 +46,17 @@ export default function IssuesExplorerIdPageItemTitle() {
       <div className={styles.container}>
         <div className={styles.bylineWrapper}>
           <p className={styles.code}>#{issuesExplorerContext.form.values.code}</p>
-          <Button variant="subtle" size="compact-xs" color="gray" onClick={handleEnterEditMode}>
-            {t('edit.label')}
-          </Button>
+          {!issuesExplorerContext.page.is_read_only && (
+            <Button variant="subtle" size="compact-xs" color="gray" onClick={handleEnterEditMode}>
+              {t('edit.label')}
+            </Button>
+          )}
         </div>
         <h2 className={styles.title}>{issuesExplorerContext.form.values.title || 'untitled'}</h2>
         <p className={styles.summary}>{issuesExplorerContext.form.values.summary || 'untitled'}</p>
       </div>
     </>
   );
+
+  //
 }

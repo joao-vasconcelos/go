@@ -47,13 +47,13 @@ export default function IssuesExplorerIdPageItemComments() {
       {issuesExplorerContext.form.values.comments.length > 0 ? (
         <div className={styles.commentsWrapper}>
           {issuesExplorerContext.form.values.comments.map((itemData, index) => (
-            <IssuesExplorerAttributeComment key={index} commentData={itemData} onDelete={() => handleDeleteComment(index)} />
+            <IssuesExplorerAttributeComment key={index} commentData={itemData} onDelete={() => handleDeleteComment(index)} readOnly={issuesExplorerContext.page.is_read_only} />
           ))}
         </div>
       ) : (
         <NoDataLabel />
       )}
-      <IssuesExplorerIdPageItemCommentsAddComment />
+      {!issuesExplorerContext.page.is_read_only && <IssuesExplorerIdPageItemCommentsAddComment />}
     </div>
   );
 }

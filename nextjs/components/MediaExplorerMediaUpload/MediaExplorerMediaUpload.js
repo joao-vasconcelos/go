@@ -11,7 +11,7 @@ import styles from './MediaExplorerMediaUpload.module.css';
 
 /* * */
 
-export default function MediaExplorerMediaUpload({ storageScope, onUploadComplete }) {
+export default function MediaExplorerMediaUpload({ storageScope, onUploadComplete, disabled = false }) {
   //
 
   //
@@ -30,7 +30,7 @@ export default function MediaExplorerMediaUpload({ storageScope, onUploadComplet
   // B. Handle actions
 
   const handleToggleModal = async () => {
-    if (isUploading) return;
+    if (isUploading || disabled) return;
     setIsModalOpen((prev) => !prev);
   };
 

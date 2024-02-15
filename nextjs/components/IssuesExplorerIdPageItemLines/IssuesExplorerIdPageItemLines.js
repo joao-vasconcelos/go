@@ -4,7 +4,7 @@
 
 import useSWR from 'swr';
 import { useMemo, useState } from 'react';
-import { ActionIcon, Button, MultiSelect, Select } from '@mantine/core';
+import { ActionIcon, Button, Select } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 import styles from './IssuesExplorerIdPageItemLines.module.css';
@@ -62,14 +62,33 @@ export default function IssuesExplorerIdPageItemLines() {
           issuesExplorerContext.form.values.related_lines.map((lineId) => (
             <div key={lineId} className={styles.itemWrapper}>
               <LinesExplorerLine lineId={lineId} />
-              <ActionIcon onClick={() => handleRemoveRelatedLine(lineId)} variant="light" color="red">
-                <IconTrash size={20} />
-              </ActionIcon>
+              {!issuesExplorerContext.page.is_read_only && (
+                <ActionIcon onClick={() => handleRemoveRelatedLine(lineId)} variant="light" color="red">
+                  <IconTrash size={20} />
+                </ActionIcon>
+              )}
             </div>
           ))}
       </div>
-      <Select label={t('related_lines.label')} placeholder={t('related_lines.placeholder')} nothingFoundMessage={t('related_lines.nothingFound')} data={allLinesDataFormatted} value={selectedLineId} onChange={setSelectedLineId} limit={100} w="100%" />
-      <Button onClick={handleAddRelatedLine}>Add Related Line</Button>
+      {!issuesExplorerContext.page.is_read_only && (
+        <>
+          <Select
+            label={t('related_lines.label')}
+            placeholder={t('related_lines.placeholder')}
+            nothingFoundMessage={t('related_lines.nothingFound')}
+            data={allLinesDataFormatted}
+            value={selectedLineId}
+            onChange={setSelectedLineId}
+            limit={100}
+            w="100%"
+            readOnly={issuesExplorerContext.page.is_read_only}
+            searchable
+          />
+          <Button onClick={handleAddRelatedLine} disabled={!selectedLineId || issuesExplorerContext.page.is_read_only}>
+            Add Related Line
+          </Button>
+        </>
+      )}
     </div>
   );
 }

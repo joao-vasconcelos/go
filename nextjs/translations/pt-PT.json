@@ -3155,14 +3155,21 @@
     "IssuesExplorerIdPageItemLines": {
         "related_lines": {
             "label": "Associar Linhas",
-            "placeholder": "[1001] Nome da Linha",
+            "placeholder": "Pesquisar por linhas...",
             "nothingFound": "Nenhum Resultado Encontrado"
         }
     },
     "IssuesExplorerIdPageItemStops": {
         "related_stops": {
             "label": "Associar Paragens",
-            "placeholder": "[010101] Nome da Paragem",
+            "placeholder": "Pesquisar por paragens...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        }
+    },
+    "IssuesExplorerIdPageItemIssues": {
+        "related_issues": {
+            "label": "Associar outros Issues",
+            "placeholder": "Pesquisar por Issue...",
             "nothingFound": "Nenhum Resultado Encontrado"
         }
     },

@@ -3,11 +3,13 @@
 /* * */
 
 import useSWR from 'swr';
-import { useMemo } from 'react';
-import { MultiSelect } from '@mantine/core';
+import { useMemo, useState } from 'react';
+import { ActionIcon, Button, Select } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 import styles from './IssuesExplorerIdPageItemStops.module.css';
+import { StopsExplorerStop } from '../StopsExplorerStop/StopsExplorerStop';
+import { IconTrash } from '@tabler/icons-react';
 
 /* * */
 
@@ -19,6 +21,8 @@ export default function IssuesExplorerIdPageItemStops() {
 
   const t = useTranslations('IssuesExplorerIdPageItemStops');
   const issuesExplorerContext = useIssuesExplorerContext();
+
+  const [selectedStopId, setSelectedStopId] = useState(null);
 
   //
   // B. Fetch data
@@ -37,11 +41,54 @@ export default function IssuesExplorerIdPageItemStops() {
   }, [allStopsData]);
 
   //
-  // D. Render components
+  // D. Handle actions
+
+  const handleAddRelatedStop = () => {
+    issuesExplorerContext.toggleRelatedStop(selectedStopId);
+    setSelectedStopId(null);
+  };
+
+  const handleRemoveRelatedStop = (stopId) => {
+    issuesExplorerContext.toggleRelatedStop(stopId);
+  };
+
+  //
+  // E. Render components
 
   return (
     <div className={styles.container}>
-      <MultiSelect label={t('related_stops.label')} placeholder={t('related_stops.placeholder')} nothingFoundMessage={t('related_stops.nothingFound')} data={allStopsDataFormatted} {...issuesExplorerContext.form.getInputProps('related_stops')} limit={100} w="100%" />
+      <div className={styles.list}>
+        {issuesExplorerContext.form.values.related_stops.length > 0 &&
+          issuesExplorerContext.form.values.related_stops.map((stopId) => (
+            <div key={stopId} className={styles.itemWrapper}>
+              <StopsExplorerStop stopId={stopId} />
+              {!issuesExplorerContext.page.is_read_only && (
+                <ActionIcon onClick={() => handleRemoveRelatedStop(stopId)} variant="light" color="red">
+                  <IconTrash size={20} />
+                </ActionIcon>
+              )}
+            </div>
+          ))}
+      </div>
+      {!issuesExplorerContext.page.is_read_only && (
+        <>
+          <Select
+            label={t('related_stops.label')}
+            placeholder={t('related_stops.placeholder')}
+            nothingFoundMessage={t('related_stops.nothingFound')}
+            data={allStopsDataFormatted}
+            value={selectedStopId}
+            onChange={setSelectedStopId}
+            limit={100}
+            w="100%"
+            readOnly={issuesExplorerContext.page.is_read_only}
+            searchable
+          />
+          <Button onClick={handleAddRelatedStop} disabled={!selectedStopId || issuesExplorerContext.page.is_read_only}>
+            Add Related Stop
+          </Button>
+        </>
+      )}
     </div>
   );
 }

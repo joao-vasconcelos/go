@@ -12,7 +12,7 @@ import GlobalAuthorTimestamp from '../GlobalAuthorTimestamp/GlobalAuthorTimestam
 
 /* * */
 
-export default function IssuesExplorerAttributeComment({ commentData, onDelete }) {
+export default function IssuesExplorerAttributeComment({ commentData, onDelete, readOnly = false }) {
   //
 
   //
@@ -30,9 +30,11 @@ export default function IssuesExplorerAttributeComment({ commentData, onDelete }
           <GlobalAuthorTimestamp userId={commentData.created_by} timestamp={commentData.created_at} actionVerb={t('action_verb')} />
         </div>
         <div className={styles.rightSide}>
-          <ActionIcon size="sm" variant="subtle" color="gray" onClick={onDelete}>
-            <IconTrash size={15} />
-          </ActionIcon>
+          {!readOnly && (
+            <ActionIcon size="sm" variant="subtle" color="gray" onClick={onDelete}>
+              <IconTrash size={15} />
+            </ActionIcon>
+          )}
         </div>
       </div>
       <div className={styles.commentText}>{commentData.text}</div>

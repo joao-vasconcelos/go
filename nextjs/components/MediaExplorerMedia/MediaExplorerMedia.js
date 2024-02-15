@@ -18,7 +18,7 @@ import { openConfirmModal } from '@mantine/modals';
 
 /* * */
 
-export default function MediaExplorerMedia({ mediaId, onDelete }) {
+export default function MediaExplorerMedia({ mediaId, onDelete, readOnly = false }) {
   //
 
   //
@@ -110,26 +110,28 @@ export default function MediaExplorerMedia({ mediaId, onDelete }) {
           {mediaData.description && <p className={styles.description}>{mediaData.description}</p>}
         </div>
         <GlobalAuthorTimestamp userId={mediaData.created_by} timestamp={mediaData.created_at} actionVerb={t('action_verb')} />
-        <Menu trigger="hover" openDelay={300} closeDelay={100} shadow="md" position="right" withArrow>
-          <Menu.Target>
-            <Box className={styles.actionsTrigger}>
-              <IconDots size={18} />
-            </Box>
-          </Menu.Target>
-          <Menu.Dropdown p={0}>
-            <div className={styles.actionsList}>
-              <ActionIcon onClick={handleDownload} color="green" variant="subtle" size="lg">
-                <IconDownload size={20} />
-              </ActionIcon>
-              <ActionIcon onClick={handleEdit} color="blue" variant="subtle" size="lg" disabled>
-                <IconPencil size={20} />
-              </ActionIcon>
-              <ActionIcon onClick={handleDelete} color="red" variant="subtle" size="lg">
-                <IconTrash size={20} />
-              </ActionIcon>
-            </div>
-          </Menu.Dropdown>
-        </Menu>
+        {!readOnly && (
+          <Menu trigger="hover" openDelay={300} closeDelay={100} shadow="md" position="right" withArrow>
+            <Menu.Target>
+              <Box className={styles.actionsTrigger}>
+                <IconDots size={18} />
+              </Box>
+            </Menu.Target>
+            <Menu.Dropdown p={0}>
+              <div className={styles.actionsList}>
+                <ActionIcon onClick={handleDownload} color="green" variant="subtle" size="lg">
+                  <IconDownload size={20} />
+                </ActionIcon>
+                <ActionIcon onClick={handleEdit} color="blue" variant="subtle" size="lg" disabled>
+                  <IconPencil size={20} />
+                </ActionIcon>
+                <ActionIcon onClick={handleDelete} color="red" variant="subtle" size="lg">
+                  <IconTrash size={20} />
+                </ActionIcon>
+              </div>
+            </Menu.Dropdown>
+          </Menu>
+        )}
       </div>
     </div>
   );

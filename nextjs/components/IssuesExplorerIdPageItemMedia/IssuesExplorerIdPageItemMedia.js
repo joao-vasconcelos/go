@@ -37,9 +37,9 @@ export default function IssuesExplorerIdPageItemMedia() {
     <div className={styles.container}>
       <div className={styles.mediaList}>
         {issuesExplorerContext.form.values.media.map((mediaId) => (
-          <MediaExplorerMedia key={mediaId} mediaId={mediaId} onDelete={handleMediaDelete} />
+          <MediaExplorerMedia key={mediaId} mediaId={mediaId} onDelete={handleMediaDelete} readOnly={issuesExplorerContext.page.is_read_only} />
         ))}
-        <MediaExplorerMediaUpload storageScope={IssueOptions.storage_scope} onUploadComplete={handleUploadComplete} />
+        {!issuesExplorerContext.page.is_read_only && <MediaExplorerMediaUpload storageScope={IssueOptions.storage_scope} onUploadComplete={handleUploadComplete} />}
       </div>
     </div>
   );

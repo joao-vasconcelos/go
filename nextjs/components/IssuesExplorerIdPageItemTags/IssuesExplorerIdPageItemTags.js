@@ -81,9 +81,11 @@ export default function IssuesExplorerIdPageItemTags() {
         {issuesExplorerContext.form.values.tags.map((tagId) => (
           <TagsExplorerTag key={tagId} tagId={tagId} />
         ))}
-        <Button variant="subtle" size="compact-xs" color="gray" onClick={handleEnterEditMode}>
-          {t('edit.label')}
-        </Button>
+        {!issuesExplorerContext.page.is_read_only && (
+          <Button variant="subtle" size="compact-xs" color="gray" onClick={handleEnterEditMode}>
+            {t('edit.label')}
+          </Button>
+        )}
       </div>
     </>
   );

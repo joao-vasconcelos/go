@@ -172,7 +172,7 @@ export function IssuesExplorerContextProvider({ children }) {
 
   useEffect(() => {
     if (!allItemsData) return setListState((prev) => ({ ...prev, available_stops: [] }));
-    const allValues = allItemsData.flatMap((item) => item.stops);
+    const allValues = allItemsData.flatMap((item) => item.related_stops);
     const allUniqueValues = new Set(allValues);
     setListState((prev) => ({ ...prev, available_stops: Array.from(allUniqueValues) }));
   }, [allItemsData]);
@@ -347,6 +347,44 @@ export function IssuesExplorerContextProvider({ children }) {
     [addMilestone, formState]
   );
 
+  const toggleRelatedStop = useCallback(
+    async (stopId) => {
+      console.log(stopId);
+      // Create a set of stop ids for this issue
+      const uniqueSetOfStops = new Set(formState.values.related_stops);
+      if (uniqueSetOfStops.has(stopId)) {
+        // Remove the stop and a milestone
+        addMilestone('stop_added', stopId);
+        uniqueSetOfStops.delete(stopId);
+      } else {
+        // Add the stop and a milestone
+        addMilestone('stop_removed', stopId);
+        uniqueSetOfStops.add(stopId);
+      }
+      formState.setFieldValue('related_stops', [...uniqueSetOfStops]);
+    },
+    [addMilestone, formState]
+  );
+
+  const toggleRelatedIssue = useCallback(
+    async (issueId) => {
+      console.log(issueId);
+      // Create a set of issue ids for this issue
+      const uniqueSetOfIssues = new Set(formState.values.related_issues);
+      if (uniqueSetOfIssues.has(issueId)) {
+        // Remove the issue and a milestone
+        addMilestone('issue_added', issueId);
+        uniqueSetOfIssues.delete(issueId);
+      } else {
+        // Add the issue and a milestone
+        addMilestone('issue_removed', issueId);
+        uniqueSetOfIssues.add(issueId);
+      }
+      formState.setFieldValue('related_issues', [...uniqueSetOfIssues]);
+    },
+    [addMilestone, formState]
+  );
+
   const addComment = useCallback(
     async (commentText) => {
       const newComment = { ...DefaultCommment, created_by: userSession.user._id, text: commentText };
@@ -387,6 +425,8 @@ export function IssuesExplorerContextProvider({ children }) {
       //
       addTag: addTag,
       toggleRelatedLine: toggleRelatedLine,
+      toggleRelatedStop: toggleRelatedStop,
+      toggleRelatedIssue: toggleRelatedIssue,
       addComment: addComment,
       //
     }),
@@ -413,6 +453,8 @@ export function IssuesExplorerContextProvider({ children }) {
       closeItem,
       addTag,
       toggleRelatedLine,
+      toggleRelatedStop,
+      toggleRelatedIssue,
       addComment,
     ]
   );

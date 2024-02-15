@@ -20,6 +20,7 @@ import IssuesExplorerAttributePriority from '@/components/IssuesExplorerAttribut
 import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser';
 import TagsExplorerTag from '@/components/TagsExplorerTag/TagsExplorerTag';
 import { LinesExplorerLine } from '../LinesExplorerLine/LinesExplorerLine';
+import { StopsExplorerStop } from '../StopsExplorerStop/StopsExplorerStop';
 
 /* * */
 
@@ -77,6 +78,7 @@ export default function IssuesExplorerListHeader() {
         <GlobalFilterBy label={t('filters.priority')} options={issuesExplorerContext.list.available_priority} value={issuesExplorerContext.list.filter_priority} onChange={issuesExplorerContext.updateFilterPriority} optionComponent={<IssuesExplorerAttributePriority />} />
         <GlobalFilterBy label={t('filters.tags')} options={issuesExplorerContext.list.available_tags} value={issuesExplorerContext.list.filter_tags} onChange={issuesExplorerContext.updateFilterTags} optionComponent={<TagsExplorerTag withHoverCard={false} />} valueKey="tagId" />
         <GlobalFilterBy label={t('filters.lines')} options={issuesExplorerContext.list.available_lines} value={issuesExplorerContext.list.filter_lines} onChange={issuesExplorerContext.updateFilterLines} optionComponent={<LinesExplorerLine withHoverCard={false} />} valueKey="lineId" />
+        <GlobalFilterBy label={t('filters.stops')} options={issuesExplorerContext.list.available_stops} value={issuesExplorerContext.list.filter_stops} onChange={issuesExplorerContext.updateFilterStops} optionComponent={<StopsExplorerStop />} valueKey="stopId" />
         <GlobalFilterBy
           label={t('filters.created_by')}
           options={issuesExplorerContext.list.available_created_by}
