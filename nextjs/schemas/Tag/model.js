@@ -17,12 +17,12 @@ export const Schema = new mongoose.Schema({
   //
   label: {
     type: String,
-    maxlength: 10,
+    maxlength: 20,
     unique: true,
   },
   description: {
     type: String,
-    maxlength: 50,
+    maxlength: 500,
   },
   color: {
     type: String,

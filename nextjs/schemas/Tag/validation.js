@@ -8,7 +8,7 @@ export const Validation = yup.object({
   label: yup
     .string()
     .required()
-    .max(10)
+    .max(20)
     .transform((value) => value.replace(/  +/g, ' ').trim())
     .uppercase(),
 });
