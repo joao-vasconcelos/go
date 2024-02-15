@@ -238,6 +238,13 @@ export function IssuesExplorerContextProvider({ children }) {
     });
   }, []);
 
+  const updateFilterStops = useCallback((value) => {
+    setListState((prev) => {
+      if (prev.filter_stops === value) return { ...prev, filter_stops: null };
+      else return { ...prev, filter_stops: value };
+    });
+  }, []);
+
   const updateFilterCreatedBy = useCallback((value) => {
     setListState((prev) => {
       if (prev.filter_created_by === value) return { ...prev, filter_created_by: null };
@@ -413,6 +420,7 @@ export function IssuesExplorerContextProvider({ children }) {
       updateFilterStatus: updateFilterStatus,
       updateFilterPriority: updateFilterPriority,
       updateFilterLines: updateFilterLines,
+      updateFilterStops: updateFilterStops,
       updateFilterTags: updateFilterTags,
       updateFilterCreatedBy: updateFilterCreatedBy,
       updateFilterAssignedTo: updateFilterAssignedTo,
@@ -443,6 +451,7 @@ export function IssuesExplorerContextProvider({ children }) {
       updateFilterStatus,
       updateFilterPriority,
       updateFilterLines,
+      updateFilterStops,
       updateFilterTags,
       updateFilterCreatedBy,
       updateFilterAssignedTo,
