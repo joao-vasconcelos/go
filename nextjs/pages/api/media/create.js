@@ -112,11 +112,8 @@ export default async function parseGTFS(req, res) {
     // Save the new document to the database
     const createdDocument = await MediaModel(newDocument).save();
 
-    // Get the storage directory for Media files
-    const mediaDirectory = STORAGE.getScopeDirPath(createdDocument.storage_scope);
-
     // Save the file to the correct directory
-    fs.renameSync(formFiles.file[0].filepath, `${mediaDirectory}/${createdDocument._id}${createdDocument.file_extension}`);
+    STORAGE.moveFile(createdDocument.storage_scope, `${createdDocument._id}${createdDocument.file_extension}`, formFiles.file[0].filepath);
 
     // Return the response to the caller
     return await res.status(201).json(createdDocument);

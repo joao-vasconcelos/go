@@ -36,6 +36,16 @@ class STORAGE {
     return fs.existsSync(`${scopeDirPath}/${filename}`);
   }
 
+  moveFile(scope, filename, originalPath) {
+    const originalData = fs.readFileSync(originalPath);
+    return this.saveFile(scope, filename, originalData);
+  }
+
+  saveFile(scope, filename, data) {
+    const scopeDirPath = this.getScopeDirPath(scope);
+    fs.writeFileSync(`${scopeDirPath}/${filename}`, data);
+  }
+
   removeFile(scope, filename) {
     const scopeDirPath = this.getScopeDirPath(scope);
     return fs.rmSync(`${scopeDirPath}/${filename}`, { force: true });
