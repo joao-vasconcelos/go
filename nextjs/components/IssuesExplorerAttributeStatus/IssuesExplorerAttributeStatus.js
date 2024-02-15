@@ -41,7 +41,7 @@ export default function IssuesExplorerAttributeStatus({ value }) {
           <p className={styles.label}>{t(`${value}.label`)}</p>
         </div>
       );
-    case 'blocked':
+    case 'on_hold':
       return (
         <div className={`${styles.container} ${styles.blocked}`}>
           <IconHandStop size={14} />
