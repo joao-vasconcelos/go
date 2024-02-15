@@ -2779,8 +2779,8 @@
         "in_progress": {
             "label": "Em Tratamento"
         },
-        "blocked": {
-            "label": "Bloqueado"
+        "on_hold": {
+            "label": "Retido"
         },
         "closed": {
             "label": "Fechado"

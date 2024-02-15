@@ -13,7 +13,7 @@ export const IssueOptions = {
    * STATUS
    */
 
-  status: ['draft', 'open', 'in_progress', 'blocked', 'closed'],
+  status: ['draft', 'open', 'in_progress', 'on_hold', 'closed'],
 
   /*
    * PRIORITY
