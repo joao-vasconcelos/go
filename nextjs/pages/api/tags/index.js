@@ -1,9 +1,9 @@
 /* * */
 
 import mongodb from '@/services/mongodb';
-import { Model as TagModel } from '@/schemas/Tag/model';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
+import { Model as TagModel } from '@/schemas/Tag/model';
 
 /* * */
 

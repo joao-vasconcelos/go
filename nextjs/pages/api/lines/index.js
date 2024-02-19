@@ -1,10 +1,10 @@
 /* * */
 
 import mongodb from '@/services/mongodb';
-import { LineModel } from '@/schemas/Line/model';
-import { TypologyModel } from '@/schemas/Typology/model';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
+import { LineModel } from '@/schemas/Line/model';
+import { TypologyModel } from '@/schemas/Typology/model';
 
 /* * */
 
