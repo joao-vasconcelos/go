@@ -9,10 +9,30 @@ export const UserDefault = {
   permissions: {
     //
     tags: {
-      view: false,
-      create_edit: false,
-      lock: false,
-      delete: false,
+      view: { is_allowed: false },
+      edit: { is_allowed: false },
+      lock: { is_allowed: false },
+      create: { is_allowed: false },
+      delete: { is_allowed: false },
+      navigate: { is_allowed: false },
+    },
+    //
+    exports: {
+      view: { is_allowed: false, fields: { agencies: [], export_types: [] } },
+      lock: { is_allowed: false, fields: { agencies: [], export_types: [] } },
+      create: { is_allowed: false, fields: { agencies: [], export_types: [] } },
+      delete: { is_allowed: false, fields: { agencies: [], export_types: [] } },
+      download: { is_allowed: false, fields: { agencies: [], export_types: [] } },
+      navigate: { is_allowed: false },
+    },
+    //
+    lines: {
+      view: { is_allowed: false, fields: { agencies: [] } },
+      edit: { is_allowed: false, fields: { agencies: [] } },
+      lock: { is_allowed: false, fields: { agencies: [] } },
+      create: { is_allowed: false, fields: { agencies: [] } },
+      delete: { is_allowed: false, fields: { agencies: [] } },
+      navigate: { is_allowed: false },
     },
     //
     issues: {
@@ -28,28 +48,11 @@ export const UserDefault = {
       lock: false,
       delete: false,
     },
-    // EXPORTS
-    exports: {
-      view: false,
-      gtfs_v18: false,
-      gtfs_v29: false,
-      gtfs_v30: false,
-      netex_v1: false,
-      agencies: [],
-    },
-    // USERS
+    //
     users: {
       view: false,
       create_edit: false,
       delete: false,
-    },
-    // USERS
-    lines: {
-      view: false,
-      create_edit: false,
-      lock: false,
-      delete: false,
-      agencies: [],
     },
     // TYPOLOGIES
     typologies: {

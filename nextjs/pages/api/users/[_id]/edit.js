@@ -3,6 +3,7 @@ import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { UserValidation } from '@/schemas/User/validation';
 import { UserModel } from '@/schemas/User/model';
+import { UserDefault } from '@/schemas/User/default';
 
 /* * */
 /* EDIT USER */
@@ -62,6 +63,16 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
+  // 4.
+  // Ensure latest schema modifications are applied in the database
+
+  try {
+    await UserModel.syncIndexes();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot sync indexes.' });
+  }
+
   // 5.
   // Check for uniqueness
 
@@ -80,18 +91,26 @@ export default async function handler(req, res) {
   // Reset & Ensure permissions
 
   try {
+    //
+
+    // Tags
+    if (!req.body.permissions.tags.view.is_allowed) {
+      req.body.permissions.tags = UserDefault.permissions.tags;
+    }
+
+    // Exports
+    if (!req.body.permissions.exports.view.is_allowed) {
+      req.body.permissions.exports = UserDefault.permissions.exports;
+    }
+
+    // ----
+
     // Agencies
     if (!req.body.permissions.agencies.view) {
       req.body.permissions.agencies.create_edit = false;
       req.body.permissions.agencies.delete = false;
     }
-    // Exports
-    if (!req.body.permissions.exports.view) {
-      req.body.permissions.exports.gtfs_v18 = false;
-      req.body.permissions.exports.gtfs_v29 = false;
-      req.body.permissions.exports.gtfs_v30 = false;
-      req.body.permissions.exports.agencies = [];
-    }
+
     // Users
     if (!req.body.permissions.users.view) {
       req.body.permissions.users.create_edit = false;
@@ -106,7 +125,7 @@ export default async function handler(req, res) {
   // Update the correct document
 
   try {
-    const editedDocument = await UserModel.findOneAndUpdate({ _id: { $eq: req.query._id } }, req.body, { new: true });
+    const editedDocument = await UserModel.findOneAndReplace({ _id: { $eq: req.query._id } }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `User with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {

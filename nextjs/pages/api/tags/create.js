@@ -1,10 +1,11 @@
 /* * */
 
-import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import generator from '@/services/generator';
 import { Default as TagDefault } from '@/schemas/Tag/default';
 import { Model as TagModel } from '@/schemas/Tag/model';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
 
 /* * */
 
@@ -25,7 +26,8 @@ export default async function handler(req, res) {
   // Check for correct Authentication and valid Permissions
 
   try {
-    sessionData = await checkAuthentication({ scope: 'tags', permission: 'create_edit', req, res });
+    const session = await getSession(req, res);
+    await isAllowed(session, [{ scope: 'tags', action: 'view' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });

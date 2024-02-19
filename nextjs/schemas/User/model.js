@@ -25,19 +25,34 @@ export const UserSchema = new mongoose.Schema(
     permissions: {
       //
       tags: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        lock: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
       },
+      //
+      exports: {
+        view: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }], export_types: [{ type: String }] } },
+        lock: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }], export_types: [{ type: String }] } },
+        create: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }], export_types: [{ type: String }] } },
+        delete: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }], export_types: [{ type: String }] } },
+        download: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }], export_types: [{ type: String }] } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      lines: {
+        view: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+        edit: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+        lock: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+        create: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+        delete: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+
+      // --------
+
       //
       issues: {
         view: {
@@ -69,31 +84,6 @@ export const UserSchema = new mongoose.Schema(
         },
       },
       //
-      // EXPORTS
-      exports: {
-        view: {
-          type: Boolean,
-        },
-        gtfs_v18: {
-          type: Boolean,
-        },
-        gtfs_v29: {
-          type: Boolean,
-        },
-        gtfs_v30: {
-          type: Boolean,
-        },
-        netex_v1: {
-          type: Boolean,
-        },
-        agencies: [
-          {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Agency',
-          },
-        ],
-      },
-      //
       // USERS
       users: {
         view: {
@@ -106,28 +96,7 @@ export const UserSchema = new mongoose.Schema(
           type: Boolean,
         },
       },
-      //
-      // LINES
-      lines: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        lock: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-        agencies: [
-          {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Agency',
-          },
-        ],
-      },
+
       //
       // TYPOLOGIES
       typologies: {

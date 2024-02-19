@@ -1,0 +1,19 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 3px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  /* DEFAULTS */
+  color: white;
+  background-color: #5aaf00;
+}

@@ -1,12 +1,9 @@
-'use client';
+/* * */
 
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import { useTranslations } from 'next-intl';
+import UsersExplorerPage from '@/components/UsersExplorerPage/UsersExplorerPage';
+
+/* * */
 
 export default function Page() {
-  //
-
-  const t = useTranslations('users');
-
-  return <NoDataLabel fill text={t('list.no_selection')} />;
+  return <UsersExplorerPage />;
 }

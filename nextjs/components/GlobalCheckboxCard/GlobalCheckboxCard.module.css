@@ -1,0 +1,90 @@
+/* * */
+/* CONTAINER */
+
+.container,
+.container * {
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 15px;
+  transition: all 150ms ease;
+  border-radius: 5px;
+  padding: var(--size-md);
+  border: 1px solid var(--color-gray-2);
+  background-color: var(--color-reference-0);
+  width: 100%;
+}
+
+.container:hover {
+  border-color: var(--color-gray-3);
+  background-color: var(--color-gray-0);
+}
+
+/* * */
+/* CONTAINER > DISABLED */
+
+.container.disabled,
+.container.disabled * {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.container.disabled,
+.container.disabled:hover {
+  border-color: var(--color-gray-1);
+  background-color: var(--color-gray-0);
+}
+
+/* * */
+/* CONTAINER > CHECKED */
+
+.container.checked,
+.container.checked.disabled,
+.container.checked.disabled:hover {
+  border-color: var(--mantine-color-blue-filled);
+  background-color: var(--mantine-color-blue-light);
+}
+
+/* * */
+/* INNER WRAPPER */
+
+.innerWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+/* * */
+/* LABEL */
+
+.label {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-reference-1);
+  margin-top: 1px;
+}
+
+/* * */
+/* DESCRIPTION */
+
+.description {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-gray-6);
+}
+
+/* * */
+/* CHILDREN */
+
+.children {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}

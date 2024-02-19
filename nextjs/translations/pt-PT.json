@@ -1420,25 +1420,13 @@
                 "nothingFound": "No Results Found"
             },
             "permissions": {
-                "tags": {
-                    "title": "Tags",
-                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-                    "view": {
-                        "label": "View Tags",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "create_edit": {
-                        "label": "Create & Edit Tags",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "lock": {
-                        "label": "Lock Tags",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "delete": {
-                        "label": "Delete Tags",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    }
+                "exports": {
+                    "title": "Exportações",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+                },
+                "lines": {
+                    "title": "Linhas, Rotas & Patterns",
+                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                 },
                 "issues": {
                     "title": "Issues",
@@ -1480,35 +1468,6 @@
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
                     }
                 },
-                "exports": {
-                    "title": "GTFS Export",
-                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-                    "view": {
-                        "label": "View & Download Exports",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "gtfs_v18": {
-                        "label": "Export GTFS v18",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "gtfs_v29": {
-                        "label": "Export GTFS v29",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "gtfs_v30": {
-                        "label": "Export GTFS v30",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "netex_v1": {
-                        "label": "Export NETEX v1",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "agencies": {
-                        "label": "Can Export data from these Agencies",
-                        "placeholder": "Choose an option...",
-                        "nothingFound": "No Results Found"
-                    }
-                },
                 "users": {
                     "title": "Users",
                     "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
@@ -1523,31 +1482,6 @@
                     "delete": {
                         "label": "Delete Users",
                         "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    }
-                },
-                "lines": {
-                    "title": "Lines, Routes & Patterns",
-                    "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-                    "view": {
-                        "label": "View Lines, Routes & Patterns",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "create_edit": {
-                        "label": "Create & Edit Lines, Routes & Patterns",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "lock": {
-                        "label": "Lock Lines, Routes & Patterns",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "delete": {
-                        "label": "Delete Lines, Routes & Patterns",
-                        "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-                    },
-                    "agencies": {
-                        "label": "Can Edit and/or Delete Lines, Routes & Patterns from these Agencies",
-                        "placeholder": "Choose an option...",
-                        "nothingFound": "No Results Found"
                     }
                 },
                 "typologies": {
@@ -1767,16 +1701,24 @@
         }
     },
     "AppSidebar": {
+        "alerts": "Alertas",
+        "reporting": "Reporting",
+        "audits": "Auditorias",
+        "feedback": "Feedback",
         "issues": "Issues",
-        "tags": "Tags",
         "stops": "Paragens",
-        "lines": "Linhas",
         "calendars": "Calendários",
+        "lines": "Linhas",
         "exports": "Exportações",
-        "realtime": "Tempo Real",
+        "municipalities": "Municípios",
+        "zones": "Zonas",
+        "fares": "Tarifas",
+        "typologies": "Tipologias",
+        "agencies": "Operadores",
+        "tags": "Etiquetas",
+        "media": "Media",
         "users": "Utilizadores",
-        "configs": "Configurações",
-        "alerts": "Alertas"
+        "configs": "Configurações"
     },
     "NoDataLabel": {
         "title": "No Data Available"
@@ -3175,5 +3117,282 @@
     },
     "LinesExplorerLine": {
         "untitled": "Linha sem nome"
+    },
+    "UsersExplorer": {},
+    "UsersExplorerPage": {
+        "no_data": "Escolha um utilizador"
+    },
+    "UsersExplorerIdPage": {
+        "sections": {
+            "config": {
+                "title": "Details",
+                "description": "Something about this section"
+            },
+            "operation": {
+                "title": "Operação",
+                "description": "Something about this section"
+            },
+            "financials": {
+                "title": "Dados Financeiros",
+                "description": "Something about this section"
+            }
+        },
+        "form": {
+            "label": {
+                "label": "Rótulo da Etiqueta",
+                "placeholder": "ÁREA 2"
+            },
+            "description": {
+                "label": "Descrição",
+                "placeholder": "Tudo sobre esta etiqueta..."
+            },
+            "color": {
+                "label": "Cor do Fundo",
+                "placeholder": "#FEFEFE"
+            },
+            "text_color": {
+                "label": "Cor do Texto",
+                "placeholder": "#000000"
+            }
+        }
+    },
+    "UsersExplorerList": {},
+    "UsersExplorerListFooter": {
+        "found_items": "Encontrados {count, plural, =1 {1 utilizador} other {# utilizadores}}"
+    },
+    "UsersExplorerListItem": {
+        "untitled": "Utilizador sem nome"
+    },
+    "UsersExplorerListHeader": {
+        "operations": {
+            "create": {
+                "title": "Create New User",
+                "loading": "Creating new User...",
+                "success": "A new User was created!",
+                "error": "An error occurred while creating this User."
+            }
+        }
+    },
+    "UsersExplorerUserHoverCard": {
+        "created_by": "Criada a {date} por {name}"
+    },
+    "UsersExplorerIdPageHeader": {
+        "untitled": "Utilizador sem nome",
+        "operations": {
+            "delete": {
+                "title": "Eliminar utilizador",
+                "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar este utilizador para sempre? Tem de escolher um outro utilizador que ficará responsável por todos os conteúdos produzidos por este utilizador.",
+                "confirm": "Eliminar utilizador para sempre",
+                "cancel": "Não Eliminar",
+                "loading": "A eliminar utilizador...",
+                "success": "Utilizador eliminado.",
+                "error": "Ocorreu um erro ao eliminar este utilizador."
+            }
+        }
+    },
+    "UsersExplorerIdPageDetails": {
+        "title": "Sobre este utilizador",
+        "description": "Introduza alguma informação sobre este utilizador",
+        "form": {
+            "name": {
+                "label": "First and Last Name",
+                "placeholder": "Alberto Soares"
+            },
+            "email": {
+                "label": "Email",
+                "placeholder": "first.last@tmlmobilidade.pt"
+            },
+            "phone": {
+                "label": "Phone Number",
+                "placeholder": "+351 912 345 678"
+            }
+        }
+    },
+    "UsersExplorerIdPagePermissions": {
+        "tags": {
+            "title": "Etiquetas",
+            "description": ""
+        },
+        "lines": {
+            "title": "Linhas, Rotas & Patterns",
+            "description": ""
+        },
+        "exports": {
+            "title": "Exportações",
+            "description": ""
+        }
+    },
+    "UsersExplorerIdPagePermissionsTags": {
+        "view": {
+            "label": "Ver Etiquetas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "edit": {
+            "label": "Editar Etiquetas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "lock": {
+            "label": "Bloquear Etiquetas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "create": {
+            "label": "Criar Etiquetas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "delete": {
+            "label": "Eliminar Etiquetas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "navigate": {
+            "label": "Aceder à página das Etiquetas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        }
+    },
+    "UsersExplorerIdPagePermissionsLines": {
+        "view": {
+            "label": "Ver Linhas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agencies": {
+                    "label": "Limitar a estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
+        },
+        "edit": {
+            "label": "Editar Linhas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agencies": {
+                    "label": "Limitar a estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
+        },
+        "lock": {
+            "label": "Bloquear Linhas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agencies": {
+                    "label": "Limitar a estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
+        },
+        "create": {
+            "label": "Criar Linhas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agencies": {
+                    "label": "Limitar a estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
+        },
+        "delete": {
+            "label": "Eliminar Linhas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agencies": {
+                    "label": "Limitar a estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
+        },
+        "navigate": {
+            "label": "Aceder à página das Linhas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        }
+    },
+    "UsersExplorerIdPagePermissionsExports": {
+        "view": {
+            "label": "Ver Exportações",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agencies": {
+                    "label": "Limitar a estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                },
+                "export_types": {
+                    "label": "Limitar a estas versões",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
+        },
+        "lock": {
+            "label": "Bloquear Exportações",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agencies": {
+                    "label": "Limitar a estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                },
+                "export_types": {
+                    "label": "Limitar a estas versões",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
+        },
+        "create": {
+            "label": "Criar Exportações",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agencies": {
+                    "label": "Limitar a estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                },
+                "export_types": {
+                    "label": "Limitar a estas versões",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
+        },
+        "delete": {
+            "label": "Eliminar Exportações",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agencies": {
+                    "label": "Limitar a estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                },
+                "export_types": {
+                    "label": "Limitar a estas versões",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
+        },
+        "download": {
+            "label": "Download de Exportações",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agencies": {
+                    "label": "Limitar a estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                },
+                "export_types": {
+                    "label": "Limitar a estas versões",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
+        },
+        "navigate": {
+            "label": "Aceder à página das Exportações",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        }
     }
 }

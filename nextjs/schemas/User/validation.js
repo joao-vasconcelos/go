@@ -1,12 +1,9 @@
+/* * */
+
 import * as yup from 'yup';
 
 /* * */
-/* DOCUMENT TYPE: USER */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. YUP Validation Schema */
 export const UserValidation = yup.object({
   name: yup
     .string()

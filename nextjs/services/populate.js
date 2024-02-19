@@ -13,7 +13,7 @@ export default function populate(defaultObj, dataObj) {
       if (data?.hasOwnProperty(key)) {
         if (Array.isArray(obj[key]) && Array.isArray(data[key]) && obj[key].length === 0) {
           obj[key] = data[key]; // Assign array directly from data object
-        } else if (typeof obj[key] === 'object' && typeof data[key] === 'object') {
+        } else if (typeof obj[key] === 'object' /* && typeof data[key] === 'object' // <-- ATENTION HERE */) {
           populateObject(obj[key], data[key]); // Recursively populate nested objects
         } else {
           obj[key] = data[key]; // Assign value from data object

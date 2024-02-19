@@ -1,0 +1,53 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--size-lg);
+  gap: var(--size-lg);
+  width: 100%;
+}
+
+.container.withoutPadding {
+  padding: 0;
+}
+
+/* * */
+/* TITLE AND DESCRIPTION WRAPPER */
+
+.titleDescriptionWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-xs);
+}
+
+/* * */
+/* TITLE */
+
+.title {
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--color-gray-6);
+}
+
+/* * */
+/* DESCRIPTION */
+
+.description {
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: var(--color-gray-6);
+}
+
+/* * */
+/* CHILDREN WRAPPER */
+
+.childrenWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-md);
+  width: 100%;
+}
