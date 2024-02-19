@@ -1,17 +1,21 @@
-import delay from '@/services/delay';
+/* * */
+
 import mongodb from '@/services/mongodb';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
 import { FareModel } from '@/schemas/Fare/model';
 
-/* * */
-/* DELETE FARE */
-/* Explanation needed. */
 /* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
-  // 0.
+  // 1.
+  // Setup variables
+
+  let sessionData;
+
+  // 2.
   // Refuse request if not DELETE
 
   if (req.method != 'DELETE') {
@@ -19,17 +23,18 @@ export default async function handler(req, res) {
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'fares', permission: 'delete', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'fares', action: 'delete' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 2.
+  // 4.
   // Connect to MongoDB
 
   try {
@@ -39,8 +44,8 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 3.
-  // Delete the requested document
+  // 5.
+  // Delete the correct document
 
   try {
     const deletedDocument = await FareModel.findOneAndDelete({ _id: { $eq: req.query._id } });
@@ -50,4 +55,6 @@ export default async function handler(req, res) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot delete this Fare.' });
   }
+
+  //
 }
