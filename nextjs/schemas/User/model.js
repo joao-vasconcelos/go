@@ -24,12 +24,75 @@ export const UserSchema = new mongoose.Schema(
     },
     permissions: {
       //
-      tags: {
+      alerts: {
         view: { is_allowed: { type: Boolean } },
         edit: { is_allowed: { type: Boolean } },
         lock: { is_allowed: { type: Boolean } },
         create: { is_allowed: { type: Boolean } },
         delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      reporting: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      audits: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      feedback: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      issues: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      stops: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      calendars: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      lines: {
+        view: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+        edit: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+        lock: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+        create: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+        delete: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
         navigate: { is_allowed: { type: Boolean } },
       },
       //
@@ -42,221 +105,82 @@ export const UserSchema = new mongoose.Schema(
         navigate: { is_allowed: { type: Boolean } },
       },
       //
-      lines: {
-        view: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
-        edit: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
-        lock: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
-        create: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
-        delete: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+      municipalities: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
         navigate: { is_allowed: { type: Boolean } },
       },
-
-      // --------
-
       //
-      issues: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        lock: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
+      zones: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      fares: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      typologies: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
       },
       //
       agencies: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        lock: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
       },
       //
-      // USERS
+      tags: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
+      media: {
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
       users: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-      },
-
-      //
-      // TYPOLOGIES
-      typologies: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        lock: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
+        view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
       },
       //
-      // FARES
-      fares: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        lock: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-      },
-      //
-      // ZONES
-      zones: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        lock: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-      },
-      //
-      // STOPS
-      stops: {
-        view: {
-          type: Boolean,
-        },
-        propose: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        edit_code: {
-          type: Boolean,
-        },
-        lock: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-        batch_update: {
-          type: Boolean,
-        },
-        municipalities: [
-          {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Municipality',
-          },
-        ],
-      },
-      //
-      // MUNICIPALITIES
-      municipalities: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        lock: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-      },
-      //
-      // ALERTS
-      alerts: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        publish: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-      },
-      //
-      // CALENDARS
-      calendars: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        lock: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-      },
-      //
-      // DATES
-      dates: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-      },
-      //
-      // THREADS
-      threads: {
-        view: {
-          type: Boolean,
-        },
-        create_edit: {
-          type: Boolean,
-        },
-        delete: {
-          type: Boolean,
-        },
-      },
-      //
-      // CONFIGS
       configs: {
-        admin: {
-          type: Boolean,
-        },
+        admin: { is_allowed: { type: Boolean } },
       },
+      //
     },
   },
   { timestamps: true }

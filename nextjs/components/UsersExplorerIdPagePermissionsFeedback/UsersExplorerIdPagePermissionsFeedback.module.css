@@ -1,0 +1,10 @@
+/* * */
+/* ACCORDION */
+
+.accordionControl {
+  padding: 0 var(--size-lg) 0 0;
+}
+
+.accordionLabel {
+  padding: 0;
+}

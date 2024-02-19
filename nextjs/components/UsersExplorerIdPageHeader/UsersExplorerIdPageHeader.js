@@ -65,8 +65,8 @@ export default function UsersExplorerIdPageHeader() {
         onSave={usersExplorerContext.saveItem}
         onClose={usersExplorerContext.closeItem}
       />
-      {usersExplorerContext.form.values.label ? (
-        <UsersExplorerUser userId={usersExplorerContext.item_id} />
+      {usersExplorerContext.form.values.name ? (
+        <UsersExplorerUser userId={usersExplorerContext.item_id} type="full" />
       ) : (
         <Text size="h1" style="untitled" full>
           {t('untitled')}
