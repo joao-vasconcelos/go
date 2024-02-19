@@ -2,7 +2,7 @@
 
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as IssueModel } from '@/schemas/Issue/model';
+import { IssueModel } from '@/schemas/Issue/model';
 import { Model as UserModel } from '@/schemas/User/model';
 
 /* * */

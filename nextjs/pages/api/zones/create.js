@@ -1,20 +1,23 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
+/* * */
+
 import mongodb from '@/services/mongodb';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
+import generator from '@/services/generator';
 import { ZoneDefault } from '@/schemas/Zone/default';
 import { ZoneModel } from '@/schemas/Zone/model';
-import generator from '@/services/generator';
 
-/* * */
-/* CREATE ZONE */
-/* Explanation needed. */
 /* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
-  // 0.
+  // 1.
+  // Setup variables
+
+  let sessionData;
+
+  // 2.
   // Refuse request if not GET
 
   if (req.method != 'GET') {
@@ -22,17 +25,18 @@ export default async function handler(req, res) {
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'zones', permission: 'create_edit', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'zones', action: 'create' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 2.
+  // 4.
   // Connect to MongoDB
 
   try {
@@ -42,7 +46,9 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 2. Try to save a new document with req.body
+  // 5.
+  // Try to save a new document with req.body
+
   try {
     const newDocument = { ...ZoneDefault, code: generator({ length: 5 }) };
     while (await ZoneModel.exists({ code: newDocument.code })) {
@@ -54,4 +60,6 @@ export default async function handler(req, res) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot create this Zone.' });
   }
+
+  //
 }

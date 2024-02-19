@@ -3,7 +3,7 @@
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
 import { Validation as IssueValidation } from '@/schemas/Issue/validation';
-import { Model as IssueModel } from '@/schemas/Issue/model';
+import { IssueModel } from '@/schemas/Issue/model';
 
 /* * */
 

@@ -2,7 +2,7 @@
 
 import mongodb from '@/services/mongodb';
 import { Validation as TagValidation } from '@/schemas/Tag/validation';
-import { Model as TagModel } from '@/schemas/Tag/model';
+import { TagModel } from '@/schemas/Tag/model';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
 

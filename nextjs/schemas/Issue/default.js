@@ -4,7 +4,7 @@ import { IssueOptions } from './options';
 
 /* * */
 
-export const Default = {
+export const IssueDefault = {
   //
   code: '',
   //

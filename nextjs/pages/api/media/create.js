@@ -1,10 +1,12 @@
 /* * */
 
-import fs from 'fs';
+/* * */
+
+import mongodb from '@/services/mongodb';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
 import Formidable from 'formidable';
 import STORAGE from '@/services/STORAGE';
-import mongodb from '@/services/mongodb';
-import checkAuthentication from '@/services/checkAuthentication';
 import { MediaModel } from '@/schemas/Media/model';
 import { MediaDefault } from '@/schemas/Media/default';
 
@@ -22,29 +24,33 @@ export const config = {
 export default async function parseGTFS(req, res) {
   //
 
+  // 1.
+  // Setup variables
+
   let sessionData;
   let formFields;
   let formFiles;
 
-  // 1.
-  // Refuse request if not POST
+  // 2.
+  // Refuse request if not GET
 
-  if (req.method != 'POST') {
-    await res.setHeader('Allow', ['POST']);
+  if (req.method != 'GET') {
+    await res.setHeader('Allow', ['GET']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 2.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    sessionData = await checkAuthentication({ scope: 'tags', permission: 'create_edit', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'lines', action: 'create' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 3.
+  // 4.
   // Connect to MongoDB
 
   try {
@@ -54,8 +60,8 @@ export default async function parseGTFS(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  //
-  // 4. Parse FormData in the request
+  // 5.
+  // Parse FormData in the request
 
   try {
     // Create a new Formidable instance
@@ -68,8 +74,8 @@ export default async function parseGTFS(req, res) {
     return await res.status(500).json({ message: err.message || 'Could not parse form data.' });
   }
 
-  //
-  // 5. Validate the form data
+  // 6.
+  // Validate the form data
 
   try {
     // Check if title is present
@@ -84,8 +90,8 @@ export default async function parseGTFS(req, res) {
     return await res.status(500).json({ message: err.message || 'Could not validate form data.' });
   }
 
-  //
-  // 6. Create a new document
+  // 7.
+  // Create a new document
 
   try {
     //

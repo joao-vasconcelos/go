@@ -3,7 +3,7 @@
 import mongodb from '@/services/mongodb';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import { Model as IssueModel } from '@/schemas/Issue/model';
+import { IssueModel } from '@/schemas/Issue/model';
 
 /* * */
 

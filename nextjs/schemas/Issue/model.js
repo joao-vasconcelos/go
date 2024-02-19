@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 /* * */
 
-export const Schema = new mongoose.Schema({
+export const IssueSchema = new mongoose.Schema({
   //
   code: {
     type: String,
@@ -129,4 +129,4 @@ export const Schema = new mongoose.Schema({
 
 /* * */
 
-export const Model = mongoose?.models?.Issue || mongoose.model('Issue', Schema);
+export const IssueModel = mongoose?.models?.Issue || mongoose.model('Issue', IssueSchema);

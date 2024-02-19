@@ -1,7 +1,7 @@
 /* * */
 
 import mongodb from '@/services/mongodb';
-import { Model as TagModel } from '@/schemas/Tag/model';
+import { TagModel } from '@/schemas/Tag/model';
 import { Model as UserModel } from '@/schemas/User/model';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';

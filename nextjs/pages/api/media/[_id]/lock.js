@@ -2,7 +2,7 @@
 
 import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as TagModel } from '@/schemas/Tag/model';
+import { TagModel } from '@/schemas/Tag/model';
 
 /* * */
 
