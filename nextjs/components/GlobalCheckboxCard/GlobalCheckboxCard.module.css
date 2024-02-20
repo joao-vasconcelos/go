@@ -6,7 +6,8 @@
   cursor: pointer;
 }
 
-.container {
+.container,
+.container.readOnly:hover {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -26,13 +27,31 @@
 }
 
 /* * */
+/* CONTAINER > READ ONLY */
+
+.container.readOnly,
+.container.readOnly * {
+  cursor: default;
+}
+
+/* * */
 /* CONTAINER > DISABLED */
 
 .container.disabled,
 .container.disabled * {
-  opacity: 0.8;
   cursor: not-allowed;
 }
+
+.container.disabled,
+.container.disabled .label,
+.container.disabled .description {
+  opacity: 0.75;
+  color: var(--color-gray-6);
+}
+
+/* .container.disabled .label {
+  color: var(--color-gray-7);
+} */
 
 .container.disabled,
 .container.disabled:hover {
@@ -44,6 +63,8 @@
 /* CONTAINER > CHECKED */
 
 .container.checked,
+.container.checked.readOnly,
+.container.checked.readOnly:hover,
 .container.checked.disabled,
 .container.checked.disabled:hover {
   border-color: var(--mantine-color-blue-filled);

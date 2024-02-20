@@ -16,27 +16,23 @@ export default function AppAuthenticationCheck({ permissions = [], redirect = fa
   // A. Setup variables
 
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: sessionData, status: sessionStatus } = useSession();
 
   //
   // B. Transform data
 
   const hasPermission = useMemo(() => {
-    try {
-      return isAllowed(session, permissions);
-    } catch (error) {
-      return false;
-    }
-  }, [permissions, session]);
+    return isAllowed(sessionData, permissions, { handleError: true });
+  }, [permissions, sessionData]);
 
   //
   // C. Handle actions
 
   useEffect(() => {
-    if (status === 'authenticated') {
+    if (sessionStatus === 'authenticated') {
       if (!hasPermission && redirect) router.push('/dashboard');
     }
-  }, [hasPermission, redirect, router, status]);
+  }, [hasPermission, redirect, router, sessionStatus]);
 
   //
   // D. Render components

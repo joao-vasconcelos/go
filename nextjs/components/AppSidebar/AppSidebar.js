@@ -11,7 +11,6 @@ import {
   IconArrowLoopRight,
   IconCalendarDue,
   IconFileZip,
-  IconChartArrowsVertical,
   IconUsers,
   IconDatabaseCog,
   IconTag,
@@ -24,10 +23,7 @@ import {
   IconMapHeart,
   IconTopologyStar3,
   IconTicket,
-  IconReportMoney,
   IconClipboardText,
-  IconAnalyze,
-  IconChartBubble,
 } from '@tabler/icons-react';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
@@ -44,7 +40,7 @@ export default function AppSidebar() {
 
   const links = [
     { href: 'alerts', label: t('alerts'), icon: <IconAlertTriangle />, permissions: [{ scope: 'alerts', action: 'navigate' }] },
-    { href: 'realtime', label: t('reporting'), icon: <IconChartPie />, permissions: [{ scope: 'reporting', action: 'navigate' }] },
+    { href: 'reporting', label: t('reporting'), icon: <IconChartPie />, permissions: [{ scope: 'reporting', action: 'navigate' }] },
     { href: 'audits', label: t('audits'), icon: <IconClipboardText />, permissions: [{ scope: 'audits', action: 'view' }] },
     { href: 'feedback', label: t('feedback'), icon: <IconMoodSearch />, permissions: [{ scope: 'feedback', action: 'view' }] },
     { href: 'issues', label: t('issues'), icon: <IconChartArcs />, permissions: [{ scope: 'issues', action: 'navigate' }] },
@@ -60,7 +56,7 @@ export default function AppSidebar() {
     { href: 'tags', label: t('tags'), icon: <IconTag />, permissions: [{ scope: 'tags', action: 'navigate' }] },
     { href: 'media', label: t('media'), icon: <IconFile3d />, permissions: [{ scope: 'media', action: 'navigate' }] },
     { href: 'users', label: t('users'), icon: <IconUsers />, permissions: [{ scope: 'users', action: 'navigate' }] },
-    { href: 'configs', label: t('configs'), icon: <IconDatabaseCog />, permissions: [{ scope: 'configs', action: 'navigate' }] },
+    { href: 'configs', label: t('configs'), icon: <IconDatabaseCog />, permissions: [{ scope: 'configs', action: 'admin' }] },
   ];
 
   //

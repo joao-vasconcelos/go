@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import doSearch from '@/services/doSearch';
 import { useRouter } from '@/translations/navigation';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { isAllowed } from '@/components/AuthGate/AuthGate';
+import isAllowed from '@/authentication/isAllowed';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -78,7 +78,7 @@ export function TagsExplorerContextProvider({ children }) {
   //
   // D. Fetch data
 
-  const { data: userSession } = useSession();
+  const { data: sessionData } = useSession();
   const { data: allItemsData, isLoading: allItemsLoading, mutate: allItemsMutate } = useSWR('/api/tags');
   const { data: itemData, isLoading: itemLoading, mutate: itemMutate } = useSWR(itemId && `/api/tags/${itemId}`);
 
@@ -101,11 +101,11 @@ export function TagsExplorerContextProvider({ children }) {
 
   useEffect(() => {
     // Check if the use is allowed to edit the current page
-    const isReadOnly = !isAllowed(userSession, 'tags', 'create_edit') || itemData?.is_locked || pageState.is_saving;
+    const isReadOnly = !isAllowed(sessionData, [{ scope: 'tags', action: 'edit' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving;
     // Update state
     setPageState((prev) => ({ ...prev, is_read_only: isReadOnly }));
     //
-  }, [itemData?.is_locked, pageState.is_saving, userSession]);
+  }, [itemData?.is_locked, pageState.is_saving, sessionData]);
 
   useEffect(() => {
     // Exit if no data is available or form is dirty

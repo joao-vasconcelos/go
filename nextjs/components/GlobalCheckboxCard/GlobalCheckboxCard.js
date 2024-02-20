@@ -1,7 +1,7 @@
 /* * */
 
 import styles from './GlobalCheckboxCard.module.css';
-import { UnstyledButton, Checkbox, Text } from '@mantine/core';
+import { Checkbox } from '@mantine/core';
 
 /* * */
 
@@ -21,8 +21,8 @@ export default function GlobalCheckboxCard({ label = '', description = '', value
 
   return (
     <div>
-      <div className={`${styles.container} ${value && styles.checked} ${disabled && styles.disabled}`} onClick={handleToggle}>
-        <Checkbox checked={value} onChange={() => {}} size="md" />
+      <div className={`${styles.container} ${value && styles.checked} ${readOnly && styles.readOnly} ${disabled && styles.disabled}`} onClick={handleToggle}>
+        <Checkbox checked={value} onChange={() => {}} size="md" readOnly={readOnly} disabled={disabled} />
         <div className={styles.innerWrapper}>
           <p className={styles.label}>{label}</p>
           <p className={styles.description}>{description}</p>
@@ -35,4 +35,6 @@ export default function GlobalCheckboxCard({ label = '', description = '', value
       </div>
     </div>
   );
+
+  //
 }
