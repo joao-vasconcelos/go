@@ -5,6 +5,7 @@ import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
 import { UserValidation } from '@/schemas/User/validation';
 import { UserModel } from '@/schemas/User/model';
+import ensureUserPermissions from '@/authentication/ensureUserPermissions';
 
 /* * */
 
@@ -110,6 +111,16 @@ export default async function handler(req, res) {
   }
 
   // 11.
+  // Ensure permissions are set correctly
+
+  try {
+    req.body.permissions = ensureUserPermissions(req.body.permissions);
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: err.message || 'Could not ensure user permissions are correctly formatted.' });
+  }
+
+  // 12.
   // Update the requested document
 
   try {

@@ -1,20 +1,28 @@
 {
-    "auth": {
+    "AppAuthenticationLogin": {
+        "email": {
+            "label": "Introduza o seu email TML",
+            "placeholder": "email@tmlmobilidade.pt"
+        },
         "login": {
-            "submit": "Sign In"
+            "label": "Sign In"
+        }
+    },
+    "AppAuthenticationLoginVerify": {
+        "instruction": "Por favor verifique o seu email.",
+        "retry": {
+            "label": "Não recebi, enviar outra vez"
+        }
+    },
+    "AppAuthenticationLoginError": {
+        "error_type": {
+            "configuration": "Existe um problema com a configuração do servidor.",
+            "access_denied": "Não é possível autenticar-se com este email.",
+            "verification": "A sua sessão expirou ou então autenticou-se com outro dispositivo.",
+            "unknown": "Ocorreu um erro desconhecido com a autenticação."
         },
-        "verify": {
-            "instruction": "Please check your email",
-            "submit": "I did not receive my email"
-        },
-        "error": {
-            "submit": "Try Again",
-            "type": {
-                "configuration": "There is a problem with the server configuration.",
-                "access-denied": "You cannot login with this email.",
-                "verification": "The token has expired or has already been used.",
-                "unknown": "Unkown Issue"
-            }
+        "retry": {
+            "label": "Tentar novamente"
         }
     },
     "agencies": {
