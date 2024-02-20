@@ -2,9 +2,11 @@
 
 /* * */
 
+import 'dayjs/locale/pt';
 import { SWRConfig } from 'swr';
 import { SessionProvider } from 'next-auth/react';
 import { MantineProvider } from '@mantine/core';
+import { MapProvider } from 'react-map-gl/maplibre';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
@@ -38,14 +40,16 @@ export default function Providers({ children, session }) {
   // B. Render components
 
   return (
-    <SessionProvider session={session} refetchInterval={15}>
+    <SessionProvider session={session} refetchInterval={5}>
       <SWRConfig value={swrOptions}>
-        <MantineProvider theme={theme} defaultColorScheme="auto">
-          <DatesProvider settings={{ locale: 'pt' }}>
-            <Notifications />
-            <ModalsProvider>{children}</ModalsProvider>
-          </DatesProvider>
-        </MantineProvider>
+        <MapProvider>
+          <MantineProvider theme={theme} defaultColorScheme="auto">
+            <DatesProvider settings={{ locale: 'pt' }}>
+              <Notifications />
+              <ModalsProvider>{children}</ModalsProvider>
+            </DatesProvider>
+          </MantineProvider>
+        </MapProvider>
       </SWRConfig>
     </SessionProvider>
   );

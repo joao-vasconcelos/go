@@ -25,9 +25,10 @@
 /* GREETING */
 
 .greeting {
-  color: var(--color-gray-4);
-  font-size: var(--font-lg);
+  color: var(--color-gray-6);
+  font-size: 14px;
   font-weight: 600;
+  text-transform: uppercase;
   line-height: 1;
 }
 

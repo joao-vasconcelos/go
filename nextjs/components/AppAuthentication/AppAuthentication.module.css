@@ -1,3 +1,6 @@
+/* * */
+/* CONTAINER */
+
 .container {
   position: fixed;
   width: 100%;
@@ -14,6 +17,9 @@
   background-repeat: no-repeat;
 }
 
+/* * */
+/* LOGIN FORM */
+
 .loginForm {
   width: 300px;
   background-color: var(--gray0);
@@ -27,14 +33,20 @@
   }
 }
 
+/* * */
+/* LOGO WRAPPER */
+
 .logoWrapper {
   width: 100%;
-  padding: 30px 40px;
+  padding: 30px 50px;
   display: flex;
   flex-direction: column;
   gap: var(--size-md);
   border-bottom: 1px solid var(--gray4);
 }
+
+/* * */
+/* FORM WRAPPER */
 
 .formWrapper {
   width: 100%;

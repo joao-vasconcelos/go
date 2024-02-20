@@ -1,26 +1,31 @@
 'use client';
 
-import 'dayjs/locale/pt';
-import { MapProvider } from 'react-map-gl/maplibre';
+/* * */
+
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import AppWrapper from '@/components/AppWrapper/AppWrapper';
+import Loader from '@/components/Loader/Loader';
+
+/* * */
 
 export default function Layout({ children }) {
   //
 
-  const router = useRouter();
+  //
+  // A. Handle session
 
-  const { status } = useSession({
+  const { status: sessionStatus } = useSession({
     required: true,
     onUnauthenticated() {
-      router.push(`/login?callbackUrl=${window.location.pathname}`);
+      if (!window.location.pathname || window.location.pathname === '/') window.location = '/login';
+      else window.location = `/login?callbackUrl=${window.location.pathname}`;
     },
   });
 
-  return (
-    <MapProvider>
-      <AppWrapper>{children}</AppWrapper>
-    </MapProvider>
-  );
+  //
+  // B. Render components
+
+  return sessionStatus === 'authenticated' ? <AppWrapper>{children}</AppWrapper> : <Loader visible fill />;
+
+  //
 }

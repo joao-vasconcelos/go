@@ -1,41 +1,9 @@
-'use client';
+/* * */
 
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from '@/translations/navigation';
-import { Button, SimpleGrid, Text } from '@mantine/core';
-import { useTranslations } from 'next-intl';
+import AppAuthenticationLoginError from '@/components/AppAuthenticationLoginError/AppAuthenticationLoginError';
 
-export default function AuthError() {
-  //
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const t = useTranslations('auth.error');
+/* * */
 
-  const getErrorMessage = () => {
-    switch (searchParams.get('error')) {
-      case 'Configuration':
-        return t('type.configuration');
-      case 'AccessDenied':
-        return t('type.access-denied');
-      case 'Verification':
-        return t('type.verification');
-      default:
-        return t('type.unknown');
-    }
-  };
-
-  const handleSignInRetry = () => {
-    router.push('/login');
-  };
-
-  return (
-    <SimpleGrid>
-      <Text c="red" align="center" fw="bold">
-        {getErrorMessage()}
-      </Text>
-      <Button fullWidth variant="light" onClick={handleSignInRetry}>
-        {t('submit')}
-      </Button>
-    </SimpleGrid>
-  );
+export default function Page() {
+  return <AppAuthenticationLoginError />;
 }
