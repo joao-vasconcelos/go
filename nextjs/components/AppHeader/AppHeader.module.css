@@ -10,7 +10,7 @@
   height: 100%;
   z-index: 50;
   padding: var(--size-sm);
-  padding-left: var(--size-md);
+  padding-left: 20px;
   background-color: var(--color-reference-0);
   border-bottom: 1px solid var(--color-gray-2);
 }
@@ -27,7 +27,7 @@
 .greeting {
   color: var(--color-gray-6);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   line-height: 1;
 }

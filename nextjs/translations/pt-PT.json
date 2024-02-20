@@ -1695,17 +1695,17 @@
     "configs": {},
     "AppOptions": {
         "language": {
-            "label": "Language",
+            "label": "Idioma",
             "locale": {
                 "en": "English",
                 "pt-PT": "Português"
             }
         },
         "auth": {
-            "logout": "Logout"
+            "logout": "Terminar Sessão"
         },
         "version": {
-            "label": "Version {version}"
+            "label": "Versão {version}"
         }
     },
     "AppSidebar": {
