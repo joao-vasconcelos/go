@@ -1,19 +1,23 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
+/* * */
+
 import mongodb from '@/services/mongodb';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
 import { AlertValidation } from '@/schemas/Alert/validation';
 import { AlertModel } from '@/schemas/Alert/model';
 
 /* * */
-/* EDIT ALERT */
-/* Explanation needed. */
-/* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
-  // 0.
+  // 1.
+  // Setup variables
+
+  let sessionData;
+  let foundDocument;
+
+  // 2.
   // Refuse request if not PUT
 
   if (req.method != 'PUT') {
@@ -21,17 +25,38 @@ export default async function handler(req, res) {
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'alerts', permission: 'create_edit', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'alerts', action: 'edit' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 2.
+  // 4.
+  // Connect to MongoDB
+
+  try {
+    await mongodb.connect();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'MongoDB connection error.' });
+  }
+
+  // 5.
+  // Ensure latest schema modifications are applied in the database
+
+  try {
+    await AlertModel.syncIndexes();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot sync indexes.' });
+  }
+
+  // 6.
   // Parse request body into JSON
 
   try {
@@ -42,7 +67,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  // 3.
+  // 7.
   // Validate req.body against schema
 
   try {
@@ -52,25 +77,49 @@ export default async function handler(req, res) {
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
-  // 4.
-  // Connect to mongodb
+  // 8.
+  // Retrieve requested document from the database
 
   try {
-    await mongodb.connect();
+    foundDocument = await AlertModel.findOne({ _id: { $eq: req.query._id } });
+    if (!foundDocument) return await res.status(404).json({ message: `Alert with _id: ${req.query._id} not found.` });
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
+    return await res.status(500).json({ message: 'Alert not found.' });
   }
 
-  // 5.
+  // 9.
+  // Check if document is locked
+
+  if (foundDocument.is_locked) {
+    return await res.status(423).json({ message: 'Alert is locked.' });
+  }
+
+  // 10.
+  // Check for uniqueness
+
+  try {
+    // The values that need to be unique are ['code'].
+    const foundDocumentWithAlertCode = await AlertModel.exists({ code: { $eq: req.body.code } });
+    if (foundDocumentWithAlertCode && foundDocumentWithAlertCode._id != req.query._id) {
+      throw new Error('An Alert with the same "code" already exists.');
+    }
+  } catch (err) {
+    console.log(err);
+    return await res.status(409).json({ message: err.message });
+  }
+
+  // 11.
   // Update the requested document
 
   try {
-    const editedDocument = await AlertModel.findOneAndUpdate({ _id: { $eq: req.query._id } }, req.body, { new: true });
+    const editedDocument = await AlertModel.replaceOne({ _id: { $eq: req.query._id } }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Alert with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot update this Alert.' });
   }
+
+  //
 }
