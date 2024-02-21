@@ -1,11 +1,15 @@
 'use client';
 
+/* * */
+
 import useSWR from 'swr';
 import { SimpleGrid } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+
+/* * */
 
 export default function Page() {
   //
@@ -19,7 +23,7 @@ export default function Page() {
   // E. Render components
 
   return (
-    <AuthGate scope="configs" permission="admin" redirect>
+    <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
       <Pannel>
         <Section>
           <Text size="h2">All Route Ids</Text>
@@ -34,6 +38,8 @@ export default function Page() {
           )}
         </Section>
       </Pannel>
-    </AuthGate>
+    </AppAuthenticationCheck>
   );
+
+  //
 }

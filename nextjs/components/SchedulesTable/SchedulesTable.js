@@ -1,12 +1,12 @@
 'use client';
 
 import useSWR from 'swr';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import styles from './SchedulesTable.module.css';
 import { usePatternFormContext } from '@/schemas/Pattern/form';
 import { PatternScheduleDefault } from '@/schemas/Pattern/default';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import { ActionIcon, MultiSelect, Tooltip, TextInput, Button } from '@mantine/core';
 import { IconClockPlay, IconCalendarCheck, IconCalendarQuestion, IconBackspace, IconCalendarX, IconPlus, IconAB2 } from '@tabler/icons-react';
 import { openConfirmModal } from '@mantine/modals';
@@ -269,13 +269,13 @@ function SchedulesTableRemoveTripColumn({ rowIndex, isReadOnly }) {
 
   return (
     <div className={`${styles.column} ${styles.hend}`}>
-      <AuthGate scope="lines" permission="create_edit">
+      <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'edit' }]}>
         <Tooltip label={t('description')} position="bottom" withArrow>
           <ActionIcon size="lg" variant="subtle" color="red" onClick={handleRemoveTrip} disabled={isReadOnly}>
             <IconBackspace size={20} />
           </ActionIcon>
         </Tooltip>
-      </AuthGate>
+      </AppAuthenticationCheck>
     </div>
   );
 
@@ -329,11 +329,11 @@ function SchedulesTableAddTrip({ isReadOnly }) {
   // Render components
 
   return (
-    <AuthGate scope="lines" permission="create_edit">
+    <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'edit' }]}>
       <Button leftSection={<IconPlus size={16} />} variant="default" size="xs" onClick={handleAddTrip} disabled={isReadOnly}>
         {t('label')}
       </Button>
-    </AuthGate>
+    </AppAuthenticationCheck>
   );
 
   //
@@ -368,11 +368,11 @@ function SchedulesTableSortTrips({ isReadOnly }) {
   // Render components
 
   return (
-    <AuthGate scope="lines" permission="create_edit">
+    <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'edit' }]}>
       <Button leftSection={<IconAB2 size={16} />} variant="default" size="xs" onClick={handleSortTrips} disabled={isReadOnly}>
         {t('label')}
       </Button>
-    </AuthGate>
+    </AppAuthenticationCheck>
   );
 
   //

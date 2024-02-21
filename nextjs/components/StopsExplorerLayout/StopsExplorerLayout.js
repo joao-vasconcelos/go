@@ -20,11 +20,11 @@ import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '@/components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '@/components/ListFooter/ListFooter';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import SearchField from '@/components/SearchField/SearchField';
 import StopsExplorerNewStopWizard from '@/components/StopsExplorerNewStopWizard/StopsExplorerNewStopWizard';
 import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
-import ListHeader from '../ListHeader/ListHeader';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 /* * */
 
@@ -84,7 +84,7 @@ export default function StopsExplorerLayout({ children }) {
   // E. Render data
 
   return (
-    <AuthGate scope="stops" permission="view" redirect>
+    <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'navigate' }]} redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -99,23 +99,17 @@ export default function StopsExplorerLayout({ children }) {
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <AuthGate scope="stops" permission="create_edit">
+                    <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'create' }]}>
                       <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
-                    </AuthGate>
+                    </AppAuthenticationCheck>
                     <Menu.Divider />
-                    <AuthGate scope="configs" permission="admin">
+                    <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
                       <Menu.Item leftSection={<IconRefresh size={20} />} onClick={handleBatchUpdate}>
                         {t('operations.batch_update.title')}
                       </Menu.Item>
-                    </AuthGate>
-                    <Menu.Divider />
-                    <AuthGate scope="municipalities" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/municipalities')}>
-                        Editar Municípios
-                      </Menu.Item>
-                    </AuthGate>
+                    </AppAuthenticationCheck>
                   </Menu.Dropdown>
                 </Menu>
               </ListHeader>
@@ -141,7 +135,7 @@ export default function StopsExplorerLayout({ children }) {
         }
         second={children}
       />
-    </AuthGate>
+    </AppAuthenticationCheck>
   );
 
   //

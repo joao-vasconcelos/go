@@ -10,7 +10,7 @@ import isAllowed from '@/authentication/isAllowed';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import { Validation as IssueValidation } from '@/schemas/Issue/validation';
+import { IssueValidation } from '@/schemas/Issue/validation';
 import { IssueDefault, DefaultMilestone, DefaultCommment } from '@/schemas/Issue/default';
 import populate from '@/services/populate';
 import API from '@/services/API';

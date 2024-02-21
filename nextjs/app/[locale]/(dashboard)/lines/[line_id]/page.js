@@ -22,10 +22,11 @@ import LineDisplay from '@/components/LineDisplay/LineDisplay';
 import RouteCard from '@/components/RouteCard/RouteCard';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import isAllowed from '@/authentication/isAllowed';
 import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 export default function Page() {
   //
@@ -40,7 +41,7 @@ export default function Page() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isCreatingRoute, setIsCreatingRoute] = useState(false);
-  const { data: session } = useSession();
+  const { data: sessionData } = useSession();
 
   const { line_id } = useParams();
 
@@ -75,7 +76,7 @@ export default function Page() {
   //
   // D. Setup readonly
 
-  const isReadOnly = !isAllowed(session, 'lines', 'create_edit') || lineData?.is_locked;
+  const isReadOnly = !isAllowed(sessionData, [{ scope: 'lines', action: 'edit' }], { handleError: true }) || lineData?.is_locked;
 
   //
   // E. Transform data
@@ -147,7 +148,7 @@ export default function Page() {
   const handleLock = async (value) => {
     try {
       setIsLocking(true);
-      await API({ service: 'lines', resourceId: line_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      await API({ service: 'lines', resourceId: line_id, operation: 'lock', method: 'GET' });
       lineMutate();
       setIsLocking(false);
     } catch (err) {
@@ -222,16 +223,16 @@ export default function Page() {
             onClose={async () => await handleClose()}
           />
           <LineDisplay short_name={lineForm.values.short_name} name={lineForm.values.name || t('untitled')} color={selectedLineTypologyData?.color} text_color={selectedLineTypologyData?.text_color} />
-          <AuthGate scope="lines" permission="lock">
+          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'lock' }]}>
             <LockButton isLocked={lineData?.is_locked} onClick={handleLock} loading={isLocking} />
-          </AuthGate>
-          <AuthGate scope="lines" permission="delete">
+          </AppAuthenticationCheck>
+          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'delete' }]}>
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
               <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
                 <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
-          </AuthGate>
+          </AppAuthenticationCheck>
         </ListHeader>
       }
     >
@@ -279,20 +280,20 @@ export default function Page() {
                 <RouteCard key={index} _id={route_id} onClick={handleOpenRoute} />
               ))}
             </div>
-            <AuthGate scope="lines" permission="create_edit">
+            <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'create' }]}>
               <Button onClick={handleCreateRoute} loading={isCreatingRoute} disabled={lineForm.isDirty() || !lineForm.isValid() || isReadOnly}>
                 {t('form.routes.create.title')}
               </Button>
-            </AuthGate>
+            </AppAuthenticationCheck>
           </Section>
 
-          <AuthGate scope="configs" permission="admin">
+          <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'debug' }]}>
             <Divider />
             <Section>
               <Text size="h2">{t('sections.debug.title')}</Text>
               <JsonInput value={JSON.stringify(lineData)} rows={20} />
             </Section>
-          </AuthGate>
+          </AppAuthenticationCheck>
         </form>
       </LineFormProvider>
     </Pannel>

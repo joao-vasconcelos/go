@@ -6,10 +6,10 @@ import { useSession } from 'next-auth/react';
 export default function MessageComponent({ message }) {
   //
 
-  const { data: session } = useSession();
+  const { data: sessionData } = useSession();
   const t = useTranslations('threads');
 
-  const messageIsFromCurrentUser = message.sent_by && message.sent_by._id === session?.user?._id;
+  const messageIsFromCurrentUser = message.sent_by && message.sent_by._id === sessionData?.user?._id;
 
   return (
     <div className={`${styles.container} ${messageIsFromCurrentUser && styles.fromCurrentUser}`}>

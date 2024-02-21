@@ -10,8 +10,8 @@ import isAllowed from '@/authentication/isAllowed';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import { Validation as TagValidation } from '@/schemas/Tag/validation';
-import { TagDefault } from '@/schemas/Tag/default';
+import { MediaValidation } from '@/schemas/Media/validation';
+import { MediaDefault } from '@/schemas/Media/default';
 import populate from '@/services/populate';
 import API from '@/services/API';
 
@@ -71,8 +71,8 @@ export function MediaExplorerContextProvider({ children }) {
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
-    validate: yupResolver(TagValidation),
-    initialValues: TagDefault,
+    validate: yupResolver(MediaValidation),
+    initialValues: MediaDefault,
   });
 
   //
@@ -111,7 +111,7 @@ export function MediaExplorerContextProvider({ children }) {
     // Exit if no data is available or form is dirty
     if (!itemData || formState.isDirty()) return;
     // Merge the data with the default
-    const populated = populate(TagDefault, itemData);
+    const populated = populate(MediaDefault, itemData);
     // Update form
     formState.setValues(populated);
     formState.resetDirty(populated);

@@ -10,7 +10,7 @@ import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 /* * */
 
@@ -53,7 +53,7 @@ export default function Page() {
   // C. Render components
 
   return (
-    <AuthGate scope="configs" permission="admin" redirect>
+    <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
       <Pannel>
         <Section>
           <Text size="h2">No operations available</Text>
@@ -64,7 +64,7 @@ export default function Page() {
           </SimpleGrid> */}
         </Section>
       </Pannel>
-    </AuthGate>
+    </AppAuthenticationCheck>
   );
 
   //

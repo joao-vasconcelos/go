@@ -7,7 +7,7 @@ import AutoSave from '@/components/AutoSave/AutoSave';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import LockButton from '@/components/LockButton/LockButton';
 import DeleteButton from '@/components/DeleteButton/DeleteButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
@@ -73,12 +73,12 @@ export default function MediaExplorerIdPageHeader() {
         </Text>
       )}
       <div className={styles.spacer} />
-      <AuthGate scope="media" permission="lock">
+      <AppAuthenticationCheck permissions={[{ scope: 'media', action: 'lock' }]}>
         <LockButton isLocked={mediaExplorerContext.item_data?.is_locked} onClick={mediaExplorerContext.lockItem} />
-      </AuthGate>
-      <AuthGate scope="media" permission="delete">
+      </AppAuthenticationCheck>
+      <AppAuthenticationCheck permissions={[{ scope: 'media', action: 'delete' }]}>
         <DeleteButton onClick={handleDelete} disabled={mediaExplorerContext.page.is_read_only} />
-      </AuthGate>
+      </AppAuthenticationCheck>
     </ListHeader>
   );
 }

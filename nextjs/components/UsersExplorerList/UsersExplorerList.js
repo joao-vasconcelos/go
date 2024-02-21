@@ -3,10 +3,8 @@
 /* * */
 
 import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
 import Pannel from '@/components/Pannel/Pannel';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import ListFooter from '@/components/ListFooter/ListFooter';
 import UsersExplorerListItem from '@/components/UsersExplorerListItem/UsersExplorerListItem';
 import UsersExplorerListHeader from '@/components/UsersExplorerListHeader/UsersExplorerListHeader';
 import UsersExplorerListFooter from '@/components/UsersExplorerListFooter/UsersExplorerListFooter';
@@ -20,7 +18,6 @@ export default function UsersExplorerList() {
   //
   // A. Setup variables
 
-  const t = useTranslations('UsersExplorerList');
   const usersExplorerContext = useUsersExplorerContext();
 
   //

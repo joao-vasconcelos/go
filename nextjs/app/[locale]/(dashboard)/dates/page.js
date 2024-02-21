@@ -19,10 +19,11 @@ import HCalendarPeriodCard from '@/components/HCalendarPeriodCard/HCalendarPerio
 import Loader from '@/components/Loader/Loader';
 import dayjs from 'dayjs';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import isAllowed from '@/authentication/isAllowed';
 import calculateDateDayType from '@/services/calculateDateDayType';
 import { openConfirmModal } from '@mantine/modals';
 import ListHeader from '@/components/ListHeader/ListHeader';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 export default function Page() {
   //
@@ -33,8 +34,8 @@ export default function Page() {
   const router = useRouter();
   const t = useTranslations('dates');
   const [isModalPresented, { open: openModal, close: closeModal }] = useDisclosure(false);
-  const { data: session } = useSession();
-  const isReadOnly = !isAllowed(session, 'dates', 'create_edit');
+  const { data: sessionData } = useSession();
+  const isReadOnly = !isAllowed(sessionData, [{ scope: 'dates', action: 'edit' }], { handleError: true });
 
   const [selectedCalendarType, setSelectedCalendarType] = useState('range');
   const [selectedDateRange, setSelectedDateRange] = useState([]);
@@ -175,11 +176,11 @@ export default function Page() {
           <Text size="h1" full>
             {t('title')}
           </Text>
-          <AuthGate scope="dates" permission="create_edit">
+          <AppAuthenticationCheck permissions={[{ scope: 'dates', action: 'edit' }]}>
             <Button leftSection={<IconCalendarPlus size={20} />} onClick={openModal} variant="light" color="blue" size="sm">
               {t('operations.manage.title')}
             </Button>
-          </AuthGate>
+          </AppAuthenticationCheck>
         </ListHeader>
       }
     >
@@ -220,11 +221,11 @@ export default function Page() {
               <Button size="lg" onClick={handleUpdate} disabled={!isSelectionValid()}>
                 {t('operations.update.title')}
               </Button>
-              <AuthGate scope="dates" permission="delete">
+              <AppAuthenticationCheck permissions={[{ scope: 'dates', action: 'delete' }]}>
                 <Button size="lg" color="red" onClick={handleDelete} disabled={!isSelectionValid()}>
                   {t('operations.delete.title')}
                 </Button>
-              </AuthGate>
+              </AppAuthenticationCheck>
             </SimpleGrid>
           </SimpleGrid>
         </form>

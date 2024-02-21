@@ -20,11 +20,12 @@ import { useTranslations } from 'next-intl';
 import HCalendar from '@/components/HCalendar/HCalendar';
 import HCalendarToggle from '@/components/HCalendarToggle/HCalendarToggle';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import isAllowed from '@/authentication/isAllowed';
 import LockButton from '@/components/LockButton/LockButton';
 import populate from '@/services/populate';
 import CalendarPatternsView from '@/components/CalendarPatternsView/CalendarPatternsView';
 import ListHeader from '@/components/ListHeader/ListHeader';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 export default function Page() {
   //
@@ -38,7 +39,7 @@ export default function Page() {
   const [isLocking, setIsLocking] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
-  const { data: session } = useSession();
+  const { data: sessionData } = useSession();
 
   const { calendar_id } = useParams();
 
@@ -72,7 +73,7 @@ export default function Page() {
   //
   // D. Setup readonly
 
-  const isReadOnly = !isAllowed(session, 'calendars', 'create_edit') || calendarData?.is_locked;
+  const isReadOnly = !isAllowed(sessionData, [{ scope: 'calendars', action: 'edit' }], { handleError: true }) || calendarData?.is_locked;
 
   //
   // E. Handle actions
@@ -106,7 +107,7 @@ export default function Page() {
   const handleLock = async (value) => {
     try {
       setIsLocking(true);
-      await API({ service: 'calendars', resourceId: calendar_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      await API({ service: 'calendars', resourceId: calendar_id, operation: 'lock', method: 'GET' });
       calendarMutate();
       setIsLocking(false);
     } catch (err) {
@@ -199,19 +200,19 @@ export default function Page() {
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
-          <AuthGate scope="lines" permission="view">
+          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'view' }]}>
             <CalendarPatternsView calendar_id={calendar_id} />
-          </AuthGate>
-          <AuthGate scope="calendars" permission="lock">
+          </AppAuthenticationCheck>
+          <AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'lock' }]}>
             <LockButton isLocked={calendarData?.is_locked} onClick={handleLock} loading={isLocking} />
-          </AuthGate>
-          <AuthGate scope="calendars" permission="delete">
+          </AppAuthenticationCheck>
+          <AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'delete' }]}>
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow disabled={calendarData?.is_locked || allCalendarAssociatedPatternsData?.length > 0}>
               <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete} loading={calendarLoading || allCalendarAssociatedPatternsLoading} disabled={calendarData?.is_locked || allCalendarAssociatedPatternsData?.length > 0}>
                 <IconTrash size={20} />
               </ActionIcon>
             </Tooltip>
-          </AuthGate>
+          </AppAuthenticationCheck>
         </ListHeader>
       }
     >
