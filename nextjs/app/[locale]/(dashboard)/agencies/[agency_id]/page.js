@@ -102,7 +102,7 @@ export default function Page() {
     }
   };
 
-  const handleLock = async (value) => {
+  const handleLock = async () => {
     try {
       setIsLocking(true);
       await API({ service: 'agencies', resourceId: agency_id, operation: 'lock', method: 'PUT' });

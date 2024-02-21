@@ -104,7 +104,7 @@ export default function Page() {
     }
   }, [zone_id, form, zoneMutate, allZonesMutate]);
 
-  const handleLock = async (value) => {
+  const handleLock = async () => {
     try {
       setIsLocking(true);
       await API({ service: 'zones', resourceId: zone_id, operation: 'lock', method: 'PUT' });
