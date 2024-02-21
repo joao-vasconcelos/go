@@ -14,7 +14,7 @@ import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '@/components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '@/components/ListFooter/ListFooter';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import SearchField from '@/components/SearchField/SearchField';
 import useSearch from '@/hooks/useSearch';
 import ListHeader from '@/components/ListHeader/ListHeader';
@@ -63,7 +63,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope="calendars" permission="view" redirect>
+    <AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'navigate' }]} redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -82,11 +82,11 @@ export default function Layout({ children }) {
                       {t('operations.create.title')}
                     </Menu.Item>
                     <Menu.Divider />
-                    <AuthGate scope="dates" permission="view">
+                    <AppAuthenticationCheck permissions={[{ scope: 'dates', action: 'navigate' }]}>
                       <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dates')}>
                         Editar Datas
                       </Menu.Item>
-                    </AuthGate>
+                    </AppAuthenticationCheck>
                   </Menu.Dropdown>
                 </Menu>
               </ListHeader>
@@ -99,6 +99,6 @@ export default function Layout({ children }) {
         }
         second={children}
       />
-    </AuthGate>
+    </AppAuthenticationCheck>
   );
 }

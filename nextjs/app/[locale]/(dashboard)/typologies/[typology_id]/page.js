@@ -18,10 +18,11 @@ import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import isAllowed from '@/authentication/isAllowed';
 import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 export default function Page() {
   //
@@ -35,7 +36,7 @@ export default function Page() {
   const [isLocking, setIsLocking] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
-  const { data: session } = useSession();
+  const { data: sessionData } = useSession();
 
   const { typology_id } = useParams();
 
@@ -67,7 +68,7 @@ export default function Page() {
   //
   // D. Setup readonly
 
-  const isReadOnly = !isAllowed(session, 'typologies', 'create_edit') || typologyData?.is_locked;
+  const isReadOnly = !isAllowed(sessionData, [{ scope: 'typologies', action: 'edit' }], { handleError: true }) || typologyData?.is_locked;
 
   //
   // E. Handle actions
@@ -103,7 +104,7 @@ export default function Page() {
   const handleLock = async (value) => {
     try {
       setIsLocking(true);
-      await API({ service: 'typologies', resourceId: typology_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      await API({ service: 'typologies', resourceId: typology_id, operation: 'lock', method: 'GET' });
       typologyMutate();
       setIsLocking(false);
     } catch (err) {
@@ -161,16 +162,16 @@ export default function Page() {
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
-          <AuthGate scope="typologies" permission="lock">
+          <AppAuthenticationCheck permissions={[{ scope: 'typologies', action: 'lock' }]}>
             <LockButton isLocked={typologyData?.is_locked} onClick={handleLock} loading={isLocking} />
-          </AuthGate>
-          <AuthGate scope="typologies" permission="delete">
+          </AppAuthenticationCheck>
+          <AppAuthenticationCheck permissions={[{ scope: 'typologies', action: 'delete' }]}>
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
               <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
                 <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
-          </AuthGate>
+          </AppAuthenticationCheck>
         </ListHeader>
       }
     >

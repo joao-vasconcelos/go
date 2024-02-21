@@ -1,4 +1,8 @@
-import pjson from '../../package.json';
+'use client';
+
+/* * */
+
+import pjson from 'package.json';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname } from '@/translations/navigation';
@@ -7,14 +11,22 @@ import { IconSettings, IconLanguage, IconLogin } from '@tabler/icons-react';
 import { availableLocales } from '@/translations/config';
 import { signOut } from 'next-auth/react';
 
-export default function LocaleSwitcher() {
+/* * */
+
+export default function AppOptions() {
   //
+
+  //
+  // A. Setup variables
 
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
 
   const t = useTranslations('AppOptions');
+
+  //
+  // B. Handle actions
 
   const handleLocaleSwitch = (selectedLocale) => {
     router.replace(`/${selectedLocale}${pathname}`);
@@ -23,6 +35,9 @@ export default function LocaleSwitcher() {
   const handleLogout = () => {
     signOut();
   };
+
+  //
+  // C. Render components
 
   return (
     <Menu offset={15} position="bottom-end" shadow="lg">
@@ -47,4 +62,6 @@ export default function LocaleSwitcher() {
       </Menu.Dropdown>
     </Menu>
   );
+
+  //
 }

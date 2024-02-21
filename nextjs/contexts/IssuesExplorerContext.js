@@ -6,12 +6,12 @@ import useSWR from 'swr';
 import doSearch from '@/services/doSearch';
 import { useRouter } from '@/translations/navigation';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { isAllowed } from '@/components/AuthGate/AuthGate';
+import isAllowed from '@/authentication/isAllowed';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import { Validation as IssueValidation } from '@/schemas/Issue/validation';
-import { Default as IssueDefault, DefaultMilestone, DefaultCommment } from '@/schemas/Issue/default';
+import { IssueValidation } from '@/schemas/Issue/validation';
+import { IssueDefault, DefaultMilestone, DefaultCommment } from '@/schemas/Issue/default';
 import populate from '@/services/populate';
 import API from '@/services/API';
 
@@ -98,7 +98,7 @@ export function IssuesExplorerContextProvider({ children }) {
   //
   // D. Fetch data
 
-  const { data: userSession } = useSession();
+  const { data: sessionData } = useSession();
   const { data: allItemsData, mutate: allItemsMutate } = useSWR('/api/issues');
   const { data: itemData, isLoading: itemLoading, mutate: itemMutate } = useSWR(itemId && `/api/issues/${itemId}`);
 
@@ -131,11 +131,11 @@ export function IssuesExplorerContextProvider({ children }) {
 
   useEffect(() => {
     // Check if the use is allowed to edit the current page
-    const isReadOnly = !isAllowed(userSession, 'issues', 'create_edit') || itemData?.is_locked || pageState.is_saving;
+    const isReadOnly = !isAllowed(sessionData, [{ scope: 'issues', action: 'edit' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving;
     // Update state
     setPageState((prev) => ({ ...prev, is_read_only: isReadOnly }));
     //
-  }, [itemData?.is_locked, pageState.is_saving, userSession]);
+  }, [itemData?.is_locked, pageState.is_saving, sessionData]);
 
   useEffect(() => {
     // Exit if no data is available or form is dirty
@@ -311,10 +311,10 @@ export function IssuesExplorerContextProvider({ children }) {
 
   const addMilestone = useCallback(
     async (type, value) => {
-      const newMilestone = { ...DefaultMilestone, created_by: userSession.user._id, type, value };
+      const newMilestone = { ...DefaultMilestone, created_by: sessionData.user._id, type, value };
       formState.insertListItem('milestones', newMilestone);
     },
-    [formState, userSession.user._id]
+    [formState, sessionData.user._id]
   );
 
   const addTag = useCallback(
@@ -394,10 +394,10 @@ export function IssuesExplorerContextProvider({ children }) {
 
   const addComment = useCallback(
     async (commentText) => {
-      const newComment = { ...DefaultCommment, created_by: userSession.user._id, text: commentText };
+      const newComment = { ...DefaultCommment, created_by: sessionData.user._id, text: commentText };
       formState.insertListItem('comments', newComment);
     },
-    [formState, userSession.user._id]
+    [formState, sessionData.user._id]
   );
 
   //

@@ -10,10 +10,10 @@ import { useTranslations } from 'next-intl';
 import { DateDefault } from '@/schemas/Date/default';
 import { Modal, SimpleGrid, Textarea, Select, Button, LoadingOverlay, Switch } from '@mantine/core';
 import dayjs from 'dayjs';
-import AuthGate from '../AuthGate/AuthGate';
 import Text from '../Text/Text';
 import calculateDateDayType from '@/services/calculateDateDayType';
 import populate from '@/services/populate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
   //
@@ -99,7 +99,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
             <Text size="h4">day_type: {dateObj.day_type}</Text>
             <Switch label={'is_holiday'} description={'is_holiday or not'} {...form.getInputProps('is_holiday', { type: 'checkbox' })} />
             <Textarea label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} minRows={5} {...form.getInputProps('notes')} readOnly={readOnly} />
-            <AuthGate scope="dates" permission="create_edit">
+            <AppAuthenticationCheck permissions={[{ scope: 'dates', action: 'edit' }]}>
               <SimpleGrid cols={2}>
                 <Button size="lg" onClick={handleUpdate}>
                   {t('operations.update.title')}
@@ -108,7 +108,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
                   {t('operations.delete.title')}
                 </Button>
               </SimpleGrid>
-            </AuthGate>
+            </AppAuthenticationCheck>
           </SimpleGrid>
         </form>
       </Modal>

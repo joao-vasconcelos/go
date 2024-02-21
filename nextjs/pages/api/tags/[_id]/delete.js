@@ -1,8 +1,9 @@
 /* * */
 
-import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as TagModel } from '@/schemas/Tag/model';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
+import { TagModel } from '@/schemas/Tag/model';
 
 /* * */
 
@@ -10,6 +11,11 @@ export default async function handler(req, res) {
   //
 
   // 1.
+  // Setup variables
+
+  let sessionData;
+
+  // 2.
   // Refuse request if not DELETE
 
   if (req.method != 'DELETE') {
@@ -17,17 +23,18 @@ export default async function handler(req, res) {
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 2.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'tags', permission: 'delete', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'tags', action: 'delete' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 3.
+  // 4.
   // Connect to MongoDB
 
   try {
@@ -37,8 +44,8 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4.
-  // Delete the requested document
+  // 5.
+  // Delete the correct document
 
   try {
     const deletedDocument = await TagModel.findOneAndDelete({ _id: { $eq: req.query._id } });

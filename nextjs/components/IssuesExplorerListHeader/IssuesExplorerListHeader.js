@@ -10,7 +10,7 @@ import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import { useTranslations } from 'next-intl';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import SearchField from '@/components/SearchField/SearchField';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 import styles from './IssuesExplorerListHeader.module.css';
@@ -19,8 +19,8 @@ import IssuesExplorerAttributeStatus from '@/components/IssuesExplorerAttributeS
 import IssuesExplorerAttributePriority from '@/components/IssuesExplorerAttributePriority/IssuesExplorerAttributePriority';
 import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser';
 import TagsExplorerTag from '@/components/TagsExplorerTag/TagsExplorerTag';
-import { LinesExplorerLine } from '../LinesExplorerLine/LinesExplorerLine';
-import { StopsExplorerStop } from '../StopsExplorerStop/StopsExplorerStop';
+import { LinesExplorerLine } from '@/components/LinesExplorerLine/LinesExplorerLine';
+import { StopsExplorerStop } from '@/components/StopsExplorerStop/StopsExplorerStop';
 
 /* * */
 
@@ -67,9 +67,11 @@ export default function IssuesExplorerListHeader() {
       <div className={styles.row}>
         <SearchField query={issuesExplorerContext.list.search_query} onChange={issuesExplorerContext.updateSearchQuery} />
         <div>
-          <Button leftSection={<IconPlus size={16} />} onClick={handleCreate} size="sm" variant="light">
-            {t('operations.create.title')}
-          </Button>
+          <AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'create' }]}>
+            <Button leftSection={<IconPlus size={16} />} onClick={handleCreate} size="sm" variant="light">
+              {t('operations.create.title')}
+            </Button>
+          </AppAuthenticationCheck>
         </div>
       </div>
       <div className={styles.row}>

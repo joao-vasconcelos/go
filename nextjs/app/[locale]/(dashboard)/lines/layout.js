@@ -7,17 +7,17 @@ import API from '@/services/API';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
-import { ActionIcon, Menu, MenuDivider } from '@mantine/core';
-import { IconCirclePlus, IconDots, IconPencil } from '@tabler/icons-react';
+import { ActionIcon, Menu } from '@mantine/core';
+import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '@/components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '@/components/ListFooter/ListFooter';
-import AuthGate from '@/components/AuthGate/AuthGate';
 import SearchField from '@/components/SearchField/SearchField';
 import useSearch from '@/hooks/useSearch';
 import ListHeader from '@/components/ListHeader/ListHeader';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 export default function Layout({ children }) {
   //
@@ -38,7 +38,7 @@ export default function Layout({ children }) {
   //
   // C. Search
 
-  const filteredLinesData = useSearch(searchQuery, allLinesData, { keys: ['code', 'short_name', 'name'] });
+  const allLinesFiltered = useSearch(searchQuery, allLinesData, { keys: ['code', 'short_name', 'name'] });
 
   //
   // C. Handle actions
@@ -63,7 +63,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope="lines" permission="view" redirect>
+    <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'navigate' }]} redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -78,49 +78,23 @@ export default function Layout({ children }) {
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <AuthGate scope="lines" permission="create_edit">
+                    <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'create' }]}>
                       <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
-                    </AuthGate>
-                    <MenuDivider />
-                    <AuthGate scope="agencies" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/agencies')}>
-                        Edit Agencies
-                      </Menu.Item>
-                    </AuthGate>
-                    <AuthGate scope="typologies" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/typologies')}>
-                        Edit Typologies
-                      </Menu.Item>
-                    </AuthGate>
-                    <AuthGate scope="zones" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/zones')}>
-                        Edit Zones
-                      </Menu.Item>
-                    </AuthGate>
-                    <AuthGate scope="fares" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/fares')}>
-                        Edit Fares
-                      </Menu.Item>
-                    </AuthGate>
-                    <AuthGate scope="municipalities" permission="view">
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/municipalities')}>
-                        Edit Municipalities
-                      </Menu.Item>
-                    </AuthGate>
+                    </AppAuthenticationCheck>
                   </Menu.Dropdown>
                 </Menu>
               </ListHeader>
             }
-            footer={filteredLinesData && <ListFooter>{t('list.footer', { count: filteredLinesData.length })}</ListFooter>}
+            footer={allLinesFiltered && <ListFooter>{t('list.footer', { count: allLinesFiltered.length })}</ListFooter>}
           >
             <ErrorDisplay error={allLinesError} loading={allLinesValidating} />
-            {filteredLinesData && filteredLinesData.length > 0 ? filteredLinesData.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} name={item.name} color={item.typology?.color} text_color={item.typology?.text_color} />) : <NoDataLabel />}
+            {allLinesFiltered && allLinesFiltered.length > 0 ? allLinesFiltered.map((item) => <ListItem key={item._id} _id={item._id} short_name={item.short_name} name={item.name} color={item.typology?.color} text_color={item.typology?.text_color} />) : <NoDataLabel />}
           </Pannel>
         }
         second={children}
       />
-    </AuthGate>
+    </AppAuthenticationCheck>
   );
 }

@@ -7,16 +7,15 @@ import AutoSave from '@/components/AutoSave/AutoSave';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import LockButton from '@/components/LockButton/LockButton';
 import DeleteButton from '@/components/DeleteButton/DeleteButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 import IssuesExplorerAttributeStatusSelect from '@/components/IssuesExplorerAttributeStatusSelect/IssuesExplorerAttributeStatusSelect';
 import IssuesExplorerAttributePrioritySelect from '@/components/IssuesExplorerAttributePrioritySelect/IssuesExplorerAttributePrioritySelect';
-import IssuesExplorerIdPageItemCreatedByAt from '@/components/IssuesExplorerIdPageItemCreatedByAt/IssuesExplorerIdPageItemCreatedByAt';
 import styles from './IssuesExplorerIdPageHeader.module.css';
-import GlobalAuthorTimestamp from '../GlobalAuthorTimestamp/GlobalAuthorTimestamp';
+import GlobalAuthorTimestamp from '@/components/GlobalAuthorTimestamp/GlobalAuthorTimestamp';
 
 /* * */
 
@@ -81,12 +80,12 @@ export default function IssuesExplorerIdPageHeader() {
         <IssuesExplorerAttributePrioritySelect value={issuesExplorerContext.form.values.priority} onChange={handleChangePriority} />
       </div>
       <GlobalAuthorTimestamp actionVerb={'abriu'} timestamp={issuesExplorerContext.form.values.created_at} userId={issuesExplorerContext.form.values.created_by} />
-      <AuthGate scope="issues" permission="lock">
+      <AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'lock' }]}>
         <LockButton isLocked={issuesExplorerContext.item_data?.is_locked} onClick={issuesExplorerContext.lockItem} />
-      </AuthGate>
-      <AuthGate scope="issues" permission="delete">
+      </AppAuthenticationCheck>
+      <AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'delete' }]}>
         <DeleteButton onClick={handleDelete} disabled={issuesExplorerContext.page.is_read_only} />
-      </AuthGate>
+      </AppAuthenticationCheck>
     </ListHeader>
   );
 }

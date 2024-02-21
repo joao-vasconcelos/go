@@ -10,7 +10,7 @@ import { ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import { useTranslations } from 'next-intl';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import SearchField from '@/components/SearchField/SearchField';
 import { useTagsExplorerContext } from '@/contexts/TagsExplorerContext';
 import ListHeader from '@/components/ListHeader/ListHeader';
@@ -65,11 +65,11 @@ export default function TagsExplorerListHeader() {
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
-          <AuthGate scope="configs" permission="admin">
+          <AppAuthenticationCheck permissions={[{ scope: 'tags', action: 'create' }]}>
             <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
               {t('operations.create.title')}
             </Menu.Item>
-          </AuthGate>
+          </AppAuthenticationCheck>
         </Menu.Dropdown>
       </Menu>
     </ListHeader>

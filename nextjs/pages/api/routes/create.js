@@ -1,39 +1,53 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
+/* * */
+
 import mongodb from '@/services/mongodb';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
 import generator from '@/services/generator';
 import { RouteDefault } from '@/schemas/Route/default';
 import { RouteModel } from '@/schemas/Route/model';
 import { LineModel } from '@/schemas/Line/model';
 
 /* * */
-/* CREATE ROUTE */
-/* Explanation needed. */
-/* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
-  // 0.
-  // Refuse request if not POST
+  // 1.
+  // Setup variables
 
-  if (req.method != 'POST') {
-    await res.setHeader('Allow', ['POST']);
+  let sessionData;
+
+  // 2.
+  // Refuse request if not GET
+
+  if (req.method != 'GET') {
+    await res.setHeader('Allow', ['GET']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'lines', permission: 'create_edit', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'routes', action: 'create' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 2.
+  // 4.
+  // Connect to MongoDB
+
+  try {
+    await mongodb.connect();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'MongoDB connection error.' });
+  }
+
+  // 5.
   // Parse request body into JSON
 
   try {
@@ -42,16 +56,6 @@ export default async function handler(req, res) {
     console.log(err);
     await res.status(500).json({ message: 'JSON parse error.' });
     return;
-  }
-
-  // 4.
-  // Connect to mongodb
-
-  try {
-    await mongodb.connect();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
   // 6.
@@ -73,4 +77,6 @@ export default async function handler(req, res) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot create this Route.' });
   }
+
+  //
 }

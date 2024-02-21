@@ -19,7 +19,7 @@ export default function MessageWriter({ thread_id }) {
   // A. Setup variables
 
   const t = useTranslations('threads');
-  const { data: session } = useSession();
+  const { data: sessionData } = useSession();
   const { mutate } = useSWRConfig();
   const [isSending, setIsSending] = useState(false);
 
@@ -40,7 +40,7 @@ export default function MessageWriter({ thread_id }) {
     try {
       setIsSending(true);
       form.setFieldValue('thread_id', thread_id);
-      form.setFieldValue('sent_by', session.user._id);
+      form.setFieldValue('sent_by', sessionData.user._id);
       await API({ service: 'messages', operation: 'create', method: 'POST', body: form });
       mutate(`/api/threads/${thread_id}`);
       form.reset();
@@ -57,7 +57,7 @@ export default function MessageWriter({ thread_id }) {
       <div className={styles.attach}>
         <IconPaperclip size={18} />
       </div>
-      <Textarea placeholder={t('messages.content.placeholder')} {...form.getInputProps('content')} w='100%' minRows={1} maxRows={5} autosize />
+      <Textarea placeholder={t('messages.content.placeholder')} {...form.getInputProps('content')} w="100%" minRows={1} maxRows={5} autosize />
       <div className={`${styles.send} ${!form.isValid() && styles.disabled}`} onClick={handleSend}>
         {isSending ? <Loader visible /> : <IconArrowBigUpFilled size={14} />}
       </div>

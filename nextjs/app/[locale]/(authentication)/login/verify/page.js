@@ -1,24 +1,9 @@
-'use client';
+/* * */
 
-import { useRouter } from '@/translations/navigation';
-import { Button, SimpleGrid, Text } from '@mantine/core';
-import { useTranslations } from 'next-intl';
+import AppAuthenticationLoginVerify from '@/components/AppAuthenticationLoginVerify/AppAuthenticationLoginVerify';
 
-export default function AuthVerify() {
-  //
-  const router = useRouter();
-  const t = useTranslations('auth.verify');
+/* * */
 
-  const handleSignInRetry = () => {
-    router.push('/login');
-  };
-
-  return (
-    <SimpleGrid>
-      <Text align="center">{t('instruction')}</Text>
-      <Button fullWidth variant="light" onClick={handleSignInRetry}>
-        {t('submit')}
-      </Button>
-    </SimpleGrid>
-  );
+export default function Page() {
+  return <AppAuthenticationLoginVerify />;
 }

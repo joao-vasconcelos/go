@@ -28,12 +28,13 @@ import StopSequenceTable from '@/components/StopSequenceTable/StopSequenceTable'
 import SchedulesTable from '@/components/SchedulesTable/SchedulesTable';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import isAllowed from '@/authentication/isAllowed';
 import ImportPatternFromGTFS from '@/components/ImportPatternFromGTFS/ImportPatternFromGTFS';
 import populate from '@/services/populate';
 import PatternPresetsTable from '@/components/PatternPresetsTable/PatternPresetsTable';
 import LockButton from '@/components/LockButton/LockButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 /* * */
 
@@ -49,7 +50,7 @@ export default function Page() {
   const [isLocking, setIsLocking] = useState(false);
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isImporting, setIsImporting] = useState();
-  const { data: session } = useSession();
+  const { data: sessionData } = useSession();
   const { patternShapeMap } = useMap();
 
   const [showAllZonesOnMap, setShowAllZonesOnMap] = useState(false);
@@ -95,7 +96,7 @@ export default function Page() {
   //
   // D. Setup readonly
 
-  const isReadOnly = !isAllowed(session, 'lines', 'create_edit') || lineData?.is_locked || routeData?.is_locked || patternData?.is_locked;
+  const isReadOnly = !isAllowed(sessionData, [{ scope: 'lines', action: 'edit' }], { handleError: true }) || lineData?.is_locked || routeData?.is_locked || patternData?.is_locked;
 
   //
   // E. Transform data
@@ -251,7 +252,7 @@ export default function Page() {
   const handleLock = async (value) => {
     try {
       setIsLocking(true);
-      await API({ service: 'patterns', resourceId: pattern_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      await API({ service: 'patterns', resourceId: pattern_id, operation: 'lock', method: 'GET' });
       patternMutate();
       setIsLocking(false);
     } catch (err) {
@@ -343,16 +344,16 @@ export default function Page() {
         <ListHeader>
           <AutoSave isValid={patternForm.isValid()} isDirty={patternForm.isDirty()} isLoading={patternLoading} isErrorValidating={patternError} isSaving={isSaving} isErrorSaving={hasErrorSaving} onValidate={handleValidate} onSave={handleSave} onClose={handleClose} closeType="back" />
           <LineDisplay short_name={lineData && lineData.short_name} name={patternForm.values.headsign || t('untitled')} color={typologyData && typologyData.color} text_color={typologyData && typologyData.text_color} />
-          <AuthGate scope="lines" permission="lock">
+          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'lock' }]}>
             <LockButton isLocked={patternData?.is_locked} onClick={handleLock} loading={isLocking} disabled={lineData?.is_locked || routeData?.is_locked} />
-          </AuthGate>
-          <AuthGate scope="lines" permission="delete">
+          </AppAuthenticationCheck>
+          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'delete' }]}>
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
               <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
                 <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
-          </AuthGate>
+          </AppAuthenticationCheck>
         </ListHeader>
       }
     >
@@ -547,7 +548,7 @@ export default function Page() {
               </Accordion.Item>
             )}
 
-            <AuthGate scope="configs" permission="admin">
+            <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'debug' }]}>
               <Accordion.Item value={'debug'}>
                 <Accordion.Control>
                   <Section>
@@ -565,7 +566,7 @@ export default function Page() {
                   )}
                 </Accordion.Panel>
               </Accordion.Item>
-            </AuthGate>
+            </AppAuthenticationCheck>
           </Accordion>
         </form>
       </PatternFormProvider>

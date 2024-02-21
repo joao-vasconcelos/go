@@ -1,10 +1,5 @@
 /* * */
-/* DOCUMENT TYPE: EMAIL */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Default Values */
-export const Default = {
+export const EmailDefault = {
   email: '',
 };

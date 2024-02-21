@@ -1,48 +1,41 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
+/* * */
+
 import mongodb from '@/services/mongodb';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
 import { AgencyModel } from '@/schemas/Agency/model';
 
-/* * */
-/* LOCK AGENCY */
-/* Explanation needed. */
 /* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
-  // 0.
-  // Refuse request if not PUT
+  // 1.
+  // Setup variables
 
-  if (req.method != 'PUT') {
-    await res.setHeader('Allow', ['PUT']);
+  let sessionData;
+
+  // 2.
+  // Refuse request if not GET
+
+  if (req.method != 'GET') {
+    await res.setHeader('Allow', ['GET']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'agencies', permission: 'lock', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'agencies', action: 'lock' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 2.
-  // Parse request body into JSON
-
-  try {
-    req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
-    await res.status(500).json({ message: 'JSON parse error.' });
-    return;
-  }
-
-  // 3.
-  // Connect to mongodb
+  // 4.
+  // Connect to MongoDB
 
   try {
     await mongodb.connect();
@@ -51,15 +44,18 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4.
+  // 5.
   // Lock or unlock the requested document
 
   try {
-    const foundDocument = await AgencyModel.findOneAndUpdate({ _id: { $eq: req.query._id } }, { is_locked: req.body.is_locked ? true : false }, { new: true });
+    const foundDocument = await AgencyModel.findOne({ _id: { $eq: req.query._id } });
     if (!foundDocument) return await res.status(404).json({ message: `Agency with _id: ${req.query._id} not found.` });
-    return await res.status(200).json(foundDocument);
+    const updatedDocument = await AgencyModel.updateOne({ _id: { $eq: foundDocument._id } }, { is_locked: !foundDocument.is_locked }, { new: true });
+    return await res.status(200).json(updatedDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot update this Agency.' });
+    return await res.status(500).json({ message: 'Cannot lock or unlock this Agency.' });
   }
+
+  //
 }

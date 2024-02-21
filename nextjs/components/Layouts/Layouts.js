@@ -53,6 +53,13 @@ export function ThreeEvenColumns({ first, second, third }) {
 
 //
 // SECTION
-export function Section({ children }) {
-  return <div className={styles.section}>{children}</div>;
+export function Section({ children, title, description }) {
+  return (
+    <div className={styles.section}>
+      {/* replace section with AppLayoutSection */}
+      {title && <div className={styles.title}>{title}</div>}
+      {description && <div className={styles.description}>{description}</div>}
+      {children}
+    </div>
+  );
 }

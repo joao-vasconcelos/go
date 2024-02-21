@@ -20,11 +20,12 @@ import { openConfirmModal } from '@mantine/modals';
 import OSMMap from '@/components/OSMMap/OSMMap';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
-import AuthGate, { isAllowed } from '@/components/AuthGate/AuthGate';
+import isAllowed from '@/authentication/isAllowed';
 import populate from '@/services/populate';
 import LockButton from '@/components/LockButton/LockButton';
 import StopPatternsView from '@/components/StopPatternsView/StopPatternsView';
 import ListHeader from '@/components/ListHeader/ListHeader';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 export default function Page() {
   //
@@ -39,8 +40,8 @@ export default function Page() {
   const [hasErrorSaving, setHasErrorSaving] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
   const { singleStopMap } = useMap();
-  const { data: session } = useSession();
-  const canEditStopCode = isAllowed(session, 'stops', 'edit_code');
+  const { data: sessionData } = useSession();
+  const canEditStopCode = isAllowed(sessionData, [{ scope: 'stops', action: 'change_code' }], { handleError: true });
 
   const { stop_id } = useParams();
 
@@ -74,7 +75,7 @@ export default function Page() {
   //
   // D. Setup readonly
 
-  const isReadOnly = !isAllowed(session, 'stops', 'create_edit') || stopData?.is_locked;
+  const isReadOnly = !isAllowed(sessionData, [{ scope: 'stops', action: 'edit' }], { handleError: true }) || stopData?.is_locked;
 
   //
   // E. Handle actions
@@ -106,7 +107,7 @@ export default function Page() {
   const handleLock = async (value) => {
     try {
       setIsLocking(true);
-      await API({ service: 'stops', resourceId: stop_id, operation: 'lock', method: 'PUT', body: { is_locked: value } });
+      await API({ service: 'stops', resourceId: stop_id, operation: 'lock', method: 'GET' });
       stopMutate();
       setIsLocking(false);
     } catch (err) {
@@ -219,24 +220,24 @@ export default function Page() {
           <Text size="h1" style={!form.values.name && 'untitled'} full>
             {form.values.name || t('untitled')}
           </Text>
-          <AuthGate scope="lines" permission="view">
+          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'view' }]}>
             <StopPatternsView stop_id={stop_id} />
-          </AuthGate>
-          <AuthGate scope="stops" permission="lock">
+          </AppAuthenticationCheck>
+          <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'lock' }]}>
             <LockButton isLocked={stopData?.is_locked} onClick={handleLock} loading={isLocking} />
-          </AuthGate>
+          </AppAuthenticationCheck>
           <Tooltip label={t('operations.gmaps.title')} position="bottom" withArrow>
             <ActionIcon color="blue" variant="light" size="lg" onClick={handleOpenInGoogleMaps}>
               <IconBrandGoogleMaps size="20px" />
             </ActionIcon>
           </Tooltip>
-          <AuthGate scope="stops" permission="delete">
+          <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'delete' }]}>
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
               <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
                 <IconTrash size="20px" />
               </ActionIcon>
             </Tooltip>
-          </AuthGate>
+          </AppAuthenticationCheck>
         </ListHeader>
       }
     >

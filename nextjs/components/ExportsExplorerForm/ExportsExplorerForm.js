@@ -9,7 +9,7 @@ import parseDate from '@/services/parseDate';
 import { useTranslations } from 'next-intl';
 import { ExportOptions } from '@/schemas/Export/options';
 import { useSession } from 'next-auth/react';
-import { isAllowed } from '@/components/AuthGate/AuthGate';
+import isAllowed from '@/authentication/isAllowed';
 import { IconCloudPlus } from '@tabler/icons-react';
 import { SimpleGrid, Select, MultiSelect, Button, Divider, Switch, NumberInput } from '@mantine/core';
 import { Section } from '@/components/Layouts/Layouts';
@@ -30,7 +30,7 @@ export default function ExportsExplorerForm() {
   const t = useTranslations('ExportsExplorerForm');
   const exportOptionsTranslations = useTranslations('ExportOptions');
 
-  const { data: session } = useSession();
+  const { data: sessionData } = useSession();
 
   const [isCreatingExport, setIsCreatingExport] = useState(false);
 
@@ -59,8 +59,8 @@ export default function ExportsExplorerForm() {
 
   const availableExportTypes = useMemo(() => {
     if (!ExportOptions.export_type) return [];
-    return ExportOptions.export_type.filter((type) => isAllowed(session, 'exports', type)).map((type) => ({ value: type, label: exportOptionsTranslations(`export_type.${type}.label`) }));
-  }, [exportOptionsTranslations, session]);
+    return ExportOptions.export_type.filter((type) => isAllowed(sessionData, [{ scope: 'exports', action: 'create', fields: [{ key: 'export_types', values: [type] }] }])).map((type) => ({ value: type, label: exportOptionsTranslations(`export_type.${type}.label`) }));
+  }, [exportOptionsTranslations, sessionData]);
 
   const availableAgencies = useMemo(() => {
     if (!allAgenciesData) return [];

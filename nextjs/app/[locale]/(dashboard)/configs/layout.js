@@ -1,10 +1,14 @@
+/* * */
+
 import { OneFullColumn } from '@/components/Layouts/Layouts';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+
+/* * */
 
 export default function Layout({ children }) {
   return (
-    <AuthGate scope='configs' permission='admin' redirect>
+    <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
       <OneFullColumn first={children} />
-    </AuthGate>
+    </AppAuthenticationCheck>
   );
 }

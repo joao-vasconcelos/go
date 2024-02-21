@@ -1,8 +1,9 @@
 /* * */
 
-import checkAuthentication from '@/services/checkAuthentication';
 import mongodb from '@/services/mongodb';
-import { Model as TagModel } from '@/schemas/Tag/model';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
+import { MediaModel } from '@/schemas/Media/model';
 
 /* * */
 
@@ -10,25 +11,31 @@ export default async function handler(req, res) {
   //
 
   // 1.
-  // Refuse request if not PUT
+  // Setup variables
 
-  if (req.method != 'PUT') {
-    await res.setHeader('Allow', ['PUT']);
+  let sessionData;
+
+  // 2.
+  // Refuse request if not GET
+
+  if (req.method != 'GET') {
+    await res.setHeader('Allow', ['GET']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 2.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'tags', permission: 'lock', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'media', action: 'lock' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 3.
-  // Connect to mongodb
+  // 4.
+  // Connect to MongoDB
 
   try {
     await mongodb.connect();
@@ -37,17 +44,17 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4.
+  // 5.
   // Lock or unlock the requested document
 
   try {
-    const foundDocument = await TagModel.findOne({ _id: { $eq: req.query._id } });
-    const updatedDocument = await TagModel.updateOne({ _id: { $eq: req.query._id } }, { is_locked: !foundDocument.is_locked }, { new: true });
-    if (!updatedDocument) return await res.status(404).json({ message: `Tag with _id: ${req.query._id} not found.` });
+    const foundDocument = await MediaModel.findOne({ _id: { $eq: req.query._id } });
+    if (!foundDocument) return await res.status(404).json({ message: `Media with _id: ${req.query._id} not found.` });
+    const updatedDocument = await MediaModel.updateOne({ _id: { $eq: foundDocument._id } }, { is_locked: !foundDocument.is_locked }, { new: true });
     return await res.status(200).json(updatedDocument);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot update this Tag.' });
+    return await res.status(500).json({ message: 'Cannot lock or unlock this Media.' });
   }
 
   //

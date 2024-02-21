@@ -8,8 +8,8 @@ import { usePatternFormContext } from '@/schemas/Pattern/form';
 import { IconSortAscendingNumbers, IconArrowBarUp, IconArrowBarToDown } from '@tabler/icons-react';
 import { Checkbox, Tooltip, NumberInput, MultiSelect, ActionIcon, TextInput, Button } from '@mantine/core';
 import { IconX, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowAutofitContent, IconClockHour4, IconTicket, IconRotate2 } from '@tabler/icons-react';
-import AuthGate from '@/components/AuthGate/AuthGate';
-import Loader from '../Loader/Loader';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import Loader from '@/components/Loader/Loader';
 import calculateTravelTime from '@/services/calculateTravelTime';
 import formatSecondsToTime from '@/services/formatSecondsToTime';
 
@@ -387,11 +387,11 @@ function StopSequenceTableZonesColumn({ rowIndex, stopId, isReadOnly }) {
         data={allZonesDataFormatted}
         // leftSection={<IconTicket size={20} />}
         leftSection={
-          <AuthGate scope="lines" permission="create_edit">
+          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'edit' }]}>
             <ActionIcon onClick={handleResetZones} loading={stopLoading} disabled={!stopData || isReadOnly} variant="subtle" color="gray">
               <IconRotate2 size={20} />
             </ActionIcon>
-          </AuthGate>
+          </AppAuthenticationCheck>
         }
         readOnly={isReadOnly}
         searchable

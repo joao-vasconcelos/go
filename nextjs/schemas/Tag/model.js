@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 /* * */
 
-export const Schema = new mongoose.Schema({
+export const TagSchema = new mongoose.Schema({
   //
   created_by: {
     type: mongoose.Schema.Types.ObjectId,
@@ -43,4 +43,4 @@ export const Schema = new mongoose.Schema({
 
 /* * */
 
-export const Model = mongoose?.models?.Tag || mongoose.model('Tag', Schema);
+export const TagModel = mongoose?.models?.Tag || mongoose.model('Tag', TagSchema);

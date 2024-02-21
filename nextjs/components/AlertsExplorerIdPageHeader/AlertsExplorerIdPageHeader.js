@@ -7,7 +7,7 @@ import AutoSave from '@/components/AutoSave/AutoSave';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import LockButton from '@/components/LockButton/LockButton';
 import DeleteButton from '@/components/DeleteButton/DeleteButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
@@ -72,12 +72,12 @@ export default function AlertsExplorerIdPageHeader() {
         </Text>
       )}
       <div className={styles.spacer} />
-      <AuthGate scope="alerts" permission="lock">
+      <AppAuthenticationCheck permissions={[{ scope: 'alerts', action: 'lock' }]}>
         <LockButton isLocked={alertsExplorerContext.item_data?.is_locked} onClick={alertsExplorerContext.lockItem} />
-      </AuthGate>
-      <AuthGate scope="alerts" permission="delete">
+      </AppAuthenticationCheck>
+      <AppAuthenticationCheck permissions={[{ scope: 'alerts', action: 'delete' }]}>
         <DeleteButton onClick={handleDelete} disabled={alertsExplorerContext.page.is_read_only} />
-      </AuthGate>
+      </AppAuthenticationCheck>
     </ListHeader>
   );
 }

@@ -1,16 +1,16 @@
 /* * */
 
-import AuthGate from '@/components/AuthGate/AuthGate';
 import { TwoEvenColumns } from '@/components/Layouts/Layouts';
 import ExportsExplorerQueue from '@/components/ExportsExplorerQueue/ExportsExplorerQueue';
 import ExportsExplorerForm from '@/components/ExportsExplorerForm/ExportsExplorerForm';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 /* * */
 
 export default function Page() {
   return (
-    <AuthGate scope="exports" permission="view" redirect>
+    <AppAuthenticationCheck permissions={[{ scope: 'exports', action: 'navigate' }]} redirect>
       <TwoEvenColumns first={<ExportsExplorerQueue />} second={<ExportsExplorerForm />} />
-    </AuthGate>
+    </AppAuthenticationCheck>
   );
 }

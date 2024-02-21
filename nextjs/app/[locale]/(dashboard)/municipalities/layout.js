@@ -14,7 +14,7 @@ import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '@/components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
 import ListFooter from '@/components/ListFooter/ListFooter';
-import AuthGate from '@/components/AuthGate/AuthGate';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import SearchField from '@/components/SearchField/SearchField';
 import useSearch from '@/hooks/useSearch';
 import ListHeader from '@/components/ListHeader/ListHeader';
@@ -63,7 +63,7 @@ export default function Layout({ children }) {
   // D. Render data
 
   return (
-    <AuthGate scope="municipalities" permission="view" redirect>
+    <AppAuthenticationCheck permissions={[{ scope: 'municipalities', action: 'navigate' }]} redirect>
       <TwoUnevenColumns
         first={
           <Pannel
@@ -78,11 +78,11 @@ export default function Layout({ children }) {
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <AuthGate scope="municipalities" permission="create_edit">
+                    <AppAuthenticationCheck permissions={[{ scope: 'municipalities', action: 'create' }]}>
                       <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
                         {t('operations.create.title')}
                       </Menu.Item>
-                    </AuthGate>
+                    </AppAuthenticationCheck>
                   </Menu.Dropdown>
                 </Menu>
               </ListHeader>
@@ -95,6 +95,6 @@ export default function Layout({ children }) {
         }
         second={children}
       />
-    </AuthGate>
+    </AppAuthenticationCheck>
   );
 }

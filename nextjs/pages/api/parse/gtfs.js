@@ -1,11 +1,9 @@
-import delay from '@/services/delay';
+/* * */
+
 import AdmZip from 'adm-zip';
 import formidable from 'formidable';
 import Papa from 'papaparse';
 
-/* * */
-/* PARSE GTFS ARCHIVE */
-/* This endpoint receives a GTFS archive and parses its contents into JSON. */
 /* * */
 
 export const config = {
@@ -15,9 +13,10 @@ export const config = {
   },
 };
 
+/* * */
+
 export default async function parseGTFS(req, res) {
   //
-  await delay();
 
   //
   // 0. Refuse request if not POST
@@ -151,4 +150,6 @@ export default async function parseGTFS(req, res) {
     console.log(err);
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
+
+  //
 }

@@ -4,7 +4,7 @@ import * as yup from 'yup';
 
 /* * */
 
-export const Validation = yup.object({
+export const TagValidation = yup.object({
   label: yup
     .string()
     .required()

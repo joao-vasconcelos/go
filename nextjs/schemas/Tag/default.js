@@ -1,6 +1,6 @@
 /* * */
 
-export const Default = {
+export const TagDefault = {
   //
   created_by: '',
   created_at: '',

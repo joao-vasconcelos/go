@@ -1,18 +1,21 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
+/* * */
+
 import mongodb from '@/services/mongodb';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
 import { DateModel } from '@/schemas/Date/model';
 
-/* * */
-/* CREATE DATE */
-/* Explanation needed. */
 /* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
-  // 0.
+  // 1.
+  // Setup variables
+
+  let sessionData;
+
+  // 2.
   // Refuse request if not POST
 
   if (req.method != 'POST') {
@@ -20,17 +23,38 @@ export default async function handler(req, res) {
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'dates', permission: 'create_edit', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'dates', action: 'create' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 2.
+  // 4.
+  // Connect to MongoDB
+
+  try {
+    await mongodb.connect();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'MongoDB connection error.' });
+  }
+
+  // 5.
+  // Ensure latest schema modifications are applied
+
+  try {
+    await DateModel.syncIndexes();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot sync indexes.' });
+  }
+
+  // 6.
   // Parse request body into JSON
 
   try {
@@ -41,28 +65,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  // 3.
-  // Connect to mongodb
-
-  try {
-    await mongodb.connect();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
-  }
-
-  // 4.
-  // Ensure latest schema modifications
-  // in the schema are applied in the database.
-
-  try {
-    await DateModel.syncIndexes();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'Cannot sync indexes.' });
-  }
-
-  // 5.
+  // 7.
   // Save new documents from req.body
 
   try {
@@ -76,4 +79,6 @@ export default async function handler(req, res) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot create this Date.' });
   }
+
+  //
 }
