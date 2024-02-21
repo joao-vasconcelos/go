@@ -166,7 +166,6 @@ export function IssuesExplorerContextProvider({ children }) {
     if (!allItemsData) return setListState((prev) => ({ ...prev, available_lines: [] }));
     const allValues = allItemsData.flatMap((item) => item.related_lines);
     const allUniqueValues = new Set(allValues);
-    console.log('allValues', allValues);
     setListState((prev) => ({ ...prev, available_lines: Array.from(allUniqueValues) }));
   }, [allItemsData]);
 

@@ -32,10 +32,10 @@ export default async function parseGTFS(req, res) {
   let formFiles;
 
   // 2.
-  // Refuse request if not GET
+  // Refuse request if not POST
 
-  if (req.method != 'GET') {
-    await res.setHeader('Allow', ['GET']);
+  if (req.method != 'POST') {
+    await res.setHeader('Allow', ['POST']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
