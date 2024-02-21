@@ -241,7 +241,7 @@ const UserDefaultPermissions = {
       view: { is_allowed: false, fields: { agencies: [] } },
       edit: { is_allowed: false, fields: { agencies: [] } },
       lock: { is_allowed: false, fields: { agencies: [] } },
-      create: { is_allowed: false, fields: { agencies: [] } },
+      create: { is_allowed: false },
       delete: { is_allowed: false, fields: { agencies: [] } },
       navigate: { is_allowed: false },
     },

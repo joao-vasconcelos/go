@@ -91,7 +91,7 @@ export const UserSchema = new mongoose.Schema(
         view: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
         edit: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
         lock: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
-        create: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
+        create: { is_allowed: { type: Boolean } },
         delete: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }] } },
         navigate: { is_allowed: { type: Boolean } },
       },

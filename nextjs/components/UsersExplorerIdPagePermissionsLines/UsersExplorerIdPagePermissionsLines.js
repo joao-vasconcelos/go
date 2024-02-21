@@ -5,7 +5,7 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { MultiSelect } from '@mantine/core';
+import { MultiSelect, SimpleGrid } from '@mantine/core';
 import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import GlobalCheckboxCard from '@/components/GlobalCheckboxCard/GlobalCheckboxCard';
@@ -66,18 +66,7 @@ export default function UsersExplorerIdPagePermissionsLines() {
           searchable
         />
       </GlobalCheckboxCard>
-      <GlobalCheckboxCard label={t('create.label')} description={t('create.description')} {...usersExplorerContext.form.getInputProps('permissions.lines.create.is_allowed')} readOnly={usersExplorerContext.page.is_read_only}>
-        <MultiSelect
-          label={t('create.fields.agencies.label')}
-          placeholder={t('create.fields.agencies.placeholder')}
-          nothingFoundMessage={t('create.fields.agencies.nothingFound')}
-          {...usersExplorerContext.form.getInputProps('permissions.lines.create.fields.agencies')}
-          data={agenciesFormattedForSelect}
-          readOnly={usersExplorerContext.page.is_read_only}
-          disabled={!usersExplorerContext.form.values.permissions.lines.create.is_allowed}
-          searchable
-        />
-      </GlobalCheckboxCard>
+      <GlobalCheckboxCard label={t('create.label')} description={t('create.description')} {...usersExplorerContext.form.getInputProps('permissions.lines.create.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />
       <GlobalCheckboxCard label={t('lock.label')} description={t('lock.description')} {...usersExplorerContext.form.getInputProps('permissions.lines.lock.is_allowed')} readOnly={usersExplorerContext.page.is_read_only}>
         <MultiSelect
           label={t('lock.fields.agencies.label')}
