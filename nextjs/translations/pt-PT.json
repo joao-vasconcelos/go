@@ -1693,6 +1693,12 @@
         }
     },
     "configs": {},
+    "AppError": {
+        "title": "Algo correu mal",
+        "subtitle": "Mas está tudo bem! Se o erro for recorrente fala connosco para ser corrigido. ",
+        "retry": "Nova tentativa em {value} segundos",
+        "goto_home": "Voltar à página inicial"
+    },
     "AppOptions": {
         "language": {
             "label": "Idioma",
