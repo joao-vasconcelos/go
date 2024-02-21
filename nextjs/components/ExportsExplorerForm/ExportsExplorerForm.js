@@ -59,7 +59,7 @@ export default function ExportsExplorerForm() {
 
   const availableExportTypes = useMemo(() => {
     if (!ExportOptions.export_type) return [];
-    return ExportOptions.export_type.filter((type) => isAllowed(sessionData, [{ scope: 'exports', action: 'create', fields: [{ key: 'export_types', values: [type] }] }])).map((type) => ({ value: type, label: exportOptionsTranslations(`export_type.${type}.label`) }));
+    return ExportOptions.export_type.filter((type) => isAllowed(sessionData, [{ scope: 'exports', action: 'create', fields: [{ key: 'export_types', values: [type] }] }], { handleError: true })).map((type) => ({ value: type, label: exportOptionsTranslations(`export_type.${type}.label`) }));
   }, [exportOptionsTranslations, sessionData]);
 
   const availableAgencies = useMemo(() => {
