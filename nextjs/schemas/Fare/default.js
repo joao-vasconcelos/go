@@ -1,10 +1,5 @@
 /* * */
-/* DOCUMENT TYPE: FARE */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Default Values */
 export const FareDefault = {
   code: '',
   name: '',
