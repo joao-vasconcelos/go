@@ -45,6 +45,7 @@ export const LineSchema = new mongoose.Schema(
     interchange: {
       type: String,
       maxlength: 1,
+      default: '0',
     },
     agency: {
       type: mongoose.Schema.Types.ObjectId,

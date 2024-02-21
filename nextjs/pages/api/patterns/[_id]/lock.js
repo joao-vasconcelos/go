@@ -1,26 +1,24 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
+/* * */
+
 import mongodb from '@/services/mongodb';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
 import { LineModel } from '@/schemas/Line/model';
 import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
-/* LOCK PATTERN */
-/* Explanation needed. */
-/* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
-
-  // 0.
-  // Setup variables
-
-  let parsedData;
-  let patternDocument;
 
   // 1.
+  // Setup variables
+
+  let sessionData;
+  let patternDocument;
+
+  // 2.
   // Refuse request if not PUT
 
   if (req.method != 'PUT') {
@@ -28,18 +26,19 @@ export default async function handler(req, res) {
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 2.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'lines', permission: 'create_edit', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'lines', action: 'lock' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 3.
-  // Connect to mongodb
+  // 4.
+  // Connect to MongoDB
 
   try {
     await mongodb.connect();
@@ -48,31 +47,8 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4.
-  // Ensure latest schema modifications are applied in the database
-
-  try {
-    await LineModel.syncIndexes();
-    await RouteModel.syncIndexes();
-    await PatternModel.syncIndexes();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'Cannot sync indexes.' });
-  }
-
   // 5.
-  // Parse request body into JSON
-
-  try {
-    parsedData = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
-    await res.status(500).json({ message: 'JSON parse error.' });
-    return;
-  }
-
-  // 6.
-  // Retrieve requested document from the database
+  // Retrieve the requested document
 
   try {
     patternDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } });
@@ -82,7 +58,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Pattern not found.' });
   }
 
-  // 7.
+  // 6.
   // Check if parent route is locked
 
   try {
@@ -91,24 +67,20 @@ export default async function handler(req, res) {
     if (routeDocument.is_locked) return await res.status(423).json({ message: 'Parent Route is locked.' });
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Parent Route not found.' });
+    return await res.status(500).json({ message: 'Error retrieving parent Route for this Pattern.' });
   }
 
-  // 4.
+  // 7.
   // Lock or unlock the requested document
 
   try {
-    // Set new lock status
-    const newLockStatus = parsedData.is_locked ? true : false;
-    // Update the pattern document
-    patternDocument.is_locked = newLockStatus;
-    // Save the changes
+    patternDocument.is_locked = !patternDocument.is_locked;
     await patternDocument.save();
-    //
     return await res.status(200).json(patternDocument);
-    //
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Cannot update this Route or its associated Patterns.' });
+    return await res.status(500).json({ message: 'Cannot update this Pattern.' });
   }
+
+  //
 }

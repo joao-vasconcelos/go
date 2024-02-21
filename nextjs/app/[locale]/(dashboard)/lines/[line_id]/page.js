@@ -73,6 +73,8 @@ export default function Page() {
     }
   };
 
+  console.log(lineData, lineForm.values.interchange);
+
   //
   // D. Setup readonly
 

@@ -31,7 +31,7 @@ export const LineValidation = yup.object({
   continuous: yup.boolean(),
   typology: yup.string().required(),
   fares: yup.array(yup.string()).min(1),
-  interchange: yup.string().required(),
+  interchange: yup.string().max(1).required(),
   agency: yup.string().required(),
   routes: yup.array(yup.string()),
 });

@@ -45,6 +45,16 @@ export default async function handler(req, res) {
   }
 
   // 5.
+  // Ensure latest schema modifications are applied in the database
+
+  try {
+    await FareModel.syncIndexes();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Cannot sync indexes.' });
+  }
+
+  // 6.
   // List all documents
 
   try {

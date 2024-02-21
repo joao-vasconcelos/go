@@ -1,26 +1,24 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
+/* * */
+
 import mongodb from '@/services/mongodb';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
 import { LineModel } from '@/schemas/Line/model';
 import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
-/* LOCK ROUTE, PATTERN */
-/* Explanation needed. */
-/* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
-
-  // 0.
-  // Setup variables
-
-  let parsedData;
-  let routeDocument;
 
   // 1.
+  // Setup variables
+
+  let sessionData;
+  let routeDocument;
+
+  // 2.
   // Refuse request if not PUT
 
   if (req.method != 'PUT') {
@@ -28,18 +26,19 @@ export default async function handler(req, res) {
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 2.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'lines', permission: 'create_edit', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'lines', action: 'lock' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 3.
-  // Connect to mongodb
+  // 4.
+  // Connect to MongoDB
 
   try {
     await mongodb.connect();
@@ -48,31 +47,8 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
-  // 4.
-  // Ensure latest schema modifications are applied in the database
-
-  try {
-    await LineModel.syncIndexes();
-    await RouteModel.syncIndexes();
-    await PatternModel.syncIndexes();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'Cannot sync indexes.' });
-  }
-
   // 5.
-  // Parse request body into JSON
-
-  try {
-    parsedData = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
-    await res.status(500).json({ message: 'JSON parse error.' });
-    return;
-  }
-
-  // 6.
-  // Retrieve requested document from the database
+  // Retrieve the requested document
 
   try {
     routeDocument = await RouteModel.findOne({ _id: { $eq: req.query._id } });
@@ -82,42 +58,32 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Route not found.' });
   }
 
-  // 7.
+  // 6.
   // Check if parent line is locked
 
   try {
     const lineDocument = await LineModel.findOne({ _id: { $eq: routeDocument.parent_line } });
-    if (!lineDocument) return await res.status(404).json({ message: `Line with _id: ${routeDocument.parent_line} not found.` });
+    if (!lineDocument) return await res.status(404).json({ message: `Parent Line with _id: ${routeDocument.parent_line} not found.` });
     if (lineDocument.is_locked) return await res.status(423).json({ message: 'Parent Line is locked.' });
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'Parent Line not found.' });
+    return await res.status(500).json({ message: 'Error retrieving parent Line for this Route.' });
   }
 
-  // 4.
+  // 7.
   // Lock or unlock the requested document, as well as the associated child documents
 
   try {
-    // Set new lock status
-    const newLockStatus = parsedData.is_locked ? true : false;
-    // Update the route document
-    routeDocument.is_locked = newLockStatus;
-    // For each pattern associated with this route
+    routeDocument.is_locked = !routeDocument.is_locked;
     for (const patternId of routeDocument.patterns) {
-      // Get the pattern document
-      const patternDocument = await PatternModel.findOne({ _id: patternId });
-      // Set the new lock status
-      patternDocument.is_locked = newLockStatus;
-      // Save the changes
-      await patternDocument.save();
+      await PatternModel.updateOne({ _id: patternId }, { is_locked: routeDocument.is_locked });
     }
-    // Save the changes
     await routeDocument.save();
-    //
     return await res.status(200).json(routeDocument);
-    //
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot update this Route or its associated Patterns.' });
   }
+
+  //
 }
