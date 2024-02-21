@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-    // isAllowed(sessionData, [{ scope: 'users', action: 'view' }]);
+    isAllowed(sessionData, [{ scope: 'users', action: 'view' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
