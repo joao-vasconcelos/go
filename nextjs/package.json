@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/go",
-    "version": "2024.02.15-0154",
+    "version": "2024.02.21-0118",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -29,7 +29,6 @@
         "formidable": "3.5.1",
         "inflected": "2.1.0",
         "JSONStream": "1.3.5",
-        "lodash": "4.17.21",
         "luxon": "3.4.4",
         "maplibre-gl": "4.0.2",
         "mongodb": "6.3.0",
@@ -44,7 +43,7 @@
         "react-map-gl": "7.1.7",
         "react-virtualized-auto-sizer": "1.0.22",
         "react-window": "1.8.10",
-        "recharts": "2.12.0",
+        "recharts": "2.12.1",
         "sharp": "0.33.2",
         "swr": "2.2.5",
         "tunnel-ssh": "5.1.2",
