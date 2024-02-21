@@ -148,7 +148,7 @@ export default function Page() {
   const handleLock = async (value) => {
     try {
       setIsLocking(true);
-      await API({ service: 'lines', resourceId: line_id, operation: 'lock', method: 'GET' });
+      await API({ service: 'lines', resourceId: line_id, operation: 'lock', method: 'PUT' });
       lineMutate();
       setIsLocking(false);
     } catch (err) {

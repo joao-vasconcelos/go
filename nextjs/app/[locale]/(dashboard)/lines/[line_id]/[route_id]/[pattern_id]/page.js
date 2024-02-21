@@ -252,7 +252,7 @@ export default function Page() {
   const handleLock = async (value) => {
     try {
       setIsLocking(true);
-      await API({ service: 'patterns', resourceId: pattern_id, operation: 'lock', method: 'GET' });
+      await API({ service: 'patterns', resourceId: pattern_id, operation: 'lock', method: 'PUT' });
       patternMutate();
       setIsLocking(false);
     } catch (err) {

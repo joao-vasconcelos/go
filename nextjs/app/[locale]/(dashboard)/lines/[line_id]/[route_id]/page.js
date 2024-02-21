@@ -106,7 +106,7 @@ export default function Page() {
   const handleLock = async (value) => {
     try {
       setIsLocking(true);
-      await API({ service: 'routes', resourceId: route_id, operation: 'lock', method: 'GET' });
+      await API({ service: 'routes', resourceId: route_id, operation: 'lock', method: 'PUT' });
       routeMutate();
       setIsLocking(false);
     } catch (err) {

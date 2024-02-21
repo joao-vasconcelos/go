@@ -104,7 +104,7 @@ export default function Page() {
   const handleLock = async (value) => {
     try {
       setIsLocking(true);
-      await API({ service: 'typologies', resourceId: typology_id, operation: 'lock', method: 'GET' });
+      await API({ service: 'typologies', resourceId: typology_id, operation: 'lock', method: 'PUT' });
       typologyMutate();
       setIsLocking(false);
     } catch (err) {
