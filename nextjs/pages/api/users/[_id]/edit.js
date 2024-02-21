@@ -100,10 +100,10 @@ export default async function handler(req, res) {
   // Check for uniqueness
 
   try {
-    // The values that need to be unique are ['code'].
-    const foundDocumentWithUserCode = await UserModel.exists({ code: { $eq: req.body.code } });
+    // The values that need to be unique are ['email'].
+    const foundDocumentWithUserCode = await UserModel.exists({ email: { $eq: req.body.email } });
     if (foundDocumentWithUserCode && foundDocumentWithUserCode._id != req.query._id) {
-      throw new Error('An User with the same "code" already exists.');
+      throw new Error('An User with the same "email" already exists.');
     }
   } catch (err) {
     console.log(err);
