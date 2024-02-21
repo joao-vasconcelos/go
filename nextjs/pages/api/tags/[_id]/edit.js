@@ -99,10 +99,10 @@ export default async function handler(req, res) {
   // Check for uniqueness
 
   try {
-    // The values that need to be unique are ['code'].
-    const foundDocumentWithTagCode = await TagModel.exists({ code: { $eq: req.body.code } });
+    // The values that need to be unique are ['label'].
+    const foundDocumentWithTagCode = await TagModel.exists({ label: { $eq: req.body.label } });
     if (foundDocumentWithTagCode && foundDocumentWithTagCode._id != req.query._id) {
-      throw new Error('An Tag with the same "code" already exists.');
+      throw new Error('An Tag with the same "label" already exists.');
     }
   } catch (err) {
     console.log(err);
