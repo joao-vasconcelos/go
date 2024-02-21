@@ -16,10 +16,10 @@ export default async function handler(req, res) {
   let sessionData;
 
   // 2.
-  // Refuse request if not GET
+  // Refuse request if not PUT
 
-  if (req.method != 'GET') {
-    await res.setHeader('Allow', ['GET']);
+  if (req.method != 'PUT') {
+    await res.setHeader('Allow', ['PUT']);
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
