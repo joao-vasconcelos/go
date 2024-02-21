@@ -2,6 +2,8 @@
 
 import { UserDefault } from '@/schemas/User/default';
 
+/* * */
+
 export default function ensureUserPermissions(permissionsData) {
   //
 
@@ -13,7 +15,6 @@ export default function ensureUserPermissions(permissionsData) {
   // 2.
   // Verify permissions for each scope
 
-  // Alerts
   if (!formattedPermissions?.alerts?.view?.is_allowed) formattedPermissions.alerts = UserDefault.permissions.alerts;
   if (!formattedPermissions?.reporting?.view?.is_allowed) formattedPermissions.reporting = UserDefault.permissions.reporting;
   if (!formattedPermissions?.audits?.view?.is_allowed) formattedPermissions.audits = UserDefault.permissions.audits;
@@ -31,7 +32,6 @@ export default function ensureUserPermissions(permissionsData) {
   if (!formattedPermissions?.tags?.view?.is_allowed) formattedPermissions.tags = UserDefault.permissions.tags;
   if (!formattedPermissions?.media?.view?.is_allowed) formattedPermissions.media = UserDefault.permissions.media;
   if (!formattedPermissions?.users?.view?.is_allowed) formattedPermissions.users = UserDefault.permissions.users;
-  if (!formattedPermissions?.configs?.view?.is_allowed) formattedPermissions.configs = UserDefault.permissions.configs;
 
   // 3.
   // Return the formatted permissions object
