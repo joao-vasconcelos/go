@@ -12,7 +12,7 @@ import bbox from '@turf/bbox';
 import { PatternFormProvider, usePatternForm } from '@/schemas/Pattern/form';
 import API from '@/services/API';
 import { PatternValidation } from '@/schemas/Pattern/validation';
-import { PatternDefault } from '@/schemas/Pattern/default';
+import { PatternDefault, PatternPathDefault, PatternScheduleDefault } from '@/schemas/Pattern/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl, Accordion, JsonInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import OSMMap from '@/components/OSMMap/OSMMap';
@@ -77,6 +77,27 @@ export default function Page() {
   //
   // C. Setup patternForm
 
+  const localPopulate = (data) => {
+    //
+    const populated = populate(PatternDefault, data);
+    //
+    const pathPopulated = [];
+    for (const pathData of data?.path) {
+      pathPopulated.push(populate(PatternPathDefault, pathData));
+    }
+    //
+    const schedulesPopulated = [];
+    for (const scheduleData of data?.schedules) {
+      schedulesPopulated.push(populate(PatternScheduleDefault, scheduleData));
+    }
+    //
+    populated.path = pathPopulated;
+    populated.schedules = schedulesPopulated;
+    //
+    return populated;
+    //
+  };
+
   const patternForm = usePatternForm({
     validateInputOnBlur: true,
     validateInputOnChange: true,
@@ -87,7 +108,7 @@ export default function Page() {
 
   const keepFormUpdated = (data) => {
     if (!patternForm.isDirty()) {
-      const populated = populate(PatternDefault, data);
+      const populated = localPopulate(data);
       patternForm.setValues(populated);
       patternForm.resetDirty(populated);
     }
