@@ -73,12 +73,10 @@ export default function Page() {
     }
   };
 
-  console.log(lineData, lineForm.values.interchange);
-
   //
   // D. Setup readonly
 
-  const isReadOnly = !isAllowed(sessionData, [{ scope: 'lines', action: 'edit' }], { handleError: true }) || lineData?.is_locked;
+  const isReadOnly = !isAllowed(sessionData, [{ scope: 'lines', action: 'edit', fields: [{ key: 'agencies', values: [lineData?.agency] }] }], { handleError: true }) || lineData?.is_locked;
 
   //
   // E. Transform data
@@ -225,10 +223,10 @@ export default function Page() {
             onClose={async () => await handleClose()}
           />
           <LineDisplay short_name={lineForm.values.short_name} name={lineForm.values.name || t('untitled')} color={selectedLineTypologyData?.color} text_color={selectedLineTypologyData?.text_color} />
-          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'lock' }]}>
+          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'lock', fields: [{ key: 'agencies', values: [lineData?.agency] }] }]}>
             <LockButton isLocked={lineData?.is_locked} onClick={handleLock} loading={isLocking} />
           </AppAuthenticationCheck>
-          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'delete' }]}>
+          <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'delete', fields: [{ key: 'agencies', values: [lineData?.agency] }] }]}>
             <Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow>
               <ActionIcon color="red" variant="light" size="lg" onClick={handleDelete}>
                 <IconTrash size="20px" />
