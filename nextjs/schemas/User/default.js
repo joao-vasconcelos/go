@@ -166,6 +166,7 @@ export const UserDefault = {
     },
     //
   },
+  is_locked: false,
 };
 
 /* * */

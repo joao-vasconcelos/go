@@ -182,6 +182,9 @@ export const UserSchema = new mongoose.Schema(
       },
       //
     },
+    is_locked: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );
