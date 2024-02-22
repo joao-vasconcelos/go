@@ -3,7 +3,6 @@
 import mongodb from '@/services/mongodb';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import { LineModel } from '@/schemas/Line/model';
 import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
 

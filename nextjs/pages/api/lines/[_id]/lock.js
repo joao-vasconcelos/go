@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'lines', action: 'lock' }] });
   } catch (err) {
     console.log(err);
-    return await res.status(400).json({ message: err.message || 'Could not prepare Endpoint.' });
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 4.

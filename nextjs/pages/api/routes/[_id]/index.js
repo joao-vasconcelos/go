@@ -1,60 +1,39 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
-import mongodb from '@/services/mongodb';
+/* * */
+
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import getSession from '@/authentication/getSession';
 import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
-/* GET ROUTE BY ID */
-/* Explanation needed. */
-/* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
-
-  // 0.
-  // Setup variables
-
-  let routeDocument;
 
   // 1.
-  // Refuse request if not GET
+  // Setup variables
 
-  if (req.method != 'GET') {
-    await res.setHeader('Allow', ['GET']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
+  let sessionData;
+  let routeDocument;
 
   // 2.
-  // Check for correct Authentication and valid Permissions
+  // Get session data
 
   try {
-    await checkAuthentication({ scope: 'lines', permission: 'view', req, res });
+    sessionData = await getSession(req, res);
   } catch (err) {
     console.log(err);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
   // 3.
-  // Connect to mongodb
+  // Prepare endpoint
 
   try {
-    await mongodb.connect();
+    await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'lines', action: 'view' }] });
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
-  }
-
-  // 4.
-  // Ensure latest schema modifications are applied in the database
-
-  try {
-    await RouteModel.syncIndexes();
-    await PatternModel.syncIndexes();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'Cannot sync indexes.' });
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 5.
