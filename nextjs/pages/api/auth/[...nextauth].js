@@ -1,9 +1,13 @@
+/* * */
+
 import NextAuth from 'next-auth';
 import EmailProvider from 'next-auth/providers/email';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import clientPromise from '@/services/mongodb-adapter';
 import mongodb from '@/services/mongodb';
 import { UserModel } from '@/schemas/User/model';
+
+/* * */
 
 export const authOptions = {
   debug: false,
@@ -48,7 +52,7 @@ export const authOptions = {
         if (token.user) {
           await mongodb.connect();
           const foundUser = await UserModel.findOneAndUpdate({ _id: token.user.id }, { last_active: new Date() }, { new: true });
-          if (foundUser) session.user = foundUser;
+          if (foundUser) session.user = { _id: foundUser._id };
           return session;
         }
       } catch (err) {
@@ -58,5 +62,7 @@ export const authOptions = {
     },
   },
 };
+
+/* * */
 
 export default NextAuth(authOptions);
