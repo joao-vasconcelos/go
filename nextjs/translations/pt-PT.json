@@ -382,81 +382,6 @@
             }
         }
     },
-    "fares": {
-        "untitled": "Untitled Fare",
-        "list": {
-            "no_selection": "Select a Fare",
-            "footer": "Found {count, plural, =1 {1 Fare} other {# Fares}}"
-        },
-        "operations": {
-            "create": {
-                "title": "Create New Fare",
-                "loading": "Creating new Fare...",
-                "success": "A new Fare was created!",
-                "error": "An error occurred while creating this Fare."
-            },
-            "delete": {
-                "title": "Delete Fare",
-                "description": "Deleting is irreversible. Are you sure you want to delete this Fare forever?",
-                "confirm": "Delete Fare Forever",
-                "cancel": "Do Not Delete",
-                "loading": "Deleting Fare...",
-                "success": "Fare was deleted.",
-                "error": "An error occurred while deleting this Fare."
-            }
-        },
-        "sections": {
-            "config": {
-                "title": "Details"
-            }
-        },
-        "form": {
-            "code": {
-                "label": "Fare Code",
-                "placeholder": "T1"
-            },
-            "name": {
-                "label": "Fare Name",
-                "placeholder": "Tarif 1"
-            },
-            "short_name": {
-                "label": "Fare Short Name",
-                "placeholder": "T1"
-            },
-            "price": {
-                "label": "Price",
-                "placeholder": "2.50"
-            },
-            "currency_type": {
-                "label": "Currency",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
-                "options": {
-                    "EUR": "Euro"
-                }
-            },
-            "payment_method": {
-                "label": "Payment Method",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
-                "options": {
-                    "0": "Pay to the driver (navegante® a bordo)",
-                    "1": "Pay before boarding (navegante® pré-pago, navegante®)"
-                }
-            },
-            "transfers": {
-                "label": "Allow Transfers",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
-                "options": {
-                    "0": "Transfers are not allowed",
-                    "1": "Only 1 transfer is allowed",
-                    "2": "Up to 2 transfers are allowed",
-                    "unlimited": "Unlimited transfers are allowed"
-                }
-            }
-        }
-    },
     "zones": {
         "untitled": "Untitled Zone",
         "list": {
@@ -3842,5 +3767,89 @@
             "label": "Perigo! Permitir configurações avançadas",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         }
+    },
+    "FaresExplorerIdPage": {
+        "sections": {
+            "intro": {
+                "title": "Configuração desta Tarifa",
+                "description": ""
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Código",
+                "placeholder": "T1"
+            },
+            "name": {
+                "label": "Nome Público",
+                "placeholder": "Tarif 1"
+            },
+            "short_name": {
+                "label": "Abreviatura",
+                "placeholder": "T1"
+            },
+            "price": {
+                "label": "Preço",
+                "placeholder": "2.50"
+            },
+            "currency_type": {
+                "label": "Moeda",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
+                "options": {
+                    "EUR": "€ Euro"
+                }
+            },
+            "payment_method": {
+                "label": "Forma de Pagamento",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
+                "options": {
+                    "0": "Pagamento ao Motorista (navegante® a bordo)",
+                    "1": "Pré-pagamento (navegante® pré-pago / zapping)"
+                }
+            },
+            "transfers": {
+                "label": "Transbordos (GTFS)",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
+                "options": {
+                    "0": "Não são permitidos transbordos",
+                    "1": "Apenas é permitido 1 transbordo",
+                    "2": "São permitidos até 2 transbordos",
+                    "unlimited": "Transbordos ilimitados"
+                }
+            }
+        }
+    },
+    "FaresExplorerIdPageHeader": {
+        "untitled": "Tarifa sem Título",
+        "operations": {
+            "delete": {
+                "title": "Eliminar Tarifa",
+                "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar esta tarifa para sempre?",
+                "confirm": "Eliminar tarifa para sempre",
+                "cancel": "Não, deixar como está",
+                "loading": "A eliminar tarifa...",
+                "success": "Tarifa eliminada.",
+                "error": "Ocorreu um erro ao eliminar esta tarifa."
+            }
+        }
+    },
+    "FaresExplorerListFooter": {
+        "found_items": "{count, plural, =1 {Encontrada 1 tarifa} other {Encontradas # tarifas}}"
+    },
+    "FaresExplorerListHeader": {
+        "operations": {
+            "create": {
+                "title": "Nova Tarifa",
+                "loading": "A criar tarifa...",
+                "success": "Foi criada uma nova tarifa!",
+                "error": "Ocorreu um erro ao criar esta tarifa."
+            }
+        }
+    },
+    "FaresExplorerPage": {
+        "no_data": "Nenhuma Tarifa Selecionada"
     }
 }
