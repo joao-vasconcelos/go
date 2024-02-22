@@ -103,7 +103,7 @@ export default function Page() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(PatternValidation),
-    initialValues: localPopulate(PatternDefault, patternData),
+    initialValues: localPopulate(patternData),
   });
 
   const keepFormUpdated = (data) => {
