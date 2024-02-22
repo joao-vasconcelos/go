@@ -68,7 +68,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Route not found.' });
   }
 
-  // 8.
+  // 7.
   // Check for uniqueness
 
   try {
@@ -82,14 +82,14 @@ export default async function handler(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 9.
+  // 8.
   // Check if document is locked
 
   if (routeDocument.is_locked) {
     return await res.status(423).json({ message: 'Route is locked.' });
   }
 
-  // 10.
+  // 9.
   // Update the requested document
 
   try {
