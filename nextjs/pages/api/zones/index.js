@@ -6,6 +6,10 @@ import { ZoneModel } from '@/schemas/Zone/model';
 
 /* * */
 
+export const config = { api: { responseLimit: false } };
+
+/* * */
+
 export default async function handler(req, res) {
   //
 
