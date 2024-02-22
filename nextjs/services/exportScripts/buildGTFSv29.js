@@ -293,7 +293,7 @@ function getLineType(typologyCode) {
 /* * */
 /* PARSE ZONING */
 /* Build a zoning object entry */
-async function parseZoning(lineData, patternData, exportOptions) {
+async function parseZoning(agencyData, lineData, patternData, exportOptions) {
   try {
     const parsedZoning = [];
     for (const [pathIndex, pathData] of patternData.path.entries()) {
@@ -308,6 +308,7 @@ async function parseZoning(lineData, patternData, exportOptions) {
       let formattedFares = lineData.fares.map((fare) => fare.code).join('|');
       // Write the afetacao.txt entry for this path
       parsedZoning.push({
+        operator_id: agencyData.code,
         line_id: lineData.code,
         pattern_id: patternData.code,
         stop_sequence: pathIndex + exportOptions.stop_sequence_start,
@@ -316,6 +317,8 @@ async function parseZoning(lineData, patternData, exportOptions) {
         line_type: lineData.typology.code || '',
         accepted_zones: formattedZones,
         accepted_fares: formattedFares,
+        onboard_products: formattedFares,
+        zapping_amount: 99,
         interchange: lineData.interchange || '0',
       });
 
@@ -809,7 +812,7 @@ export default async function buildGTFSv29(progress, agencyData, exportOptions) 
 
         // 3.4.3.6.
         // Write the afetacao.txt entry for this pattern
-        const parsedZoning = await parseZoning(lineData, patternData, exportOptions);
+        const parsedZoning = await parseZoning(agencyData, lineData, patternData, exportOptions);
         writeCsvToFile(progress.workdir, 'afetacao.csv', parsedZoning);
 
         // 3.4.3.7.
