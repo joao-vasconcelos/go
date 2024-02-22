@@ -1,17 +1,14 @@
+/* * */
+
 import * as yup from 'yup';
 
 /* * */
-/* DOCUMENT TYPE: AGENCY */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. YUP Validation Schema */
 export const ZoneValidation = yup.object({
   code: yup
     .string()
     .required()
-    .max(10, 'ID da Zona deve ter apenas ${max} caracteres.')
+    .max(30, 'ID da Zona deve ter apenas ${max} caracteres.')
     .transform((value) => value.replace(/  +/g, ' ').trim()),
   name: yup
     .string()

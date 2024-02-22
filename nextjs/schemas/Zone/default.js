@@ -1,10 +1,5 @@
 /* * */
-/* DOCUMENT TYPE: AGENCY */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Default Values */
 export const ZoneDefault = {
   code: '',
   name: '',

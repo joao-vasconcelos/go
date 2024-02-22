@@ -1,17 +1,14 @@
+/* * */
+
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: ZONE */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Mongoose Schema */
 export const ZoneSchema = new mongoose.Schema(
   {
     code: {
       type: String,
-      maxlength: 10,
+      maxlength: 30,
       unique: true,
     },
     name: {
@@ -58,5 +55,5 @@ export const ZoneSchema = new mongoose.Schema(
 );
 
 /* * */
-/* C. Mongoose Model */
+
 export const ZoneModel = mongoose?.models?.Zone || mongoose.model('Zone', ZoneSchema);
