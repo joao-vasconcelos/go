@@ -48,7 +48,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Cannot sync indexes.' });
   }
 
-  // 6.
+  // 5.
   // List all documents
 
   try {
