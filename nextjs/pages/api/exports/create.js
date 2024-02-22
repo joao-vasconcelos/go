@@ -9,8 +9,8 @@ import { ExportDefault } from '@/schemas/Export/default';
 import { ExportModel } from '@/schemas/Export/model';
 import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportOptions } from '@/schemas/Export/options';
-import buildGTFSv29 from '@/services/exportScripts/buildGTFSv29';
-import buildNETEXv1 from '@/services/exportScripts/buildNETEXv1';
+import exportGtfsV29 from '@/scripts/exports/gtfs.v29';
+import exportNetexV1 from '@/scripts/exports/netex.v1';
 import SMTP from '@/services/SMTP';
 
 /* * */
@@ -176,13 +176,13 @@ export default async function handler(req, res) {
       // 9.3.1.
       // Build GTFS v29
       case 'gtfs_v29':
-        await buildGTFSv29(exportSummary, agencyData, exportOptions);
+        await exportGtfsV29(exportSummary, agencyData, exportOptions);
         await update(exportSummary, { progress_current: 1, progress_total: 2 });
         break;
       // 9.3.2.
       // Build NETEX v1
       case 'netex_v1':
-        await buildNETEXv1(exportSummary, agencyData, exportOptions);
+        await exportNetexV1(exportSummary, agencyData, exportOptions);
         await update(exportSummary, { progress_current: 1, progress_total: 2 });
         break;
     }

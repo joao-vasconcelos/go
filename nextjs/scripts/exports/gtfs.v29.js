@@ -3,7 +3,7 @@
 import Papa from 'papaparse';
 import fs from 'fs';
 import { transliterate } from 'inflected';
-import calculateDateDayType from '../calculateDateDayType';
+import calculateDateDayType from '../../services/calculateDateDayType';
 import { ExportModel } from '@/schemas/Export/model';
 import { LineModel } from '@/schemas/Line/model';
 import { FareModel } from '@/schemas/Fare/model';
@@ -461,7 +461,7 @@ function parseStop(stopData, municipalityData) {
 /* * */
 /* BUILD GTFS V29 */
 /* This builds the GTFS archive. */
-export default async function buildGTFSv29(progress, agencyData, exportOptions) {
+export default async function exportGtfsV29(progress, agencyData, exportOptions) {
   //
 
   console.log(`* * *`);

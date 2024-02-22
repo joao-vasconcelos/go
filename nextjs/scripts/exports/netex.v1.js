@@ -427,7 +427,7 @@ function parseStop(stopData, municipalityData) {
 /* * */
 /* BUILD GTFS V18 */
 /* This builds the GTFS archive. */
-export default async function buildNETEXv1(progress, agencyData, exportOptions) {
+export default async function exportNetexV1(progress, agencyData, exportOptions) {
   //
 
   // 0.
