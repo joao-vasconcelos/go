@@ -3822,6 +3822,9 @@
             }
         }
     },
+    "FaresExplorerListItem": {
+        "untitled": "Tarifa sem Título"
+    },
     "FaresExplorerIdPageHeader": {
         "untitled": "Tarifa sem Título",
         "operations": {

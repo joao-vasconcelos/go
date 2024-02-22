@@ -1,84 +1,63 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
-import mongodb from '@/services/mongodb';
+/* * */
+
+import getSession from '@/authentication/getSession';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { RouteValidation } from '@/schemas/Route/validation';
 import { RouteModel } from '@/schemas/Route/model';
 
 /* * */
-/* EDIT ROUTE */
-/* Explanation needed. */
-/* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
-
-  // 0.
-  // Setup variables
-
-  let parsedData;
-  let routeDocument;
 
   // 1.
-  // Refuse request if not PUT
+  // Setup variables
 
-  if (req.method != 'PUT') {
-    await res.setHeader('Allow', ['PUT']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
+  let sessionData;
+  let routeDocument;
 
   // 2.
-  // Check for correct Authentication and valid Permissions
+  // Get session data
 
   try {
-    await checkAuthentication({ scope: 'lines', permission: 'create_edit', req, res });
+    sessionData = await getSession(req, res);
   } catch (err) {
     console.log(err);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
   // 3.
-  // Connect to mongodb
+  // Prepare endpoint
 
   try {
-    await mongodb.connect();
+    await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'lines', action: 'edit' }] });
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 4.
-  // Ensure latest schema modifications are applied in the database
-
-  try {
-    await RouteModel.syncIndexes();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'Cannot sync indexes.' });
-  }
-
-  // 5.
   // Parse request body into JSON
 
   try {
-    parsedData = await JSON.parse(req.body);
+    req.body = await JSON.parse(req.body);
   } catch (err) {
     console.log(err);
     await res.status(500).json({ message: 'JSON parse error.' });
     return;
   }
 
-  // 6.
+  // 5.
   // Validate req.body against schema
 
   try {
-    parsedData = RouteValidation.cast(parsedData);
+    req.body = RouteValidation.cast(req.body);
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
-  // 7.
+  // 6.
   // Retrieve requested document from the database
 
   try {
@@ -94,7 +73,7 @@ export default async function handler(req, res) {
 
   try {
     // The values that need to be unique are ['code'].
-    const foundDocumentWithRouteCode = await RouteModel.exists({ code: { $eq: parsedData.code } });
+    const foundDocumentWithRouteCode = await RouteModel.exists({ code: { $eq: req.body.code } });
     if (foundDocumentWithRouteCode && foundDocumentWithRouteCode._id != req.query._id) {
       throw new Error('An Route with the same "code" already exists.');
     }
@@ -114,7 +93,7 @@ export default async function handler(req, res) {
   // Update the requested document
 
   try {
-    const editedDocument = await RouteModel.updateOne({ _id: { $eq: req.query._id } }, parsedData, { new: true });
+    const editedDocument = await RouteModel.updateOne({ _id: { $eq: req.query._id } }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Route with _id: ${req.query._id} not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {

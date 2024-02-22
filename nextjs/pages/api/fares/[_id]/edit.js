@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   // Setup variables
 
   let sessionData;
-  let foundDocument;
+  let fareDocument;
 
   // 2.
   // Refuse request if not PUT
@@ -81,8 +81,8 @@ export default async function handler(req, res) {
   // Retrieve requested document from the database
 
   try {
-    foundDocument = await FareModel.findOne({ _id: { $eq: req.query._id } });
-    if (!foundDocument) return await res.status(404).json({ message: `Fare with _id: ${req.query._id} not found.` });
+    fareDocument = await FareModel.findOne({ _id: { $eq: req.query._id } });
+    if (!fareDocument) return await res.status(404).json({ message: `Fare with _id: ${req.query._id} not found.` });
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Fare not found.' });
@@ -91,7 +91,7 @@ export default async function handler(req, res) {
   // 9.
   // Check if document is locked
 
-  if (foundDocument.is_locked) {
+  if (fareDocument.is_locked) {
     return await res.status(423).json({ message: 'Fare is locked.' });
   }
 
@@ -100,8 +100,8 @@ export default async function handler(req, res) {
 
   try {
     // The values that need to be unique are ['code'].
-    const foundDocumentWithFareCode = await FareModel.exists({ code: { $eq: req.body.code } });
-    if (foundDocumentWithFareCode && foundDocumentWithFareCode._id != req.query._id) {
+    const fareDocumentWithFareCode = await FareModel.exists({ code: { $eq: req.body.code } });
+    if (fareDocumentWithFareCode && fareDocumentWithFareCode._id != req.query._id) {
       throw new Error('An Fare with the same "code" already exists.');
     }
   } catch (err) {
