@@ -3476,6 +3476,10 @@
         "navigate": {
             "label": "Aceder à página das Calendários",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "edit_dates": {
+            "label": "Adicionar, Editar e Eliminar Datas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         }
     },
     "UsersExplorerIdPagePermissionsLines": {

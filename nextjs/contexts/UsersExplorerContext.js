@@ -101,8 +101,7 @@ export function UsersExplorerContextProvider({ children }) {
 
   useEffect(() => {
     // Check if the use is allowed to edit the current page
-    const isReadOnly = itemData?.is_locked || pageState.is_saving;
-    // const isReadOnly = !isAllowed(sessionData, [{ scope: 'users', action: 'edit' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving;
+    const isReadOnly = !isAllowed(sessionData, [{ scope: 'users', action: 'edit' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving;
     // Update state
     setPageState((prev) => ({ ...prev, is_read_only: isReadOnly }));
     //

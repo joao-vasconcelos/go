@@ -1,9 +1,10 @@
 /* * */
 
-import { DateTime } from 'luxon';
-import JSONStream from 'JSONStream';
+import getSession from '@/authentication/getSession';
+import isAllowed from '@/authentication/isAllowed';
 import REALTIMEDB from '@/services/REALTIMEDB';
-import checkAuthentication from '@/services/checkAuthentication';
+import JSONStream from 'JSONStream';
+import { DateTime } from 'luxon';
 
 /* * */
 
@@ -14,7 +15,12 @@ export const config = { api: { responseLimit: false } };
 export default async function handler(req, res) {
   //
 
-  // 0.
+  // 1.
+  // Setup variables
+
+  let sessionData;
+
+  // 2.
   // Refuse request if not POST
 
   if (req.method != 'POST') {
@@ -22,17 +28,18 @@ export default async function handler(req, res) {
     return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
   }
 
-  // 1.
+  // 3.
   // Check for correct Authentication and valid Permissions
 
   try {
-    await checkAuthentication({ scope: 'configs', permission: 'admin', req, res });
+    sessionData = await getSession(req, res);
+    isAllowed(sessionData, [{ scope: 'reporting', action: 'view' }]);
   } catch (err) {
     console.log(err);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
-  // 2.
+  // 4.
   // Parse request body into JSON
 
   try {
@@ -42,7 +49,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
-  // 3.
+  // 5.
   // Prepare datetime variables
 
   let operationDayStartMilis;
@@ -58,7 +65,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Error converting date boundaries to miliseconds.' });
   }
 
-  // 4.
+  // 6.
   // Connect to REALTIMEDB
 
   try {
@@ -68,7 +75,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
   }
 
-  // 5.
+  // 7.
   // Prepare aggregation pipeline
 
   const matchClause = {
@@ -145,7 +152,7 @@ export default async function handler(req, res) {
     },
   };
 
-  // 6.
+  // 8.
   // Perform database search
 
   try {

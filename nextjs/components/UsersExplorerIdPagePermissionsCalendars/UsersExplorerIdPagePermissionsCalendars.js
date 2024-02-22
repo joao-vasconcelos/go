@@ -61,6 +61,13 @@ export default function UsersExplorerIdPagePermissionsCalendars() {
           readOnly={usersExplorerContext.page.is_read_only}
           disabled={!usersExplorerContext.form.values.permissions.calendars.view.is_allowed}
         />
+        <GlobalCheckboxCard
+          label={t('edit_dates.label')}
+          description={t('edit_dates.description')}
+          {...usersExplorerContext.form.getInputProps('permissions.calendars.edit_dates.is_allowed')}
+          readOnly={usersExplorerContext.page.is_read_only}
+          disabled={!usersExplorerContext.form.values.permissions.calendars.view.is_allowed}
+        />
       </SimpleGrid>
     </AppLayoutSection>
   );

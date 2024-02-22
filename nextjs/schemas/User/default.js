@@ -69,6 +69,7 @@ export const UserDefault = {
       create: { is_allowed: false },
       delete: { is_allowed: false },
       navigate: { is_allowed: false },
+      edit_dates: { is_allowed: false },
     },
     //
     lines: {
