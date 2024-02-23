@@ -6,12 +6,7 @@ import Papa from 'papaparse';
 
 /* * */
 
-export const config = {
-  api: {
-    bodyParser: false, // Disallow body parsing, consume as stream
-    externalResolver: true,
-  },
-};
+export const config = { api: { bodyParser: false, externalResolver: true } }; // Disable body parsing, consume as stream
 
 /* * */
 
@@ -123,8 +118,16 @@ export default async function parseGTFS(req, res) {
           if (trip.route_id === route.route_id) {
             // Find the shape associated with the trip
             let shape = gtfsShapes.find((shape) => shape.shape_id === trip.shape_id);
+            // Sort the shape points
+            shape.points = shape.points.sort((a, b) => a.shape_pt_sequence > b.shape_pt_sequence);
             // Find the path associated with the trip
             let stopTime = gtfsStopTimes.find((stopTime) => stopTime.trip_id === trip.trip_id);
+            // Convert the shapes into meters, if they are in km (by checking the last point of the shape)
+            const lastShapePoint = shape.points[shape.points.length - 1];
+            if (Number(lastShapePoint.shape_dist_traveled) < 1000) {
+              shape.points = shape.points.map((point) => ({ ...point, shape_dist_traveled: point.shape_dist_traveled * 1000 }));
+              stopTime.path = stopTime.path.map((st) => ({ ...st, shape_dist_traveled: st.shape_dist_traveled * 1000 }));
+            }
             // Create a new trip object with shape information
             let tripWithShape = {
               ...trip,
