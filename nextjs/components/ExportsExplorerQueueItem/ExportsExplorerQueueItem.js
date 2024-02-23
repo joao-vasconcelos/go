@@ -43,7 +43,7 @@ export default function ExportsExplorerQueueItem({ item }) {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          await API({ service: 'exports', resourceId: item._id, operation: 'delete', method: 'GET' });
+          await API({ service: 'exports', resourceId: item._id, operation: 'delete', method: 'DELETE' });
           allExportsMutate();
         } catch (err) {
           console.log(err);

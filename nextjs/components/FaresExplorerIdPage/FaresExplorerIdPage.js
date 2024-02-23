@@ -8,6 +8,8 @@ import { SimpleGrid, TextInput, NumberInput, Select } from '@mantine/core';
 import { useFaresExplorerContext } from '@/contexts/FaresExplorerContext';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import FaresExplorerIdPageHeader from '@/components/FaresExplorerIdPageHeader/FaresExplorerIdPageHeader';
+import { useMemo } from 'react';
+import { FareOptions } from '@/schemas/Fare/options';
 
 /* * */
 
@@ -18,10 +20,29 @@ export default function FaresExplorerIdPage() {
   // A. Setup variables
 
   const t = useTranslations('FaresExplorerIdPage');
+  const fareOptionsLabels = useTranslations('FareOptions');
   const faresExplorerContext = useFaresExplorerContext();
 
   //
-  // B. Render components
+  // B. Transform data
+
+  const allCurrencyTypesFormatted = useMemo(() => {
+    if (!FareOptions.currency_type) return [];
+    return FareOptions.currency_type.map((item) => ({ value: item, label: fareOptionsLabels(`currency_type.${item}`) }));
+  }, [fareOptionsLabels]);
+
+  const allPaymentMethodsFormatted = useMemo(() => {
+    if (!FareOptions.payment_method) return [];
+    return FareOptions.payment_method.map((item) => ({ value: item, label: fareOptionsLabels(`payment_method.${item}`) }));
+  }, [fareOptionsLabels]);
+
+  const allTransfersFormatted = useMemo(() => {
+    if (!FareOptions.transfers) return [];
+    return FareOptions.transfers.map((item) => ({ value: item, label: fareOptionsLabels(`transfers.${item}`) }));
+  }, [fareOptionsLabels]);
+
+  //
+  // C. Render components
 
   return (
     <Pannel loading={faresExplorerContext.page.is_loading} header={<FaresExplorerIdPageHeader />}>
@@ -37,8 +58,8 @@ export default function FaresExplorerIdPage() {
             label={t('form.currency_type.label')}
             placeholder={t('form.currency_type.placeholder')}
             nothingFoundMessage={t('form.currency_type.nothingFound')}
+            data={allCurrencyTypesFormatted}
             {...faresExplorerContext.form.getInputProps('currency_type')}
-            data={[{ value: 'EUR', label: t('form.currency_type.options.EUR') }]}
             readOnly={faresExplorerContext.page.isReadOnly}
             searchable
           />
@@ -48,11 +69,8 @@ export default function FaresExplorerIdPage() {
             label={t('form.payment_method.label')}
             placeholder={t('form.payment_method.placeholder')}
             nothingFoundMessage={t('form.payment_method.nothingFound')}
+            data={allPaymentMethodsFormatted}
             {...faresExplorerContext.form.getInputProps('payment_method')}
-            data={[
-              { value: '0', label: t('form.payment_method.options.0') },
-              { value: '1', label: t('form.payment_method.options.1') },
-            ]}
             readOnly={faresExplorerContext.page.isReadOnly}
             searchable
           />
@@ -60,13 +78,8 @@ export default function FaresExplorerIdPage() {
             label={t('form.transfers.label')}
             placeholder={t('form.transfers.placeholder')}
             nothingFoundMessage={t('form.transfers.nothingFound')}
+            data={allTransfersFormatted}
             {...faresExplorerContext.form.getInputProps('transfers')}
-            data={[
-              { value: '0', label: t('form.transfers.options.0') },
-              { value: '1', label: t('form.transfers.options.1') },
-              { value: '2', label: t('form.transfers.options.2') },
-              { value: 'unlimited', label: t('form.transfers.options.unlimited') },
-            ]}
             readOnly={faresExplorerContext.page.isReadOnly}
             searchable
           />
@@ -74,4 +87,6 @@ export default function FaresExplorerIdPage() {
       </AppLayoutSection>
     </Pannel>
   );
+
+  //
 }

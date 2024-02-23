@@ -3768,6 +3768,21 @@
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         }
     },
+    "FareOptions": {
+        "currency_type": {
+            "EUR": "€ Euro"
+        },
+        "payment_method": {
+            "0": "Pagamento ao Motorista (navegante® a bordo)",
+            "1": "Pré-pagamento (navegante® pré-pago)"
+        },
+        "transfers": {
+            "0": "Não são permitidos transbordos",
+            "1": "Apenas é permitido 1 transbordo",
+            "2": "São permitidos até 2 transbordos",
+            "unlimited": "Transbordos ilimitados"
+        }
+    },
     "FaresExplorerIdPage": {
         "sections": {
             "intro": {
@@ -3795,30 +3810,17 @@
             "currency_type": {
                 "label": "Moeda",
                 "placeholder": "Escolha uma opção...",
-                "nothingFound": "Nenhum Resultado Encontrado",
-                "options": {
-                    "EUR": "€ Euro"
-                }
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "payment_method": {
                 "label": "Forma de Pagamento",
                 "placeholder": "Escolha uma opção...",
-                "nothingFound": "Nenhum Resultado Encontrado",
-                "options": {
-                    "0": "Pagamento ao Motorista (navegante® a bordo)",
-                    "1": "Pré-pagamento (navegante® pré-pago / zapping)"
-                }
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "transfers": {
                 "label": "Transbordos (GTFS)",
                 "placeholder": "Escolha uma opção...",
-                "nothingFound": "Nenhum Resultado Encontrado",
-                "options": {
-                    "0": "Não são permitidos transbordos",
-                    "1": "Apenas é permitido 1 transbordo",
-                    "2": "São permitidos até 2 transbordos",
-                    "unlimited": "Transbordos ilimitados"
-                }
+                "nothingFound": "Nenhum Resultado Encontrado"
             }
         }
     },
@@ -3854,5 +3856,88 @@
     },
     "FaresExplorerPage": {
         "no_data": "Nenhuma Tarifa Selecionada"
+    },
+    "TypologiesExplorerIdPage": {
+        "sections": {
+            "intro": {
+                "title": "Configuração desta Tipologia",
+                "description": ""
+            },
+            "appearance": {
+                "title": "Estilos",
+                "description": ""
+            },
+            "default_fares": {
+                "title": "Tarifas Associadas",
+                "description": "Podem ser definidas as tarifas associadas a esta tipologia. É sempre possível alterar estas configurações manualmente em cada linha."
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Código",
+                "placeholder": "T1"
+            },
+            "name": {
+                "label": "Nome Público",
+                "placeholder": "Tarif 1"
+            },
+            "short_name": {
+                "label": "Abreviatura",
+                "placeholder": "T1"
+            },
+            "color": {
+                "label": "Cor do Fundo",
+                "placeholder": "#000000"
+            },
+            "text_color": {
+                "label": "Cor do Texto",
+                "placeholder": "#FFFFFF"
+            },
+            "default_prepaid_fare": {
+                "label": "Tarifa Pré-paga por defeito",
+                "description": "navegante® pré-pago",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "default_onboard_fares": {
+                "label": "Tarifas de Bordo por defeito",
+                "description": "navegante® a bordo",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            }
+        }
+    },
+    "TypologiesExplorerListItem": {
+        "untitled": "Tipologia sem Título"
+    },
+    "TypologiesExplorerIdPageHeader": {
+        "untitled": "Tipologia sem Título",
+        "operations": {
+            "delete": {
+                "title": "Eliminar Tipologia",
+                "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar esta tipologia para sempre?",
+                "confirm": "Eliminar tipologia para sempre",
+                "cancel": "Não, deixar como está",
+                "loading": "A eliminar tipologia...",
+                "success": "Tipologia eliminada.",
+                "error": "Ocorreu um erro ao eliminar esta tipologia."
+            }
+        }
+    },
+    "TypologiesExplorerListFooter": {
+        "found_items": "{count, plural, =1 {Encontrada 1 tipologia} other {Encontradas # tipologias}}"
+    },
+    "TypologiesExplorerListHeader": {
+        "operations": {
+            "create": {
+                "title": "Nova Tipologia",
+                "loading": "A criar tipologia...",
+                "success": "Foi criada uma nova tipologia!",
+                "error": "Ocorreu um erro ao criar esta tipologia."
+            }
+        }
+    },
+    "TypologiesExplorerPage": {
+        "no_data": "Nenhuma Tipologia Selecionada"
     }
 }

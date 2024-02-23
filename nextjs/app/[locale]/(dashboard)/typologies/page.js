@@ -1,12 +1,9 @@
-'use client';
+/* * */
 
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import { useTranslations } from 'next-intl';
+import TypologiesExplorerPage from '@/components/TypologiesExplorerPage/TypologiesExplorerPage';
+
+/* * */
 
 export default function Page() {
-  //
-
-  const t = useTranslations('typologies');
-
-  return <NoDataLabel fill text={t('list.no_selection')} />;
+  return <TypologiesExplorerPage />;
 }
