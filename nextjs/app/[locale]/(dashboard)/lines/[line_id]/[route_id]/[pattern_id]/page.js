@@ -12,7 +12,7 @@ import bbox from '@turf/bbox';
 import { PatternFormProvider, usePatternForm } from '@/schemas/Pattern/form';
 import API from '@/services/API';
 import { PatternValidation } from '@/schemas/Pattern/validation';
-import { PatternDefault, PatternPathDefault, PatternScheduleDefault } from '@/schemas/Pattern/default';
+import { PatternDefault, PatternPathDefault, PatternScheduleDefault, PatternShapePointDefault } from '@/schemas/Pattern/default';
 import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, Switch, SegmentedControl, Accordion, JsonInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import OSMMap from '@/components/OSMMap/OSMMap';
@@ -81,18 +81,24 @@ export default function Page() {
     //
     const populated = populate(PatternDefault, data);
     //
+    const shapePointsPopulated = [];
+    for (const shapePointData of data?.shape?.points || []) {
+      shapePointsPopulated.push(populate(PatternShapePointDefault, shapePointData));
+    }
+    //
     const pathPopulated = [];
-    for (const pathData of data?.path) {
+    for (const pathData of data?.path || []) {
       pathPopulated.push(populate(PatternPathDefault, pathData));
     }
     //
     const schedulesPopulated = [];
-    for (const scheduleData of data?.schedules) {
+    for (const scheduleData of data?.schedules || []) {
       schedulesPopulated.push(populate(PatternScheduleDefault, scheduleData));
     }
     //
     populated.path = pathPopulated;
     populated.schedules = schedulesPopulated;
+    populated.shape.points = shapePointsPopulated;
     //
     return populated;
     //
