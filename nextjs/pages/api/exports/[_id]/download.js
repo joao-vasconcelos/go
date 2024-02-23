@@ -1,44 +1,38 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
-import mongodb from '@/services/mongodb';
-import * as fs from 'fs';
+/* * */
+
+import fs from 'fs';
+import getSession from '@/authentication/getSession';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { ExportModel } from '@/schemas/Export/model';
 
-/* * */
-/* DOWNLOAD COMPLETED EXPORT */
-/* This endpoint returns all exports. */
 /* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
-
-  // 0.
-  // Refuse request if not GET
-
-  if (req.method != 'GET') {
-    await res.setHeader('Allow', ['GET']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
 
   // 1.
-  // Check for correct Authentication and valid Permissions
+  // Setup variables
 
-  try {
-    await checkAuthentication({ scope: 'exports', permission: 'view', req, res });
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: err.message || 'Could not verify Authentication.' });
-  }
+  let sessionData;
 
   // 2.
-  // Connect to MongoDB
+  // Get session data
 
   try {
-    await mongodb.connect();
+    sessionData = await getSession(req, res);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
+    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+  }
+
+  // 3.
+  // Prepare endpoint
+
+  try {
+    await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'exports', action: 'download' }] });
+  } catch (err) {
+    console.log(err);
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 3.

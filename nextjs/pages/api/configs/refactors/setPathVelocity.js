@@ -1,7 +1,7 @@
 /* * */
 
-import checkAuthentication from '@/services/checkAuthentication';
-import mongodb from '@/services/mongodb';
+import getSession from '@/authentication/getSession';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import patternVelocities from './patterns_velocities.json';
 import { PatternModel } from '@/schemas/Pattern/model';
 
@@ -12,32 +12,29 @@ export default async function handler(req, res) {
 
   throw new Error('Feature is disabled.');
 
-  // 0.
-  // Refuse request if not GET
-
-  if (req.method != 'GET') {
-    await res.setHeader('Allow', ['GET']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
-
   // 1.
-  // Check for correct Authentication and valid Permissions
+  // Setup variables
+
+  let sessionData;
+
+  // 2.
+  // Get session data
 
   try {
-    await checkAuthentication({ scope: 'configs', permission: 'admin', req, res });
+    sessionData = await getSession(req, res);
   } catch (err) {
     console.log(err);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
-  // 4.
-  // Connect to mongodb
+  // 3.
+  // Prepare endpoint
 
   try {
-    await mongodb.connect();
+    await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 5.

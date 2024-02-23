@@ -1,37 +1,42 @@
-import delay from '@/services/delay';
-import checkAuthentication from '@/services/checkAuthentication';
-import mongodb from '@/services/mongodb';
+/* * */
+
 import * as turf from '@turf/turf';
+import calculateTravelTime from '@/services/calculateTravelTime';
+import getSession from '@/authentication/getSession';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { PatternShapeDefault, PatternPathDefault } from '@/schemas/Pattern/default';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { StopModel } from '@/schemas/Stop/model';
-import calculateTravelTime from '@/services/calculateTravelTime';
 
-/* * */
-/* IMPORT PATTERN */
-/* Explanation needed. */
 /* * */
 
 export default async function handler(req, res) {
   //
-  await delay();
 
   // 1.
-  // Refuse request if not PUT
+  // Setup variables
 
-  if (req.method != 'PUT') {
-    await res.setHeader('Allow', ['PUT']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
+  let sessionData;
+  let patternDocument;
 
   // 2.
-  // Check for correct Authentication and valid Permissions
+  // Get session data
 
   try {
-    await checkAuthentication({ scope: 'lines', permission: 'create_edit', req, res });
+    sessionData = await getSession(req, res);
   } catch (err) {
     console.log(err);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+  }
+
+  // 3.
+  // Prepare endpoint
+
+  try {
+    await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'lines', action: 'edit' }] });
+  } catch (err) {
+    console.log(err);
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 3.
@@ -45,20 +50,17 @@ export default async function handler(req, res) {
     return;
   }
 
-  // 4.
-  // Connect to MongoDB
-
-  try {
-    await mongodb.connect();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
-  }
-
   // 5.
   // Get current pattern from MongoDB
 
-  const patternDocumentToUpdate = await PatternModel.findOne({ _id: { $eq: req.query._id } }).populate('path.stop');
+  try {
+    patternDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } }).populate('path.stop');
+    if (!patternDocument) return await res.status(404).json({ message: 'Could not find requested Pattern in database.' });
+  } catch (err) {
+    console.log(err);
+    await res.status(500).json({ message: 'Error fetching pattern from database.' });
+    return;
+  }
 
   // 6.
   // Update Shape
@@ -66,15 +68,15 @@ export default async function handler(req, res) {
   if (req.body.shape && req.body.shape.length) {
     try {
       // Initiate pattern shape
-      patternDocumentToUpdate.shape = { ...PatternShapeDefault };
+      patternDocument.shape = { ...PatternShapeDefault };
       // Sort points to match sequence
-      patternDocumentToUpdate.shape.points = req.body.shape.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence);
+      patternDocument.shape.points = req.body.shape.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence);
       // Create geojson feature using turf
-      patternDocumentToUpdate.shape.geojson = turf.lineString(patternDocumentToUpdate.shape.points.map((point) => [parseFloat(point.shape_pt_lon), parseFloat(point.shape_pt_lat)]));
+      patternDocument.shape.geojson = turf.lineString(patternDocument.shape.points.map((point) => [parseFloat(point.shape_pt_lon), parseFloat(point.shape_pt_lat)]));
       // Calculate shape extension from geojson feature
-      const extensionInKilometers = turf.length(patternDocumentToUpdate.shape.geojson, { units: 'kilometers' });
+      const extensionInKilometers = turf.length(patternDocument.shape.geojson, { units: 'kilometers' });
       const extensionInMeters = extensionInKilometers * 1000;
-      patternDocumentToUpdate.shape.extension = parseInt(extensionInMeters);
+      patternDocument.shape.extension = parseInt(extensionInMeters);
     } catch (err) {
       console.log(err);
       return await res.status(500).json({ message: 'Could not handle points in Shape.' });
@@ -82,7 +84,7 @@ export default async function handler(req, res) {
   } else {
     try {
       // Reset geojson and extension if shape has no points
-      patternDocumentToUpdate.shape = { ...PatternShapeDefault };
+      patternDocument.shape = { ...PatternShapeDefault };
     } catch (err) {
       console.log(err);
       return await res.status(500).json({ message: 'Could not handle no points in Shape.' });
@@ -106,12 +108,12 @@ export default async function handler(req, res) {
       // Throw an error if no stop is found
       if (!associatedStopDocument) throw Error(`The stop "${pathItem.stop_id}" does not exist in GO.`);
       // Get original path stop from non-modified document
-      const originalPathStop = patternDocumentToUpdate.path.find((item) => item.stop?.id === associatedStopDocument?.id);
+      const originalPathStop = patternDocument.path.find((item) => item.stop?.id === associatedStopDocument?.id);
       // Calculate distance delta
       const distanceDelta = pathIndex === 0 ? 0 : parseInt(pathItem.shape_dist_traveled) - prevDistance;
       prevDistance = parseInt(pathItem.shape_dist_traveled);
       // Calculate travel time
-      const travelTime = calculateTravelTime(distanceDelta, patternDocumentToUpdate.presets.velocity || PatternPathDefault.default_velocity);
+      const travelTime = calculateTravelTime(distanceDelta, patternDocument.presets.velocity || PatternPathDefault.default_velocity);
       // Add this sequence item to the document path
       formattedPath.push({
         // Include the defaults
@@ -121,15 +123,15 @@ export default async function handler(req, res) {
         distance_delta: distanceDelta,
         stop: associatedStopDocument._id,
         // Replace defaults with original data, if path stop is available; otherwise use presets or defaults
-        default_velocity: originalPathStop?.default_velocity || patternDocumentToUpdate.presets.velocity || PatternPathDefault.default_velocity,
-        default_dwell_time: originalPathStop?.default_dwell_time || patternDocumentToUpdate.presets.dwell_time || PatternPathDefault.default_dwell_time,
+        default_velocity: originalPathStop?.default_velocity || patternDocument.presets.velocity || PatternPathDefault.default_velocity,
+        default_dwell_time: originalPathStop?.default_dwell_time || patternDocument.presets.dwell_time || PatternPathDefault.default_dwell_time,
         zones: originalPathStop?.zones || associatedStopDocument.zones,
         allow_pickup: originalPathStop?.allow_pickup || PatternPathDefault.allow_pickup,
         allow_drop_off: originalPathStop?.allow_drop_off || PatternPathDefault.allow_drop_off,
       });
     }
     //
-    patternDocumentToUpdate.path = formattedPath;
+    patternDocument.path = formattedPath;
     //
   } catch (err) {
     console.log(err);
@@ -141,9 +143,9 @@ export default async function handler(req, res) {
 
   try {
     // Save changes to document
-    patternDocumentToUpdate.save();
+    patternDocument.save();
     // Return updated document
-    return await res.status(200).json(patternDocumentToUpdate);
+    return await res.status(200).json(patternDocument);
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot update this Pattern.' });
