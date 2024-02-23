@@ -346,7 +346,7 @@ function parseShape(gtfsShapeId, shapeData) {
       // Prepare variables
       const shapePtLat = shapePoint.shape_pt_lat.toFixed(6);
       const shapePtLon = shapePoint.shape_pt_lon.toFixed(6);
-      const shapeDistTraveled = parseFloat(((shapePoint.shape_dist_traveled || 0) / 1000).toFixed(15));
+      const shapeDistTraveled = parseFloat(((shapePoint.shape_dist_traveled || 0) / 1000).toFixed(6));
       // Build shape point
       parsedShape.push({
         shape_id: gtfsShapeId,
@@ -745,7 +745,7 @@ export default async function exportGtfsV29(progress, agencyData, exportOptions)
 
               // 3.4.3.4.1.15.8.
               // Format the shape_dist_traveled for the given precision
-              const currentShapeDistTraveled = parseFloat((currentTripDistance / 1000).toFixed(15));
+              const currentShapeDistTraveled = parseFloat((currentTripDistance / 1000).toFixed(6));
 
               // 3.4.3.4.1.15.9.
               // Write the stop_times.txt entry for this stop_time
