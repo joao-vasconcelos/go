@@ -42,6 +42,16 @@ export const LineSchema = new mongoose.Schema(
         ref: 'Fare',
       },
     ],
+    prepaid_fare: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Fare',
+    },
+    onboard_fares: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Fare',
+      },
+    ],
     interchange: {
       type: String,
       maxlength: 1,

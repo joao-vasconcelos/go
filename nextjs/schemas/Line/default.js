@@ -10,6 +10,8 @@ export const LineDefault = {
   continuous: false,
   typology: null,
   fares: [],
+  prepaid_fare: null,
+  onboard_fares: [],
   interchange: '0',
   agency: null,
   routes: [],

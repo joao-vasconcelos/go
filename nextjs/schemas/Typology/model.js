@@ -1,12 +1,8 @@
+/* * */
+
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: TYPOLOGY */
-/* Explanation needed. */
-/* * */
-
-/* * */
-/* A. Mongoose Schema */
 export const TypologySchema = new mongoose.Schema(
   {
     code: {
@@ -30,6 +26,16 @@ export const TypologySchema = new mongoose.Schema(
       type: String,
       maxlength: 7,
     },
+    default_prepaid_fare: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Fare',
+    },
+    default_onboard_fares: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Fare',
+      },
+    ],
     is_locked: {
       type: Boolean,
     },
