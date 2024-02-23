@@ -1,10 +1,7 @@
 /* * */
 
-/* * */
-
-import mongodb from '@/services/mongodb';
 import getSession from '@/authentication/getSession';
-import isAllowed from '@/authentication/isAllowed';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import Formidable from 'formidable';
 import STORAGE from '@/services/STORAGE';
 import { MediaModel } from '@/schemas/Media/model';
@@ -12,16 +9,11 @@ import { MediaDefault } from '@/schemas/Media/default';
 
 /* * */
 
-export const config = {
-  api: {
-    bodyParser: false, // Disallow body parsing, consume as stream
-    externalResolver: true,
-  },
-};
+export const config = { api: { bodyParser: false, externalResolver: true } }; // Disable body parsing, consume as stream
 
 /* * */
 
-export default async function parseGTFS(req, res) {
+export default async function handler(req, res) {
   //
 
   // 1.
@@ -32,35 +24,26 @@ export default async function parseGTFS(req, res) {
   let formFiles;
 
   // 2.
-  // Refuse request if not POST
-
-  if (req.method != 'POST') {
-    await res.setHeader('Allow', ['POST']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
-
-  // 3.
-  // Check for correct Authentication and valid Permissions
+  // Get session data
 
   try {
     sessionData = await getSession(req, res);
-    isAllowed(sessionData, [{ scope: 'lines', action: 'create' }]);
   } catch (err) {
     console.log(err);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+  }
+
+  // 3.
+  // Prepare endpoint
+
+  try {
+    await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'media', action: 'create' }] });
+  } catch (err) {
+    console.log(err);
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 4.
-  // Connect to MongoDB
-
-  try {
-    await mongodb.connect();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
-  }
-
-  // 5.
   // Parse FormData in the request
 
   try {
@@ -74,7 +57,7 @@ export default async function parseGTFS(req, res) {
     return await res.status(500).json({ message: err.message || 'Could not parse form data.' });
   }
 
-  // 6.
+  // 5.
   // Validate the form data
 
   try {
@@ -90,7 +73,7 @@ export default async function parseGTFS(req, res) {
     return await res.status(500).json({ message: err.message || 'Could not validate form data.' });
   }
 
-  // 7.
+  // 6.
   // Create a new document
 
   try {
