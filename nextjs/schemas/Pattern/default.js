@@ -27,6 +27,16 @@ export const PatternShapeDefault = {
 };
 
 /* * */
+/* B. Default Pattern Shape Values */
+
+export const PatternShapePointDefault = {
+  shape_pt_lat: 0,
+  shape_pt_lon: 0,
+  shape_pt_sequence: 0,
+  shape_dist_traveled: 0,
+};
+
+/* * */
 /* C. Default Pattern Path Values */
 
 export const PatternPathDefault = {
