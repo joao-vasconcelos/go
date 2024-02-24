@@ -1,12 +1,18 @@
 'use client';
 
+/* * */
+
 import { useState } from 'react';
 import { IconUpload, IconFileZip, IconX } from '@tabler/icons-react';
 import { Group, Text } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
 import { useTranslations } from 'next-intl';
 
-//
+/* * */
+
+const MAX_FILE_SIZE = 100000000;
+
+/* * */
 
 export default function GTFSParser({ onParse }) {
   //
@@ -17,8 +23,6 @@ export default function GTFSParser({ onParse }) {
   const t = useTranslations('GTFSParser');
   const [isUploading, setIsUploading] = useState(false);
   const [hasUploadError, setHasUploadError] = useState(false);
-
-  const MAX_FILE_SIZE = 16500000; // 6.5 Megabytes
 
   //
   // B. Handle actions
@@ -45,29 +49,29 @@ export default function GTFSParser({ onParse }) {
   return (
     <Dropzone loading={isUploading} onDrop={handleUpload} maxSize={MAX_FILE_SIZE} accept={[MIME_TYPES.zip]}>
       <Dropzone.Accept>
-        <Group position='center' spacing='xl' style={{ height: 100, pointerEvents: 'none' }}>
-          <IconUpload size='3.2rem' stroke={1.5} />
+        <Group position="center" spacing="xl" style={{ height: 100, pointerEvents: 'none' }}>
+          <IconUpload size="3.2rem" stroke={1.5} />
           <div>
-            <Text size='xl'>{t('accept.title')}</Text>
-            <Text size='sm'>{t('accept.description')}</Text>
+            <Text size="xl">{t('accept.title')}</Text>
+            <Text size="sm">{t('accept.description')}</Text>
           </div>
         </Group>
       </Dropzone.Accept>
       <Dropzone.Reject>
-        <Group position='center' spacing='xl' style={{ height: 100, pointerEvents: 'none' }}>
-          <IconX size='3.2rem' stroke={1.5} />
+        <Group position="center" spacing="xl" style={{ height: 100, pointerEvents: 'none' }}>
+          <IconX size="3.2rem" stroke={1.5} />
           <div>
-            <Text size='xl'>{t('reject.title')}</Text>
-            <Text size='sm'>{t('reject.description')}</Text>
+            <Text size="xl">{t('reject.title')}</Text>
+            <Text size="sm">{t('reject.description')}</Text>
           </div>
         </Group>
       </Dropzone.Reject>
       <Dropzone.Idle>
-        <Group position='center' spacing='xl' style={{ height: 100, pointerEvents: 'none' }}>
+        <Group position="center" spacing="xl" style={{ height: 100, pointerEvents: 'none' }}>
           <IconFileZip size={50} stroke={1.5} />
           <div>
-            <Text size='xl'>{t('idle.title')}</Text>
-            <Text size='sm'>{t('idle.description', { max_file_size_value: 5, max_file_size_unit: 'MB' })}</Text>
+            <Text size="xl">{t('idle.title')}</Text>
+            <Text size="sm">{t('idle.description', { max_file_size_value: 5, max_file_size_unit: 'MB' })}</Text>
           </div>
         </Group>
       </Dropzone.Idle>
