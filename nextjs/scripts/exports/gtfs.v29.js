@@ -833,7 +833,8 @@ export default async function exportGtfsV29(progress, agencyData, exportOptions)
 
       // 3.3.6.
       // Write the fare_rules.txt entry for this route
-      for (const fareData of [...lineData.onboard_fares, lineData.prepaid_fare]) {
+      const combinedFares = lineData.onboard_fares.concat(lineData.prepaid_fare ? [lineData.prepaid_fare] : []);
+      for (const fareData of combinedFares) {
         const parsedFareRule = parseFareRule(agencyData, routeData, fareData);
         writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
         referencedFareCodes.add(fareData.code);
