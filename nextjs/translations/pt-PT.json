@@ -596,6 +596,15 @@
                 "loading": "Deleting Line...",
                 "success": "Line was deleted.",
                 "error": "An error occurred while deleting this Line."
+            },
+            "change_typology": {
+                "title": "Alterar Tipologia",
+                "description": "Ao alterar a tipologia irá também substituir as tarifas associadas a esta linha. Isto terá impacto no preço dos bilhetes de bordo (navegante® a bordo) e pré-pagos (navegante® pré-pago). Tem a certeza que pretende continuar com a alteração de tipologia?",
+                "confirm": "Sim, alterar para {typology_name}",
+                "cancel": "Não, manter como está",
+                "loading": "A alterar tipologia...",
+                "success": "Tipologia alterada.",
+                "error": "Ocorreu um erro ao alterar a tipologia de linha."
             }
         },
         "sections": {
@@ -701,6 +710,16 @@
                 "label": "Line Type",
                 "placeholder": "Choose an option...",
                 "nothingFound": "No Results Found"
+            },
+            "prepaid_fare": {
+                "label": "Tarifa navegante® pré-pago",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "onboard_fares": {
+                "label": "Tarifas de Bordo (navegante® a bordo)",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "fares": {
                 "label": "Associated Fares",

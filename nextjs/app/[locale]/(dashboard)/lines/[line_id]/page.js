@@ -116,6 +116,16 @@ export default function Page() {
     return allTypologiesData && allTypologiesData.find((item) => item._id === lineForm.values.typology);
   }, [allTypologiesData, lineForm.values.typology]);
 
+  const allPrepaidFaresDataFormatted = useMemo(() => {
+    if (!allFaresData) return [];
+    return allFaresData.filter((item) => item.payment_method === '1').map((item) => ({ value: item._id, label: `${item.name} (${item.price} ${item.currency_type})` }));
+  }, [allFaresData]);
+
+  const allOnboardFaresDataFormatted = useMemo(() => {
+    if (!allFaresData) return [];
+    return allFaresData.filter((item) => item.payment_method === '0').map((item) => ({ value: item._id, label: `${item.name} (${item.price} ${item.currency_type})` }));
+  }, [allFaresData]);
+
   //
   // F. Handle actions
 
@@ -203,6 +213,32 @@ export default function Page() {
     router.push(`/lines/${line_id}/${route_id}`);
   };
 
+  const handleChangeTypology = (typology_id) => {
+    const selectedTypologyData = allTypologiesData.find((item) => item._id === typology_id);
+    if (!selectedTypologyData) return;
+    openConfirmModal({
+      title: <Text size="h2">{t('operations.change_typology.title')}</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">{t('operations.change_typology.description')}</Text>,
+      labels: { confirm: t('operations.change_typology.confirm', { typology_name: selectedTypologyData.name }), cancel: t('operations.change_typology.cancel') },
+      confirmProps: { color: 'blue' },
+      onConfirm: async () => {
+        try {
+          notify('change_typology', 'loading', t('operations.change_typology.loading'));
+          lineForm.setFieldValue('typology', typology_id);
+          lineForm.setFieldValue('prepaid_fare', selectedTypologyData.default_prepaid_fare || null);
+          lineForm.setFieldValue('onboard_fares', selectedTypologyData.default_onboard_fares || []);
+          notify('change_typology', 'success', t('operations.change_typology.success'));
+        } catch (err) {
+          console.log(err);
+          setIsCreatingRoute(false);
+          notify('change_typology', 'error', err.message || t('operations.change_typology.error'));
+        }
+      },
+    });
+  };
+
   //
   // G. Render components
 
@@ -249,12 +285,15 @@ export default function Page() {
             </SimpleGrid>
             <SimpleGrid cols={2}>
               <Select label={t('form.agency.label')} placeholder={t('form.agency.placeholder')} nothingFoundMessage={t('form.agency.nothingFound')} {...lineForm.getInputProps('agency')} data={allAgenciesDataFormatted} readOnly={isReadOnly} searchable />
-              <Select label={t('form.typology.label')} placeholder={t('form.typology.placeholder')} nothingFoundMessage={t('form.typology.nothingFound')} {...lineForm.getInputProps('typology')} data={allTypologiesDataFormatted} readOnly={isReadOnly} searchable />
               <Select label={t('form.transport_type.label')} placeholder={t('form.transport_type.placeholder')} nothingFoundMessage={t('form.transport_type.nothingFound')} {...lineForm.getInputProps('transport_type')} data={allTransportTypeDataFormatted} readOnly={isReadOnly} searchable />
-              <Select label={t('form.interchange.label')} placeholder={t('form.interchange.placeholder')} nothingFoundMessage={t('form.interchange.nothingFound')} {...lineForm.getInputProps('interchange')} data={allInterchangeDataFormatted} readOnly={isReadOnly} searchable />
+            </SimpleGrid>
+            <SimpleGrid cols={3}>
+              <Select label={t('form.typology.label')} placeholder={t('form.typology.placeholder')} nothingFoundMessage={t('form.typology.nothingFound')} data={allTypologiesDataFormatted} {...lineForm.getInputProps('typology')} onChange={handleChangeTypology} readOnly={isReadOnly} searchable />
+              <Select label={t('form.interchange.label')} placeholder={t('form.interchange.placeholder')} nothingFoundMessage={t('form.interchange.nothingFound')} data={allInterchangeDataFormatted} {...lineForm.getInputProps('interchange')} readOnly={isReadOnly} searchable />
+              <Select label={t('form.prepaid_fare.label')} placeholder={t('form.prepaid_fare.placeholder')} nothingFoundMessage={t('form.prepaid_fare.nothingFound')} data={allPrepaidFaresDataFormatted} {...lineForm.getInputProps('prepaid_fare')} readOnly={isReadOnly} searchable />
             </SimpleGrid>
             <SimpleGrid cols={1}>
-              <MultiSelect label={t('form.fares.label')} placeholder={t('form.fares.placeholder')} nothingFoundMessage={t('form.fares.nothingFound')} {...lineForm.getInputProps('fares')} data={allFaresDataFormatted} readOnly={isReadOnly} searchable />
+              <MultiSelect label={t('form.onboard_fares.label')} placeholder={t('form.onboard_fares.placeholder')} nothingFoundMessage={t('form.onboard_fares.nothingFound')} data={allOnboardFaresDataFormatted} {...lineForm.getInputProps('onboard_fares')} readOnly={isReadOnly} searchable />
             </SimpleGrid>
           </Section>
 

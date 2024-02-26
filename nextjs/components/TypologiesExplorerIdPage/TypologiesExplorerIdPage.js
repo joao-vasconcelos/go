@@ -34,12 +34,12 @@ export default function TypologiesExplorerIdPage() {
 
   const allPrepaidFaresDataFormatted = useMemo(() => {
     if (!allFaresData) return [];
-    return allFaresData.filter((item) => item.payment_method === '1').map((item) => ({ value: item._id, label: `[${item.code}] ${item.name}` }));
+    return allFaresData.filter((item) => item.payment_method === '1').map((item) => ({ value: item._id, label: `${item.name} (${item.price} ${item.currency_type})` }));
   }, [allFaresData]);
 
   const allOnboardFaresDataFormatted = useMemo(() => {
     if (!allFaresData) return [];
-    return allFaresData.filter((item) => item.payment_method === '0').map((item) => ({ value: item._id, label: `[${item.code}] ${item.name}` }));
+    return allFaresData.filter((item) => item.payment_method === '0').map((item) => ({ value: item._id, label: `${item.name} (${item.price} ${item.currency_type})` }));
   }, [allFaresData]);
 
   //
