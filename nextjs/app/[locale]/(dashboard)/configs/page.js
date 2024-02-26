@@ -27,11 +27,11 @@ export default function Page() {
 
   const handleResetFare = async () => {
     openConfirmModal({
-      title: <Text size="h2">Import Afetacao A3?</Text>,
+      title: <Text size="h2">Import Afetacao A1?</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Import Afetacao A3', cancel: 'Cancel' },
+      labels: { confirm: 'Yes, Import Afetacao A1', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
@@ -59,7 +59,7 @@ export default function Page() {
           <Text size="h2">No operations available</Text>
           <SimpleGrid cols={3}>
             <Button onClick={handleResetFare} color="red" loading={isImporting}>
-              Import Afetacao A3
+              Import Afetacao A1
             </Button>
           </SimpleGrid>
         </Section>
