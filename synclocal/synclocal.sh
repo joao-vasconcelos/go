@@ -2,5 +2,5 @@
 
 # Restore the database from backup
 echo "Starting restore..."
-mongorestore --uri="mongodb://mongodbuser:mongodbpassword@mongodb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-20240218165639"
+mongorestore --uri="mongodb://mongodbuser:mongodbpassword@mongodb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-20240226075509"
 echo "Restore complete!"
