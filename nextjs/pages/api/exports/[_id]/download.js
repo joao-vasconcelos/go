@@ -7,6 +7,10 @@ import { ExportModel } from '@/schemas/Export/model';
 
 /* * */
 
+export const config = { api: { responseLimit: false } };
+
+/* * */
+
 export default async function handler(req, res) {
   //
 
