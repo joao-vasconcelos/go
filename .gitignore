@@ -4,6 +4,7 @@
 */node_modules
 */.pnp
 .pnp.js
+*/package-lock.json
 
 # testing
 /coverage
@@ -37,7 +38,7 @@ yarn-error.log*
 # Tmp directories
 */tmp
 */exports
-*/package-lock.json
+storage
 
 # Backup files
 go-backup-*
