@@ -1,8 +1,7 @@
 /* * */
 
-import mongodb from '@/services/mongodb';
 import getSession from '@/authentication/getSession';
-import isAllowed from '@/authentication/isAllowed';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import fs from 'fs';
 import AdmZip from 'adm-zip';
 import { ExportDefault } from '@/schemas/Export/default';
@@ -26,35 +25,40 @@ export default async function handler(req, res) {
   let exportSummary;
 
   // 2.
-  // Refuse request if not POST
-
-  if (req.method != 'POST') {
-    await res.setHeader('Allow', ['POST']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
-
-  // 3.
-  // Check for correct Authentication and valid Permissions
+  // Get session data
 
   try {
     sessionData = await getSession(req, res);
-    isAllowed(sessionData, [{ scope: 'exports', action: 'create' }]);
   } catch (err) {
     console.log(err);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+  }
+
+  // 3.
+  // Prepare endpoint
+
+  try {
+    await prepareApiEndpoint({
+      request: req,
+      method: 'POST',
+      session: sessionData,
+      permissions: [
+        {
+          scope: 'exports',
+          action: 'create',
+          fields: [
+            { key: 'agencies', values: [req.body.agency_id] },
+            { key: 'export_types', values: [req.body.export_type] },
+          ],
+        },
+      ],
+    });
+  } catch (err) {
+    console.log(err);
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 4.
-  // Connect to MongoDB
-
-  try {
-    await mongodb.connect();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
-  }
-
-  // 5.
   // Ensure latest schema modifications
   // in the schema are applied in the database.
 
@@ -65,7 +69,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Cannot sync indexes.' });
   }
 
-  // 6.
+  // 5.
   // Parse request body into JSON
 
   try {
@@ -75,7 +79,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
-  // 7.
+  // 6.
   // Fetch Agency information for the current request.
 
   try {
@@ -87,53 +91,53 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Error fetching Agency data.' });
   }
 
-  // 8.
+  // 7.
   // Create a new Export summary document.
   // This will be used to keep track of progress
   // and allows the client to download the resulting file at a later date.
 
   try {
     //
-    // 8.1.
+    // 7.1.
     // Create the Export document
     // This will generate a new _id for the operation.
     exportSummary = new ExportModel(ExportDefault);
 
-    // 8.2.
+    // 7.2.
     // Check if the requested export type exists in the options.
     // Otherwise cancel the current export and return 403 to the client
     if (ExportOptions.export_type.includes(req.body.export_type)) exportSummary.type = req.body.export_type;
     else return await res.status(403).json({ message: 'Unknown requested export type.' });
 
-    // 8.3.
+    // 7.3.
     // Associate this export to the use who requested it
     exportSummary.exported_by = sessionData.user._id;
     exportSummary.notify_user = req.body.notify_user ? true : false;
 
-    // 8.4.
+    // 7.4.
     // Define the filename format for the resulting archive
     switch (exportSummary.type) {
-      // 8.4.1.
+      // 7.4.1.
       // For v29 the name consists of the agency code, the version and the export date.
       case 'gtfs_v29':
         exportSummary.filename = `GTFS_${agencyData.code}_REF_v29_${today()}.zip`;
         break;
-      // 8.4.2.
+      // 7.4.2.
       // For v30 the name consists of the agency code, the version and the export date.
       case 'netex_v1':
         exportSummary.filename = `NETEX_${agencyData.code}_v1_${today()}.zip`;
         break;
     }
 
-    // 8.5.
+    // 7.5.
     // Save the path to the resulting file
     exportSummary.workdir = getWorkdir(exportSummary._id);
 
-    // 8.3.
+    // 7.6.
     // Save the export document
     await exportSummary.save();
 
-    // 8.4.
+    // 7.7.
     // Send the summary information to the client
     // and close the connection.
     await res.status(201).json(exportSummary);
@@ -144,7 +148,7 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Could not create Export summary.' });
   }
 
-  // 9.
+  // 8.
   // Even though the server has already sent a response to the client,
   // start building the export file and keep track of progress.
   // From here on, errors must be tracked with the database
@@ -152,11 +156,11 @@ export default async function handler(req, res) {
 
   try {
     //
-    // 9.1.
+    // 8.1.
     // Update progress to indicate the two main tasks at hand
     await update(exportSummary, { progress_current: 0, progress_total: 2 });
 
-    // 9.2.
+    // 8.2.
     // Initiate the export options object with data from the client
     const exportOptions = {
       lines_included: req.body.lines_included || [],
@@ -170,16 +174,16 @@ export default async function handler(req, res) {
       stop_sequence_start: req.body.stop_sequence_start,
     };
 
-    // 9.3.
+    // 8.3.
     // Initiate the main export operation
     switch (exportSummary.type) {
-      // 9.3.1.
+      // 8.3.1.
       // Build GTFS v29
       case 'gtfs_v29':
         await exportGtfsV29(exportSummary, agencyData, exportOptions);
         await update(exportSummary, { progress_current: 1, progress_total: 2 });
         break;
-      // 9.3.2.
+      // 8.3.2.
       // Build NETEX v1
       case 'netex_v1':
         await exportNetexV1(exportSummary, agencyData, exportOptions);
@@ -187,7 +191,7 @@ export default async function handler(req, res) {
         break;
     }
 
-    // 9.4.
+    // 8.4.
     // Zip the workdir folder that contains the generated files.
     // Name the resulting archive with the _id of this Export.
     const outputZip = new AdmZip();
@@ -195,11 +199,11 @@ export default async function handler(req, res) {
     outputZip.writeZip(`${exportSummary.workdir}/${exportSummary._id}.zip`);
     await update(exportSummary, { progress_current: 2, progress_total: 2 });
 
-    // 9.5.
+    // 8.5.
     // Update progress to indicate the requested operation is complete
     await update(exportSummary, { status: 'COMPLETED' });
 
-    // 9.6.
+    // 8.6.
     // Send an email to the user using the email address of the user who requested the export.
     if (exportSummary.notify_user && sessionData.user?.email) {
       await SMTP.sendMail({
