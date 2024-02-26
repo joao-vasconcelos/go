@@ -317,8 +317,8 @@ async function parseZoning(agencyData, lineData, patternData, exportOptions) {
         line_type: lineData.typology.code || '',
         accepted_zones: formattedZones,
         onboard_fares: formattedOnboardFares,
-        prepaid_fare: lineData.prepaid_fare.code,
-        prepaid_fare_price: lineData.prepaid_fare.price,
+        prepaid_fare: lineData.prepaid_fare?.code || '',
+        prepaid_fare_price: lineData.prepaid_fare?.price || '0',
         interchange: lineData.interchange || '0',
       });
 
