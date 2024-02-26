@@ -305,7 +305,7 @@ async function parseZoning(agencyData, lineData, patternData, exportOptions) {
       // Prepare zones in the file format
       let formattedZones = allZonesData.map((zone) => zone.code).join('|');
       // Prepare fares in the file format
-      let formattedFares = lineData.fares.map((fare) => fare.code).join('|');
+      let formattedOnboardFares = lineData.onboard_fares.map((onboardFare) => onboardFare.code).join('|');
       // Write the afetacao.txt entry for this path
       parsedZoning.push({
         operator_id: agencyData.code,
@@ -316,9 +316,9 @@ async function parseZoning(agencyData, lineData, patternData, exportOptions) {
         stop_name: stopData.name || '',
         line_type: lineData.typology.code || '',
         accepted_zones: formattedZones,
-        accepted_fares: formattedFares,
-        onboard_products: formattedFares,
-        zapping_amount: 99,
+        onboard_fares: formattedOnboardFares,
+        prepaid_fare: lineData.prepaid_fare.code,
+        prepaid_fare_price: lineData.prepaid_fare.price,
         interchange: lineData.interchange || '0',
       });
 
@@ -499,7 +499,7 @@ export default async function exportGtfsV29(progress, agencyData, exportOptions)
   if (exportOptions.lines_included.length) linesFilterParams._id = { $in: exportOptions.lines_included };
   else if (exportOptions.lines_excluded.length) linesFilterParams._id = { $nin: exportOptions.lines_excluded };
 
-  const allLinesData = await LineModel.find(linesFilterParams).sort({ code: 1 }).populate(['typology', 'fares', 'routes']);
+  const allLinesData = await LineModel.find(linesFilterParams).sort({ code: 1 }).populate(['typology', 'prepaid_fare', 'onboard_fares', 'routes']);
 
   await update(progress, { progress_current: 0, progress_total: allLinesData.length });
 

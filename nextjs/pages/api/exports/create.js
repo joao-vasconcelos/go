@@ -25,6 +25,16 @@ export default async function handler(req, res) {
   let exportSummary;
 
   // 2.
+  // Parse request body into JSON
+
+  try {
+    req.body = await JSON.parse(req.body);
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'JSON parse error.' });
+  }
+
+  // 3.
   // Get session data
 
   try {
@@ -34,7 +44,7 @@ export default async function handler(req, res) {
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
-  // 3.
+  // 4.
   // Prepare endpoint
 
   try {
@@ -58,7 +68,7 @@ export default async function handler(req, res) {
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
-  // 4.
+  // 5.
   // Ensure latest schema modifications
   // in the schema are applied in the database.
 
@@ -69,22 +79,11 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Cannot sync indexes.' });
   }
 
-  // 5.
-  // Parse request body into JSON
-
-  try {
-    req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'JSON parse error.' });
-  }
-
   // 6.
   // Fetch Agency information for the current request.
 
   try {
-    await AgencyModel.findOne({ _id: req.body.agency_id });
-    agencyData = await AgencyModel.findOne({ _id: req.body.agency_id });
+    agencyData = await AgencyModel.findOne({ _id: { $eq: req.body.agency_id } });
     if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
   } catch (err) {
     console.log(err);
