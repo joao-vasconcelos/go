@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   try {
     req.body = await JSON.parse(req.body);
   } catch (err) {
-    console.log(err);
+    console.log(util.inspect(err, false, null));
     return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
   try {
     sessionData = await getSession(req, res);
   } catch (err) {
-    console.log(err);
+    console.log(util.inspect(err, false, null));
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -65,7 +65,7 @@ export default async function handler(req, res) {
       ],
     });
   } catch (err) {
-    console.log(err);
+    console.log(util.inspect(err, false, null));
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
   try {
     await ExportModel.syncIndexes();
   } catch (err) {
-    console.log(err);
+    console.log(util.inspect(err, false, null));
     return await res.status(500).json({ message: 'Cannot sync indexes.' });
   }
 
@@ -87,7 +87,7 @@ export default async function handler(req, res) {
     agencyData = await AgencyModel.findOne({ _id: { $eq: req.body.agency_id } });
     if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
   } catch (err) {
-    console.log(err);
+    console.log(util.inspect(err, false, null));
     return await res.status(500).json({ message: 'Error fetching Agency data.' });
   }
 
@@ -144,7 +144,7 @@ export default async function handler(req, res) {
 
     //
   } catch (err) {
-    console.log(err);
+    console.log(util.inspect(err, false, null));
     return await res.status(500).json({ message: 'Could not create Export summary.' });
   }
 

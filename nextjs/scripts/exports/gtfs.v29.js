@@ -2,7 +2,6 @@
 
 import Papa from 'papaparse';
 import fs from 'fs';
-import { transliterate } from 'inflected';
 import calculateDateDayType from '../../services/calculateDateDayType';
 import { ExportModel } from '@/schemas/Export/model';
 import { LineModel } from '@/schemas/Line/model';
