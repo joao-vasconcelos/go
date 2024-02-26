@@ -516,11 +516,6 @@ export default async function exportGtfsV29(progress, agencyData, exportOptions)
     // Skip to the next line if this line has no routes
     if (!lineData.routes.length) continue lineLoop; // throw new Error({ code: 5101, short_message: 'Line has no routes.', references: { line_code: lineData.code } });
 
-    // 3.2.
-    // Get fare associated with this line
-    const faresData = lineData.fares; // await FareModel.findOne({ _id: lineData.fare });
-    if (!faresData) throw new Error({ code: 5102, short_message: 'Fare not found.', references: { line_code: lineData.code } });
-
     // 3.3.
     // Get typology associated with this line
     const typologyData = lineData.typology; // await TypologyModel.findOne({ _id: lineData.typology });
