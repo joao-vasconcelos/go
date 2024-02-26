@@ -36,12 +36,6 @@ export const LineSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Typology',
     },
-    fares: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Fare',
-      },
-    ],
     prepaid_fare: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Fare',
