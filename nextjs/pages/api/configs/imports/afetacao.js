@@ -56,7 +56,7 @@ export default async function handler(req, res) {
   try {
     //
 
-    const afetacaoRaw = fs.readFileSync('./services/afetacao/afetacao_a3.csv', { encoding: 'utf8' });
+    const afetacaoRaw = fs.readFileSync('/app/pages/api/configs/refactors/afetacao_a3.csv', { encoding: 'utf8' });
 
     const parsedAfetacao = Papa.parse(afetacaoRaw, { header: true, delimiter: ';' });
 
