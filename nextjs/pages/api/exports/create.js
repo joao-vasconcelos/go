@@ -217,7 +217,8 @@ export default async function handler(req, res) {
 
     //
   } catch (err) {
-    console.log('error7', JSON.stringify(err));
+    console.log('error7', err.message);
+    console.dir(err.message);
     await update(exportSummary, { status: 'ERROR' });
     if (exportSummary.notify_user && sessionData.user?.email) {
       await SMTP.sendMail({
