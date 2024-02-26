@@ -61,7 +61,7 @@ export default async function handler(req, res) {
       }
 
       let newPrepaidFare;
-      let newOnboardFares;
+      let newOnboardFares = [];
 
       if (associatedTypologyData.default_prepaid_fare) newPrepaidFare = associatedTypologyData.default_prepaid_fare;
 
