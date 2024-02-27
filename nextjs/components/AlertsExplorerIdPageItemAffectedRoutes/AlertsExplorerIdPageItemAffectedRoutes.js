@@ -5,7 +5,7 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { ActionIcon, Button, Select, Tooltip } from '@mantine/core';
+import { ActionIcon, Button, MultiSelect, Select, Tooltip } from '@mantine/core';
 import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
 import { AlertAffectedRouteDefault } from '@/schemas/Alert/default';
 import { IconTrash } from '@tabler/icons-react';

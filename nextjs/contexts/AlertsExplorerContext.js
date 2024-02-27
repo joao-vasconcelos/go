@@ -115,25 +115,12 @@ export function AlertsExplorerContextProvider({ children }) {
     //
     populated.affected_stops = [];
     for (const affectedStop of itemData?.affected_stops || []) {
-      //
-      const thisAffectedStopPopulated = populate(AlertAffectedStopDefault, affectedStop);
-      //
-      for (const affectedStopRoute of itemData?.affected_stops || []) {
-        populated.affected_stops.push(populate(AlertAffectedStopDefault, affectedStop));
-      }
-      populated.affected_stops.push(thisAffectedStopPopulated);
+      populated.affected_stops.push(populate(AlertAffectedStopDefault, affectedStop));
     }
     //
     populated.affected_routes = [];
     for (const affectedRoute of itemData?.affected_routes || []) {
-      //
-      const thisAffectedRoutePopulated = populate(AlertAffectedRouteDefault, affectedRoute);
-      //
-      for (const affectedRouteStop of affectedRoute.route_stops || []) {
-        populated.affected_stops.push(populate(AlertAffectedStopDefault, affectedStop));
-      }
-      //
-      populated.affected_routes.push(thisAffectedRoutePopulated);
+      populated.affected_routes.push(populate(AlertAffectedRouteDefault, affectedRoute));
     }
     //
     populated.affected_agencies = [];
