@@ -49,48 +49,24 @@ export default function Page() {
     });
   };
 
-  const handleSetupFares = async () => {
+  const handleImportPickupTypes = async () => {
     openConfirmModal({
-      title: <Text size="h2">Setup Fares?</Text>,
+      title: <Text size="h2">Import Pickup Types?</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Setup Fares', cancel: 'Cancel' },
+      labels: { confirm: 'Yes, Import Pickup Types', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
           setIsImporting(true);
-          notify('setupFares', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/setupFares', method: 'GET' });
-          notify('setupFares', 'success', 'success');
+          notify('pickupTypes', 'loading', 'Loading');
+          await API({ service: 'configs/imports/pickupTypes', method: 'GET' });
+          notify('pickupTypes', 'success', 'success');
           setIsImporting(false);
         } catch (err) {
           console.log(err);
-          notify('setupFares', 'error', err.message || 'Error');
-          setIsImporting(false);
-        }
-      },
-    });
-  };
-
-  const handleMigrateUsers = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Migrate Users?</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Migrate Users', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('migrateUsers', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/migrateUsers', method: 'GET' });
-          notify('migrateUsers', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          notify('migrateUsers', 'error', err.message || 'Error');
+          notify('pickupTypes', 'error', err.message || 'Error');
           setIsImporting(false);
         }
       },
@@ -109,11 +85,8 @@ export default function Page() {
             <Button onClick={handleImportAfetacao} color="red" loading={isImporting}>
               Import Afetacao A1
             </Button>
-            <Button onClick={handleSetupFares} color="red" loading={isImporting}>
-              Setup Fares
-            </Button>
-            <Button onClick={handleMigrateUsers} color="red" loading={isImporting}>
-              Migrate Users
+            <Button onClick={handleImportPickupTypes} color="red" loading={isImporting}>
+              Import Pickup Types
             </Button>
           </SimpleGrid>
         </Section>

@@ -4,7 +4,6 @@ import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { StopModel } from '@/schemas/Stop/model';
-import { ZoneModel } from '@/schemas/Zone/model';
 import Papa from 'papaparse';
 import fs from 'fs';
 
@@ -13,7 +12,7 @@ import fs from 'fs';
 export default async function handler(req, res) {
   //
 
-  throw new Error('Feature is disabled.');
+  //   throw new Error('Feature is disabled.');
 
   // 1.
   // Setup variables
@@ -56,75 +55,56 @@ export default async function handler(req, res) {
   try {
     //
 
-    const afetacaoRaw = fs.readFileSync('/app/pages/api/configs/imports/afetacao_a1.csv', { encoding: 'utf8' });
-    // const afetacaoRaw = fs.readFileSync('./pages/api/configs/imports/afetacao_a1.csv', { encoding: 'utf8' });
+    // const pickupTypesRaw = fs.readFileSync('/app/pages/api/configs/imports/pickupTypes_a4.txt', { encoding: 'utf8' });
+    const pickupTypesRaw = fs.readFileSync('./pages/api/configs/imports/pickupTypes_a4.txt', { encoding: 'utf8' });
 
-    const parsedAfetacao = Papa.parse(afetacaoRaw, { header: true, delimiter: ';' });
+    const parsedpickupTypes = Papa.parse(pickupTypesRaw, { header: true, delimiter: ',' });
 
     const doubleCheckThesePatterns = new Set();
 
-    const amlZoneData = await ZoneModel.findOne({ code: 'id-zone-multi-aml' });
-
     //
 
-    // 5.1.
     // Retrieve all Patterns from database (only the code)
     const allPatternsSummaryData = await PatternModel.find({}, 'code');
 
-    // 5.2.
     // Iterate through each available line
     for (const patternSummaryData of allPatternsSummaryData) {
       //
 
-      // 5.2.0.
       // Skip if this pattern is not for the right area
       //   if (!patternSummaryData.code.startsWith('3')) continue;
-      if (!patternSummaryData.code.startsWith('1')) continue;
+      //   if (!patternSummaryData.code.startsWith('1')) continue;
       //   if (!patternSummaryData.code.startsWith('2')) continue;
-      //   if (!patternSummaryData.code.startsWith('4')) continue;
+      if (!patternSummaryData.code.startsWith('4')) continue;
 
       const patternData = await PatternModel.findOne({ code: patternSummaryData.code }).populate('path.stop');
 
-      const afetacaoForThisPattern = parsedAfetacao.data.filter((aft) => aft.pattern_id === patternData.code);
+      const afetacaoForThisPattern = parsedpickupTypes.data.filter((aft) => aft.trip_id.substring(0, 8) === patternData.code);
       if (!afetacaoForThisPattern) {
-        console.error(`PATTERN NOT FOUND IN AFETACAO.CSV: ${patternData.code}`);
+        console.error(`PATTERN NOT FOUND IN PICKUP_TYPES.CSV: ${patternData.code}`);
         continue;
       }
 
       for (const [pathIndex, pathData] of patternData.path.entries()) {
         //
-        const matchingPathValues = afetacaoForThisPattern.find((aft) => {
-          const fixedStopId = aft.stop_id.length < 6 ? `0${aft.stop_id}` : aft.stop_id;
-          return fixedStopId === pathData.stop.code; //&& aft.stop_sequence === String(pathIndex + 1);
+        const matchingPathValues = afetacaoForThisPattern.find((st) => {
+          return st.stop_id === pathData.stop.code && st.stop_sequence === String(pathIndex + 1);
         });
 
-        const zonesForThisStop = matchingPathValues?.zones.split('-');
-        if (!zonesForThisStop?.length) {
-          console.error(`No match for pattern_id: "${patternData.code}" | stop_sequence: "${pathIndex + 1}" | stop_id: "${pathData.stop.code}"`);
+        if (!matchingPathValues || matchingPathValues?.pickup_type === '1' || matchingPathValues?.drop_off_type === '1') {
           doubleCheckThesePatterns.add(patternData.code);
-          continue;
         }
 
-        let zoneIdsForThisPathSegment = new Set();
-        for (const zoneName of zonesForThisStop) {
-          const zoneData = await ZoneModel.findOne({ name: zoneName });
-          if (zoneData) zoneIdsForThisPathSegment.add(zoneData._id);
-        }
-
-        zoneIdsForThisPathSegment.add(amlZoneData._id);
-
-        if (zoneIdsForThisPathSegment.size) {
-          patternData.path[pathIndex].zones = Array.from(zoneIdsForThisPathSegment);
-        }
+        patternData.path[pathIndex].allow_pickup = matchingPathValues?.pickup_type === '1' ? false : true;
+        patternData.path[pathIndex].allow_drop_off = matchingPathValues?.drop_off_type === '1' ? false : true;
 
         //
       }
 
       await patternData.save();
 
-      // 5.2.6.
       // Log progress
-      console.log(`⤷ Updated afetacao for Pattern ${patternData?.code}`);
+      console.log(`⤷ Updated pickup types for Pattern ${patternData?.code}`);
 
       //
     }

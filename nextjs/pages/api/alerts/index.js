@@ -6,8 +6,6 @@ import { AlertModel } from '@/schemas/Alert/model';
 
 /* * */
 
-/* * */
-
 export default async function handler(req, res) {
   //
 
