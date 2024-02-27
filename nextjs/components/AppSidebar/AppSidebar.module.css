@@ -37,19 +37,20 @@
 
 .navButton {
   font-size: 26px;
-  color: var(--color-gray-9);
-  background-color: var(--color-reference-0);
+  color: var(--color-reference-1);
+  background-color: transparent;
 }
 
 .navButton:hover,
 .navButton:active {
+  color: var(--color-reference-1);
   background-color: var(--color-gray-0);
 }
 
 .navButton.selected,
 .navButton:hover.selected {
+  color: var(--color-reference-1);
   background-color: var(--carris-metropolitana);
-  color: var(--color-gray-9);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -58,6 +59,6 @@
   }
   .navButton.selected,
   .navButton:hover.selected {
-    color: var(--color-gray-0);
+    color: var(--color-reference-0);
   }
 }
