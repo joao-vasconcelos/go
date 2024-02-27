@@ -55,8 +55,8 @@ export default async function handler(req, res) {
   try {
     //
 
-    const pickupTypesRaw = fs.readFileSync('/app/pages/api/configs/imports/pickupTypes_a2.txt', { encoding: 'utf8' });
-    // const pickupTypesRaw = fs.readFileSync('./pages/api/configs/imports/pickupTypes_a2.txt', { encoding: 'utf8' });
+    const pickupTypesRaw = fs.readFileSync('/app/pages/api/configs/imports/pickupTypes_a3.txt', { encoding: 'utf8' });
+    // const pickupTypesRaw = fs.readFileSync('./pages/api/configs/imports/pickupTypes_a3.txt', { encoding: 'utf8' });
 
     const parsedpickupTypes = Papa.parse(pickupTypesRaw, { header: true, delimiter: ',' });
 
@@ -73,8 +73,8 @@ export default async function handler(req, res) {
 
       // Skip if this pattern is not for the right area
       //   if (!patternSummaryData.code.startsWith('1')) continue;
-      if (!patternSummaryData.code.startsWith('2')) continue;
-      //   if (!patternSummaryData.code.startsWith('3')) continue;
+      //   if (!patternSummaryData.code.startsWith('2')) continue;
+      if (!patternSummaryData.code.startsWith('3')) continue;
       //   if (!patternSummaryData.code.startsWith('4')) continue;
 
       const patternData = await PatternModel.findOne({ code: patternSummaryData.code }).populate('path.stop');
