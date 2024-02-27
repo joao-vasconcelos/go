@@ -55,8 +55,8 @@ export default async function handler(req, res) {
   try {
     //
 
-    // const pickupTypesRaw = fs.readFileSync('/app/pages/api/configs/imports/pickupTypes_a4.txt', { encoding: 'utf8' });
-    const pickupTypesRaw = fs.readFileSync('./pages/api/configs/imports/pickupTypes_a4.txt', { encoding: 'utf8' });
+    const pickupTypesRaw = fs.readFileSync('/app/pages/api/configs/imports/pickupTypes_a4.txt', { encoding: 'utf8' });
+    // const pickupTypesRaw = fs.readFileSync('./pages/api/configs/imports/pickupTypes_a4.txt', { encoding: 'utf8' });
 
     const parsedpickupTypes = Papa.parse(pickupTypesRaw, { header: true, delimiter: ',' });
 
