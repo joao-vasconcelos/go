@@ -11,7 +11,7 @@ import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useForm, yupResolver } from '@mantine/form';
 import { AlertValidation } from '@/schemas/Alert/validation';
-import { AlertDefault } from '@/schemas/Alert/default';
+import { AlertAffectedAgencyDefault, AlertAffectedMunicipalityDefault, AlertAffectedRouteDefault, AlertAffectedStopDefault, AlertDefault } from '@/schemas/Alert/default';
 import populate from '@/services/populate';
 import API from '@/services/API';
 
@@ -112,6 +112,39 @@ export function AlertsExplorerContextProvider({ children }) {
     if (!itemData || formState.isDirty()) return;
     // Merge the data with the default
     const populated = populate(AlertDefault, itemData);
+    //
+    populated.affected_stops = [];
+    for (const affectedStop of itemData?.affected_stops || []) {
+      //
+      const thisAffectedStopPopulated = populate(AlertAffectedStopDefault, affectedStop);
+      //
+      for (const affectedStopRoute of itemData?.affected_stops || []) {
+        populated.affected_stops.push(populate(AlertAffectedStopDefault, affectedStop));
+      }
+      populated.affected_stops.push(thisAffectedStopPopulated);
+    }
+    //
+    populated.affected_routes = [];
+    for (const affectedRoute of itemData?.affected_routes || []) {
+      //
+      const thisAffectedRoutePopulated = populate(AlertAffectedRouteDefault, affectedRoute);
+      //
+      for (const affectedRouteStop of affectedRoute.route_stops || []) {
+        populated.affected_stops.push(populate(AlertAffectedStopDefault, affectedStop));
+      }
+      //
+      populated.affected_routes.push(thisAffectedRoutePopulated);
+    }
+    //
+    populated.affected_agencies = [];
+    for (const affectedAgency of itemData?.affected_agencies || []) {
+      populated.affected_agencies.push(populate(AlertAffectedAgencyDefault, affectedAgency));
+    }
+    //
+    populated.affected_municipalities = [];
+    for (const affectedMunicipality of itemData?.affected_municipalities || []) {
+      populated.affected_municipalities.push(populate(AlertAffectedMunicipalityDefault, affectedMunicipality));
+    }
     // Update form
     formState.setValues(populated);
     formState.resetDirty(populated);

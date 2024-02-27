@@ -90,7 +90,7 @@ export default function AlertsExplorerIdPageItemAffectedRoutesRouteStops({ affec
           <NoDataLabel text={t('form.route_stops.no_data')} />
         </Standout>
       )}
-      <Button variant="light" onClick={() => handleInsertAffectedRouteStop(affectedRouteIndex)} disabled={alertsExplorerContext.form.values.affected_routes[affectedRouteIndex].route_id || alertsExplorerContext.page.is_read_only}>
+      <Button variant="light" onClick={() => handleInsertAffectedRouteStop(affectedRouteIndex)} disabled={!alertsExplorerContext.form.values.affected_routes[affectedRouteIndex].route_id || alertsExplorerContext.page.is_read_only}>
         {t('operations.insert_route_stop.label')}
       </Button>
     </SimpleGrid>

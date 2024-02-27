@@ -43,13 +43,14 @@ export const AlertDefault = {
 export const AlertAffectedStopDefault = {
   //
   stop_id: null,
+  specific_routes: [],
   //
 };
 
 export const AlertAffectedRouteDefault = {
   //
   route_id: null,
-  route_stops: [],
+  specific_stops: [],
   //
 };
 
@@ -86,6 +87,7 @@ const example = {
       },
       {
         route_id: '2325_0',
+        stop_id: '180735',
       },
       {
         route_id: '2537_0',
