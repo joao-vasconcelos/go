@@ -35,7 +35,7 @@ export default function Page() {
   const t = useTranslations('dates');
   const [isModalPresented, { open: openModal, close: closeModal }] = useDisclosure(false);
   const { data: sessionData } = useSession();
-  const isReadOnly = !isAllowed(sessionData, [{ scope: 'dates', action: 'edit' }], { handleError: true });
+  const isReadOnly = !isAllowed(sessionData, [{ scope: 'calendars', action: 'edit_dates' }], { handleError: true });
 
   const [selectedCalendarType, setSelectedCalendarType] = useState('range');
   const [selectedDateRange, setSelectedDateRange] = useState([]);
@@ -176,7 +176,7 @@ export default function Page() {
           <Text size="h1" full>
             {t('title')}
           </Text>
-          <AppAuthenticationCheck permissions={[{ scope: 'dates', action: 'edit' }]}>
+          <AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'edit_dates' }]}>
             <Button leftSection={<IconCalendarPlus size={20} />} onClick={openModal} variant="light" color="blue" size="sm">
               {t('operations.manage.title')}
             </Button>
@@ -221,7 +221,7 @@ export default function Page() {
               <Button size="lg" onClick={handleUpdate} disabled={!isSelectionValid()}>
                 {t('operations.update.title')}
               </Button>
-              <AppAuthenticationCheck permissions={[{ scope: 'dates', action: 'delete' }]}>
+              <AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'edit_dates' }]}>
                 <Button size="lg" color="red" onClick={handleDelete} disabled={!isSelectionValid()}>
                   {t('operations.delete.title')}
                 </Button>
