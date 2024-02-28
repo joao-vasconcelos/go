@@ -7,7 +7,7 @@ import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthe
 
 export default function Layout({ children }) {
   return (
-    <AppAuthenticationCheck permissions={[{ scope: 'dates', action: 'navigate' }]} redirect>
+    <AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'edit_dates' }]} redirect>
       <OneFullColumn first={children} />
     </AppAuthenticationCheck>
   );
