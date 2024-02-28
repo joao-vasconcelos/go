@@ -131,27 +131,31 @@ export default function AlertsExplorerIdPage() {
 
       <Section>
         <div>
-          <Text size="h2">{t('sections.entities.title')}</Text>
+          <Text size="h2">{t('sections.publishing.title')}</Text>
         </div>
-        <SimpleGrid cols={1}>
-          <MultiSelect
-            label={t('form.affected_municipalities.label')}
-            placeholder={t('form.affected_municipalities.placeholder')}
-            description={t('form.affected_municipalities.description')}
-            nothingFoundMessage={t('form.affected_municipalities.nothingFound')}
-            {...alertsExplorerContext.form.getInputProps('affected_municipalities')}
-            data={availableLiveMunicipalities}
+        <SimpleGrid cols={2}>
+          <DateTimePicker
+            dropdownType="modal"
+            label={t('form.publish_start.label')}
+            placeholder={t('form.publish_start.placeholder')}
+            description={t('form.publish_start.description')}
+            {...alertsExplorerContext.form.getInputProps('publish_start')}
+            value={alertsExplorerContext.form.values.publish_start ? new Date(alertsExplorerContext.form.values.publish_start) : null}
             readOnly={alertsExplorerContext.page.is_read_only}
-            searchable
+            clearable
+          />
+          <DateTimePicker
+            dropdownType="modal"
+            label={t('form.publish_end.label')}
+            placeholder={t('form.publish_end.placeholder')}
+            description={t('form.publish_end.description')}
+            {...alertsExplorerContext.form.getInputProps('publish_end')}
+            value={alertsExplorerContext.form.values.publish_end ? new Date(alertsExplorerContext.form.values.publish_end) : null}
+            disabled={!alertsExplorerContext.form.values.publish_start}
+            readOnly={alertsExplorerContext.page.is_read_only}
             clearable
           />
         </SimpleGrid>
-        <SimpleGrid cols={1}>
-          <SegmentedControl data={availableTypes} {...alertsExplorerContext.form.getInputProps('type')} />
-        </SimpleGrid>
-        {alertsExplorerContext.form.values.type === 'select_stops' && <AlertsExplorerIdPageItemAffectedStops />}
-        {alertsExplorerContext.form.values.type === 'select_routes' && <AlertsExplorerIdPageItemAffectedRoutes />}
-        {alertsExplorerContext.form.values.type === 'select_agencies' && <AlertsExplorerIdPageItemAffectedAgencies />}
       </Section>
 
       <Divider />
@@ -188,31 +192,27 @@ export default function AlertsExplorerIdPage() {
 
       <Section>
         <div>
-          <Text size="h2">{t('sections.publishing.title')}</Text>
+          <Text size="h2">{t('sections.entities.title')}</Text>
         </div>
-        <SimpleGrid cols={2}>
-          <DateTimePicker
-            dropdownType="modal"
-            label={t('form.publish_start.label')}
-            placeholder={t('form.publish_start.placeholder')}
-            description={t('form.publish_start.description')}
-            {...alertsExplorerContext.form.getInputProps('publish_start')}
-            value={alertsExplorerContext.form.values.publish_start ? new Date(alertsExplorerContext.form.values.publish_start) : null}
+        <SimpleGrid cols={1}>
+          <MultiSelect
+            label={t('form.affected_municipalities.label')}
+            placeholder={t('form.affected_municipalities.placeholder')}
+            description={t('form.affected_municipalities.description')}
+            nothingFoundMessage={t('form.affected_municipalities.nothingFound')}
+            {...alertsExplorerContext.form.getInputProps('affected_municipalities')}
+            data={availableLiveMunicipalities}
             readOnly={alertsExplorerContext.page.is_read_only}
-            clearable
-          />
-          <DateTimePicker
-            dropdownType="modal"
-            label={t('form.publish_end.label')}
-            placeholder={t('form.publish_end.placeholder')}
-            description={t('form.publish_end.description')}
-            {...alertsExplorerContext.form.getInputProps('publish_end')}
-            value={alertsExplorerContext.form.values.publish_end ? new Date(alertsExplorerContext.form.values.publish_end) : null}
-            disabled={!alertsExplorerContext.form.values.publish_start}
-            readOnly={alertsExplorerContext.page.is_read_only}
+            searchable
             clearable
           />
         </SimpleGrid>
+        <SimpleGrid cols={1}>
+          <SegmentedControl data={availableTypes} {...alertsExplorerContext.form.getInputProps('type')} />
+        </SimpleGrid>
+        {alertsExplorerContext.form.values.type === 'select_stops' && <AlertsExplorerIdPageItemAffectedStops />}
+        {alertsExplorerContext.form.values.type === 'select_routes' && <AlertsExplorerIdPageItemAffectedRoutes />}
+        {alertsExplorerContext.form.values.type === 'select_agencies' && <AlertsExplorerIdPageItemAffectedAgencies />}
       </Section>
 
       <Divider />

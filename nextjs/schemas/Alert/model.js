@@ -69,6 +69,12 @@ export const AlertSchema = new mongoose.Schema({
         type: String,
         maxlength: 10,
       },
+      specific_routes: [
+        {
+          type: String,
+          maxlength: 10,
+        },
+      ],
     },
   ],
   affected_routes: [
@@ -77,12 +83,10 @@ export const AlertSchema = new mongoose.Schema({
         type: String,
         maxlength: 10,
       },
-      route_stops: [
+      specific_stops: [
         {
-          stop_id: {
-            type: String,
-            maxlength: 10,
-          },
+          type: String,
+          maxlength: 10,
         },
       ],
     },
