@@ -1,8 +1,7 @@
 /* * */
 
-import mongodb from '@/services/mongodb';
 import getSession from '@/authentication/getSession';
-import isAllowed from '@/authentication/isAllowed';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { CalendarValidation } from '@/schemas/Calendar/validation';
 import { CalendarModel } from '@/schemas/Calendar/model';
 
@@ -18,45 +17,26 @@ export default async function handler(req, res) {
   let foundDocument;
 
   // 2.
-  // Refuse request if not PUT
-
-  if (req.method != 'PUT') {
-    await res.setHeader('Allow', ['PUT']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
-
-  // 3.
-  // Check for correct Authentication and valid Permissions
+  // Get session data
 
   try {
     sessionData = await getSession(req, res);
-    isAllowed(sessionData, [{ scope: 'calendars', action: 'edit' }]);
   } catch (err) {
     console.log(err);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+  }
+
+  // 3.
+  // Prepare endpoint
+
+  try {
+    await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'calendars', action: 'edit' }] });
+  } catch (err) {
+    console.log(err);
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 4.
-  // Connect to MongoDB
-
-  try {
-    await mongodb.connect();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
-  }
-
-  // 5.
-  // Ensure latest schema modifications are applied in the database
-
-  try {
-    await CalendarModel.syncIndexes();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: 'Cannot sync indexes.' });
-  }
-
-  // 6.
   // Parse request body into JSON
 
   try {
@@ -67,7 +47,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  // 7.
+  // 5.
   // Validate req.body against schema
 
   try {
@@ -77,7 +57,7 @@ export default async function handler(req, res) {
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
-  // 8.
+  // 6.
   // Retrieve requested document from the database
 
   try {
@@ -88,23 +68,23 @@ export default async function handler(req, res) {
     return await res.status(500).json({ message: 'Calendar not found.' });
   }
 
-  // 9.
+  // 7.
   // Check if document is locked
 
   if (foundDocument.is_locked) {
     return await res.status(423).json({ message: 'Calendar is locked.' });
   }
 
-  // 10.
+  // 8.
   // Check for uniqueness
 
   try {
     // The values that need to be unique are ['code', 'numeric_code'].
-    const foundDocumentWithCalendarCode = await CalendarModel.exists({ code: { $eq: parsedData.code } });
+    const foundDocumentWithCalendarCode = await CalendarModel.exists({ code: { $eq: req.body.code } });
     if (foundDocumentWithCalendarCode && foundDocumentWithCalendarCode._id != req.query._id) {
       throw new Error('A Calendar with the same "code" already exists.');
     }
-    const foundDocumentWithCalendarNumericCode = await CalendarModel.exists({ numeric_code: { $eq: parsedData.numeric_code } });
+    const foundDocumentWithCalendarNumericCode = await CalendarModel.exists({ numeric_code: { $eq: req.body.numeric_code } });
     if (foundDocumentWithCalendarNumericCode && foundDocumentWithCalendarNumericCode._id != req.query._id) {
       throw new Error('A Calendar with the same "numeric_code" already exists.');
     }
@@ -113,7 +93,7 @@ export default async function handler(req, res) {
     return await res.status(409).json({ message: err.message });
   }
 
-  // 11.
+  // 9.
   // Update the requested document
 
   try {

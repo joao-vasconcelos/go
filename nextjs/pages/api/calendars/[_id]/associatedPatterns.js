@@ -28,7 +28,7 @@ export default async function handler(req, res) {
   // Prepare endpoint
 
   try {
-    await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'agencies', action: 'view' }] });
+    await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'lines', action: 'view' }] });
   } catch (err) {
     console.log(err);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });

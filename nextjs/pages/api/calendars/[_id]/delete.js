@@ -1,8 +1,7 @@
 /* * */
 
-import mongodb from '@/services/mongodb';
 import getSession from '@/authentication/getSession';
-import isAllowed from '@/authentication/isAllowed';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
@@ -16,32 +15,23 @@ export default async function handler(req, res) {
   let sessionData;
 
   // 2.
-  // Refuse request if not DELETE
-
-  if (req.method != 'DELETE') {
-    await res.setHeader('Allow', ['DELETE']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
-
-  // 3.
-  // Check for correct Authentication and valid Permissions
+  // Get session data
 
   try {
     sessionData = await getSession(req, res);
-    isAllowed(sessionData, [{ scope: 'calendars', action: 'delete' }]);
   } catch (err) {
     console.log(err);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
-  // 4.
-  // Connect to MongoDB
+  // 3.
+  // Prepare endpoint
 
   try {
-    await mongodb.connect();
+    await prepareApiEndpoint({ request: req, method: 'DELETE', session: sessionData, permissions: [{ scope: 'calendars', action: 'delete' }] });
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 5.
