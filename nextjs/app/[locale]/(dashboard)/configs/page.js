@@ -49,30 +49,6 @@ export default function Page() {
     });
   };
 
-  const handleImportPickupTypes = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Import Pickup Types?</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Import Pickup Types', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('pickupTypes', 'loading', 'Loading');
-          await API({ service: 'configs/imports/pickupTypes', method: 'GET' });
-          notify('pickupTypes', 'success', 'success');
-          setIsImporting(false);
-        } catch (err) {
-          console.log(err);
-          notify('pickupTypes', 'error', err.message || 'Error');
-          setIsImporting(false);
-        }
-      },
-    });
-  };
-
   //
   // C. Render components
 
@@ -84,9 +60,6 @@ export default function Page() {
           <SimpleGrid cols={3}>
             <Button onClick={handleImportAfetacao} color="red" loading={isImporting}>
               Import Afetacao A1
-            </Button>
-            <Button onClick={handleImportPickupTypes} color="red" loading={isImporting}>
-              Import Pickup Types
             </Button>
           </SimpleGrid>
         </Section>
