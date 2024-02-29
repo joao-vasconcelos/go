@@ -35,6 +35,11 @@ export const AlertSchema = new mongoose.Schema({
     },
   ],
   //
+  status: {
+    type: String,
+    maxlength: 30,
+    default: 'draft',
+  },
   publish_start: {
     type: Date,
   },

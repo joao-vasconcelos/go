@@ -2,6 +2,7 @@
 
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import generator from '@/services/generator';
 import { AlertDefault } from '@/schemas/Alert/default';
 import { AlertModel } from '@/schemas/Alert/model';
 
@@ -39,7 +40,11 @@ export default async function handler(req, res) {
   // Save a new document with default values
 
   try {
-    const createdDocument = await AlertModel({ ...AlertDefault, created_by: sessionData.user._id }).save();
+    const newDocument = { ...AlertDefault, created_by: sessionData.user._id, code: generator({ length: 8 }) };
+    while (await AlertModel.exists({ code: newDocument.code })) {
+      newDocument.code = generator({ length: 8 });
+    }
+    const createdDocument = await AlertModel(newDocument).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
     console.log(err);

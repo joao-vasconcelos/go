@@ -7,7 +7,6 @@ import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
-import { Section } from '@/components/Layouts/Layouts';
 import { DateTimePicker } from '@mantine/dates';
 import { AlertOptions } from '@/schemas/Alert/options';
 import { SimpleGrid, TextInput, Divider, Textarea, Select, MultiSelect, SegmentedControl } from '@mantine/core';
@@ -16,7 +15,10 @@ import AlertsExplorerIdPageItemMedia from '@/components/AlertsExplorerIdPageItem
 import AlertsExplorerIdPageItemAffectedStops from '@/components/AlertsExplorerIdPageItemAffectedStops/AlertsExplorerIdPageItemAffectedStops';
 import AlertsExplorerIdPageItemAffectedRoutes from '@/components/AlertsExplorerIdPageItemAffectedRoutes/AlertsExplorerIdPageItemAffectedRoutes';
 import AlertsExplorerIdPageItemAffectedAgencies from '@/components/AlertsExplorerIdPageItemAffectedAgencies/AlertsExplorerIdPageItemAffectedAgencies';
+import AlertsExplorerIdPageItemPreview from '@/components/AlertsExplorerIdPageItemPreview/AlertsExplorerIdPageItemPreview';
 import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
+import { openConfirmModal } from '@mantine/modals';
+import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 
 /* * */
 
@@ -38,6 +40,13 @@ export default function AlertsExplorerIdPage() {
 
   //
   // C. Transform data
+
+  const availableStatuses = useMemo(() => {
+    if (!AlertOptions.status) return [];
+    return AlertOptions.status.map((item) => {
+      return { value: item, label: alertOptionsTranslations(`status.${item}.label`) };
+    });
+  }, [alertOptionsTranslations]);
 
   const availableTypes = useMemo(() => {
     if (!AlertOptions.type) return [];
@@ -70,10 +79,32 @@ export default function AlertsExplorerIdPage() {
   //
   // D. Render components
 
+  const handleChangeAlertType = (value) => {
+    if (!alertsExplorerContext.form.values.affected_stops.length && !alertsExplorerContext.form.values.affected_routes.length && !alertsExplorerContext.form.values.affected_agencies.length) {
+      alertsExplorerContext.form.setFieldValue('type', value);
+      return;
+    }
+    openConfirmModal({
+      title: <Text size="h2">{t('operations.change_type.title')}</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">{t('operations.change_type.description')}</Text>,
+      labels: { confirm: t('operations.change_type.confirm'), cancel: t('operations.change_type.cancel') },
+      onConfirm: () => {
+        alertsExplorerContext.form.setFieldValue('type', value);
+        alertsExplorerContext.form.setFieldValue('affected_stops', []);
+        alertsExplorerContext.form.setFieldValue('affected_routes', []);
+        alertsExplorerContext.form.setFieldValue('affected_agencies', []);
+      },
+    });
+  };
+
+  //
+  // D. Render components
+
   return (
     <Pannel loading={alertsExplorerContext.page.is_loading} header={<AlertsExplorerIdPageHeader />}>
-      <Section>
-        <Text size="h2">{t('sections.intro.title')}</Text>
+      <AppLayoutSection title={t('sections.intro.title')}>
         <SimpleGrid cols={2}>
           <TextInput label={t('form.title.label')} description={t('form.title.description')} placeholder={t('form.title.placeholder')} {...alertsExplorerContext.form.getInputProps('title')} readOnly={alertsExplorerContext.page.is_read_only} />
         </SimpleGrid>
@@ -83,56 +114,31 @@ export default function AlertsExplorerIdPage() {
         <SimpleGrid cols={1}>
           <TextInput label={t('form.url.label')} description={t('form.url.description')} placeholder={t('form.url.placeholder')} {...alertsExplorerContext.form.getInputProps('url')} readOnly={alertsExplorerContext.page.is_read_only} />
         </SimpleGrid>
-      </Section>
+      </AppLayoutSection>
 
       <Divider />
 
-      <Section>
-        <div>
-          <Text size="h2">{t('sections.media.title')}</Text>
-        </div>
+      <AppLayoutSection title={t('sections.media.title')}>
         <SimpleGrid cols={1}>
           <AlertsExplorerIdPageItemMedia />
         </SimpleGrid>
-      </Section>
+      </AppLayoutSection>
 
       <Divider />
 
-      <Section>
-        <div>
-          <Text size="h2">{t('sections.active_period.title')}</Text>
-        </div>
-        <SimpleGrid cols={2}>
-          <DateTimePicker
-            dropdownType="modal"
-            label={t('form.active_period_start.label')}
-            placeholder={t('form.active_period_start.placeholder')}
-            description={t('form.active_period_start.description')}
-            {...alertsExplorerContext.form.getInputProps('active_period_start')}
-            value={alertsExplorerContext.form.values.active_period_start ? new Date(alertsExplorerContext.form.values.active_period_start) : null}
+      <AppLayoutSection title={t('sections.publishing.title')}>
+        <SimpleGrid cols={1}>
+          <Select
+            label={t('form.status.label')}
+            placeholder={t('form.status.placeholder')}
+            description={t('form.status.description')}
+            nothingFoundMessage={t('form.status.nothingFound')}
+            {...alertsExplorerContext.form.getInputProps('status')}
+            data={availableStatuses}
             readOnly={alertsExplorerContext.page.is_read_only}
-            clearable
-          />
-          <DateTimePicker
-            dropdownType="modal"
-            label={t('form.active_period_end.label')}
-            placeholder={t('form.active_period_end.placeholder')}
-            description={t('form.active_period_end.description')}
-            {...alertsExplorerContext.form.getInputProps('active_period_end')}
-            value={alertsExplorerContext.form.values.active_period_end ? new Date(alertsExplorerContext.form.values.active_period_end) : null}
-            disabled={!alertsExplorerContext.form.values.active_period_start}
-            readOnly={alertsExplorerContext.page.is_read_only}
-            clearable
+            searchable
           />
         </SimpleGrid>
-      </Section>
-
-      <Divider />
-
-      <Section>
-        <div>
-          <Text size="h2">{t('sections.publishing.title')}</Text>
-        </div>
         <SimpleGrid cols={2}>
           <DateTimePicker
             dropdownType="modal"
@@ -156,14 +162,39 @@ export default function AlertsExplorerIdPage() {
             clearable
           />
         </SimpleGrid>
-      </Section>
+      </AppLayoutSection>
 
       <Divider />
 
-      <Section>
-        <div>
-          <Text size="h2">{t('sections.cause_effect.title')}</Text>
-        </div>
+      <AppLayoutSection title={t('sections.active_period.title')}>
+        <SimpleGrid cols={2}>
+          <DateTimePicker
+            dropdownType="modal"
+            label={t('form.active_period_start.label')}
+            placeholder={t('form.active_period_start.placeholder')}
+            description={t('form.active_period_start.description')}
+            {...alertsExplorerContext.form.getInputProps('active_period_start')}
+            value={alertsExplorerContext.form.values.active_period_start ? new Date(alertsExplorerContext.form.values.active_period_start) : null}
+            readOnly={alertsExplorerContext.page.is_read_only}
+            clearable
+          />
+          <DateTimePicker
+            dropdownType="modal"
+            label={t('form.active_period_end.label')}
+            placeholder={t('form.active_period_end.placeholder')}
+            description={t('form.active_period_end.description')}
+            {...alertsExplorerContext.form.getInputProps('active_period_end')}
+            value={alertsExplorerContext.form.values.active_period_end ? new Date(alertsExplorerContext.form.values.active_period_end) : null}
+            disabled={!alertsExplorerContext.form.values.active_period_start}
+            readOnly={alertsExplorerContext.page.is_read_only}
+            clearable
+          />
+        </SimpleGrid>
+      </AppLayoutSection>
+
+      <Divider />
+
+      <AppLayoutSection title={t('sections.cause_effect.title')}>
         <SimpleGrid cols={2}>
           <Select
             label={t('form.cause.label')}
@@ -186,43 +217,37 @@ export default function AlertsExplorerIdPage() {
             searchable
           />
         </SimpleGrid>
-      </Section>
+      </AppLayoutSection>
 
       <Divider />
 
-      <Section>
-        <div>
-          <Text size="h2">{t('sections.entities.title')}</Text>
-        </div>
+      <AppLayoutSection title={t('sections.entities.title')}>
         <SimpleGrid cols={1}>
           <MultiSelect
             label={t('form.affected_municipalities.label')}
             placeholder={t('form.affected_municipalities.placeholder')}
             description={t('form.affected_municipalities.description')}
             nothingFoundMessage={t('form.affected_municipalities.nothingFound')}
-            {...alertsExplorerContext.form.getInputProps('affected_municipalities')}
             data={availableLiveMunicipalities}
+            {...alertsExplorerContext.form.getInputProps('affected_municipalities')}
             readOnly={alertsExplorerContext.page.is_read_only}
             searchable
             clearable
           />
         </SimpleGrid>
         <SimpleGrid cols={1}>
-          <SegmentedControl data={availableTypes} {...alertsExplorerContext.form.getInputProps('type')} />
+          <SegmentedControl data={availableTypes} {...alertsExplorerContext.form.getInputProps('type')} onChange={handleChangeAlertType} />
         </SimpleGrid>
         {alertsExplorerContext.form.values.type === 'select_stops' && <AlertsExplorerIdPageItemAffectedStops />}
         {alertsExplorerContext.form.values.type === 'select_routes' && <AlertsExplorerIdPageItemAffectedRoutes />}
         {alertsExplorerContext.form.values.type === 'select_agencies' && <AlertsExplorerIdPageItemAffectedAgencies />}
-      </Section>
+      </AppLayoutSection>
 
       <Divider />
 
-      <Section>
-        <div>
-          <Text size="h2">{t('sections.preview.title')}</Text>
-        </div>
-        <SimpleGrid cols={1}></SimpleGrid>
-      </Section>
+      <AppLayoutSection title={t('sections.preview.title')}>
+        <AlertsExplorerIdPageItemPreview />
+      </AppLayoutSection>
     </Pannel>
   );
 

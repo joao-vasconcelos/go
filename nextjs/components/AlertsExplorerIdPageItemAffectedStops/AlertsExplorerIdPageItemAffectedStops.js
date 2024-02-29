@@ -12,6 +12,7 @@ import { IconTrash } from '@tabler/icons-react';
 import styles from './AlertsExplorerIdPageItemAffectedStops.module.css';
 import Standout from '@/components/Standout/Standout';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import AlertsExplorerIdPageItemAffectedStopsStopRoutes from '../AlertsExplorerIdPageItemAffectedStopsStopRoutes/AlertsExplorerIdPageItemAffectedStopsStopRoutes';
 
 /* * */
 
@@ -57,13 +58,13 @@ export default function AlertsExplorerIdPageItemAffectedStops() {
   return (
     <div className={styles.container}>
       {alertsExplorerContext.form.values.affected_stops.length > 0 ? (
-        alertsExplorerContext.form.values.affected_stops.map((affectedStop, index) => (
+        alertsExplorerContext.form.values.affected_stops.map((affectedStop, affectedStopIndex) => (
           <Standout
-            key={index}
+            key={affectedStopIndex}
             title={t('title')}
             icon={
               <Tooltip label={t('operations.remove.label')} withArrow>
-                <ActionIcon variant="subtle" color="gray" size="sm" onClick={() => handleRemoveAffectedStop(index)} disabled={alertsExplorerContext.page.is_read_only}>
+                <ActionIcon variant="subtle" color="gray" size="sm" onClick={() => handleRemoveAffectedStop(affectedStopIndex)} disabled={alertsExplorerContext.page.is_read_only}>
                   <IconTrash size={18} />
                 </ActionIcon>
               </Tooltip>
@@ -72,7 +73,7 @@ export default function AlertsExplorerIdPageItemAffectedStops() {
             <Select
               placeholder={t('form.affected_stops.placeholder')}
               nothingFoundMessage={t('form.affected_stops.nothingFound')}
-              {...alertsExplorerContext.form.getInputProps(`affected_stops.${index}.stop_id`)}
+              {...alertsExplorerContext.form.getInputProps(`affected_stops.${affectedStopIndex}.stop_id`)}
               limit={100}
               data={availableLiveStops}
               readOnly={alertsExplorerContext.page.is_read_only}
@@ -80,6 +81,7 @@ export default function AlertsExplorerIdPageItemAffectedStops() {
               clearable
               w="100%"
             />
+            <AlertsExplorerIdPageItemAffectedStopsStopRoutes affectedStopIndex={affectedStopIndex} />
           </Standout>
         ))
       ) : (

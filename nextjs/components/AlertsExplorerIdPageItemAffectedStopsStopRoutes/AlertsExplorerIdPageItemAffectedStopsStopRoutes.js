@@ -11,37 +11,39 @@ import Standout from '@/components/Standout/Standout';
 
 /* * */
 
-export default function AlertsExplorerIdPageItemAffectedRoutesRouteStops({ affectedRouteIndex }) {
+export default function AlertsExplorerIdPageItemAffectedStopsStopRoutes({ affectedStopIndex }) {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('AlertsExplorerIdPageItemAffectedRoutesRouteStops');
+  const t = useTranslations('AlertsExplorerIdPageItemAffectedStopsStopRoutes');
   const alertsExplorerContext = useAlertsExplorerContext();
 
   //
   // B. Fetch data
 
   const { data: allLiveStopsData } = useSWR('https://api.carrismetropolitana.pt/stops');
+  const { data: allLiveRoutesData } = useSWR('https://api.carrismetropolitana.pt/routes');
 
   //
   // C. Transform data
 
   const availableLiveRouteStops = useMemo(() => {
-    if (!allLiveStopsData || !alertsExplorerContext.form.values.affected_routes[affectedRouteIndex].route_id) return [];
-    return allLiveStopsData
+    if (!allLiveStopsData || !allLiveRoutesData || !alertsExplorerContext.form.values.affected_stops[affectedStopIndex].stop_id) return [];
+    const thisStop = allLiveStopsData.find((item) => item.id === alertsExplorerContext.form.values.affected_stops[affectedStopIndex].stop_id);
+    return allLiveRoutesData
       .filter((item) => {
-        const stopRoutes = new Set(item.routes);
-        return stopRoutes.has(alertsExplorerContext.form.values.affected_routes[affectedRouteIndex].route_id);
+        const stopRoutes = new Set(thisStop.routes);
+        return stopRoutes.has(item.id);
       })
       .map((item) => {
-        return { value: item.id, label: `[${item.id}] ${item.name}` };
+        return { value: item.id, label: `[${item.id}] ${item.long_name}` };
       });
-  }, [affectedRouteIndex, alertsExplorerContext.form.values.affected_routes, allLiveStopsData]);
+  }, [affectedStopIndex, alertsExplorerContext.form.values.affected_stops, allLiveRoutesData, allLiveStopsData]);
 
   //
-  // E. Render components
+  // D. Render components
 
   return (
     <SimpleGrid>
@@ -49,11 +51,11 @@ export default function AlertsExplorerIdPageItemAffectedRoutesRouteStops({ affec
         <MultiSelect
           placeholder={t('form.route_stops.placeholder')}
           nothingFoundMessage={t('form.route_stops.nothingFound')}
-          {...alertsExplorerContext.form.getInputProps(`affected_routes.${affectedRouteIndex}.specific_stops`)}
+          {...alertsExplorerContext.form.getInputProps(`affected_stops.${affectedStopIndex}.specific_routes`)}
           limit={100}
           data={availableLiveRouteStops}
           readOnly={alertsExplorerContext.page.is_read_only}
-          disabled={!alertsExplorerContext.form.values.affected_routes[affectedRouteIndex].route_id}
+          disabled={!alertsExplorerContext.form.values.affected_stops[affectedStopIndex].stop_id}
           searchable
           clearable
           w="100%"

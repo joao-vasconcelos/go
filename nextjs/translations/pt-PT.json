@@ -1891,6 +1891,14 @@
         }
     },
     "AlertOptions": {
+        "status": {
+            "draft": {
+                "label": "Rascunho"
+            },
+            "published": {
+                "label": "Publicado"
+            }
+        },
         "type": {
             "select_routes": {
                 "label": "Selecionar Linhas e Rotas"
@@ -2033,7 +2041,7 @@
                 "title": "Eliminar Exportação?",
                 "description": "Ao eliminar a exportação o processamento será imediatamente interrompido e os ficheiros exportados até agora serão eliminados.",
                 "confirm": "Sim, eliminar Exportação",
-                "cancel": "Não, deixar como está"
+                "cancel": "Não, manter como está"
             }
         }
     },
@@ -2784,7 +2792,7 @@
                 "title": "Eliminar Comentário",
                 "description": "Este comentário será imediatamente eliminado de forma irreversivel.",
                 "confirm": "Sim, eliminar Comentário",
-                "cancel": "Não, deixar como está"
+                "cancel": "Não, manter como está"
             }
         }
     },
@@ -2811,7 +2819,7 @@
                 "title": "Eliminar Ficheiro",
                 "description": "Este ficheiro será imediatamente eliminado de forma irreversivel.",
                 "confirm": "Sim, eliminar Ficheiro",
-                "cancel": "Não, deixar como está"
+                "cancel": "Não, manter como está"
             }
         }
     },
@@ -2881,6 +2889,14 @@
             },
             "preview": {
                 "title": "Pré-visualização"
+            }
+        },
+        "operations": {
+            "change_type": {
+                "title": "Alterar tipo de Alerta",
+                "description": "Ao alterar o tipo de alerta irá perder as referências atualmente configuradas. Um alerta apenas pode ser de um tipo. Tem a certeza que pretende fazer esta alteração?",
+                "confirm": "Sim, alterar o tipo e apagar referências",
+                "cancel": "Não, manter como está"
             }
         },
         "form": {
@@ -3853,7 +3869,7 @@
                 "title": "Eliminar Tarifa",
                 "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar esta tarifa para sempre?",
                 "confirm": "Eliminar tarifa para sempre",
-                "cancel": "Não, deixar como está",
+                "cancel": "Não, manter como está",
                 "loading": "A eliminar tarifa...",
                 "success": "Tarifa eliminada.",
                 "error": "Ocorreu um erro ao eliminar esta tarifa."
@@ -3936,7 +3952,7 @@
                 "title": "Eliminar Tipologia",
                 "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar esta tipologia para sempre?",
                 "confirm": "Eliminar tipologia para sempre",
-                "cancel": "Não, deixar como está",
+                "cancel": "Não, manter como está",
                 "loading": "A eliminar tipologia...",
                 "success": "Tipologia eliminada.",
                 "error": "Ocorreu um erro ao eliminar esta tipologia."

@@ -10,6 +10,12 @@ export const AlertOptions = {
   storage_scope: 'alerts',
 
   /*
+   * STATUS
+   */
+
+  status: ['draft', 'published'],
+
+  /*
    * TYPE
    */
 
