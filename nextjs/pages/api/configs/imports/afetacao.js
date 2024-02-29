@@ -13,7 +13,7 @@ import fs from 'fs';
 export default async function handler(req, res) {
   //
 
-  //   throw new Error('Feature is disabled.');
+  throw new Error('Feature is disabled.');
 
   // 1.
   // Setup variables
@@ -78,10 +78,10 @@ export default async function handler(req, res) {
 
       // 5.2.0.
       // Skip if this pattern is not for the right area
-      //   if (!patternSummaryData.code.startsWith('1')) continue;
+      if (!patternSummaryData.code.startsWith('1')) continue;
       if (!patternSummaryData.code.startsWith('2')) continue;
-      //   if (!patternSummaryData.code.startsWith('3')) continue;
-      //   if (!patternSummaryData.code.startsWith('4')) continue;
+      if (!patternSummaryData.code.startsWith('3')) continue;
+      if (!patternSummaryData.code.startsWith('4')) continue;
 
       const patternData = await PatternModel.findOne({ code: patternSummaryData.code }).populate('path.stop');
 
