@@ -25,19 +25,19 @@ export default function Page() {
   //
   // D. Handle actiona
 
-  const handleImportAfetacao = async () => {
+  const handleModifyDatesTypes = async () => {
     openConfirmModal({
-      title: <Text size="h2">Import Afetacao A1?</Text>,
+      title: <Text size="h2">Modify Dates Types?</Text>,
       centered: true,
       closeOnClickOutside: true,
       children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Import Afetacao A1', cancel: 'Cancel' },
+      labels: { confirm: 'Yes, Modify Dates Types', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
           setIsImporting(true);
           notify('afetacao', 'loading', 'Loading');
-          await API({ service: 'configs/imports/afetacao', method: 'GET' });
+          await API({ service: 'configs/refactors/modifyDatesTypes', method: 'GET' });
           notify('afetacao', 'success', 'success');
           setIsImporting(false);
         } catch (err) {
@@ -58,8 +58,8 @@ export default function Page() {
         <Section>
           <Text size="h2">No operations available</Text>
           <SimpleGrid cols={3}>
-            <Button onClick={handleImportAfetacao} color="red" loading={isImporting}>
-              Import Afetacao A1
+            <Button onClick={handleModifyDatesTypes} color="red" loading={isImporting}>
+              Modify Dates Types
             </Button>
           </SimpleGrid>
         </Section>

@@ -1,12 +1,9 @@
+/* * */
+
 import mongoose from 'mongoose';
 
 /* * */
-/* DOCUMENT TYPE: DATE */
-/* Explanation needed. */
-/* * */
 
-/* * */
-/* A. Mongoose Schema */
 export const DateSchema = new mongoose.Schema(
   {
     date: {
@@ -15,13 +12,12 @@ export const DateSchema = new mongoose.Schema(
       unique: true,
     },
     period: {
-      type: Number,
-    },
-    day_type: {
-      type: Number,
+      type: String,
+      maxlength: 1,
     },
     is_holiday: {
       type: Boolean,
+      default: false,
     },
     notes: {
       type: String,
@@ -32,5 +28,5 @@ export const DateSchema = new mongoose.Schema(
 );
 
 /* * */
-/* C. Mongoose Model */
+
 export const DateModel = mongoose?.models?.Date || mongoose.model('Date', DateSchema);

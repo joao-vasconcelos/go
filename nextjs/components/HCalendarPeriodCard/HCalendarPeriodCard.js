@@ -99,7 +99,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
             <Text size="h4">day_type: {dateObj.day_type}</Text>
             <Switch label={'is_holiday'} description={'is_holiday or not'} {...form.getInputProps('is_holiday', { type: 'checkbox' })} />
             <Textarea label={t('form.notes.label')} placeholder={t('form.notes.placeholder')} minRows={5} {...form.getInputProps('notes')} readOnly={readOnly} />
-            <AppAuthenticationCheck permissions={[{ scope: 'dates', action: 'edit' }]}>
+            <AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'edit_dates' }]}>
               <SimpleGrid cols={2}>
                 <Button size="lg" onClick={handleUpdate}>
                   {t('operations.update.title')}
