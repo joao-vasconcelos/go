@@ -185,32 +185,32 @@ export default async function handler(req, res) {
                 vehicleDistanceInMetersTotal += shapeExtension;
 
                 // Based on the period this date belongs to, add the pattern extension to the relevant variable
-                if (dateData.period === 1) vehicleDistanceInMetersForPeriodOne += shapeExtension;
-                if (dateData.period === 2) vehicleDistanceInMetersForPeriodTwo += shapeExtension;
-                if (dateData.period === 3) vehicleDistanceInMetersForPeriodThree += shapeExtension;
+                if (dateData.period === '1') vehicleDistanceInMetersForPeriodOne += shapeExtension;
+                if (dateData.period === '2') vehicleDistanceInMetersForPeriodTwo += shapeExtension;
+                if (dateData.period === '3') vehicleDistanceInMetersForPeriodThree += shapeExtension;
 
                 // Calulate day type for the current date
                 const dayType = calculateDateDayType(dateData.date, dateData.is_holiday);
 
                 // Based on the day_type this date belongs to, add the pattern extension to the relevant variable
-                if (dayType === 1) vehicleDistanceInMetersForDayTypeOne += shapeExtension;
-                if (dayType === 2) vehicleDistanceInMetersForDayTypeTwo += shapeExtension;
-                if (dayType === 3) vehicleDistanceInMetersForDayTypeThree += shapeExtension;
+                if (dayType === '1') vehicleDistanceInMetersForDayTypeOne += shapeExtension;
+                if (dayType === '2') vehicleDistanceInMetersForDayTypeTwo += shapeExtension;
+                if (dayType === '3') vehicleDistanceInMetersForDayTypeThree += shapeExtension;
 
                 // Set the relevant variables for the combination of period = 1 and day type
-                if (dateData.period === 1 && dayType === 1) vehicleDistanceInMetersForPeriodOneAndDayTypeOne += shapeExtension;
-                if (dateData.period === 1 && dayType === 2) vehicleDistanceInMetersForPeriodOneAndDayTypeTwo += shapeExtension;
-                if (dateData.period === 1 && dayType === 3) vehicleDistanceInMetersForPeriodOneAndDayTypeThree += shapeExtension;
+                if (dateData.period === '1' && dayType === '1') vehicleDistanceInMetersForPeriodOneAndDayTypeOne += shapeExtension;
+                if (dateData.period === '1' && dayType === '2') vehicleDistanceInMetersForPeriodOneAndDayTypeTwo += shapeExtension;
+                if (dateData.period === '1' && dayType === '3') vehicleDistanceInMetersForPeriodOneAndDayTypeThree += shapeExtension;
 
                 // Set the relevant variables for the combination of period = 2 and day type
-                if (dateData.period === 2 && dayType === 1) vehicleDistanceInMetersForPeriodTwoAndDayTypeOne += shapeExtension;
-                if (dateData.period === 2 && dayType === 2) vehicleDistanceInMetersForPeriodTwoAndDayTypeTwo += shapeExtension;
-                if (dateData.period === 2 && dayType === 3) vehicleDistanceInMetersForPeriodTwoAndDayTypeThree += shapeExtension;
+                if (dateData.period === '2' && dayType === '1') vehicleDistanceInMetersForPeriodTwoAndDayTypeOne += shapeExtension;
+                if (dateData.period === '2' && dayType === '2') vehicleDistanceInMetersForPeriodTwoAndDayTypeTwo += shapeExtension;
+                if (dateData.period === '2' && dayType === '3') vehicleDistanceInMetersForPeriodTwoAndDayTypeThree += shapeExtension;
 
                 // Set the relevant variables for the combination of period = 3 and day type
-                if (dateData.period === 3 && dayType === 1) vehicleDistanceInMetersForPeriodThreeAndDayTypeOne += shapeExtension;
-                if (dateData.period === 3 && dayType === 2) vehicleDistanceInMetersForPeriodThreeAndDayTypeTwo += shapeExtension;
-                if (dateData.period === 3 && dayType === 3) vehicleDistanceInMetersForPeriodThreeAndDayTypeThree += shapeExtension;
+                if (dateData.period === '3' && dayType === '1') vehicleDistanceInMetersForPeriodThreeAndDayTypeOne += shapeExtension;
+                if (dateData.period === '3' && dayType === '2') vehicleDistanceInMetersForPeriodThreeAndDayTypeTwo += shapeExtension;
+                if (dateData.period === '3' && dayType === '3') vehicleDistanceInMetersForPeriodThreeAndDayTypeThree += shapeExtension;
 
                 //
               }
