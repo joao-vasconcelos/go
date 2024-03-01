@@ -149,22 +149,25 @@ export default function HCalendar({ availableDates, renderCardComponent, onMulti
       <div className={styles.tableBody}>
         {allDatesFormatted &&
           allDatesFormatted.map((month, index) => (
-            <div key={index} className={styles.tableBodyRow}>
-              <div className={`${styles.tableBodyCell} ${styles.monthCell}`} onClick={() => handleMonthClick(month)}>
-                {month.month_name}
+            <>
+              <div key={index} className={styles.tableBodyRow}>
+                <div className={`${styles.tableBodyCell} ${styles.monthCell}`} onClick={() => handleMonthClick(month)}>
+                  {month.month_name}
+                </div>
+                {month.days.map((dateObj, index) => {
+                  switch (dateObj.card_type) {
+                    default:
+                    case 'spacer':
+                      return <HCalendarSpacer key={index} />;
+                    case 'placeholder':
+                      return <HCalendarPlaceholder key={index} date={dateObj.date} />;
+                    case 'date':
+                      return renderCardComponent({ key: index, date: dateObj.date, dateObj: dateObj });
+                  }
+                })}
               </div>
-              {month.days.map((dateObj, index) => {
-                switch (dateObj.card_type) {
-                  default:
-                  case 'spacer':
-                    return <HCalendarSpacer key={index} />;
-                  case 'placeholder':
-                    return <HCalendarPlaceholder key={index} date={dateObj.date} />;
-                  case 'date':
-                    return renderCardComponent({ key: index, date: dateObj.date, dateObj: dateObj });
-                }
-              })}
-            </div>
+              {month.month_number === 11 && index < allDatesFormatted.length - 1 && <div className={styles.lastMonthOfYear} />}
+            </>
           ))}
       </div>
     </div>
