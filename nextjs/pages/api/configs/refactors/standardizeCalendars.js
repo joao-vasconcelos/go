@@ -10,7 +10,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
   //
 
-  throw new Error('Feature is disabled.');
+  //   throw new Error('Feature is disabled.');
 
   // 1.
   // Setup variables
@@ -77,10 +77,10 @@ export default async function handler(req, res) {
 
         /* * * * * * * * * */
 
-        if (associatedCalendarCodes.has('15')) {
-          console.log('Found calendar "15"');
-          associatedCalendarCodes.delete('15');
-          associatedCalendarCodes.add('ESC_DU');
+        if (associatedCalendarCodes.has('30')) {
+          console.log('Found calendar "30"');
+          associatedCalendarCodes.delete('30');
+          associatedCalendarCodes.add('ESC_SEX');
         }
 
         /* * * * * * * * * */
