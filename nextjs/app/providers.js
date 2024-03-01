@@ -44,7 +44,7 @@ export default function Providers({ children, session }) {
       <SWRConfig value={swrOptions}>
         <MapProvider>
           <MantineProvider theme={theme} defaultColorScheme="auto">
-            <DatesProvider settings={{ locale: 'pt' }}>
+            <DatesProvider settings={{ locale: 'pt', consistentWeeks: true }}>
               <Notifications />
               <ModalsProvider>{children}</ModalsProvider>
             </DatesProvider>

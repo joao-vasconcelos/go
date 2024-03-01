@@ -179,7 +179,7 @@ export default function Page() {
         </ListHeader>
       }
     >
-      <Modal opened={isModalPresented} onClose={closeModal} title={t('operations.manage.title')} size="auto" centered>
+      <Modal opened={isModalPresented} onClose={closeModal} title={t('operations.manage.title')} size="auto">
         <Loader visible={isUpdatingDates} full />
         <form onSubmit={form.onSubmit(handleUpdate)}>
           <SimpleGrid cols={1}>
