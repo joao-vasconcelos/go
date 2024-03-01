@@ -10,7 +10,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
   //
 
-  throw new Error('Feature is disabled.');
+  //   throw new Error('Feature is disabled.');
 
   // 1.
   // Setup variables
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
       //
 
       // Skip if not A1
-      if (!patternCode.code.startsWith('1')) continue patternsLoop;
+      if (!patternCode.code.startsWith('4')) continue patternsLoop;
 
       //
 
@@ -77,40 +77,10 @@ export default async function handler(req, res) {
 
         /* * * * * * * * * */
 
-        if (associatedCalendarCodes.has('ZR')) {
-          console.log('Found calendar "ZR"');
-          associatedCalendarCodes.delete('ZR');
-        }
-
-        if (associatedCalendarCodes.has('P0_5A')) {
-          console.log('Found calendar "P0_5A"');
-          associatedCalendarCodes.delete('P0_5A');
-        }
-
-        if (associatedCalendarCodes.has('07')) {
-          console.log('Found calendar "07"');
-          associatedCalendarCodes.delete('07');
-        }
-
-        if (associatedCalendarCodes.has('8J')) {
-          console.log('Found calendar "8J"');
-          associatedCalendarCodes.delete('8J');
-          associatedCalendarCodes.add('VER_DU');
-          associatedCalendarCodes.add('FER_DU_1ASEMSET');
-        }
-
-        if (associatedCalendarCodes.has('UZ')) {
-          console.log('Found calendar "UZ"');
-          associatedCalendarCodes.delete('UZ');
-          associatedCalendarCodes.add('VER_DOM');
-          associatedCalendarCodes.add('FER_DOM_1ASEMSET');
-        }
-
-        if (associatedCalendarCodes.has('P0_8')) {
-          console.log('Found calendar "P0_8"');
-          associatedCalendarCodes.delete('P0_8');
-          associatedCalendarCodes.add('VER_SAB');
-          associatedCalendarCodes.add('FER_SAB_1ASEMSET');
+        if (associatedCalendarCodes.has('15')) {
+          console.log('Found calendar "15"');
+          associatedCalendarCodes.delete('15');
+          associatedCalendarCodes.add('ESC_DU');
         }
 
         /* * * * * * * * * */
