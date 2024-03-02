@@ -8,7 +8,7 @@ import { useForm, yupResolver } from '@mantine/form';
 import API from '@/services/API';
 import { CalendarValidation } from '@/schemas/Calendar/validation';
 import { CalendarDefault } from '@/schemas/Calendar/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, NumberInput } from '@mantine/core';
+import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, NumberInput, Button, Group } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import { Section } from '@/components/Layouts/Layouts';
@@ -26,6 +26,7 @@ import populate from '@/services/populate';
 import CalendarPatternsView from '@/components/CalendarPatternsView/CalendarPatternsView';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 
 export default function Page() {
   //
@@ -171,6 +172,78 @@ export default function Page() {
     }
   };
 
+  const handleTurnOnHolidays = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => dateObj.is_holiday).map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOffHolidays = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => dateObj.is_holiday).map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOnPeriodOne = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '1').map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOffPeriodOne = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '1').map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOnPeriodTwo = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '2').map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOffPeriodTwo = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '2').map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOnPeriodThree = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '3').map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOffPeriodThree = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '3').map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
   //
   // F. Setup components
 
@@ -231,6 +304,43 @@ export default function Page() {
             <TextInput label={t('form.description.label')} placeholder={t('form.description.placeholder')} {...form.getInputProps('description')} readOnly={isReadOnly} />
           </SimpleGrid>
         </Section>
+        <Divider />
+        <AppLayoutSection>
+          <SimpleGrid cols={4}>
+            <Button.Group>
+              <Button w="100%" variant="default" onClick={handleTurnOnHolidays}>
+                Ligar Feriados
+              </Button>
+              <Button w="100%" variant="default" onClick={handleTurnOffHolidays}>
+                Desligar Feriados
+              </Button>
+            </Button.Group>
+            <Button.Group>
+              <Button w="100%" variant="default" onClick={handleTurnOnPeriodOne}>
+                Ligar Escolar
+              </Button>
+              <Button w="100%" variant="default" onClick={handleTurnOffPeriodOne}>
+                Desligar Escolar
+              </Button>
+            </Button.Group>
+            <Button.Group>
+              <Button w="100%" variant="default" onClick={handleTurnOnPeriodTwo}>
+                Ligar Férias
+              </Button>
+              <Button w="100%" variant="default" onClick={handleTurnOffPeriodTwo}>
+                Desligar Férias
+              </Button>
+            </Button.Group>
+            <Button.Group>
+              <Button w="100%" variant="default" onClick={handleTurnOnPeriodThree}>
+                Ligar Verão
+              </Button>
+              <Button w="100%" variant="default" onClick={handleTurnOffPeriodThree}>
+                Desligar Verão
+              </Button>
+            </Button.Group>
+          </SimpleGrid>
+        </AppLayoutSection>
         <Divider />
         <HCalendar availableDates={allDatesData} renderCardComponent={renderDateCardComponent} onMultiSelect={handleMultiToggleDates} />
       </form>
