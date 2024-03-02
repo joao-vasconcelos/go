@@ -77,10 +77,10 @@ export default async function handler(req, res) {
 
         /* * * * * * * * * */
 
-        if (associatedCalendarCodes.has('50')) {
-          console.log('Found calendar "50"');
-          associatedCalendarCodes.delete('50');
-          associatedCalendarCodes.add('FER_DU');
+        if (associatedCalendarCodes.has('51')) {
+          console.log('Found calendar "51"');
+          associatedCalendarCodes.delete('51');
+          associatedCalendarCodes.add('VER_DU');
         }
 
         /* * * * * * * * * */
