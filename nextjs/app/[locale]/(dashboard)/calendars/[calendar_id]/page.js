@@ -27,6 +27,7 @@ import CalendarPatternsView from '@/components/CalendarPatternsView/CalendarPatt
 import ListHeader from '@/components/ListHeader/ListHeader';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
+import calculateDateDayType from '@/services/calculateDateDayType';
 
 export default function Page() {
   //
@@ -172,18 +173,54 @@ export default function Page() {
     }
   };
 
-  const handleTurnOnHolidays = () => {
+  const handleTurnOnDayTypeOne = () => {
     if (!allDatesData) return;
-    const matchingDates = allDatesData.filter((dateObj) => dateObj.is_holiday).map((dateObj) => dateObj.date);
+    const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '1').map((dateObj) => dateObj.date);
     if (!matchingDates.length) return;
     const uniqueSetOfDates = new Set(form.values.dates);
     matchingDates.forEach((date) => uniqueSetOfDates.add(date));
     form.setFieldValue('dates', [...uniqueSetOfDates]);
   };
 
-  const handleTurnOffHolidays = () => {
+  const handleTurnOffDayTypeOne = () => {
     if (!allDatesData) return;
-    const matchingDates = allDatesData.filter((dateObj) => dateObj.is_holiday).map((dateObj) => dateObj.date);
+    const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '1').map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOnDayTypeTwo = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '2').map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOffDayTypeTwo = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '2').map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOnDayTypeThree = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '3').map((dateObj) => dateObj.date);
+    if (!matchingDates.length) return;
+    const uniqueSetOfDates = new Set(form.values.dates);
+    matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+    form.setFieldValue('dates', [...uniqueSetOfDates]);
+  };
+
+  const handleTurnOffDayTypeThree = () => {
+    if (!allDatesData) return;
+    const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '3').map((dateObj) => dateObj.date);
     if (!matchingDates.length) return;
     const uniqueSetOfDates = new Set(form.values.dates);
     matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
@@ -306,15 +343,33 @@ export default function Page() {
         </Section>
         <Divider />
         <AppLayoutSection>
-          <SimpleGrid cols={4}>
+          <SimpleGrid cols={3}>
             <Button.Group>
-              <Button w="100%" variant="default" onClick={handleTurnOnHolidays}>
-                Ligar Feriados
+              <Button w="100%" variant="default" onClick={handleTurnOnDayTypeOne}>
+                Ligar Dias Úteis
               </Button>
-              <Button w="100%" variant="default" onClick={handleTurnOffHolidays}>
-                Desligar Feriados
+              <Button w="100%" variant="default" onClick={handleTurnOffDayTypeOne}>
+                Desligar Dias Úteis
               </Button>
             </Button.Group>
+            <Button.Group>
+              <Button w="100%" variant="default" onClick={handleTurnOnDayTypeTwo}>
+                Ligar Sábados
+              </Button>
+              <Button w="100%" variant="default" onClick={handleTurnOffDayTypeTwo}>
+                Desligar Sábados
+              </Button>
+            </Button.Group>
+            <Button.Group>
+              <Button w="100%" variant="default" onClick={handleTurnOnDayTypeThree}>
+                Ligar Domingos e Feriados
+              </Button>
+              <Button w="100%" variant="default" onClick={handleTurnOffDayTypeThree}>
+                Desligar Domingos e Feriados
+              </Button>
+            </Button.Group>
+          </SimpleGrid>
+          <SimpleGrid cols={3}>
             <Button.Group>
               <Button w="100%" variant="default" onClick={handleTurnOnPeriodOne}>
                 Ligar Escolar
