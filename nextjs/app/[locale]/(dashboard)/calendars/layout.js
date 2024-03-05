@@ -8,7 +8,7 @@ import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots, IconPencil } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '@/components/ErrorDisplay';
@@ -81,12 +81,6 @@ export default function Layout({ children }) {
                     <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
                       {t('operations.create.title')}
                     </Menu.Item>
-                    <AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'edit_dates' }]}>
-                      <Menu.Divider />
-                      <Menu.Item leftSection={<IconPencil size={20} />} onClick={() => router.push('/dates')}>
-                        Editar Datas
-                      </Menu.Item>
-                    </AppAuthenticationCheck>
                   </Menu.Dropdown>
                 </Menu>
               </ListHeader>
