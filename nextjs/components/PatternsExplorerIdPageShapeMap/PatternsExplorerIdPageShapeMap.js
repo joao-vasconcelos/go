@@ -4,7 +4,6 @@
 
 import useSWR from 'swr';
 import bbox from '@turf/bbox';
-import { useTranslations } from 'next-intl';
 import { useState, useEffect, useMemo } from 'react';
 import { Switch, SegmentedControl } from '@mantine/core';
 import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
@@ -21,7 +20,6 @@ export default function PatternsExplorerIdPageShapeMap() {
   //
   // A. Setup variables
 
-  const t = useTranslations('PatternsExplorerIdPageShapeMap');
   const linessExplorerContext = useLinesExplorerContext();
   const patternsExplorerContext = usePatternsExplorerContext();
 
