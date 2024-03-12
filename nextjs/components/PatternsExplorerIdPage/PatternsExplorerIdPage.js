@@ -55,11 +55,7 @@ export default function PatternsExplorerIdPage() {
           <div className={`${styles.accordionControl} ${patternsExplorerContext.page.active_section === 'path' && styles.accordionControlActive}`} onClick={() => patternsExplorerContext.updateActiveSection('path')}>
             <AppLayoutSection title={t('sections.path.title')} description={t('sections.path.description')} />
           </div>
-          {patternsExplorerContext.page.active_section === 'path' && (
-            <AppLayoutSection>
-              <PatternsExplorerIdPagePath />
-            </AppLayoutSection>
-          )}
+          {patternsExplorerContext.page.active_section === 'path' && <PatternsExplorerIdPagePath />}
         </div>
 
         <Divider />
@@ -68,11 +64,7 @@ export default function PatternsExplorerIdPage() {
           <div className={`${styles.accordionControl} ${patternsExplorerContext.page.active_section === 'schedules' && styles.accordionControlActive}`} onClick={() => patternsExplorerContext.updateActiveSection('schedules')}>
             <AppLayoutSection title={t('sections.schedules.title')} description={t('sections.schedules.description')} />
           </div>
-          {patternsExplorerContext.page.active_section === 'schedules' && (
-            <AppLayoutSection>
-              <PatternsExplorerIdPageSchedules />
-            </AppLayoutSection>
-          )}
+          {patternsExplorerContext.page.active_section === 'schedules' && <PatternsExplorerIdPageSchedules />}
         </div>
 
         <Divider />
