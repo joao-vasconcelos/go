@@ -3,7 +3,7 @@
 /* * */
 
 import useSWR from 'swr';
-import styles from './LinesVkmSummary.module.css';
+import styles from './LinesExplorerPage.module.css';
 import { DatePickerInput } from '@mantine/dates';
 import { useEffect, useMemo, useState } from 'react';
 import API from '@/services/API';
@@ -27,17 +27,16 @@ const AVAILABLE_EXTENSION_SOURCES = ['shape', 'stop_times', 'go'];
 
 /* * */
 
-export default function LinesVkmSummary() {
+export default function LinesExplorerPage() {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('LinesVkmSummary');
+  const t = useTranslations('LinesExplorerPage');
   const intlFormatter = useFormatter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
 
   const [selectedAgency, setSelectedAgency] = useState(null);
   const [selectedCalculationMethod, setSelectedCalculationMethod] = useState(AVAILABLE_CALCULATION_METHODS[0]);

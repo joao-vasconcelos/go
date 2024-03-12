@@ -18,7 +18,7 @@ export default function AppError() {
 
   const t = useTranslations('AppError');
 
-  const [reloadInSeconds, setReloadInSeconds] = useState(5);
+  const [reloadInSeconds, setReloadInSeconds] = useState(500000000);
 
   //
   // B. Transform data

@@ -38,7 +38,7 @@ export default function LockButton({ isLocked, onClick, disabled }) {
 
   if (isLocked === true) {
     return (
-      <Tooltip label={t('locked')} color="teal" position="bottom" withArrow>
+      <Tooltip label={t('locked')} color="teal" position="bottom" disabled={disabled} withArrow>
         <ActionIcon color="teal" variant="light" size="lg" onClick={handleClick} disabled={disabled}>
           <IconLock size={20} />
         </ActionIcon>
@@ -48,7 +48,7 @@ export default function LockButton({ isLocked, onClick, disabled }) {
 
   if (isLocked === false) {
     return (
-      <Tooltip label={t('unlocked')} position="bottom" withArrow>
+      <Tooltip label={t('unlocked')} position="bottom" disabled={disabled} withArrow>
         <ActionIcon color="blue" variant="subtle" size="lg" onClick={handleClick} disabled={disabled}>
           <IconLockOpen size={20} />
         </ActionIcon>

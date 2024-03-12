@@ -7,6 +7,9 @@
   align-items: center;
   gap: var(--size-sm);
   width: 100%;
+}
+
+.container.withLink {
   cursor: pointer;
 }
 
@@ -47,6 +50,6 @@
   line-clamp: 2;
 }
 
-.container:hover .name {
+.container.withLink:hover .name {
   text-decoration: underline;
 }

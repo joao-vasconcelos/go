@@ -1,3 +1,5 @@
+/* * */
+
 export default function formatSecondsToTime(timeInSeconds) {
   //
   if (!timeInSeconds && timeInSeconds !== 0) return '•••';
@@ -14,5 +16,6 @@ export default function formatSecondsToTime(timeInSeconds) {
     const seconds = timeInSeconds % 60;
     return `${hours} h ${minutes} min ${seconds} seg`;
   }
+
   //
 }

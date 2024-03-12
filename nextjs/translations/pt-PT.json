@@ -572,175 +572,6 @@
             }
         }
     },
-    "lines": {
-        "untitled": "Untitled Line",
-        "list": {
-            "no_selection": "Select a Line",
-            "footer": "Found {count, plural, =1 {1 Line} other {# Lines}}"
-        },
-        "operations": {
-            "create": {
-                "title": "Create New Line",
-                "loading": "Creating new Line...",
-                "success": "A new Line was created!",
-                "error": "An error occurred while creating this Line."
-            },
-            "open_website": {
-                "title": "Open in Website"
-            },
-            "delete": {
-                "title": "Delete Line",
-                "description": "Deleting is irreversible. Are you sure you want to delete this Line forever?",
-                "confirm": "Delete Line Forever",
-                "cancel": "Do Not Delete",
-                "loading": "Deleting Line...",
-                "success": "Line was deleted.",
-                "error": "An error occurred while deleting this Line."
-            },
-            "change_typology": {
-                "title": "Alterar Tipologia",
-                "description": "Ao alterar a tipologia irá também substituir as tarifas associadas a esta linha. Isto terá impacto no preço dos bilhetes de bordo (navegante® a bordo) e pré-pagos (navegante® pré-pago). Tem a certeza que pretende continuar com a alteração de tipologia?",
-                "confirm": "Sim, alterar para {typology_name}",
-                "cancel": "Não, manter como está",
-                "loading": "A alterar tipologia...",
-                "success": "Tipologia alterada.",
-                "error": "Ocorreu um erro ao alterar a tipologia de linha."
-            }
-        },
-        "sections": {
-            "config": {
-                "title": "Details",
-                "description": "Something about this section"
-            },
-            "routes": {
-                "title": "Routes",
-                "description": "Something about this section"
-            },
-            "debug": {
-                "title": "Debug Info",
-                "description": "Something about this section"
-            }
-        },
-        "form": {
-            "code": {
-                "label": "Line Code",
-                "placeholder": "1234"
-            },
-            "name": {
-                "label": "Line Name",
-                "placeholder": "T1"
-            },
-            "short_name": {
-                "label": "Line Short Name",
-                "placeholder": "1234"
-            },
-            "circular": {
-                "label": "Circular Line"
-            },
-            "school": {
-                "label": "School Line"
-            },
-            "continuous": {
-                "label": "Allow pickup and dropoff anywhere"
-            },
-            "transport_type": {
-                "label": "Transport Type",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
-                "options": {
-                    "0": {
-                        "label": "Tram, Streetcar, Light rail",
-                        "description": "Any light rail or street level system within a metropolitan area."
-                    },
-                    "1": {
-                        "label": "Subway, Metro",
-                        "description": "Any underground rail system within a metropolitan area."
-                    },
-                    "2": {
-                        "label": "Rail",
-                        "description": "Used for intercity or long-distance travel."
-                    },
-                    "3": {
-                        "label": "Bus",
-                        "description": "Used for short- and long-distance bus routes."
-                    },
-                    "4": {
-                        "label": "Boat, Ferry",
-                        "description": "Used for short- and long-distance boat service."
-                    },
-                    "5": {
-                        "label": "Cable tram",
-                        "description": "Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco)."
-                    },
-                    "6": {
-                        "label": "Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway)",
-                        "description": "Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables."
-                    },
-                    "7": {
-                        "label": "Funicular",
-                        "description": "Any rail system designed for steep inclines."
-                    },
-                    "11": {
-                        "label": "Trolleybus",
-                        "description": "Electric buses that draw power from overhead wires using poles."
-                    },
-                    "12": {
-                        "label": "Monorail}",
-                        "description": "Railway in which the track consists of a single rail or a beam."
-                    }
-                }
-            },
-            "interchange": {
-                "label": "APEX Interchange",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
-                "options": {
-                    "0": {
-                        "label": "0 - Transbordos não são permitidos"
-                    },
-                    "1": {
-                        "label": "1 - Transbordos são permitidos dentro do mesmo operador"
-                    },
-                    "2": {
-                        "label": "2 - Transbordos devem ser configurados nos ficheiros APEX"
-                    }
-                }
-            },
-            "typology": {
-                "label": "Line Type",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "prepaid_fare": {
-                "label": "Tarifa navegante® pré-pago",
-                "placeholder": "Escolha uma opção...",
-                "nothingFound": "Nenhum Resultado Encontrado"
-            },
-            "onboard_fares": {
-                "label": "Tarifas de Bordo (navegante® a bordo)",
-                "placeholder": "Escolha uma opção...",
-                "nothingFound": "Nenhum Resultado Encontrado"
-            },
-            "fares": {
-                "label": "Associated Fares",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "agency": {
-                "label": "Operated by this Agency",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "routes": {
-                "create": {
-                    "title": "Create New Route",
-                    "loading": "Creating new Route...",
-                    "success": "A new Route was created!",
-                    "error": "An error occurred while creating this Route."
-                }
-            }
-        }
-    },
     "routes": {
         "untitled": "Untitled Route",
         "operations": {
@@ -764,40 +595,6 @@
             "debug": {
                 "title": "Debug Info"
             }
-        },
-        "form": {
-            "code": {
-                "label": "Route Code",
-                "placeholder": "1234_0"
-            },
-            "name": {
-                "label": "Route Name",
-                "placeholder": "Origin - Destination (alternative)"
-            },
-            "path_type": {
-                "label": "Path Type",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
-                "options": {
-                    "1": {
-                        "label": "Base Path"
-                    },
-                    "2": {
-                        "label": "Parcial"
-                    },
-                    "3": {
-                        "label": "Variant"
-                    }
-                }
-            },
-            "patterns": {
-                "create": {
-                    "title": "Create New Pattern",
-                    "loading": "Creating new Pattern...",
-                    "success": "A new Pattern was created!",
-                    "error": "An error occurred while creating this Pattern."
-                }
-            }
         }
     },
     "patterns": {
@@ -817,68 +614,6 @@
                 "loading": "Importing Pattern...",
                 "success": "Pattern was imported.",
                 "error": "An error occurred while importing this Pattern."
-            }
-        },
-        "sections": {
-            "config": {
-                "title": "Details",
-                "description": "Something about this section"
-            },
-            "shape": {
-                "title": "Shape",
-                "description": "Something about this section",
-                "cards": {
-                    "extension": "Shape Extension",
-                    "cost": "Cost for each trip"
-                }
-            },
-            "path": {
-                "title": "Path",
-                "description": "Something about this section"
-            },
-            "schedules": {
-                "title": "Schedules",
-                "description": "Something about this section"
-            },
-            "presets": {
-                "title": "Presets",
-                "description": "Something about this section"
-            },
-            "update_path": {
-                "title": "Update Path",
-                "description": "Something about this section"
-            },
-            "debug": {
-                "title": "Debug Info",
-                "description": "Something about this section"
-            }
-        },
-        "form": {
-            "code": {
-                "label": "Pattern Code",
-                "placeholder": "1234"
-            },
-            "origin": {
-                "label": "Origem",
-                "placeholder": "Campo Grande",
-                "description": "Onde se inicia este percurso."
-            },
-            "destination": {
-                "label": "Destino",
-                "placeholder": "Venda do Pinheiro",
-                "description": "Onde termina este percurso."
-            },
-            "headsign": {
-                "label": "Bandeira / Headsign",
-                "placeholder": "Destination (via Known Place)",
-                "description": "This is what should be displayed outside the bus."
-            },
-            "shape": {
-                "label": "Associated Shape",
-                "placeholder": "Choose an option...",
-                "description": "<link>Open in new tab.</link>",
-                "nothingFound": "No Results Found",
-                "untitled": "Untitled Shape"
             }
         }
     },
@@ -1721,29 +1456,6 @@
             }
         }
     },
-    "ImportPatternFromGTFS": {
-        "title": "These are the Trips found in the uploaded GTFS:",
-        "clear": {
-            "title": "Clear Table"
-        },
-        "import": {
-            "success": "Path imported! ({trip_id})"
-        },
-        "table": {
-            "header": {
-                "route_id": "Route ID",
-                "trip_headsign": "Headsign",
-                "stop_count": "Stop Count",
-                "import": "Import"
-            },
-            "body": {
-                "import": {
-                    "title": "Import Path",
-                    "description": "This will immediately replace all stops for this pattern. This cannot be undone."
-                }
-            }
-        }
-    },
     "GTFSParser": {
         "idle": {
             "title": "Drag here the GTFS archive exported from Remix, or click to select from a folder.",
@@ -1756,138 +1468,6 @@
         "reject": {
             "title": "The selected file cannot be accepted.",
             "description": "Are you sure you have the .zip file exported from Remix?"
-        }
-    },
-    "StopSequenceTable": {
-        "sequence_index": {
-            "label": "Stop sequence",
-            "description": "The sequence of stops in the path."
-        },
-        "stop": {
-            "label": "Stop"
-        },
-        "allow_pickup": {
-            "label": "Allow Pickup",
-            "description": "Passengers can ENTER the vehicle at this stop."
-        },
-        "allow_drop_off": {
-            "label": "Allow Drop Off",
-            "description": "Passengers can EXIT the vehicle at this stop."
-        },
-        "distance_delta": {
-            "label": "Distance between stops",
-            "description": "Distance between previous and current stop.",
-            "placeholder": "0 meters"
-        },
-        "default_velocity": {
-            "label": "Average Speed",
-            "description": "Average speed on the segment between previous and current stop.",
-            "placeholder": "20 km/h"
-        },
-        "default_travel_time": {
-            "label": "Average Travel Time",
-            "description": "Average travel time calculated based on distance and average speed on the segment between previous and current stop.",
-            "placeholder": "20 km/h"
-        },
-        "default_dwell_time": {
-            "label": "Average Dwell Time",
-            "description": "Average time stopped at the current stop picking up and dropping off passengers.",
-            "placeholder": "20 km/h"
-        },
-        "zones": {
-            "label": "Accepted Zones",
-            "placeholder": "Choose an option...",
-            "nothingFound": "No Results Found"
-        },
-        "remove": {
-            "label": "Remove Stop",
-            "description": "Remove this stop from the path sequence."
-        }
-    },
-    "PatternPresetsTable": {
-        "velocity": {
-            "label": "Average Speed",
-            "description": "Average speed on the segment between previous and current stop.",
-            "placeholder": "20 km/h",
-            "apply": "Apply this Velocity to All Stops",
-            "modal": {
-                "title": "Replace Velocities",
-                "description": "Are you sure you want to replace the currently set Velocities with this preset value?",
-                "confirm": "Yes, set this value for all stops",
-                "cancel": "No, leave it as is"
-            },
-            "notification": {
-                "loading": "Updating all stops...",
-                "success": "Velocity for all stops updated to {value}"
-            }
-        },
-        "dwell_time": {
-            "label": "Average Dwell Time",
-            "description": "Average time stopped at the current stop picking up and dropping off passengers.",
-            "placeholder": "20 km/h",
-            "apply": "Apply this Dwell Time to All Stops",
-            "modal": {
-                "title": "Replace Dwell Times",
-                "description": "Are you sure you want to replace the currently set Dwell Times with this preset value?",
-                "confirm": "Yes, set this value for all stops",
-                "cancel": "No, leave it as is"
-            },
-            "notification": {
-                "loading": "Updating all stops...",
-                "success": "Dwell Time for all stops updated to {value}"
-            }
-        }
-    },
-    "SchedulesTable": {
-        "start_time": {
-            "header": {
-                "title": "Start Time"
-            },
-            "label": "Start Time",
-            "placeholder": "00:00",
-            "description": "The start time for this trip."
-        },
-        "calendars_on": {
-            "header": {
-                "title": "Calendars ON",
-                "description": "Set of dates on which this schedule is running."
-            },
-            "label": "Calendars ON",
-            "placeholder": "Choose an option...",
-            "nothingFound": "No Results Found"
-        },
-        "calendars_off": {
-            "header": {
-                "title": "Calendars OFF",
-                "description": "Set of dates to subtract from Calendars ON."
-            },
-            "label": "Calendars OFF",
-            "placeholder": "Choose an option...",
-            "nothingFound": "No Results Found"
-        },
-        "calendar_desc": {
-            "header": {
-                "title": "Calendar Description",
-                "description": "Calendars where this trip does not have service."
-            },
-            "label": "Calendar Description",
-            "placeholder": "Only on the first Sunday of the month",
-            "description": "This field should be filled if this trip has a special calendar."
-        },
-        "remove": {
-            "description": "Remove this schedule",
-            "modal": {
-                "title": "Are you sure you want to remove this schedule?",
-                "description": "Lines, Routes & Patterns",
-                "confirm": "Yes, remove this trip",
-                "cancel": "No, leave it as is"
-            }
-        },
-        "add": {
-            "label": "Add a new trip"
-        },
-        "sort": {
-            "label": "Sort Trips"
         }
     },
     "AlertOptions": {
@@ -2041,7 +1621,7 @@
                 "title": "Eliminar Exportação?",
                 "description": "Ao eliminar a exportação o processamento será imediatamente interrompido e os ficheiros exportados até agora serão eliminados.",
                 "confirm": "Sim, eliminar Exportação",
-                "cancel": "Não, manter como está"
+                "cancel": "Não, deixar como está"
             }
         }
     },
@@ -2138,103 +1718,6 @@
         "label": "View Patterns using this stop"
     },
     "CalendarPatternsViewAsLine": {},
-    "LinesVkmSummary": {
-        "title": "Explorar VKm",
-        "no_data": "Selecione um operador e uma data de início",
-        "form": {
-            "agency": {
-                "label": "Selecione um Operador",
-                "placeholder": "Escolha uma opção...",
-                "nothingFound": "Nenhum Resultado Encontrado"
-            },
-            "calculation_method": {
-                "title": "Sobre o Método de Cálculo",
-                "description": "A forma de cálculo dos VKm é um assunto sensível que deve ser entendido por todos. Dispomos de dois métodos de cálculo deste indicador, mas apenas um é recomendado e é o que deve ser utilizado oficialmente. O método 'Ano Móvel' contabiliza os VKm considerando a data selecionada (ex: hoje) e 1 ano após essa data (ex: de hoje a 1 ano). Isto permite estimar os VKm que serão executados ao longo dos próximos 365 dias, independentemente do ano operacional, e sem cometer o erro de assumir números falsos de circulações ou extensões de percurso do passado.",
-                "options": {
-                    "rolling_year": {
-                        "label": "Ano Móvel (recomendado)"
-                    },
-                    "fixed_range": {
-                        "label": "Intervalo de Datas"
-                    }
-                }
-            },
-            "extension_source": {
-                "title": "Sobre a Extensão do Percurso",
-                "description": "Existem 3 formas de calcular a extensão do percurso, e todas devem devolver aproximadamente o mesmo resultado. A forma recomendada é através da extensão da shape, que é efetivamente a soma da extensão das muitas linhas retas que compõem o percurso de um pattern. Este valor é calculado pelo Remix quando se exporta o GTFS que depois é importado para o GO. A segunda forma é através do valor indicado no stop_times de cada viagem, e apesar deste valor ter de ser muito próximo do anterior, este é calculado intersetando a posição das paragens ao longo do percurso, e por isso introduz um nível extra de erro devido a uma potencial posição errónea das paragens, ou algum caso particular do algoritmo de interseção. Este valor também é calculado pelo Remix. Por fim, existe um terceiro método que é através do re-cálculo da extensão da shape pelo GO, que descarta o valor do Remix e através de um algoritmo semelhante calcula a extensão tendo por base apenas as coordenadas da shape. Este método é útil pois é uniforme para todas as shapes, independentemente de quem gerou o percurso inicial.",
-                "options": {
-                    "shape": {
-                        "label": "Extensão da Shape (recomendado)"
-                    },
-                    "stop_times": {
-                        "label": "Extensão do Stop Times"
-                    },
-                    "go": {
-                        "label": "Uniformização do GO"
-                    }
-                }
-            },
-            "start_date": {
-                "label": "Data de Início",
-                "placeholder": "Escolha uma data..."
-            },
-            "end_date": {
-                "label": "Data de Fim",
-                "placeholder": "Escolha uma data..."
-            }
-        },
-        "sections": {
-            "overview": {
-                "title": "Visão Geral",
-                "description": "Para o operador {agency_name}, o valor do custo total foi calculado tendo por base o valor por Km contratado igual a {price_per_km, number, currency_euro}. Para avaliar se o valor total de Km está dentro dos limites contratados foi considerado como 100% o valor {total_vkm_per_year, number, kilometers}.",
-                "cards": {
-                    "total_from_distance": "Total de Kilómetros Percorridos",
-                    "total_from_shape": "Total (cálculo alternativo)",
-                    "total_relative_to_contract": "Total Relativo ao Contrato",
-                    "total_in_euros": "Custo Total"
-                }
-            },
-            "totals_by_day_type": {
-                "title": "Totais por Dia Tipo",
-                "description": "",
-                "cards": {
-                    "day_type_one": "Dias Úteis",
-                    "day_type_two": "Sábados",
-                    "day_type_three": "Domingos e Feriados"
-                }
-            },
-            "totals_for_period_one": {
-                "title": "Totais para o Período Escolar",
-                "description": "",
-                "cards": {
-                    "period_one": "Período Escolar",
-                    "period_one_and_day_type_one": "Dias Úteis de Período Escolar",
-                    "period_one_and_day_type_two": "Sábados de Período Escolar",
-                    "period_one_and_day_type_three": "Domingos e Feriados de Período Escolar"
-                }
-            },
-            "totals_for_period_two": {
-                "title": "Totais para o Período de Férias Escolares",
-                "description": "",
-                "cards": {
-                    "period_two": "Período de Férias Escolares",
-                    "period_two_and_day_type_one": "Dias Úteis de Férias Escolares",
-                    "period_two_and_day_type_two": "Sábados de Férias Escolares",
-                    "period_two_and_day_type_three": "Domingos e Feriados de Férias Escolares"
-                }
-            },
-            "totals_for_period_three": {
-                "title": "Totais para o Período de Verão",
-                "description": "",
-                "cards": {
-                    "period_three": "Período de Verão",
-                    "period_three_and_day_type_one": "Dias Úteis de Verão",
-                    "period_three_and_day_type_two": "Sábados de Verão",
-                    "period_three_and_day_type_three": "Domingos e Feriados de Verão"
-                }
-            }
-        }
-    },
     "StopsExplorerNewStopWizardHeader": {
         "step_0": {
             "label": "Localização",
@@ -2792,7 +2275,7 @@
                 "title": "Eliminar Comentário",
                 "description": "Este comentário será imediatamente eliminado de forma irreversivel.",
                 "confirm": "Sim, eliminar Comentário",
-                "cancel": "Não, manter como está"
+                "cancel": "Não, deixar como está"
             }
         }
     },
@@ -2819,7 +2302,7 @@
                 "title": "Eliminar Ficheiro",
                 "description": "Este ficheiro será imediatamente eliminado de forma irreversivel.",
                 "confirm": "Sim, eliminar Ficheiro",
-                "cancel": "Não, manter como está"
+                "cancel": "Não, deixar como está"
             }
         }
     },
@@ -2896,7 +2379,7 @@
                 "title": "Alterar tipo de Alerta",
                 "description": "Ao alterar o tipo de alerta irá perder as referências atualmente configuradas. Um alerta apenas pode ser de um tipo. Tem a certeza que pretende fazer esta alteração?",
                 "confirm": "Sim, alterar o tipo e apagar referências",
-                "cancel": "Não, manter como está"
+                "cancel": "Não, deixar como está"
             }
         },
         "form": {
@@ -3869,7 +3352,7 @@
                 "title": "Eliminar Tarifa",
                 "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar esta tarifa para sempre?",
                 "confirm": "Eliminar tarifa para sempre",
-                "cancel": "Não, manter como está",
+                "cancel": "Não, deixar como está",
                 "loading": "A eliminar tarifa...",
                 "success": "Tarifa eliminada.",
                 "error": "Ocorreu um erro ao eliminar esta tarifa."
@@ -3885,7 +3368,7 @@
                 "title": "Nova Tarifa",
                 "loading": "A criar tarifa...",
                 "success": "Foi criada uma nova tarifa!",
-                "error": "Ocorreu um erro ao criar esta tarifa."
+                "error": "Ocorreu um erro ao criar a tarifa."
             }
         }
     },
@@ -3952,7 +3435,7 @@
                 "title": "Eliminar Tipologia",
                 "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar esta tipologia para sempre?",
                 "confirm": "Eliminar tipologia para sempre",
-                "cancel": "Não, manter como está",
+                "cancel": "Não, deixar como está",
                 "loading": "A eliminar tipologia...",
                 "success": "Tipologia eliminada.",
                 "error": "Ocorreu um erro ao eliminar esta tipologia."
@@ -3968,11 +3451,580 @@
                 "title": "Nova Tipologia",
                 "loading": "A criar tipologia...",
                 "success": "Foi criada uma nova tipologia!",
-                "error": "Ocorreu um erro ao criar esta tipologia."
+                "error": "Ocorreu um erro ao criar a tipologia."
             }
         }
     },
     "TypologiesExplorerPage": {
         "no_data": "Nenhuma Tipologia Selecionada"
+    },
+    "LinesExplorerListFooter": {
+        "found_items": "{count, plural, =1 {Encontrada 1 linha} other {Encontradas # linhas}}"
+    },
+    "LinesExplorerListHeader": {
+        "operations": {
+            "create": {
+                "title": "Nova Linha",
+                "loading": "A criar linha...",
+                "success": "Foi criada uma nova linha!",
+                "error": "Ocorreu um erro ao criar a linha."
+            }
+        }
+    },
+    "LinesExplorerPage": {
+        "title": "Explorar VKm",
+        "no_data": "Selecione um operador e uma data de início",
+        "form": {
+            "agency": {
+                "label": "Selecione um Operador",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "calculation_method": {
+                "title": "Sobre o Método de Cálculo",
+                "description": "A forma de cálculo dos VKm é um assunto sensível que deve ser entendido por todos. Dispomos de dois métodos de cálculo deste indicador, mas apenas um é recomendado e é o que deve ser utilizado oficialmente. O método 'Ano Móvel' contabiliza os VKm considerando a data selecionada (ex: hoje) e 1 ano após essa data (ex: de hoje a 1 ano). Isto permite estimar os VKm que serão executados ao longo dos próximos 365 dias, independentemente do ano operacional, e sem cometer o erro de assumir números falsos de circulações ou extensões de percurso do passado.",
+                "options": {
+                    "rolling_year": {
+                        "label": "Ano Móvel (recomendado)"
+                    },
+                    "fixed_range": {
+                        "label": "Intervalo de Datas"
+                    }
+                }
+            },
+            "extension_source": {
+                "title": "Sobre a Extensão do Percurso",
+                "description": "Existem 3 formas de calcular a extensão do percurso, e todas devem devolver aproximadamente o mesmo resultado. A forma recomendada é através da extensão da shape, que é efetivamente a soma da extensão das muitas linhas retas que compõem o percurso de um pattern. Este valor é calculado pelo Remix quando se exporta o GTFS que depois é importado para o GO. A segunda forma é através do valor indicado no stop_times de cada viagem, e apesar deste valor ter de ser muito próximo do anterior, este é calculado intersetando a posição das paragens ao longo do percurso, e por isso introduz um nível extra de erro devido a uma potencial posição errónea das paragens, ou algum caso particular do algoritmo de interseção. Este valor também é calculado pelo Remix. Por fim, existe um terceiro método que é através do re-cálculo da extensão da shape pelo GO, que descarta o valor do Remix e através de um algoritmo semelhante calcula a extensão tendo por base apenas as coordenadas da shape. Este método é útil pois é uniforme para todas as shapes, independentemente de quem gerou o percurso inicial.",
+                "options": {
+                    "shape": {
+                        "label": "Extensão da Shape (recomendado)"
+                    },
+                    "stop_times": {
+                        "label": "Extensão do Stop Times"
+                    },
+                    "go": {
+                        "label": "Uniformização do GO"
+                    }
+                }
+            },
+            "start_date": {
+                "label": "Data de Início",
+                "placeholder": "Escolha uma data..."
+            },
+            "end_date": {
+                "label": "Data de Fim",
+                "placeholder": "Escolha uma data..."
+            }
+        },
+        "sections": {
+            "overview": {
+                "title": "Visão Geral",
+                "description": "Para o operador {agency_name}, o valor do custo total foi calculado tendo por base o valor por Km contratado igual a {price_per_km, number, currency_euro}. Para avaliar se o valor total de Km está dentro dos limites contratados foi considerado como 100% o valor {total_vkm_per_year, number, kilometers}.",
+                "cards": {
+                    "total_from_distance": "Total de Kilómetros Percorridos",
+                    "total_from_shape": "Total (cálculo alternativo)",
+                    "total_relative_to_contract": "Total Relativo ao Contrato",
+                    "total_in_euros": "Custo Total"
+                }
+            },
+            "totals_by_day_type": {
+                "title": "Totais por Dia Tipo",
+                "description": "",
+                "cards": {
+                    "day_type_one": "Dias Úteis",
+                    "day_type_two": "Sábados",
+                    "day_type_three": "Domingos e Feriados"
+                }
+            },
+            "totals_for_period_one": {
+                "title": "Totais para o Período Escolar",
+                "description": "",
+                "cards": {
+                    "period_one": "Período Escolar",
+                    "period_one_and_day_type_one": "Dias Úteis de Período Escolar",
+                    "period_one_and_day_type_two": "Sábados de Período Escolar",
+                    "period_one_and_day_type_three": "Domingos e Feriados de Período Escolar"
+                }
+            },
+            "totals_for_period_two": {
+                "title": "Totais para o Período de Férias Escolares",
+                "description": "",
+                "cards": {
+                    "period_two": "Período de Férias Escolares",
+                    "period_two_and_day_type_one": "Dias Úteis de Férias Escolares",
+                    "period_two_and_day_type_two": "Sábados de Férias Escolares",
+                    "period_two_and_day_type_three": "Domingos e Feriados de Férias Escolares"
+                }
+            },
+            "totals_for_period_three": {
+                "title": "Totais para o Período de Verão",
+                "description": "",
+                "cards": {
+                    "period_three": "Período de Verão",
+                    "period_three_and_day_type_one": "Dias Úteis de Verão",
+                    "period_three_and_day_type_two": "Sábados de Verão",
+                    "period_three_and_day_type_three": "Domingos e Feriados de Verão"
+                }
+            }
+        }
+    },
+    "LinesExplorerIdPage": {
+        "sections": {
+            "intro": {
+                "title": "Configuração desta Linha",
+                "description": ""
+            },
+            "routes": {
+                "title": "Rotas",
+                "description": "Todas as variantes desta linha, incluindo a base."
+            },
+            "debug": {
+                "title": "Debug Info",
+                "description": "Informação adicional para debug."
+            }
+        },
+        "operations": {
+            "change_typology": {
+                "title": "Alterar Tipologia",
+                "description": "Ao alterar a tipologia irá também substituir as tarifas associadas a esta linha. Isto terá impacto no preço dos bilhetes de bordo (navegante® a bordo) e pré-pagos (navegante® pré-pago). Tem a certeza que pretende continuar com a alteração de tipologia?",
+                "confirm": "Sim, alterar para {typology_name}",
+                "cancel": "Não, deixar como está",
+                "loading": "A alterar tipologia...",
+                "success": "Tipologia alterada.",
+                "error": "Ocorreu um erro ao alterar a tipologia de linha."
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Código da Linha",
+                "placeholder": "1234"
+            },
+            "name": {
+                "label": "Nome da Linha",
+                "placeholder": "Início - Fim (Ponto de Interesse)"
+            },
+            "short_name": {
+                "label": "Nome Curto",
+                "placeholder": "1234"
+            },
+            "circular": {
+                "label": "Linha Circular"
+            },
+            "school": {
+                "label": "Linha Escolar"
+            },
+            "continuous": {
+                "label": "Permitir entradas e saídas em qualquer lugar (linha azul)"
+            },
+            "transport_type": {
+                "label": "Tipo de Veículo",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "interchange": {
+                "label": "APEX Interchange",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "typology": {
+                "label": "Tipologia",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "prepaid_fare": {
+                "label": "Tarifa navegante® pré-pago",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "onboard_fares": {
+                "label": "Tarifas de Bordo (navegante® a bordo)",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "agency": {
+                "label": "Operador",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "routes": {
+                "create": {
+                    "title": "Adicionar Rota",
+                    "loading": "A criar rota...",
+                    "success": "Foi criada uma nova rota para esta linha!",
+                    "error": "Ocorreu um erro ao criar a rota."
+                }
+            }
+        }
+    },
+    "LineOptions": {
+        "transport_type": {
+            "0": {
+                "label": "Tram, Streetcar, Light rail",
+                "description": "Any light rail or street level system within a metropolitan area."
+            },
+            "1": {
+                "label": "Subway, Metro",
+                "description": "Any underground rail system within a metropolitan area."
+            },
+            "2": {
+                "label": "Rail",
+                "description": "Used for intercity or long-distance travel."
+            },
+            "3": {
+                "label": "Bus",
+                "description": "Used for short- and long-distance bus routes."
+            },
+            "4": {
+                "label": "Boat, Ferry",
+                "description": "Used for short- and long-distance boat service."
+            },
+            "5": {
+                "label": "Cable tram",
+                "description": "Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco)."
+            },
+            "6": {
+                "label": "Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway)",
+                "description": "Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables."
+            },
+            "7": {
+                "label": "Funicular",
+                "description": "Any rail system designed for steep inclines."
+            },
+            "11": {
+                "label": "Trolleybus",
+                "description": "Electric buses that draw power from overhead wires using poles."
+            },
+            "12": {
+                "label": "Monorail}",
+                "description": "Railway in which the track consists of a single rail or a beam."
+            }
+        },
+        "interchange": {
+            "0": {
+                "label": "0 - Transbordos não são permitidos"
+            },
+            "1": {
+                "label": "1 - Transbordos são permitidos dentro do mesmo operador"
+            },
+            "2": {
+                "label": "2 - Transbordos devem ser configurados nos ficheiros APEX"
+            }
+        }
+    },
+    "LinesExplorerIdPageHeader": {
+        "untitled": "Linha sem Título",
+        "operations": {
+            "delete": {
+                "title": "Eliminar Linha",
+                "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar esta linha para sempre?",
+                "confirm": "Eliminar linha para sempre",
+                "cancel": "Não, deixar como está",
+                "loading": "A eliminar linha...",
+                "success": "Linha eliminada.",
+                "error": "Ocorreu um erro ao eliminar esta linha."
+            }
+        }
+    },
+    "RoutesExplorerIdPage": {
+        "sections": {
+            "intro": {
+                "title": "Configuração desta Rota",
+                "description": ""
+            },
+            "patterns": {
+                "title": "Patterns",
+                "description": "Todos os percursos desta rota. No máximo, uma rota pode ter dois percursos: o de ida e o de volta."
+            },
+            "debug": {
+                "title": "Debug Info",
+                "description": "Informação adicional para debug."
+            }
+        },
+        "operations": {
+            "change_typology": {
+                "title": "Alterar Tipologia",
+                "description": "Ao alterar a tipologia irá também substituir as tarifas associadas a esta linha. Isto terá impacto no preço dos bilhetes de bordo (navegante® a bordo) e pré-pagos (navegante® pré-pago). Tem a certeza que pretende continuar com a alteração de tipologia?",
+                "confirm": "Sim, alterar para {typology_name}",
+                "cancel": "Não, deixar como está",
+                "loading": "A alterar tipologia...",
+                "success": "Tipologia alterada.",
+                "error": "Ocorreu um erro ao alterar a tipologia de linha."
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Route Code",
+                "placeholder": "1234_0"
+            },
+            "name": {
+                "label": "Route Name",
+                "placeholder": "Origin - Destination (alternative)"
+            },
+            "path_type": {
+                "label": "Path Type",
+                "placeholder": "Choose an option...",
+                "nothingFound": "No Results Found",
+                "options": {
+                    "1": {
+                        "label": "Base Path"
+                    },
+                    "2": {
+                        "label": "Parcial"
+                    },
+                    "3": {
+                        "label": "Variant"
+                    }
+                }
+            },
+            "patterns": {
+                "create": {
+                    "title": "Create New Pattern",
+                    "loading": "Creating new Pattern...",
+                    "success": "A new Pattern was created!",
+                    "error": "An error occurred while creating this Pattern."
+                }
+            }
+        }
+    },
+    "RouteOptions": {
+        "path_type": {
+            "1": {
+                "label": "Rota Base (Principal)"
+            },
+            "2": {
+                "label": "Parcelar"
+            },
+            "3": {
+                "label": "Variante"
+            }
+        }
+    },
+    "RoutesExplorerIdPageHeader": {
+        "untitled": "Rota sem Título",
+        "operations": {
+            "delete": {
+                "title": "Eliminar Rota",
+                "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar esta rota para sempre?",
+                "confirm": "Eliminar rota para sempre",
+                "cancel": "Não, deixar como está",
+                "loading": "A eliminar rota...",
+                "success": "Rota eliminada.",
+                "error": "Ocorreu um erro ao eliminar esta rota."
+            }
+        }
+    },
+    "PatternsExplorerPattern": {
+        "untitled": "Pattern sem headsign"
+    },
+    "PatternsExplorerIdPage": {
+        "sections": {
+            "intro": {
+                "title": "Configuração deste Pattern",
+                "description": ""
+            },
+            "shape": {
+                "title": "Shape",
+                "description": "O percurso geográfico deste pattern."
+            },
+            "path": {
+                "title": "Sequência de Paragens",
+                "description": "Todas as paragens servidas por este pattern."
+            },
+            "schedules": {
+                "title": "Horários",
+                "description": "Todos os horários deste pattern."
+            },
+            "presets": {
+                "title": "Predefinições",
+                "description": "Configurações e valores predefinidos para este pattern."
+            },
+            "update_path": {
+                "title": "Atualizar Percurso",
+                "description": "Atualizar a shape e sequência de paragens com a importação de um GTFS-Remix."
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Código do Pattern",
+                "placeholder": "1234_0_1"
+            },
+            "origin": {
+                "label": "Origem",
+                "placeholder": "Campo Grande",
+                "description": "Onde se inicia este percurso."
+            },
+            "destination": {
+                "label": "Destino",
+                "placeholder": "Venda do Pinheiro",
+                "description": "Onde termina este percurso."
+            },
+            "headsign": {
+                "label": "Bandeira / Headsign",
+                "placeholder": "Destination (via Known Place)",
+                "description": "This is what should be displayed outside the bus."
+            }
+        }
+    },
+    "PatternsExplorerIdPageShape": {
+        "cards": {
+            "extension": "Extensão da Shape",
+            "cost": "Custo de cada Viagem"
+        }
+    },
+    "PatternsExplorerIdPageHeader": {
+        "untitled": "Pattern sem headsign",
+        "operations": {
+            "delete": {
+                "title": "Elmiinar Pattern",
+                "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar este pattern para sempre?",
+                "confirm": "Eliminar pattern para sempre",
+                "cancel": "Não, deixar como está",
+                "loading": "A eliminar pattern...",
+                "success": "Pattern eliminado.",
+                "error": "Ocorreu um erro ao eliminar este pattern."
+            }
+        }
+    },
+    "PatternsExplorerIdPagePath": {
+        "sequence_index": {
+            "label": "Índice da Paragem",
+            "description": "A sequência de paragens deste pattern."
+        },
+        "stop": {
+            "label": "Paragem"
+        },
+        "allow_pickup": {
+            "label": "Permitir Embarque",
+            "description": "É permitida a entrada de passageiros nesta paragem."
+        },
+        "allow_drop_off": {
+            "label": "Permitir Desembarque",
+            "description": "Os passageiros podem sair do veículo nesta paragem."
+        },
+        "distance_delta": {
+            "label": "Distância entre paragens",
+            "description": "Distância entre esta paragem e a anterior.",
+            "placeholder": "0 metros"
+        },
+        "default_velocity": {
+            "label": "Velocidade Média",
+            "description": "Velocidade média no segmente entre esta paragem e a anterior.",
+            "placeholder": "20 km/h"
+        },
+        "default_travel_time": {
+            "label": "Tempo Médio de Viagem",
+            "description": "Tempo médio de viagem calculado com base na distância e na velocidade média no segmento entre esta paragem e a anterior.",
+            "placeholder": "2 min"
+        },
+        "default_dwell_time": {
+            "label": "Tempo de Paragem",
+            "description": "Tempo estimado em que o veículo está parado nesta paragem para a entrada e saída de passageiros.",
+            "placeholder": "30 seg"
+        },
+        "zones": {
+            "label": "Afetação",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        }
+    },
+    "PatternsExplorerIdPageSchedules": {
+        "start_time": {
+            "header": {
+                "title": "Horário"
+            },
+            "label": "Hora de Início",
+            "placeholder": "00:00",
+            "description": "A hora de início desta viagem."
+        },
+        "calendars_on": {
+            "header": {
+                "title": "Calendários ON",
+                "description": "Conjuntos de datas em que este horário ocorre."
+            },
+            "label": "Calendários ON",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        },
+        "calendars_off": {
+            "header": {
+                "title": "Calendários OFF",
+                "description": "Conjuntos de datas a subtrair aos Calendários ON"
+            },
+            "label": "Calendários OFF",
+            "placeholder": "Escolha uma opção...",
+            "nothingFound": "Nenhum Resultado Encontrado"
+        },
+        "remove": {
+            "description": "Remover este horário",
+            "modal": {
+                "title": "Tem a certeza que pretende eliminar este horário?",
+                "description": "Não é possível voltar atrás e será necessário reconstruir o conjunto de calendários associados a esta viagem.",
+                "confirm": "Sim, elimnar esta viagem",
+                "cancel": "Não, deixar como está"
+            }
+        },
+        "add": {
+            "label": "Adicionar uma nova Viagem"
+        },
+        "sort": {
+            "label": "Ordernar Viagens pela hora de início"
+        }
+    },
+    "PatternsExplorerIdPagePresets": {
+        "velocity": {
+            "label": "Velocidade Média",
+            "description": "Velocidade média por defeito para todos os segmentos entre paragens.",
+            "placeholder": "20 km/h",
+            "apply": "Aplicar esta velocidade a todas as paragens",
+            "modal": {
+                "title": "Substituir valores já existentes?",
+                "description": "Tem a certeza que pretende substituir os valores de Velocidade Média de todas as paragens por este novo valor?",
+                "confirm": "Sim, aplicar este novo valor a todas as paragens",
+                "cancel": "Não, deixar como está"
+            },
+            "notification": {
+                "loading": "A atualizar todas as paragens...",
+                "success": "Velocidade média atualizadas para {value}"
+            }
+        },
+        "dwell_time": {
+            "label": "Tempo de Paragem",
+            "description": "Tempo estimado em que o veículo está parado nesta paragem para a entrada e saída de passageiros.",
+            "placeholder": "30 seg",
+            "apply": "Aplicar este tempo de permanência a todas as paragens",
+            "modal": {
+                "title": "Substituir valores já existentes?",
+                "description": "Tem a certeza que pretende substituir os valores de tempo de permanência de todas as paragens por este novo valor?",
+                "confirm": "Sim, aplicar este novo valor a todas as paragens",
+                "cancel": "Não, deixar como está"
+            },
+            "notification": {
+                "loading": "A atualizar todas as paragens...",
+                "success": "Tempo de paragem atualizado para {value}"
+            }
+        }
+    },
+    "PatternsExplorerIdPageImport": {
+        "title": "Estes foram todos os percursos encontrados no GTFS:",
+        "clear": {
+            "title": "Limpar tabela"
+        },
+        "import": {
+            "success": "Percurso importado! ({trip_id})"
+        },
+        "table": {
+            "header": {
+                "route_id": "Route ID",
+                "trip_headsign": "Headsign",
+                "stop_count": "Nº de Paragens",
+                "import": ""
+            },
+            "body": {
+                "import": {
+                    "title": "Importar Percurso",
+                    "description": "Esta ação vai imediatamente substituir a shape e todas as paragens deste pattern. Não é possível voltar atrás."
+                }
+            }
+        }
     }
 }

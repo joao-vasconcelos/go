@@ -1,0 +1,47 @@
+/* * */
+/* ACCORDION WRAPPER */
+
+.accordionWrapper,
+.accordionWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* * */
+/* ACCORDION CONTROL */
+
+.accordionControl {
+  padding: 10px;
+}
+
+.accordionControl:hover,
+.accordionControlActive,
+.accordionControlActive:hover {
+  cursor: pointer;
+  background-color: var(--color-gray-0);
+}
+
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+/* * */
+
+/* * */
+/* ACCORDION CONTROL */
+
+.accordionControl {
+  padding-inline-end: 30px;
+}
+
+/* * */
+/* ACCORDION CONTENT */
+
+.accordionContent {
+  padding: 0;
+  padding-inline: 0;
+}

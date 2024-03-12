@@ -1,23 +1,28 @@
 'use client';
 
-import styles from './ImportPatternFromGTFS.module.css';
+/* * */
+
+import styles from './PatternsExplorerIdPageImport.module.css';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import GTFSParser from '@/components/GTFSParser/GTFSParser';
-import { Button, Tooltip } from '@mantine/core';
+import { Button, Divider, SimpleGrid, Text, Tooltip } from '@mantine/core';
 import notify from '@/services/notify';
+import { usePatternsExplorerContext } from '@/contexts/PatternsExplorerContext';
+import { openConfirmModal } from '@mantine/modals';
 
-//
+/* * */
 
-export default function ImportPatternFromGTFS({ onImport }) {
+export default function PatternsExplorerIdPageImport() {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('ImportPatternFromGTFS');
-  const [isParsing, setIsParsing] = useState(false);
-  const [hasParseError, setHasParseError] = useState(false);
+  const t = useTranslations('PatternsExplorerIdPageImport');
+
+  const patternsExplorerContext = usePatternsExplorerContext();
+
   const [parseResult, setParseResult] = useState();
 
   //
@@ -25,8 +30,6 @@ export default function ImportPatternFromGTFS({ onImport }) {
 
   const handleParse = (gtfsAsJson) => {
     try {
-      setHasParseError();
-      setIsParsing(true);
       const trips = [];
       for (const route of gtfsAsJson) {
         for (const trip of route.trips) {
@@ -34,26 +37,54 @@ export default function ImportPatternFromGTFS({ onImport }) {
         }
       }
       setParseResult(trips);
-      setIsParsing(false);
     } catch (err) {
       console.log(err);
       setParseResult();
-      setHasParseError(err);
     }
   };
 
   const handleClearTable = () => {
     setParseResult();
-    setIsParsing();
-    setHasParseError();
   };
 
   const handlePathImport = (trip) => {
-    onImport({ shape: trip.shape.points, path: trip.path });
-    // setParseResult();
-    // setIsParsing();
-    // setHasParseError();
-    notify('pattern-import', 'success', t('import.success', { trip_id: trip.trip_id }));
+    openConfirmModal({
+      title: (
+        <Text size={'lg'} fw={700}>
+          Replace Path and Shape?
+        </Text>
+      ),
+      centered: true,
+      closeOnClickOutside: true,
+      children: (
+        <SimpleGrid cols={1}>
+          <Text>Tem a certeza que pretende importar este pattern?</Text>
+          <Divider />
+          <div>
+            <Text>COMO ESTÁ AGORA</Text>
+            <Text>Paragens: {patternsExplorerContext.item_data?.path.length}</Text>
+            <Text>Shape: {patternsExplorerContext.item_data?.shape.extension} metros</Text>
+          </div>
+          <Divider />
+          <div>
+            <Text>COMO VAI FICAR DEPOIS DE IMPORTAR</Text>
+            <Text>Paragens: {trip.path.length}</Text>
+            <Text>Shape: {parseInt(trip.shape.points[trip.shape.points.length - 1].shape_dist_traveled)} metros</Text>
+          </div>
+        </SimpleGrid>
+      ),
+      labels: { confirm: 'Sim, importar percurso', cancel: 'Manter como está' },
+      onConfirm: async () => {
+        try {
+          notify('pattern-import', 'loading', t('import.loading'));
+          await patternsExplorerContext.importPatternFromGtfs({ shape: trip.shape.points, path: trip.path });
+          notify('pattern-import', 'success', t('import.success', { trip_id: trip.trip_id }));
+        } catch (err) {
+          console.log(err);
+          notify('pattern-import', 'error', err.message || t('import.error'));
+        }
+      },
+    });
   };
 
   //
@@ -76,8 +107,8 @@ export default function ImportPatternFromGTFS({ onImport }) {
           <div className={styles.tableBodyColumn}>{trip.trip_headsign}</div>
           <div className={styles.tableBodyColumn}>{trip.path.length}</div>
           <div className={styles.tableBodyColumn}>
-            <Tooltip label={t('table.body.import.description')} color='red' width={220} multiline withArrow>
-              <Button size='xs' onClick={() => handlePathImport(trip)}>
+            <Tooltip label={t('table.body.import.description')} color="red" width={220} multiline withArrow>
+              <Button size="xs" onClick={() => handlePathImport(trip)}>
                 {t('table.body.import.title')}
               </Button>
             </Tooltip>
@@ -95,7 +126,7 @@ export default function ImportPatternFromGTFS({ onImport }) {
         <TableBody />
       </div>
       <div>
-        <Button size='xs' variant='light' color='gray' onClick={handleClearTable}>
+        <Button size="xs" variant="light" color="gray" onClick={handleClearTable}>
           {t('clear.title')}
         </Button>
       </div>

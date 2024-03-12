@@ -49,9 +49,7 @@ export default async function handler(req, res) {
   // List all documents
 
   try {
-    const allDocuments = await LineModel.find({ agency: { $in: sessionData.user.permissions.lines.view.fields.agencies } })
-      .sort({ code: 1 })
-      .populate('typology');
+    const allDocuments = await LineModel.find({ agency: { $in: sessionData.user.permissions.lines.view.fields.agencies } }).sort({ code: 1 });
     return await res.status(200).send(allDocuments);
   } catch (err) {
     console.log(err);
