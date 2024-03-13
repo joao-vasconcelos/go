@@ -302,7 +302,8 @@ async function parseZoning(agencyData, lineData, patternData, exportOptions) {
       const stopData = await StopModel.findOne({ _id: pathData.stop }, 'code name zones');
       const allZonesData = await ZoneModel.find({ _id: pathData.zones }, 'code name');
       // Prepare zones in the file format
-      let formattedZones = allZonesData.map((zone) => zone.code).join('|');
+      let formattedZoneNames = allZonesData.map((zone) => zone.name).join('|');
+      let formattedZoneCodes = allZonesData.map((zone) => zone.code).join('|');
       // Prepare fares in the file format
       let formattedOnboardFares = lineData.onboard_fares.map((onboardFare) => onboardFare.code).join('|');
       // Write the afetacao.txt entry for this path
@@ -314,7 +315,8 @@ async function parseZoning(agencyData, lineData, patternData, exportOptions) {
         stop_id: stopData.code,
         stop_name: stopData.name || '',
         line_type: lineData.typology.code || '',
-        accepted_zones: formattedZones,
+        accepted_zone_names: formattedZoneNames,
+        accepted_zone_codes: formattedZones,
         onboard_fares: formattedOnboardFares,
         prepaid_fare: lineData.prepaid_fare?.code || '',
         prepaid_fare_price: lineData.prepaid_fare?.price || '0',
