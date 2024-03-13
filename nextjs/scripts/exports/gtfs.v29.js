@@ -316,7 +316,7 @@ async function parseZoning(agencyData, lineData, patternData, exportOptions) {
         stop_name: stopData.name || '',
         line_type: lineData.typology.code || '',
         accepted_zone_names: formattedZoneNames,
-        accepted_zone_codes: formattedZones,
+        accepted_zone_codes: formattedZoneCodes,
         onboard_fares: formattedOnboardFares,
         prepaid_fare: lineData.prepaid_fare?.code || '',
         prepaid_fare_price: lineData.prepaid_fare?.price || '0',
