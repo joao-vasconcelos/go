@@ -63,6 +63,7 @@ export const UserDefault = {
       lock: { is_allowed: false },
       create: { is_allowed: false },
       delete: { is_allowed: false },
+      export: { is_allowed: false },
       navigate: { is_allowed: false },
     },
     //

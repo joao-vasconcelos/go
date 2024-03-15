@@ -112,7 +112,6 @@ export default async function handler(req, res) {
   // Read the previously zipped archive from the filesystem and pipe it to the response.
 
   try {
-    console.log(foundDocuments);
     const parsedCsvData = Papa.unparse(foundDocuments, { skipEmptyLines: 'greedy', newline: '\n', header: true });
     await res.writeHead(200, { 'Content-Type': 'text/csv', 'Content-Disposition': `attachment; filename=stops.txt` }).send(parsedCsvData);
   } catch (err) {

@@ -79,6 +79,7 @@ export const UserSchema = new mongoose.Schema(
         lock: { is_allowed: { type: Boolean } },
         create: { is_allowed: { type: Boolean } },
         delete: { is_allowed: { type: Boolean } },
+        export: { is_allowed: { type: Boolean } },
         navigate: { is_allowed: { type: Boolean } },
       },
       //

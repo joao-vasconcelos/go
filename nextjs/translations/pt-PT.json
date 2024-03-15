@@ -2538,6 +2538,10 @@
             "label": "Eliminar Paragens",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         },
+        "export": {
+            "label": "Exportar Paragens",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
         "navigate": {
             "label": "Aceder à página das Paragens",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
