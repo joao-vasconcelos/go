@@ -9,6 +9,7 @@ import shortenStopName from '@/services/shortenStopName';
 import { StopOptions } from '@/schemas/Stop/options';
 import { useRouter } from 'next/navigation';
 import API from '@/services/API';
+import StopsExplorerNewStopWizard from '@/components/StopsExplorerNewStopWizard/StopsExplorerNewStopWizard';
 
 /* * */
 
@@ -157,12 +158,16 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
   );
 
   const setNewStopName = useCallback((name) => {
-    // Validate stop name
-    let parsedStopName = name;
     // Remove double spaces
-    parsedStopName = parsedStopName.replace(/\s\s+/g, ' ');
+    const parsedStopName = name.replace(/\s\s+/g, ' ');
+    // Copy the name first
+    let shortenedStopName = parsedStopName;
+    // Shorten the stop name
+    StopOptions.name_abbreviations.forEach((abbreviation) => {
+      shortenedStopName = shortenedStopName.replace(abbreviation.phrase, abbreviation.replacement);
+    });
     // Set new stop info
-    setNewStopState((prev) => ({ ...prev, name: parsedStopName, short_name: shortenStopName(parsedStopName) }));
+    setNewStopState((prev) => ({ ...prev, name: parsedStopName, short_name: shortenedStopName }));
   }, []);
 
   const setNewStopLocality = useCallback((locality) => {
@@ -219,7 +224,12 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
   //
   // D. Return provider
 
-  return <StopsExplorerNewStopWizardContext.Provider value={contextObject}>{children}</StopsExplorerNewStopWizardContext.Provider>;
+  return (
+    <StopsExplorerNewStopWizardContext.Provider value={contextObject}>
+      <StopsExplorerNewStopWizard />
+      {children}
+    </StopsExplorerNewStopWizardContext.Provider>
+  );
 
   //
 }

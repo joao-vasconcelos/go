@@ -82,7 +82,7 @@ export default async function handler(req, res) {
 
   try {
     fareDocument = await FareModel.findOne({ _id: { $eq: req.query._id } });
-    if (!fareDocument) return await res.status(404).json({ message: `Fare with _id: ${req.query._id} not found.` });
+    if (!fareDocument) return await res.status(404).json({ message: `Fare with _id "${req.query._id}" not found.` });
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Fare not found.' });
@@ -114,7 +114,7 @@ export default async function handler(req, res) {
 
   try {
     const editedDocument = await FareModel.replaceOne({ _id: { $eq: req.query._id } }, req.body, { new: true });
-    if (!editedDocument) return await res.status(404).json({ message: `Fare with _id: ${req.query._id} not found.` });
+    if (!editedDocument) return await res.status(404).json({ message: `Fare with _id "${req.query._id}" not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);

@@ -84,11 +84,11 @@ export default function StopsExplorerNewStopWizardSteps0Map() {
     stopsExplorerNewStopWizardContext.setNewStopCoordinates(event.lngLat.lat, event.lngLat.lng);
   };
 
-  const handleMapDragStart = (event) => {
+  const handleMapDragStart = () => {
     stopsExplorerNewStopWizardSteps0Map.getCanvas().style.cursor = 'grabbing';
   };
 
-  const handleMapDragEnd = (event) => {
+  const handleMapDragEnd = () => {
     stopsExplorerNewStopWizardSteps0Map.getCanvas().style.cursor = 'crosshair';
   };
 

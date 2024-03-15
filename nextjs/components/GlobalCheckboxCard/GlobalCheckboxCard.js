@@ -25,7 +25,7 @@ export default function GlobalCheckboxCard({ label = '', description = '', value
         <Checkbox checked={value} onChange={() => {}} size="md" readOnly={readOnly} disabled={disabled} />
         <div className={styles.innerWrapper}>
           <p className={styles.label}>{label}</p>
-          <p className={styles.description}>{description}</p>
+          {description && <p className={styles.description}>{description}</p>}
           {children && (
             <div className={styles.childrenWrapper} onClick={(e) => e.stopPropagation()}>
               {children}

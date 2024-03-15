@@ -72,6 +72,10 @@ export const UserSchema = new mongoose.Schema(
       stops: {
         view: { is_allowed: { type: Boolean } },
         edit: { is_allowed: { type: Boolean } },
+        edit_code: { is_allowed: { type: Boolean } },
+        edit_name: { is_allowed: { type: Boolean } },
+        edit_location: { is_allowed: { type: Boolean } },
+        edit_zones: { is_allowed: { type: Boolean } },
         lock: { is_allowed: { type: Boolean } },
         create: { is_allowed: { type: Boolean } },
         delete: { is_allowed: { type: Boolean } },

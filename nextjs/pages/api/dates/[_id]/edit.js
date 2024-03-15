@@ -62,7 +62,7 @@ export default async function handler(req, res) {
 
   try {
     foundDocument = await DateModel.findOne({ _id: { $eq: req.query._id } });
-    if (!foundDocument) return await res.status(404).json({ message: `Date with _id: ${req.query._id} not found.` });
+    if (!foundDocument) return await res.status(404).json({ message: `Date with _id "${req.query._id}" not found.` });
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Date not found.' });
@@ -94,7 +94,7 @@ export default async function handler(req, res) {
 
   try {
     const editedDocument = await DateModel.replaceOne({ _id: { $eq: req.query._id } }, req.body, { new: true });
-    if (!editedDocument) return await res.status(404).json({ message: `Date with _id: ${req.query._id} not found.` });
+    if (!editedDocument) return await res.status(404).json({ message: `Date with _id "${req.query._id}" not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);

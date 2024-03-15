@@ -69,7 +69,7 @@ export default function StopsExplorerNewStopWizardSteps0Info() {
           <span className={styles.municipalityName}>{stopsExplorerNewStopWizardContext.newStop.municipality?.name}</span>
         </div>
       ) : (
-        <div className={styles.invalidMunicipality}>Município Inválido</div>
+        <div className={styles.invalidMunicipality}>{t('invalid_municipality')}</div>
       )}
       <div className={styles.coordinates}>
         <div className={styles.coordinatesValue} onClick={handleCopyLatitude}>

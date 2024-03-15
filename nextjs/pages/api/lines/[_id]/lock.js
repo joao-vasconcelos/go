@@ -43,7 +43,7 @@ export default async function handler(req, res) {
 
   try {
     lineDocument = await LineModel.findOne({ _id: { $eq: req.query._id } });
-    if (!lineDocument) return await res.status(404).json({ message: `Line with _id: ${req.query._id} not found.` });
+    if (!lineDocument) return await res.status(404).json({ message: `Line with _id "${req.query._id}" not found.` });
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Line not found.' });

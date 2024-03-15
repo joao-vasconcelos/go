@@ -25,6 +25,34 @@ export default function UsersExplorerIdPagePermissionsStops() {
     <AppLayoutSection>
       <GlobalCheckboxCard label={t('view.label')} description={t('view.description')} {...usersExplorerContext.form.getInputProps('permissions.stops.view.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />
       <GlobalCheckboxCard label={t('edit.label')} description={t('edit.description')} {...usersExplorerContext.form.getInputProps('permissions.stops.edit.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} disabled={!usersExplorerContext.form.values.permissions.stops.view.is_allowed} />
+      <GlobalCheckboxCard
+        label={t('edit_code.label')}
+        description={t('edit_code.description')}
+        {...usersExplorerContext.form.getInputProps('permissions.stops.edit_code.is_allowed')}
+        readOnly={usersExplorerContext.page.is_read_only}
+        disabled={!usersExplorerContext.form.values.permissions.stops.view.is_allowed || !usersExplorerContext.form.values.permissions.stops.edit.is_allowed}
+      />
+      <GlobalCheckboxCard
+        label={t('edit_name.label')}
+        description={t('edit_name.description')}
+        {...usersExplorerContext.form.getInputProps('permissions.stops.edit_name.is_allowed')}
+        readOnly={usersExplorerContext.page.is_read_only}
+        disabled={!usersExplorerContext.form.values.permissions.stops.view.is_allowed || !usersExplorerContext.form.values.permissions.stops.edit.is_allowed}
+      />
+      <GlobalCheckboxCard
+        label={t('edit_location.label')}
+        description={t('edit_location.description')}
+        {...usersExplorerContext.form.getInputProps('permissions.stops.edit_location.is_allowed')}
+        readOnly={usersExplorerContext.page.is_read_only}
+        disabled={!usersExplorerContext.form.values.permissions.stops.view.is_allowed || !usersExplorerContext.form.values.permissions.stops.edit.is_allowed}
+      />
+      <GlobalCheckboxCard
+        label={t('edit_zones.label')}
+        description={t('edit_zones.description')}
+        {...usersExplorerContext.form.getInputProps('permissions.stops.edit_zones.is_allowed')}
+        readOnly={usersExplorerContext.page.is_read_only}
+        disabled={!usersExplorerContext.form.values.permissions.stops.view.is_allowed || !usersExplorerContext.form.values.permissions.stops.edit.is_allowed}
+      />
       <GlobalCheckboxCard label={t('lock.label')} description={t('lock.description')} {...usersExplorerContext.form.getInputProps('permissions.stops.lock.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} disabled={!usersExplorerContext.form.values.permissions.stops.view.is_allowed} />
       <GlobalCheckboxCard
         label={t('create.label')}

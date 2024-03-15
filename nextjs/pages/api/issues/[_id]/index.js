@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 
   try {
     const foundDocument = await IssueModel.findOne({ _id: { $eq: req.query._id } });
-    if (!foundDocument) return await res.status(404).json({ message: `Issue with _id: ${req.query._id} not found.` });
+    if (!foundDocument) return await res.status(404).json({ message: `Issue with _id "${req.query._id}" not found.` });
     return await res.status(200).json(foundDocument);
   } catch (err) {
     console.log(err);

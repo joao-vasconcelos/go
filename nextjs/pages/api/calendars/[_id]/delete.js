@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
   try {
     const deletedDocument = await CalendarModel.findOneAndDelete({ _id: { $eq: req.query._id } });
-    if (!deletedDocument) return await res.status(404).json({ message: `Calendar with _id: ${req.query._id} not found.` });
+    if (!deletedDocument) return await res.status(404).json({ message: `Calendar with _id "${req.query._id}" not found.` });
     return await res.status(200).send(deletedDocument);
   } catch (err) {
     console.log(err);

@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 
   try {
     patternDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } });
-    if (!patternDocument) return await res.status(404).json({ message: `Pattern with _id: ${req.query._id} not found.` });
+    if (!patternDocument) return await res.status(404).json({ message: `Pattern with _id "${req.query._id}" not found.` });
   } catch (err) {
     console.log(err);
     return await res.status(500).json({ message: 'Pattern not found.' });

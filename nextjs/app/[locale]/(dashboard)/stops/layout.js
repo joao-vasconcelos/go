@@ -1,16 +1,9 @@
-'use client';
-
 /* * */
 
-import { StopsExplorerNewStopWizardContextProvider } from '@/contexts/StopsExplorerNewStopWizardContext';
-import StopsExplorerLayout from '@/components/StopsExplorerLayout/StopsExplorerLayout';
+import StopsExplorer from '@/components/StopsExplorer/StopsExplorer';
 
 /* * */
 
 export default function Layout({ children }) {
-  return (
-    <StopsExplorerNewStopWizardContextProvider>
-      <StopsExplorerLayout>{children}</StopsExplorerLayout>
-    </StopsExplorerNewStopWizardContextProvider>
-  );
+  return <StopsExplorer>{children}</StopsExplorer>;
 }

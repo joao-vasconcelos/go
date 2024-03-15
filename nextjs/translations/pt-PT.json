@@ -73,13 +73,13 @@
             },
             "lang": {
                 "label": "Primary Language",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "timezone": {
                 "label": "Timezone",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "phone": {
                 "label": "Public Phone Number",
@@ -186,32 +186,32 @@
             "cause": {
                 "label": "Cause",
                 "description": "What caused this Alert?",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "effect": {
                 "label": "Effect",
                 "description": "What is the effect on your clients?",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "municipalities": {
                 "label": "Affected Municipalities",
                 "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "lines": {
                 "label": "Affected Lines",
                 "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "stops": {
                 "label": "Affected Stops",
                 "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "active_period_start": {
                 "label": "Start",
@@ -315,8 +315,8 @@
             },
             "period": {
                 "label": "Period",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "is_holiday": {
                 "label": "Is Holiday",
@@ -540,13 +540,13 @@
             },
             "district": {
                 "label": "District",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "region": {
                 "label": "Region",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "fill_color": {
                 "label": "Fill Color",
@@ -617,371 +617,6 @@
             }
         }
     },
-    "stops": {
-        "untitled": "Untitled Stop",
-        "list": {
-            "no_selection": "Select a Stop",
-            "footer": "Found {count, plural, =1 {1 Stop} other {# Stops}}"
-        },
-        "page": {
-            "title": "All Stops"
-        },
-        "operations": {
-            "recenter": {
-                "title": "Re-center Map"
-            },
-            "gmaps": {
-                "title": "Open in Google Maps"
-            },
-            "create": {
-                "title": "Create New Stop",
-                "loading": "Creating new Stop...",
-                "success": "A new Stop was created!",
-                "error": "An error occurred while creating this Stop."
-            },
-            "delete": {
-                "title": "Delete Stop",
-                "description": "Deleting is irreversible. Are you sure you want to delete this Stop forever?",
-                "confirm": "Delete Stop Forever",
-                "cancel": "Do Not Delete",
-                "loading": "Deleting Stop...",
-                "success": "Stop was deleted.",
-                "error": "An error occurred while deleting this Stop."
-            },
-            "batch_update": {
-                "title": "Update All Stops",
-                "description": "Updating all stops takes ~3 minutes on average, and you will not be able to cancel once it starts. Are you sure you want to import and update all Stops?",
-                "confirm": "Update All Stops (~3 min)",
-                "cancel": "Do Not Update",
-                "loading": "Updating all Stops (~3 minutes)...",
-                "success": "All Stops were updated.",
-                "error": "An error occurred while updating all Stops."
-            }
-        },
-        "sections": {
-            "config": {
-                "title": "Details",
-                "description": "Info about this section"
-            },
-            "zoning": {
-                "title": "Ticket Zoning",
-                "description": "Info about this section"
-            },
-            "admin": {
-                "title": "Administrative Info",
-                "description": "Info about this section"
-            },
-            "infrastructure": {
-                "title": "Infrastructure",
-                "description": "Info about this section"
-            },
-            "public_info": {
-                "title": "Public Information Supports",
-                "description": "Info about this section"
-            },
-            "accessibility": {
-                "title": "Accessibility",
-                "description": "Info about this section"
-            },
-            "services": {
-                "title": "Services",
-                "description": "Info about this section"
-            },
-            "connections": {
-                "title": "Modal Connections",
-                "description": "Info about this section"
-            },
-            "notes": {
-                "title": "General Notes and Comments",
-                "description": "Info about this section"
-            }
-        },
-        "form": {
-            "code": {
-                "label": "Stop Code",
-                "placeholder": "012345"
-            },
-            "latitude": {
-                "label": "Latitude",
-                "placeholder": "38.123456"
-            },
-            "longitude": {
-                "label": "Longitude",
-                "placeholder": "-9.123456"
-            },
-            "name": {
-                "label": "Stop Name",
-                "placeholder": "Rua Marquês de Pombal 8"
-            },
-            "short_name": {
-                "label": "Stop Short Name",
-                "placeholder": "R. Mrq. de Pombal 8"
-            },
-            "tts_name": {
-                "label": "Text-to-Speech Name",
-                "placeholder": "Rua Marquês de Pombal Porta Oito"
-            },
-            "zones": {
-                "label": "Default Zones for this Stop",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "address": {
-                "label": "Stop Address",
-                "placeholder": "Rua Marquês de Pombal 8"
-            },
-            "postal_code": {
-                "label": "Postal Code",
-                "placeholder": "1234-567"
-            },
-            "locality": {
-                "label": "Locality",
-                "placeholder": "Bairro das Maçãs"
-            },
-            "region": {
-                "label": "Region",
-                "placeholder": "PT1234"
-            },
-            "municipality": {
-                "label": "Municipality",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "parish": {
-                "label": "Parish",
-                "placeholder": "Maçãs"
-            },
-            "jurisdiction": {
-                "label": "Jurisdiction",
-                "placeholder": "CM Moita"
-            },
-            "stepp_id": {
-                "label": "Stepp ID",
-                "placeholder": "102030"
-            },
-            "has_pole": {
-                "label": "Has Pole",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "pole_material": {
-                "label": "Pole Material",
-                "placeholder": "Choose an option..."
-            },
-            "has_shelter": {
-                "label": "Has Shelter",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "shelter_code": {
-                "label": "Shelter Code",
-                "placeholder": "SH1234"
-            },
-            "shelter_maintainer": {
-                "label": "Shelter Maintainer",
-                "placeholder": "MOP"
-            },
-            "has_mupi": {
-                "label": "Has Mupi",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "has_bench": {
-                "label": "Has Bench",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "has_trash_bin": {
-                "label": "Has Trash Bin",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "has_lighting": {
-                "label": "Has Lighting",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "has_electricity": {
-                "label": "Has Electricity",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "docking_bay_type": {
-                "label": "Docking Bay Type",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "last_infrastructure_maintenance": {
-                "label": "Last Infrastructure Maintenance",
-                "placeholder": "2023-02-10"
-            },
-            "last_infrastructure_check": {
-                "label": "Last Infrastructure Check",
-                "placeholder": "2023-02-10"
-            },
-            "has_stop_sign": {
-                "label": "Has Stop Sign",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "stop_sign_maintainer": {
-                "label": "Stop Sign Maintainer",
-                "placeholder": "Alsa Todi"
-            },
-            "has_pole_frame": {
-                "label": "Has Pole Frame",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "shelter_frame_area_cm": {
-                "label": "Shelter Frame Area (H x W cm)",
-                "placeholder": "23 x 42 cm"
-            },
-            "has_pip_real_time": {
-                "label": "Has PIP Real Time",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "pip_real_time_code": {
-                "label": "PIP Real Time Code",
-                "placeholder": "PIP372"
-            },
-            "has_h2oa_signage": {
-                "label": "Has H2OA Signage",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "has_schedules": {
-                "label": "Has Schedules",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "has_network_map": {
-                "label": "Has Network Map",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "last_schedules_maintenance": {
-                "label": "Last Schedules Maintenance",
-                "placeholder": "2023-02-10"
-            },
-            "last_schedules_check": {
-                "label": "Last Schedules Check",
-                "placeholder": "2023-02-10"
-            },
-            "last_stop_sign_maintenance": {
-                "label": "Last Stop Sign Maintenance",
-                "placeholder": "2023-02-10"
-            },
-            "last_stop_sign_check": {
-                "label": "Last Stop Sign Check",
-                "placeholder": "2023-02-10"
-            },
-            "has_sidewalk": {
-                "label": "Has Sidewalk",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "sidewalk_type": {
-                "label": "Sidewalk Type",
-                "placeholder": "sidewalk_type"
-            },
-            "has_tactile_schedules": {
-                "label": "Has Tactile Schedules",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "stop_access_type": {
-                "label": "Stop Access Type",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "has_crosswalk": {
-                "label": "Has Crosswalk",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "has_tactile_pavement": {
-                "label": "Has Tactile Pavement",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "has_abusive_parking": {
-                "label": "Has Abusive Parking",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "has_audio_stop_info": {
-                "label": "Has Audio Stop Info",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "wheelchair_boarding": {
-                "label": "Wheelchair Boarding",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
-            },
-            "last_accessibility_check": {
-                "label": "Last Accessibility Check",
-                "placeholder": "2023-02-10"
-            },
-            "near_health_clinic": {
-                "label": "Health Clinic"
-            },
-            "near_hospital": {
-                "label": "Hospital"
-            },
-            "near_university": {
-                "label": "University"
-            },
-            "near_school": {
-                "label": "School"
-            },
-            "near_police_station": {
-                "label": "Police Station"
-            },
-            "near_fire_station": {
-                "label": "Fire Station"
-            },
-            "near_shopping": {
-                "label": "Shopping"
-            },
-            "near_historic_building": {
-                "label": "Historic Building"
-            },
-            "near_transit_office": {
-                "label": "Transit Office"
-            },
-            "subway": {
-                "label": "Subway"
-            },
-            "light_rail": {
-                "label": "Light Rail"
-            },
-            "train": {
-                "label": "Train"
-            },
-            "boat": {
-                "label": "Boat"
-            },
-            "airport": {
-                "label": "Airport"
-            },
-            "bike_sharing": {
-                "label": "Bike Sharing"
-            },
-            "bike_parking": {
-                "label": "Bike Parking"
-            },
-            "car_parking": {
-                "label": "Car Parking"
-            },
-            "notes": {
-                "label": "Notes & Comments on this stop",
-                "placeholder": "Planned construction in..."
-            }
-        }
-    },
     "threads": {
         "untitled": "Untitled Thread",
         "list": {
@@ -1021,8 +656,8 @@
             },
             "theme": {
                 "label": "Theme for this Thread",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
                     "stops": "Stops",
                     "lines": "Lines",
@@ -1030,8 +665,8 @@
                 }
             },
             "status": {
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
                     "open": "Thread is open",
                     "resolved": "Resolved"
@@ -1039,13 +674,13 @@
             },
             "associated_lines": {
                 "label": "Lines Associated with this Thread",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "associated_stops": {
                 "label": "Stops Associated with this Thread",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             }
         },
         "messages": {
@@ -1098,13 +733,13 @@
             },
             "agencies": {
                 "label": "Associated Agencies",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "municipalities": {
                 "label": "Associated Municipalities",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found"
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
             },
             "permissions": {
                 "exports": {
@@ -1264,8 +899,8 @@
                     },
                     "municipalities": {
                         "label": "Can Edit / Delete / Suggest Stops from these Municipalities",
-                        "placeholder": "Choose an option...",
-                        "nothingFound": "No Results Found"
+                        "placeholder": "Escolha uma opção...",
+                        "nothingFound": "Nenhum Resultado Encontrado"
                     }
                 },
                 "municipalities": {
@@ -1713,10 +1348,6 @@
         "title": "Patterns that have at least one schedule with this calendar:",
         "label": "View Patterns using this calendar"
     },
-    "StopPatternsView": {
-        "title": "Patterns that use this stop:",
-        "label": "View Patterns using this stop"
-    },
     "CalendarPatternsViewAsLine": {},
     "StopsExplorerNewStopWizardHeader": {
         "step_0": {
@@ -1734,6 +1365,7 @@
     },
     "StopsExplorerNewStopWizardSteps0Info": {
         "no_data": "Selecione uma localização no mapa",
+        "invalid_municipality": "Calma, ainda não servimos esse município 😏",
         "coordinates": {
             "latitude": {
                 "label": "Latitude",
@@ -2878,6 +2510,22 @@
             "label": "Editar Paragens",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         },
+        "edit_code": {
+            "label": "Editar Códigos de Paragens",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "edit_name": {
+            "label": "Editar Nomes de Paragens",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "edit_location": {
+            "label": "Editar Localização de Paragens",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "edit_zones": {
+            "label": "Editar Afetação de Paragens",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
         "lock": {
             "label": "Bloquear Paragens",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
@@ -3762,8 +3410,8 @@
             },
             "path_type": {
                 "label": "Path Type",
-                "placeholder": "Choose an option...",
-                "nothingFound": "No Results Found",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado",
                 "options": {
                     "1": {
                         "label": "Base Path"
@@ -4026,5 +3674,380 @@
                 }
             }
         }
-    }
+    },
+    "StopsExplorerListItem": {
+        "untitled": "Paragem sem Título"
+    },
+    "StopsExplorerIdPageHeader": {
+        "untitled": "Paragem sem Título",
+        "operations": {
+            "delete": {
+                "title": "Eliminar Paragem",
+                "description": "Eliminar é irreversível. Tem a certeza que pretende eliminar esta paragem para sempre?",
+                "confirm": "Eliminar paragem para sempre",
+                "cancel": "Não, deixar como está",
+                "loading": "A eliminar paragem...",
+                "success": "Paragem eliminada.",
+                "error": "Ocorreu um erro ao eliminar esta paragem."
+            }
+        }
+    },
+    "StopsExplorerListFooter": {
+        "found_items": "{count, plural, =1 {Encontrada 1 paragem} other {Encontradas # paragens}}"
+    },
+    "StopsExplorerListHeader": {
+        "operations": {
+            "create": {
+                "title": "Nova Paragem",
+                "loading": "A criar paragem...",
+                "success": "Foi criada uma nova paragem!",
+                "error": "Ocorreu um erro ao criar a paragem."
+            }
+        }
+    },
+    "StopsExplorerPage": {
+        "no_data": "Nenhuma Paragem Selecionada"
+    },
+    "StopsExplorerPageHeader": {
+        "title": "All Stops",
+        "operations": {
+            "recenter": {
+                "title": "Re-center Map"
+            },
+            "gmaps": {
+                "title": "Open in Google Maps"
+            }
+        }
+    },
+    "StopsExplorerIdPage": {
+        "sections": {
+            "intro": {
+                "title": "Detalhes desta Paragem",
+                "description": "Informações gerais sobre esta paragem."
+            },
+            "zoning": {
+                "title": "Afetação",
+                "description": "Configuração dos passes aceites por esta paragem. É possível alterar estas definições para cada pattern."
+            },
+            "admin": {
+                "title": "Informação Administrativa",
+                "description": "Informações sobre a localização administrativa e responsabilidade de gestão desta paragem."
+            },
+            "infrastructure": {
+                "title": "Infraestrutura",
+                "description": "Informações relacionadas com os equipamentos da paragem e envolvente."
+            },
+            "public_info": {
+                "title": "Informação ao Público",
+                "description": "Informações relacionadas com os suportes de informação ao público."
+            },
+            "accessibility": {
+                "title": "Acessibilidade",
+                "description": "Informações sobre a acessibilidade da paragem e sua envolvente."
+            },
+            "services": {
+                "title": "Equipamentos Servidos",
+                "description": "Quais são os equipamentos que esta paragem serve."
+            },
+            "connections": {
+                "title": "Ligações Intermodais",
+                "description": "Quais são os outros modos de transporte, para além do autocarro, que esta paragem serve."
+            },
+            "notes": {
+                "title": "Notas e Comentários",
+                "description": "Texto livre para informações adicionais."
+            }
+        },
+        "form": {
+            "code": {
+                "label": "Código Único da Paragem",
+                "placeholder": "012345"
+            },
+            "latitude": {
+                "label": "Latitude",
+                "placeholder": "38.123456"
+            },
+            "longitude": {
+                "label": "Longitude",
+                "placeholder": "-9.123456"
+            },
+            "name": {
+                "label": "Nome da Paragem",
+                "placeholder": "Rua Marquês de Pombal 8"
+            },
+            "short_name": {
+                "label": "Nome Curto (Postalete)",
+                "placeholder": "R. Mrq. de Pombal 8"
+            },
+            "tts_name": {
+                "label": "Nome Falado (Text-to-Speech)",
+                "placeholder": "Rua Marquês de Pombal Porta Oito"
+            },
+            "zones": {
+                "label": "Aceitação de Passes pré-definida",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "address": {
+                "label": "Morada",
+                "placeholder": "Rua Marquês de Pombal 8"
+            },
+            "postal_code": {
+                "label": "Código Postal",
+                "placeholder": "1234-567"
+            },
+            "locality": {
+                "label": "Localidade",
+                "placeholder": "Bairro das Maçãs"
+            },
+            "region": {
+                "label": "Região",
+                "placeholder": "PT1234"
+            },
+            "municipality": {
+                "label": "Município",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "parish": {
+                "label": "Freguesia",
+                "placeholder": "Maçãs"
+            },
+            "jurisdiction": {
+                "label": "Jusrisdição",
+                "placeholder": "CM Moita"
+            },
+            "has_pole": {
+                "label": "Tem Poste?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "pole_material": {
+                "label": "Material do Poste",
+                "placeholder": "Escolha uma opção..."
+            },
+            "has_shelter": {
+                "label": "Tem Abrigo?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "shelter_code": {
+                "label": "Código do Abrigo",
+                "placeholder": "SH1234"
+            },
+            "shelter_maintainer": {
+                "label": "Entidade Gestora do Abrigo",
+                "placeholder": "JC Decaux"
+            },
+            "has_mupi": {
+                "label": "Tem Mupi?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "has_bench": {
+                "label": "Tem Banco?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "has_trash_bin": {
+                "label": "Tem Papeleira?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "has_lighting": {
+                "label": "Tem Iluminação?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "has_electricity": {
+                "label": "Tem Ligação Elétrica?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "docking_bay_type": {
+                "label": "Tipo de Relação com a Via",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "last_infrastructure_maintenance": {
+                "label": "Última Manutenção da Infraestrutura",
+                "placeholder": "2023-02-10"
+            },
+            "last_infrastructure_check": {
+                "label": "Última Verificação da Infraestrutura",
+                "placeholder": "2023-02-10"
+            },
+            "has_stop_sign": {
+                "label": "Tem Postalete?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "stop_sign_maintainer": {
+                "label": "Entidade Gestora do Postalete",
+                "placeholder": "Alsa Todi"
+            },
+            "has_pole_frame": {
+                "label": "Tem Moldura no Poste?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "shelter_frame_area_cm": {
+                "label": "Dimensões da Moldura do Abrigo (h x w cm)",
+                "placeholder": "23 x 42 cm"
+            },
+            "has_pip_real_time": {
+                "label": "Tem PIP?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "pip_real_time_code": {
+                "label": "Código do PIP",
+                "placeholder": "PIP372"
+            },
+            "has_h2oa_signage": {
+                "label": "Tem Sinalização H2OA?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "has_schedules": {
+                "label": "Tem Horários?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "has_network_map": {
+                "label": "Tem Mapa da Rede?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "last_schedules_maintenance": {
+                "label": "Última Manutenção dos Horários",
+                "placeholder": "2023-02-10"
+            },
+            "last_schedules_check": {
+                "label": "Última Verificação dos Horários",
+                "placeholder": "2023-02-10"
+            },
+            "last_stop_sign_maintenance": {
+                "label": "Última Manutenção do Postalete",
+                "placeholder": "2023-02-10"
+            },
+            "last_stop_sign_check": {
+                "label": "Última Verificação do Postalete",
+                "placeholder": "2023-02-10"
+            },
+            "has_sidewalk": {
+                "label": "Tem Passeio?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "sidewalk_type": {
+                "label": "Tipo de Passeio",
+                "placeholder": "Calçada Portuguesa, Betão"
+            },
+            "has_tactile_schedules": {
+                "label": "Tem Horários Táteis?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "stop_access_type": {
+                "label": "Tipo de Acesso à Paragem",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "has_crosswalk": {
+                "label": "Tem Passadeira?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "has_tactile_pavement": {
+                "label": "Tem Pavimento Tátil?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "has_abusive_parking": {
+                "label": "Tem Estacionamento Abusivo?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "has_audio_stop_info": {
+                "label": "Tem Informação Áudio?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "wheelchair_boarding": {
+                "label": "Permite Embarque de PMR?",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "last_accessibility_maintenance": {
+                "label": "Última Manutenção da Acessibilidade",
+                "placeholder": "2023-02-10"
+            },
+            "last_accessibility_check": {
+                "label": "Última Verificação da Acessibilidade",
+                "placeholder": "2023-02-10"
+            },
+            "near_health_clinic": {
+                "label": "Clínica"
+            },
+            "near_hospital": {
+                "label": "Hospital"
+            },
+            "near_university": {
+                "label": "Universidade"
+            },
+            "near_school": {
+                "label": "Escola"
+            },
+            "near_police_station": {
+                "label": "Esquadra"
+            },
+            "near_fire_station": {
+                "label": "Bombeiros"
+            },
+            "near_shopping": {
+                "label": "Zona Comercial"
+            },
+            "near_historic_building": {
+                "label": "Edifício Histórico"
+            },
+            "near_transit_office": {
+                "label": "Espaço navegante®"
+            },
+            "subway": {
+                "label": "Metro"
+            },
+            "light_rail": {
+                "label": "Metro de Superfície"
+            },
+            "train": {
+                "label": "Comboio"
+            },
+            "boat": {
+                "label": "Barco"
+            },
+            "airport": {
+                "label": "Aeroporto"
+            },
+            "bike_sharing": {
+                "label": "Partilha de Bicicletas"
+            },
+            "bike_parking": {
+                "label": "Estacionamento de Bicicletas"
+            },
+            "car_parking": {
+                "label": "Estacionamento Automóvel"
+            },
+            "notes": {
+                "label": "Notas & Comentários Adicionais",
+                "placeholder": "Construção planeada a..."
+            }
+        }
+    },
+    "StopExplorerIdPageHeaderAssociatedPatterns": {
+        "title": "Patterns associados a esta paragem:",
+        "label": "Ver Patterns associados",
+        "no_data": "Nenhum Pattern Encontrado"
+    },
+    "StopOptions": {}
 }

@@ -46,7 +46,7 @@ export default async function handler(req, res) {
     const documentToDelete = await PatternModel.findOne({ _id: { $eq: req.query._id } });
 
     const deletedDocument = await PatternModel.findOneAndDelete({ _id: { $eq: req.query._id } });
-    if (!deletedDocument) return await res.status(404).json({ message: `Pattern with _id: ${req.query._id} not found.` });
+    if (!deletedDocument) return await res.status(404).json({ message: `Pattern with _id "${req.query._id}" not found.` });
 
     const parentDocument = await RouteModel.findOne({ _id: documentToDelete.parent_route });
     if (!parentDocument) return await res.status(404).json({ message: `Route with _id: ${documentToDelete.parent_route} not found.` });

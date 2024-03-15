@@ -1,9 +1,9 @@
 /* * */
 
-import mongodb from '@/services/mongodb';
 import getSession from '@/authentication/getSession';
-import isAllowed from '@/authentication/isAllowed';
-import { StopModel } from '@/schemas/Stop/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import { StopModel, DeletedStopModel } from '@/schemas/Stop/model';
+import { PatternModel } from '@/schemas/Pattern/model';
 
 /* * */
 
@@ -14,42 +14,72 @@ export default async function handler(req, res) {
   // Setup variables
 
   let sessionData;
+  let foundDocument;
 
   // 2.
-  // Refuse request if not DELETE
-
-  if (req.method != 'DELETE') {
-    await res.setHeader('Allow', ['DELETE']);
-    return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-  }
-
-  // 3.
-  // Check for correct Authentication and valid Permissions
+  // Get session data
 
   try {
     sessionData = await getSession(req, res);
-    isAllowed(sessionData, [{ scope: 'stops', action: 'delete' }]);
   } catch (err) {
     console.log(err);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+  }
+
+  // 3.
+  // Prepare endpoint
+
+  try {
+    await prepareApiEndpoint({ request: req, method: 'DELETE', session: sessionData, permissions: [{ scope: 'stops', action: 'view' }] });
+  } catch (err) {
+    console.log(err);
+    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
   // 4.
-  // Connect to MongoDB
+  // Fetch the correct document
 
   try {
-    await mongodb.connect();
+    const foundAssociatedDocuments = await PatternModel.find({ 'path.stop': { $eq: req.query._id } }, '_id code headsign parent_route');
+    if (foundAssociatedDocuments.length > 0) return await res.status(404).json({ message: 'Stop is still associated with Patterns.' });
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: 'MongoDB connection error.' });
+    return await res.status(500).json({ message: 'Cannot fetch associated Patterns for this Stop.' });
   }
 
   // 5.
+  // Retrieve requested document from the database
+
+  try {
+    foundDocument = await StopModel.findOne({ _id: { $eq: req.query._id } });
+    if (!foundDocument) return await res.status(404).json({ message: `Stop with _id "${req.query._id}" not found.` });
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Stop not found.' });
+  }
+
+  // 6.
+  // Check if document is locked
+
+  if (foundDocument.is_locked) {
+    return await res.status(423).json({ message: 'Stop is locked.' });
+  }
+
+  // 5.
+  // Create this document in the Deleted Stops collection
+
+  try {
+    await DeletedStopModel({ code: foundDocument.code, name: foundDocument.name, latitude: foundDocument.latitude, longitude: foundDocument.longitude }).save();
+  } catch (err) {
+    console.log(err);
+    return await res.status(500).json({ message: 'Could not save this stop to the Deleted Stops collection.' });
+  }
+
+  // 6.
   // Delete the correct document
 
   try {
     const deletedDocument = await StopModel.findOneAndDelete({ _id: { $eq: req.query._id } });
-    if (!deletedDocument) return await res.status(404).json({ message: `Stop with _id: ${req.query._id} not found.` });
     return await res.status(200).send(deletedDocument);
   } catch (err) {
     console.log(err);

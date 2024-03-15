@@ -5,7 +5,7 @@
 import useSWR from 'swr';
 import styles from './AssociatedPatternsViewRow.module.css';
 import { Link } from '@/translations/navigation';
-import Loader from '../Loader/Loader';
+import Loader from '@/components/Loader/Loader';
 
 /* * */
 

@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
   try {
     const foundDocument = await ZoneModel.findOne({ _id: { $eq: req.query._id } });
-    if (!foundDocument) return await res.status(404).json({ message: `Zone with _id: ${req.query._id} not found.` });
+    if (!foundDocument) return await res.status(404).json({ message: `Zone with _id "${req.query._id}" not found.` });
     const updatedDocument = await ZoneModel.updateOne({ _id: { $eq: foundDocument._id } }, { is_locked: !foundDocument.is_locked }, { new: true });
     return await res.status(200).json(updatedDocument);
   } catch (err) {

@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
   try {
     const deletedLineDocument = await LineModel.findOneAndDelete({ _id: { $eq: req.query._id } });
-    if (!deletedLineDocument) return await res.status(404).json({ message: `Line with _id: ${req.query._id} not found.` });
+    if (!deletedLineDocument) return await res.status(404).json({ message: `Line with _id "${req.query._id}" not found.` });
     // Delete Routes associated with this Line
     const routeDocumentsToDelete = await RouteModel.find({ parent_line: { $eq: req.query._id } });
     for (const routeToDelete of routeDocumentsToDelete) {

@@ -56,6 +56,10 @@ export const UserDefault = {
     stops: {
       view: { is_allowed: false },
       edit: { is_allowed: false },
+      edit_code: { is_allowed: false },
+      edit_name: { is_allowed: false },
+      edit_location: { is_allowed: false },
+      edit_zones: { is_allowed: false },
       lock: { is_allowed: false },
       create: { is_allowed: false },
       delete: { is_allowed: false },

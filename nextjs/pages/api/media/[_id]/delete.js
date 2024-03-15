@@ -50,7 +50,7 @@ export default async function handler(req, res) {
 
   try {
     const deletedDocument = await MediaModel.findOneAndDelete({ _id: { $eq: req.query._id } });
-    if (!deletedDocument) return await res.status(404).json({ message: `Media with _id: ${req.query._id} not found.` });
+    if (!deletedDocument) return await res.status(404).json({ message: `Media with _id "${req.query._id}" not found.` });
     STORAGE.removeFile(deletedDocument.storage_scope, `${deletedDocument._id}${deletedDocument.file_extension}`);
     return await res.status(200).send(deletedDocument);
   } catch (err) {

@@ -61,7 +61,7 @@ export default async function handler(req, res) {
 
   try {
     const foundDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } });
-    if (!foundDocument) return await res.status(404).json({ message: `Pattern with _id: ${req.query._id} not found.` });
+    if (!foundDocument) return await res.status(404).json({ message: `Pattern with _id "${req.query._id}" not found.` });
     if (foundDocument.is_locked) return await res.status(423).json({ message: 'Pattern is locked.' });
   } catch (err) {
     console.log(err);
@@ -87,7 +87,7 @@ export default async function handler(req, res) {
 
   try {
     const editedDocument = await PatternModel.replaceOne({ _id: { $eq: req.query._id } }, req.body, { new: true });
-    if (!editedDocument) return await res.status(404).json({ message: `Pattern with _id: ${req.query._id} not found.` });
+    if (!editedDocument) return await res.status(404).json({ message: `Pattern with _id "${req.query._id}" not found.` });
     return await res.status(200).json(editedDocument);
   } catch (err) {
     console.log(err);

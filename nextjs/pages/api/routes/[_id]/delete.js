@@ -47,7 +47,7 @@ export default async function handler(req, res) {
     const documentToDelete = await RouteModel.findOne({ _id: { $eq: req.query._id } });
 
     const deletedDocument = await RouteModel.findOneAndDelete({ _id: { $eq: req.query._id } });
-    if (!deletedDocument) return await res.status(404).json({ message: `Route with _id: ${req.query._id} not found.` });
+    if (!deletedDocument) return await res.status(404).json({ message: `Route with _id "${req.query._id}" not found.` });
 
     for (const pattern_id of documentToDelete.patterns) {
       // Delete nested documents

@@ -44,4 +44,6 @@ export default async function handler(req, res) {
     console.log(err);
     return await res.status(500).json({ message: 'Cannot fetch associated Patterns for this Stop.' });
   }
+
+  //
 }
