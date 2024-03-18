@@ -13,18 +13,14 @@ export const StopValidation = yup.object({});
   tts_name: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   latitude: yup.number().default(0).required(),
   longitude: yup.number().default(0).required(),
-  location_type: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   platform_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   parent_station: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  url: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  public_visible: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
+  current_status: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
 
   // Operation
-  agencies: yup.array(),
+  zones: yup.array(),
 
   // Administrative
-  address: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
-  postal_code: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   jurisdiction: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   municipality: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),
   parish: yup.string().max(100, 'Field_ deve ter apenas ${max} caracteres.'),

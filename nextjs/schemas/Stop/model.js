@@ -33,11 +33,6 @@ export const StopSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    location_type: {
-      type: String,
-      maxlength: 2,
-      default: '0',
-    },
     platform_code: {
       type: String,
       maxlength: 100,
@@ -46,9 +41,9 @@ export const StopSchema = new mongoose.Schema(
       type: String,
       maxlength: 6,
     },
-    public_visible: {
-      type: Boolean,
-      default: true,
+    current_status: {
+      type: String,
+      default: '1',
     },
 
     // Operation
@@ -58,26 +53,8 @@ export const StopSchema = new mongoose.Schema(
         ref: 'Zone',
       },
     ],
-    agencies: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Agency',
-      },
-    ],
 
     // Administrative
-    address: {
-      type: String,
-      maxlength: 100,
-    },
-    postal_code: {
-      type: String,
-      maxlength: 100,
-    },
-    jurisdiction: {
-      type: String,
-      maxlength: 100,
-    },
     municipality: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Municipality',
@@ -94,16 +71,16 @@ export const StopSchema = new mongoose.Schema(
       type: String,
       maxlength: 100,
     },
+    jurisdiction: {
+      type: String,
+      maxlength: 100,
+    },
 
     // Infrastructure
     has_pole: {
       type: String,
       maxlength: 2,
       default: '0',
-    },
-    pole_material: {
-      type: String,
-      maxlength: 100,
     },
     has_shelter: {
       type: String,
@@ -121,32 +98,26 @@ export const StopSchema = new mongoose.Schema(
     has_mupi: {
       type: String,
       maxlength: 2,
-      default: '0',
     },
     has_bench: {
       type: String,
       maxlength: 2,
-      default: '0',
     },
     has_trash_bin: {
       type: String,
       maxlength: 2,
-      default: '0',
     },
     has_lighting: {
       type: String,
       maxlength: 2,
-      default: '0',
     },
     has_electricity: {
       type: String,
       maxlength: 2,
-      default: '0',
     },
     docking_bay_type: {
       type: String,
       maxlength: 2,
-      default: '0',
     },
     last_infrastructure_maintenance: {
       type: String,
@@ -160,15 +131,15 @@ export const StopSchema = new mongoose.Schema(
     // Public Information
     has_stop_sign: {
       type: String,
-      maxlength: 100,
+      maxlength: 2,
     },
     stop_sign_maintainer: {
       type: String,
-      maxlength: 100,
+      maxlength: 2,
     },
     has_pole_frame: {
       type: String,
-      maxlength: 100,
+      maxlength: 2,
     },
     shelter_frame_area_cm: {
       type: String,
@@ -307,6 +278,14 @@ export const StopSchema = new mongoose.Schema(
     near_car_parking: {
       type: Boolean,
     },
+
+    // Media
+    media: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Media',
+      },
+    ],
 
     // Comments
     notes: {

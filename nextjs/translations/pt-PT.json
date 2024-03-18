@@ -3706,6 +3706,18 @@
                 "loading": "A criar paragem...",
                 "success": "Foi criada uma nova paragem!",
                 "error": "Ocorreu um erro ao criar a paragem."
+            },
+            "export": {
+                "title": "Exportar stops.txt",
+                "loading": "A gerar ficheiro...",
+                "success": "O ficheiro foi gerado com sucesso!",
+                "error": "Ocorreu um erro ao gerar o ficheiro."
+            },
+            "export_deleted": {
+                "title": "Exportar deleted_stops.txt",
+                "loading": "A gerar ficheiro...",
+                "success": "O ficheiro foi gerado com sucesso!",
+                "error": "Ocorreu um erro ao gerar o ficheiro."
             }
         }
     },
@@ -3757,6 +3769,10 @@
                 "title": "Ligações Intermodais",
                 "description": "Quais são os outros modos de transporte, para além do autocarro, que esta paragem serve."
             },
+            "media": {
+                "title": "Imagens & Vídeos",
+                "description": "Suportes visuais."
+            },
             "notes": {
                 "title": "Notas e Comentários",
                 "description": "Texto livre para informações adicionais."
@@ -3766,14 +3782,6 @@
             "code": {
                 "label": "Código Único da Paragem",
                 "placeholder": "012345"
-            },
-            "latitude": {
-                "label": "Latitude",
-                "placeholder": "38.123456"
-            },
-            "longitude": {
-                "label": "Longitude",
-                "placeholder": "-9.123456"
             },
             "name": {
                 "label": "Nome da Paragem",
@@ -3787,22 +3795,31 @@
                 "label": "Nome Falado (Text-to-Speech)",
                 "placeholder": "Rua Marquês de Pombal Porta Oito"
             },
+            "latitude": {
+                "label": "Latitude",
+                "placeholder": "38.123456"
+            },
+            "longitude": {
+                "label": "Longitude",
+                "placeholder": "-9.123456"
+            },
+            "platform_code": {
+                "label": "Longitude",
+                "placeholder": "-9.123456"
+            },
+            "parent_station": {
+                "label": "Longitude",
+                "placeholder": "-9.123456"
+            },
+            "current_status": {
+                "label": "Status da Paragem",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
             "zones": {
                 "label": "Aceitação de Passes pré-definida",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
-            },
-            "address": {
-                "label": "Morada",
-                "placeholder": "Rua Marquês de Pombal 8"
-            },
-            "postal_code": {
-                "label": "Código Postal",
-                "placeholder": "1234-567"
-            },
-            "locality": {
-                "label": "Localidade",
-                "placeholder": "Bairro das Maçãs"
             },
             "region": {
                 "label": "Região",
@@ -3817,21 +3834,21 @@
                 "label": "Freguesia",
                 "placeholder": "Maçãs"
             },
+            "locality": {
+                "label": "Localidade",
+                "placeholder": "Bairro das Maçãs"
+            },
             "jurisdiction": {
                 "label": "Jusrisdição",
                 "placeholder": "CM Moita"
             },
             "has_pole": {
-                "label": "Tem Poste?",
+                "label": "Existe Poste?",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
-            "pole_material": {
-                "label": "Material do Poste",
-                "placeholder": "Escolha uma opção..."
-            },
             "has_shelter": {
-                "label": "Tem Abrigo?",
+                "label": "Existe Abrigo?",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
@@ -3844,27 +3861,27 @@
                 "placeholder": "JC Decaux"
             },
             "has_mupi": {
-                "label": "Tem Mupi?",
+                "label": "Existe Mupi?",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_bench": {
-                "label": "Tem Banco?",
+                "label": "Existe Banco?",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_trash_bin": {
-                "label": "Tem Papeleira?",
+                "label": "Existe Papeleira?",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_lighting": {
-                "label": "Tem Iluminação?",
+                "label": "Existe Iluminação?",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "has_electricity": {
-                "label": "Tem Ligação Elétrica?",
+                "label": "Existe Ligação Elétrica?",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
@@ -4053,5 +4070,158 @@
         "label": "Ver Patterns associados",
         "no_data": "Nenhum Pattern Encontrado"
     },
-    "StopOptions": {}
+    "StopOptions": {
+        "current_status": {
+            "1": {
+                "label": "Paragem Ativa",
+                "description": "A paragem está em funcionamento normal."
+            },
+            "2": {
+                "label": "Paragem Temporariamente Desativada",
+                "description": "A paragem encontra-se desativada por tempo significativo, por exemplo devido a obras na via."
+            },
+            "3": {
+                "label": "Paragem Provisória / Sasonal",
+                "description": "A paragem só está disponível durante determinadas alturas do ano ou em circunstâncias específicas."
+            },
+            "4": {
+                "label": "Paragem Marcada para Eliminação",
+                "description": "A paragem está marcada para eliminação definitiva."
+            }
+        },
+        "has_pole": {
+            "0": {
+                "label": "Não Aplicável"
+            },
+            "1": {
+                "label": "Não existe, mas deve ser colocado"
+            },
+            "2": {
+                "label": "Existe, mas está danificado"
+            },
+            "3": {
+                "label": "Existe e está OK"
+            }
+        },
+        "has_shelter": {
+            "0": {
+                "label": "Não Aplicável"
+            },
+            "1": {
+                "label": "Não existe, mas deve ser colocado"
+            },
+            "2": {
+                "label": "Existe, mas está danificado"
+            },
+            "3": {
+                "label": "Existe e está OK"
+            }
+        },
+        "has_mupi": {
+            "0": {
+                "label": "Não Aplicável"
+            },
+            "1": {
+                "label": "Não existe, mas deve ser colocado"
+            },
+            "2": {
+                "label": "Existe, mas está danificado"
+            },
+            "3": {
+                "label": "Existe e está OK"
+            }
+        },
+        "has_bench": {
+            "0": {
+                "label": "Não Aplicável"
+            },
+            "1": {
+                "label": "Não existe, mas deve ser colocado"
+            },
+            "2": {
+                "label": "Existe, mas está danificado"
+            },
+            "3": {
+                "label": "Existe e está OK"
+            }
+        },
+        "has_trash_bin": {
+            "0": {
+                "label": "Não Aplicável"
+            },
+            "1": {
+                "label": "Não existe, mas deve ser colocado"
+            },
+            "2": {
+                "label": "Existe, mas está danificado"
+            },
+            "3": {
+                "label": "Existe e está OK"
+            }
+        },
+        "has_lighting": {
+            "0": {
+                "label": "Sem qualquer iluminação"
+            },
+            "1": {
+                "label": "Iluminação insuficiente"
+            },
+            "2": {
+                "label": "Imediações visíveis"
+            },
+            "3": {
+                "label": "Leitura é possível e confortável"
+            }
+        },
+        "has_electricity": {
+            "0": {
+                "label": "Não"
+            },
+            "1": {
+                "label": "Sim"
+            }
+        },
+        "docking_bay_type": {
+            "1": {
+                "label": "Interação simples"
+            },
+            "2": {
+                "label": "Recorte na via, sem marcas"
+            },
+            "3": {
+                "label": "Recorte na via, com marcas"
+            },
+            "4": {
+                "label": "Ilha"
+            },
+            "5": {
+                "label": "Península"
+            }
+        },
+        "has_stop_sign": {
+            "1": {
+                "label": "Não existe, mas deve ser colocado"
+            },
+            "2": {
+                "label": "Existe, mas está danificado"
+            },
+            "3": {
+                "label": "Existe e está OK"
+            }
+        },
+        "has_pole_frame": {
+            "0": {
+                "label": "Não Aplicável"
+            },
+            "1": {
+                "label": "Não existe, mas deve ser colocado"
+            },
+            "2": {
+                "label": "Existe, mas está danificado"
+            },
+            "3": {
+                "label": "Existe e está OK"
+            }
+        }
+    }
 }

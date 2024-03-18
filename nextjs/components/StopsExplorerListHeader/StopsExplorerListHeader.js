@@ -30,18 +30,7 @@ export default function StopsExplorerListHeader() {
   const { isLoading: allStopsLoading } = useSWR('/api/stops');
 
   //
-  // C. Handle actions
-
-  const handleCreate = async () => {
-    stopsExplorerNewStopWizardContext.openWizard();
-  };
-
-  const handleExportAsFile = async () => {
-    stopsExplorerContext.exportAsFile();
-  };
-
-  //
-  // D. Render components
+  // C. Render components
 
   return (
     <ListHeader>
@@ -54,14 +43,18 @@ export default function StopsExplorerListHeader() {
         </Menu.Target>
         <Menu.Dropdown>
           <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'create' }]}>
-            <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
+            <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={stopsExplorerNewStopWizardContext.openWizard}>
               {t('operations.create.title')}
             </Menu.Item>
           </AppAuthenticationCheck>
-          <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'create' }]}>
-            <Menu.Item leftSection={<IconDownload size={20} />} onClick={handleExportAsFile}>
-              {/* {t('operations.create.title')} */}
-              Download as TXT file
+          <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'export' }]}>
+            <Menu.Item leftSection={<IconDownload size={20} />} onClick={stopsExplorerContext.exportAsFile}>
+              {t('operations.export.title')}
+            </Menu.Item>
+          </AppAuthenticationCheck>
+          <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'export' }]}>
+            <Menu.Item leftSection={<IconDownload size={20} />} onClick={stopsExplorerContext.exportDeletedAsFile}>
+              {t('operations.export_deleted.title')}
             </Menu.Item>
           </AppAuthenticationCheck>
         </Menu.Dropdown>

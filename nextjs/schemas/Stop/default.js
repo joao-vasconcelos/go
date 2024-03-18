@@ -9,38 +9,32 @@ export const StopDefault = {
   tts_name: '',
   latitude: 0,
   longitude: 0,
-  location_type: '',
   platform_code: '',
   parent_station: '',
-  url: '',
-  public_visible: true,
+  current_status: '1',
 
   // Operation
   zones: [],
-  agencies: [],
 
   // Administrative
-  address: '',
-  postal_code: '',
-  jurisdiction: '',
   municipality: null,
   parish: '',
   locality: '',
+  jurisdiction: '',
 
   // Infrastructure
-  has_pole: 0,
-  pole_material: '',
-  has_shelter: 0,
+  has_pole: '',
+  has_shelter: '',
   shelter_code: '',
   shelter_maintainer: '',
-  has_mupi: 0,
-  has_bench: 0,
-  has_trash_bin: 0,
-  has_lighting: 0,
-  has_electricity: 0,
+  has_mupi: '',
+  has_bench: '',
+  has_trash_bin: '',
+  has_lighting: '',
+  has_electricity: '',
   docking_bay_type: '',
-  last_infrastructure_maintenance: '',
-  last_infrastructure_check: '',
+  last_infrastructure_maintenance: null,
+  last_infrastructure_check: null,
 
   // Public Information
   has_stop_sign: '',
@@ -89,6 +83,9 @@ export const StopDefault = {
   near_bike_sharing: false,
   near_bike_parking: false,
   near_car_parking: false,
+
+  // Media
+  media: [],
 
   // Notes
   notes: '',

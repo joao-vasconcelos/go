@@ -14,7 +14,6 @@ import LockButton from '@/components/LockButton/LockButton';
 import DeleteButton from '@/components/DeleteButton/DeleteButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
-import styles from './StopsExplorerIdPageHeader.module.css';
 import StopExplorerIdPageHeaderAssociatedPatterns from '@/components/StopExplorerIdPageHeaderAssociatedPatterns/StopExplorerIdPageHeaderAssociatedPatterns';
 
 /* * */
@@ -82,7 +81,6 @@ export default function StopsExplorerIdPageHeader() {
       <Text size="h1" style={!stopsExplorerContext.form.values.name && 'untitled'} full>
         {stopsExplorerContext.form.values.name || t('untitled')}
       </Text>
-      <div className={styles.spacer} />
       <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'view' }]}>
         <StopExplorerIdPageHeaderAssociatedPatterns />
       </AppAuthenticationCheck>

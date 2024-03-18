@@ -192,6 +192,7 @@ export function StopsExplorerContextProvider({ children }) {
 
   const exportAsFile = useCallback(async () => {
     try {
+      setListState((prev) => ({ ...prev, is_loading: true }));
       setPageState((prev) => ({ ...prev, is_loading: true }));
       const responseBlob = await API({ service: 'stops', operation: 'export', method: 'GET', parseType: 'blob' });
       const objectURL = URL.createObjectURL(responseBlob);
@@ -200,9 +201,31 @@ export function StopsExplorerContextProvider({ children }) {
       htmlAnchorElement.download = 'stops.txt';
       document.body.appendChild(htmlAnchorElement);
       htmlAnchorElement.click();
+      setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
     } catch (err) {
       console.log(err);
+      setListState((prev) => ({ ...prev, is_loading: false }));
+      setPageState((prev) => ({ ...prev, is_loading: false }));
+    }
+  }, []);
+
+  const exportDeletedAsFile = useCallback(async () => {
+    try {
+      setListState((prev) => ({ ...prev, is_loading: true }));
+      setPageState((prev) => ({ ...prev, is_loading: true }));
+      const responseBlob = await API({ service: 'stops', operation: 'export_deleted', method: 'GET', parseType: 'blob' });
+      const objectURL = URL.createObjectURL(responseBlob);
+      const htmlAnchorElement = document.createElement('a');
+      htmlAnchorElement.href = objectURL;
+      htmlAnchorElement.download = 'stops_deleted.txt';
+      document.body.appendChild(htmlAnchorElement);
+      htmlAnchorElement.click();
+      setListState((prev) => ({ ...prev, is_loading: false }));
+      setPageState((prev) => ({ ...prev, is_loading: false }));
+    } catch (err) {
+      console.log(err);
+      setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
     }
   }, []);
@@ -260,6 +283,7 @@ export function StopsExplorerContextProvider({ children }) {
       clearSearchQuery: clearSearchQuery,
       //
       exportAsFile: exportAsFile,
+      exportDeletedAsFile: exportDeletedAsFile,
       //
       updateMapStyle: updateMapStyle,
       //
@@ -269,7 +293,7 @@ export function StopsExplorerContextProvider({ children }) {
       closeItem: closeItem,
       //
     }),
-    [listState, mapState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, exportAsFile, updateMapStyle, validateItem, saveItem, lockItem, closeItem]
+    [listState, mapState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, exportAsFile, exportDeletedAsFile, updateMapStyle, validateItem, saveItem, lockItem, closeItem]
   );
 
   //

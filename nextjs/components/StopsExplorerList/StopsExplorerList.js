@@ -2,7 +2,6 @@
 
 /* * */
 
-import useSWR from 'swr';
 import Pannel from '@/components/Pannel/Pannel';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import StopsExplorerListItem from '@/components/StopsExplorerListItem/StopsExplorerListItem';
@@ -23,15 +22,10 @@ export default function StopsExplorerList() {
   const stopsExplorerContext = useStopsExplorerContext();
 
   //
-  // B. Fetch data
-
-  const { error: allStopsError, isLoading: allStopsLoading, isValidating: allStopsValidating } = useSWR('/api/stops');
-
-  //
-  // C. Render data
+  // B. Render data
 
   return (
-    <Pannel loading={allStopsLoading} validating={allStopsValidating} error={allStopsError} header={<StopsExplorerListHeader />} footer={<StopsExplorerListFooter />}>
+    <Pannel loading={stopsExplorerContext.list.is_loading} error={stopsExplorerContext.list.is_error} header={<StopsExplorerListHeader />} footer={<StopsExplorerListFooter />}>
       {stopsExplorerContext.list.items.length > 0 ? (
         <AutoSizer>
           {({ height, width }) => (
