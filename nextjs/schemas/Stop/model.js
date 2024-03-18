@@ -43,6 +43,7 @@ export const StopSchema = new mongoose.Schema(
     },
     current_status: {
       type: String,
+      maxlength: 2,
       default: '1',
     },
 

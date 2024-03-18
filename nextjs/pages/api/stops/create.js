@@ -53,10 +53,10 @@ export default async function handler(req, res) {
   // Validate req.body against schema
 
   try {
-    req.body = StopValidation.cast(req.body);
+    // req.body = StopValidation.cast(req.body);
   } catch (err) {
     console.log(err);
-    return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
+    return await res.status(400).json({ message: err.message });
   }
 
   // 6.
@@ -85,7 +85,8 @@ export default async function handler(req, res) {
 
   try {
     // Create a new document for this stop
-    const newDocument = { ...StopDefault, ...req.body, zones: zoneIdsForThisStop, code: `${req.body.municipality.prefix}${generator({ length: 4, type: 'numeric' })}` };
+    let newDocument = { ...StopDefault, ...req.body, zones: zoneIdsForThisStop, code: `${req.body.municipality.prefix}${generator({ length: 4, type: 'numeric' })}`, municipality: req.body.municipality._id };
+    newDocument = StopValidation.cast(newDocument);
     // The values that need to be unique are ['code'].
     while ((await StopModel.exists({ code: newDocument.code })) || (await DeletedStopModel.exists({ code: newDocument.code }))) {
       newDocument.code = `${req.body.municipality.prefix}${generator({ length: 4, type: 'numeric' })}`;

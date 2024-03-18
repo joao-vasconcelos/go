@@ -30,13 +30,12 @@ export default function StopsExplorerIdPageMap() {
     };
 
     // Loop through each stop in the collection and setup the feature to the GeoJSON object.
-    if (stopsExplorerContext.form.values && stopsExplorerContext.form.values.latitude && stopsExplorerContext.form.values.longitude) {
+    if (stopsExplorerContext.form.values.latitude && stopsExplorerContext.form.values.longitude) {
       geoJSON.geometry = {
         type: 'Point',
         coordinates: [parseFloat(stopsExplorerContext.form.values.longitude), parseFloat(stopsExplorerContext.form.values.latitude)],
       };
       geoJSON.properties = {
-        _id: stopsExplorerContext.form.values._id,
         code: stopsExplorerContext.form.values.code,
         name: stopsExplorerContext.form.values.name,
         latitude: stopsExplorerContext.form.values.latitude,
@@ -58,7 +57,7 @@ export default function StopsExplorerIdPageMap() {
 
   return (
     <div style={{ height: 400, minHeight: 400 }}>
-      <OSMMap id="singleStop" scrollZoom={false} interactiveLayerIds={['stop']}>
+      <OSMMap id="singleStopMap" scrollZoom={false} interactiveLayerIds={['stop']}>
         <Source id="stop" type="geojson" data={mapData}>
           <Layer id="stop" type="circle" source="stop" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
         </Source>

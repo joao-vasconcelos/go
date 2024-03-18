@@ -51,7 +51,7 @@ export default function StopsExplorerIdPageHeader() {
           await API({ service: 'stops', resourceId: stopsExplorerContext.item_id, operation: 'delete', method: 'DELETE' });
           stopMutate();
           allStopsMutate();
-          stopsExplorerContext.close();
+          stopsExplorerContext.closeItem();
           notify(stopsExplorerContext.item_id, 'success', t('operations.delete.success'));
         } catch (err) {
           console.log(err);
