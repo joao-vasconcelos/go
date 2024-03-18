@@ -3,8 +3,8 @@
 import { useMemo } from 'react';
 import styles from './HCalendar.module.css';
 import dayjs from 'dayjs';
-import HCalendarSpacer from '../HCalendarSpacer/HCalendarSpacer';
-import HCalendarPlaceholder from '../HCalendarPlaceholder/HCalendarPlaceholder';
+import HCalendarSpacer from '@/components/HCalendarSpacer/HCalendarSpacer';
+import HCalendarPlaceholder from '@/components/HCalendarPlaceholder/HCalendarPlaceholder';
 
 export default function HCalendar({ availableDates, renderCardComponent, onMultiSelect }) {
   //
@@ -65,7 +65,7 @@ export default function HCalendar({ availableDates, renderCardComponent, onMulti
       const firstDayOfThisMonthWeekdayType = dayjs(sortedDays[0].date).day();
       const numberOfSpacersToAddForAlignment = firstDayOfThisMonthWeekdayType === 0 ? 6 : firstDayOfThisMonthWeekdayType - 1;
       const spacersToAddForAlignment = Array.from({ length: numberOfSpacersToAddForAlignment }, (_, i) => ({
-        date: '',
+        date: i,
         card_type: 'spacer',
       }));
       // Return this months formatted dates
@@ -149,25 +149,25 @@ export default function HCalendar({ availableDates, renderCardComponent, onMulti
       <div className={styles.tableBody}>
         {allDatesFormatted &&
           allDatesFormatted.map((month, index) => (
-            <>
-              <div key={index} className={styles.tableBodyRow}>
+            <div key={month.sort_key}>
+              <div className={styles.tableBodyRow}>
                 <div className={`${styles.tableBodyCell} ${styles.monthCell}`} onClick={() => handleMonthClick(month)}>
                   {month.month_name}
                 </div>
-                {month.days.map((dateObj, index) => {
+                {month.days.map((dateObj) => {
                   switch (dateObj.card_type) {
                     default:
                     case 'spacer':
-                      return <HCalendarSpacer key={index} />;
+                      return <HCalendarSpacer key={dateObj.date} />;
                     case 'placeholder':
-                      return <HCalendarPlaceholder key={index} date={dateObj.date} />;
+                      return <HCalendarPlaceholder key={dateObj.date} date={dateObj.date} />;
                     case 'date':
-                      return renderCardComponent({ key: index, date: dateObj.date, dateObj: dateObj });
+                      return renderCardComponent({ key: dateObj.date, date: dateObj.date, dateObj: dateObj });
                   }
                 })}
               </div>
               {month.month_number === 11 && index < allDatesFormatted.length - 1 && <div className={styles.lastMonthOfYear} />}
-            </>
+            </div>
           ))}
       </div>
     </div>
