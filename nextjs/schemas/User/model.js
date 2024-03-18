@@ -111,6 +111,15 @@ export const UserSchema = new mongoose.Schema(
         navigate: { is_allowed: { type: Boolean } },
       },
       //
+      archives: {
+        view: { is_allowed: { type: Boolean } },
+        lock: { is_allowed: { type: Boolean } },
+        create: { is_allowed: { type: Boolean } },
+        delete: { is_allowed: { type: Boolean } },
+        download: { is_allowed: { type: Boolean } },
+        navigate: { is_allowed: { type: Boolean } },
+      },
+      //
       municipalities: {
         view: { is_allowed: { type: Boolean } },
         edit: { is_allowed: { type: Boolean } },

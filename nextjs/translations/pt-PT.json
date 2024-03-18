@@ -1038,6 +1038,7 @@
         "calendars": "Calendários",
         "lines": "Linhas",
         "exports": "Exportações",
+        "archives": "Arquivos",
         "municipalities": "Municípios",
         "zones": "Zonas",
         "fares": "Tarifas",
@@ -2334,6 +2335,10 @@
             "title": "Exportações",
             "description": ""
         },
+        "archives": {
+            "title": "Arquivos",
+            "description": ""
+        },
         "municipalities": {
             "title": "Municípios",
             "description": ""
@@ -2721,6 +2726,32 @@
         },
         "navigate": {
             "label": "Aceder à página das Exportações",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        }
+    },
+    "UsersExplorerIdPagePermissionsArchives": {
+        "view": {
+            "label": "Ver Arquivos",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "lock": {
+            "label": "Bloquear Arquivos",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "create": {
+            "label": "Criar Arquivos",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "delete": {
+            "label": "Eliminar Arquivos",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "download": {
+            "label": "Download de Arquivos",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "navigate": {
+            "label": "Aceder à página dos Arquivos",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         }
     },

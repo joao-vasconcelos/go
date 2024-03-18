@@ -15,6 +15,7 @@ import UsersExplorerIdPagePermissionsStops from '@/components/UsersExplorerIdPag
 import UsersExplorerIdPagePermissionsCalendars from '@/components/UsersExplorerIdPagePermissionsCalendars/UsersExplorerIdPagePermissionsCalendars';
 import UsersExplorerIdPagePermissionsLines from '@/components/UsersExplorerIdPagePermissionsLines/UsersExplorerIdPagePermissionsLines';
 import UsersExplorerIdPagePermissionsExports from '@/components/UsersExplorerIdPagePermissionsExports/UsersExplorerIdPagePermissionsExports';
+import UsersExplorerIdPagePermissionsArchives from '@/components/UsersExplorerIdPagePermissionsArchives/UsersExplorerIdPagePermissionsArchives';
 import UsersExplorerIdPagePermissionsMunicipalities from '@/components/UsersExplorerIdPagePermissionsMunicipalities/UsersExplorerIdPagePermissionsMunicipalities';
 import UsersExplorerIdPagePermissionsZones from '@/components/UsersExplorerIdPagePermissionsZones/UsersExplorerIdPagePermissionsZones';
 import UsersExplorerIdPagePermissionsFares from '@/components/UsersExplorerIdPagePermissionsFares/UsersExplorerIdPagePermissionsFares';
@@ -118,6 +119,15 @@ export default function UsersExplorerIdPagePermissions() {
         </Accordion.Control>
         <Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
           <UsersExplorerIdPagePermissionsExports />
+        </Accordion.Panel>
+      </Accordion.Item>
+
+      <Accordion.Item value="archives">
+        <Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
+          <AppLayoutSection title={t('archives.title')} description={t('archives.description')} />
+        </Accordion.Control>
+        <Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+          <UsersExplorerIdPagePermissionsArchives />
         </Accordion.Panel>
       </Accordion.Item>
 
