@@ -8,7 +8,7 @@ import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots, IconDownload } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '@/components/ErrorDisplay';
@@ -59,6 +59,26 @@ export default function Layout({ children }) {
     }
   };
 
+  const handleExportDates = async () => {
+    try {
+      setIsCreating(true);
+      notify('export_dates', 'loading', t('operations.export_dates.loading'));
+      const responseBlob = await API({ service: 'calendars', operation: 'export_dates', method: 'GET', parseType: 'blob' });
+      const objectURL = URL.createObjectURL(responseBlob);
+      const htmlAnchorElement = document.createElement('a');
+      htmlAnchorElement.href = objectURL;
+      htmlAnchorElement.download = 'dates.txt';
+      document.body.appendChild(htmlAnchorElement);
+      htmlAnchorElement.click();
+      notify('export_dates', 'success', t('operations.export_dates.success'));
+      setIsCreating(false);
+    } catch (err) {
+      notify('export_dates', 'error', err.message || t('operations.export_dates.error'));
+      setIsCreating(false);
+      console.log(err);
+    }
+  };
+
   //
   // D. Render data
 
@@ -81,6 +101,11 @@ export default function Layout({ children }) {
                     <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
                       {t('operations.create.title')}
                     </Menu.Item>
+                    <AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'export_dates' }]}>
+                      <Menu.Item leftSection={<IconDownload size={20} />} onClick={handleExportDates}>
+                        {t('operations.export_dates.title')}
+                      </Menu.Item>
+                    </AppAuthenticationCheck>
                   </Menu.Dropdown>
                 </Menu>
               </ListHeader>

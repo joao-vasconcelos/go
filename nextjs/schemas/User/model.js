@@ -80,6 +80,7 @@ export const UserSchema = new mongoose.Schema(
         create: { is_allowed: { type: Boolean } },
         delete: { is_allowed: { type: Boolean } },
         export: { is_allowed: { type: Boolean } },
+        export_deleted: { is_allowed: { type: Boolean } },
         navigate: { is_allowed: { type: Boolean } },
       },
       //
@@ -91,6 +92,7 @@ export const UserSchema = new mongoose.Schema(
         delete: { is_allowed: { type: Boolean } },
         navigate: { is_allowed: { type: Boolean } },
         edit_dates: { is_allowed: { type: Boolean } },
+        export_dates: { is_allowed: { type: Boolean } },
       },
       //
       lines: {

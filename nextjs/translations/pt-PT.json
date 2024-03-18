@@ -238,6 +238,12 @@
                 "success": "A new Calendar was created!",
                 "error": "An error occurred while creating this Calendar."
             },
+            "export_dates": {
+                "title": "Exportar dates.txt",
+                "loading": "A gerar ficheiro...",
+                "success": "Ficheiro dates.txt exportado!",
+                "error": "An error occurred while exporting the file."
+            },
             "delete": {
                 "title": "Delete Calendar",
                 "description": "Deleting is irreversible. Are you sure you want to delete this Calendar forever?",
@@ -2547,6 +2553,10 @@
             "label": "Exportar Paragens",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         },
+        "export_deleted": {
+            "label": "Exportar Paragens Eliminadas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
         "navigate": {
             "label": "Aceder à página das Paragens",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
@@ -2579,6 +2589,10 @@
         },
         "edit_dates": {
             "label": "Adicionar, Editar e Eliminar Datas",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
+        "export_dates": {
+            "label": "Exportar dates.txt",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         }
     },

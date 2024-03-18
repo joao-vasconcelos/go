@@ -4,34 +4,42 @@ import mongoose from 'mongoose';
 
 /* * */
 
-export const FareSchema = new mongoose.Schema(
+export const ArchiveSchema = new mongoose.Schema(
   {
     code: {
       type: String,
       maxlength: 10,
       unique: true,
     },
-    name: {
+    status: {
       type: String,
       maxlength: 50,
     },
-    short_name: {
+    agency: {
       type: String,
       maxlength: 50,
     },
-    price: {
+    start_date: {
       type: Number,
       maxlength: 50,
     },
-    currency_type: {
+    end_date: {
       type: String,
       maxlength: 50,
     },
-    payment_method: {
+    reference_plan: {
       type: String,
       maxlength: 50,
     },
-    transfers: {
+    offer_plan: {
+      type: String,
+      maxlength: 50,
+    },
+    operation_plan: {
+      type: String,
+      maxlength: 50,
+    },
+    apex_files: {
       type: String,
       maxlength: 50,
     },
@@ -44,4 +52,4 @@ export const FareSchema = new mongoose.Schema(
 
 /* * */
 
-export const FareModel = mongoose?.models?.Fare || mongoose.model('Fare', FareSchema);
+export const ArchiveModel = mongoose?.models?.Archive || mongoose.model('Archive', ArchiveSchema);

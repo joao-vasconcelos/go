@@ -64,6 +64,7 @@ export const UserDefault = {
       create: { is_allowed: false },
       delete: { is_allowed: false },
       export: { is_allowed: false },
+      export_deleted: { is_allowed: false },
       navigate: { is_allowed: false },
     },
     //
@@ -75,6 +76,7 @@ export const UserDefault = {
       delete: { is_allowed: false },
       navigate: { is_allowed: false },
       edit_dates: { is_allowed: false },
+      export_dates: { is_allowed: false },
     },
     //
     lines: {

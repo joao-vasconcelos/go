@@ -76,6 +76,13 @@ export default function UsersExplorerIdPagePermissionsStops() {
         disabled={!usersExplorerContext.form.values.permissions.stops.view.is_allowed}
       />
       <GlobalCheckboxCard
+        label={t('export_deleted.label')}
+        description={t('export_deleted.description')}
+        {...usersExplorerContext.form.getInputProps('permissions.stops.export_deleted.is_allowed')}
+        readOnly={usersExplorerContext.page.is_read_only}
+        disabled={!usersExplorerContext.form.values.permissions.stops.view.is_allowed}
+      />
+      <GlobalCheckboxCard
         label={t('navigate.label')}
         description={t('navigate.description')}
         {...usersExplorerContext.form.getInputProps('permissions.stops.navigate.is_allowed')}
