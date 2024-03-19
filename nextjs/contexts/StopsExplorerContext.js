@@ -166,9 +166,11 @@ export function StopsExplorerContextProvider({ children }) {
     // Copy the name first
     let shortenedStopName = formState.values.name;
     // Shorten the stop name
-    StopOptions.name_abbreviations.forEach((abbreviation) => {
-      shortenedStopName = shortenedStopName.replace(abbreviation.phrase, abbreviation.replacement);
-    });
+    StopOptions.name_abbreviations
+      .filter((abbreviation) => abbreviation.enabled)
+      .forEach((abbreviation) => {
+        shortenedStopName = shortenedStopName.replace(abbreviation.phrase, abbreviation.replacement);
+      });
     // Save the new name
     formState.setFieldValue('short_name', shortenedStopName);
     formState.setFieldValue('tts_name', makeTTs(formState.values.name));

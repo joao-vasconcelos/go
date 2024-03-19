@@ -162,9 +162,11 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
     // Copy the name first
     let shortenedStopName = parsedStopName;
     // Shorten the stop name
-    StopOptions.name_abbreviations.forEach((abbreviation) => {
-      shortenedStopName = shortenedStopName.replace(abbreviation.phrase, abbreviation.replacement);
-    });
+    StopOptions.name_abbreviations
+      .filter((abbreviation) => abbreviation.enabled)
+      .forEach((abbreviation) => {
+        shortenedStopName = shortenedStopName.replace(abbreviation.phrase, abbreviation.replacement);
+      });
     // Set new stop info
     setNewStopState((prev) => ({ ...prev, name: parsedStopName, short_name: shortenedStopName }));
   }, []);
