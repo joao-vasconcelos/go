@@ -24,6 +24,7 @@ export default function UsersExplorerIdPagePermissionsArchives() {
   return (
     <AppLayoutSection>
       <GlobalCheckboxCard label={t('view.label')} description={t('view.description')} {...usersExplorerContext.form.getInputProps('permissions.archives.view.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />
+      <GlobalCheckboxCard label={t('edit.label')} description={t('edit.description')} {...usersExplorerContext.form.getInputProps('permissions.archives.edit.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />
       <GlobalCheckboxCard label={t('create.label')} description={t('create.description')} {...usersExplorerContext.form.getInputProps('permissions.archives.create.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />
       <GlobalCheckboxCard label={t('lock.label')} description={t('lock.description')} {...usersExplorerContext.form.getInputProps('permissions.archives.lock.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />
       <GlobalCheckboxCard label={t('download.label')} description={t('download.description')} {...usersExplorerContext.form.getInputProps('permissions.archives.download.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />

@@ -7,14 +7,15 @@ import { useState } from 'react';
 import API from '@/services/API';
 import Loader from '@/components/Loader/Loader';
 import Text from '@/components/Text/Text';
+import { openConfirmModal } from '@mantine/modals';
 import MediaExplorerMediaPreviewImage from '@/components/MediaExplorerMediaPreviewImage/MediaExplorerMediaPreviewImage';
 import MediaExplorerMediaPreviewPdf from '@/components/MediaExplorerMediaPreviewPdf/MediaExplorerMediaPreviewPdf';
+import MediaExplorerMediaPreviewZip from '@/components/MediaExplorerMediaPreviewZip/MediaExplorerMediaPreviewZip';
 import GlobalAuthorTimestamp from '@/components/GlobalAuthorTimestamp/GlobalAuthorTimestamp';
 import { useTranslations } from 'next-intl';
 import { ActionIcon, Box, Menu } from '@mantine/core';
 import { IconDots, IconDownload, IconPencil, IconTrash } from '@tabler/icons-react';
 import styles from './MediaExplorerMedia.module.css';
-import { openConfirmModal } from '@mantine/modals';
 
 /* * */
 
@@ -102,6 +103,7 @@ export default function MediaExplorerMedia({ mediaId, onDelete, readOnly = false
           {mediaData.file_mime_type === 'image/jpeg' && <MediaExplorerMediaPreviewImage mediaData={mediaData} />}
           {mediaData.file_mime_type === 'image/png' && <MediaExplorerMediaPreviewImage mediaData={mediaData} />}
           {mediaData.file_mime_type === 'application/pdf' && <MediaExplorerMediaPreviewPdf />}
+          {mediaData.file_mime_type === 'application/zip' && <MediaExplorerMediaPreviewZip />}
         </div>
       )}
       <div className={styles.mediaDetails}>

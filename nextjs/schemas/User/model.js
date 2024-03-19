@@ -115,6 +115,7 @@ export const UserSchema = new mongoose.Schema(
       //
       archives: {
         view: { is_allowed: { type: Boolean } },
+        edit: { is_allowed: { type: Boolean } },
         lock: { is_allowed: { type: Boolean } },
         create: { is_allowed: { type: Boolean } },
         delete: { is_allowed: { type: Boolean } },

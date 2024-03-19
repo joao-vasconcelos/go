@@ -3,16 +3,16 @@
 export const ArchiveDefault = {
   //
   code: '',
-  status: '',
+  status: 'disabled',
   //
   agency: '',
-  start_date: '',
-  end_date: '',
+  start_date: new Date().setHours(0, 0, 0, 0),
+  end_date: new Date().setHours(0, 0, 0, 0),
   //
-  reference_plan: '',
-  offer_plan: '',
-  operation_plan: '',
-  apex_files: '',
+  reference_plan: null,
+  offer_plan: null,
+  operation_plan: null,
+  apex_files: null,
   //
   is_locked: false,
   //

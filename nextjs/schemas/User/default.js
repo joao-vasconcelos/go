@@ -99,6 +99,7 @@ export const UserDefault = {
     //
     archives: {
       view: { is_allowed: false },
+      edit: { is_allowed: false },
       lock: { is_allowed: false },
       create: { is_allowed: false },
       delete: { is_allowed: false },

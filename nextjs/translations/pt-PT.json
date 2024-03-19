@@ -2748,6 +2748,10 @@
             "label": "Ver Arquivos",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         },
+        "edit": {
+            "label": "Editar Arquivos",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        },
         "lock": {
             "label": "Bloquear Arquivos",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
@@ -4268,5 +4272,72 @@
                 "label": "Existe e está OK"
             }
         }
+    },
+    "ArchivesExplorerListHeader": {
+        "operations": {
+            "create": {
+                "title": "Criar Novo Arquivo",
+                "loading": "A criar arquivo...",
+                "success": "Foi criado um novo arquivo!",
+                "error": "Ocorreu um erro ao criar o arquivo."
+            }
+        }
+    },
+    "ArchivesExplorerListFooter": {
+        "found_items": "{count, plural, =1 {Encontrado 1 arquivo} other {Encontrados # arquivos}}"
+    },
+    "ArchivesExplorerListItemHeader": {},
+    "ArchivesExplorerListItemEditButton": {
+        "edit": {
+            "label": "Editar"
+        }
+    },
+    "ArchivesExplorerListItemEditForm": {
+        "form": {
+            "agency": {
+                "label": "Operador",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "code": {
+                "label": "Código do Plano de Operação da PCGI",
+                "placeholder": "et2rdjsywt2..."
+            },
+            "start_date": {
+                "label": "Válido desde",
+                "placeholder": "Tarif 1"
+            },
+            "end_date": {
+                "label": "Válido até",
+                "placeholder": "T1"
+            },
+            "status": {
+                "label": "Status",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            }
+        }
+    },
+    "ArchiveOptions": {
+        "status": {
+            "disabled": {
+                "label": "Inativo"
+            },
+            "active": {
+                "label": "Ativo"
+            }
+        }
+    },
+    "ArchivesExplorerListItemFilesReference": {
+        "title": "Plano de Referência (GO)"
+    },
+    "ArchivesExplorerListItemFilesOffer": {
+        "title": "Plano de Oferta (Consola)"
+    },
+    "ArchivesExplorerListItemFilesOperation": {
+        "title": "Plano de Operação (Operador)"
+    },
+    "ArchivesExplorerListItemFilesApex": {
+        "title": "Ficheiros APEX (ITS)"
     }
 }

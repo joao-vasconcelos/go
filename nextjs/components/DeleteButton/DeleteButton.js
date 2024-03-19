@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 /* * */
 
-export default function DeleteButton({ onClick, disabled }) {
+export default function DeleteButton({ onClick = async () => {}, disabled }) {
   //
 
   //

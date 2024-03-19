@@ -171,10 +171,13 @@ export default function Page() {
           <Text size="h1" full>
             {t('title')}
           </Text>
+
           <AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'edit_dates' }]}>
-            <Button leftSection={<IconCalendarPlus size={20} />} onClick={openModal} variant="light" color="blue" size="sm">
-              {t('operations.manage.title')}
-            </Button>
+            <div>
+              <Button leftSection={<IconCalendarPlus size={20} />} onClick={openModal} variant="light" color="blue" size="sm">
+                {t('operations.manage.title')}
+              </Button>
+            </div>
           </AppAuthenticationCheck>
         </ListHeader>
       }

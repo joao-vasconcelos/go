@@ -1,7 +1,13 @@
 /* * */
 
-export const ArchiveeOptions = {
+export const ArchiveOptions = {
   //
+
+  /*
+   * STORAGE SCOPE
+   */
+
+  storage_scope: 'archives',
 
   /*
    * STATUS

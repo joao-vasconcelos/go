@@ -1,0 +1,17 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* * */
+/* ACTIONS */
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}

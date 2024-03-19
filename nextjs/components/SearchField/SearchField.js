@@ -25,7 +25,7 @@ export default function SearchField({ query, onChange, placeholder }) {
         onChange={handleChange}
         rightSection={
           query && (
-            <ActionIcon variant='subtle' onClick={handleClear}>
+            <ActionIcon variant="subtle" onClick={handleClear}>
               <IconX size={16} />
             </ActionIcon>
           )

@@ -20,28 +20,26 @@ export const ArchiveSchema = new mongoose.Schema(
       maxlength: 50,
     },
     start_date: {
-      type: Number,
-      maxlength: 50,
+      type: Date,
     },
     end_date: {
-      type: String,
-      maxlength: 50,
+      type: Date,
     },
     reference_plan: {
-      type: String,
-      maxlength: 50,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Media',
     },
     offer_plan: {
-      type: String,
-      maxlength: 50,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Media',
     },
     operation_plan: {
-      type: String,
-      maxlength: 50,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Media',
     },
     apex_files: {
-      type: String,
-      maxlength: 50,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Media',
     },
     is_locked: {
       type: Boolean,

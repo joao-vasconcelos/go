@@ -10,7 +10,7 @@ class STORAGE {
 
   storage_directory_name = 'storage';
 
-  allowed_scopes = { alerts: 'alerts', issues: 'issues', stops: 'stops', exports: 'exports' };
+  allowed_scopes = { alerts: 'alerts', issues: 'issues', stops: 'stops', exports: 'exports', archives: 'archives' };
 
   getScopeDirPath(scope) {
     // Get the scope path from allowed list

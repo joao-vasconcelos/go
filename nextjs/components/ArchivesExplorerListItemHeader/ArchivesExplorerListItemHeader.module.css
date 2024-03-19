@@ -1,0 +1,64 @@
+/* * */
+/* CONTAINER */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+/* * */
+/* DATES WRAPPER */
+
+.datesWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+}
+
+/* * */
+/* DATE */
+
+.date {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.date.start {
+  background-color: var(--success2);
+}
+
+.date.end {
+  background-color: var(--info2);
+}
+
+/* * */
+/* AGENCY NAME */
+
+.agencyName {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* * */
+/* CODE */
+
+.code {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  font-family: monospace;
+  padding: 4px 6px;
+  border-radius: 5px;
+  color: var(--color-gray-7);
+  background-color: var(--color-gray-1);
+}
