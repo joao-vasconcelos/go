@@ -50,10 +50,7 @@ export const StopValidation = yup.object({
     .string()
     .max(100)
     .transform((value) => (value.length > 0 ? value.replace(/  +/g, ' ').trim() : value)),
-  municipality: yup
-    .string()
-    .max(100)
-    .transform((value) => (value.length > 0 ? value.replace(/  +/g, ' ').trim() : value)),
+  municipality: yup.string().max(100),
   parish: yup
     .string()
     .max(100)
