@@ -5,7 +5,6 @@
 import useSWR from 'swr';
 import * as turf from '@turf/turf';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import shortenStopName from '@/services/shortenStopName';
 import { StopOptions } from '@/schemas/Stop/options';
 import { useRouter } from 'next/navigation';
 import API from '@/services/API';
