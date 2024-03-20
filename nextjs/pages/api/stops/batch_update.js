@@ -17,6 +17,8 @@ let IS_TASK_RUNNING = false;
 export default async function handler(req, res) {
   //
 
+  throw new Error('Feature is disabled.');
+
   // 1.
   // Setup variables
 
