@@ -49,6 +49,30 @@ export default function Page() {
     });
   };
 
+  const handleImportAllStops = async () => {
+    openConfirmModal({
+      title: <Text size="h2">Import All Stops?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">Are you sure?</Text>,
+      labels: { confirm: 'Yes, Import All Stops', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('afetacao', 'loading', 'Loading');
+          await API({ service: 'configs/imports/all_stops', method: 'GET' });
+          notify('afetacao', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          notify('afetacao', 'error', err.message || 'Error');
+          setIsImporting(false);
+        }
+      },
+    });
+  };
+
   //
   // C. Render components
 
@@ -60,6 +84,9 @@ export default function Page() {
           <SimpleGrid cols={3}>
             <Button onClick={handleImportDeletedStops} color="red" loading={isImporting}>
               Import Deleted Stops
+            </Button>
+            <Button onClick={handleImportAllStops} color="red" loading={isImporting}>
+              Import All Stops
             </Button>
           </SimpleGrid>
         </Section>
