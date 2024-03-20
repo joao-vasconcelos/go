@@ -17,6 +17,10 @@ export const StopSchema = new mongoose.Schema(
       type: String,
       maxlength: 100,
     },
+    name_new: {
+      type: String,
+      maxlength: 100,
+    },
     short_name: {
       type: String,
       maxlength: 100,

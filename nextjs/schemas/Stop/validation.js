@@ -21,6 +21,12 @@ export const StopValidation = yup.object({
     .max(StopOptions.max_stop_name_length)
     .transform((value) => (value.length > 0 ? value.replace(/  +/g, ' ').trim() : value))
     .required(),
+  name_new: yup
+    .string()
+    .min(StopOptions.min_stop_name_length)
+    .max(StopOptions.max_stop_name_length)
+    .transform((value) => (value.length > 0 ? value.replace(/  +/g, ' ').trim() : value))
+    .required(),
   short_name: yup
     .string()
     .max(StopOptions.max_stop_short_name_length)

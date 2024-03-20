@@ -3833,7 +3833,11 @@
                 "placeholder": "012345"
             },
             "name": {
-                "label": "Nome da Paragem",
+                "label": "Antigo Nome da Paragem (p/ alterar)",
+                "placeholder": "Rua Marquês de Pombal 8"
+            },
+            "name_new": {
+                "label": "Nome da Paragem (depois da correção)",
                 "placeholder": "Rua Marquês de Pombal 8"
             },
             "short_name": {

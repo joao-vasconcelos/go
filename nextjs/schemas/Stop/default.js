@@ -5,6 +5,7 @@ export const StopDefault = {
   // General
   code: '',
   name: '',
+  name_new: '',
   short_name: '',
   tts_name: '',
   latitude: 0,

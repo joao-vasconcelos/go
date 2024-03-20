@@ -260,7 +260,16 @@ export default function StopsExplorerIdPage() {
           />
         </SimpleGrid>
         <SimpleGrid cols={1}>
-          <TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...stopsExplorerContext.form.getInputProps('name')} readOnly={stopsExplorerContext.page.is_read_only_name} />
+          <TextInput
+            label={t('form.name.label')}
+            placeholder={t('form.name.placeholder')}
+            {...stopsExplorerContext.form.getInputProps('name')}
+            readOnly={stopsExplorerContext.page.is_read_only_name}
+            styles={{ input: { borderColor: stopsExplorerContext.form.values.name === stopsExplorerContext.form.values.name_new ? 'green' : 'orange', color: stopsExplorerContext.form.values.name === stopsExplorerContext.form.values.name_new ? 'green' : 'orange' } }}
+          />
+        </SimpleGrid>
+        <SimpleGrid cols={1}>
+          <TextInput label={t('form.name_new.label')} placeholder={t('form.name_new.placeholder')} {...stopsExplorerContext.form.getInputProps('name_new')} readOnly={stopsExplorerContext.page.is_read_only_name} />
         </SimpleGrid>
         <SimpleGrid cols={2}>
           <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...stopsExplorerContext.form.getInputProps('short_name')} readOnly />

@@ -162,9 +162,9 @@ export function StopsExplorerContextProvider({ children }) {
 
   useEffect(() => {
     // Return if stop has no name
-    if (!formState.values.name.length) return;
+    if (!formState.values.name_new.length) return;
     // Copy the name first
-    let shortenedStopName = formState.values.name;
+    let shortenedStopName = formState.values.name_new;
     // Shorten the stop name
     StopOptions.name_abbreviations
       .filter((abbreviation) => abbreviation.enabled)
@@ -173,9 +173,9 @@ export function StopsExplorerContextProvider({ children }) {
       });
     // Save the new name
     formState.setFieldValue('short_name', shortenedStopName);
-    formState.setFieldValue('tts_name', makeTTs(formState.values.name));
+    formState.setFieldValue('tts_name', makeTTs(formState.values.name_new));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formState.values.name]);
+  }, [formState.values.name_new]);
 
   //
   // F. Setup actions
