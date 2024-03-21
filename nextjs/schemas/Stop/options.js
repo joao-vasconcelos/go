@@ -36,6 +36,20 @@ export const StopOptions = {
 
   name_abbreviations: [
     //
+    // TML: Street & Place names
+    { phrase: 'Quinta', replacement: 'Qta.', enabled: true },
+    { phrase: 'Largo', replacement: 'Lgo.', enabled: true },
+    { phrase: 'Estrada Municipal', replacement: 'EM', enabled: true },
+    { phrase: 'Estrada Nacional', replacement: 'EN', enabled: true },
+    // TML: People
+    { phrase: 'Santo', replacement: 'Sto.', enabled: true },
+    { phrase: 'Santa', replacement: 'Sta.', enabled: true },
+    // TML: Facilities
+    { phrase: 'Cooperativa', replacement: 'Coop.', enabled: true },
+    { phrase: 'Câmara Municipal', replacement: 'CM', enabled: true },
+    { phrase: 'Hospital', replacement: 'Hosp.', enabled: false },
+    { phrase: 'Escola', replacement: 'Esc.', enabled: false },
+    //
     // CTT: Tipo de artéria
     { phrase: 'Alameda', replacement: 'Al.', enabled: true },
     { phrase: 'Avenida', replacement: 'Av.', enabled: true },
@@ -123,18 +137,6 @@ export const StopOptions = {
     { phrase: 'Sem Número', replacement: 'S/N', enabled: true },
     { phrase: 'Sociedade', replacement: 'Soc.', enabled: true },
     { phrase: 'Universidade', replacement: 'Univ.', enabled: false },
-    //
-    // TML: Street & Place names
-    { phrase: 'Quinta', replacement: 'Qta.', enabled: true },
-    { phrase: 'Largo', replacement: 'Lgo.', enabled: true },
-    // TML: People
-    { phrase: 'Santo', replacement: 'Sto.', enabled: true },
-    { phrase: 'Santa', replacement: 'Sta.', enabled: true },
-    // TML: Facilities
-    { phrase: 'Cooperativa', replacement: 'Coop.', enabled: true },
-    { phrase: 'Câmara Municipal', replacement: 'CM', enabled: true },
-    { phrase: 'Hospital', replacement: 'Hosp.', enabled: false },
-    { phrase: 'Escola', replacement: 'Esc.', enabled: false },
     //
   ],
 

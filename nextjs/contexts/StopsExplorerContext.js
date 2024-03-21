@@ -172,7 +172,8 @@ export function StopsExplorerContextProvider({ children }) {
     StopOptions.name_abbreviations
       .filter((abbreviation) => abbreviation.enabled)
       .forEach((abbreviation) => {
-        shortenedStopName = shortenedStopName.replace(abbreviation.phrase, abbreviation.replacement);
+        const regexExpression = new RegExp(abbreviation.phrase, 'g');
+        shortenedStopName = shortenedStopName.replace(regexExpression, abbreviation.replacement);
       });
     // Save the new name
     formState.setFieldValue('short_name', shortenedStopName);
