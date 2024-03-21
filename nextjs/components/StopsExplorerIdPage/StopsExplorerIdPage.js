@@ -610,15 +610,15 @@ export default function StopsExplorerIdPage() {
 
       <AppLayoutSection title={t('sections.services.title')} description={t('sections.services.description')}>
         <SimpleGrid cols={3}>
-          <GlobalCheckboxCard label={t('form.near_health_clinic.label')} {...stopsExplorerContext.form.getInputProps('near_health_clinic')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.near_hospital.label')} {...stopsExplorerContext.form.getInputProps('near_hospital')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.near_university.label')} {...stopsExplorerContext.form.getInputProps('near_university')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.near_school.label')} {...stopsExplorerContext.form.getInputProps('near_school')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.near_police_station.label')} {...stopsExplorerContext.form.getInputProps('near_police_station')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.near_fire_station.label')} {...stopsExplorerContext.form.getInputProps('near_fire_station')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.near_shopping.label')} {...stopsExplorerContext.form.getInputProps('near_shopping')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.near_historic_building.label')} {...stopsExplorerContext.form.getInputProps('near_historic_building')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.near_transit_office.label')} {...stopsExplorerContext.form.getInputProps('near_transit_office')} readOnly={stopsExplorerContext.page.is_read_only} />
+          <GlobalCheckboxCard label={t('form.near_health_clinic.label')} {...stopsExplorerContext.form.getInputProps('near_health_clinic')} readOnly />
+          <GlobalCheckboxCard label={t('form.near_hospital.label')} {...stopsExplorerContext.form.getInputProps('near_hospital')} readOnly />
+          <GlobalCheckboxCard label={t('form.near_university.label')} {...stopsExplorerContext.form.getInputProps('near_university')} readOnly />
+          <GlobalCheckboxCard label={t('form.near_school.label')} {...stopsExplorerContext.form.getInputProps('near_school')} readOnly />
+          <GlobalCheckboxCard label={t('form.near_police_station.label')} {...stopsExplorerContext.form.getInputProps('near_police_station')} readOnly />
+          <GlobalCheckboxCard label={t('form.near_fire_station.label')} {...stopsExplorerContext.form.getInputProps('near_fire_station')} readOnly />
+          <GlobalCheckboxCard label={t('form.near_shopping.label')} {...stopsExplorerContext.form.getInputProps('near_shopping')} readOnly />
+          <GlobalCheckboxCard label={t('form.near_historic_building.label')} {...stopsExplorerContext.form.getInputProps('near_historic_building')} readOnly />
+          <GlobalCheckboxCard label={t('form.near_transit_office.label')} {...stopsExplorerContext.form.getInputProps('near_transit_office')} readOnly />
         </SimpleGrid>
       </AppLayoutSection>
 
@@ -626,14 +626,14 @@ export default function StopsExplorerIdPage() {
 
       <AppLayoutSection title={t('sections.connections.title')} description={t('sections.connections.description')}>
         <SimpleGrid cols={3}>
-          <GlobalCheckboxCard label={t('form.subway.label')} {...stopsExplorerContext.form.getInputProps('subway')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.light_rail.label')} {...stopsExplorerContext.form.getInputProps('light_rail')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.train.label')} {...stopsExplorerContext.form.getInputProps('train')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.boat.label')} {...stopsExplorerContext.form.getInputProps('boat')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.airport.label')} {...stopsExplorerContext.form.getInputProps('airport')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.bike_sharing.label')} {...stopsExplorerContext.form.getInputProps('bike_sharing')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.bike_parking.label')} {...stopsExplorerContext.form.getInputProps('bike_parking')} readOnly={stopsExplorerContext.page.is_read_only} />
-          <GlobalCheckboxCard label={t('form.car_parking.label')} {...stopsExplorerContext.form.getInputProps('car_parking')} readOnly={stopsExplorerContext.page.is_read_only} />
+          <GlobalCheckboxCard label={t('form.subway.label')} {...stopsExplorerContext.form.getInputProps('subway')} readOnly />
+          <GlobalCheckboxCard label={t('form.light_rail.label')} {...stopsExplorerContext.form.getInputProps('light_rail')} readOnly />
+          <GlobalCheckboxCard label={t('form.train.label')} {...stopsExplorerContext.form.getInputProps('train')} readOnly />
+          <GlobalCheckboxCard label={t('form.boat.label')} {...stopsExplorerContext.form.getInputProps('boat')} readOnly />
+          <GlobalCheckboxCard label={t('form.airport.label')} {...stopsExplorerContext.form.getInputProps('airport')} readOnly />
+          <GlobalCheckboxCard label={t('form.bike_sharing.label')} {...stopsExplorerContext.form.getInputProps('bike_sharing')} readOnly />
+          <GlobalCheckboxCard label={t('form.bike_parking.label')} {...stopsExplorerContext.form.getInputProps('bike_parking')} readOnly />
+          <GlobalCheckboxCard label={t('form.car_parking.label')} {...stopsExplorerContext.form.getInputProps('car_parking')} readOnly />
         </SimpleGrid>
       </AppLayoutSection>
 

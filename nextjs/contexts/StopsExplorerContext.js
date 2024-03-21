@@ -98,6 +98,9 @@ export function StopsExplorerContextProvider({ children }) {
   const { data: itemData, isLoading: itemLoading, mutate: itemMutate } = useSWR(itemId && `/api/stops/${itemId}`);
   const { data: allAssociatedPatternsData, isLoading: allAssociatedPatternsLoading } = useSWR(itemId && `/api/stops/${itemId}/associatedPatterns`);
 
+  const { data: allDatasetsFacilitiesEncmData } = useSWR('https://api.carrismetropolitana.pt/datasets/facilities/encm');
+  const { data: allDatasetsFacilitiesSchoolsData } = useSWR('https://api.carrismetropolitana.pt/datasets/facilities/schools');
+
   //
   // E. Transform data
 
@@ -176,6 +179,26 @@ export function StopsExplorerContextProvider({ children }) {
     formState.setFieldValue('tts_name', makeTTs(formState.values.name));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState.values.name_new, formState.values.name]);
+
+  useEffect(() => {
+    // Return if stop has no name
+    if (!allDatasetsFacilitiesEncmData || !formState.values.code) return;
+    // Find the current stop code in the dataset
+    const thisStopServesThisDataset = allDatasetsFacilitiesEncmData.find((item) => item.stops?.includes(formState.values.code));
+    // Set the boolean value
+    formState.setFieldValue('near_transit_office', thisStopServesThisDataset ? true : false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allDatasetsFacilitiesEncmData, formState.values.code]);
+
+  useEffect(() => {
+    // Return if stop has no name
+    if (!allDatasetsFacilitiesSchoolsData || !formState.values.code) return;
+    // Find the current stop code in the dataset
+    const thisStopServesThisDataset = allDatasetsFacilitiesSchoolsData.find((item) => item.stops?.includes(formState.values.code));
+    // Set the boolean value
+    formState.setFieldValue('near_school', thisStopServesThisDataset ? true : false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allDatasetsFacilitiesSchoolsData, formState.values.code]);
 
   //
   // F. Setup actions
