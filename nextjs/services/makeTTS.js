@@ -48,7 +48,7 @@ function addTransfer(p, modes) {
   return p;
 }
 
-export default function makeTTs(p, modes = {}) {
+module.exports = (p, modes = {}) => {
   let thisString = p;
   /* Uniformize crossing to (X), add spaces around crossing */
   let regex = /\(X\)/giu;
@@ -83,8 +83,8 @@ export default function makeTTs(p, modes = {}) {
   regex = /([^X])\)([^\s])/giu;
   thisString = thisString.replace(regex, '$1 ) $2');
   /* Add spaces around road numbers */
-  regex = /(^|\()[\s]*N[ac\s]?((\d)+)([\s\-\(\)]|$)/giu;
-  thisString = thisString.replace(regex, '$1Estrada Nacional $2 ');
+  regex = /(^|\(|\sX)[\s]*N[ac\s]?((\d)+)([\s\-\(\)]|$)/giu;
+  thisString = thisString.replace(regex, '$1 Estrada Nacional $2 ');
   regex = /\bN([\d]{3})-(\d)\b/giu;
   thisString = thisString.replace(regex, ' Estrada Nacional $1 $2 ');
   regex = /(?!\sE)\sN[.\s]*[º]?[\s]?((\d)+[a-g]?)[\s]*([\(\)]?)$/giu;
@@ -255,12 +255,12 @@ export default function makeTTs(p, modes = {}) {
   thisString = thisString.replace(regex, 'Calçada ');
   regex = /\s(Mun[i]?[c]?(?![í])[i]?(p)?[\.]?)\b/giu;
   thisString = thisString.replace(regex, ' Municipal');
+  regex = /\bCam[\s]+(?!M)/giu;
+  thisString = thisString.replace(regex, 'Caminho ');
   regex = /\b([C][a]?[m]?[\s]?M[u]?[n]?)[\s]*(?=[\d])/giu;
   thisString = thisString.replace(regex, 'Caminho Municipal ');
   regex = /\b([C][aâ]?[m]?[\s]*M[u]?[n]?)(\s|$)/giu;
   thisString = thisString.replace(regex, 'Câmara Municipal ');
-  regex = /\bCam[\s]+(?!M)/giu;
-  thisString = thisString.replace(regex, 'Caminho ');
   regex = /\sM([\d]{3})\b/giu;
   thisString = thisString.replace(regex, ' Municipal $1');
   regex = /(\s|^)(F[aá]b[r]?[\.]?)(\s|$)/giu;
@@ -549,6 +549,8 @@ export default function makeTTs(p, modes = {}) {
   thisString = thisString.replace(regex, 'Marechal$2');
   regex = /\b(Gen[\.]?)(\s)/giu;
   thisString = thisString.replace(regex, 'General$2');
+  regex = /\b(Maj[\.]?)(\s)/giu;
+  thisString = thisString.replace(regex, 'Majór$2');
   regex = /\b(Cel[\.]?)(\s)/giu;
   thisString = thisString.replace(regex, 'Coronél$2');
   regex = /\b(Ten[\.]?)(\s)/giu;
@@ -690,10 +692,14 @@ export default function makeTTs(p, modes = {}) {
   thisString = thisString.replace(regex, 'Pintéus');
   regex = /Aboboda/giu;
   thisString = thisString.replace(regex, 'Abóboda');
+  regex = /\bFisgas\b/giu;
+  thisString = thisString.replace(regex, 'Fisga-as');
   regex = /\bIvens\b/giu;
   thisString = thisString.replace(regex, 'Ívens');
   regex = /\bSales\b/giu;
   thisString = thisString.replace(regex, 'Sáles');
+  regex = /\bPôpa\b/giu;
+  thisString = thisString.replace(regex, 'Popa');
   regex = /Curry/giu;
   thisString = thisString.replace(regex, 'Cú-ri');
   regex = /Eugene/giu;
@@ -1086,4 +1092,4 @@ export default function makeTTs(p, modes = {}) {
   // thisString = thisString.replace(/\sE\s/g, ' e ');
   // Return result
   return addTransfer(thisString, modes);
-}
+};

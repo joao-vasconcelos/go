@@ -165,7 +165,7 @@ export function StopsExplorerContextProvider({ children }) {
 
   useEffect(() => {
     // Return if stop has no name
-    if (!formState.values.name_new.length && !formState.values.name.length) return;
+    if (!formState.values.name_new.length) return;
     // Copy the name first
     let shortenedStopName = formState.values.name_new;
     // Shorten the stop name
@@ -177,29 +177,27 @@ export function StopsExplorerContextProvider({ children }) {
       });
     // Save the new name
     formState.setFieldValue('short_name', shortenedStopName);
-    formState.setFieldValue('tts_name', makeTTs(formState.values.name));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formState.values.name_new, formState.values.name]);
+  }, [formState.values.name_new]);
 
   useEffect(() => {
     // Return if stop has no name
-    if (!allDatasetsFacilitiesEncmData || !formState.values.code) return;
-    // Find the current stop code in the dataset
-    const thisStopServesThisDataset = allDatasetsFacilitiesEncmData.find((item) => item.stops?.includes(formState.values.code));
-    // Set the boolean value
-    formState.setFieldValue('near_transit_office', thisStopServesThisDataset ? true : false);
+    if (!formState.values.name.length) return;
+    // Create the modes object
+    const stopModalConnections = {
+      subway: formState.values.near_subway,
+      light_rail: formState.values.near_light_rail,
+      train: formState.values.near_train,
+      boat: formState.values.near_boat,
+      airport: formState.values.near_airport,
+      bike_sharing: formState.values.near_bike_sharing,
+      bike_parking: formState.values.near_bike_parking,
+      car_parking: formState.values.near_car_parking,
+    };
+    // Save the new name
+    formState.setFieldValue('tts_name', makeTTs(formState.values.name, stopModalConnections).trim());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allDatasetsFacilitiesEncmData, formState.values.code]);
-
-  useEffect(() => {
-    // Return if stop has no name
-    if (!allDatasetsFacilitiesSchoolsData || !formState.values.code) return;
-    // Find the current stop code in the dataset
-    const thisStopServesThisDataset = allDatasetsFacilitiesSchoolsData.find((item) => item.stops?.includes(formState.values.code));
-    // Set the boolean value
-    formState.setFieldValue('near_school', thisStopServesThisDataset ? true : false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allDatasetsFacilitiesSchoolsData, formState.values.code]);
+  }, [formState.values.name, formState.values.near_subway, formState.values.near_light_rail, formState.values.near_train, formState.values.near_boat, formState.values.near_airport, formState.values.near_bike_sharing, formState.values.near_bike_parking, formState.values.near_car_parking]);
 
   //
   // F. Setup actions
@@ -247,6 +245,20 @@ export function StopsExplorerContextProvider({ children }) {
       htmlAnchorElement.download = 'stops_deleted.txt';
       document.body.appendChild(htmlAnchorElement);
       htmlAnchorElement.click();
+      setListState((prev) => ({ ...prev, is_loading: false }));
+      setPageState((prev) => ({ ...prev, is_loading: false }));
+    } catch (err) {
+      console.log(err);
+      setListState((prev) => ({ ...prev, is_loading: false }));
+      setPageState((prev) => ({ ...prev, is_loading: false }));
+    }
+  }, []);
+
+  const syncDatasets = useCallback(async () => {
+    try {
+      setListState((prev) => ({ ...prev, is_loading: true }));
+      setPageState((prev) => ({ ...prev, is_loading: true }));
+      await API({ service: 'stops', operation: 'sync/datasets', method: 'GET' });
       setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
     } catch (err) {
@@ -311,6 +323,8 @@ export function StopsExplorerContextProvider({ children }) {
       exportAsFile: exportAsFile,
       exportDeletedAsFile: exportDeletedAsFile,
       //
+      syncDatasets: syncDatasets,
+      //
       updateMapStyle: updateMapStyle,
       //
       validateItem: validateItem,
@@ -319,7 +333,7 @@ export function StopsExplorerContextProvider({ children }) {
       closeItem: closeItem,
       //
     }),
-    [listState, mapState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, exportAsFile, exportDeletedAsFile, updateMapStyle, validateItem, saveItem, lockItem, closeItem]
+    [listState, mapState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, exportAsFile, exportDeletedAsFile, syncDatasets, updateMapStyle, validateItem, saveItem, lockItem, closeItem]
   );
 
   //

@@ -4,7 +4,7 @@
 
 import useSWR from 'swr';
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots, IconDownload } from '@tabler/icons-react';
+import { IconCircleArrowDown, IconCirclePlus, IconDots, IconDownload } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import SearchField from '@/components/SearchField/SearchField';
@@ -55,6 +55,11 @@ export default function StopsExplorerListHeader() {
           <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'export' }]}>
             <Menu.Item leftSection={<IconDownload size={20} />} onClick={stopsExplorerContext.exportDeletedAsFile}>
               {t('operations.export_deleted.title')}
+            </Menu.Item>
+          </AppAuthenticationCheck>
+          <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
+            <Menu.Item leftSection={<IconCircleArrowDown size={20} />} onClick={stopsExplorerContext.syncDatasets}>
+              Sync Datasets
             </Menu.Item>
           </AppAuthenticationCheck>
         </Menu.Dropdown>

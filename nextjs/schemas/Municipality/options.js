@@ -5,10 +5,6 @@ export const MunicipalityOptions = {
 
   /*
    * DISTRICT
-   *
-   * 07 - Évora
-   * 11 - Lisboa
-   * 15 - Setúbal
    */
 
   district: [
@@ -19,10 +15,6 @@ export const MunicipalityOptions = {
 
   /*
    * REGION
-   *
-   * PT170 - AML
-   * PT16B - Oeste
-   * PT187 - Alentejo Central
    */
 
   region: [
