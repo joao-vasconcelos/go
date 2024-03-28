@@ -45,11 +45,12 @@ export const StopSchema = new mongoose.Schema(
       type: String,
       maxlength: 6,
     },
-    current_status: {
-      type: String,
-      maxlength: 2,
-      default: '1',
-    },
+    current_status: [
+      {
+        type: String,
+        maxlength: 2,
+      },
+    ],
 
     // Operation
     zones: [

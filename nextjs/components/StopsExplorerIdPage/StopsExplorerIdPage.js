@@ -286,7 +286,7 @@ export default function StopsExplorerIdPage() {
           />
         </SimpleGrid>
         <SimpleGrid cols={1}>
-          <Select
+          <MultiSelect
             data={currentStatusOptionsData}
             label={t('form.current_status.label')}
             placeholder={t('form.current_status.placeholder')}

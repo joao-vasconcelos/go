@@ -43,7 +43,7 @@ export const StopValidation = yup.object({
     .string()
     .max(100)
     .transform((value) => (value.length > 0 ? value.replace(/  +/g, ' ').trim() : value)),
-  current_status: yup.string().max(2),
+  current_status: yup.array(yup.string().max(2)),
 
   // Operation
   zones: yup.array(),

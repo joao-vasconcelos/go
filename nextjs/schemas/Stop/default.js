@@ -12,7 +12,7 @@ export const StopDefault = {
   longitude: 0,
   platform_code: '',
   parent_station: '',
-  current_status: '1',
+  current_status: ['1'],
 
   // Operation
   zones: [],
