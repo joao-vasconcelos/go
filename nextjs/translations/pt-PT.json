@@ -4119,9 +4119,12 @@
         }
     },
     "StopExplorerIdPageHeaderAssociatedPatterns": {
-        "title": "Patterns associados a esta paragem:",
         "label": "Ver Patterns associados",
+        "title": "Patterns associados a esta paragem:",
         "no_data": "Nenhum Pattern Encontrado"
+    },
+    "StopExplorerIdPageHeaderViewInWebsite": {
+        "label": "Ver esta paragem no Site"
     },
     "StopOptions": {
         "current_status": {

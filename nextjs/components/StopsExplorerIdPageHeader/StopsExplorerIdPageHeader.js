@@ -15,6 +15,7 @@ import DeleteButton from '@/components/DeleteButton/DeleteButton';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 import StopExplorerIdPageHeaderAssociatedPatterns from '@/components/StopExplorerIdPageHeaderAssociatedPatterns/StopExplorerIdPageHeaderAssociatedPatterns';
+import StopExplorerIdPageHeaderViewInWebsite from '@/components/StopExplorerIdPageHeaderViewInWebsite/StopExplorerIdPageHeaderViewInWebsite';
 
 /* * */
 
@@ -46,7 +47,7 @@ export default function StopsExplorerIdPageHeader() {
       confirmProps: { color: 'red' },
       onConfirm: async () => {
         try {
-          if (stopsExplorerContext.page.associated_patterns.length > 0) throw new Error(t('operations.delete.error'));
+          if (!stopsExplorerContext.page.is_deletable) throw new Error(t('operations.delete.error'));
           notify(stopsExplorerContext.item_id, 'loading', t('operations.delete.loading'));
           await API({ service: 'stops', resourceId: stopsExplorerContext.item_id, operation: 'delete', method: 'DELETE' });
           stopMutate();
@@ -84,11 +85,12 @@ export default function StopsExplorerIdPageHeader() {
       <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'view' }]}>
         <StopExplorerIdPageHeaderAssociatedPatterns />
       </AppAuthenticationCheck>
+      <StopExplorerIdPageHeaderViewInWebsite />
       <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'lock' }]}>
         <LockButton isLocked={stopsExplorerContext.item_data?.is_locked} onClick={stopsExplorerContext.lockItem} />
       </AppAuthenticationCheck>
       <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'delete' }]}>
-        <DeleteButton onClick={handleDelete} disabled={stopsExplorerContext.page.is_read_only || stopsExplorerContext.page.associated_patterns.length > 0} />
+        <DeleteButton onClick={handleDelete} disabled={stopsExplorerContext.page.is_read_only || !stopsExplorerContext.page.is_deletable} />
       </AppAuthenticationCheck>
     </ListHeader>
   );
