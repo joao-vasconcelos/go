@@ -75,6 +75,8 @@ export default async function syncAllStopsWithDatasets() {
       //
       stopData.tts_name = makeTTs(stopData.name, stopModalConnections).trim();
       //
+      stopData.is_locked = stopData.is_locked ? true : false;
+      //
       await stopData.save();
       //
     }

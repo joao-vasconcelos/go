@@ -99,7 +99,7 @@ export function StopsExplorerContextProvider({ children }) {
   const { data: allItemsData, isLoading: allItemsLoading, mutate: allItemsMutate } = useSWR('/api/stops');
   const { data: itemData, isLoading: itemLoading, mutate: itemMutate } = useSWR(itemId && `/api/stops/${itemId}`);
   const { data: allAssociatedPatternsData, isLoading: allAssociatedPatternsLoading } = useSWR(itemId && `/api/stops/${itemId}/associatedPatterns`);
-  const { data: apiItemData } = useSWR(itemId && `https://api.carrismetropolitana.pt/stops/${itemId}`);
+  const { data: apiItemData } = useSWR(itemData && `https://api.carrismetropolitana.pt/stops/${itemData.code}`);
 
   const { data: allDatasetsFacilitiesEncmData } = useSWR('https://api.carrismetropolitana.pt/datasets/facilities/encm');
   const { data: allDatasetsFacilitiesSchoolsData } = useSWR('https://api.carrismetropolitana.pt/datasets/facilities/schools');
@@ -140,22 +140,15 @@ export function StopsExplorerContextProvider({ children }) {
   }, [allAssociatedPatternsData]);
 
   useEffect(() => {
-    // Return if no data is available
-    if (!allAssociatedPatternsData || !apiItemData) return;
     // Stop is deletable if no patterns are associated in GO
-    if (allAssociatedPatternsData.length > 0) {
-      setPageState((prev) => ({ ...prev, is_deletable: false }));
-      return;
-    }
-    // Stop is deletable if no patterns are associated in the API
-    if (apiItemData.lines.length > 0) {
-      setPageState((prev) => ({ ...prev, is_deletable: false }));
+    if (allAssociatedPatternsData?.length === 0 && apiItemData?.lines?.length === 0) {
+      setPageState((prev) => ({ ...prev, is_deletable: true }));
       return;
     }
     // Update state
-    setPageState((prev) => ({ ...prev, is_deletable: true }));
+    setPageState((prev) => ({ ...prev, is_deletable: false }));
     //
-  }, [allAssociatedPatternsData, apiItemData]);
+  }, [allAssociatedPatternsData?.length, apiItemData?.lines]);
 
   useEffect(() => {
     // Check if the user is allowed to edit the current page
