@@ -84,7 +84,7 @@ export default function AppSidebar() {
           return (
             <AppAuthenticationCheck key={item.href} permissions={item.permissions}>
               <Tooltip label={item.label} position="right">
-                <Link href={'/' + item.href} scroll={false}>
+                <Link href={`/${item.href}`} scroll={false}>
                   <ActionIcon className={`${styles.navButton} ${isActivePage(item.href) && styles.selected}`} size="xl" color="gray">
                     {item.icon}
                   </ActionIcon>
