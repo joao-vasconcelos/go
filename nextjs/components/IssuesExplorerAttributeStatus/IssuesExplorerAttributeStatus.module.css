@@ -37,9 +37,9 @@
 /* STATUS › OPEN */
 
 .open {
-  color: #973aeb;
-  background-color: #f7e9ff;
-  border-color: #973aeb;
+  color: #0059db;
+  background-color: #ccecff;
+  border-color: #0059db;
 }
 
 /* * */
@@ -64,9 +64,9 @@
 /* STATUS › CLOSED */
 
 .closed {
-  color: #0059db;
-  background-color: #ccecff;
-  border-color: #0059db;
+  color: #973aeb;
+  background-color: #f7e9ff;
+  border-color: #973aeb;
 }
 
 /* * */
