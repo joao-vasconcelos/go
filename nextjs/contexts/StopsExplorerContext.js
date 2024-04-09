@@ -101,9 +101,6 @@ export function StopsExplorerContextProvider({ children }) {
   const { data: allAssociatedPatternsData, isLoading: allAssociatedPatternsLoading } = useSWR(itemId && `/api/stops/${itemId}/associatedPatterns`);
   const { data: apiItemData } = useSWR(itemData && `https://api.carrismetropolitana.pt/stops/${itemData.code}`);
 
-  const { data: allDatasetsFacilitiesEncmData } = useSWR('https://api.carrismetropolitana.pt/datasets/facilities/encm');
-  const { data: allDatasetsFacilitiesSchoolsData } = useSWR('https://api.carrismetropolitana.pt/datasets/facilities/schools');
-
   //
   // E. Transform data
 

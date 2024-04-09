@@ -12,7 +12,7 @@ import Loader from '@/components/Loader/Loader';
 
 /* * */
 
-export default function PatternsExplorerPattern({ line_id, route_id, pattern_id }) {
+export default function PatternsExplorerPattern({ patternId, openInNewTab = false }) {
   //
 
   //
@@ -24,13 +24,16 @@ export default function PatternsExplorerPattern({ line_id, route_id, pattern_id 
   //
   // B. Fetch data
 
-  const { data: patternData } = useSWR(pattern_id && `/api/patterns/${pattern_id}`);
+  const { data: patternData } = useSWR(patternId && `/api/patterns/${patternId}`);
+  const { data: routeData } = useSWR(patternData?.parent_route && `/api/routes/${patternData?.parent_route}`);
 
   //
   // C. Handle actions
 
   const handleClick = () => {
-    router.push(`/lines/${line_id}/${route_id}/${pattern_id}`);
+    const url = `/lines/${routeData?.parent_line}/${routeData._id}/${patternId}`;
+    if (openInNewTab) window.open(url, '_blank');
+    else router.push(url);
   };
 
   //

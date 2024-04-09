@@ -14,7 +14,6 @@ import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthe
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import { RouteOptions } from '@/schemas/Route/options';
 import PatternsExplorerPattern from '@/components/PatternsExplorerPattern/PatternsExplorerPattern';
-import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
 
 /* * */
 
@@ -27,7 +26,6 @@ export default function RoutesExplorerIdPage() {
   const t = useTranslations('RoutesExplorerIdPage');
   const routeOptionsLabels = useTranslations('RouteOptions');
 
-  const linesExplorerContext = useLinesExplorerContext();
   const routesExplorerContext = useRoutesExplorerContext();
 
   const [isCreatingPattern, setIsCreatingPattern] = useState(false);
@@ -84,7 +82,7 @@ export default function RoutesExplorerIdPage() {
       <AppLayoutSection title={t('sections.patterns.title')} description={t('sections.patterns.description')}>
         <div>
           {routesExplorerContext.form.values.patterns.map((patternId, index) => (
-            <PatternsExplorerPattern key={index} line_id={linesExplorerContext.item_id} route_id={routesExplorerContext.item_id} pattern_id={patternId} />
+            <PatternsExplorerPattern key={index} patternId={patternId} />
           ))}
         </div>
         <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'edit' }]}>
