@@ -3660,7 +3660,7 @@
             "modal": {
                 "title": "Tem a certeza que pretende eliminar este horário?",
                 "description": "Não é possível voltar atrás e será necessário reconstruir o conjunto de calendários associados a esta viagem.",
-                "confirm": "Sim, elimnar esta viagem",
+                "confirm": "Sim, eliminar esta viagem",
                 "cancel": "Não, deixar como está"
             }
         },

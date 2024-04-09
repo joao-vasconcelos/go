@@ -73,6 +73,7 @@ export const PatternScheduleDefault = {
 
 export const PatternDefault = {
   code: '',
+  parent_line: null,
   parent_route: null,
   origin: '',
   destination: '',

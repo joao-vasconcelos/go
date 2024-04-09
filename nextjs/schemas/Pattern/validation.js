@@ -12,6 +12,7 @@ export const PatternValidation = yup.object({
     .uppercase()
     .matches(/^[0-9_\s]+$/)
     .transform((value) => value.replace(/  +/g, ' ').trim()),
+  parent_line: yup.string().required(),
   parent_route: yup.string().required(),
   origin: yup
     .string()

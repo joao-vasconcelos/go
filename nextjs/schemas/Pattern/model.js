@@ -11,6 +11,10 @@ export const PatternSchema = new mongoose.Schema(
       maxlength: 25,
       unique: true,
     },
+    parent_line: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Line',
+    },
     parent_route: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Route',
