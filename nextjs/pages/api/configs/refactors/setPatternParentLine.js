@@ -54,7 +54,7 @@ export default async function handler(req, res) {
 
       if (!parentRouteData) console.log(`MAJOR ERROR: pattern_id: ${patternId.code} pattern_code: ${patternId.code} route_id: ${patternId.parent_route}`);
 
-      patternId.parent_line = parentRouteData.parent_line;
+      patternId.parent_line = parentRouteData?.parent_line;
       await patternId.save();
       //   await PatternModel.updateOne({ _id: patternId._id }, { parent_line: parentRouteData.parent_line });
 
