@@ -12,12 +12,12 @@ import { useSession } from 'next-auth/react';
 import isAllowed from '@/authentication/isAllowed';
 import { IconCloudPlus } from '@tabler/icons-react';
 import { SimpleGrid, Select, MultiSelect, Button, Divider, Switch, NumberInput } from '@mantine/core';
+import ListHeader from '@/components/ListHeader/ListHeader';
 import { Section } from '@/components/Layouts/Layouts';
 import { useState, useMemo } from 'react';
 import API from '@/services/API';
 import { DatePickerInput } from '@mantine/dates';
 import { DateTime } from 'luxon';
-import ListHeader from '../ListHeader/ListHeader';
 
 /* * */
 
@@ -98,7 +98,16 @@ export default function ExportsExplorerForm() {
     // Get the operation start date into a DateTime object
     const operationStartDate = DateTime.fromFormat(agencyData.operation_start_date, 'yyyyMMdd');
     // If now is before the start date of the operationation if it was this year...
-    if (DateTime.now() < operationStartDate.set({ year: DateTime.now().year })) {
+    if (agencyId === '645d7f204ef63aec14fbf22a') {
+      // If A4 then start the next month until the end of the contract
+      const endOfContractStartDate = DateTime.now().set({ year: 2029, month: 12, day: 31 }).endOf('month');
+      const nextMonthStartDatePlusOneYear = firstDayOfNextMonth.plus({ year: 1, day: -1 }).endOf('month');
+      // Set the corresponding fields
+      setSelectedCalendarsClipStartDate(firstDayOfNextMonth.toJSDate());
+      setSelectedCalendarsClipEndDate(endOfContractStartDate.toJSDate());
+      setSelectedFeedEndDate(nextMonthStartDatePlusOneYear.toJSDate());
+      setOutputNumericCalendarCodes(true);
+    } else if (DateTime.now() < operationStartDate.set({ year: DateTime.now().year })) {
       // ...then it means the current operation year started last year
       currentOperationYearStartDate = operationStartDate.set({ year: DateTime.now().year - 1 });
       currentOperationYearEndDate = currentOperationYearStartDate.plus({ year: 1 }).minus({ day: 1 });
