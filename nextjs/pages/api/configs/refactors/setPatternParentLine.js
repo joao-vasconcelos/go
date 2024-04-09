@@ -43,25 +43,28 @@ export default async function handler(req, res) {
   try {
     //
 
-    const allPatternsIds = await PatternModel.find({}, '_id code parent_route');
+    await PatternModel.findOneAndDelete({ code: '1719_28_72' });
+    console.log('delete pattern 1719_28_72');
 
-    for (const patternId of allPatternsIds) {
-      //
+    // const allPatternsIds = await PatternModel.find({}, '_id code parent_route');
 
-      console.log(`Preparing pattern ${patternId.code} ...`);
+    // for (const patternId of allPatternsIds) {
+    //   //
 
-      const parentRouteData = await RouteModel.findOne({ _id: patternId.parent_route });
+    //   console.log(`Preparing pattern ${patternId.code} ...`);
 
-      if (!parentRouteData) console.log(`MAJOR ERROR: pattern_id: ${patternId.code} pattern_code: ${patternId.code} route_id: ${patternId.parent_route}`);
+    //   const parentRouteData = await RouteModel.findOne({ _id: patternId.parent_route });
 
-      patternId.parent_line = parentRouteData?.parent_line;
-      await patternId.save();
-      //   await PatternModel.updateOne({ _id: patternId._id }, { parent_line: parentRouteData.parent_line });
+    //   if (!parentRouteData) console.log(`MAJOR ERROR: pattern_id: ${patternId.code} pattern_code: ${patternId.code} route_id: ${patternId.parent_route}`);
 
-      console.log(`Updated pattern ${patternId.code}`);
+    //   patternId.parent_line = parentRouteData?.parent_line;
+    //   await patternId.save();
+    //   //   await PatternModel.updateOne({ _id: patternId._id }, { parent_line: parentRouteData.parent_line });
 
-      //
-    }
+    //   console.log(`Updated pattern ${patternId.code}`);
+
+    //   //
+    // }
 
     //
   } catch (err) {
