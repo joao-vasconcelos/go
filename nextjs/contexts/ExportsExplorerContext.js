@@ -1,0 +1,168 @@
+'use client';
+
+/* * */
+
+import useSWR from 'swr';
+import API from '@/services/API';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { ExportFormDefault, ExportFormDefaultGtfsV29, ExportFormDefaultNetexV1, ExportFormDefaultRegionalMergeV1 } from '@/schemas/Export/default';
+import { ExportFormValidation, ExportFormValidationGtfsV29, ExportFormValidationNetexV1, ExportFormValidationRegionalMergeV1 } from '@/schemas/Export/validation';
+import { useForm, yupResolver } from '@mantine/form';
+
+/* * */
+
+const ExportsExplorerContext = createContext(null);
+
+export function useExportsExplorerContext() {
+  return useContext(ExportsExplorerContext);
+}
+
+/* * */
+
+const initialListState = {
+  //
+  is_loading: false,
+  //
+};
+
+const initialFormState = {
+  //
+  is_loading: false,
+  is_valid: false,
+  is_error: false,
+  is_read_only: false,
+  //
+};
+
+/* * */
+
+export function ExportsExplorerContextProvider({ children }) {
+  //
+
+  //
+  // B. Setup state
+
+  //
+  // B. Setup state
+
+  const [formState, setFormState] = useState(initialFormState);
+
+  //
+  // C. Setup forms
+
+  const formStateMain = useForm({
+    validateInputOnBlur: true,
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+    validate: yupResolver(ExportFormValidation),
+    initialValues: ExportFormDefault,
+  });
+
+  const formStateGtfsV29 = useForm({
+    validateInputOnBlur: true,
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+    validate: yupResolver(ExportFormValidationGtfsV29),
+    initialValues: ExportFormDefaultGtfsV29,
+  });
+
+  const formStateNetexV1 = useForm({
+    validateInputOnBlur: true,
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+    validate: yupResolver(ExportFormValidationNetexV1),
+    initialValues: ExportFormDefaultNetexV1,
+  });
+
+  const formStateRegionalMergeV1 = useForm({
+    validateInputOnBlur: true,
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+    validate: yupResolver(ExportFormValidationRegionalMergeV1),
+    initialValues: ExportFormDefaultRegionalMergeV1,
+  });
+
+  //
+  // F. Setup actions
+
+  const { mutate: allExportsMutate } = useSWR('/api/exports');
+
+  //
+  // F. Setup actions
+
+  useEffect(() => {
+    setFormState((prev) => ({ ...prev, is_valid: true }));
+    return;
+    if (!formStateMain.isValid()) setFormState((prev) => ({ ...prev, is_valid: false }));
+    if (formStateMain.values.kind === 'gtfs_v29' && formStateGtfsV29.isValid()) setFormState((prev) => ({ ...prev, is_valid: true }));
+    if (formStateMain.values.kind === 'netex_v1' && formStateNetexV1.isValid()) setFormState((prev) => ({ ...prev, is_valid: true }));
+    if (formStateMain.values.kind === 'regional_merge_v1' && formStateRegionalMergeV1.isValid()) {
+      setFormState((prev) => ({ ...prev, is_valid: true }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formStateGtfsV29.isValid(), formStateMain.isValid(), formStateNetexV1.isValid(), formStateRegionalMergeV1.isValid()]);
+
+  //
+  // F. Setup actions
+
+  const handleStartExport = useCallback(async () => {
+    try {
+      // Update interface
+      setFormState((prev) => ({ ...prev, is_loading: true, is_read_only: true }));
+      // Setup request body based on export kind
+      let requestBody = {};
+      switch (formStateMain.values.kind) {
+        case 'gtfs_v29':
+          requestBody = { ...formStateMain.values, ...formStateGtfsV29.values };
+          break;
+        case 'netex_v1':
+          requestBody = { ...formStateMain.values, ...formStateNetexV1.values };
+          break;
+        case 'regional_merge_v1':
+          requestBody = { ...formStateMain.values, ...formStateRegionalMergeV1.values };
+          break;
+      }
+      // Perform the API call
+      await API({ service: 'exports', operation: 'create', method: 'POST', body: requestBody });
+      // Mutate results
+      allExportsMutate();
+      // Reset form
+      formStateMain.setValues(ExportFormDefault);
+      formStateGtfsV29.setValues(ExportFormDefaultGtfsV29);
+      formStateNetexV1.setValues(ExportFormDefaultNetexV1);
+      formStateRegionalMergeV1.setValues(ExportFormDefaultRegionalMergeV1);
+      // Update interface
+      setFormState(initialFormState);
+      //
+    } catch (err) {
+      console.log(err);
+      setFormState((prev) => ({ ...prev, is_loading: false, is_read_only: false, is_error: true }));
+    }
+  }, [allExportsMutate, formStateGtfsV29, formStateMain, formStateNetexV1, formStateRegionalMergeV1]);
+
+  //
+  // G. Setup context object
+
+  const contextObject = useMemo(
+    () => ({
+      //
+      form: formState,
+      //
+      form_main: formStateMain,
+      form_gtfs_v29: formStateGtfsV29,
+      form_netex_v1: formStateNetexV1,
+      form_regional_merge_v1: formStateRegionalMergeV1,
+      //
+      startExport: handleStartExport,
+      //
+    }),
+    [formState, formStateGtfsV29, formStateMain, formStateNetexV1, formStateRegionalMergeV1, handleStartExport]
+  );
+
+  //
+  // H. Return provider
+
+  return <ExportsExplorerContext.Provider value={contextObject}>{children}</ExportsExplorerContext.Provider>;
+
+  //
+}

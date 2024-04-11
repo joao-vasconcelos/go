@@ -10,18 +10,18 @@ import { Divider } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
 import { Section } from '@/components/Layouts/Layouts';
 import NoDataLabel from '../NoDataLabel/NoDataLabel';
-import ExportsExplorerQueueItem from '@/components/ExportsExplorerQueueItem/ExportsExplorerQueueItem';
-import ListHeader from '../ListHeader/ListHeader';
+import ExportsExplorerListItem from '@/components/ExportsExplorerListItem/ExportsExplorerListItem';
+import ListHeader from '@/components/ListHeader/ListHeader';
 
 /* * */
 
-export default function ExportsExplorerQueue() {
+export default function ExportsExplorerList() {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('ExportsExplorerQueue');
+  const t = useTranslations('ExportsExplorerList');
 
   //
   // B. Fetch data
@@ -52,7 +52,7 @@ export default function ExportsExplorerQueue() {
       {allExportsData && allExportsData.length > 0 ? (
         <Section>
           {allExportsData.map((item) => (
-            <ExportsExplorerQueueItem key={item._id} item={item} />
+            <ExportsExplorerListItem key={item._id} item={item} />
           ))}
         </Section>
       ) : (

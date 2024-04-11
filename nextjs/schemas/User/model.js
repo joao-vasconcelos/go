@@ -105,11 +105,11 @@ export const UserSchema = new mongoose.Schema(
       },
       //
       exports: {
-        view: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }], export_types: [{ type: String }] } },
-        lock: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }], export_types: [{ type: String }] } },
-        create: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }], export_types: [{ type: String }] } },
-        delete: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }], export_types: [{ type: String }] } },
-        download: { is_allowed: { type: Boolean }, fields: { agencies: [{ type: String }], export_types: [{ type: String }] } },
+        view: { is_allowed: { type: Boolean }, fields: { agency: [{ type: String }], kind: [{ type: String }] } },
+        lock: { is_allowed: { type: Boolean }, fields: { agency: [{ type: String }], kind: [{ type: String }] } },
+        create: { is_allowed: { type: Boolean }, fields: { agency: [{ type: String }], kind: [{ type: String }] } },
+        delete: { is_allowed: { type: Boolean }, fields: { agency: [{ type: String }], kind: [{ type: String }] } },
+        download: { is_allowed: { type: Boolean }, fields: { agency: [{ type: String }], kind: [{ type: String }] } },
         navigate: { is_allowed: { type: Boolean } },
       },
       //

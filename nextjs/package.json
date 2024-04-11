@@ -1,6 +1,6 @@
 {
     "name": "@carrismetropolitana/go",
-    "version": "2024.04.10-1245",
+    "version": "2024.04.11-1936",
     "private": true,
     "scripts": {
         "dev": "next dev -p 3001",
@@ -11,17 +11,17 @@
     },
     "dependencies": {
         "@auth/mongodb-adapter": "2.6.0",
-        "@mantine/charts": "7.7.1",
-        "@mantine/code-highlight": "7.7.1",
-        "@mantine/core": "7.7.1",
-        "@mantine/dates": "7.7.1",
-        "@mantine/dropzone": "7.7.1",
-        "@mantine/form": "7.7.1",
-        "@mantine/hooks": "7.7.1",
-        "@mantine/modals": "7.7.1",
-        "@mantine/notifications": "7.7.1",
+        "@mantine/charts": "7.7.2",
+        "@mantine/code-highlight": "7.7.2",
+        "@mantine/core": "7.7.2",
+        "@mantine/dates": "7.7.2",
+        "@mantine/dropzone": "7.7.2",
+        "@mantine/form": "7.7.2",
+        "@mantine/hooks": "7.7.2",
+        "@mantine/modals": "7.7.2",
+        "@mantine/notifications": "7.7.2",
         "@streamparser/json": "0.0.20",
-        "@tabler/icons-react": "3.1.0",
+        "@tabler/icons-react": "3.2.0",
         "@turf/turf": "6.5.0",
         "adm-zip": "0.5.12",
         "dayjs": "1.11.10",
@@ -50,13 +50,13 @@
     },
     "devDependencies": {
         "@types/node": "20.12.7",
-        "@types/react": "18.2.75",
-        "@types/react-dom": "18.2.24",
+        "@types/react": "18.2.76",
+        "@types/react-dom": "18.2.25",
         "eslint": "8.57.0",
         "eslint-config-next": "14.1.4",
         "postcss": "8.4.38",
-        "postcss-preset-mantine": "1.14.0",
+        "postcss-preset-mantine": "1.14.4",
         "postcss-simple-vars": "7.0.1",
-        "typescript": "5.4.4"
+        "typescript": "5.4.5"
     }
 }

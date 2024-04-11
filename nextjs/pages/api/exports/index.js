@@ -4,6 +4,7 @@ import fs from 'fs';
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { ExportModel } from '@/schemas/Export/model';
+import STORAGE from '@/services/STORAGE';
 
 /* * */
 
@@ -56,7 +57,7 @@ export default async function handler(req, res) {
 
     // 4.4.
     // Set the workdir path
-    const workdir = `${process.env.PWD}/exports/`;
+    const workdir = STORAGE.getScopeDirPath('exports');
 
     // 4.5.
     // Only continue if workdir exists.

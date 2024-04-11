@@ -89,11 +89,11 @@ export const UserDefault = {
     },
     //
     exports: {
-      view: { is_allowed: false, fields: { agencies: [], export_types: [] } },
-      lock: { is_allowed: false, fields: { agencies: [], export_types: [] } },
-      create: { is_allowed: false, fields: { agencies: [], export_types: [] } },
-      delete: { is_allowed: false, fields: { agencies: [], export_types: [] } },
-      download: { is_allowed: false, fields: { agencies: [], export_types: [] } },
+      view: { is_allowed: false, fields: { agency: [], kind: [] } },
+      lock: { is_allowed: false, fields: { agency: [], kind: [] } },
+      create: { is_allowed: false, fields: { agency: [], kind: [] } },
+      delete: { is_allowed: false, fields: { agency: [], kind: [] } },
+      download: { is_allowed: false, fields: { agency: [], kind: [] } },
       navigate: { is_allowed: false },
     },
     //

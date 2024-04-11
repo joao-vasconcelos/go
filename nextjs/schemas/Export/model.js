@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 /* * */
 
 export const ExportSchema = new mongoose.Schema({
-  type: {
+  kind: {
     type: String,
     maxlength: 50,
   },

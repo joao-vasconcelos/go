@@ -7,19 +7,19 @@ import API from '@/services/API';
 import Loader from '@/components/Loader/Loader';
 import { IconFileAlert, IconFileDownload, IconTrash } from '@tabler/icons-react';
 import { useTranslations, useFormatter, useNow } from 'next-intl';
-import styles from './ExportsExplorerQueueItem.module.css';
+import styles from './ExportsExplorerListItem.module.css';
 import { openConfirmModal } from '@mantine/modals';
 import { Text } from '@mantine/core';
 
 /* * */
 
-export default function ExportsExplorerQueueItem({ item }) {
+export default function ExportsExplorerListItem({ item }) {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('ExportsExplorerQueueItem');
+  const t = useTranslations('ExportsExplorerListItem');
   const now = useNow({ updateInterval: 1000 });
   const format = useFormatter();
 
@@ -78,7 +78,7 @@ export default function ExportsExplorerQueueItem({ item }) {
           </div>
           <div className={styles.infoWrapper}>
             <div className={styles.badgesWrapper}>
-              <div className={styles.badge}>{t(`type.${item.type}.label`)}</div>
+              <div className={styles.badge}>{t(`kind.${item.kind}.label`)}</div>
               <div className={styles.badge}>
                 {t('status.PROCESSING')} {item.progress_current}/{item.progress_total}
               </div>
@@ -103,7 +103,7 @@ export default function ExportsExplorerQueueItem({ item }) {
           </div>
           <div className={styles.infoWrapper}>
             <div className={styles.badgesWrapper}>
-              <div className={`${styles.badge} ${styles.status}`}>{t(`type.${item.type}.label`)}</div>
+              <div className={`${styles.badge} ${styles.status}`}>{t(`kind.${item.kind}.label`)}</div>
               <div className={`${styles.badge} ${styles.status}`}>{t('status.COMPLETED')}</div>
             </div>
             <div className={styles.filename}>{item.filename || 'Untitled File'}</div>
@@ -126,7 +126,7 @@ export default function ExportsExplorerQueueItem({ item }) {
           </div>
           <div className={styles.infoWrapper}>
             <div className={styles.badgesWrapper}>
-              <div className={`${styles.badge} ${styles.status}`}>{t(`type.${item.type}.label`)}</div>
+              <div className={`${styles.badge} ${styles.status}`}>{t(`kind.${item.kind}.label`)}</div>
               <div className={`${styles.badge} ${styles.status}`}>{t('status.ERROR')}</div>
             </div>
             <div className={styles.filename}>{item.filename || 'Untitled File'}</div>

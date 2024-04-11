@@ -13,35 +13,17 @@ export const ExportOptions = {
   //
 
   /*
-   * WORKDIR
+   * STORAGE SCOPE
    */
 
   workdir: 'exports',
+  storage_scope: 'exports',
 
   /*
-   * TYPE
+   * KIND
    */
 
-  export_type: ['gtfs_v29', 'netex_v1'],
-
-  /*
-   * DEFAULTS
-   */
-
-  defaults: {
-    export_type: 'gtfs_v29',
-    agency_id: null,
-    lines_included: [],
-    lines_excluded: [],
-    feed_start_date: null,
-    feed_end_date: null,
-    clip_calendars: true,
-    calendars_clip_start_date: null,
-    calendars_clip_end_date: null,
-    numeric_calendar_codes: false,
-    stop_sequence_start: 1,
-    notify_user: true,
-  },
+  kind: ['gtfs_v29', 'netex_v1', 'regional_merge_v1'],
 
   /*
    * STATUS

@@ -39,9 +39,9 @@ export default function UsersExplorerIdPagePermissionsExports() {
       : [];
   }, [agenciesData]);
 
-  const exportTypesFormattedForSelect = useMemo(() => {
-    return ExportOptions.export_type.map((item) => {
-      return { value: item, label: exportOptionsLabels(`export_type.${item}.label`) };
+  const exportKindsFormattedForSelect = useMemo(() => {
+    return ExportOptions.kind.map((item) => {
+      return { value: item, label: exportOptionsLabels(`kind.${item}.label`) };
     });
   }, [exportOptionsLabels]);
 
@@ -53,21 +53,21 @@ export default function UsersExplorerIdPagePermissionsExports() {
       <GlobalCheckboxCard label={t('view.label')} description={t('view.description')} {...usersExplorerContext.form.getInputProps('permissions.exports.view.is_allowed')} readOnly={usersExplorerContext.page.is_read_only}>
         <>
           <MultiSelect
-            label={t('view.fields.agencies.label')}
-            placeholder={t('view.fields.agencies.placeholder')}
-            nothingFoundMessage={t('view.fields.agencies.nothingFound')}
-            {...usersExplorerContext.form.getInputProps('permissions.exports.view.fields.agencies')}
+            label={t('view.fields.agency.label')}
+            placeholder={t('view.fields.agency.placeholder')}
+            nothingFoundMessage={t('view.fields.agency.nothingFound')}
+            {...usersExplorerContext.form.getInputProps('permissions.exports.view.fields.agency')}
             data={agenciesFormattedForSelect}
             readOnly={usersExplorerContext.page.is_read_only}
             disabled={!usersExplorerContext.form.values.permissions.exports.view.is_allowed}
             searchable
           />
           <MultiSelect
-            label={t('view.fields.export_types.label')}
-            placeholder={t('view.fields.export_types.placeholder')}
-            nothingFoundMessage={t('view.fields.export_types.nothingFound')}
-            {...usersExplorerContext.form.getInputProps('permissions.exports.view.fields.export_types')}
-            data={exportTypesFormattedForSelect}
+            label={t('view.fields.kind.label')}
+            placeholder={t('view.fields.kind.placeholder')}
+            nothingFoundMessage={t('view.fields.kind.nothingFound')}
+            {...usersExplorerContext.form.getInputProps('permissions.exports.view.fields.kind')}
+            data={exportKindsFormattedForSelect}
             readOnly={usersExplorerContext.page.is_read_only}
             disabled={!usersExplorerContext.form.values.permissions.exports.view.is_allowed}
             searchable
@@ -77,21 +77,21 @@ export default function UsersExplorerIdPagePermissionsExports() {
       <GlobalCheckboxCard label={t('create.label')} description={t('create.description')} {...usersExplorerContext.form.getInputProps('permissions.exports.create.is_allowed')} readOnly={usersExplorerContext.page.is_read_only}>
         <>
           <MultiSelect
-            label={t('create.fields.agencies.label')}
-            placeholder={t('create.fields.agencies.placeholder')}
-            nothingFoundMessage={t('create.fields.agencies.nothingFound')}
-            {...usersExplorerContext.form.getInputProps('permissions.exports.create.fields.agencies')}
+            label={t('create.fields.agency.label')}
+            placeholder={t('create.fields.agency.placeholder')}
+            nothingFoundMessage={t('create.fields.agency.nothingFound')}
+            {...usersExplorerContext.form.getInputProps('permissions.exports.create.fields.agency')}
             data={agenciesFormattedForSelect}
             readOnly={usersExplorerContext.page.is_read_only}
             disabled={!usersExplorerContext.form.values.permissions.exports.create.is_allowed}
             searchable
           />
           <MultiSelect
-            label={t('create.fields.export_types.label')}
-            placeholder={t('create.fields.export_types.placeholder')}
-            nothingFoundMessage={t('create.fields.export_types.nothingFound')}
-            {...usersExplorerContext.form.getInputProps('permissions.exports.create.fields.export_types')}
-            data={exportTypesFormattedForSelect}
+            label={t('create.fields.kind.label')}
+            placeholder={t('create.fields.kind.placeholder')}
+            nothingFoundMessage={t('create.fields.kind.nothingFound')}
+            {...usersExplorerContext.form.getInputProps('permissions.exports.create.fields.kind')}
+            data={exportKindsFormattedForSelect}
             readOnly={usersExplorerContext.page.is_read_only}
             disabled={!usersExplorerContext.form.values.permissions.exports.create.is_allowed}
             searchable
@@ -101,21 +101,21 @@ export default function UsersExplorerIdPagePermissionsExports() {
       <GlobalCheckboxCard label={t('lock.label')} description={t('lock.description')} {...usersExplorerContext.form.getInputProps('permissions.exports.lock.is_allowed')} readOnly={usersExplorerContext.page.is_read_only}>
         <>
           <MultiSelect
-            label={t('lock.fields.agencies.label')}
-            placeholder={t('lock.fields.agencies.placeholder')}
-            nothingFoundMessage={t('lock.fields.agencies.nothingFound')}
-            {...usersExplorerContext.form.getInputProps('permissions.exports.lock.fields.agencies')}
+            label={t('lock.fields.agency.label')}
+            placeholder={t('lock.fields.agency.placeholder')}
+            nothingFoundMessage={t('lock.fields.agency.nothingFound')}
+            {...usersExplorerContext.form.getInputProps('permissions.exports.lock.fields.agency')}
             data={agenciesFormattedForSelect}
             readOnly={usersExplorerContext.page.is_read_only}
             disabled={!usersExplorerContext.form.values.permissions.exports.lock.is_allowed}
             searchable
           />
           <MultiSelect
-            label={t('lock.fields.export_types.label')}
-            placeholder={t('lock.fields.export_types.placeholder')}
-            nothingFoundMessage={t('lock.fields.export_types.nothingFound')}
-            {...usersExplorerContext.form.getInputProps('permissions.exports.lock.fields.export_types')}
-            data={exportTypesFormattedForSelect}
+            label={t('lock.fields.kind.label')}
+            placeholder={t('lock.fields.kind.placeholder')}
+            nothingFoundMessage={t('lock.fields.kind.nothingFound')}
+            {...usersExplorerContext.form.getInputProps('permissions.exports.lock.fields.kind')}
+            data={exportKindsFormattedForSelect}
             readOnly={usersExplorerContext.page.is_read_only}
             disabled={!usersExplorerContext.form.values.permissions.exports.lock.is_allowed}
             searchable
@@ -125,21 +125,21 @@ export default function UsersExplorerIdPagePermissionsExports() {
       <GlobalCheckboxCard label={t('download.label')} description={t('download.description')} {...usersExplorerContext.form.getInputProps('permissions.exports.download.is_allowed')} readOnly={usersExplorerContext.page.is_read_only}>
         <>
           <MultiSelect
-            label={t('download.fields.agencies.label')}
-            placeholder={t('download.fields.agencies.placeholder')}
-            nothingFoundMessage={t('download.fields.agencies.nothingFound')}
-            {...usersExplorerContext.form.getInputProps('permissions.exports.download.fields.agencies')}
+            label={t('download.fields.agency.label')}
+            placeholder={t('download.fields.agency.placeholder')}
+            nothingFoundMessage={t('download.fields.agency.nothingFound')}
+            {...usersExplorerContext.form.getInputProps('permissions.exports.download.fields.agency')}
             data={agenciesFormattedForSelect}
             readOnly={usersExplorerContext.page.is_read_only}
             disabled={!usersExplorerContext.form.values.permissions.exports.download.is_allowed}
             searchable
           />
           <MultiSelect
-            label={t('download.fields.export_types.label')}
-            placeholder={t('download.fields.export_types.placeholder')}
-            nothingFoundMessage={t('download.fields.export_types.nothingFound')}
-            {...usersExplorerContext.form.getInputProps('permissions.exports.download.fields.export_types')}
-            data={exportTypesFormattedForSelect}
+            label={t('download.fields.kind.label')}
+            placeholder={t('download.fields.kind.placeholder')}
+            nothingFoundMessage={t('download.fields.kind.nothingFound')}
+            {...usersExplorerContext.form.getInputProps('permissions.exports.download.fields.kind')}
+            data={exportKindsFormattedForSelect}
             readOnly={usersExplorerContext.page.is_read_only}
             disabled={!usersExplorerContext.form.values.permissions.exports.download.is_allowed}
             searchable
@@ -149,21 +149,21 @@ export default function UsersExplorerIdPagePermissionsExports() {
       <GlobalCheckboxCard label={t('delete.label')} description={t('delete.description')} {...usersExplorerContext.form.getInputProps('permissions.exports.delete.is_allowed')} readOnly={usersExplorerContext.page.is_read_only}>
         <>
           <MultiSelect
-            label={t('delete.fields.agencies.label')}
-            placeholder={t('delete.fields.agencies.placeholder')}
-            nothingFoundMessage={t('delete.fields.agencies.nothingFound')}
-            {...usersExplorerContext.form.getInputProps('permissions.exports.delete.fields.agencies')}
+            label={t('delete.fields.agency.label')}
+            placeholder={t('delete.fields.agency.placeholder')}
+            nothingFoundMessage={t('delete.fields.agency.nothingFound')}
+            {...usersExplorerContext.form.getInputProps('permissions.exports.delete.fields.agency')}
             data={agenciesFormattedForSelect}
             readOnly={usersExplorerContext.page.is_read_only}
             disabled={!usersExplorerContext.form.values.permissions.exports.delete.is_allowed}
             searchable
           />
           <MultiSelect
-            label={t('delete.fields.export_types.label')}
-            placeholder={t('delete.fields.export_types.placeholder')}
-            nothingFoundMessage={t('delete.fields.export_types.nothingFound')}
-            {...usersExplorerContext.form.getInputProps('permissions.exports.delete.fields.export_types')}
-            data={exportTypesFormattedForSelect}
+            label={t('delete.fields.kind.label')}
+            placeholder={t('delete.fields.kind.placeholder')}
+            nothingFoundMessage={t('delete.fields.kind.nothingFound')}
+            {...usersExplorerContext.form.getInputProps('permissions.exports.delete.fields.kind')}
+            data={exportKindsFormattedForSelect}
             readOnly={usersExplorerContext.page.is_read_only}
             disabled={!usersExplorerContext.form.values.permissions.exports.delete.is_allowed}
             searchable

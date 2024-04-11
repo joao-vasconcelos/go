@@ -1230,20 +1230,24 @@
         }
     },
     "ExportOptions": {
-        "export_type": {
+        "kind": {
             "gtfs_v29": {
-                "label": "GTFS Reference Plan (v29)",
-                "description": "For A3 and A4."
+                "label": "GTFS Plano de Referência (v29)",
+                "description": "Exportar oferta do GO no formato GTFS, para envio para o operador."
             },
             "netex_v1": {
                 "label": "NETEX (v1) (Teste)",
                 "description": "For testing."
+            },
+            "regional_merge_v1": {
+                "label": "GTFS Unificado (v1)",
+                "description": "For testing."
             }
         }
     },
-    "ExportsExplorerQueueItem": {
+    "ExportsExplorerListItem": {
         "exported_by": "Exported by {name} {time}",
-        "type": {
+        "kind": {
             "gtfs_v29": {
                 "label": "GTFS v29",
                 "description": "For A3 and A4."
@@ -1251,6 +1255,10 @@
             "netex_v1": {
                 "label": "NETEX v1",
                 "description": "For testing."
+            },
+            "regional_merge_v1": {
+                "label": "GTFS Unificado v1",
+                "description": "For A3 and A4."
             }
         },
         "status": {
@@ -1267,26 +1275,44 @@
             }
         }
     },
-    "ExportsExplorerQueue": {
+    "ExportsExplorerList": {
         "title": "Exportações Recentes",
         "description": "Aqui encontram-se as últimas exportações iniciadas por todos os utilizadores. As exportações são automaticamente eliminadas ao fim de 4 horas.",
         "no_data": "Nenhuma Exportação Disponível"
     },
+    "ExportsExplorerFormHeader": {
+        "title": "Iniciar Nova Exportação"
+    },
+    "ExportsExplorerFormIntro": {
+        "description": "Para iniciar uma nova exportação é necessário selecionar a versão do plano, o operador, opcionalmente um conjunto de linhas a incluir ou excluir, e uma data de início e de fim para a validade do plano. É também necessário definir o primeiro e o último dia dos calendários a incluir no plano."
+    },
     "ExportsExplorerForm": {
-        "title": "Iniciar Nova Exportação",
-        "description": "Para iniciar uma nova exportação é necessário selecionar a versão do plano, o operador, opcionalmente um conjunto de linhas a incluir ou excluir, e uma data de início e de fim para a validade do plano. É também necessário definir o primeiro e o último dia dos calendários a incluir no plano.",
         "operations": {
             "start": {
                 "label": "Iniciar Exportação"
             }
         },
         "form": {
-            "export_type": {
-                "label": "Tipo e Versão do Plano",
+            "kind": {
+                "label": "Modelo de Exportação",
                 "description": "Selecione o tipo de arquivo que pretende obter.",
                 "placeholder": "Escolha uma opção...",
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
+            "notify_user": {
+                "label": "Notificar-me por email ao concluir a exportação",
+                "description": "Indique se pretende receber um email quando a exportação estiver concluída."
+            }
+        },
+        "no_data": "Selecione um Modelo de Exportação"
+    },
+    "ExportsExplorerFormGtfsV29": {
+        "operations": {
+            "start": {
+                "label": "Iniciar Exportação"
+            }
+        },
+        "form": {
             "agencies": {
                 "label": "Selecione um Operador",
                 "description": "Selecione o operador para o qual pretende obter um plano.",
@@ -1337,10 +1363,6 @@
                 "label": "Base de Contagem da Sequência de Paragens",
                 "description": "As paragens de um percurso são ordenadas sequencialmente por um número inteiro. É recomendado que se inicie a contagem com o número '1', no entanto é possível alterar (por exemplo para '0') em casos específicos.",
                 "placeholder": "1"
-            },
-            "notify_user": {
-                "label": "Notificar-me por email ao concluir a exportação",
-                "description": "Indique se pretende receber um email quando a exportação estiver concluída."
             }
         }
     },
@@ -2662,12 +2684,12 @@
             "label": "Ver Exportações",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
             "fields": {
-                "agencies": {
+                "agency": {
                     "label": "Apenas para estes operadores",
                     "placeholder": "Escolha uma opção...",
                     "nothingFound": "Nenhum Resultado Encontrado"
                 },
-                "export_types": {
+                "kind": {
                     "label": "Limitar a estas versões",
                     "placeholder": "Escolha uma opção...",
                     "nothingFound": "Nenhum Resultado Encontrado"
@@ -2678,12 +2700,12 @@
             "label": "Bloquear Exportações",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
             "fields": {
-                "agencies": {
+                "agency": {
                     "label": "Apenas para estes operadores",
                     "placeholder": "Escolha uma opção...",
                     "nothingFound": "Nenhum Resultado Encontrado"
                 },
-                "export_types": {
+                "kind": {
                     "label": "Limitar a estas versões",
                     "placeholder": "Escolha uma opção...",
                     "nothingFound": "Nenhum Resultado Encontrado"
@@ -2694,12 +2716,12 @@
             "label": "Criar Exportações",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
             "fields": {
-                "agencies": {
+                "agency": {
                     "label": "Apenas para estes operadores",
                     "placeholder": "Escolha uma opção...",
                     "nothingFound": "Nenhum Resultado Encontrado"
                 },
-                "export_types": {
+                "kind": {
                     "label": "Limitar a estas versões",
                     "placeholder": "Escolha uma opção...",
                     "nothingFound": "Nenhum Resultado Encontrado"
@@ -2710,12 +2732,12 @@
             "label": "Eliminar Exportações",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
             "fields": {
-                "agencies": {
+                "agency": {
                     "label": "Apenas para estes operadores",
                     "placeholder": "Escolha uma opção...",
                     "nothingFound": "Nenhum Resultado Encontrado"
                 },
-                "export_types": {
+                "kind": {
                     "label": "Limitar a estas versões",
                     "placeholder": "Escolha uma opção...",
                     "nothingFound": "Nenhum Resultado Encontrado"
@@ -2726,12 +2748,12 @@
             "label": "Download de Exportações",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
             "fields": {
-                "agencies": {
+                "agency": {
                     "label": "Apenas para estes operadores",
                     "placeholder": "Escolha uma opção...",
                     "nothingFound": "Nenhum Resultado Encontrado"
                 },
-                "export_types": {
+                "kind": {
                     "label": "Limitar a estas versões",
                     "placeholder": "Escolha uma opção...",
                     "nothingFound": "Nenhum Resultado Encontrado"

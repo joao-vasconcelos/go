@@ -14,6 +14,8 @@ import { ZoneModel } from '@/schemas/Zone/model';
 import { StopModel } from '@/schemas/Stop/model';
 import { DateModel } from '@/schemas/Date/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
+import { AgencyModel } from '@/schemas/Agency/model';
+import { DateTime } from 'luxon';
 
 /* * */
 /* EXPORT GTFS V29 */
@@ -462,8 +464,10 @@ function parseStop(stopData, municipalityData) {
 /* * */
 /* BUILD GTFS V29 */
 /* This builds the GTFS archive. */
-export default async function exportGtfsV29(progress, agencyData, exportOptions) {
+export default async function exportGtfsV29(progress, exportOptions) {
   //
+
+  const agencyData = await AgencyModel.findOne({ _id: { $eq: exportOptions.agency_id } });
 
   console.log(`* * *`);
   console.log(`* GTFS v29 : NEW EXPORT`);
@@ -493,12 +497,12 @@ export default async function exportGtfsV29(progress, agencyData, exportOptions)
 
   // 2.
   // Retrieve only the lines that match the requested export options,
-  // or all of them for the given agency if 'lines_included' and 'lines_excluded' are empty.
+  // or all of them for the given agency if 'lines_include' and 'lines_exclude' are empty.
 
   const linesFilterParams = { agency: agencyData._id };
 
-  if (exportOptions.lines_included.length) linesFilterParams._id = { $in: exportOptions.lines_included };
-  else if (exportOptions.lines_excluded.length) linesFilterParams._id = { $nin: exportOptions.lines_excluded };
+  if (exportOptions.lines_include.length) linesFilterParams._id = { $in: exportOptions.lines_include };
+  else if (exportOptions.lines_exclude.length) linesFilterParams._id = { $nin: exportOptions.lines_exclude };
 
   const allLinesData = await LineModel.find(linesFilterParams).sort({ code: 1 }).populate(['typology', 'prepaid_fare', 'onboard_fares', 'routes']);
 
@@ -652,7 +656,8 @@ export default async function exportGtfsV29(progress, agencyData, exportOptions)
             if (exportOptions.clip_calendars) {
               [...calendarOnDates].forEach((currentDate) => {
                 // If the current date is before the start date OR after the end date, then remove it from the set
-                if (parseInt(currentDate) < parseInt(exportOptions.calendars_clip_start_date) || parseInt(currentDate) > parseInt(exportOptions.calendars_clip_end_date)) {
+                const currentDateObject = DateTime.fromFormat(currentDate, 'yyyyMMdd').startOf('day').toJSDate();
+                if (currentDateObject < new Date(exportOptions.calendars_clip_start_date) || currentDateObject > new Date(exportOptions.calendars_clip_end_date)) {
                   calendarOnDates.delete(currentDate);
                 }
               });
