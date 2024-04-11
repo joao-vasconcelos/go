@@ -14,6 +14,7 @@ import PatternsExplorerIdPageSchedules from '@/components/PatternsExplorerIdPage
 import PatternsExplorerIdPagePresets from '@/components/PatternsExplorerIdPagePresets/PatternsExplorerIdPagePresets';
 import PatternsExplorerIdPageImport from '@/components/PatternsExplorerIdPageImport/PatternsExplorerIdPageImport';
 import styles from './PatternsExplorerIdPage.module.css';
+import PatternsExplorerIdPageConfigs from '../PatternsExplorerIdPageConfigs/PatternsExplorerIdPageConfigs';
 
 /* * */
 
@@ -90,6 +91,22 @@ export default function PatternsExplorerIdPage() {
               {patternsExplorerContext.page.active_section === 'update_path' && (
                 <AppLayoutSection>
                   <PatternsExplorerIdPageImport />
+                </AppLayoutSection>
+              )}
+            </div>
+          </>
+        )}
+
+        {patternsExplorerContext.page.is_admin && (
+          <>
+            <Divider />
+            <div className={styles.accordionItem}>
+              <div className={`${styles.accordionControl} ${patternsExplorerContext.page.active_section === 'configs' && styles.accordionControlActive}`} onClick={() => patternsExplorerContext.updateActiveSection('configs')}>
+                <AppLayoutSection title={t('sections.configs.title')} description={t('sections.configs.description')} />
+              </div>
+              {patternsExplorerContext.page.active_section === 'configs' && (
+                <AppLayoutSection>
+                  <PatternsExplorerIdPageConfigs />
                 </AppLayoutSection>
               )}
             </div>

@@ -47,6 +47,8 @@ const initialPageState = {
   //
   active_section: null,
   //
+  is_admin: false,
+  //
 };
 
 /* * */
@@ -128,6 +130,14 @@ export function PatternsExplorerContextProvider({ children }) {
     setPageState((prev) => ({ ...prev, is_read_only: isReadOnly }));
     //
   }, [itemData?.is_locked, linesExplorerContext.item_data?.is_locked, pageState.is_saving, routesExplorerContext.item_data?.is_locked, sessionData]);
+
+  useEffect(() => {
+    // Check if the use is allowed to edit the current page
+    const isAdmin = isAllowed(sessionData, [{ scope: 'configs', action: 'admin' }], { handleError: true });
+    // Update state
+    setPageState((prev) => ({ ...prev, is_admin: isAdmin }));
+    //
+  }, [sessionData]);
 
   useEffect(() => {
     // Exit if no data is available or form is dirty

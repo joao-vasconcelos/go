@@ -3542,6 +3542,10 @@
             "update_path": {
                 "title": "Atualizar Percurso",
                 "description": "Atualizar a shape e sequência de paragens com a importação de um GTFS-Remix."
+            },
+            "configs": {
+                "title": "Configurações Avançadas",
+                "description": "ATENÇÃO: Alterar estas configurações poderá colocar em causa o correto funcionamento do programa."
             }
         },
         "form": {
@@ -3726,6 +3730,14 @@
                     "description": "Esta ação vai imediatamente substituir a shape e todas as paragens deste pattern. Não é possível voltar atrás."
                 }
             }
+        }
+    },
+    "PatternsExplorerIdPageConfigs": {
+        "parent_line": {
+            "label": "Parent Line",
+            "description": "Linha-mãe deste percurso.",
+            "placeholder": "Valor obrigatório",
+            "nothingFound": "Nenhum Resultado Encontrado"
         }
     },
     "StopsExplorerListItem": {
