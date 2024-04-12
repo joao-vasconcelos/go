@@ -9,7 +9,6 @@ import { useTranslations } from 'next-intl';
 import Pannel from '@/components/Pannel/Pannel';
 import { SimpleGrid, TextInput, Select, Divider, Button } from '@mantine/core';
 import { useRoutesExplorerContext } from '@/contexts/RoutesExplorerContext';
-import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
 import RoutesExplorerIdPageHeader from '@/components/RoutesExplorerIdPageHeader/RoutesExplorerIdPageHeader';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
@@ -28,7 +27,6 @@ export default function RoutesExplorerIdPage() {
   const routeOptionsLabels = useTranslations('RouteOptions');
 
   const routesExplorerContext = useRoutesExplorerContext();
-  const linesExplorerContext = useLinesExplorerContext();
 
   const [isCreatingPattern, setIsCreatingPattern] = useState(false);
 
@@ -47,7 +45,7 @@ export default function RoutesExplorerIdPage() {
     try {
       setIsCreatingPattern(true);
       notify('new-pattern', 'loading', 'A criar Pattern...');
-      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { code: `${routesExplorerContext.form.values.code}_${routesExplorerContext.form.values.patterns.length}`, parent_line: linesExplorerContext.item_id, parent_route: routesExplorerContext.item_id } });
+      const response = await API({ service: 'patterns', operation: 'create', method: 'POST', body: { code: `${routesExplorerContext.form.values.code}_${routesExplorerContext.form.values.patterns.length}`, parent_route: routesExplorerContext.item_id } });
       routesExplorerContext.form.insertListItem('patterns', response._id);
       notify('new-pattern', 'success', 'Pattern criado com sucesso.');
       setIsCreatingPattern(false);

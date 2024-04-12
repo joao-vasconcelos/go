@@ -60,7 +60,7 @@ export default async function handler(req, res) {
       newPatternCode = `${parentRouteDocument.code}_${generator({ length: 2, type: 'numeric' })}`;
     }
     // Create the new Route document
-    const newPattern = { ...PatternDefault, code: newPatternCode, parent_route: parentRouteDocument._id, direction: req.body.direction };
+    const newPattern = { ...PatternDefault, code: newPatternCode, parent_line: parentRouteDocument.parent_line, parent_route: parentRouteDocument._id, direction: req.body.direction };
     const createdDocument = await PatternModel(newPattern).save();
     return await res.status(201).json(createdDocument);
   } catch (err) {
