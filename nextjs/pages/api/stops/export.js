@@ -6,6 +6,8 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { StopModel } from '@/schemas/Stop/model';
 import { MunicipalityOptions } from '@/schemas/Municipality/options';
 import { PatternModel } from '@/schemas/Pattern/model';
+import { LineModel } from '@/schemas/Line/model';
+import { AgencyModel } from '@/schemas/Agency/model';
 
 /* * */
 
