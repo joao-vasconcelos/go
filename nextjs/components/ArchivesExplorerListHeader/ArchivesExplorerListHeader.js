@@ -49,26 +49,6 @@ export default function ArchivesExplorerListHeader() {
     }
   };
 
-  const handleMerge = async () => {
-    try {
-      setIsCreating(true);
-      notify('merge', 'loading', 'merging...');
-      const archiveBlob = await API({ service: 'archives', operation: 'merge', method: 'GET', parseType: 'blob' });
-      const objectURL = URL.createObjectURL(archiveBlob);
-      const zipDownload = document.createElement('a');
-      zipDownload.href = objectURL;
-      zipDownload.download = '1234.zip';
-      document.body.appendChild(zipDownload);
-      zipDownload.click();
-      notify('merge', 'success', 'merged! yeeey');
-      setIsCreating(false);
-    } catch (err) {
-      notify('merge', 'error', err.message || 'error merging');
-      setIsCreating(false);
-      console.log(err);
-    }
-  };
-
   //
   // D. Render components
 
@@ -78,11 +58,6 @@ export default function ArchivesExplorerListHeader() {
         <div>
           <Button variant="light" color="gray" leftSection={<IconPlus size={20} />} loading={allArchivesLoading || isCreating} onClick={handleCreate}>
             {t('operations.create.title')}
-          </Button>
-        </div>
-        <div>
-          <Button variant="light" color="gray" leftSection={<IconPlus size={20} />} loading={allArchivesLoading || isCreating} onClick={handleMerge}>
-            Merge
           </Button>
         </div>
       </AppAuthenticationCheck>

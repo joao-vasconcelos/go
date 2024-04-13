@@ -1,27 +1,20 @@
 /* * */
 
-import Papa from 'papaparse';
-import fs, { write } from 'fs';
-import calculateDateDayType from '@/services/calculateDateDayType';
+import { Readable } from 'stream';
 import { ExportModel } from '@/schemas/Export/model';
-import { LineModel } from '@/schemas/Line/model';
-import { FareModel } from '@/schemas/Fare/model';
-import { TypologyModel } from '@/schemas/Typology/model';
-import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { MunicipalityModel } from '@/schemas/Municipality/model';
 import { ZoneModel } from '@/schemas/Zone/model';
 import { StopModel } from '@/schemas/Stop/model';
-import { DateModel } from '@/schemas/Date/model';
-import { CalendarModel } from '@/schemas/Calendar/model';
 import { ArchiveModel } from '@/schemas/Archive/model';
 import { MediaModel } from '@/schemas/Media/model';
 import STORAGE from '@/services/STORAGE';
-import SMTP from '@/services/SMTP';
 import { ArchiveOptions } from '@/schemas/Archive/options';
 import AdmZip from 'adm-zip';
 import { DateTime } from 'luxon';
 import { MunicipalityOptions } from '@/schemas/Municipality/options';
+import { parse as csvParser } from 'csv-parse';
+import writeCsvToFile from '@/helpers/writeCsvToFile';
 
 /* * */
 /* MERGE GTFS */
@@ -50,27 +43,11 @@ async function update(exportDocument, updates) {
 //
 //
 
-/* * */
-/* WRITE CSV TO FILE */
-/* Parse and append data to an existing file. */
-function writeCsvToFile(workdir, filename, data, papaparseOptions) {
-  try {
-    // Set the new line character to be used (should be \n)
-    const newLineCharacter = '\n';
-    // If data is not an array, then wrap it in one
-    if (!Array.isArray(data)) data = [data];
-    // Check if the file already exists
-    const fileExists = fs.existsSync(`${workdir}/${filename}`);
-    // Use papaparse to produce the CSV string
-    let csvData = Papa.unparse(data, { skipEmptyLines: 'greedy', newline: newLineCharacter, header: !fileExists, ...papaparseOptions });
-    // Prepend a new line character to csvData string if it is not the first line on the file
-    if (fileExists) csvData = newLineCharacter + csvData;
-    // Append the csv string to the file
-    fs.appendFileSync(`${workdir}/${filename}`, csvData);
-    //
-  } catch (error) {
-    console.log(`Error at writeCsvToFile(${workdir}, ${filename}, ${data}, ${papaparseOptions})`, error);
-    throw new Error(`Error at writeCsvToFile(${workdir}, ${filename}, ${data}, ${papaparseOptions})`);
+async function parseCsvFile(dataStream, rowParser = async () => {}) {
+  const parser = csvParser({ columns: true, trim: true, skip_empty_lines: true, bom: true, record_delimiter: ['\n', '\r', '\r\n'] });
+  const stream = dataStream.pipe(parser);
+  for await (const rowData of stream) {
+    await rowParser(rowData);
   }
 }
 
@@ -163,7 +140,7 @@ async function getStopsData() {
     const allRegionsMap = MunicipalityOptions.region.reduce((map, { value, label }) => ((map[value] = label), map), {});
     const allDistrictsMap = MunicipalityOptions.district.reduce((map, { value, label }) => ((map[value] = label), map), {});
 
-    allStopsData = allStopsData.map((document) => {
+    return allStopsData.map((document) => {
       const thisStopAgencyCodes = Array.from(new Set(allPatternsDataFormatted.filter((item) => item.stop_codes.includes(document.code)).map((item) => item.agency_code))).join('|');
       return {
         // General
@@ -248,7 +225,7 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
   // Setup the agency.txt file
 
   const agencyData = getAgencyData();
-  writeCsvToFile(progress.workdir, 'agency.txt', agencyData);
+  await writeCsvToFile(progress.workdir, 'agency.txt', agencyData);
 
   // 2.
   // Define the date that should be used as the active date.
@@ -272,13 +249,13 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
   // 5.
   // Iterate on all found archives to merge them into a single GTFS file
 
-  for (const archiveData of allArchivesData) {
+  for (const [archiveIndex, archiveData] of allArchivesData.entries()) {
     //
 
     // 5.0.
     // Update progress
 
-    await update(progress, { progress_current: 2 });
+    await update(progress, { progress_current: archiveIndex + 1, progress_total: allArchivesData.length });
 
     // 5.1.
     // Setup variables to keep track of referenced entities in this archive
@@ -298,10 +275,10 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
     const archiveStartDate = DateTime.fromJSDate(archiveData.start_date).startOf('day').toJSDate();
     const archiveEndDate = DateTime.fromJSDate(archiveData.end_date).startOf('day').toJSDate();
 
-    // Plan is no longer valid
+    // Skip if the archive is no longer valid
     if (currentDate > archiveEndDate) continue;
 
-    // Plan is valid and is the one being used now
+    // Archive is valid and is the one being used now
     if (currentDate > archiveStartDate && currentDate < archiveEndDate) thisIsTheMainArchiveOfThisExport = true;
 
     // 5.3.
@@ -346,14 +323,14 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
       // 5.7.1.
       // Extract the calendar_dates.txt file from the zip archive
 
-      const calendarDatesTxt = zipEntryCalendarDates.getData().toString('utf8');
+      const calendarDatesTxt = Readable.from(zipEntryCalendarDates.getData());
 
       // 5.7.2.
       // Decide for each date of each service ID if it should be included in the final export or not
       // If this archive is the main one, then include all dates in the plan until the end_date.
       // In other words, ignore start_date. Else, cut from the start date until the end_date.
 
-      const parseEachRow = ({ data }) => {
+      const parseEachRow = async (data) => {
         //
         // Parse this row's date
         const rowDateObject = DateTime.fromFormat(data.date, 'yyyyMMdd').toJSDate();
@@ -378,19 +355,17 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
           exception_type: data.exception_type,
         };
         // Include this date in the final export and save a reference to the current service_id
-        writeCsvToFile(progress.workdir, 'calendar_dates.txt', exportedRowData);
+        await writeCsvToFile(progress.workdir, 'calendar_dates.txt', exportedRowData);
         referencedCalendarDates.add(data.service_id);
         //
-      };
-
-      const doneParseEachRow = () => {
-        console.log(`> Done with calendar_dates.txt of archive ${archiveData.code}`);
       };
 
       // 5.7.3.
       // Setup the CSV parsing operation
 
-      Papa.parse(calendarDatesTxt, { header: true, skipEmptyLines: true, dynamicTyping: false, worker: true, step: parseEachRow, complete: doneParseEachRow });
+      await parseCsvFile(calendarDatesTxt, parseEachRow);
+
+      console.log(`> Done with calendar_dates.txt of archive ${archiveData.code}`);
 
       //
     } catch (error) {
@@ -409,13 +384,13 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
       // 5.8.1.
       // Extract the trips.txt file from the zip archive
 
-      const tripsTxt = zipEntryTrips.getData().toString('utf8');
+      const tripsTxt = Readable.from(zipEntryTrips.getData());
 
       // 5.8.2.
       // For each trip, check if the associated service_id was saved in the previous step or not.
       // Include it if yes, skip otherwise.
 
-      const parseEachRow = ({ data }) => {
+      const parseEachRow = async (data) => {
         //
         // Skip if this row's service_id was not saved before
         if (!referencedCalendarDates.has(data.service_id)) return;
@@ -431,21 +406,19 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
           calendar_desc: data.calendar_desc,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        writeCsvToFile(progress.workdir, 'trips.txt', exportedRowData);
+        await writeCsvToFile(progress.workdir, 'trips.txt', exportedRowData);
         referencedTrips.add(data.trip_id);
         referencedShapes.add(data.shape_id);
         referencedRoutes.add(data.route_id);
         //
       };
 
-      const doneParseEachRow = () => {
-        console.log(`> Done with trips.txt of archive ${archiveData.code}`);
-      };
-
       // 5.7.3.
       // Setup the CSV parsing operation
 
-      Papa.parse(tripsTxt, { header: true, skipEmptyLines: true, dynamicTyping: false, worker: true, step: parseEachRow, complete: doneParseEachRow });
+      await parseCsvFile(tripsTxt, parseEachRow);
+
+      console.log(`> Done with trips.txt of archive ${archiveData.code}`);
 
       //
     } catch (error) {
@@ -463,13 +436,13 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
       // 5.9.1.
       // Extract the stop_times.txt file from the zip archive
 
-      const stopTimesTxt = zipEntryStopTimes.getData().toString('utf8');
+      const stopTimesTxt = Readable.from(zipEntryStopTimes.getData());
 
       // 5.9.2.
       // For each stop of each trip, check if the associated trip_id was saved in the previous step or not.
       // Include it if yes, skip otherwise.
 
-      const parseEachRow = ({ data }) => {
+      const parseEachRow = async (data) => {
         //
         // Skip if this row's trip_id was not saved before
         if (!referencedTrips.has(data.trip_id)) return;
@@ -486,19 +459,17 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
           timepoint: data.timepoint,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        writeCsvToFile(progress.workdir, 'stop_times.txt', exportedRowData);
+        await writeCsvToFile(progress.workdir, 'stop_times.txt', exportedRowData);
         referencedStops.add(data.stop_id);
         //
-      };
-
-      const doneParseEachRow = () => {
-        console.log(`> Done with stop_times.txt of archive ${archiveData.code}`);
       };
 
       // 5.9.3.
       // Setup the CSV parsing operation
 
-      Papa.parse(stopTimesTxt, { header: true, skipEmptyLines: true, dynamicTyping: false, worker: true, step: parseEachRow, complete: doneParseEachRow });
+      await parseCsvFile(stopTimesTxt, parseEachRow);
+
+      console.log(`> Done with stop_times.txt of archive ${archiveData.code}`);
 
       //
     } catch (error) {
@@ -516,13 +487,13 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
       // 5.10.1.
       // Extract the shapes.txt file from the zip archive
 
-      const shapesTxt = zipEntryShapes.getData().toString('utf8');
+      const shapesTxt = Readable.from(zipEntryShapes.getData());
 
       // 5.10.2.
       // For each point of each shape, check if the shape_id was saved in the previous step or not.
       // Include it if yes, skip otherwise.
 
-      const parseEachRow = ({ data }) => {
+      const parseEachRow = async (data) => {
         //
         // Skip if this row's trip_id was not saved before
         if (!referencedShapes.has(data.shape_id)) return;
@@ -535,18 +506,16 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
           shape_dist_traveled: data.shape_dist_traveled,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        writeCsvToFile(progress.workdir, 'shapes.txt', exportedRowData);
+        await writeCsvToFile(progress.workdir, 'shapes.txt', exportedRowData);
         //
-      };
-
-      const doneParseEachRow = () => {
-        console.log(`> Done with shapes.txt of archive ${archiveData.code}`);
       };
 
       // 5.10.3.
       // Setup the CSV parsing operation
 
-      Papa.parse(shapesTxt, { header: true, skipEmptyLines: true, dynamicTyping: false, worker: true, step: parseEachRow, complete: doneParseEachRow });
+      await parseCsvFile(shapesTxt, parseEachRow);
+
+      console.log(`> Done with shapes.txt of archive ${archiveData.code}`);
 
       //
     } catch (error) {
@@ -569,7 +538,7 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
       // 5.11.1.
       // Extract the routes.txt file from the zip archive
 
-      const routesTxt = zipEntryRoutes.getData().toString('utf8');
+      const routesTxt = Readable.from(zipEntryRoutes.getData());
 
       // 5.11.2.
       // For each route, decide if it should be marked for export or not.
@@ -578,7 +547,7 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
       // Also, if a route was not saved for a particular archive, we can skip it right away. There is no need to include it
       // if it has no valid trips. In fact, doing so is a formal GTFS warning, and should be avoided.
 
-      const parseEachRow = ({ data }) => {
+      const parseEachRow = async (data) => {
         //
         // Skip if this row's route_id was not saved before
         if (!referencedRoutes.has(data.route_id)) return;
@@ -609,14 +578,12 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
         //
       };
 
-      const doneParseEachRow = () => {
-        console.log(`> Done with routes.txt of archive ${archiveData.code}`);
-      };
-
       // 5.11.3.
       // Setup the CSV parsing operation
 
-      Papa.parse(routesTxt, { header: true, skipEmptyLines: true, dynamicTyping: false, worker: true, step: parseEachRow, complete: doneParseEachRow });
+      await parseCsvFile(routesTxt, parseEachRow);
+
+      console.log(`> Done with routes.txt of archive ${archiveData.code}`);
 
       //
     } catch (error) {
@@ -631,19 +598,19 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
   // After exporting each archive-specific file, handle exporting routes.
 
   const routesMarkedForFinalExportData = Array.from(routesMarkedForFinalExport.values());
-  writeCsvToFile(progress.workdir, 'routes.txt', routesMarkedForFinalExportData);
+  await writeCsvToFile(progress.workdir, 'routes.txt', routesMarkedForFinalExportData);
 
   // 7.
   // Export stops file
 
   const allStopsData = await getStopsData();
-  writeCsvToFile(progress.workdir, 'stops.txt', allStopsData);
+  await writeCsvToFile(progress.workdir, 'stops.txt', allStopsData);
 
   // 8.
   // Finally setup the feed_info.txt file
 
   const feedInfoData = getFeedInfoData('20240101', '20241231');
-  writeCsvToFile(progress.workdir, 'feed_info.txt', feedInfoData);
+  await writeCsvToFile(progress.workdir, 'feed_info.txt', feedInfoData);
 
   //
 }

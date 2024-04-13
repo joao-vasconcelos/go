@@ -16,6 +16,7 @@ import { DateModel } from '@/schemas/Date/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
 import { AgencyModel } from '@/schemas/Agency/model';
 import { DateTime } from 'luxon';
+import writeCsvToFile from '@/helpers/writeCsvToFile';
 
 /* * */
 /* EXPORT GTFS V29 */
@@ -36,35 +37,6 @@ async function update(exportDocument, updates) {
   } catch (error) {
     console.log(`Error at update(${exportDocument}, ${updates})`, error);
     throw new Error(`Error at update(${exportDocument}, ${updates})`);
-  }
-}
-
-//
-//
-//
-//
-
-/* * */
-/* WRITE CSV TO FILE */
-/* Parse and append data to an existing file. */
-function writeCsvToFile(workdir, filename, data, papaparseOptions) {
-  try {
-    // Set the new line character to be used (should be \n)
-    const newLineCharacter = '\n';
-    // If data is not an array, then wrap it in one
-    if (!Array.isArray(data)) data = [data];
-    // Check if the file already exists
-    const fileExists = fs.existsSync(`${workdir}/${filename}`);
-    // Use papaparse to produce the CSV string
-    let csvData = Papa.unparse(data, { skipEmptyLines: 'greedy', newline: newLineCharacter, header: !fileExists, ...papaparseOptions });
-    // Prepend a new line character to csvData string if it is not the first line on the file
-    if (fileExists) csvData = newLineCharacter + csvData;
-    // Append the csv string to the file
-    fs.appendFileSync(`${workdir}/${filename}`, csvData);
-    //
-  } catch (error) {
-    console.log(`Error at writeCsvToFile(${workdir}, ${filename}, ${data}, ${papaparseOptions})`, error);
-    throw new Error(`Error at writeCsvToFile(${workdir}, ${filename}, ${data}, ${papaparseOptions})`);
   }
 }
 
@@ -491,7 +463,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
   // Retrieve the requested agency object
   // and write the entry for this agency in agency.txt file
   const parsedAgency = parseAgency(agencyData);
-  writeCsvToFile(progress.workdir, 'agency.txt', parsedAgency);
+  await writeCsvToFile(progress.workdir, 'agency.txt', parsedAgency);
   //
   await update(progress, { progress_current: 2 });
 
@@ -674,7 +646,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
               referencedCalendarCodes.add(resultingCalendarCode);
               // Write the resulting calendar dates to the output file
               const parsedCalendar = await parseCalendar(resultingCalendarCode, [...calendarOnDates]);
-              if (parsedCalendar.length) writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
+              if (parsedCalendar.length) await writeCsvToFile(progress.workdir, 'calendar_dates.txt', parsedCalendar);
             }
 
             // 3.3.3.4.1.10.
@@ -780,11 +752,11 @@ export default async function exportGtfsV29(progress, exportOptions) {
 
             // 3.3.3.4.1.17.
             // Write the stop_times.txt entries for this trip
-            writeCsvToFile(progress.workdir, 'stop_times.txt', parsedStopTimes);
+            await writeCsvToFile(progress.workdir, 'stop_times.txt', parsedStopTimes);
 
             // 3.3.3.4.1.18.
             // Write the trips.txt entry for this trip
-            writeCsvToFile(progress.workdir, 'trips.txt', {
+            await writeCsvToFile(progress.workdir, 'trips.txt', {
               route_id: routeData.code,
               pattern_id: patternData.code,
               pattern_short_name: patternData.headsign.replaceAll(',', '').replace(/  +/g, ' ').trim(),
@@ -814,12 +786,12 @@ export default async function exportGtfsV29(progress, exportOptions) {
         // 3.3.3.6.
         // Write the afetacao.txt entry for this pattern
         const parsedZoning = await parseZoning(agencyData, lineData, patternData, exportOptions);
-        writeCsvToFile(progress.workdir, 'afetacao.csv', parsedZoning);
+        await writeCsvToFile(progress.workdir, 'afetacao.csv', parsedZoning);
 
         // 3.3.3.7.
         // Write the shapes.txt entry for this pattern
         const parsedShape = parseShape(thisShapeCode, patternData.shape);
-        writeCsvToFile(progress.workdir, 'shapes.txt', parsedShape);
+        await writeCsvToFile(progress.workdir, 'shapes.txt', parsedShape);
 
         // 3.3.3.8.
         // Update the flag indicating that the components for this pattern
@@ -836,14 +808,14 @@ export default async function exportGtfsV29(progress, exportOptions) {
       // 3.3.5.
       // Write the routes.txt entry for this route
       const parsedRoute = parseRoute(agencyData, lineData, typologyData, routeData);
-      writeCsvToFile(progress.workdir, 'routes.txt', parsedRoute);
+      await writeCsvToFile(progress.workdir, 'routes.txt', parsedRoute);
 
       // 3.3.6.
       // Write the fare_rules.txt entry for this route
       const combinedFares = lineData.onboard_fares.concat(lineData.prepaid_fare ? [lineData.prepaid_fare] : []);
       for (const fareData of combinedFares) {
         const parsedFareRule = parseFareRule(agencyData, routeData, fareData);
-        writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
+        await writeCsvToFile(progress.workdir, 'fare_rules.txt', parsedFareRule);
         referencedFareCodes.add(fareData.code);
       }
 
@@ -865,7 +837,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
   // Fetch the referenced stops and write the stops.txt file
   for (const stopData of allReferencedStopsData) {
     const parsedStop = parseStop(stopData, stopData.municipality);
-    writeCsvToFile(progress.workdir, 'stops.txt', parsedStop);
+    await writeCsvToFile(progress.workdir, 'stops.txt', parsedStop);
   }
 
   // 5.
@@ -880,7 +852,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
   // Fetch the referenced fares and write the fare_attributes.txt file
   for (const fareData of allReferencedFaresData) {
     const parsedFare = parseFare(agencyData, fareData);
-    writeCsvToFile(progress.workdir, 'fare_attributes.txt', parsedFare);
+    await writeCsvToFile(progress.workdir, 'fare_attributes.txt', parsedFare);
   }
 
   // 6.
@@ -890,7 +862,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
   // 6.1.
   // Create the feed_info file
   const feedInfoData = parseFeedInfo(agencyData, exportOptions);
-  writeCsvToFile(progress.workdir, 'feed_info.txt', feedInfoData);
+  await writeCsvToFile(progress.workdir, 'feed_info.txt', feedInfoData);
 
   //
 }
