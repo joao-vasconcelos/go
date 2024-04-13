@@ -36,7 +36,9 @@ async function flushBatch() {
   return new Promise((resolve, reject) => {
     try {
       console.log('FLUSHING BATCH', CURRENT_BATCH_DATA.length, CURRENT_BATCH_FILE);
-      if (!CURRENT_BATCH_FILE) resolve();
+      if (!CURRENT_BATCH_FILE) {
+        return resolve();
+      }
       // Setup a variable to keep track if the file exists or not
       let fileAlreadyExists = true;
       // Try to access the file and append data to it
