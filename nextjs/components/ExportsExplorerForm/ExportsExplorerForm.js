@@ -55,10 +55,10 @@ export default function ExportsExplorerForm() {
 
       <Divider />
 
-      {!exportsExplorerContext.form_main_values.kind && <NoDataLabel text={t('no_data')} fill />}
-      {exportsExplorerContext.form_main_values.kind === 'gtfs_v29' && <ExportsExplorerFormGtfsV29 />}
-      {/* {exportsExplorerContext.form_main_values.kind === 'netex_v1' && <ExportsExplorerFormNetexV1 />} */}
-      {/* {exportsExplorerContext.form_main_values.kind === 'regional_merge_v1' && <ExportsExplorerFormRegionalMergeV1 />} */}
+      {!exportsExplorerContext.form_main.values.kind && <NoDataLabel text={t('no_data')} fill />}
+      {exportsExplorerContext.form_main.values.kind === 'gtfs_v29' && <ExportsExplorerFormGtfsV29 />}
+      {/* {exportsExplorerContext.form_main.values.kind === 'netex_v1' && <ExportsExplorerFormNetexV1 />} */}
+      {/* {exportsExplorerContext.form_main.values.kind === 'regional_merge_v1' && <ExportsExplorerFormRegionalMergeV1 />} */}
 
       <Divider />
       <Section>

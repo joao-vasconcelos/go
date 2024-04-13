@@ -49,13 +49,11 @@ export function ExportsExplorerContextProvider({ children }) {
   // C. Setup forms
 
   const formStateMain = useForm({
-    mode: 'uncontrolled',
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(ExportFormValidation),
     initialValues: ExportFormDefault,
-    onValuesChange: setFormStateMainValuesState,
   });
 
   const formStateGtfsV29 = useForm({
@@ -92,15 +90,9 @@ export function ExportsExplorerContextProvider({ children }) {
 
   useEffect(() => {
     setFormState((prev) => ({ ...prev, is_valid: true }));
-    return;
-    if (!formStateMain.isValid()) setFormState((prev) => ({ ...prev, is_valid: false }));
-    if (formStateMain.values.kind === 'gtfs_v29' && formStateGtfsV29.isValid()) setFormState((prev) => ({ ...prev, is_valid: true }));
-    if (formStateMain.values.kind === 'netex_v1' && formStateNetexV1.isValid()) setFormState((prev) => ({ ...prev, is_valid: true }));
-    if (formStateMain.values.kind === 'regional_merge_v1' && formStateRegionalMergeV1.isValid()) {
-      setFormState((prev) => ({ ...prev, is_valid: true }));
-    }
+    if (formStateMain.values.kind === 'regional_merge_v1') formStateMain.setFieldValue('notify_user', false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formStateGtfsV29.isValid(), formStateMain.isValid(), formStateNetexV1.isValid(), formStateRegionalMergeV1.isValid()]);
+  }, [formStateMain.values.kind]);
 
   //
   // F. Setup actions
