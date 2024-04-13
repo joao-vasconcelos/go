@@ -42,20 +42,20 @@ export function ExportsExplorerContextProvider({ children }) {
   //
   // B. Setup state
 
-  //
-  // B. Setup state
-
   const [formState, setFormState] = useState(initialFormState);
+  const [formStateMainValuesState, setFormStateMainValuesState] = useState(ExportFormDefault);
 
   //
   // C. Setup forms
 
   const formStateMain = useForm({
+    mode: 'uncontrolled',
     validateInputOnBlur: true,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
     validate: yupResolver(ExportFormValidation),
     initialValues: ExportFormDefault,
+    onValuesChange: setFormStateMainValuesState,
   });
 
   const formStateGtfsV29 = useForm({
@@ -110,16 +110,18 @@ export function ExportsExplorerContextProvider({ children }) {
       // Update interface
       setFormState((prev) => ({ ...prev, is_loading: true, is_read_only: true }));
       // Setup request body based on export kind
+      const formStateMainValues = formStateMain.getValues();
+      //
       let requestBody = {};
-      switch (formStateMain.values.kind) {
+      switch (formStateMainValues.kind) {
         case 'gtfs_v29':
-          requestBody = { ...formStateMain.values, ...formStateGtfsV29.values };
+          requestBody = { ...formStateMainValues, ...formStateGtfsV29.values };
           break;
         case 'netex_v1':
-          requestBody = { ...formStateMain.values, ...formStateNetexV1.values };
+          requestBody = { ...formStateMainValues, ...formStateNetexV1.values };
           break;
         case 'regional_merge_v1':
-          requestBody = { ...formStateMain.values, ...formStateRegionalMergeV1.values };
+          requestBody = { ...formStateMainValues, ...formStateRegionalMergeV1.values };
           break;
       }
       // Perform the API call
@@ -149,6 +151,7 @@ export function ExportsExplorerContextProvider({ children }) {
       form: formState,
       //
       form_main: formStateMain,
+      form_main_values: formStateMainValuesState,
       form_gtfs_v29: formStateGtfsV29,
       form_netex_v1: formStateNetexV1,
       form_regional_merge_v1: formStateRegionalMergeV1,
@@ -156,7 +159,7 @@ export function ExportsExplorerContextProvider({ children }) {
       startExport: handleStartExport,
       //
     }),
-    [formState, formStateGtfsV29, formStateMain, formStateNetexV1, formStateRegionalMergeV1, handleStartExport]
+    [formState, formStateGtfsV29, formStateMain, formStateMainValuesState, formStateNetexV1, formStateRegionalMergeV1, handleStartExport]
   );
 
   //

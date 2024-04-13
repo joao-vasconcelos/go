@@ -208,7 +208,7 @@ async function getStopsData() {
 /* * */
 /* BUILD GTFS V29 */
 /* This builds the GTFS archive. */
-export default async function exportGtfsRegionalMergeV1(progress, exportOptions) {
+export default async function exportGtfsRegionalMergeV1(exportDocument, exportOptions) {
   //
 
   console.log(`* * *`);
@@ -219,13 +219,13 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
   // 0.
   // Update progress
 
-  await update(progress, { progress_current: 1, progress_total: 7 });
+  await update(exportDocument, { progress_current: 1, progress_total: 7 });
 
   // 1.
   // Setup the agency.txt file
 
   const agencyData = getAgencyData();
-  await writeCsvToFile(progress.workdir, 'agency.txt', agencyData);
+  await writeCsvToFile(exportDocument.workdir, 'agency.txt', agencyData);
 
   // 2.
   // Define the date that should be used as the active date.
@@ -255,7 +255,7 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
     // 5.0.
     // Update progress
 
-    await update(progress, { progress_current: archiveIndex + 1, progress_total: allArchivesData.length });
+    await update(exportDocument, { progress_current: archiveIndex + 1, progress_total: allArchivesData.length });
 
     // 5.1.
     // Setup variables to keep track of referenced entities in this archive
@@ -355,7 +355,7 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
           exception_type: data.exception_type,
         };
         // Include this date in the final export and save a reference to the current service_id
-        await writeCsvToFile(progress.workdir, 'calendar_dates.txt', exportedRowData);
+        await writeCsvToFile(exportDocument.workdir, 'calendar_dates.txt', exportedRowData);
         referencedCalendarDates.add(data.service_id);
         //
       };
@@ -406,7 +406,7 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
           calendar_desc: data.calendar_desc,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        await writeCsvToFile(progress.workdir, 'trips.txt', exportedRowData);
+        await writeCsvToFile(exportDocument.workdir, 'trips.txt', exportedRowData);
         referencedTrips.add(data.trip_id);
         referencedShapes.add(data.shape_id);
         referencedRoutes.add(data.route_id);
@@ -459,7 +459,7 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
           timepoint: data.timepoint,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        await writeCsvToFile(progress.workdir, 'stop_times.txt', exportedRowData);
+        await writeCsvToFile(exportDocument.workdir, 'stop_times.txt', exportedRowData);
         referencedStops.add(data.stop_id);
         //
       };
@@ -506,7 +506,7 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
           shape_dist_traveled: data.shape_dist_traveled,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        await writeCsvToFile(progress.workdir, 'shapes.txt', exportedRowData);
+        await writeCsvToFile(exportDocument.workdir, 'shapes.txt', exportedRowData);
         //
       };
 
@@ -598,19 +598,19 @@ export default async function exportGtfsRegionalMergeV1(progress, exportOptions)
   // After exporting each archive-specific file, handle exporting routes.
 
   const routesMarkedForFinalExportData = Array.from(routesMarkedForFinalExport.values());
-  await writeCsvToFile(progress.workdir, 'routes.txt', routesMarkedForFinalExportData);
+  await writeCsvToFile(exportDocument.workdir, 'routes.txt', routesMarkedForFinalExportData);
 
   // 7.
   // Export stops file
 
   const allStopsData = await getStopsData();
-  await writeCsvToFile(progress.workdir, 'stops.txt', allStopsData);
+  await writeCsvToFile(exportDocument.workdir, 'stops.txt', allStopsData);
 
   // 8.
   // Finally setup the feed_info.txt file
 
   const feedInfoData = getFeedInfoData('20240101', '20241231');
-  await writeCsvToFile(progress.workdir, 'feed_info.txt', feedInfoData);
+  await writeCsvToFile(exportDocument.workdir, 'feed_info.txt', feedInfoData);
 
   //
 }

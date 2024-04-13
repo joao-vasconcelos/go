@@ -44,5 +44,5 @@ export const ExportFormValidationNetexV1 = yup.object({
 /* * */
 
 export const ExportFormValidationRegionalMergeV1 = yup.object({
-  agency_id: yup.string().nullable(),
+  //   agency_id: yup.string().nullable(),
 });

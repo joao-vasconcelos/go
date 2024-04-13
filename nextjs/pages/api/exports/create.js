@@ -148,6 +148,7 @@ export default async function handler(req, res) {
       // For REGIONAL MERGE v1 the name consists of the version and the export date.
       case 'regional_merge_v1':
         exportDocument.filename = `GTFS_REGIONAL_MERGE_v1_${today()}.zip`;
+        exportDocument.notify_user = false;
         break;
     }
 
