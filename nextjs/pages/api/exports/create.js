@@ -216,7 +216,7 @@ export default async function handler(req, res) {
 
     // 8.6.
     // Send an email to the user using the email address of the user who requested the export.
-    if (exportDocument.notify_user && sessionData.user?.email) {
+    if (exportDocument.notify_user === true && sessionData.user?.email) {
       await SMTP.sendMail({
         from: process.env.EMAIL_FROM,
         to: sessionData.user.email,
