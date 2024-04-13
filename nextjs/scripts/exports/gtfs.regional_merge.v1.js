@@ -3,8 +3,6 @@
 import { Readable } from 'stream';
 import { ExportModel } from '@/schemas/Export/model';
 import { PatternModel } from '@/schemas/Pattern/model';
-import { MunicipalityModel } from '@/schemas/Municipality/model';
-import { ZoneModel } from '@/schemas/Zone/model';
 import { StopModel } from '@/schemas/Stop/model';
 import { ArchiveModel } from '@/schemas/Archive/model';
 import { MediaModel } from '@/schemas/Media/model';
@@ -14,12 +12,7 @@ import AdmZip from 'adm-zip';
 import { DateTime } from 'luxon';
 import { MunicipalityOptions } from '@/schemas/Municipality/options';
 import { parse as csvParser } from 'csv-parse';
-import writeCsvToFile from '@/helpers/writeCsvToFile';
-
-/* * */
-/* MERGE GTFS */
-/* This endpoint returns a zip file. */
-/* * */
+import { writeCsvToFileBatch } from '@/helpers/writeCsvToFile';
 
 //
 //
@@ -225,7 +218,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
   // Setup the agency.txt file
 
   const agencyData = getAgencyData();
-  await writeCsvToFile(exportDocument.workdir, 'agency.txt', agencyData);
+  await writeCsvToFileBatch(exportDocument.workdir, 'agency.txt', agencyData);
 
   // 2.
   // Define the date that should be used as the active date.
@@ -355,7 +348,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
           exception_type: data.exception_type,
         };
         // Include this date in the final export and save a reference to the current service_id
-        await writeCsvToFile(exportDocument.workdir, 'calendar_dates.txt', exportedRowData);
+        await writeCsvToFileBatch(exportDocument.workdir, 'calendar_dates.txt', exportedRowData);
         referencedCalendarDates.add(data.service_id);
         //
       };
@@ -406,7 +399,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
           calendar_desc: data.calendar_desc,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        await writeCsvToFile(exportDocument.workdir, 'trips.txt', exportedRowData);
+        await writeCsvToFileBatch(exportDocument.workdir, 'trips.txt', exportedRowData);
         referencedTrips.add(data.trip_id);
         referencedShapes.add(data.shape_id);
         referencedRoutes.add(data.route_id);
@@ -459,7 +452,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
           timepoint: data.timepoint,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        await writeCsvToFile(exportDocument.workdir, 'stop_times.txt', exportedRowData);
+        await writeCsvToFileBatch(exportDocument.workdir, 'stop_times.txt', exportedRowData);
         referencedStops.add(data.stop_id);
         //
       };
@@ -506,7 +499,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
           shape_dist_traveled: data.shape_dist_traveled,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        await writeCsvToFile(exportDocument.workdir, 'shapes.txt', exportedRowData);
+        await writeCsvToFileBatch(exportDocument.workdir, 'shapes.txt', exportedRowData);
         //
       };
 
@@ -598,19 +591,19 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
   // After exporting each archive-specific file, handle exporting routes.
 
   const routesMarkedForFinalExportData = Array.from(routesMarkedForFinalExport.values());
-  await writeCsvToFile(exportDocument.workdir, 'routes.txt', routesMarkedForFinalExportData);
+  await writeCsvToFileBatch(exportDocument.workdir, 'routes.txt', routesMarkedForFinalExportData);
 
   // 7.
   // Export stops file
 
   const allStopsData = await getStopsData();
-  await writeCsvToFile(exportDocument.workdir, 'stops.txt', allStopsData);
+  await writeCsvToFileBatch(exportDocument.workdir, 'stops.txt', allStopsData);
 
   // 8.
   // Finally setup the feed_info.txt file
 
   const feedInfoData = getFeedInfoData('20240101', '20241231');
-  await writeCsvToFile(exportDocument.workdir, 'feed_info.txt', feedInfoData);
+  await writeCsvToFileBatch(exportDocument.workdir, 'feed_info.txt', feedInfoData);
 
   //
 }
