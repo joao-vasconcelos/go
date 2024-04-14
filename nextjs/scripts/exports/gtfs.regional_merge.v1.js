@@ -12,7 +12,7 @@ import AdmZip from 'adm-zip';
 import { DateTime } from 'luxon';
 import { MunicipalityOptions } from '@/schemas/Municipality/options';
 import { parse as csvParser } from 'csv-parse';
-import { writeCsvToFileBatch } from '@/helpers/writeCsvToFile';
+import FILEWRITER from '@/services/FILEWRITER';
 
 //
 //
@@ -198,6 +198,27 @@ async function getStopsData() {
 //
 //
 
+async function readZip(zipArchive, zipEntry) {
+  return new Promise((resolve, reject) => {
+    try {
+      console.log('> Start Read Zip', zipEntry.name);
+      zipArchive.readFileAsync(zipEntry, (data, err) => {
+        if (err) reject(err.message);
+        // resolve(data);
+        console.log('> DONE Read Zip', zipEntry.name);
+        resolve(Readable.from(data));
+      });
+    } catch (error) {
+      reject(`Error at readZip(): ${error.message}`);
+    }
+  });
+}
+
+//
+//
+//
+//
+
 /* * */
 /* BUILD GTFS V29 */
 /* This builds the GTFS archive. */
@@ -210,6 +231,11 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
   console.log(`* * *`);
 
   // 0.
+  // Setup variables
+
+  const fileWriter = new FILEWRITER('regional_merge_v1');
+
+  // 0.
   // Update progress
 
   await update(exportDocument, { progress_current: 1, progress_total: 7 });
@@ -218,7 +244,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
   // Setup the agency.txt file
 
   const agencyData = getAgencyData();
-  await writeCsvToFileBatch(exportDocument.workdir, 'agency.txt', agencyData);
+  await fileWriter.write(exportDocument.workdir, 'agency.txt', agencyData);
 
   // 2.
   // Define the date that should be used as the active date.
@@ -316,7 +342,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       // 5.7.1.
       // Extract the calendar_dates.txt file from the zip archive
 
-      const calendarDatesTxt = Readable.from(zipEntryCalendarDates.getData());
+      const calendarDatesTxt = await readZip(zipArchive, zipEntryCalendarDates);
 
       // 5.7.2.
       // Decide for each date of each service ID if it should be included in the final export or not
@@ -341,14 +367,14 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
         // Format the exported row. Be very explicit to ensure the same number and order of columns.
         const exportedRowData = {
           date: data.date,
-          service_id: `${archiveData.code}_${data.service_id}`,
+          service_id: `${data.service_id}_${archiveData.code}`,
           period: data.period,
           day_type: data.day_type,
           holiday: data.holiday,
           exception_type: data.exception_type,
         };
         // Include this date in the final export and save a reference to the current service_id
-        await writeCsvToFileBatch(exportDocument.workdir, 'calendar_dates.txt', exportedRowData);
+        await fileWriter.write(exportDocument.workdir, 'calendar_dates.txt', exportedRowData);
         referencedCalendarDates.add(data.service_id);
         //
       };
@@ -377,7 +403,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       // 5.8.1.
       // Extract the trips.txt file from the zip archive
 
-      const tripsTxt = Readable.from(zipEntryTrips.getData());
+      const tripsTxt = await readZip(zipArchive, zipEntryTrips);
 
       // 5.8.2.
       // For each trip, check if the associated service_id was saved in the previous step or not.
@@ -390,16 +416,16 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
         // Format the exported row. Be very explicit to ensure the same number and order of columns.
         const exportedRowData = {
           route_id: data.route_id,
-          pattern_id: `${archiveData.code}_${data.pattern_id}`,
-          service_id: `${archiveData.code}_${data.service_id}`,
-          trip_id: `${archiveData.code}_${data.trip_id}`,
+          pattern_id: `${data.pattern_id}_${archiveData.code}`,
+          service_id: `${data.service_id}_${archiveData.code}`,
+          trip_id: `${data.trip_id}_${archiveData.code}`,
           trip_headsign: data.trip_headsign,
           direction_id: data.direction_id,
-          shape_id: `${archiveData.code}_${data.shape_id}`,
+          shape_id: `${data.shape_id}_${archiveData.code}`,
           calendar_desc: data.calendar_desc,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        await writeCsvToFileBatch(exportDocument.workdir, 'trips.txt', exportedRowData);
+        await fileWriter.write(exportDocument.workdir, 'trips.txt', exportedRowData);
         referencedTrips.add(data.trip_id);
         referencedShapes.add(data.shape_id);
         referencedRoutes.add(data.route_id);
@@ -429,7 +455,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       // 5.9.1.
       // Extract the stop_times.txt file from the zip archive
 
-      const stopTimesTxt = Readable.from(zipEntryStopTimes.getData());
+      const stopTimesTxt = await readZip(zipArchive, zipEntryStopTimes);
 
       // 5.9.2.
       // For each stop of each trip, check if the associated trip_id was saved in the previous step or not.
@@ -441,7 +467,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
         if (!referencedTrips.has(data.trip_id)) return;
         // Format the exported row. Be very explicit to ensure the same number and order of columns.
         const exportedRowData = {
-          trip_id: `${archiveData.code}_${data.trip_id}`,
+          trip_id: `${data.trip_id}_${archiveData.code}`,
           arrival_time: data.arrival_time,
           departure_time: data.departure_time,
           stop_id: data.stop_id,
@@ -452,7 +478,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
           timepoint: data.timepoint,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        await writeCsvToFileBatch(exportDocument.workdir, 'stop_times.txt', exportedRowData);
+        await fileWriter.write(exportDocument.workdir, 'stop_times.txt', exportedRowData);
         referencedStops.add(data.stop_id);
         //
       };
@@ -480,7 +506,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       // 5.10.1.
       // Extract the shapes.txt file from the zip archive
 
-      const shapesTxt = Readable.from(zipEntryShapes.getData());
+      const shapesTxt = await readZip(zipArchive, zipEntryShapes);
 
       // 5.10.2.
       // For each point of each shape, check if the shape_id was saved in the previous step or not.
@@ -492,14 +518,14 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
         if (!referencedShapes.has(data.shape_id)) return;
         // Format the exported row. Be very explicit to ensure the same number and order of columns.
         const exportedRowData = {
-          shape_id: `${archiveData.code}_${data.shape_id}`,
+          shape_id: `${data.shape_id}_${archiveData.code}`,
           shape_pt_sequence: data.shape_pt_sequence,
           shape_pt_lat: data.shape_pt_lat,
           shape_pt_lon: data.shape_pt_lon,
           shape_dist_traveled: data.shape_dist_traveled,
         };
         // Include this trip in the final export and save a reference to the current trip_id
-        await writeCsvToFileBatch(exportDocument.workdir, 'shapes.txt', exportedRowData);
+        await fileWriter.write(exportDocument.workdir, 'shapes.txt', exportedRowData);
         //
       };
 
@@ -531,7 +557,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       // 5.11.1.
       // Extract the routes.txt file from the zip archive
 
-      const routesTxt = Readable.from(zipEntryRoutes.getData());
+      const routesTxt = await readZip(zipArchive, zipEntryRoutes);
 
       // 5.11.2.
       // For each route, decide if it should be marked for export or not.
@@ -591,19 +617,21 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
   // After exporting each archive-specific file, handle exporting routes.
 
   const routesMarkedForFinalExportData = Array.from(routesMarkedForFinalExport.values());
-  await writeCsvToFileBatch(exportDocument.workdir, 'routes.txt', routesMarkedForFinalExportData);
+  await fileWriter.write(exportDocument.workdir, 'routes.txt', routesMarkedForFinalExportData);
 
   // 7.
   // Export stops file
 
   const allStopsData = await getStopsData();
-  await writeCsvToFileBatch(exportDocument.workdir, 'stops.txt', allStopsData);
+  await fileWriter.write(exportDocument.workdir, 'stops.txt', allStopsData);
 
   // 8.
   // Finally setup the feed_info.txt file
 
   const feedInfoData = getFeedInfoData('20240101', '20241231');
-  await writeCsvToFileBatch(exportDocument.workdir, 'feed_info.txt', feedInfoData);
+  await fileWriter.write(exportDocument.workdir, 'feed_info.txt', feedInfoData);
+
+  await fileWriter.flush();
 
   //
 }
