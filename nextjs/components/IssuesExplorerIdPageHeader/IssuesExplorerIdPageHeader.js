@@ -8,8 +8,8 @@ import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import LockButton from '@/components/LockButton/LockButton';
-import DeleteButton from '@/components/DeleteButton/DeleteButton';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
 import IssuesExplorerAttributeStatusSelect from '@/components/IssuesExplorerAttributeStatusSelect/IssuesExplorerAttributeStatusSelect';
@@ -81,10 +81,10 @@ export default function IssuesExplorerIdPageHeader() {
       </div>
       <GlobalAuthorTimestamp actionVerb={'abriu'} timestamp={issuesExplorerContext.form.values.created_at} userId={issuesExplorerContext.form.values.created_by} />
       <AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'lock' }]}>
-        <LockButton isLocked={issuesExplorerContext.item_data?.is_locked} onClick={issuesExplorerContext.lockItem} />
+        <AppButtonLock isLocked={issuesExplorerContext.item_data?.is_locked} onClick={issuesExplorerContext.lockItem} />
       </AppAuthenticationCheck>
       <AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'delete' }]}>
-        <DeleteButton onClick={handleDelete} disabled={issuesExplorerContext.page.is_read_only} />
+        <AppButtonDelete onClick={handleDelete} disabled={issuesExplorerContext.page.is_read_only} />
       </AppAuthenticationCheck>
     </ListHeader>
   );

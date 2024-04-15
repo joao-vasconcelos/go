@@ -23,7 +23,7 @@ import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import isAllowed from '@/authentication/isAllowed';
 import populate from '@/services/populate';
-import LockButton from '@/components/LockButton/LockButton';
+import LockButton from '@/components/AppButtonLock/AppButtonLock';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 

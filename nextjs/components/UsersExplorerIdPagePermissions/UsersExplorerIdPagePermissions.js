@@ -7,7 +7,7 @@ import { Accordion } from '@mantine/core';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import styles from './UsersExplorerIdPagePermissions.module.css';
 import UsersExplorerIdPagePermissionsAlerts from '@/components/UsersExplorerIdPagePermissionsAlerts/UsersExplorerIdPagePermissionsAlerts';
-import UsersExplorerIdPagePermissionsReporting from '@/components/UsersExplorerIdPagePermissionsReporting/UsersExplorerIdPagePermissionsReporting';
+import UsersExplorerIdPagePermissionsReports from '@/components/UsersExplorerIdPagePermissionsReports/UsersExplorerIdPagePermissionsReports';
 import UsersExplorerIdPagePermissionsAudits from '@/components/UsersExplorerIdPagePermissionsAudits/UsersExplorerIdPagePermissionsAudits';
 import UsersExplorerIdPagePermissionsFeedback from '@/components/UsersExplorerIdPagePermissionsFeedback/UsersExplorerIdPagePermissionsFeedback';
 import UsersExplorerIdPagePermissionsIssues from '@/components/UsersExplorerIdPagePermissionsIssues/UsersExplorerIdPagePermissionsIssues';
@@ -50,12 +50,12 @@ export default function UsersExplorerIdPagePermissions() {
         </Accordion.Panel>
       </Accordion.Item>
 
-      <Accordion.Item value="reporting">
+      <Accordion.Item value="reports">
         <Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-          <AppLayoutSection title={t('reporting.title')} description={t('reporting.description')} />
+          <AppLayoutSection title={t('reports.title')} description={t('reports.description')} />
         </Accordion.Control>
         <Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
-          <UsersExplorerIdPagePermissionsReporting />
+          <UsersExplorerIdPagePermissionsReports />
         </Accordion.Panel>
       </Accordion.Item>
 

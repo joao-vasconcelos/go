@@ -21,7 +21,7 @@ import HCalendar from '@/components/HCalendar/HCalendar';
 import HCalendarToggle from '@/components/HCalendarToggle/HCalendarToggle';
 import { useSession } from 'next-auth/react';
 import isAllowed from '@/authentication/isAllowed';
-import LockButton from '@/components/LockButton/LockButton';
+import LockButton from '@/components/AppButtonLock/AppButtonLock';
 import populate from '@/services/populate';
 import CalendarPatternsView from '@/components/CalendarPatternsView/CalendarPatternsView';
 import ListHeader from '@/components/ListHeader/ListHeader';

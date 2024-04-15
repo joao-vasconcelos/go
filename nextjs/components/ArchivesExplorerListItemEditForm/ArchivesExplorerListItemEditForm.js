@@ -11,8 +11,8 @@ import { Select, SimpleGrid, TextInput } from '@mantine/core';
 import { ArchiveOptions } from '@/schemas/Archive/options';
 import styles from './ArchivesExplorerListItemEditForm.module.css';
 import { useMemo } from 'react';
-import DeleteButton from '@/components/DeleteButton/DeleteButton';
-import LockButton from '@/components/LockButton/LockButton';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 /* * */
@@ -62,10 +62,10 @@ export default function ArchivesExplorerListItemEditForm() {
         />
         <div className={styles.spacer} />
         <AppAuthenticationCheck permissions={[{ scope: 'archives', action: 'lock' }]}>
-          <LockButton isLocked={archivesExplorerItemContext.item_data?.is_locked} onClick={archivesExplorerItemContext.lockItem} />
+          <AppButtonLock isLocked={archivesExplorerItemContext.item_data?.is_locked} onClick={archivesExplorerItemContext.lockItem} />
         </AppAuthenticationCheck>
         <AppAuthenticationCheck permissions={[{ scope: 'archives', action: 'delete' }]}>
-          <DeleteButton
+          <AppButtonDelete
             onClick={archivesExplorerItemContext.deleteItem}
             disabled={archivesExplorerItemContext.item.is_read_only || archivesExplorerItemContext.form.values.reference_plan || archivesExplorerItemContext.form.values.offer_plan || archivesExplorerItemContext.form.values.operation_plan || archivesExplorerItemContext.form.values.apex_files}
           />

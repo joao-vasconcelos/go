@@ -41,7 +41,7 @@ export default function AppSidebar() {
 
   const links = [
     { href: 'alerts', label: t('alerts'), icon: <IconAlertTriangle />, permissions: [{ scope: 'alerts', action: 'navigate' }] },
-    { href: 'reporting', label: t('reporting'), icon: <IconChartPie />, permissions: [{ scope: 'reporting', action: 'navigate' }] },
+    { href: 'reports', label: t('reports'), icon: <IconChartPie />, permissions: [{ scope: 'reports', action: 'navigate' }] },
     { href: 'audits', label: t('audits'), icon: <IconClipboardText />, permissions: [{ scope: 'audits', action: 'view' }] },
     { href: 'feedback', label: t('feedback'), icon: <IconMoodSearch />, permissions: [{ scope: 'feedback', action: 'view' }] },
     { href: 'issues', label: t('issues'), icon: <IconChartArcs />, permissions: [{ scope: 'issues', action: 'navigate' }] },

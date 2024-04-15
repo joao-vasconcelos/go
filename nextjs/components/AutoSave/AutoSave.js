@@ -1,7 +1,11 @@
+/* * */
+
 import { useEffect } from 'react';
 import { Tooltip, ActionIcon, Button } from '@mantine/core';
-import { IconX, IconChevronLeft, IconDeviceFloppy, IconAlertTriangleFilled } from '@tabler/icons-react';
+import { IconDeviceFloppy, IconAlertTriangleFilled } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
+import AppButtonBack from '@/components/AppButtonBack/AppButtonBack';
+import AppButtonClose from '@/components/AppButtonClose/AppButtonClose';
 
 /* * */
 /* AUTOSAVE COMPONENT */
@@ -68,11 +72,7 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
   // https://swr.vercel.app/docs/advanced/understanding#combining-with-isloading-and-isvalidating-for-better-ux
 
   if (isLoading || isSaving) {
-    return (
-      <ActionIcon size="lg" loading={true} variant="subtle" color="gray">
-        <IconX size="20px" />
-      </ActionIcon>
-    );
+    return <ActionIcon size="lg" loading={true} variant="subtle" color="gray" />;
   }
 
   //
@@ -124,12 +124,9 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
   // H. IDLE
   // If the form has no unsaved changes, is valid and is not loading,
   // then the close button is enabled and the save button shows a reassuring icon and message.
-  return (
-    <Tooltip label={t(`idle.${closeType}.title`)} color="gray" position="bottom" withArrow>
-      <ActionIcon size="lg" onClick={onClose} variant="subtle" color="gray">
-        {closeType === 'close' && <IconX size="20px" />}
-        {closeType === 'back' && <IconChevronLeft size="20px" />}
-      </ActionIcon>
-    </Tooltip>
-  );
+
+  if (closeType === 'back') return <AppButtonBack onClick={onClose} />;
+  if (closeType === 'close') return <AppButtonClose onClick={onClose} />;
+
+  //
 }

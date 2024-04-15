@@ -7,8 +7,8 @@ import AutoSave from '@/components/AutoSave/AutoSave';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
-import LockButton from '@/components/LockButton/LockButton';
-import DeleteButton from '@/components/DeleteButton/DeleteButton';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
 import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser';
@@ -74,10 +74,10 @@ export default function UsersExplorerIdPageHeader() {
       )}
       <div className={styles.spacer} />
       <AppAuthenticationCheck permissions={[{ scope: 'users', action: 'lock' }]}>
-        <LockButton isLocked={usersExplorerContext.item_data?.is_locked} onClick={usersExplorerContext.lockItem} />
+        <AppButtonLock isLocked={usersExplorerContext.item_data?.is_locked} onClick={usersExplorerContext.lockItem} />
       </AppAuthenticationCheck>
       <AppAuthenticationCheck permissions={[{ scope: 'users', action: 'delete' }]}>
-        <DeleteButton onClick={handleDelete} disabled={usersExplorerContext.page.is_read_only} />
+        <AppButtonDelete onClick={handleDelete} disabled={usersExplorerContext.page.is_read_only} />
       </AppAuthenticationCheck>
     </ListHeader>
   );

@@ -8,8 +8,8 @@ import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import LockButton from '@/components/LockButton/LockButton';
-import DeleteButton from '@/components/DeleteButton/DeleteButton';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
 import styles from './AlertsExplorerIdPageHeader.module.css';
@@ -73,10 +73,10 @@ export default function AlertsExplorerIdPageHeader() {
       )}
       <div className={styles.spacer} />
       <AppAuthenticationCheck permissions={[{ scope: 'alerts', action: 'lock' }]}>
-        <LockButton isLocked={alertsExplorerContext.item_data?.is_locked} onClick={alertsExplorerContext.lockItem} />
+        <AppButtonLock isLocked={alertsExplorerContext.item_data?.is_locked} onClick={alertsExplorerContext.lockItem} />
       </AppAuthenticationCheck>
       <AppAuthenticationCheck permissions={[{ scope: 'alerts', action: 'delete' }]}>
-        <DeleteButton onClick={handleDelete} disabled={alertsExplorerContext.page.is_read_only} />
+        <AppButtonDelete onClick={handleDelete} disabled={alertsExplorerContext.page.is_read_only} />
       </AppAuthenticationCheck>
     </ListHeader>
   );

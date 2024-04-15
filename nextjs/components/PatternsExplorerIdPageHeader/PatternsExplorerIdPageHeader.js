@@ -8,8 +8,8 @@ import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import LockButton from '@/components/LockButton/LockButton';
-import DeleteButton from '@/components/DeleteButton/DeleteButton';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { LinesExplorerLine } from '@/components/LinesExplorerLine/LinesExplorerLine';
 import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
@@ -75,10 +75,10 @@ export default function PatternsExplorerIdPageHeader() {
         </Text>
       )}
       <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'lock' }]}>
-        <LockButton isLocked={patternsExplorerContext.item_data?.is_locked} onClick={patternsExplorerContext.lockItem} />
+        <AppButtonLock isLocked={patternsExplorerContext.item_data?.is_locked} onClick={patternsExplorerContext.lockItem} />
       </AppAuthenticationCheck>
       <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'delete' }]}>
-        <DeleteButton onClick={handleDelete} disabled={patternsExplorerContext.page.is_read_only} />
+        <AppButtonDelete onClick={handleDelete} disabled={patternsExplorerContext.page.is_read_only} />
       </AppAuthenticationCheck>
     </ListHeader>
   );

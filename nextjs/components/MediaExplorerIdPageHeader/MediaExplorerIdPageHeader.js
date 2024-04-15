@@ -8,8 +8,8 @@ import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import LockButton from '@/components/LockButton/LockButton';
-import DeleteButton from '@/components/DeleteButton/DeleteButton';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useMediaExplorerContext } from '@/contexts/MediaExplorerContext';
 import MediaExplorerMedia from '@/components/MediaExplorerMedia/MediaExplorerMedia';
@@ -74,10 +74,10 @@ export default function MediaExplorerIdPageHeader() {
       )}
       <div className={styles.spacer} />
       <AppAuthenticationCheck permissions={[{ scope: 'media', action: 'lock' }]}>
-        <LockButton isLocked={mediaExplorerContext.item_data?.is_locked} onClick={mediaExplorerContext.lockItem} />
+        <AppButtonLock isLocked={mediaExplorerContext.item_data?.is_locked} onClick={mediaExplorerContext.lockItem} />
       </AppAuthenticationCheck>
       <AppAuthenticationCheck permissions={[{ scope: 'media', action: 'delete' }]}>
-        <DeleteButton onClick={handleDelete} disabled={mediaExplorerContext.page.is_read_only} />
+        <AppButtonDelete onClick={handleDelete} disabled={mediaExplorerContext.page.is_read_only} />
       </AppAuthenticationCheck>
     </ListHeader>
   );

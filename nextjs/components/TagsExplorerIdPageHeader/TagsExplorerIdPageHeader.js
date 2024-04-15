@@ -8,8 +8,8 @@ import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import LockButton from '@/components/LockButton/LockButton';
-import DeleteButton from '@/components/DeleteButton/DeleteButton';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useTagsExplorerContext } from '@/contexts/TagsExplorerContext';
 import TagsExplorerTag from '@/components/TagsExplorerTag/TagsExplorerTag';
@@ -74,10 +74,10 @@ export default function TagsExplorerIdPageHeader() {
       )}
       <div className={styles.spacer} />
       <AppAuthenticationCheck permissions={[{ scope: 'tags', action: 'lock' }]}>
-        <LockButton isLocked={tagsExplorerContext.item_data?.is_locked} onClick={tagsExplorerContext.lockItem} />
+        <AppButtonLock isLocked={tagsExplorerContext.item_data?.is_locked} onClick={tagsExplorerContext.lockItem} />
       </AppAuthenticationCheck>
       <AppAuthenticationCheck permissions={[{ scope: 'tags', action: 'delete' }]}>
-        <DeleteButton onClick={handleDelete} disabled={tagsExplorerContext.page.is_read_only} />
+        <AppButtonDelete onClick={handleDelete} disabled={tagsExplorerContext.page.is_read_only} />
       </AppAuthenticationCheck>
     </ListHeader>
   );

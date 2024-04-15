@@ -16,7 +16,7 @@ export default function ensureUserPermissions(permissionsData) {
   // Verify permissions for each scope
 
   if (!formattedPermissions?.alerts?.view?.is_allowed) formattedPermissions.alerts = UserDefault.permissions.alerts;
-  if (!formattedPermissions?.reporting?.view?.is_allowed) formattedPermissions.reporting = UserDefault.permissions.reporting;
+  if (!formattedPermissions?.reports?.view?.is_allowed) formattedPermissions.reports = UserDefault.permissions.reports;
   if (!formattedPermissions?.audits?.view?.is_allowed) formattedPermissions.audits = UserDefault.permissions.audits;
   if (!formattedPermissions?.feedback?.view?.is_allowed) formattedPermissions.feedback = UserDefault.permissions.feedback;
   if (!formattedPermissions?.issues?.view?.is_allowed) formattedPermissions.issues = UserDefault.permissions.issues;

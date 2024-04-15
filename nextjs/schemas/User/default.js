@@ -17,12 +17,9 @@ export const UserDefault = {
       navigate: { is_allowed: false },
     },
     //
-    reporting: {
-      view: { is_allowed: false },
-      edit: { is_allowed: false },
-      lock: { is_allowed: false },
-      create: { is_allowed: false },
-      delete: { is_allowed: false },
+    reports: {
+      view: { is_allowed: false, fields: { kind: [] } },
+      download: { is_allowed: false, fields: { kind: [] } },
       navigate: { is_allowed: false },
     },
     //

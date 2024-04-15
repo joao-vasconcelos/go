@@ -25,6 +25,19 @@
             "label": "Tentar novamente"
         }
     },
+    "AppButtonBack": {
+        "label": "Voltar"
+    },
+    "AppButtonClose": {
+        "label": "Fechar"
+    },
+    "AppButtonLock": {
+        "locked": "Desbloquear",
+        "unlocked": "Bloquear"
+    },
+    "AppButtonDelete": {
+        "label": "Eliminar"
+    },
     "agencies": {
         "untitled": "Untitled Agency",
         "list": {
@@ -1036,7 +1049,7 @@
     },
     "AppSidebar": {
         "alerts": "Alertas",
-        "reporting": "Reporting",
+        "reports": "Reports",
         "audits": "Auditorias",
         "feedback": "Feedback",
         "issues": "Issues",
@@ -1365,13 +1378,6 @@
                 "placeholder": "1"
             }
         }
-    },
-    "LockButton": {
-        "locked": "Desbloquear",
-        "unlocked": "Bloquear"
-    },
-    "DeleteButton": {
-        "label": "Eliminar"
     },
     "CalendarPatternsView": {
         "title": "Patterns that have at least one schedule with this calendar:",
@@ -2331,8 +2337,8 @@
             "title": "Alertas",
             "description": ""
         },
-        "reporting": {
-            "title": "Reporting",
+        "reports": {
+            "title": "Reports",
             "description": ""
         },
         "audits": {
@@ -2430,29 +2436,31 @@
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         }
     },
-    "UsersExplorerIdPagePermissionsReporting": {
+    "UsersExplorerIdPagePermissionsReports": {
         "view": {
-            "label": "Ver Reporting",
-            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+            "label": "Ver Reports",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "kind": {
+                    "label": "Limitar a estes tipos de relatórios",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
         },
-        "edit": {
-            "label": "Editar Reporting",
-            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-        },
-        "lock": {
-            "label": "Bloquear Reporting",
-            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-        },
-        "create": {
-            "label": "Criar Reporting",
-            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-        },
-        "delete": {
-            "label": "Eliminar Reporting",
-            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+        "download": {
+            "label": "Download Reports",
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "kind": {
+                    "label": "Limitar a estes tipos de relatórios",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
         },
         "navigate": {
-            "label": "Aceder à página das Reporting",
+            "label": "Aceder à página das Reports",
             "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
         }
     },
@@ -4404,5 +4412,24 @@
     },
     "ArchivesExplorerListItemFilesApex": {
         "title": "Ficheiros APEX (ITS)"
-    }
+    },
+    "ReportOptions": {
+        "kind": {
+            "sales": {
+                "label": "Vendas",
+                "description": "Consultar Vendas em ENCM e Vendas a Bordo"
+            },
+            "validations": {
+                "label": "Validações",
+                "description": "Consultar Validações."
+            },
+            "realtime": {
+                "label": "Realtime",
+                "description": "Consultar histórico de viagens"
+            }
+        }
+    },
+    "ReportsExplorerSales": {},
+    "ReportsExplorerValidations": {},
+    "ReportsExplorerRealtime": {}
 }

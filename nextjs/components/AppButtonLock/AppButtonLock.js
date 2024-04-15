@@ -1,3 +1,5 @@
+'use client';
+
 /* * */
 
 import { ActionIcon, Tooltip } from '@mantine/core';
@@ -7,13 +9,13 @@ import { useState } from 'react';
 
 /* * */
 
-export default function LockButton({ isLocked, onClick, disabled }) {
+export default function AppButtonLock({ isLocked, onClick, disabled }) {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('LockButton');
+  const t = useTranslations('AppButtonLock');
   const [isLoading, setIsLoading] = useState(false);
 
   //

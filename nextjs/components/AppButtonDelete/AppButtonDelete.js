@@ -1,3 +1,5 @@
+'use client';
+
 /* * */
 
 import { ActionIcon, Tooltip } from '@mantine/core';
@@ -8,13 +10,13 @@ import { useState } from 'react';
 
 /* * */
 
-export default function DeleteButton({ onClick = async () => {}, disabled }) {
+export default function AppButtonDelete({ onClick = async () => {}, disabled }) {
   //
 
   //
   // A. Setup variables
 
-  const t = useTranslations('DeleteButton');
+  const t = useTranslations('AppButtonDelete');
   const [isLoading, setIsLoading] = useState(false);
 
   //

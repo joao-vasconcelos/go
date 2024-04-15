@@ -8,8 +8,8 @@ import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import LockButton from '@/components/LockButton/LockButton';
-import DeleteButton from '@/components/DeleteButton/DeleteButton';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useFaresExplorerContext } from '@/contexts/FaresExplorerContext';
 import styles from './FaresExplorerIdPageHeader.module.css';
@@ -69,10 +69,10 @@ export default function FaresExplorerIdPageHeader() {
       </Text>
       <div className={styles.spacer} />
       <AppAuthenticationCheck permissions={[{ scope: 'fares', action: 'lock' }]}>
-        <LockButton isLocked={faresExplorerContext.item_data?.is_locked} onClick={faresExplorerContext.lockItem} />
+        <AppButtonLock isLocked={faresExplorerContext.item_data?.is_locked} onClick={faresExplorerContext.lockItem} />
       </AppAuthenticationCheck>
       <AppAuthenticationCheck permissions={[{ scope: 'fares', action: 'delete' }]}>
-        <DeleteButton onClick={handleDelete} disabled={faresExplorerContext.page.is_read_only} />
+        <AppButtonDelete onClick={handleDelete} disabled={faresExplorerContext.page.is_read_only} />
       </AppAuthenticationCheck>
     </ListHeader>
   );

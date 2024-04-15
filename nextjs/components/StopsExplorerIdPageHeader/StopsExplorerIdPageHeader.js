@@ -10,8 +10,8 @@ import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import LockButton from '@/components/LockButton/LockButton';
-import DeleteButton from '@/components/DeleteButton/DeleteButton';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 import StopExplorerIdPageHeaderAssociatedPatterns from '@/components/StopExplorerIdPageHeaderAssociatedPatterns/StopExplorerIdPageHeaderAssociatedPatterns';
@@ -87,10 +87,10 @@ export default function StopsExplorerIdPageHeader() {
       </AppAuthenticationCheck>
       <StopExplorerIdPageHeaderViewInWebsite />
       <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'lock' }]}>
-        <LockButton isLocked={stopsExplorerContext.item_data?.is_locked} onClick={stopsExplorerContext.lockItem} />
+        <AppButtonLock isLocked={stopsExplorerContext.item_data?.is_locked} onClick={stopsExplorerContext.lockItem} />
       </AppAuthenticationCheck>
       <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'delete' }]}>
-        <DeleteButton onClick={handleDelete} disabled={stopsExplorerContext.page.is_read_only || !stopsExplorerContext.page.is_deletable} />
+        <AppButtonDelete onClick={handleDelete} disabled={stopsExplorerContext.page.is_read_only || !stopsExplorerContext.page.is_deletable} />
       </AppAuthenticationCheck>
     </ListHeader>
   );

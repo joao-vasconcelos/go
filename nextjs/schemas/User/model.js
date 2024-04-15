@@ -33,12 +33,9 @@ export const UserSchema = new mongoose.Schema(
         navigate: { is_allowed: { type: Boolean } },
       },
       //
-      reporting: {
-        view: { is_allowed: { type: Boolean } },
-        edit: { is_allowed: { type: Boolean } },
-        lock: { is_allowed: { type: Boolean } },
-        create: { is_allowed: { type: Boolean } },
-        delete: { is_allowed: { type: Boolean } },
+      reports: {
+        view: { is_allowed: { type: Boolean }, fields: { kind: [{ type: String }] } },
+        download: { is_allowed: { type: Boolean }, fields: { kind: [{ type: String }] } },
         navigate: { is_allowed: { type: Boolean } },
       },
       //
