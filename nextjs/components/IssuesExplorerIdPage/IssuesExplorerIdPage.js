@@ -13,10 +13,10 @@ import IssuesExplorerIdPageItemTitle from '@/components/IssuesExplorerIdPageItem
 import IssuesExplorerIdPageItemTags from '@/components/IssuesExplorerIdPageItemTags/IssuesExplorerIdPageItemTags';
 import IssuesExplorerIdPageItemMilestones from '@/components/IssuesExplorerIdPageItemMilestones/IssuesExplorerIdPageItemMilestones';
 import IssuesExplorerIdPageItemComments from '@/components/IssuesExplorerIdPageItemComments/IssuesExplorerIdPageItemComments';
-import IssuesExplorerIdPageItemMedia from '../IssuesExplorerIdPageItemMedia/IssuesExplorerIdPageItemMedia';
-import IssuesExplorerIdPageItemLines from '../IssuesExplorerIdPageItemLines/IssuesExplorerIdPageItemLines';
-import IssuesExplorerIdPageItemStops from '../IssuesExplorerIdPageItemStops/IssuesExplorerIdPageItemStops';
-import IssuesExplorerIdPageItemIssues from '../IssuesExplorerIdPageItemIssues/IssuesExplorerIdPageItemIssues';
+import IssuesExplorerIdPageItemMedia from '@/components/IssuesExplorerIdPageItemMedia/IssuesExplorerIdPageItemMedia';
+import IssuesExplorerIdPageItemLines from '@/components/IssuesExplorerIdPageItemLines/IssuesExplorerIdPageItemLines';
+import IssuesExplorerIdPageItemStops from '@/components/IssuesExplorerIdPageItemStops/IssuesExplorerIdPageItemStops';
+import IssuesExplorerIdPageItemIssues from '@/components/IssuesExplorerIdPageItemIssues/IssuesExplorerIdPageItemIssues';
 
 /* * */
 

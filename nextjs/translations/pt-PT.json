@@ -2768,15 +2768,36 @@
     "UsersExplorerIdPagePermissionsArchives": {
         "view": {
             "label": "Ver Arquivos",
-            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agency": {
+                    "label": "Apenas para estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
         },
         "edit": {
             "label": "Editar Arquivos",
-            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agency": {
+                    "label": "Apenas para estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
         },
         "lock": {
             "label": "Bloquear Arquivos",
-            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agency": {
+                    "label": "Apenas para estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
         },
         "create": {
             "label": "Criar Arquivos",
@@ -2784,11 +2805,14 @@
         },
         "delete": {
             "label": "Eliminar Arquivos",
-            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
-        },
-        "download": {
-            "label": "Download de Arquivos",
-            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+            "description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
+            "fields": {
+                "agency": {
+                    "label": "Apenas para estes operadores",
+                    "placeholder": "Escolha uma opção...",
+                    "nothingFound": "Nenhum Resultado Encontrado"
+                }
+            }
         },
         "navigate": {
             "label": "Aceder à página dos Arquivos",
