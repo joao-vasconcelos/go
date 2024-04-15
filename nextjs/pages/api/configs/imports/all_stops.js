@@ -9,8 +9,8 @@ import { ZoneModel } from '@/schemas/Zone/model';
 import Papa from 'papaparse';
 import fs from 'fs';
 import { StopOptions } from '@/schemas/Stop/options';
-import makeTTs from '@/services/makeTTS';
 import { MunicipalityModel } from '@/schemas/Municipality/model';
+import tts from '@carrismetropolitana/tts';
 
 /* * */
 
@@ -118,7 +118,7 @@ export default async function handler(req, res) {
         parsedStopData.short_name = 'a definir';
       }
 
-      parsedStopData.tts_name = makeTTs(parsedStopData.name);
+      parsedStopData.tts_name = tts.makeText(parsedStopData.name);
 
       // Find out to which Zones this stop belongs to
       let zoneIdsForThisStop = [];
