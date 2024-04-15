@@ -15,7 +15,7 @@ import { StopDefault } from '@/schemas/Stop/default';
 import populate from '@/services/populate';
 import API from '@/services/API';
 import { StopOptions } from '@/schemas/Stop/options';
-import makeTTs from '@/services/makeTTS';
+import tts from '@carrismetropolitana/tts';
 
 /* * */
 
@@ -206,7 +206,7 @@ export function StopsExplorerContextProvider({ children }) {
       car_parking: formState.values.near_car_parking,
     };
     // Save the new name
-    formState.setFieldValue('tts_name', makeTTs(formState.values.name, stopModalConnections).trim());
+    formState.setFieldValue('tts_name', tts.makeText(formState.values.name, stopModalConnections).trim());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState.values.name, formState.values.near_subway, formState.values.near_light_rail, formState.values.near_train, formState.values.near_boat, formState.values.near_airport, formState.values.near_bike_sharing, formState.values.near_bike_parking, formState.values.near_car_parking]);
 

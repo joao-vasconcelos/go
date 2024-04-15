@@ -1,7 +1,7 @@
 /* * */
 
 import { StopModel } from '@/schemas/Stop/model';
-import makeTTs from '@/services/makeTTS';
+import tts from '@carrismetropolitana/tts';
 
 /* * */
 
@@ -73,7 +73,7 @@ export default async function syncAllStopsWithDatasets() {
         car_parking: stopData.near_car_parking,
       };
       //
-      stopData.tts_name = makeTTs(stopData.name, stopModalConnections).trim();
+      stopData.tts_name = tts.makeText(stopData.name, stopModalConnections).trim();
       //
       await stopData.save();
       //

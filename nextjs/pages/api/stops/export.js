@@ -8,6 +8,7 @@ import { MunicipalityOptions } from '@/schemas/Municipality/options';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { LineModel } from '@/schemas/Line/model';
 import { AgencyModel } from '@/schemas/Agency/model';
+import tts from '@carrismetropolitana/tts';
 
 /* * */
 
@@ -75,7 +76,7 @@ export default async function handler(req, res) {
         //
         stop_code: document.code,
         stop_short_name: '', //document.short_name,
-        tts_stop_name: document.tts_name,
+        tts_stop_name: tts.makeText(document.name),
         // Operation
         areas: thisStopAgencyCodes,
         // Administrative
