@@ -25,29 +25,29 @@ export default function Page() {
   //
   // D. Handle actiona
 
-  //   const handleSetPatternParentLine = async () => {
-  //     openConfirmModal({
-  //       title: <Text size="h2">Set Pattern Parent Line?</Text>,
-  //       centered: true,
-  //       closeOnClickOutside: true,
-  //       children: <Text size="h3">Are you sure?</Text>,
-  //       labels: { confirm: 'Yes, Set Pattern Parent Line', cancel: 'Cancel' },
-  //       confirmProps: { color: 'red' },
-  //       onConfirm: async () => {
-  //         try {
-  //           setIsImporting(true);
-  //           notify('setPatternParentLine', 'loading', 'Loading');
-  //           await API({ service: 'configs/refactors/setPatternParentLine', method: 'GET' });
-  //           notify('setPatternParentLine', 'success', 'success');
-  //           setIsImporting(false);
-  //         } catch (err) {
-  //           console.log(err);
-  //           notify('setPatternParentLine', 'error', err.message || 'Error');
-  //           setIsImporting(false);
-  //         }
-  //       },
-  //     });
-  //   };
+  const handleDeleteDeletedStop = async () => {
+    openConfirmModal({
+      title: <Text size="h2">Delete Deleted Stop?</Text>,
+      centered: true,
+      closeOnClickOutside: true,
+      children: <Text size="h3">Are you sure?</Text>,
+      labels: { confirm: 'Yes, Delete Deleted Stop', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: async () => {
+        try {
+          setIsImporting(true);
+          notify('deleteDeletedStop', 'loading', 'Loading');
+          await API({ service: 'configs/refactors/deleteDeletedStop', method: 'GET' });
+          notify('deleteDeletedStop', 'success', 'success');
+          setIsImporting(false);
+        } catch (err) {
+          console.log(err);
+          notify('deleteDeletedStop', 'error', err.message || 'Error');
+          setIsImporting(false);
+        }
+      },
+    });
+  };
 
   //
   // C. Render components
@@ -58,9 +58,9 @@ export default function Page() {
         <Section>
           <Text size="h2">No operations available</Text>
           <SimpleGrid cols={3}>
-            {/* <Button onClick={handleSetPatternParentLine} color="red" loading={isImporting}>
-              Set Pattern Parent Line
-            </Button> */}
+            <Button onClick={handleDeleteDeletedStop} color="red" loading={isImporting}>
+              Delete Deleted Stop
+            </Button>
           </SimpleGrid>
         </Section>
       </Pannel>

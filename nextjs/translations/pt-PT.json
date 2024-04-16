@@ -1049,7 +1049,7 @@
     },
     "AppSidebar": {
         "alerts": "Alertas",
-        "reports": "Reports",
+        "reports": "Relatórios",
         "audits": "Auditorias",
         "feedback": "Feedback",
         "issues": "Issues",
@@ -4429,7 +4429,57 @@
             }
         }
     },
-    "ReportsExplorerSales": {},
+    "ReportsExplorerSalesFormHeader": {
+        "title": "Vendas"
+    },
+    "ReportsExplorerSalesFormSummary": {
+        "text": "Sobre este relatório..."
+    },
+    "ReportsExplorerSalesForm": {
+        "operations": {
+            "submit": {
+                "label": "Procurar"
+            },
+            "retry": {
+                "label": "Tentar novamente"
+            }
+        },
+        "info": {
+            "is_error": {
+                "title": "Ocorreu um erro ao procurar eventos",
+                "description": "O servidor devolveu a seguinte mensagem: {errorMessage}"
+            },
+            "is_loading": {
+                "title": "A procurar eventos...",
+                "description": "Esta operação pode demorar algum tempo devido à elevada quantidade de dados. Por favor aguarde alguns momentos."
+            },
+            "is_loading_found_trips": {
+                "title": "Encontradas {value} circulações..",
+                "description": "Os eventos estão a ser agrupados em circulações. Por favor aguarde mais alguns momentos."
+            }
+        },
+        "form": {
+            "agency_code": {
+                "label": "Operador",
+                "description": "Selecione o operador pretendido.",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
+            "start_date": {
+                "label": "Data de Início",
+                "description": "Selecione o dia de início do relatório.",
+                "placeholder": "Escolha uma data..."
+            },
+            "end_date": {
+                "label": "Dia Operacional",
+                "description": "Selecione o dia de fim do relatório.",
+                "placeholder": "Escolha uma data..."
+            }
+        }
+    },
+    "ReportsExplorerSalesResult": {
+        "text": "none"
+    },
     "ReportsExplorerValidations": {},
     "ReportsExplorerRealtime": {}
 }

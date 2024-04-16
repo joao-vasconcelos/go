@@ -138,7 +138,9 @@ export function StopsExplorerContextProvider({ children }) {
 
   useEffect(() => {
     // Stop is deletable if no patterns are associated in GO
-    if (allAssociatedPatternsData?.length === 0 && apiItemData?.lines?.length === 0) {
+    const hasAssociatedPatternsInGo = allAssociatedPatternsData?.length > 0;
+    const hasAssociatedPatternsInApi = apiItemData?.lines?.length > 0;
+    if (!hasAssociatedPatternsInGo && !hasAssociatedPatternsInApi) {
       setPageState((prev) => ({ ...prev, is_deletable: true }));
       return;
     }

@@ -12,7 +12,7 @@ import { RealtimeExplorerContextProvider } from '@/contexts/RealtimeExplorerCont
 
 export default function RealtimeExplorer() {
   return (
-    <AppAuthenticationCheck permission={[{ scope: 'reporting', action: 'view' }]} redirect>
+    <AppAuthenticationCheck permission={[{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['realtime'] }] }]} redirect>
       <RealtimeExplorerContextProvider>
         <TwoUnevenColumns first={<RealtimeExplorerForm />} second={<RealtimeExplorerResult />} />
       </RealtimeExplorerContextProvider>
