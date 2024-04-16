@@ -78,7 +78,7 @@ export default async function handler(req, res) {
         stop_short_name: '', //document.short_name,
         tts_stop_name: tts.makeText(document.name),
         // Operation
-        areas: thisStopAgencyCodes,
+        // areas: thisStopAgencyCodes,
         // Administrative
         region_id: document.municipality.region,
         region_name: allRegionsMap[document.municipality.region],
