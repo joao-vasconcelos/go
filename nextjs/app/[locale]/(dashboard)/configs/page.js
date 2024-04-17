@@ -7,10 +7,11 @@ import API from '@/services/API';
 import { SimpleGrid, Button } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
-import { Section } from '@/components/Layouts/Layouts';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 
 /* * */
 
@@ -55,14 +56,14 @@ export default function Page() {
   return (
     <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
       <Pannel>
-        <Section>
-          <Text size="h2">No operations available</Text>
+        <AppLayoutSection>
+          <NoDataLabel text="No operations available" />
           <SimpleGrid cols={3}>
             {/* <Button onClick={handleDeleteDeletedStop} color="red" loading={isImporting}>
               Delete Deleted Stop
             </Button> */}
           </SimpleGrid>
-        </Section>
+        </AppLayoutSection>
       </Pannel>
     </AppAuthenticationCheck>
   );
