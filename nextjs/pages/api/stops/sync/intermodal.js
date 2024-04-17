@@ -9,7 +9,7 @@ import { StopModel } from '@/schemas/Stop/model';
 export default async function handler(req, res) {
   //
 
-  //   throw new Error('Feature is disabled.');
+  throw new Error('Feature is disabled.');
 
   // 1.
   // Setup variables
@@ -67,7 +67,7 @@ export default async function handler(req, res) {
       const enabledMunicipalities = [
         // '01', // ALCOCHETE
         // '02', // ALMADA
-        '03', // AMADORA
+        // '03', // AMADORA
         // '04', // BARREIRO
         // '05', // CASCAIS
         // '06', // LISBOA
