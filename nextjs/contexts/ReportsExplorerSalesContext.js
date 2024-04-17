@@ -180,9 +180,11 @@ export function ReportsExplorerSalesContextProvider({ children }) {
       // Update state to include request details
       setRequestState({ ...initialRequestState, is_loading: true, is_error: false, result: null });
       // Fetch the trips summary
-      const result = await API({ service: 'reports/sales', operation: 'summary', method: 'POST', body: { agency_code: formState.values.agency_code, start_date: parseDate(formState.values.start_date), end_date: parseDate(formState.values.end_date) } });
+      const resultFull = await API({ service: 'reports/sales', operation: 'summary', method: 'POST', body: { agency_code: formState.values.agency_code, start_date: parseDate(formState.values.start_date), end_date: parseDate(formState.values.end_date) } });
+      const resultOnboard = await API({ service: 'reports/sales', operation: 'summary_onboard', method: 'POST', body: { agency_code: formState.values.agency_code, start_date: parseDate(formState.values.start_date), end_date: parseDate(formState.values.end_date) } });
+      console.log('resultOnboard', resultOnboard);
       // Update state to indicate progress
-      setRequestState((prev) => ({ ...prev, is_loading: false, result: result }));
+      setRequestState((prev) => ({ ...prev, is_loading: false, result: resultFull, result_onboard: resultOnboard }));
       //
     } catch (error) {
       // Update state to indicate progress
