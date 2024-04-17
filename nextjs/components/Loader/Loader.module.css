@@ -33,6 +33,7 @@
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   background-color: var(--gray0-25);
 }
 
