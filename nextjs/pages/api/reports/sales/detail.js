@@ -3,6 +3,7 @@
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import REALTIMEDB from '@/services/REALTIMEDB';
+import JSONStream from 'JSONStream';
 import { DateTime } from 'luxon';
 
 /* * */
@@ -76,8 +77,6 @@ export default async function handler(req, res) {
   // 7.
   // Prepare aggregation pipeline
 
-  let result;
-
   const matchClauseNegative = {
     $match: {
       'transaction.transactionDate': {
@@ -90,24 +89,19 @@ export default async function handler(req, res) {
   const groupClause = {
     $group: {
       _id: null,
-      encm_sales_qty: {
-        $sum: {
-          $cond: [{ $gte: ['$transaction.price', 0] }, 1, 0],
-        },
-      },
-      encm_sales_euro: {
-        $sum: {
-          $cond: [{ $gte: ['$transaction.price', 0] }, '$transaction.price', 0],
-        },
-      },
-      encm_cashback_qty: {
+      countNegative: {
         $sum: {
           $cond: [{ $lt: ['$transaction.price', 0] }, 1, 0],
         },
       },
-      encm_cashback_euro: {
+      countNull: {
         $sum: {
-          $cond: [{ $lt: ['$transaction.price', 0] }, '$transaction.price', 0],
+          $cond: [{ $eq: ['$transaction.price', 0] }, 1, 0],
+        },
+      },
+      countPositive: {
+        $sum: {
+          $cond: [{ $gt: ['$transaction.price', 0] }, 1, 0],
         },
       },
     },
@@ -116,10 +110,9 @@ export default async function handler(req, res) {
   const projectClause = {
     $project: {
       _id: 0,
-      encm_sales_qty: 1,
-      encm_sales_euro: 1,
-      encm_cashback_qty: 1,
-      encm_cashback_euro: 1,
+      countNegative: 1,
+      countNull: 1,
+      countPositive: 1,
     },
   };
 
@@ -128,21 +121,12 @@ export default async function handler(req, res) {
 
   try {
     console.log('Searching sales...');
-    result = await REALTIMEDB.SalesEntity.aggregate([matchClauseNegative, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).toArray();
+    const result = await REALTIMEDB.SalesEntity.aggregate([matchClauseNegative, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).toArray();
+    console.log(result);
+    res.send(result);
   } catch (err) {
     console.log(err);
-    return await res.status(500).json({ message: err.message || 'Cannot search for APEX Transactions.' });
-  }
-
-  // 9.
-  // Perform database search
-
-  try {
-    if (result.length > 0) res.send(result[0]);
-    else res.send({});
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: err.message || 'Error sending response to client.' });
+    return await res.status(500).json({ message: err.message || 'Cannot list VehicleEvents.' });
   }
 
   //

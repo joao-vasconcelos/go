@@ -173,7 +173,7 @@ export function ReportsExplorerSalesContextProvider({ children }) {
     setSelectedTripState(initialSelectedTripState);
   }, []);
 
-  const fetchEvents = useCallback(async () => {
+  const fetchSummary = useCallback(async () => {
     try {
       // Return empty if filters are empty
       if (!formState.values.agency_code || !formState.values.start_date || !formState.values.end_date) return;
@@ -181,6 +181,23 @@ export function ReportsExplorerSalesContextProvider({ children }) {
       setRequestState({ ...initialRequestState, is_loading: true, is_error: false, result: null });
       // Fetch the trips summary
       const result = await API({ service: 'reports/sales', operation: 'summary', method: 'POST', body: { agency_code: formState.values.agency_code, start_date: parseDate(formState.values.start_date), end_date: parseDate(formState.values.end_date) } });
+      // Update state to indicate progress
+      setRequestState((prev) => ({ ...prev, is_loading: false, result: result }));
+      //
+    } catch (error) {
+      // Update state to indicate progress
+      setRequestState((prev) => ({ ...prev, is_loading: false, is_error: error.message, result: null }));
+    }
+  }, [formState.values.agency_code, formState.values.end_date, formState.values.start_date]);
+
+  const fetchReport = useCallback(async () => {
+    try {
+      // Return empty if filters are empty
+      if (!formState.values.agency_code || !formState.values.start_date || !formState.values.end_date) return;
+      // Update state to include request details
+      setRequestState({ ...initialRequestState, is_loading: true, is_error: false, result: null });
+      // Fetch the trips summary
+      const result = await API({ service: 'reports/sales', operation: 'detail', method: 'POST', body: { agency_code: formState.values.agency_code, start_date: parseDate(formState.values.start_date), end_date: parseDate(formState.values.end_date) } });
       // Update state to indicate progress
       setRequestState((prev) => ({ ...prev, is_loading: false, result: result }));
       //
@@ -216,7 +233,8 @@ export function ReportsExplorerSalesContextProvider({ children }) {
       updateEventOrderType: updateEventOrderType,
       updateEventAnimationIndex: updateEventAnimationIndex,
       //
-      fetchEvents: fetchEvents,
+      fetchSummary: fetchSummary,
+      fetchReport: fetchReport,
       //
       selectTripId: selectTripId,
       clearTripId: clearTripId,
@@ -237,7 +255,8 @@ export function ReportsExplorerSalesContextProvider({ children }) {
       updateTimeDistributionGraphType,
       updateEventOrderType,
       updateEventAnimationIndex,
-      fetchEvents,
+      fetchSummary,
+      fetchReport,
       selectTripId,
       clearTripId,
     ]

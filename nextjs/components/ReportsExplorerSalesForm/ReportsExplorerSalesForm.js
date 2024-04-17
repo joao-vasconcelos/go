@@ -13,7 +13,7 @@ import { useReportsExplorerSalesContext } from '@/contexts/ReportsExplorerSalesC
 import { IconMoodAnnoyed } from '@tabler/icons-react';
 import Pannel from '@/components/Pannel/Pannel';
 import ReportsExplorerSalesFormHeader from '@/components/ReportsExplorerSalesFormHeader/ReportsExplorerSalesFormHeader';
-import ReportsExplorerSalesFormSummary from '@/components/ReportsExplorerSalesFormSummary/ReportsExplorerSalesFormSummary';
+import ReportsExplorerSalesFormIntro from '@/components/ReportsExplorerSalesFormIntro/ReportsExplorerSalesFormIntro';
 
 /* * */
 
@@ -44,7 +44,7 @@ export default function ReportsExplorerSalesForm() {
 
   return (
     <Pannel header={<ReportsExplorerSalesFormHeader />}>
-      <ReportsExplorerSalesFormSummary />
+      <ReportsExplorerSalesFormIntro />
       <Divider />
       <Section>
         <Select
@@ -72,6 +72,7 @@ export default function ReportsExplorerSalesForm() {
           description={t('form.end_date.description')}
           placeholder={t('form.end_date.placeholder')}
           {...reportsExplorerSalesContext.form.getInputProps('end_date')}
+          minDate={reportsExplorerSalesContext.form.values.start_date}
           disabled={reportsExplorerSalesContext.request.is_loading || !reportsExplorerSalesContext.form.values.agency_code || !reportsExplorerSalesContext.form.values.start_date}
           dropdownType="modal"
           clearable
@@ -96,7 +97,7 @@ export default function ReportsExplorerSalesForm() {
         )}
         {!reportsExplorerSalesContext.request.is_loading && (
           <Button
-            onClick={reportsExplorerSalesContext.fetchEvents}
+            onClick={reportsExplorerSalesContext.fetchSummary}
             disabled={!reportsExplorerSalesContext.form.values.agency_code || !reportsExplorerSalesContext.form.values.start_date || !reportsExplorerSalesContext.form.values.end_date || reportsExplorerSalesContext.request.summary?.length > 0}
             loading={reportsExplorerSalesContext.request.is_loading}
           >

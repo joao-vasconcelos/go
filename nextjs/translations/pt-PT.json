@@ -4466,20 +4466,100 @@
                 "nothingFound": "Nenhum Resultado Encontrado"
             },
             "start_date": {
-                "label": "Data de Início",
-                "description": "Selecione o dia de início do relatório.",
+                "label": "Dia Operacional de Início",
+                "description": "Desde as 04:00:00 do dia selecionado.",
                 "placeholder": "Escolha uma data..."
             },
             "end_date": {
-                "label": "Dia Operacional",
-                "description": "Selecione o dia de fim do relatório.",
+                "label": "Dia Operacional de Fim",
+                "description": "Até às 03:59:59 do dia seguinte ao selecionado.",
                 "placeholder": "Escolha uma data..."
             }
         }
     },
     "ReportsExplorerSalesResult": {
-        "text": "none"
+        "no_data": "Inicie uma nova procura",
+        "title": "Resultado da Pesquisa de Eventos"
+    },
+    "ReportsExplorerSalesResultError": {
+        "text": "Ocorreu um Erro"
     },
     "ReportsExplorerValidations": {},
-    "ReportsExplorerRealtime": {}
+    "ReportsExplorerRealtime": {},
+    "ReportsExplorerSalesResultSummaryHeader": {
+        "title": "Resultado da Pesquisa"
+    },
+    "ReportsExplorerSalesResultSummaryDescription": {
+        "description": "Resumo do dia escolhido..."
+    },
+    "ReportsExplorerSalesResultSummaryMetrics": {
+        "sections": {
+            "encm": {
+                "title": "Vendas em ENCM",
+                "description": "Todas as vendas e devoluções em ENCM no período escolhido."
+            },
+            "onboard": {
+                "title": "Vendas a Bordo",
+                "description": "Todas as vendas e devoluções a Bordo no período escolhido."
+            }
+        },
+        "metrics": {
+            "encm_sales_qty": {
+                "label": "Total de Transações em ENCM",
+                "value": "{value, number}"
+            },
+            "encm_sales_euro": {
+                "label": "Valor das Transações em ENCM",
+                "value": "{value, number, currency_euro}"
+            },
+            "encm_cashback_qty": {
+                "label": "Total de Devoluções em ENCM",
+                "value": "{value, number}"
+            },
+            "encm_cashback_euro": {
+                "label": "Valor das Devoluções em ENCM",
+                "value": "{value, number, currency_euro}"
+            },
+            "onboard_sales_qty": {
+                "label": "Total de Transações a Bordo",
+                "value": "{value, number}"
+            },
+            "onboard_sales_euro": {
+                "label": "Valor das Transações a Bordo",
+                "value": "{value, number, currency_euro}"
+            },
+            "onboard_cashback_qty": {
+                "label": "Total de Devoluções a Bordo",
+                "value": "{value, number}"
+            },
+            "onboard_cashback_euro": {
+                "label": "Valor das Devoluções a Bordo",
+                "value": "{value, number, currency_euro}"
+            }
+        }
+    },
+    "ReportsExplorerSalesSummaryTable": {
+        "search": {
+            "placeholder": "Procurar por trip_id..."
+        },
+        "table": {
+            "header": {
+                "pattern_id": {
+                    "title": "Pattern ID"
+                },
+                "trip_id": {
+                    "title": "Trip ID"
+                },
+                "num_events": {
+                    "title": "# Eventos"
+                },
+                "vehicle_id": {
+                    "title": "Vehicle ID"
+                },
+                "driver_id": {
+                    "title": "Driver ID"
+                }
+            }
+        }
+    }
 }
