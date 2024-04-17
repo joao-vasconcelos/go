@@ -4,7 +4,7 @@
 
 import useSWR from 'swr';
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots, IconDownload, IconRefresh } from '@tabler/icons-react';
+import { IconDots, IconFileDownload, IconPlus, IconRefresh } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import SearchField from '@/components/SearchField/SearchField';
@@ -43,20 +43,22 @@ export default function StopsExplorerListHeader() {
         </Menu.Target>
         <Menu.Dropdown>
           <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'create' }]}>
-            <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={stopsExplorerNewStopWizardContext.openWizard}>
+            <Menu.Item leftSection={<IconPlus size={20} />} onClick={stopsExplorerNewStopWizardContext.openWizard}>
               {t('operations.create.title')}
             </Menu.Item>
           </AppAuthenticationCheck>
+          <Menu.Divider />
           <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'export' }]}>
-            <Menu.Item leftSection={<IconDownload size={20} />} onClick={stopsExplorerContext.exportAsFile}>
+            <Menu.Item leftSection={<IconFileDownload size={20} />} onClick={stopsExplorerContext.exportAsFile}>
               {t('operations.export.title')}
             </Menu.Item>
           </AppAuthenticationCheck>
           <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'export' }]}>
-            <Menu.Item leftSection={<IconDownload size={20} />} onClick={stopsExplorerContext.exportDeletedAsFile}>
+            <Menu.Item leftSection={<IconFileDownload size={20} />} onClick={stopsExplorerContext.exportDeletedAsFile}>
               {t('operations.export_deleted.title')}
             </Menu.Item>
           </AppAuthenticationCheck>
+          <Menu.Divider />
           <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
             <Menu.Item leftSection={<IconRefresh size={20} />} onClick={stopsExplorerContext.syncWithDatasets}>
               {t('operations.sync_datasets.title')}
