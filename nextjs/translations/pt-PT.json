@@ -3833,6 +3833,18 @@
                 "loading": "A gerar ficheiro...",
                 "success": "O ficheiro foi gerado com sucesso!",
                 "error": "Ocorreu um erro ao gerar o ficheiro."
+            },
+            "sync_datasets": {
+                "title": "Sincronizar com os Datasets",
+                "loading": "A sincronizar com os Datasets...",
+                "success": "Sincronização com os Datasets terminada com sucesso!",
+                "error": "Ocorreu um erro ao sincronizar com os Datasets."
+            },
+            "sync_intermodal": {
+                "title": "Sincronizar com o Intermodal",
+                "loading": "A sincronizar com o Intermodal...",
+                "success": "Sincronização com o Intermodal terminada com sucesso!",
+                "error": "Ocorreu um erro ao sincronizar com o Intermodal."
             }
         }
     },
@@ -4498,6 +4510,10 @@
                 "title": "Vendas em ENCM",
                 "description": "Todas as vendas e devoluções em ENCM no período escolhido."
             },
+            "zapping": {
+                "title": "Vendas Zapping",
+                "description": "Todas as vendas zapping no período escolhido."
+            },
             "onboard": {
                 "title": "Vendas a Bordo",
                 "description": "Todas as vendas e devoluções a Bordo no período escolhido."
@@ -4518,6 +4534,14 @@
             },
             "encm_cashback_euro": {
                 "label": "Valor das Devoluções em ENCM",
+                "value": "{value, number, currency_euro}"
+            },
+            "onboard_qty": {
+                "label": "Total de Transações A BORDO",
+                "value": "{value, number}"
+            },
+            "onboard_euro": {
+                "label": "Valor das Transações A BORDO",
                 "value": "{value, number, currency_euro}"
             },
             "onboard_sales_qty": {

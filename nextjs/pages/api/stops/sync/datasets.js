@@ -10,6 +10,8 @@ import { StopModel } from '@/schemas/Stop/model';
 export default async function handler(req, res) {
   //
 
+  //   throw new Error('Feature is disabled.');
+
   // 1.
   // Setup variables
 

@@ -4,7 +4,7 @@
 
 import useSWR from 'swr';
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCircleArrowDown, IconCirclePlus, IconDots, IconDownload } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots, IconDownload, IconRefresh } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import SearchField from '@/components/SearchField/SearchField';
@@ -58,8 +58,13 @@ export default function StopsExplorerListHeader() {
             </Menu.Item>
           </AppAuthenticationCheck>
           <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
-            <Menu.Item leftSection={<IconCircleArrowDown size={20} />} onClick={stopsExplorerContext.syncDatasets}>
-              Sync Datasets
+            <Menu.Item leftSection={<IconRefresh size={20} />} onClick={stopsExplorerContext.syncWithDatasets}>
+              {t('operations.sync_datasets.title')}
+            </Menu.Item>
+          </AppAuthenticationCheck>
+          <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
+            <Menu.Item leftSection={<IconRefresh size={20} />} onClick={stopsExplorerContext.syncWithIntermodal}>
+              {t('operations.sync_intermodal.title')}
             </Menu.Item>
           </AppAuthenticationCheck>
         </Menu.Dropdown>

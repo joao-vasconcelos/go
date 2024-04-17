@@ -267,11 +267,25 @@ export function StopsExplorerContextProvider({ children }) {
     }
   }, []);
 
-  const syncDatasets = useCallback(async () => {
+  const syncWithDatasets = useCallback(async () => {
     try {
       setListState((prev) => ({ ...prev, is_loading: true }));
       setPageState((prev) => ({ ...prev, is_loading: true }));
       await API({ service: 'stops', operation: 'sync/datasets', method: 'GET' });
+      setListState((prev) => ({ ...prev, is_loading: false }));
+      setPageState((prev) => ({ ...prev, is_loading: false }));
+    } catch (err) {
+      console.log(err);
+      setListState((prev) => ({ ...prev, is_loading: false }));
+      setPageState((prev) => ({ ...prev, is_loading: false }));
+    }
+  }, []);
+
+  const syncWithIntermodal = useCallback(async () => {
+    try {
+      setListState((prev) => ({ ...prev, is_loading: true }));
+      setPageState((prev) => ({ ...prev, is_loading: true }));
+      await API({ service: 'stops', operation: 'sync/intermodal', method: 'GET' });
       setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
     } catch (err) {
@@ -340,7 +354,8 @@ export function StopsExplorerContextProvider({ children }) {
       exportAsFile: exportAsFile,
       exportDeletedAsFile: exportDeletedAsFile,
       //
-      syncDatasets: syncDatasets,
+      syncWithDatasets: syncWithDatasets,
+      syncWithIntermodal: syncWithIntermodal,
       //
       updateMapStyle: updateMapStyle,
       //
@@ -351,7 +366,7 @@ export function StopsExplorerContextProvider({ children }) {
       openInWebsite: openInWebsite,
       //
     }),
-    [listState, mapState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, exportAsFile, exportDeletedAsFile, syncDatasets, updateMapStyle, validateItem, saveItem, lockItem, closeItem, openInWebsite]
+    [listState, mapState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, exportAsFile, exportDeletedAsFile, syncWithDatasets, syncWithIntermodal, updateMapStyle, validateItem, saveItem, lockItem, closeItem, openInWebsite]
   );
 
   //
