@@ -28,7 +28,7 @@ export default async function parseGTFS(req, res) {
     //
     const form = formidable({ keepExtensions: true });
     //
-    form.parse(req, async (err, fields, files) => {
+    form.parse(req, async (error, fields, files) => {
       // Abort if error
       if (error) return res.status(400).json({ message: err });
       // Setup AdmZip with archive location

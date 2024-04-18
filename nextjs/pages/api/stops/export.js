@@ -87,7 +87,7 @@ export default async function handler(req, res) {
         tts_stop_name: tts.makeText(document.name, thisStopModalConnections),
         // Operation
         areas: thisStopAgencyCodes,
-        status: document.status,
+        operational_status: document.operational_status,
         // Administrative
         region_id: document.municipality.region,
         region_name: allRegionsMap[document.municipality.region],
