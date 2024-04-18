@@ -81,7 +81,7 @@ export default function PatternsExplorerIdPageImport() {
           notify('pattern-import', 'success', t('import.success', { trip_id: trip.trip_id }));
         } catch (error) {
           console.log(error);
-          notify('pattern-import', 'error', err.message || t('import.error'));
+          notify('pattern-import', 'error', error.message || t('import.error'));
         }
       },
     });

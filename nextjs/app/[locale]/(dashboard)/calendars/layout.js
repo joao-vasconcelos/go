@@ -53,7 +53,7 @@ export default function Layout({ children }) {
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (error) {
-      notify('new', 'error', err.message || t('operations.create.error'));
+      notify('new', 'error', error.message || t('operations.create.error'));
       setIsCreating(false);
       console.log(error);
     }
@@ -73,7 +73,7 @@ export default function Layout({ children }) {
       notify('export_dates', 'success', t('operations.export_dates.success'));
       setIsCreating(false);
     } catch (error) {
-      notify('export_dates', 'error', err.message || t('operations.export_dates.error'));
+      notify('export_dates', 'error', error.message || t('operations.export_dates.error'));
       setIsCreating(false);
       console.log(error);
     }

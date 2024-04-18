@@ -135,7 +135,7 @@ export default function Page() {
         } catch (error) {
           console.log(error);
           setIsDeleting(false);
-          notify(agency_id, 'error', err.message || t('operations.delete.error'));
+          notify(agency_id, 'error', error.message || t('operations.delete.error'));
         }
       },
     });

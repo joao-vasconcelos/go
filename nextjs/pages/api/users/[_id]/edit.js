@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     sessionData = await getSession(req, res);
   } catch (error) {
     console.log(error);
-    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+    return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
   }
 
   // 3.
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
     await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'users', action: 'edit' }] });
   } catch (error) {
     console.log(error);
-    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
+    return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
   }
 
   // 6.
@@ -55,7 +55,7 @@ export default async function handler(req, res) {
     req.body = UserValidation.cast(req.body);
   } catch (error) {
     console.log(error);
-    return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
+    return await res.status(400).json({ message: JSON.parse(error.message)[0].message });
   }
 
   // 8.
@@ -87,7 +87,7 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.log(error);
-    return await res.status(409).json({ message: err.message });
+    return await res.status(409).json({ message: error.message });
   }
 
   // 11.
@@ -97,7 +97,7 @@ export default async function handler(req, res) {
     req.body.permissions = ensureUserPermissions(req.body.permissions);
   } catch (error) {
     console.log(error);
-    return await res.status(500).json({ message: err.message || 'Could not ensure user permissions are correctly formatted.' });
+    return await res.status(500).json({ message: error.message || 'Could not ensure user permissions are correctly formatted.' });
   }
 
   // 12.

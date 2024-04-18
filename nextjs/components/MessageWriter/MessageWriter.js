@@ -46,7 +46,7 @@ export default function MessageWriter({ thread_id }) {
       form.reset();
       setIsSending(false);
     } catch (error) {
-      notify('new', 'error', err.message || t('operations.create.error'));
+      notify('new', 'error', error.message || t('operations.create.error'));
       setIsSending(false);
       console.log(error);
     }

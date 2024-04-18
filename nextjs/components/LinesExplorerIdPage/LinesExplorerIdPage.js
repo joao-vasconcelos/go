@@ -98,7 +98,7 @@ export default function LinesExplorerIdPage() {
         } catch (error) {
           console.log(error);
           setIsCreatingRoute(false);
-          notify('change_typology', 'error', err.message || t('operations.change_typology.error'));
+          notify('change_typology', 'error', error.message || t('operations.change_typology.error'));
         }
       },
     });
@@ -115,7 +115,7 @@ export default function LinesExplorerIdPage() {
     } catch (error) {
       console.log(error);
       setIsCreatingRoute(false);
-      notify('new-route', 'error', err.message || t('form.routes.create.error'));
+      notify('new-route', 'error', error.message || t('form.routes.create.error'));
     }
   };
 

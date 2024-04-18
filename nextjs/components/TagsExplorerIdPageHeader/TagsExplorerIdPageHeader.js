@@ -44,7 +44,7 @@ export default function TagsExplorerIdPageHeader() {
           notify(tagsExplorerContext.item_id, 'success', t('operations.delete.success'));
         } catch (error) {
           console.log(error);
-          notify(tagsExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
+          notify(tagsExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
         }
       },
     });

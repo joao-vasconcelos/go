@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     sessionData = await getSession(req, res);
   } catch (error) {
     console.log(error);
-    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+    return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
   }
 
   // 3.
@@ -35,14 +35,13 @@ export default async function handler(req, res) {
     await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['sales'] }] }] });
   } catch (error) {
     console.log(error);
-    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
+    return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
   }
 
   // 4.
   // Parse request body into JSON
 
   try {
-    console.log(req.body);
     req.body = await JSON.parse(req.body);
   } catch (error) {
     console.log(error);
@@ -81,7 +80,7 @@ export default async function handler(req, res) {
 
   try {
     workdir = STORAGE.setupWorkdir('reports');
-    csvWriter = new CSVWRITER('report');
+    csvWriter = new CSVWRITER('reports_sales_onboard_detail');
   } catch (error) {
     console.log('', error);
   }
@@ -113,7 +112,7 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.log(error);
-    return await res.status(500).json({ message: err.message || 'Cannot list VehicleEvents.' });
+    return await res.status(500).json({ message: error.message || 'Cannot list VehicleEvents.' });
   }
 
   // 9.
@@ -125,7 +124,7 @@ export default async function handler(req, res) {
     fs.createReadStream(`${workdir}/report.csv`).pipe(res);
   } catch (error) {
     console.log(error);
-    return await res.status(500).json({ message: err.message || 'Cannot list VehicleEvents.' });
+    return await res.status(500).json({ message: error.message || 'Cannot list VehicleEvents.' });
   }
 
   //

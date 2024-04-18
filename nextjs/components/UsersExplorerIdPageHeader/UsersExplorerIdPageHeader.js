@@ -44,7 +44,7 @@ export default function UsersExplorerIdPageHeader() {
           notify(usersExplorerContext.item_id, 'success', t('operations.delete.success'));
         } catch (error) {
           console.log(error);
-          notify(usersExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
+          notify(usersExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
         }
       },
     });

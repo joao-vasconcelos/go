@@ -43,7 +43,7 @@ export default function AlertsExplorerIdPageHeader() {
           notify(alertsExplorerContext.item_id, 'success', t('operations.delete.success'));
         } catch (error) {
           console.log(error);
-          notify(alertsExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
+          notify(alertsExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
         }
       },
     });

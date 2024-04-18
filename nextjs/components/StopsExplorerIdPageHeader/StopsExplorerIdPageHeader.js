@@ -58,7 +58,7 @@ export default function StopsExplorerIdPageHeader() {
           console.log(error);
           stopMutate();
           allStopsMutate();
-          notify(stopsExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
+          notify(stopsExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
         }
       },
     });

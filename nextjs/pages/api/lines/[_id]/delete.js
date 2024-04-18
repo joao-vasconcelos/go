@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     sessionData = await getSession(req, res);
   } catch (error) {
     console.log(error);
-    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+    return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
   }
 
   // 3.
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     await prepareApiEndpoint({ request: req, method: 'DELETE', session: sessionData, permissions: [{ scope: 'lines', action: 'delete' }] });
   } catch (error) {
     console.log(error);
-    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
+    return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
   }
 
   // 3.

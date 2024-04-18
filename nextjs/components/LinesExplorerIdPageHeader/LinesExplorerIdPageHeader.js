@@ -43,7 +43,7 @@ export default function LinesExplorerIdPageHeader() {
           notify(linesExplorerContext.item_id, 'success', t('operations.delete.success'));
         } catch (error) {
           console.log(error);
-          notify(linesExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
+          notify(linesExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
         }
       },
     });

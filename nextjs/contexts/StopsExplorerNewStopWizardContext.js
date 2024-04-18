@@ -190,7 +190,7 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
       advanceWizardToNextStep();
     } catch (error) {
       console.log(error);
-      setWizardState((prev) => ({ ...prev, is_loading: false, is_error: err.message }));
+      setWizardState((prev) => ({ ...prev, is_loading: false, is_error: error.message }));
     }
   }, [advanceWizardToNextStep, newStopState, router]);
 

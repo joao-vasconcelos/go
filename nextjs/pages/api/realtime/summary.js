@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     isAllowed(sessionData, [{ scope: 'reporting', action: 'view' }]);
   } catch (error) {
     console.log(error);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
   }
 
   // 4.
@@ -160,7 +160,7 @@ export default async function handler(req, res) {
     await REALTIMEDB.VehicleEvents.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).stream().pipe(JSONStream.stringify()).pipe(res);
   } catch (error) {
     console.log(error);
-    return await res.status(500).json({ message: err.message || 'Cannot list VehicleEvents.' });
+    return await res.status(500).json({ message: error.message || 'Cannot list VehicleEvents.' });
   }
 
   //

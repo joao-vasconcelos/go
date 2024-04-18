@@ -43,7 +43,7 @@ export default function Page() {
   //           setIsImporting(false);
   //         } catch (error) {
   //           console.log(error);
-  //           notify('deleteDeletedStop', 'error', err.message || 'Error');
+  //           notify('deleteDeletedStop', 'error', error.message || 'Error');
   //           setIsImporting(false);
   //         }
   //       },

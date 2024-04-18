@@ -45,7 +45,7 @@ export default async function handler(req, res) {
     sessionData = await getSession(req, res);
   } catch (error) {
     console.log('error2', error);
-    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+    return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
   }
 
   // 4.
@@ -55,7 +55,7 @@ export default async function handler(req, res) {
     await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'exports', action: 'create', fields: [{ key: 'kind', values: [req.body.kind] }] }] });
   } catch (error) {
     console.log('error3', error);
-    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
+    return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
   }
 
   // 5.
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.log('error3', error);
-    return await res.status(400).json({ message: err.message || 'Could not verify specific export kind permissions.' });
+    return await res.status(400).json({ message: error.message || 'Could not verify specific export kind permissions.' });
   }
 
   // 6.
@@ -229,14 +229,14 @@ export default async function handler(req, res) {
 
     //
   } catch (error) {
-    console.log('error7', err.message);
+    console.log('error7', error.message);
     await update(exportDocument, { status: 'ERROR' });
     if (exportDocument.notify_user && sessionData.user?.email) {
       await SMTP.sendMail({
         from: process.env.EMAIL_FROM,
         to: sessionData.user.email,
         subject: '❤️‍🩹 Ocorreu um erro na Exportação',
-        html: `Infelizmente ocorreu um erro na exportação. A mensagem de erro foi: <pre>${err.message}</pre> As opções de exportação foram: <pre>${exportDocument}</pre>`,
+        html: `Infelizmente ocorreu um erro na exportação. A mensagem de erro foi: <pre>${error.message}</pre> As opções de exportação foram: <pre>${exportDocument}</pre>`,
       });
     }
   }

@@ -136,7 +136,7 @@ export default function Page() {
         } catch (error) {
           console.log(error);
           setIsDeleting(false);
-          notify(municipality_id, 'error', err.message || t('operations.delete.error'));
+          notify(municipality_id, 'error', error.message || t('operations.delete.error'));
         }
       },
     });
@@ -159,7 +159,7 @@ export default function Page() {
           notify(`${municipality_id}-import_geojson`, 'success', t('operations.import_geojson.success'));
         } catch (error) {
           console.log(error);
-          notify(`${municipality_id}-import_geojson`, 'error', err.message || t('operations.import_geojson.error'));
+          notify(`${municipality_id}-import_geojson`, 'error', error.message || t('operations.import_geojson.error'));
         }
       },
     });
@@ -182,7 +182,7 @@ export default function Page() {
           notify(`${municipality_id}-delete_geojson`, 'success', t('operations.delete_geojson.success'));
         } catch (error) {
           console.log(error);
-          notify(`${municipality_id}-delete_geojson`, 'error', err.message || t('operations.delete_geojson.error'));
+          notify(`${municipality_id}-delete_geojson`, 'error', error.message || t('operations.delete_geojson.error'));
         }
       },
     });

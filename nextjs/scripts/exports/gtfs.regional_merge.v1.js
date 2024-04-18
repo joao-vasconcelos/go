@@ -203,7 +203,7 @@ async function readZip(zipArchive, zipEntry) {
     try {
       console.log('> Start Read Zip', zipEntry.name);
       zipArchive.readFileAsync(zipEntry, (data, error) => {
-        if (error) reject(err.message);
+        if (error) reject(error.message);
         // resolve(data);
         console.log('> DONE Read Zip', zipEntry.name);
         resolve(Readable.from(data));

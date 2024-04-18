@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     isAllowed(sessionData, [{ scope: 'alerts', action: 'edit' }]);
   } catch (error) {
     console.log(error);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
   }
 
   // 4.
@@ -74,7 +74,7 @@ export default async function handler(req, res) {
     req.body = AlertValidation.cast(req.body);
   } catch (error) {
     console.log(error);
-    return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
+    return await res.status(400).json({ message: JSON.parse(error.message)[0].message });
   }
 
   // 8.
@@ -106,7 +106,7 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.log(error);
-    return await res.status(409).json({ message: err.message });
+    return await res.status(409).json({ message: error.message });
   }
 
   // 11.

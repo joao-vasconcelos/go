@@ -139,7 +139,7 @@ export default function Page() {
         } catch (error) {
           console.log(error);
           setIsDeleting(false);
-          notify(calendar_id, 'error', err.message || t('operations.delete.error'));
+          notify(calendar_id, 'error', error.message || t('operations.delete.error'));
         }
       },
     });

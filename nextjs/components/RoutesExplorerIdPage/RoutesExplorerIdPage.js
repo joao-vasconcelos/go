@@ -52,7 +52,7 @@ export default function RoutesExplorerIdPage() {
     } catch (error) {
       setIsCreatingPattern(false);
       console.log(error);
-      notify('new-pattern', 'error', err.message);
+      notify('new-pattern', 'error', error.message);
     }
   };
 

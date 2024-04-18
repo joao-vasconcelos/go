@@ -43,7 +43,7 @@ export default function ArchivesExplorerListHeader() {
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
     } catch (error) {
-      notify('new', 'error', err.message || t('operations.create.error'));
+      notify('new', 'error', error.message || t('operations.create.error'));
       setIsCreating(false);
       console.log(error);
     }

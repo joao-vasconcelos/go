@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     sessionData = await getSession(req, res);
   } catch (error) {
     console.log(error);
-    return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
+    return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
   }
 
   // 3.
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['sales'] }] }] });
   } catch (error) {
     console.log(error);
-    return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
+    return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
   }
 
   // 4.
@@ -141,7 +141,7 @@ export default async function handler(req, res) {
     result = await REALTIMEDB.SalesEntity.aggregate([matchClauseNegative, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).toArray();
   } catch (error) {
     console.log(error);
-    return await res.status(500).json({ message: err.message || 'Cannot search for APEX Transactions.' });
+    return await res.status(500).json({ message: error.message || 'Cannot search for APEX Transactions.' });
   }
 
   // 9.
@@ -151,7 +151,7 @@ export default async function handler(req, res) {
     res.send(result);
   } catch (error) {
     console.log(error);
-    return await res.status(500).json({ message: err.message || 'Error sending response to client.' });
+    return await res.status(500).json({ message: error.message || 'Error sending response to client.' });
   }
 
   //

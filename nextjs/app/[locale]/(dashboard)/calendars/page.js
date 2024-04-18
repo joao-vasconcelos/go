@@ -145,7 +145,7 @@ export default function Page() {
         } catch (error) {
           console.log(error);
           setIsUpdatingDates(false);
-          notify('delete', 'error', err.message || t('operations.delete.error'));
+          notify('delete', 'error', error.message || t('operations.delete.error'));
         }
       },
       onCancel: openModal(),

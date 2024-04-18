@@ -45,7 +45,7 @@ export default function PatternsExplorerIdPageHeader() {
           notify(patternsExplorerContext.item_id, 'success', t('operations.delete.success'));
         } catch (error) {
           console.log(error);
-          notify(patternsExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
+          notify(patternsExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
         }
       },
     });

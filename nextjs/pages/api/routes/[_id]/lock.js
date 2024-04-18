@@ -34,7 +34,7 @@ export default async function handler(req, res) {
     isAllowed(sessionData, [{ scope: 'lines', action: 'lock' }]);
   } catch (error) {
     console.log(error);
-    return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
+    return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
   }
 
   // 4.

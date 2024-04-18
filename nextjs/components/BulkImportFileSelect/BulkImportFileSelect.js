@@ -37,7 +37,7 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
       onParse(parsedData);
       //
     } catch (error) {
-      setHasParsingError(err.message);
+      setHasParsingError(error.message);
       setIsParsing(false);
     }
   };

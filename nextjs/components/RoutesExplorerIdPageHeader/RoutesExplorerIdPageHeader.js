@@ -45,7 +45,7 @@ export default function RoutesExplorerIdPageHeader() {
           notify(routesExplorerContext.item_id, 'success', t('operations.delete.success'));
         } catch (error) {
           console.log(error);
-          notify(routesExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
+          notify(routesExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
         }
       },
     });
