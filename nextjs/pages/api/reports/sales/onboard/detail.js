@@ -36,7 +36,7 @@ export default async function handler(req, res) {
   // Prepare endpoint
 
   try {
-    await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['sales'] }] }] });
+    await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'reports', action: 'download', fields: [{ key: 'kind', values: ['sales'] }] }] });
   } catch (error) {
     console.log(error);
     return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });

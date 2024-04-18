@@ -4564,12 +4564,12 @@
         }
     },
     "ReportsExplorerSalesResultSummaryOnboardDownload": {
-        "operations": {
-            "download": {
-                "label": "Download destas Transações",
-                "description": "Esta operação é muito intensiva em recursos. Por favor seja responsável na sua utilização.",
-                "loading": "Por favor aguarde enquanto o ficheiro é preparado..."
-            }
+        "label": "Download destas Transações",
+        "description": "Esta operação é muito intensiva em recursos. Por favor seja responsável na sua utilização.",
+        "is_loading": "Por favor aguarde enquanto o ficheiro é preparado...",
+        "is_error": {
+            "title": "Ocorreu um erro ao gerar o ficheiro.",
+            "description": "O servidor devolveu a seguinte mensagem: {errorMessage}"
         }
     }
 }
