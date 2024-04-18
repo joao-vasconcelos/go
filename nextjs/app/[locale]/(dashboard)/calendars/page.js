@@ -116,8 +116,8 @@ export default function Page() {
       setSelectedDatesCollection([]);
       setIsUpdatingDates(false);
       closeModal();
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setIsUpdatingDates(false);
       notify('update', 'error', t('operations.update.error'));
     }
@@ -142,8 +142,8 @@ export default function Page() {
           notify('delete', 'success', t('operations.delete.success'));
           setIsUpdatingDates(false);
           closeModal();
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           setIsUpdatingDates(false);
           notify('delete', 'error', err.message || t('operations.delete.error'));
         }

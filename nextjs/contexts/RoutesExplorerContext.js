@@ -144,8 +144,8 @@ export function RoutesExplorerContextProvider({ children }) {
       allItemsMutate();
       formState.resetDirty();
       setPageState((prev) => ({ ...prev, is_saving: false }));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: err }));
     }
   }, [allItemsMutate, formState, itemId, itemMutate]);
@@ -155,10 +155,10 @@ export function RoutesExplorerContextProvider({ children }) {
       await API({ service: 'routes', resourceId: itemId, operation: 'lock', method: 'PUT' });
       itemMutate();
       allItemsMutate();
-    } catch (err) {
+    } catch (error) {
       itemMutate();
       allItemsMutate();
-      console.log(err);
+      console.log(error);
       setPageState((prev) => ({ ...prev, is_error: err }));
     }
   }, [allItemsMutate, itemId, itemMutate]);
@@ -170,10 +170,10 @@ export function RoutesExplorerContextProvider({ children }) {
       router.push(`/lines/${linesExplorerContext.item_id}`);
       allItemsMutate();
       formState.resetDirty();
-    } catch (err) {
+    } catch (error) {
       itemMutate();
       allItemsMutate();
-      console.log(err);
+      console.log(error);
       setPageState((prev) => ({ ...prev, is_error: err }));
     }
   }, [allItemsMutate, formState, itemId, itemMutate, linesExplorerContext.item_id, router]);

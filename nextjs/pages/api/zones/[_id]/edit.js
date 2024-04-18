@@ -25,8 +25,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -35,8 +35,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'zones', action: 'edit' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -45,8 +45,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     await res.status(500).json({ message: 'JSON parse error.' });
     return;
   }
@@ -56,8 +56,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = ZoneValidation.cast(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
@@ -67,8 +67,8 @@ export default async function handler(req, res) {
   try {
     foundDocument = await ZoneModel.findOne({ _id: { $eq: req.query._id } });
     if (!foundDocument) return await res.status(404).json({ message: `Zone with _id "${req.query._id}" not found.` });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Zone not found.' });
   }
 
@@ -88,8 +88,8 @@ export default async function handler(req, res) {
     if (foundDocumentWithZoneCode && foundDocumentWithZoneCode._id != req.query._id) {
       throw new Error('A Zone with the same "code" already exists.');
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(409).json({ message: err.message });
   }
 
@@ -100,8 +100,8 @@ export default async function handler(req, res) {
     const editedDocument = await ZoneModel.replaceOne({ _id: { $eq: req.query._id } }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Zone with _id "${req.query._id}" not found.` });
     return await res.status(200).json(editedDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot update this Zone.' });
   }
 

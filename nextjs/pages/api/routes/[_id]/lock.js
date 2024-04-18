@@ -32,8 +32,8 @@ export default async function handler(req, res) {
   try {
     sessionData = await getSession(req, res);
     isAllowed(sessionData, [{ scope: 'lines', action: 'lock' }]);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
@@ -42,8 +42,8 @@ export default async function handler(req, res) {
 
   try {
     await mongodb.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
@@ -53,8 +53,8 @@ export default async function handler(req, res) {
   try {
     routeDocument = await RouteModel.findOne({ _id: { $eq: req.query._id } });
     if (!routeDocument) return await res.status(404).json({ message: `Route with _id "${req.query._id}" not found.` });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Route not found.' });
   }
 
@@ -65,8 +65,8 @@ export default async function handler(req, res) {
     const lineDocument = await LineModel.findOne({ _id: { $eq: routeDocument.parent_line } });
     if (!lineDocument) return await res.status(404).json({ message: `Parent Line with _id: ${routeDocument.parent_line} not found.` });
     if (lineDocument.is_locked) return await res.status(423).json({ message: 'Parent Line is locked.' });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Error retrieving parent Line for this Route.' });
   }
 
@@ -80,8 +80,8 @@ export default async function handler(req, res) {
     }
     await routeDocument.save();
     return await res.status(200).json(routeDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot update this Route or its associated Patterns.' });
   }
 

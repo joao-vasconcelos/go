@@ -24,8 +24,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -34,8 +34,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'stops', action: 'create' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -44,8 +44,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
@@ -54,8 +54,8 @@ export default async function handler(req, res) {
 
   try {
     // req.body = StopValidation.cast(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message });
   }
 
@@ -75,8 +75,8 @@ export default async function handler(req, res) {
       if (isStopInThisZone) zoneIdsForThisStop.push(zoneData._id);
       //
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     await res.status(500).json({ message: 'Error setting zones.' });
   }
 
@@ -93,8 +93,8 @@ export default async function handler(req, res) {
     }
     const createdDocument = await StopModel(newDocument).save();
     return await res.status(201).json(createdDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(409).json({ message: err.message });
   }
 

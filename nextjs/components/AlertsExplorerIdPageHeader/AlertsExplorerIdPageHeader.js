@@ -41,8 +41,8 @@ export default function AlertsExplorerIdPageHeader() {
           notify(alertsExplorerContext.item_id, 'loading', t('operations.delete.loading'));
           await alertsExplorerContext.deleteItem();
           notify(alertsExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           notify(alertsExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
         }
       },

@@ -12,7 +12,7 @@ import AdmZip from 'adm-zip';
 import { DateTime } from 'luxon';
 import { MunicipalityOptions } from '@/schemas/Municipality/options';
 import { parse as csvParser } from 'csv-parse';
-import FILEWRITER from '@/services/FILEWRITER';
+import CSVWRITER from '@/services/CSVWRITER';
 
 //
 //
@@ -202,8 +202,8 @@ async function readZip(zipArchive, zipEntry) {
   return new Promise((resolve, reject) => {
     try {
       console.log('> Start Read Zip', zipEntry.name);
-      zipArchive.readFileAsync(zipEntry, (data, err) => {
-        if (err) reject(err.message);
+      zipArchive.readFileAsync(zipEntry, (data, error) => {
+        if (error) reject(err.message);
         // resolve(data);
         console.log('> DONE Read Zip', zipEntry.name);
         resolve(Readable.from(data));
@@ -233,7 +233,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
   // 0.
   // Setup variables
 
-  const fileWriter = new FILEWRITER('regional_merge_v1');
+  const fileWriter = new CSVWRITER('regional_merge_v1');
 
   // 0.
   // Update progress

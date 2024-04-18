@@ -37,8 +37,8 @@ export default function PatternsExplorerIdPageImport() {
         }
       }
       setParseResult(trips);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setParseResult();
     }
   };
@@ -79,8 +79,8 @@ export default function PatternsExplorerIdPageImport() {
           notify('pattern-import', 'loading', t('import.loading'));
           await patternsExplorerContext.importPatternFromGtfs({ shape: trip.shape.points, path: trip.path });
           notify('pattern-import', 'success', t('import.success', { trip_id: trip.trip_id }));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           notify('pattern-import', 'error', err.message || t('import.error'));
         }
       },

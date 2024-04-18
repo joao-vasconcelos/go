@@ -34,8 +34,8 @@ export default async function handler(req, res) {
   try {
     sessionData = await getSession(req, res);
     isAllowed(sessionData, [{ scope: 'reporting', action: 'view' }]);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
@@ -44,8 +44,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
@@ -60,8 +60,8 @@ export default async function handler(req, res) {
     operationDayEndMilis = DateTime.fromFormat(req.body.operation_day, 'yyyyMMdd').setZone('Europe/Lisbon').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59 }).toMillis();
     //
     // /* TEST */ operationDayEndMilis = DateTime.fromFormat(req.body.operation_day, 'yyyyMMdd').setZone('Europe/Lisbon').startOf('day').set({ hour: 5, minute: 0 }).toMillis();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Error converting date boundaries to miliseconds.' });
   }
 
@@ -70,8 +70,8 @@ export default async function handler(req, res) {
 
   try {
     await REALTIMEDB.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
   }
 
@@ -158,8 +158,8 @@ export default async function handler(req, res) {
   try {
     console.log('Searching events...');
     await REALTIMEDB.VehicleEvents.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).stream().pipe(JSONStream.stringify()).pipe(res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: err.message || 'Cannot list VehicleEvents.' });
   }
 

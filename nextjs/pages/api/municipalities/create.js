@@ -31,8 +31,8 @@ export default async function handler(req, res) {
   try {
     sessionData = await getSession(req, res);
     isAllowed(sessionData, [{ scope: 'municipalities', action: 'create' }]);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
@@ -41,8 +41,8 @@ export default async function handler(req, res) {
 
   try {
     await mongodb.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
@@ -56,8 +56,8 @@ export default async function handler(req, res) {
     }
     const createdDocument = await MunicipalityModel(newDocument).save();
     return await res.status(201).json(createdDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot create this Municipality.' });
   }
 

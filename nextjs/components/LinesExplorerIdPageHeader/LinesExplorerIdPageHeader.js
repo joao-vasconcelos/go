@@ -41,8 +41,8 @@ export default function LinesExplorerIdPageHeader() {
           notify(linesExplorerContext.item_id, 'loading', t('operations.delete.loading'));
           await linesExplorerContext.deleteItem();
           notify(linesExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           notify(linesExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
         }
       },

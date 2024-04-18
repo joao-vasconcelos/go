@@ -91,9 +91,9 @@ export default function LinesExplorerPage() {
         });
         setVkmCalculationResult(response);
         setIsLoading(false);
-      } catch (err) {
+      } catch (error) {
         setIsLoading(false);
-        console.log(err);
+        console.log(error);
       }
     })();
   }, [selectedStartDate, selectedEndDate, selectedAgency, selectedCalculationMethod, selectedExtensionSource]);

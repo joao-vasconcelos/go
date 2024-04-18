@@ -101,8 +101,8 @@ export function ArchivesExplorerItemContextProvider({ itemId, itemData, children
       allItemsMutate();
       formState.resetDirty();
       setItemState((prev) => ({ ...prev, is_saving: false }));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setItemState((prev) => ({ ...prev, is_saving: false, is_error_saving: err }));
     }
   }, [allItemsMutate, formState, itemId]);
@@ -111,10 +111,10 @@ export function ArchivesExplorerItemContextProvider({ itemId, itemData, children
     try {
       await API({ service: 'archives', resourceId: itemId, operation: 'lock', method: 'PUT' });
       allItemsMutate();
-    } catch (err) {
+    } catch (error) {
       itemMutate();
       allItemsMutate();
-      console.log(err);
+      console.log(error);
       setItemState((prev) => ({ ...prev, is_error: err }));
     }
   }, [allItemsMutate, itemId]);
@@ -126,9 +126,9 @@ export function ArchivesExplorerItemContextProvider({ itemId, itemData, children
       setItemState((prev) => ({ ...prev, is_loading: false, is_error: false }));
       allItemsMutate();
       formState.resetDirty();
-    } catch (err) {
+    } catch (error) {
       allItemsMutate();
-      console.log(err);
+      console.log(error);
       setItemState((prev) => ({ ...prev, is_loading: false, is_error: err }));
     }
   }, [allItemsMutate, formState, itemId]);

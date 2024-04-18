@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import generator from './generator';
 
 /* * */
 
@@ -10,7 +11,7 @@ class STORAGE {
 
   storage_directory_name = 'storage';
 
-  allowed_scopes = { alerts: 'alerts', issues: 'issues', stops: 'stops', exports: 'exports', archives: 'archives' };
+  allowed_scopes = { alerts: 'alerts', issues: 'issues', stops: 'stops', exports: 'exports', archives: 'archives', reports: 'reports' };
 
   getScopeDirPath(scope) {
     // Get the scope path from allowed list
@@ -23,6 +24,20 @@ class STORAGE {
     if (!fs.existsSync(scopedPath)) fs.mkdirSync(scopedPath, { recursive: true });
     // Return scoped path
     return scopedPath;
+    //
+  }
+
+  setupWorkdir(scope, id = generator({ length: 12 })) {
+    // Get the scope dir path
+    const scopedPath = STORAGE.getScopeDirPath(scope);
+    // Setup the working directory for the given scope and id
+    const workdir = `${scopedPath}/${id}`;
+    // Out of an abundance of caution, delete the directory and all its contents if it already exists
+    if (fs.existsSync(workdir)) fs.rmSync(workdir, { recursive: true, force: true });
+    // Create a fresh empty directory in the given path
+    fs.mkdirSync(workdir, { recursive: true });
+    // Return workdir to the caller
+    return workdir;
     //
   }
 

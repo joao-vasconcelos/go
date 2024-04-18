@@ -45,8 +45,8 @@ export default function ExportsExplorerListItem({ item }) {
         try {
           await API({ service: 'exports', resourceId: item._id, operation: 'delete', method: 'DELETE' });
           allExportsMutate();
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
         }
       },
     });
@@ -61,8 +61,8 @@ export default function ExportsExplorerListItem({ item }) {
       zipDownload.download = item.filename;
       document.body.appendChild(zipDownload);
       zipDownload.click();
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   };
 

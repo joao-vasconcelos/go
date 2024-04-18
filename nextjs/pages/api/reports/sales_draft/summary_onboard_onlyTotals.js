@@ -24,8 +24,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -34,8 +34,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['sales'] }] }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -44,8 +44,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
@@ -58,8 +58,8 @@ export default async function handler(req, res) {
   try {
     startDateFormatted = DateTime.fromFormat(req.body.start_date, 'yyyyMMdd').setZone('Europe/Lisbon').startOf('day').set({ hour: 4, minute: 0 }).toFormat("yyyy-MM-dd'T'HH:MM:ss");
     endDateFormatted = DateTime.fromFormat(req.body.end_date, 'yyyyMMdd').setZone('Europe/Lisbon').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59 }).toFormat("yyyy-MM-dd'T'HH:MM:ss");
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Error formatting date boundaries.' });
   }
 
@@ -68,8 +68,8 @@ export default async function handler(req, res) {
 
   try {
     await REALTIMEDB.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
   }
 
@@ -84,31 +84,26 @@ export default async function handler(req, res) {
         $gte: startDateFormatted,
         $lte: endDateFormatted,
       },
+      'transaction.operatorLongID': { $eq: req.body.agency_code },
+      //   'transaction.productLongID': { $in: ['id-prod-tarifa-'] },
+      'transaction.productLongID': { $regex: /^id-prod-tar/ },
     },
   };
 
   const groupClause = {
     $group: {
       _id: null,
-      encm_sales_qty: {
-        $sum: {
-          $cond: [{ $gte: ['$transaction.price', 0] }, 1, 0],
-        },
+      qty: {
+        $count: {},
+        // $sum: {
+        //   $cond: [{ $gte: ['$transaction.price', 0] }, 1, 0],
+        // },
       },
-      encm_sales_euro: {
-        $sum: {
-          $cond: [{ $gte: ['$transaction.price', 0] }, '$transaction.price', 0],
-        },
-      },
-      encm_cashback_qty: {
-        $sum: {
-          $cond: [{ $lt: ['$transaction.price', 0] }, 1, 0],
-        },
-      },
-      encm_cashback_euro: {
-        $sum: {
-          $cond: [{ $lt: ['$transaction.price', 0] }, '$transaction.price', 0],
-        },
+      euro: {
+        $sum: '$transaction.price',
+        // $sum: {
+        //   $cond: [{ $gte: ['$transaction.price', 0] }, '$transaction.price', 0],
+        // },
       },
     },
   };
@@ -116,10 +111,9 @@ export default async function handler(req, res) {
   const projectClause = {
     $project: {
       _id: 0,
-      encm_sales_qty: 1,
-      encm_sales_euro: 1,
-      encm_cashback_qty: 1,
-      encm_cashback_euro: 1,
+      qty: 1,
+      euro: 1,
+      productLongID: '$productLongID',
     },
   };
 
@@ -129,8 +123,8 @@ export default async function handler(req, res) {
   try {
     console.log('Searching sales...');
     result = await REALTIMEDB.SalesEntity.aggregate([matchClauseNegative, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).toArray();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: err.message || 'Cannot search for APEX Transactions.' });
   }
 
@@ -140,8 +134,8 @@ export default async function handler(req, res) {
   try {
     if (result.length > 0) res.send(result[0]);
     else res.send({});
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: err.message || 'Error sending response to client.' });
   }
 

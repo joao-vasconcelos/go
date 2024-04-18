@@ -38,8 +38,8 @@ export const authOptions = {
         const foundUser = await UserModel.exists({ email: user.email });
         if (!foundUser) return false;
         else return true;
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.log(error);
         return false;
       }
     },
@@ -52,8 +52,8 @@ export const authOptions = {
           return session;
         }
         throw new Error('JWT Token did not have the email property.');
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.log(error);
         return false;
       }
     },

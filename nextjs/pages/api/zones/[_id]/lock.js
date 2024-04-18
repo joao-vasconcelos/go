@@ -19,8 +19,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -29,8 +29,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'zones', action: 'view' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -42,8 +42,8 @@ export default async function handler(req, res) {
     if (!foundDocument) return await res.status(404).json({ message: `Zone with _id "${req.query._id}" not found.` });
     const updatedDocument = await ZoneModel.updateOne({ _id: { $eq: foundDocument._id } }, { is_locked: !foundDocument.is_locked }, { new: true });
     return await res.status(200).json(updatedDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot lock or unlock this Zone.' });
   }
 

@@ -31,8 +31,8 @@ export default async function handler(req, res) {
   try {
     sessionData = await getSession(req, res);
     isAllowed(sessionData, [{ scope: 'issues', action: 'edit' }]);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
@@ -41,8 +41,8 @@ export default async function handler(req, res) {
 
   try {
     await mongodb.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
@@ -51,8 +51,8 @@ export default async function handler(req, res) {
 
   try {
     await IssueModel.syncIndexes();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot sync indexes.' });
   }
 
@@ -61,8 +61,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     await res.status(500).json({ message: 'JSON parse error.' });
     return;
   }
@@ -72,8 +72,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = IssueValidation.cast(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: JSON.parse(err.message)[0].message });
   }
 
@@ -83,8 +83,8 @@ export default async function handler(req, res) {
   try {
     foundDocument = await IssueModel.findOne({ _id: { $eq: req.query._id } });
     if (!foundDocument) return await res.status(404).json({ message: `Issue with _id "${req.query._id}" not found.` });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Issue not found.' });
   }
 
@@ -104,8 +104,8 @@ export default async function handler(req, res) {
     if (foundDocumentWithIssueCode && foundDocumentWithIssueCode._id != req.query._id) {
       throw new Error('An Issue with the same "code" already exists.');
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(409).json({ message: err.message });
   }
 
@@ -116,8 +116,8 @@ export default async function handler(req, res) {
     const editedDocument = await IssueModel.replaceOne({ _id: { $eq: req.query._id } }, req.body, { new: true });
     if (!editedDocument) return await res.status(404).json({ message: `Issue with _id "${req.query._id}" not found.` });
     return await res.status(200).json(editedDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot update this Issue.' });
   }
 

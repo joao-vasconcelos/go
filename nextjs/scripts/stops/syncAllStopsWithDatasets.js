@@ -86,8 +86,8 @@ export default async function syncAllStopsWithDatasets() {
     console.log(`⤷ Complete. Operation took ${syncDuration / 1000} seconds.`);
 
     //
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 
   //

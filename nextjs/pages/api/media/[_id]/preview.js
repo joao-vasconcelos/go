@@ -21,8 +21,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -31,8 +31,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'media', action: 'view' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -56,8 +56,8 @@ export default async function handler(req, res) {
     await res.send(fileData);
 
     //
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Could not download this Media.' });
   }
 

@@ -29,8 +29,8 @@ export default async function handler(req, res) {
 
   try {
     await mongodb.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: 'Could not connect to MongoDB.' });
   }
 
@@ -164,8 +164,8 @@ export default async function handler(req, res) {
     });
 
     return await res.status(200).send(gtfsRtServiceAlertsFeed);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot list Alerts.' });
   }
 

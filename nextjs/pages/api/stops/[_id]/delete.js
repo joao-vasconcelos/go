@@ -21,8 +21,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -31,8 +31,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'DELETE', session: sessionData, permissions: [{ scope: 'stops', action: 'view' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -42,8 +42,8 @@ export default async function handler(req, res) {
   try {
     const foundAssociatedDocuments = await PatternModel.find({ 'path.stop': { $eq: req.query._id } }, '_id code headsign parent_route');
     if (foundAssociatedDocuments.length > 0) return await res.status(404).json({ message: 'Stop is still associated with Patterns.' });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot fetch associated Patterns for this Stop.' });
   }
 
@@ -53,8 +53,8 @@ export default async function handler(req, res) {
   try {
     foundDocument = await StopModel.findOne({ _id: { $eq: req.query._id } });
     if (!foundDocument) return await res.status(404).json({ message: `Stop with _id "${req.query._id}" not found.` });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Stop not found.' });
   }
 
@@ -70,8 +70,8 @@ export default async function handler(req, res) {
 
   try {
     await DeletedStopModel({ code: foundDocument.code, name: foundDocument.name, latitude: foundDocument.latitude, longitude: foundDocument.longitude }).save();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Could not save this stop to the Deleted Stops collection.' });
   }
 
@@ -81,8 +81,8 @@ export default async function handler(req, res) {
   try {
     const deletedDocument = await StopModel.findOneAndDelete({ _id: { $eq: req.query._id } });
     return await res.status(200).send(deletedDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot delete this Stop.' });
   }
 

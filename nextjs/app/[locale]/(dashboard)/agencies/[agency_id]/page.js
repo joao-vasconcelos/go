@@ -94,11 +94,11 @@ export default function Page() {
       setIsSaving(false);
       setIsLocking(false);
       setHasErrorSaving(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setIsSaving(false);
       setIsLocking(false);
-      setHasErrorSaving(err);
+      setHasErrorSaving(error);
     }
   };
 
@@ -108,8 +108,8 @@ export default function Page() {
       await API({ service: 'agencies', resourceId: agency_id, operation: 'lock', method: 'PUT' });
       agencyMutate();
       setIsLocking(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       agencyMutate();
       setIsLocking(false);
     }
@@ -132,8 +132,8 @@ export default function Page() {
           router.push('/agencies');
           notify(agency_id, 'success', t('operations.delete.success'));
           setIsDeleting(false);
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           setIsDeleting(false);
           notify(agency_id, 'error', err.message || t('operations.delete.error'));
         }

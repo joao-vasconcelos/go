@@ -20,8 +20,8 @@ export default async function prepareApiEndpoint({ request, method = 'GET', sess
 
   try {
     isAllowed(session, permissions);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     throw new Error('Could not verify Authentication.');
   }
 
@@ -30,8 +30,8 @@ export default async function prepareApiEndpoint({ request, method = 'GET', sess
 
   try {
     await mongodb.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     throw new Error('Could not connect to MongoDB.');
   }
 

@@ -240,8 +240,8 @@ export function StopsExplorerContextProvider({ children }) {
       htmlAnchorElement.click();
       setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
     }
@@ -260,8 +260,8 @@ export function StopsExplorerContextProvider({ children }) {
       htmlAnchorElement.click();
       setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
     }
@@ -274,8 +274,8 @@ export function StopsExplorerContextProvider({ children }) {
       await API({ service: 'stops', operation: 'sync/datasets', method: 'GET' });
       setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
     }
@@ -288,8 +288,8 @@ export function StopsExplorerContextProvider({ children }) {
       await API({ service: 'stops', operation: 'sync/intermodal', method: 'GET' });
       setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setListState((prev) => ({ ...prev, is_loading: false }));
       setPageState((prev) => ({ ...prev, is_loading: false }));
     }
@@ -307,8 +307,8 @@ export function StopsExplorerContextProvider({ children }) {
       allItemsMutate();
       formState.resetDirty();
       setPageState((prev) => ({ ...prev, is_saving: false }));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: err }));
     }
   }, [allItemsMutate, formState, itemId, itemMutate]);
@@ -318,10 +318,10 @@ export function StopsExplorerContextProvider({ children }) {
       await API({ service: 'stops', resourceId: itemId, operation: 'lock', method: 'PUT' });
       itemMutate();
       allItemsMutate();
-    } catch (err) {
+    } catch (error) {
       itemMutate();
       allItemsMutate();
-      console.log(err);
+      console.log(error);
       setPageState((prev) => ({ ...prev, is_error: err }));
     }
   }, [allItemsMutate, itemId, itemMutate]);

@@ -43,8 +43,8 @@ export default function PatternsExplorerIdPageHeader() {
           notify(patternsExplorerContext.item_id, 'loading', t('operations.delete.loading'));
           await patternsExplorerContext.deleteItem();
           notify(patternsExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           notify(patternsExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
         }
       },

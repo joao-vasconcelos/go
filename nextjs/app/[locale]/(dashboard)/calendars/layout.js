@@ -52,10 +52,10 @@ export default function Layout({ children }) {
       router.push(`/calendars/${response._id}`);
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
-    } catch (err) {
+    } catch (error) {
       notify('new', 'error', err.message || t('operations.create.error'));
       setIsCreating(false);
-      console.log(err);
+      console.log(error);
     }
   };
 
@@ -72,10 +72,10 @@ export default function Layout({ children }) {
       htmlAnchorElement.click();
       notify('export_dates', 'success', t('operations.export_dates.success'));
       setIsCreating(false);
-    } catch (err) {
+    } catch (error) {
       notify('export_dates', 'error', err.message || t('operations.export_dates.error'));
       setIsCreating(false);
-      console.log(err);
+      console.log(error);
     }
   };
 

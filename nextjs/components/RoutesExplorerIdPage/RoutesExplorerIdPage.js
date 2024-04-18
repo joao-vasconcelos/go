@@ -49,9 +49,9 @@ export default function RoutesExplorerIdPage() {
       routesExplorerContext.form.insertListItem('patterns', response._id);
       notify('new-pattern', 'success', 'Pattern criado com sucesso.');
       setIsCreatingPattern(false);
-    } catch (err) {
+    } catch (error) {
       setIsCreatingPattern(false);
-      console.log(err);
+      console.log(error);
       notify('new-pattern', 'error', err.message);
     }
   };

@@ -21,8 +21,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -31,8 +31,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'lines', action: 'view' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -42,8 +42,8 @@ export default async function handler(req, res) {
   try {
     lineDocument = await LineModel.findOne({ _id: { $eq: req.query._id } });
     if (!lineDocument) return await res.status(404).json({ message: `Line with _id "${req.query._id}" not found.` });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: `Error fetching Line with _id "${req.query._id}" from the database.` });
   }
 
@@ -54,8 +54,8 @@ export default async function handler(req, res) {
     const allDescendantRoutesForThisLine = await RouteModel.find({ parent_line: { $eq: lineDocument._id } }, '_id');
     lineDocument.routes = allDescendantRoutesForThisLine.map((item) => item._id);
     await lineDocument.save();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: `Error synchronizing descendant Routes for the Line with _id "${lineDocument._id}".` });
   }
 
@@ -64,8 +64,8 @@ export default async function handler(req, res) {
 
   try {
     return await res.status(200).json(lineDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Error sending response to client.' });
   }
 

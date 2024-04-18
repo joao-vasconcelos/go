@@ -4,8 +4,7 @@ import { Divider } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
 import ReportsExplorerSalesResultSummaryHeader from '@/components/ReportsExplorerSalesResultSummaryHeader/ReportsExplorerSalesResultSummaryHeader';
 import ReportsExplorerSalesResultSummaryDescription from '@/components/ReportsExplorerSalesResultSummaryDescription/ReportsExplorerSalesResultSummaryDescription';
-import ReportsExplorerSalesResultSummaryMetrics from '@/components/ReportsExplorerSalesResultSummaryMetrics/ReportsExplorerSalesResultSummaryMetrics';
-// import ReportsExplorerSalesResultSummaryTable from '@/components/ReportsExplorerSalesResultSummaryTable/ReportsExplorerSalesResultSummaryTable';
+import ReportsExplorerSalesResultSummaryOnboard from '../ReportsExplorerSalesResultSummaryOnboard/ReportsExplorerSalesResultSummaryOnboard';
 
 /* * */
 
@@ -14,7 +13,7 @@ export default function ReportsExplorerSalesResultSummary() {
     <Pannel header={<ReportsExplorerSalesResultSummaryHeader />}>
       <ReportsExplorerSalesResultSummaryDescription />
       <Divider />
-      <ReportsExplorerSalesResultSummaryMetrics />
+      <ReportsExplorerSalesResultSummaryOnboard />
       <Divider />
       {/* <ReportsExplorerSalesResultSummaryTable /> */}
     </Pannel>

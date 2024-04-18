@@ -45,10 +45,10 @@ export default function MessageWriter({ thread_id }) {
       mutate(`/api/threads/${thread_id}`);
       form.reset();
       setIsSending(false);
-    } catch (err) {
+    } catch (error) {
       notify('new', 'error', err.message || t('operations.create.error'));
       setIsSending(false);
-      console.log(err);
+      console.log(error);
     }
   };
 

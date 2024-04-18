@@ -30,8 +30,8 @@ export default async function handler(req, res) {
   try {
     sessionData = await getSession(req, res);
     isAllowed(sessionData, [{ scope: 'media', action: 'delete' }]);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
@@ -40,8 +40,8 @@ export default async function handler(req, res) {
 
   try {
     await mongodb.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
@@ -53,8 +53,8 @@ export default async function handler(req, res) {
     if (!deletedDocument) return await res.status(404).json({ message: `Media with _id "${req.query._id}" not found.` });
     STORAGE.removeFile(deletedDocument.storage_scope, `${deletedDocument._id}${deletedDocument.file_extension}`);
     return await res.status(200).send(deletedDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot delete this Media.' });
   }
 

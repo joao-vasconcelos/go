@@ -29,8 +29,8 @@ export default async function handler(req, res) {
   try {
     sessionData = await getSession(req, res);
     isAllowed(sessionData, [{ scope: 'agencies', action: 'lock' }]);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
@@ -39,8 +39,8 @@ export default async function handler(req, res) {
 
   try {
     await mongodb.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
@@ -52,8 +52,8 @@ export default async function handler(req, res) {
     if (!foundDocument) return await res.status(404).json({ message: `Agency with _id "${req.query._id}" not found.` });
     const updatedDocument = await AgencyModel.updateOne({ _id: { $eq: foundDocument._id } }, { is_locked: !foundDocument.is_locked }, { new: true });
     return await res.status(200).json(updatedDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot lock or unlock this Agency.' });
   }
 

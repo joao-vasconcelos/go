@@ -95,8 +95,8 @@ export default function LinesExplorerIdPage() {
           linesExplorerContext.form.setFieldValue('prepaid_fare', selectedTypologyData.default_prepaid_fare || null);
           linesExplorerContext.form.setFieldValue('onboard_fares', selectedTypologyData.default_onboard_fares || []);
           notify('change_typology', 'success', t('operations.change_typology.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           setIsCreatingRoute(false);
           notify('change_typology', 'error', err.message || t('operations.change_typology.error'));
         }
@@ -112,8 +112,8 @@ export default function LinesExplorerIdPage() {
       linesExplorerContext.form.insertListItem('routes', response._id);
       notify('new-route', 'success', t('form.routes.create.success'));
       setIsCreatingRoute(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setIsCreatingRoute(false);
       notify('new-route', 'error', err.message || t('form.routes.create.error'));
     }

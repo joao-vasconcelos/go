@@ -98,7 +98,7 @@ export default function ReportsExplorerSalesForm() {
         {!reportsExplorerSalesContext.request.is_loading && (
           <Button
             onClick={reportsExplorerSalesContext.fetchSummary}
-            disabled={!reportsExplorerSalesContext.form.values.agency_code || !reportsExplorerSalesContext.form.values.start_date || !reportsExplorerSalesContext.form.values.end_date || reportsExplorerSalesContext.request.summary?.length > 0}
+            disabled={!reportsExplorerSalesContext.form.values.agency_code || !reportsExplorerSalesContext.form.values.start_date || !reportsExplorerSalesContext.form.values.end_date || reportsExplorerSalesContext.request.is_success}
             loading={reportsExplorerSalesContext.request.is_loading}
           >
             {reportsExplorerSalesContext.request.is_error ? t('operations.retry.label') : t('operations.submit.label')}

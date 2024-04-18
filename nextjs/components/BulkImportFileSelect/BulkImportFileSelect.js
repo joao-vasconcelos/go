@@ -36,7 +36,7 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
       setIsParsing(false);
       onParse(parsedData);
       //
-    } catch (err) {
+    } catch (error) {
       setHasParsingError(err.message);
       setIsParsing(false);
     }
@@ -50,25 +50,25 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
   // C. Render components
 
   const ErrorAlert = () => (
-    <Alert icon={<IconAlertTriangleFilled size='20px' />} title={t('parsing_error.title')} color='red'>
+    <Alert icon={<IconAlertTriangleFilled size="20px" />} title={t('parsing_error.title')} color="red">
       {hasParsingError || t('parsing_error.description')}
     </Alert>
   );
 
   const DropZoneIdle = () => (
     <div className={styles.container} onClick={() => openFileBrowserRef.current()}>
-      <IconDragDrop size='60px' />
-      <Text size='h1'>{t('dropzone.idle.title')}</Text>
-      <Text size='h3'>{t('dropzone.idle.description')}</Text>
+      <IconDragDrop size="60px" />
+      <Text size="h1">{t('dropzone.idle.title')}</Text>
+      <Text size="h3">{t('dropzone.idle.description')}</Text>
     </div>
   );
 
   const DropZoneAccept = () => (
     <Dropzone.Accept>
       <div className={styles.container}>
-        <IconUpload size='60px' />
-        <Text size='h1'>{t('dropzone.accept.title')}</Text>
-        <Text size='h3'>{t('dropzone.accept.description')}</Text>
+        <IconUpload size="60px" />
+        <Text size="h1">{t('dropzone.accept.title')}</Text>
+        <Text size="h3">{t('dropzone.accept.description')}</Text>
       </div>
     </Dropzone.Accept>
   );
@@ -76,9 +76,9 @@ export default function BulkImportFileSelect({ filesParser, onParse }) {
   const DropZoneReject = () => (
     <Dropzone.Reject>
       <div className={styles.container}>
-        <IconBan size='60px' />
-        <Text size='xl'>{t('dropzone.reject.title')}</Text>
-        <Text size='h3'>{t('dropzone.reject.description')}</Text>
+        <IconBan size="60px" />
+        <Text size="xl">{t('dropzone.reject.title')}</Text>
+        <Text size="h3">{t('dropzone.reject.description')}</Text>
       </div>
     </Dropzone.Reject>
   );

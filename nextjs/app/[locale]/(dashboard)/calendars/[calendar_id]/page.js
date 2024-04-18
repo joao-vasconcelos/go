@@ -112,8 +112,8 @@ export default function Page() {
       await API({ service: 'calendars', resourceId: calendar_id, operation: 'lock', method: 'PUT' });
       calendarMutate();
       setIsLocking(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       calendarMutate();
       setIsLocking(false);
     }
@@ -136,8 +136,8 @@ export default function Page() {
           router.push('/calendars');
           notify(calendar_id, 'success', t('operations.delete.success'));
           setIsDeleting(false);
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           setIsDeleting(false);
           notify(calendar_id, 'error', err.message || t('operations.delete.error'));
         }

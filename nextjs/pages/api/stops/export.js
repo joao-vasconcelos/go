@@ -26,8 +26,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -36,8 +36,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'stops', action: 'export' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -48,8 +48,8 @@ export default async function handler(req, res) {
     foundDocuments = await StopModel.find().populate('municipality', 'code name district region').lean();
     const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
     foundDocuments = foundDocuments.sort((a, b) => collator.compare(a.code, b.code));
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot list Stops.' });
   }
 
@@ -119,8 +119,8 @@ export default async function handler(req, res) {
         //
       };
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot list Stops.' });
   }
 
@@ -130,8 +130,8 @@ export default async function handler(req, res) {
   try {
     const parsedCsvData = Papa.unparse(foundDocuments, { skipEmptyLines: 'greedy', newline: '\n', header: true });
     await res.writeHead(200, { 'Content-Type': 'text/csv', 'Content-Disposition': `attachment; filename=stops.txt` }).send(parsedCsvData);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot create CSV from found documents.' });
   }
 

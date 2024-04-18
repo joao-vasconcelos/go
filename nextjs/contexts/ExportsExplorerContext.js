@@ -128,8 +128,8 @@ export function ExportsExplorerContextProvider({ children }) {
       // Update interface
       setFormState(initialFormState);
       //
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setFormState((prev) => ({ ...prev, is_loading: false, is_read_only: false, is_error: true }));
     }
   }, [allExportsMutate, formStateGtfsV29, formStateMain, formStateNetexV1, formStateRegionalMergeV1]);

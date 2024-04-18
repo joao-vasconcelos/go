@@ -54,8 +54,8 @@ export default function StopsExplorerIdPageHeader() {
           allStopsMutate();
           stopsExplorerContext.closeItem();
           notify(stopsExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           stopMutate();
           allStopsMutate();
           notify(stopsExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));

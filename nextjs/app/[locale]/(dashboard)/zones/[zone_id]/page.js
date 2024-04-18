@@ -96,11 +96,11 @@ export default function Page() {
       setIsSaving(false);
       setIsLocking(false);
       setHasErrorSaving(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setIsSaving(false);
       setIsLocking(false);
-      setHasErrorSaving(err);
+      setHasErrorSaving(error);
     }
   }, [zone_id, form, zoneMutate, allZonesMutate]);
 
@@ -110,8 +110,8 @@ export default function Page() {
       await API({ service: 'zones', resourceId: zone_id, operation: 'lock', method: 'PUT' });
       zoneMutate();
       setIsLocking(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       zoneMutate();
       setIsLocking(false);
     }
@@ -134,8 +134,8 @@ export default function Page() {
           router.push('/zones');
           notify(`${zone_id}-delete`, 'success', t('operations.delete.success'));
           setIsDeleting(false);
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           setIsDeleting(false);
           notify(`${zone_id}-delete`, 'error', err.message || t('operations.delete.error'));
         }
@@ -158,8 +158,8 @@ export default function Page() {
           await handleSave();
           setNewGeojson('');
           notify(`${zone_id}-import_geojson`, 'success', t('operations.import_geojson.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           notify(`${zone_id}-import_geojson`, 'error', err.message || t('operations.import_geojson.error'));
         }
       },
@@ -181,8 +181,8 @@ export default function Page() {
           await handleSave();
           setNewGeojson('');
           notify(`${zone_id}-delete_geojson`, 'success', t('operations.delete_geojson.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           notify(`${zone_id}-delete_geojson`, 'error', err.message || t('operations.delete_geojson.error'));
         }
       },

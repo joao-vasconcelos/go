@@ -41,8 +41,8 @@ export default function Page() {
   //           await API({ service: 'configs/refactors/deleteDeletedStop', method: 'GET' });
   //           notify('deleteDeletedStop', 'success', 'success');
   //           setIsImporting(false);
-  //         } catch (err) {
-  //           console.log(err);
+  //         } catch (error) {
+  //           console.log(error);
   //           notify('deleteDeletedStop', 'error', err.message || 'Error');
   //           setIsImporting(false);
   //         }

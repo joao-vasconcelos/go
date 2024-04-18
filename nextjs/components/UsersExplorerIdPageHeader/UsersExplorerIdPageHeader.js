@@ -42,8 +42,8 @@ export default function UsersExplorerIdPageHeader() {
           notify(usersExplorerContext.item_id, 'loading', t('operations.delete.loading'));
           await usersExplorerContext.deleteItem();
           notify(usersExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           notify(usersExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
         }
       },

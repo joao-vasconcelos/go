@@ -188,8 +188,8 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
       setNewStopId(response._id);
       router.push(`/stops/${response._id}`);
       advanceWizardToNextStep();
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setWizardState((prev) => ({ ...prev, is_loading: false, is_error: err.message }));
     }
   }, [advanceWizardToNextStep, newStopState, router]);

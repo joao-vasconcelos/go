@@ -27,7 +27,7 @@ export default function ReportsExplorerSalesResult() {
     return <ReportsExplorerSalesResultError />;
   } else if (reportsExplorerSalesContext.request.is_loading) {
     return <ReportsExplorerSalesResultLoading />;
-  } else if (reportsExplorerSalesContext.request.result) {
+  } else if (reportsExplorerSalesContext.request.is_success) {
     return <ReportsExplorerSalesResultSummary />;
   } else {
     return <NoDataLabel text={t('no_data')} fill />;

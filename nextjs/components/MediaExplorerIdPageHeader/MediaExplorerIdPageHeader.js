@@ -42,8 +42,8 @@ export default function MediaExplorerIdPageHeader() {
           notify(mediaExplorerContext.item_id, 'loading', t('operations.delete.loading'));
           await mediaExplorerContext.deleteItem();
           notify(mediaExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           notify(mediaExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
         }
       },

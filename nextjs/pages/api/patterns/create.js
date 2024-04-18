@@ -22,8 +22,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -32,8 +32,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'lines', action: 'edit' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -42,8 +42,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     await res.status(500).json({ message: 'JSON parse error.' });
     return;
   }
@@ -63,8 +63,8 @@ export default async function handler(req, res) {
     const newPattern = { ...PatternDefault, code: newPatternCode, parent_line: parentRouteDocument.parent_line, parent_route: parentRouteDocument._id, direction: req.body.direction };
     const createdDocument = await PatternModel(newPattern).save();
     return await res.status(201).json(createdDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot create this Pattern.' });
   }
 

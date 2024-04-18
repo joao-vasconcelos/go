@@ -19,8 +19,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -29,8 +29,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'reporting', action: 'view' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -39,8 +39,8 @@ export default async function handler(req, res) {
 
   try {
     await REALTIMEDB.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
   }
 
@@ -50,8 +50,8 @@ export default async function handler(req, res) {
   try {
     const foundDocument = await REALTIMEDB.VehicleEvents.findOne({ _id: { $eq: REALTIMEDB.toObjectId(req.query._id) } });
     return await res.status(200).json(foundDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot list VehicleEvents.' });
   }
 

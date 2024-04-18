@@ -195,8 +195,8 @@ export function PatternsExplorerContextProvider({ children }) {
       itemMutate(formState.values);
       formState.resetDirty();
       setPageState((prev) => ({ ...prev, is_saving: false }));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: err }));
     }
   }, [formState, itemId, itemMutate]);
@@ -205,9 +205,9 @@ export function PatternsExplorerContextProvider({ children }) {
     try {
       await API({ service: 'patterns', resourceId: itemId, operation: 'lock', method: 'PUT' });
       itemMutate();
-    } catch (err) {
+    } catch (error) {
       itemMutate();
-      console.log(err);
+      console.log(error);
       setPageState((prev) => ({ ...prev, is_error: err }));
     }
   }, [itemId, itemMutate]);
@@ -220,10 +220,10 @@ export function PatternsExplorerContextProvider({ children }) {
       formState.resetDirty();
       itemMutate();
       parentRouteMutate();
-    } catch (err) {
+    } catch (error) {
       itemMutate();
       parentRouteMutate();
-      console.log(err);
+      console.log(error);
       setPageState((prev) => ({ ...prev, is_error: err }));
     }
   }, [formState, itemId, itemMutate, linesExplorerContext.item_id, parentRouteMutate, router, routesExplorerContext.item_id]);

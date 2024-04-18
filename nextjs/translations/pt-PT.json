@@ -4504,85 +4504,69 @@
     "ReportsExplorerSalesResultSummaryDescription": {
         "description": "Resumo do dia escolhido..."
     },
-    "ReportsExplorerSalesResultSummaryMetrics": {
-        "sections": {
-            "encm": {
-                "title": "Vendas em ENCM",
-                "description": "Todas as vendas e devoluções em ENCM no período escolhido."
-            },
-            "zapping": {
-                "title": "Vendas Zapping",
-                "description": "Todas as vendas zapping no período escolhido."
-            },
-            "onboard": {
-                "title": "Vendas a Bordo",
-                "description": "Todas as vendas e devoluções a Bordo no período escolhido."
-            }
-        },
+    "ReportsExplorerSalesResultSummaryOnboard": {
+        "title": "Vendas a Bordo",
+        "description": "Todas as vendas e devoluções a bordo para o Operador e período escolhido.",
         "metrics": {
-            "encm_sales_qty": {
-                "label": "Total de Transações em ENCM",
+            "total_sales_qty": {
+                "label": "Total de Vendas a Bordo",
                 "value": "{value, number}"
             },
-            "encm_sales_euro": {
-                "label": "Valor das Transações em ENCM",
-                "value": "{value, number, currency_euro}"
-            },
-            "encm_cashback_qty": {
-                "label": "Total de Devoluções em ENCM",
-                "value": "{value, number}"
-            },
-            "encm_cashback_euro": {
-                "label": "Valor das Devoluções em ENCM",
-                "value": "{value, number, currency_euro}"
-            },
-            "onboard_qty": {
-                "label": "Total de Transações A BORDO",
-                "value": "{value, number}"
-            },
-            "onboard_euro": {
-                "label": "Valor das Transações A BORDO",
-                "value": "{value, number, currency_euro}"
-            },
-            "onboard_sales_qty": {
-                "label": "Total de Transações a Bordo",
-                "value": "{value, number}"
-            },
-            "onboard_sales_euro": {
-                "label": "Valor das Transações a Bordo",
-                "value": "{value, number, currency_euro}"
-            },
-            "onboard_cashback_qty": {
+            "total_cashbacks_qty": {
                 "label": "Total de Devoluções a Bordo",
                 "value": "{value, number}"
             },
-            "onboard_cashback_euro": {
-                "label": "Valor das Devoluções a Bordo",
+            "total_transactions_qty": {
+                "label": "Total de Transações a Bordo",
+                "value": "{value, number}"
+            },
+            "total_sales_euro": {
+                "label": "Valor Bruto de Vendas a Bordo",
+                "value": "{value, number, currency_euro}"
+            },
+            "total_cashbacks_euro": {
+                "label": "Valor Bruto de Devoluções a Bordo",
+                "value": "{value, number, currency_euro}"
+            },
+            "total_transactions_euro": {
+                "label": "Valor Líquido de Transações a Bordo",
+                "value": "{value, number, currency_euro}"
+            }
+        },
+        "table": {
+            "product_id": {
+                "title": "Produto"
+            },
+            "sales_qty": {
+                "title": "# Vendas",
+                "value": "{value, number}"
+            },
+            "cashbacks_qty": {
+                "title": "# Devoluções",
+                "value": "{value, number}"
+            },
+            "transactions_qty": {
+                "title": "# Transações",
+                "value": "{value, number}"
+            },
+            "sales_euro": {
+                "title": "€ Vendas",
+                "value": "{value, number, currency_euro}"
+            },
+            "cashbacks_euro": {
+                "title": "€ Devoluções",
+                "value": "{value, number, currency_euro}"
+            },
+            "transactions_euro": {
+                "title": "€ Transações",
                 "value": "{value, number, currency_euro}"
             }
         }
     },
-    "ReportsExplorerSalesSummaryTable": {
-        "search": {
-            "placeholder": "Procurar por trip_id..."
-        },
-        "table": {
-            "header": {
-                "pattern_id": {
-                    "title": "Pattern ID"
-                },
-                "trip_id": {
-                    "title": "Trip ID"
-                },
-                "num_events": {
-                    "title": "# Eventos"
-                },
-                "vehicle_id": {
-                    "title": "Vehicle ID"
-                },
-                "driver_id": {
-                    "title": "Driver ID"
-                }
+    "ReportsExplorerSalesResultSummaryOnboardDownload": {
+        "operations": {
+            "download": {
+                "label": "Download"
             }
         }
     }

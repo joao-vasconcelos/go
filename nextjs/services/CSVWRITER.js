@@ -5,7 +5,7 @@ import Papa from 'papaparse';
 
 /* * */
 
-export default class FILEWRITER {
+export default class CSVWRITER {
   //
 
   INSTANCE_NAME = 'Unnamed Instance';
@@ -55,14 +55,14 @@ export default class FILEWRITER {
           return resolve();
         }
 
-        console.log(`> FILEWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | File: ${this.CURRENT_BATCH_PATH}`);
+        console.log(`> CSVWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | File: ${this.CURRENT_BATCH_PATH}`);
 
         // Setup a variable to keep track if the file exists or not
         let fileAlreadyExists = true;
         // Try to access the file and append data to it
-        fs.access(this.CURRENT_BATCH_PATH, fs.constants.F_OK, async (err) => {
+        fs.access(this.CURRENT_BATCH_PATH, fs.constants.F_OK, async (error) => {
           // If an error is thrown, then the file does not exist
-          if (err) fileAlreadyExists = false;
+          if (error) fileAlreadyExists = false;
           // Use papaparse to produce the CSV string
           let csvData = Papa.unparse(this.CURRENT_BATCH_DATA, { skipEmptyLines: 'greedy', newline: this.NEW_LINE_CHARACTER, header: !fileAlreadyExists });
           // Prepend a new line character to csvData string if it is not the first line on the file

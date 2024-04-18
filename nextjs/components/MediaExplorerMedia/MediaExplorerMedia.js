@@ -49,8 +49,8 @@ export default function MediaExplorerMedia({ mediaId, onDelete, readOnly = false
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       setIsDownloading(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setIsDownloading(false);
     }
   };

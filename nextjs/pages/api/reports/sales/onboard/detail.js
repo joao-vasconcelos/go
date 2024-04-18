@@ -1,14 +1,12 @@
 /* * */
 
+import fs from 'fs';
 import getSession from '@/authentication/getSession';
+import CSVWRITER from '@/services/CSVWRITER';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import REALTIMEDB from '@/services/REALTIMEDB';
-import JSONStream from 'JSONStream';
+import STORAGE from '@/services/STORAGE';
 import { DateTime } from 'luxon';
-
-/* * */
-
-export const config = { api: { responseLimit: false } };
 
 /* * */
 
@@ -25,8 +23,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -35,8 +33,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['sales'] }] }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -44,9 +42,10 @@ export default async function handler(req, res) {
   // Parse request body into JSON
 
   try {
+    console.log(req.body);
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
@@ -59,8 +58,8 @@ export default async function handler(req, res) {
   try {
     startDateFormatted = DateTime.fromFormat(req.body.start_date, 'yyyyMMdd').setZone('Europe/Lisbon').startOf('day').set({ hour: 4, minute: 0 }).toFormat("yyyy-MM-dd'T'HH:MM:ss");
     endDateFormatted = DateTime.fromFormat(req.body.end_date, 'yyyyMMdd').setZone('Europe/Lisbon').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59 }).toFormat("yyyy-MM-dd'T'HH:MM:ss");
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Error formatting date boundaries.' });
   }
 
@@ -69,63 +68,63 @@ export default async function handler(req, res) {
 
   try {
     await REALTIMEDB.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
   }
 
   // 7.
-  // Prepare aggregation pipeline
+  // Setup workdir and CSV writer
 
-  const matchClauseNegative = {
-    $match: {
-      'transaction.transactionDate': {
-        $gte: startDateFormatted,
-        $lte: endDateFormatted,
-      },
-    },
-  };
+  let workdir;
+  let csvWriter;
 
-  const groupClause = {
-    $group: {
-      _id: null,
-      countNegative: {
-        $sum: {
-          $cond: [{ $lt: ['$transaction.price', 0] }, 1, 0],
-        },
-      },
-      countNull: {
-        $sum: {
-          $cond: [{ $eq: ['$transaction.price', 0] }, 1, 0],
-        },
-      },
-      countPositive: {
-        $sum: {
-          $cond: [{ $gt: ['$transaction.price', 0] }, 1, 0],
-        },
-      },
-    },
-  };
-
-  const projectClause = {
-    $project: {
-      _id: 0,
-      countNegative: 1,
-      countNull: 1,
-      countPositive: 1,
-    },
-  };
+  try {
+    workdir = STORAGE.setupWorkdir('reports');
+    csvWriter = new CSVWRITER('report');
+  } catch (error) {
+    console.log('', error);
+  }
 
   // 8.
   // Perform database search
 
   try {
-    console.log('Searching sales...');
-    const result = await REALTIMEDB.SalesEntity.aggregate([matchClauseNegative, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).toArray();
-    console.log(result);
-    res.send(result);
-  } catch (err) {
-    console.log(err);
+    // Setup database query stream
+    const salesStream = REALTIMEDB.SalesEntity.find(
+      {
+        'transaction.transactionDate': { $gte: startDateFormatted, $lte: endDateFormatted },
+        'transaction.operatorLongID': { $eq: req.body.agency_code },
+        'transaction.productLongID': { $regex: /^id-prod-tar/ },
+      },
+      { allowDiskUse: true, maxTimeMS: 999000 }
+    ).stream();
+    // Fetch and write data to CSV file
+    for await (const doc of salesStream) {
+      await csvWriter.write(workdir, 'report.csv', {
+        _id: doc._id,
+        type: 'sales',
+        transactionId: doc.transaction?.transactionId || 'N/A',
+        operatorLongID: doc.transaction?.operatorLongID || 'N/A',
+        transactionDate: doc.transaction?.transactionDate || 'N/A',
+        productLongID: doc.transaction?.productLongID || 'N/A',
+        price: doc.transaction?.price || 'N/A',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return await res.status(500).json({ message: err.message || 'Cannot list VehicleEvents.' });
+  }
+
+  // 9.
+  // Send response to client
+
+  try {
+    await csvWriter.flush();
+    await res.writeHead(200, { 'Content-Type': 'application/zip', 'Content-Disposition': `attachment; filename=report.csv` });
+    fs.createReadStream(`${workdir}/report.csv`).pipe(res);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: err.message || 'Cannot list VehicleEvents.' });
   }
 

@@ -42,10 +42,10 @@ export default function ArchivesExplorerListHeader() {
       allArchivesMutate();
       notify('new', 'success', t('operations.create.success'));
       setIsCreating(false);
-    } catch (err) {
+    } catch (error) {
       notify('new', 'error', err.message || t('operations.create.error'));
       setIsCreating(false);
-      console.log(err);
+      console.log(error);
     }
   };
 

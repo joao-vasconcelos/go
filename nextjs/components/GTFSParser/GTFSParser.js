@@ -37,8 +37,8 @@ export default function GTFSParser({ onParse }) {
       onParse(data);
       setIsUploading(false);
       setHasUploadError(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setIsUploading(false);
     }
   };

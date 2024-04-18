@@ -24,8 +24,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -34,8 +34,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'lines', action: 'edit' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -44,8 +44,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     await res.status(500).json({ message: 'JSON parse error.' });
     return;
   }
@@ -56,8 +56,8 @@ export default async function handler(req, res) {
   try {
     patternDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } }).populate('path.stop');
     if (!patternDocument) return await res.status(404).json({ message: 'Could not find requested Pattern in database.' });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     await res.status(500).json({ message: 'Error fetching pattern from database.' });
     return;
   }
@@ -77,16 +77,16 @@ export default async function handler(req, res) {
       const extensionInKilometers = turf.length(patternDocument.shape.geojson, { units: 'kilometers' });
       const extensionInMeters = extensionInKilometers * 1000;
       patternDocument.shape.extension = parseInt(extensionInMeters);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       return await res.status(500).json({ message: 'Could not handle points in Shape.' });
     }
   } else {
     try {
       // Reset geojson and extension if shape has no points
       patternDocument.shape = { ...PatternShapeDefault };
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       return await res.status(500).json({ message: 'Could not handle no points in Shape.' });
     }
   }
@@ -133,8 +133,8 @@ export default async function handler(req, res) {
     //
     patternDocument.path = formattedPath;
     //
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: err.message || 'Error processing path.' });
   }
 
@@ -146,8 +146,8 @@ export default async function handler(req, res) {
     patternDocument.save();
     // Return updated document
     return await res.status(200).json(patternDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot update this Pattern.' });
   }
 

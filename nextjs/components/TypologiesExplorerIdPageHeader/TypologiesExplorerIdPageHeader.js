@@ -41,8 +41,8 @@ export default function TypologiesExplorerIdPageHeader() {
           notify(typologiesExplorerContext.item_id, 'loading', t('operations.delete.loading'));
           await typologiesExplorerContext.deleteItem();
           notify(typologiesExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           notify(typologiesExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
         }
       },

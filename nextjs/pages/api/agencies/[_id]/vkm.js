@@ -29,8 +29,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -39,8 +39,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'agencies', action: 'view' }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -49,8 +49,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     await res.status(500).json({ message: 'JSON parse error.' });
     return;
   }
@@ -63,8 +63,8 @@ export default async function handler(req, res) {
     for (const dateData of allDates) {
       allDatesMap[dateData.date] = dateData;
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Could not fetch all Dates.' });
   }
 
@@ -73,8 +73,8 @@ export default async function handler(req, res) {
 
   try {
     agencyData = await AgencyModel.findOne({ _id: { $eq: req.query._id } }).lean();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Could not fetch Agency.' });
   }
 
@@ -96,8 +96,8 @@ export default async function handler(req, res) {
         },
       })
       .lean();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot fetch Lines for this Agency.' });
   }
 
@@ -265,8 +265,8 @@ export default async function handler(req, res) {
     });
 
     //
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: err.message || 'Cannot calculate VKm for this Agency.' });
   }
 

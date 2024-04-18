@@ -42,8 +42,8 @@ export default function TagsExplorerIdPageHeader() {
           notify(tagsExplorerContext.item_id, 'loading', t('operations.delete.loading'));
           await tagsExplorerContext.deleteItem();
           notify(tagsExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
           notify(tagsExplorerContext.item_id, 'error', err.message || t('operations.delete.error'));
         }
       },

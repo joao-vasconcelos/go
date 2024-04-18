@@ -30,7 +30,7 @@ export default async function parseGTFS(req, res) {
     //
     form.parse(req, async (err, fields, files) => {
       // Abort if error
-      if (err) return res.status(400).json({ message: err });
+      if (error) return res.status(400).json({ message: err });
       // Setup AdmZip with archive location
       const zipArchive = new AdmZip(files.file[0].filepath);
       //
@@ -149,8 +149,8 @@ export default async function parseGTFS(req, res) {
 
       return res.status(200).json(gtfsFinal);
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 

@@ -29,8 +29,8 @@ export default async function handler(req, res) {
   try {
     sessionData = await getSession(req, res);
     isAllowed(sessionData, [{ scope: 'municipalities', action: 'delete' }]);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(401).json({ message: err.message || 'Could not verify Authentication.' });
   }
 
@@ -39,8 +39,8 @@ export default async function handler(req, res) {
 
   try {
     await mongodb.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'MongoDB connection error.' });
   }
 
@@ -51,8 +51,8 @@ export default async function handler(req, res) {
     const deletedDocument = await MunicipalityModel.findOneAndDelete({ _id: { $eq: req.query._id } });
     if (!deletedDocument) return await res.status(404).json({ message: `Municipality with _id "${req.query._id}" not found.` });
     return await res.status(200).send(deletedDocument);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Cannot delete this Municipality.' });
   }
 

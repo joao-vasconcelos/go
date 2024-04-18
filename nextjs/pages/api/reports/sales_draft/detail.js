@@ -3,6 +3,7 @@
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import REALTIMEDB from '@/services/REALTIMEDB';
+import JSONStream from 'JSONStream';
 import { DateTime } from 'luxon';
 
 /* * */
@@ -24,8 +25,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -34,8 +35,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['sales'] }] }] });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -44,8 +45,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
@@ -58,8 +59,8 @@ export default async function handler(req, res) {
   try {
     startDateFormatted = DateTime.fromFormat(req.body.start_date, 'yyyyMMdd').setZone('Europe/Lisbon').startOf('day').set({ hour: 4, minute: 0 }).toFormat("yyyy-MM-dd'T'HH:MM:ss");
     endDateFormatted = DateTime.fromFormat(req.body.end_date, 'yyyyMMdd').setZone('Europe/Lisbon').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59 }).toFormat("yyyy-MM-dd'T'HH:MM:ss");
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Error formatting date boundaries.' });
   }
 
@@ -68,15 +69,13 @@ export default async function handler(req, res) {
 
   try {
     await REALTIMEDB.connect();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
   }
 
   // 7.
   // Prepare aggregation pipeline
-
-  let result;
 
   const matchClauseNegative = {
     $match: {
@@ -84,25 +83,26 @@ export default async function handler(req, res) {
         $gte: startDateFormatted,
         $lte: endDateFormatted,
       },
-      'transaction.operatorLongID': { $eq: req.body.agency_code },
-      'transaction.productLongID': 'id-prod-zapping',
     },
   };
 
   const groupClause = {
     $group: {
       _id: null,
-      qty: {
-        $count: {},
-        // $sum: {
-        //   $cond: [{ $gte: ['$transaction.price', 0] }, 1, 0],
-        // },
+      countNegative: {
+        $sum: {
+          $cond: [{ $lt: ['$transaction.price', 0] }, 1, 0],
+        },
       },
-      euro: {
-        $sum: '$transaction.price',
-        // $sum: {
-        //   $cond: [{ $gte: ['$transaction.price', 0] }, '$transaction.price', 0],
-        // },
+      countNull: {
+        $sum: {
+          $cond: [{ $eq: ['$transaction.price', 0] }, 1, 0],
+        },
+      },
+      countPositive: {
+        $sum: {
+          $cond: [{ $gt: ['$transaction.price', 0] }, 1, 0],
+        },
       },
     },
   };
@@ -110,8 +110,9 @@ export default async function handler(req, res) {
   const projectClause = {
     $project: {
       _id: 0,
-      qty: 1,
-      euro: 1,
+      countNegative: 1,
+      countNull: 1,
+      countPositive: 1,
     },
   };
 
@@ -120,21 +121,12 @@ export default async function handler(req, res) {
 
   try {
     console.log('Searching sales...');
-    result = await REALTIMEDB.SalesEntity.aggregate([matchClauseNegative, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).toArray();
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: err.message || 'Cannot search for APEX Transactions.' });
-  }
-
-  // 9.
-  // Perform database search
-
-  try {
-    if (result.length > 0) res.send(result[0]);
-    else res.send({});
-  } catch (err) {
-    console.log(err);
-    return await res.status(500).json({ message: err.message || 'Error sending response to client.' });
+    const result = await REALTIMEDB.SalesEntity.aggregate([matchClauseNegative, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).toArray();
+    console.log(result);
+    res.send(result);
+  } catch (error) {
+    console.log(error);
+    return await res.status(500).json({ message: err.message || 'Cannot list VehicleEvents.' });
   }
 
   //

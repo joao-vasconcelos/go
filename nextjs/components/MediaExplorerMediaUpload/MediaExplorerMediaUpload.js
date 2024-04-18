@@ -51,8 +51,8 @@ export default function MediaExplorerMediaUpload({ storageScope, onUploadComplet
       setIsUploading(false);
       // Callback
       onUploadComplete(result);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setIsUploading(false);
       setIsUploadError(err.message || t('upload_error.description'));
     }

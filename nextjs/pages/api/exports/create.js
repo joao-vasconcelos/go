@@ -33,8 +33,8 @@ export default async function handler(req, res) {
 
   try {
     req.body = await JSON.parse(req.body);
-  } catch (err) {
-    console.log('error1', err);
+  } catch (error) {
+    console.log('error1', error);
     return await res.status(500).json({ message: 'JSON parse error.' });
   }
 
@@ -43,8 +43,8 @@ export default async function handler(req, res) {
 
   try {
     sessionData = await getSession(req, res);
-  } catch (err) {
-    console.log('error2', err);
+  } catch (error) {
+    console.log('error2', error);
     return await res.status(400).json({ message: err.message || 'Could not get Session data. Are you logged in?' });
   }
 
@@ -53,8 +53,8 @@ export default async function handler(req, res) {
 
   try {
     await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'exports', action: 'create', fields: [{ key: 'kind', values: [req.body.kind] }] }] });
-  } catch (err) {
-    console.log('error3', err);
+  } catch (error) {
+    console.log('error3', error);
     return await res.status(400).json({ message: err.message || 'Could not prepare endpoint.' });
   }
 
@@ -84,8 +84,8 @@ export default async function handler(req, res) {
       case 'regional_merge_v1':
         break;
     }
-  } catch (err) {
-    console.log('error3', err);
+  } catch (error) {
+    console.log('error3', error);
     return await res.status(400).json({ message: err.message || 'Could not verify specific export kind permissions.' });
   }
 
@@ -95,8 +95,8 @@ export default async function handler(req, res) {
 
   try {
     await ExportModel.syncIndexes();
-  } catch (err) {
-    console.log('error4', err);
+  } catch (error) {
+    console.log('error4', error);
     return await res.status(500).json({ message: 'Cannot sync indexes.' });
   }
 
@@ -128,8 +128,8 @@ export default async function handler(req, res) {
           if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
           exportDocument.filename = `GTFS_${agencyData.code}_REF_v29_${today()}.zip`;
           break;
-        } catch (err) {
-          console.log('error5', err);
+        } catch (error) {
+          console.log('error5', error);
           return await res.status(500).json({ message: 'Error fetching Agency data.' });
         }
       // 7.2.2.
@@ -140,8 +140,8 @@ export default async function handler(req, res) {
           if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
           exportDocument.filename = `NETEX_${agencyData.code}_v1_${today()}.zip`;
           break;
-        } catch (err) {
-          console.log('error5', err);
+        } catch (error) {
+          console.log('error5', error);
           return await res.status(500).json({ message: 'Error fetching Agency data.' });
         }
       // 7.2.3.
@@ -166,8 +166,8 @@ export default async function handler(req, res) {
     await res.status(201).json(exportDocument);
 
     //
-  } catch (err) {
-    console.log('error6', err);
+  } catch (error) {
+    console.log('error6', error);
     return await res.status(500).json({ message: 'Could not create Export summary.' });
   }
 
@@ -228,7 +228,7 @@ export default async function handler(req, res) {
     }
 
     //
-  } catch (err) {
+  } catch (error) {
     console.log('error7', err.message);
     await update(exportDocument, { status: 'ERROR' });
     if (exportDocument.notify_user && sessionData.user?.email) {

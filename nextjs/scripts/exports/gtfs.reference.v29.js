@@ -16,7 +16,7 @@ import { DateModel } from '@/schemas/Date/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
 import { AgencyModel } from '@/schemas/Agency/model';
 import { DateTime } from 'luxon';
-import FILEWRITER from '@/services/FILEWRITER';
+import CSVWRITER from '@/services/CSVWRITER';
 
 /* * */
 /* EXPORT GTFS V29 */
@@ -447,17 +447,17 @@ export default async function exportGtfsV29(progress, exportOptions) {
   console.log(`* ExportOptions:`, exportOptions);
   console.log(`* * *`);
 
-  const agencyFileWriter = new FILEWRITER('gtfs.reference.v29-agency');
-  const tripsFileWriter = new FILEWRITER('gtfs.reference.v29-trips');
-  const stopTimesFileWriter = new FILEWRITER('gtfs.reference.v29-stopTimes');
-  const stopsFileWriter = new FILEWRITER('gtfs.reference.v29-stops');
-  const calendarDatesFileWriter = new FILEWRITER('gtfs.reference.v29-calendarDates');
-  const feedInfoFileWriter = new FILEWRITER('gtfs.reference.v29-feedInfo');
-  const afetacaoFileWriter = new FILEWRITER('gtfs.reference.v29-afetacao');
-  const shapesFileWriter = new FILEWRITER('gtfs.reference.v29-shapes');
-  const fareRulesFileWriter = new FILEWRITER('gtfs.reference.v29-fareRules');
-  const fareAttributesFileWriter = new FILEWRITER('gtfs.reference.v29-fareAttributes');
-  const routesFileWriter = new FILEWRITER('gtfs.reference.v29-routes');
+  const agencyCsvWriter = new CSVWRITER('gtfs.reference.v29-agency');
+  const tripsCsvWriter = new CSVWRITER('gtfs.reference.v29-trips');
+  const stopTimesCsvWriter = new CSVWRITER('gtfs.reference.v29-stopTimes');
+  const stopsCsvWriter = new CSVWRITER('gtfs.reference.v29-stops');
+  const calendarDatesCsvWriter = new CSVWRITER('gtfs.reference.v29-calendarDates');
+  const feedInfoCsvWriter = new CSVWRITER('gtfs.reference.v29-feedInfo');
+  const afetacaoCsvWriter = new CSVWRITER('gtfs.reference.v29-afetacao');
+  const shapesCsvWriter = new CSVWRITER('gtfs.reference.v29-shapes');
+  const fareRulesCsvWriter = new CSVWRITER('gtfs.reference.v29-fareRules');
+  const fareAttributesCsvWriter = new CSVWRITER('gtfs.reference.v29-fareAttributes');
+  const routesCsvWriter = new CSVWRITER('gtfs.reference.v29-routes');
 
   // 0.
   // Update progress
@@ -475,7 +475,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
   // Retrieve the requested agency object
   // and write the entry for this agency in agency.txt file
   const parsedAgency = parseAgency(agencyData);
-  await agencyFileWriter.write(progress.workdir, 'agency.txt', parsedAgency);
+  await agencyCsvWriter.write(progress.workdir, 'agency.txt', parsedAgency);
 
   //
   await update(progress, { progress_current: 2 });
@@ -659,7 +659,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
               referencedCalendarCodes.add(resultingCalendarCode);
               // Write the resulting calendar dates to the output file
               const parsedCalendar = await parseCalendar(resultingCalendarCode, [...calendarOnDates]);
-              if (parsedCalendar.length) await calendarDatesFileWriter.write(progress.workdir, 'calendar_dates.txt', parsedCalendar);
+              if (parsedCalendar.length) await calendarDatesCsvWriter.write(progress.workdir, 'calendar_dates.txt', parsedCalendar);
             }
 
             // 3.3.3.4.1.10.
@@ -765,11 +765,11 @@ export default async function exportGtfsV29(progress, exportOptions) {
 
             // 3.3.3.4.1.17.
             // Write the stop_times.txt entries for this trip
-            await stopTimesFileWriter.write(progress.workdir, 'stop_times.txt', parsedStopTimes);
+            await stopTimesCsvWriter.write(progress.workdir, 'stop_times.txt', parsedStopTimes);
 
             // 3.3.3.4.1.18.
             // Write the trips.txt entry for this trip
-            await tripsFileWriter.write(progress.workdir, 'trips.txt', {
+            await tripsCsvWriter.write(progress.workdir, 'trips.txt', {
               route_id: routeData.code,
               pattern_id: patternData.code,
               pattern_short_name: patternData.headsign.replaceAll(',', '').replace(/  +/g, ' ').trim(),
@@ -799,12 +799,12 @@ export default async function exportGtfsV29(progress, exportOptions) {
         // 3.3.3.6.
         // Write the afetacao.txt entry for this pattern
         const parsedZoning = await parseZoning(agencyData, lineData, patternData, exportOptions);
-        await afetacaoFileWriter.write(progress.workdir, 'afetacao.csv', parsedZoning);
+        await afetacaoCsvWriter.write(progress.workdir, 'afetacao.csv', parsedZoning);
 
         // 3.3.3.7.
         // Write the shapes.txt entry for this pattern
         const parsedShape = parseShape(thisShapeCode, patternData.shape);
-        await shapesFileWriter.write(progress.workdir, 'shapes.txt', parsedShape);
+        await shapesCsvWriter.write(progress.workdir, 'shapes.txt', parsedShape);
 
         // 3.3.3.8.
         // Update the flag indicating that the components for this pattern
@@ -821,14 +821,14 @@ export default async function exportGtfsV29(progress, exportOptions) {
       // 3.3.5.
       // Write the routes.txt entry for this route
       const parsedRoute = parseRoute(agencyData, lineData, typologyData, routeData);
-      await routesFileWriter.write(progress.workdir, 'routes.txt', parsedRoute);
+      await routesCsvWriter.write(progress.workdir, 'routes.txt', parsedRoute);
 
       // 3.3.6.
       // Write the fare_rules.txt entry for this route
       const combinedFares = lineData.onboard_fares.concat(lineData.prepaid_fare ? [lineData.prepaid_fare] : []);
       for (const fareData of combinedFares) {
         const parsedFareRule = parseFareRule(agencyData, routeData, fareData);
-        await fareRulesFileWriter.write(progress.workdir, 'fare_rules.txt', parsedFareRule);
+        await fareRulesCsvWriter.write(progress.workdir, 'fare_rules.txt', parsedFareRule);
         referencedFareCodes.add(fareData.code);
       }
 
@@ -850,7 +850,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
   // Fetch the referenced stops and write the stops.txt file
   for (const stopData of allReferencedStopsData) {
     const parsedStop = parseStop(stopData, stopData.municipality);
-    await stopsFileWriter.write(progress.workdir, 'stops.txt', parsedStop);
+    await stopsCsvWriter.write(progress.workdir, 'stops.txt', parsedStop);
   }
 
   // 5.
@@ -865,7 +865,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
   // Fetch the referenced fares and write the fare_attributes.txt file
   for (const fareData of allReferencedFaresData) {
     const parsedFare = parseFare(agencyData, fareData);
-    await fareAttributesFileWriter.write(progress.workdir, 'fare_attributes.txt', parsedFare);
+    await fareAttributesCsvWriter.write(progress.workdir, 'fare_attributes.txt', parsedFare);
   }
 
   // 6.
@@ -875,22 +875,22 @@ export default async function exportGtfsV29(progress, exportOptions) {
   // 6.1.
   // Create the feed_info file
   const feedInfoData = parseFeedInfo(agencyData, exportOptions);
-  await feedInfoFileWriter.write(progress.workdir, 'feed_info.txt', feedInfoData);
+  await feedInfoCsvWriter.write(progress.workdir, 'feed_info.txt', feedInfoData);
 
   // 7.
   // Flush everything
 
-  await agencyFileWriter.flush();
-  await tripsFileWriter.flush();
-  await stopTimesFileWriter.flush();
-  await stopsFileWriter.flush();
-  await calendarDatesFileWriter.flush();
-  await feedInfoFileWriter.flush();
-  await afetacaoFileWriter.flush();
-  await shapesFileWriter.flush();
-  await fareRulesFileWriter.flush();
-  await fareAttributesFileWriter.flush();
-  await routesFileWriter.flush();
+  await agencyCsvWriter.flush();
+  await tripsCsvWriter.flush();
+  await stopTimesCsvWriter.flush();
+  await stopsCsvWriter.flush();
+  await calendarDatesCsvWriter.flush();
+  await feedInfoCsvWriter.flush();
+  await afetacaoCsvWriter.flush();
+  await shapesCsvWriter.flush();
+  await fareRulesCsvWriter.flush();
+  await fareAttributesCsvWriter.flush();
+  await routesCsvWriter.flush();
 
   //
 }

@@ -52,10 +52,10 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
       setIsUpdating(false);
       setHasErrorUpdating(false);
       closeModal();
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setIsUpdating(false);
-      setHasErrorUpdating(err);
+      setHasErrorUpdating(error);
     }
   };
 
@@ -67,10 +67,10 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
       setIsUpdating(false);
       setHasErrorUpdating(false);
       closeModal();
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setIsUpdating(false);
-      setHasErrorUpdating(err);
+      setHasErrorUpdating(error);
     }
   };
 
