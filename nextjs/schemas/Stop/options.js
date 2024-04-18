@@ -141,7 +141,7 @@ export const StopOptions = {
   ],
 
   /*
-   * CURRENT STATUS
+   * OPERATIONAL STATUS
    * 1 = Active
    * 2 = Temporarily Deactivated
    * 3 = Temporarily Activated
@@ -149,6 +149,7 @@ export const StopOptions = {
    */
 
   current_status: ['1', '2', '3', '4'],
+  operational_status: ['active', 'provisional', 'seasonal', 'inactive', 'voided'],
 
   /*
    * HAS POLE

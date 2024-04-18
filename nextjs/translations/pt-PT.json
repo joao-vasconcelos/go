@@ -3942,6 +3942,11 @@
                 "label": "Longitude",
                 "placeholder": "-9.123456"
             },
+            "operational_status": {
+                "label": "Estado Operacional",
+                "placeholder": "Escolha uma opção...",
+                "nothingFound": "Nenhum Resultado Encontrado"
+            },
             "current_status": {
                 "label": "Status da Paragem",
                 "placeholder": "Escolha uma opção...",
@@ -4205,6 +4210,28 @@
         "label": "Ver esta paragem no Site"
     },
     "StopOptions": {
+        "operational_status": {
+            "active": {
+                "label": "Paragem Ativa",
+                "description": "A paragem está em funcionamento normal."
+            },
+            "provisional": {
+                "label": "Paragem Provisória",
+                "description": "A paragem encontra-se temporariamente ativa (ex: paragem de substituição devido a obras na via)."
+            },
+            "seasonal": {
+                "label": "Paragem Sasonal",
+                "description": "A paragem está ativa durante determinadas alturas do ano ou em circunstâncias específicas (ex: Praias, Festivais)."
+            },
+            "inactive": {
+                "label": "Paragem Inativa",
+                "description": "A paragem está desativada temporariamente (ex: devido a obras na via)."
+            },
+            "voided": {
+                "label": "Paragem Marcada para Eliminação",
+                "description": "A paragem está marcada para eliminação definitiva."
+            }
+        },
         "current_status": {
             "1": {
                 "label": "Paragem Ativa",

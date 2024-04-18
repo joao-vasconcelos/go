@@ -6,8 +6,6 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { StopModel } from '@/schemas/Stop/model';
 import { MunicipalityOptions } from '@/schemas/Municipality/options';
 import { PatternModel } from '@/schemas/Pattern/model';
-import { LineModel } from '@/schemas/Line/model';
-import { AgencyModel } from '@/schemas/Agency/model';
 import tts from '@carrismetropolitana/tts';
 
 /* * */
@@ -89,6 +87,7 @@ export default async function handler(req, res) {
         tts_stop_name: tts.makeText(document.name, thisStopModalConnections),
         // Operation
         areas: thisStopAgencyCodes,
+        status: document.status,
         // Administrative
         region_id: document.municipality.region,
         region_name: allRegionsMap[document.municipality.region],

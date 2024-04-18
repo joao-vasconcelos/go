@@ -51,6 +51,13 @@ export default function StopsExplorerIdPage() {
     });
   }, [allZonesData]);
 
+  const operationalStatusOptionsData = useMemo(() => {
+    if (!StopOptions.operational_status) return [];
+    return StopOptions.operational_status.map((option) => {
+      return { value: option, label: stopOptionsLabels(`operational_status.${option}.label`) };
+    });
+  }, [stopOptionsLabels]);
+
   const currentStatusOptionsData = useMemo(() => {
     if (!StopOptions.current_status) return [];
     return StopOptions.current_status.map((option) => {
@@ -286,6 +293,16 @@ export default function StopsExplorerIdPage() {
           />
         </SimpleGrid>
         <SimpleGrid cols={1}>
+          <Select
+            data={operationalStatusOptionsData}
+            label={t('form.operational_status.label')}
+            placeholder={t('form.operational_status.placeholder')}
+            nothingFoundMessage={t('form.operational_status.nothingFound')}
+            {...stopsExplorerContext.form.getInputProps('operational_status')}
+            readOnly={stopsExplorerContext.page.is_read_only}
+            searchable
+            clearable
+          />
           <MultiSelect
             data={currentStatusOptionsData}
             label={t('form.current_status.label')}
