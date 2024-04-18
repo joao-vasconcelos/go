@@ -64,6 +64,7 @@ export default function ReportsExplorerSalesForm() {
           placeholder={t('form.start_date.placeholder')}
           {...reportsExplorerSalesContext.form.getInputProps('start_date')}
           disabled={!reportsExplorerSalesContext.form.values.agency_code || reportsExplorerSalesContext.request.is_loading || reportsExplorerSalesContext.request.is_success}
+          maxDate={new Date()}
           dropdownType="modal"
           clearable
         />
@@ -72,9 +73,9 @@ export default function ReportsExplorerSalesForm() {
           description={t('form.end_date.description')}
           placeholder={t('form.end_date.placeholder')}
           {...reportsExplorerSalesContext.form.getInputProps('end_date')}
+          disabled={!reportsExplorerSalesContext.form.values.agency_code || !reportsExplorerSalesContext.form.values.start_date || reportsExplorerSalesContext.request.is_loading || reportsExplorerSalesContext.request.is_success}
           minDate={reportsExplorerSalesContext.form.values.start_date}
           maxDate={new Date()}
-          disabled={!reportsExplorerSalesContext.form.values.agency_code || !reportsExplorerSalesContext.form.values.start_date || reportsExplorerSalesContext.request.is_loading || reportsExplorerSalesContext.request.is_success}
           dropdownType="modal"
           clearable
         />
