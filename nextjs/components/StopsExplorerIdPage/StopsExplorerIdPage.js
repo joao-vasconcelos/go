@@ -58,13 +58,6 @@ export default function StopsExplorerIdPage() {
     });
   }, [stopOptionsLabels]);
 
-  const currentStatusOptionsData = useMemo(() => {
-    if (!StopOptions.current_status) return [];
-    return StopOptions.current_status.map((option) => {
-      return { value: option, label: stopOptionsLabels(`current_status.${option}.label`) };
-    });
-  }, [stopOptionsLabels]);
-
   const hasPoleOptionsData = useMemo(() => {
     if (!StopOptions.has_pole) return [];
     return StopOptions.has_pole.map((option) => {
@@ -299,16 +292,6 @@ export default function StopsExplorerIdPage() {
             placeholder={t('form.operational_status.placeholder')}
             nothingFoundMessage={t('form.operational_status.nothingFound')}
             {...stopsExplorerContext.form.getInputProps('operational_status')}
-            readOnly={stopsExplorerContext.page.is_read_only}
-            searchable
-            clearable
-          />
-          <MultiSelect
-            data={currentStatusOptionsData}
-            label={t('form.current_status.label')}
-            placeholder={t('form.current_status.placeholder')}
-            nothingFoundMessage={t('form.current_status.nothingFound')}
-            {...stopsExplorerContext.form.getInputProps('current_status')}
             readOnly={stopsExplorerContext.page.is_read_only}
             searchable
             clearable
