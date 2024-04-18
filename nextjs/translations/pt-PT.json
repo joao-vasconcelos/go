@@ -4566,7 +4566,9 @@
     "ReportsExplorerSalesResultSummaryOnboardDownload": {
         "operations": {
             "download": {
-                "label": "Download"
+                "label": "Download destas Transações",
+                "description": "Esta operação é muito intensiva em recursos. Por favor seja responsável na sua utilização.",
+                "loading": "Por favor aguarde enquanto o ficheiro é preparado..."
             }
         }
     }

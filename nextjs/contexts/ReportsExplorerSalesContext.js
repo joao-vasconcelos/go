@@ -29,6 +29,14 @@ const initialRequestState = {
   //
 };
 
+const initialDetailsState = {
+  //
+  is_loading: false,
+  is_success: false,
+  is_error: false,
+  //
+};
+
 /* * */
 
 // 2.
@@ -57,6 +65,7 @@ export function ReportsExplorerSalesContextProvider({ children }) {
   // A. Setup state
 
   const [requestState, setRequestState] = useState(initialRequestState);
+  const [detailsState, setDetailsState] = useState(initialDetailsState);
 
   //
   // C. Setup form
@@ -86,18 +95,14 @@ export function ReportsExplorerSalesContextProvider({ children }) {
     };
   }, [formState.values.agency_code, formState.values.end_date, formState.values.start_date]);
 
-  const fetchSummary = useCallback(async () => {
+  const fetchSummaries = useCallback(async () => {
     try {
       // Return empty if filters are empty
       if (!formState.values.agency_code || !formState.values.start_date || !formState.values.end_date) return;
       // Update state to include request details
       setRequestState({ ...initialRequestState, is_loading: true });
       // Parse request body
-      const requestBody = {
-        agency_code: formState.values.agency_code,
-        start_date: parseDate(formState.values.start_date),
-        end_date: parseDate(formState.values.end_date),
-      };
+      const requestBody = getRequestBodyFormatted();
       // Fetch the trips summary
       const summaryOnboard = await API({ service: 'reports/sales/onboard', operation: 'summary', method: 'POST', body: requestBody });
       const summaryEncm = null; // await API({ service: 'reports/sales/encm', operation: 'summary', method: 'POST', body: requestBody });
@@ -105,10 +110,26 @@ export function ReportsExplorerSalesContextProvider({ children }) {
       setRequestState({ ...initialRequestState, is_success: true, summary_onboard: summaryOnboard, summary_encm: summaryEncm });
       //
     } catch (error) {
-      // Update state to indicate progress
-      setRequestState({ ...initialRequestState, is_error: true });
+      setRequestState({ ...initialRequestState, is_error: error.message });
     }
-  }, [formState.values.agency_code, formState.values.end_date, formState.values.start_date]);
+  }, [formState.values.agency_code, formState.values.end_date, formState.values.start_date, getRequestBodyFormatted]);
+
+  const downloadOnboardDetail = useCallback(async () => {
+    try {
+      setDetailsState((prev) => ({ ...prev, is_loading: true, is_error: false }));
+      const requestBody = getRequestBodyFormatted();
+      const responseBlob = await API({ service: 'reports/sales/onboard', operation: 'detail', method: 'POST', body: requestBody, parseType: 'blob' });
+      const objectURL = URL.createObjectURL(responseBlob);
+      const zipDownload = document.createElement('a');
+      zipDownload.href = objectURL;
+      zipDownload.download = 'report.csv';
+      document.body.appendChild(zipDownload);
+      zipDownload.click();
+      setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: false }));
+    } catch (error) {
+      setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: error.message }));
+    }
+  }, [getRequestBodyFormatted]);
 
   //
   // E. Setup context object
@@ -118,15 +139,18 @@ export function ReportsExplorerSalesContextProvider({ children }) {
       //
       form: formState,
       request: requestState,
+      details: detailsState,
       //
       clearAllData: clearAllData,
       //
       getRequestBodyFormatted: getRequestBodyFormatted,
       //
-      fetchSummary: fetchSummary,
+      fetchSummaries: fetchSummaries,
+      //
+      downloadOnboardDetail: downloadOnboardDetail,
       //
     }),
-    [formState, requestState, clearAllData, getRequestBodyFormatted, fetchSummary]
+    [formState, requestState, detailsState, clearAllData, getRequestBodyFormatted, fetchSummaries, downloadOnboardDetail]
   );
 
   //

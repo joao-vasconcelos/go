@@ -53,24 +53,7 @@ export default function ReportsExplorerSalesResultSummaryOnboard() {
   }, [reportsExplorerSalesContext.request.summary_onboard, t]);
 
   //
-  // C. Handle actions
-
-  const handleDownloadDetail = async () => {
-    try {
-      const archiveBlob = await API({ service: 'exports', resourceId: item._id, operation: 'download', method: 'GET', parseType: 'blob' });
-      const objectURL = URL.createObjectURL(archiveBlob);
-      const zipDownload = document.createElement('a');
-      zipDownload.href = objectURL;
-      zipDownload.download = item.filename;
-      document.body.appendChild(zipDownload);
-      zipDownload.click();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //
-  // D. Render components
+  // C. Render components
 
   return (
     <AppLayoutSection title={t('title')} description={t('description')}>

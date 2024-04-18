@@ -3,12 +3,9 @@
 /* * */
 
 import { useTranslations } from 'next-intl';
-import { Button, SimpleGrid, Table } from '@mantine/core';
-import StatCard from '@/components/StatCard/StatCard';
-import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
+import { Button, Tooltip } from '@mantine/core';
 import { useReportsExplorerSalesContext } from '@/contexts/ReportsExplorerSalesContext';
-import { useState } from 'react';
-import API from '@/services/API';
+import { IconListNumbers } from '@tabler/icons-react';
 
 /* * */
 
@@ -20,36 +17,18 @@ export default function ReportsExplorerSalesResultSummaryOnboardDownload() {
 
   const t = useTranslations('ReportsExplorerSalesResultSummaryOnboardDownload');
   const reportsExplorerSalesContext = useReportsExplorerSalesContext();
-  const [isLoading, setIsLoading] = useState(false);
 
   //
-  // C. Handle actions
-
-  const handleDownload = async () => {
-    try {
-      setIsLoading(true);
-      const responseBlob = await API({ service: 'reports/sales/onboard', operation: 'detail', method: 'POST', body: reportsExplorerSalesContext.getRequestBodyFormatted(), parseType: 'blob' });
-      const objectURL = URL.createObjectURL(responseBlob);
-      const zipDownload = document.createElement('a');
-      zipDownload.href = objectURL;
-      zipDownload.download = 'report.csv';
-      document.body.appendChild(zipDownload);
-      zipDownload.click();
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  //
-  // D. Render components
+  // B. Render components
 
   return (
-    <Button onClick={handleDownload} loading={isLoading}>
-      Download
-    </Button>
+    <div>
+      <Tooltip label={reportsExplorerSalesContext.details.is_loading ? t('operations.download.loading') : t('operations.download.description')} position="bottom" withArrow>
+        <Button onClick={reportsExplorerSalesContext.downloadOnboardDetail} leftSection={<IconListNumbers size={18} />} loading={reportsExplorerSalesContext.details.is_loading} variant="light" size="xs" color="grape">
+          {t('operations.download.label')}
+        </Button>
+      </Tooltip>
+    </div>
   );
 
   //

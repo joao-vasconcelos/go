@@ -54,7 +54,7 @@ export default function ReportsExplorerSalesForm() {
           nothingFoundMessage={t('form.agency_code.nothingFound')}
           data={availableAgencies}
           {...reportsExplorerSalesContext.form.getInputProps('agency_code')}
-          disabled={reportsExplorerSalesContext.request.is_loading}
+          disabled={reportsExplorerSalesContext.request.is_loading || reportsExplorerSalesContext.request.is_success}
           searchable
           clearable
         />
@@ -63,7 +63,7 @@ export default function ReportsExplorerSalesForm() {
           description={t('form.start_date.description')}
           placeholder={t('form.start_date.placeholder')}
           {...reportsExplorerSalesContext.form.getInputProps('start_date')}
-          disabled={reportsExplorerSalesContext.request.is_loading || !reportsExplorerSalesContext.form.values.agency_code}
+          disabled={!reportsExplorerSalesContext.form.values.agency_code || reportsExplorerSalesContext.request.is_loading || reportsExplorerSalesContext.request.is_success}
           dropdownType="modal"
           clearable
         />
@@ -73,7 +73,8 @@ export default function ReportsExplorerSalesForm() {
           placeholder={t('form.end_date.placeholder')}
           {...reportsExplorerSalesContext.form.getInputProps('end_date')}
           minDate={reportsExplorerSalesContext.form.values.start_date}
-          disabled={reportsExplorerSalesContext.request.is_loading || !reportsExplorerSalesContext.form.values.agency_code || !reportsExplorerSalesContext.form.values.start_date}
+          maxDate={new Date()}
+          disabled={!reportsExplorerSalesContext.form.values.agency_code || !reportsExplorerSalesContext.form.values.start_date || reportsExplorerSalesContext.request.is_loading || reportsExplorerSalesContext.request.is_success}
           dropdownType="modal"
           clearable
         />
@@ -97,7 +98,7 @@ export default function ReportsExplorerSalesForm() {
         )}
         {!reportsExplorerSalesContext.request.is_loading && (
           <Button
-            onClick={reportsExplorerSalesContext.fetchSummary}
+            onClick={reportsExplorerSalesContext.fetchSummaries}
             disabled={!reportsExplorerSalesContext.form.values.agency_code || !reportsExplorerSalesContext.form.values.start_date || !reportsExplorerSalesContext.form.values.end_date || reportsExplorerSalesContext.request.is_success}
             loading={reportsExplorerSalesContext.request.is_loading}
           >
