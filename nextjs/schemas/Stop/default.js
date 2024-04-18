@@ -13,7 +13,6 @@ export const StopDefault = {
   platform_code: '',
   parent_station: '',
   operational_status: 'active',
-  current_status: ['1'],
 
   // Operation
   zones: [],

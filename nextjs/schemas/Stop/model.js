@@ -49,12 +49,6 @@ export const StopSchema = new mongoose.Schema(
       type: String,
       maxlength: 25,
     },
-    current_status: [
-      {
-        type: String,
-        maxlength: 2,
-      },
-    ],
 
     // Operation
     zones: [

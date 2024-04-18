@@ -148,7 +148,6 @@ export const StopOptions = {
    * 4 = Marked for Deletion
    */
 
-  current_status: ['1', '2', '3', '4'],
   operational_status: ['active', 'provisional', 'seasonal', 'inactive', 'voided'],
 
   /*
