@@ -10,6 +10,10 @@ import { DateTime } from 'luxon';
 
 /* * */
 
+export const config = { api: { responseLimit: false } };
+
+/* * */
+
 export default async function handler(req, res) {
   //
 
@@ -58,7 +62,7 @@ export default async function handler(req, res) {
     startDateFormatted = DateTime.fromFormat(req.body.start_date, 'yyyyMMdd').setZone('Europe/Lisbon').startOf('day').set({ hour: 4, minute: 0 }).toFormat("yyyy-MM-dd'T'HH:MM:ss");
     endDateFormatted = DateTime.fromFormat(req.body.end_date, 'yyyyMMdd').setZone('Europe/Lisbon').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59 }).toFormat("yyyy-MM-dd'T'HH:MM:ss");
   } catch (error) {
-    console.log(error);
+    console.log('Error parsing dates:', error);
     return await res.status(500).json({ message: 'Error formatting date boundaries.' });
   }
 
@@ -68,7 +72,7 @@ export default async function handler(req, res) {
   try {
     await REALTIMEDB.connect();
   } catch (error) {
-    console.log(error);
+    console.log('Error connecting to REALTIMEDB:', error);
     return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
   }
 
@@ -82,7 +86,7 @@ export default async function handler(req, res) {
     workdir = STORAGE.setupWorkdir('reports');
     csvWriter = new CSVWRITER('reports_sales_onboard_detail');
   } catch (error) {
-    console.log('', error);
+    console.log('Error setting up workdir and csvWriter:', error);
   }
 
   // 8.
@@ -111,7 +115,7 @@ export default async function handler(req, res) {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.log('Error searching database:', error);
     return await res.status(500).json({ message: error.message || 'Cannot list VehicleEvents.' });
   }
 
@@ -123,7 +127,7 @@ export default async function handler(req, res) {
     await res.writeHead(200, { 'Content-Type': 'application/zip', 'Content-Disposition': `attachment; filename=report.csv` });
     fs.createReadStream(`${workdir}/report.csv`).pipe(res);
   } catch (error) {
-    console.log(error);
+    console.log('Error sending response to client:', error);
     return await res.status(500).json({ message: error.message || 'Cannot list VehicleEvents.' });
   }
 

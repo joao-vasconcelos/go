@@ -29,7 +29,7 @@ class STORAGE {
 
   setupWorkdir(scope, id = generator({ length: 12 })) {
     // Get the scope dir path
-    const scopedPath = STORAGE.getScopeDirPath(scope);
+    const scopedPath = this.getScopeDirPath(scope);
     // Setup the working directory for the given scope and id
     const workdir = `${scopedPath}/${id}`;
     // Out of an abundance of caution, delete the directory and all its contents if it already exists
