@@ -66,6 +66,16 @@ export default async function handler(req, res) {
     const allDistrictsMap = MunicipalityOptions.district.reduce((map, { value, label }) => ((map[value] = label), map), {});
 
     foundDocuments = foundDocuments.map((document) => {
+      const thisStopModalConnections = {
+        subway: document.near_subway,
+        light_rail: document.near_light_rail,
+        train: document.near_train,
+        boat: document.near_boat,
+        airport: document.near_airport,
+        bike_sharing: document.near_bike_sharing,
+        bike_parking: document.near_bike_parking,
+        car_parking: document.near_car_parking,
+      };
       const thisStopAgencyCodes = Array.from(new Set(allPatternsDataFormatted.filter((item) => item.stop_codes.includes(document.code)).map((item) => item.agency_code))).join('|');
       return {
         // General
@@ -76,7 +86,7 @@ export default async function handler(req, res) {
         //
         stop_code: document.code,
         stop_short_name: '', //document.short_name,
-        tts_stop_name: tts.makeText(document.name),
+        tts_stop_name: tts.makeText(document.name, thisStopModalConnections),
         // Operation
         areas: thisStopAgencyCodes,
         // Administrative
