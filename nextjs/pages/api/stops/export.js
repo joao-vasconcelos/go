@@ -85,7 +85,7 @@ export default async function handler(req, res) {
         stop_lon: document.longitude.toFixed(6),
         //
         stop_code: document.code,
-        stop_short_name: '', //document.short_name,
+        stop_short_name: document.short_name,
         tts_stop_name: tts.makeText(document.name, thisStopModalConnections),
         // Operation
         areas: thisStopAgencyCodes,
