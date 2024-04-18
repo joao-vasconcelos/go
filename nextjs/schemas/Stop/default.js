@@ -7,6 +7,7 @@ export const StopDefault = {
   name: '',
   name_new: '',
   short_name: '',
+  short_name_auto: true,
   tts_name: '',
   latitude: 0,
   longitude: 0,

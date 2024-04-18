@@ -25,7 +25,7 @@ const initialRequestState = {
   end_date: null,
   //
   summary_onboard: null,
-  summary_encm: null,
+  summary_zapping: null,
   //
 };
 
@@ -105,9 +105,9 @@ export function ReportsExplorerSalesContextProvider({ children }) {
       const requestBody = getRequestBodyFormatted();
       // Fetch the trips summary
       const summaryOnboard = await API({ service: 'reports/sales/onboard', operation: 'summary', method: 'POST', body: requestBody });
-      const summaryEncm = null; // await API({ service: 'reports/sales/encm', operation: 'summary', method: 'POST', body: requestBody });
+      const summaryZapping = await API({ service: 'reports/sales/zapping', operation: 'summary', method: 'POST', body: requestBody });
       // Update state to indicate progress
-      setRequestState({ ...initialRequestState, is_success: true, summary_onboard: summaryOnboard, summary_encm: summaryEncm });
+      setRequestState({ ...initialRequestState, is_success: true, summary_onboard: summaryOnboard, summary_zapping: summaryZapping });
       //
     } catch (error) {
       setRequestState({ ...initialRequestState, is_error: error.message });
@@ -119,6 +119,23 @@ export function ReportsExplorerSalesContextProvider({ children }) {
       setDetailsState((prev) => ({ ...prev, is_loading: true, is_error: false }));
       const requestBody = getRequestBodyFormatted();
       const responseBlob = await API({ service: 'reports/sales/onboard', operation: 'detail', method: 'POST', body: requestBody, parseType: 'blob' });
+      const objectURL = URL.createObjectURL(responseBlob);
+      const zipDownload = document.createElement('a');
+      zipDownload.href = objectURL;
+      zipDownload.download = 'report.csv';
+      document.body.appendChild(zipDownload);
+      zipDownload.click();
+      setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: false }));
+    } catch (error) {
+      setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: error.message }));
+    }
+  }, [getRequestBodyFormatted]);
+
+  const downloadZappingDetail = useCallback(async () => {
+    try {
+      setDetailsState((prev) => ({ ...prev, is_loading: true, is_error: false }));
+      const requestBody = getRequestBodyFormatted();
+      const responseBlob = await API({ service: 'reports/sales/zapping', operation: 'detail', method: 'POST', body: requestBody, parseType: 'blob' });
       const objectURL = URL.createObjectURL(responseBlob);
       const zipDownload = document.createElement('a');
       zipDownload.href = objectURL;
@@ -148,9 +165,10 @@ export function ReportsExplorerSalesContextProvider({ children }) {
       fetchSummaries: fetchSummaries,
       //
       downloadOnboardDetail: downloadOnboardDetail,
+      downloadZappingDetail: downloadZappingDetail,
       //
     }),
-    [formState, requestState, detailsState, clearAllData, getRequestBodyFormatted, fetchSummaries, downloadOnboardDetail]
+    [formState, requestState, detailsState, clearAllData, getRequestBodyFormatted, fetchSummaries, downloadOnboardDetail, downloadZappingDetail]
   );
 
   //

@@ -84,7 +84,7 @@ export default async function handler(req, res) {
 
   try {
     workdir = STORAGE.setupWorkdir('reports');
-    csvWriter = new CSVWRITER('reports_sales_onboard_detail');
+    csvWriter = new CSVWRITER('reports_sales_zapping_detail');
   } catch (error) {
     console.log('Error setting up workdir and csvWriter:', error);
   }
@@ -94,11 +94,11 @@ export default async function handler(req, res) {
 
   try {
     // Setup database query stream
-    const queryStream = REALTIMEDB.SalesEntity.find(
+    const queryStream = REALTIMEDB.ValidationEntity.find(
       {
         'transaction.transactionDate': { $gte: startDateFormatted, $lte: endDateFormatted },
         'transaction.operatorLongID': { $eq: req.body.agency_code },
-        'transaction.productLongID': { $regex: /^id-prod-tar/ },
+        'transaction.productLongID': 'id-prod-zapping',
       },
       { allowDiskUse: true, maxTimeMS: 999000 }
     ).stream();
@@ -111,7 +111,7 @@ export default async function handler(req, res) {
         operatorLongID: doc.transaction?.operatorLongID || 'N/A',
         transactionDate: doc.transaction?.transactionDate || 'N/A',
         productLongID: doc.transaction?.productLongID || 'N/A',
-        price: doc.transaction?.price || 'N/A',
+        unitsQuantity: doc.transaction?.unitsQuantity,
       });
     }
   } catch (error) {

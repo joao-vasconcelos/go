@@ -86,12 +86,14 @@ class REALTIMEDB {
 
       const coreManagementDatabase = mongoClientInstance.db('CoreManagement');
       const salesManagementDatabase = mongoClientInstance.db('SalesManagement');
+      const validationsManagementDatabase = mongoClientInstance.db('ValidationsManagement');
 
       //
       // Setup collections
 
       this.VehicleEvents = coreManagementDatabase.collection('VehicleEvents');
       this.SalesEntity = salesManagementDatabase.collection('salesEntity');
+      this.ValidationEntity = validationsManagementDatabase.collection('validationEntity');
 
       //
       // Save the instance in memory

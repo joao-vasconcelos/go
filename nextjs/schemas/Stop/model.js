@@ -25,6 +25,10 @@ export const StopSchema = new mongoose.Schema(
       type: String,
       maxlength: 100,
     },
+    short_name_auto: {
+      type: Boolean,
+      default: true,
+    },
     tts_name: {
       type: String,
       maxlength: 500,

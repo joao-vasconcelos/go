@@ -6,12 +6,12 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import Pannel from '@/components/Pannel/Pannel';
-import { SimpleGrid, TextInput, NumberInput, Select, ActionIcon, Divider, MultiSelect, Textarea } from '@mantine/core';
+import { SimpleGrid, TextInput, NumberInput, Select, ActionIcon, Divider, MultiSelect, Textarea, Tooltip } from '@mantine/core';
 import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import StopsExplorerIdPageHeader from '@/components/StopsExplorerIdPageHeader/StopsExplorerIdPageHeader';
 import { StopOptions } from '@/schemas/Stop/options';
-import { IconVolume, IconWorldLatitude, IconWorldLongitude } from '@tabler/icons-react';
+import { IconAB, IconAB2, IconABOff, IconLock, IconLockOpen2, IconVolume, IconWashDryclean, IconWorldLatitude, IconWorldLongitude } from '@tabler/icons-react';
 import GlobalCheckboxCard from '@/components/GlobalCheckboxCard/GlobalCheckboxCard';
 import StopsExplorerIdPageMap from '@/components/StopsExplorerIdPageMap/StopsExplorerIdPageMap';
 import StopsExplorerIdPageItemMedia from '@/components/StopsExplorerIdPageItemMedia/StopsExplorerIdPageItemMedia';
@@ -222,6 +222,10 @@ export default function StopsExplorerIdPage() {
     synth.speak(utterance);
   };
 
+  const handleLockShortName = () => {
+    stopsExplorerContext.form.setFieldValue('short_name_auto', !stopsExplorerContext.form.values.short_name_auto);
+  };
+
   //
   // E. Render components
 
@@ -272,7 +276,20 @@ export default function StopsExplorerIdPage() {
           <TextInput label={t('form.name_new.label')} placeholder={t('form.name_new.placeholder')} {...stopsExplorerContext.form.getInputProps('name_new')} readOnly={stopsExplorerContext.page.is_read_only_name} />
         </SimpleGrid>
         <SimpleGrid cols={2}>
-          <TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...stopsExplorerContext.form.getInputProps('short_name')} readOnly />
+          <TextInput
+            label={t('form.short_name.label')}
+            placeholder={t('form.short_name.placeholder')}
+            {...stopsExplorerContext.form.getInputProps('short_name')}
+            styles={{ input: { borderColor: !stopsExplorerContext.form.values.short_name_auto && 'var(--mantine-color-grape-6)' } }}
+            readOnly={stopsExplorerContext.page.is_read_only_name || stopsExplorerContext.form.values.short_name_auto}
+            rightSection={
+              <Tooltip label={stopsExplorerContext.form.values.short_name_auto ? t('form.short_name_auto.true') : t('form.short_name_auto.false')} color={stopsExplorerContext.form.values.short_name_auto ? 'green' : 'grape'} position="bottom" withArrow>
+                <ActionIcon onClick={handleLockShortName} variant="subtle" color={stopsExplorerContext.form.values.short_name_auto ? 'green' : 'grape'}>
+                  {stopsExplorerContext.form.values.short_name_auto ? <IconAB size={18} /> : <IconABOff size={18} />}
+                </ActionIcon>
+              </Tooltip>
+            }
+          />
           <TextInput
             label={t('form.tts_name.label')}
             placeholder={t('form.tts_name.placeholder')}

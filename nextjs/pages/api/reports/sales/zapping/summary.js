@@ -74,47 +74,50 @@ export default async function handler(req, res) {
 
   let result;
 
-  const matchClauseNegative = {
+  const matchClause = {
     $match: {
       'transaction.transactionDate': {
         $gte: startDateFormatted,
         $lte: endDateFormatted,
       },
       'transaction.operatorLongID': { $eq: req.body.agency_code },
-      'transaction.productLongID': { $regex: /^id-prod-tar/ },
+      'transaction.productLongID': 'id-prod-zapping',
     },
   };
+
+  console.log('matchClause', matchClause);
 
   const groupClause = {
     $group: {
       //
       _id: '$transaction.productLongID',
+      // _id: '$transaction.unitsQuantity',
       //   uniqueTransactions: { $addToSet: '$transaction.transactionId' },
       //
       sales_qty: {
         $sum: {
-          $cond: [{ $gte: ['$transaction.price', 0] }, 1, 0],
+          $cond: [{ $gte: ['$transaction.unitsQuantity', 0] }, 1, 0],
         },
       },
       cashbacks_qty: {
         $sum: {
-          $cond: [{ $lt: ['$transaction.price', 0] }, 1, 0],
+          $cond: [{ $lt: ['$transaction.unitsQuantity', 0] }, 1, 0],
         },
       },
       transactions_qty: { $sum: 1 },
       //
       sales_euro: {
         $sum: {
-          $cond: [{ $gte: ['$transaction.price', 0] }, '$transaction.price', 0],
+          $cond: [{ $gte: ['$transaction.unitsQuantity', 0] }, '$transaction.unitsQuantity', 0],
         },
       },
       cashbacks_euro: {
         $sum: {
-          $cond: [{ $lt: ['$transaction.price', 0] }, '$transaction.price', 0],
+          $cond: [{ $lt: ['$transaction.unitsQuantity', 0] }, '$transaction.unitsQuantity', 0],
         },
       },
       transactions_euro: {
-        $sum: '$transaction.price',
+        $sum: '$transaction.unitsQuantity',
       },
       //
     },
@@ -137,8 +140,8 @@ export default async function handler(req, res) {
   // Perform database search
 
   try {
-    console.log('Searching sales...');
-    result = await REALTIMEDB.SalesEntity.aggregate([matchClauseNegative, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).toArray();
+    console.log('Searching validations...');
+    result = await REALTIMEDB.ValidationEntity.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 900000 }).toArray();
   } catch (error) {
     console.log(error);
     return await res.status(500).json({ message: error.message || 'Cannot search for APEX Transactions.' });

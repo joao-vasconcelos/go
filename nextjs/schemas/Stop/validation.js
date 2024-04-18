@@ -29,6 +29,7 @@ export const StopValidation = yup.object({
     .string()
     .max(StopOptions.max_stop_short_name_length)
     .transform((value) => (value.length > 0 ? value.replace(/  +/g, ' ').trim() : value)),
+  short_name_auto: yup.boolean(),
   tts_name: yup
     .string()
     .transform((value) => (value.length > 0 ? value.replace(/  +/g, ' ').trim() : value))
