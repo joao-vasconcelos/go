@@ -2,12 +2,9 @@
 
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import { ReportOptions } from '@/schemas/Report/options';
 import REALTIMEDB from '@/services/REALTIMEDB';
 import { DateTime } from 'luxon';
-
-/* * */
-
-export const config = { api: { responseLimit: false } };
 
 /* * */
 
@@ -56,8 +53,8 @@ export default async function handler(req, res) {
   let endDateFormatted;
 
   try {
-    startDateFormatted = DateTime.fromFormat(req.body.start_date, 'yyyyMMdd').setZone('Europe/Lisbon').startOf('day').set({ hour: 4, minute: 0 }).toFormat("yyyy-MM-dd'T'HH:MM:ss");
-    endDateFormatted = DateTime.fromFormat(req.body.end_date, 'yyyyMMdd').setZone('Europe/Lisbon').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59 }).toFormat("yyyy-MM-dd'T'HH:MM:ss");
+    startDateFormatted = DateTime.fromFormat(req.body.start_date, 'yyyyMMdd').startOf('day').set({ hour: 4, minute: 0, second: 0 }).toFormat("yyyy-MM-dd'T'HH:mm:ss");
+    endDateFormatted = DateTime.fromFormat(req.body.end_date, 'yyyyMMdd').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59, second: 59 }).toFormat("yyyy-MM-dd'T'HH:mm:ss");
   } catch (error) {
     console.log(error);
     return await res.status(500).json({ message: 'Error formatting date boundaries.' });
@@ -78,42 +75,64 @@ export default async function handler(req, res) {
 
   let result;
 
-  const matchClauseNegative = {
+  const matchClause = {
     $match: {
       'transaction.transactionDate': {
         $gte: startDateFormatted,
         $lte: endDateFormatted,
       },
       'transaction.operatorLongID': { $eq: req.body.agency_code },
-      //   'transaction.productLongID': { $in: ['id-prod-tarifa-'] },
-      'transaction.productLongID': { $regex: /^id-prod-tar/ },
+      'transaction.productLongID': { $in: ReportOptions.apex_transaction_prepaid_product_ids },
+      'transaction.validationStatus': { $in: ReportOptions.apex_transaction_valid_status },
     },
   };
 
+  console.log(matchClause);
+
   const groupClause = {
     $group: {
-      _id: null,
-      qty: {
-        $count: {},
-        // $sum: {
-        //   $cond: [{ $gte: ['$transaction.price', 0] }, 1, 0],
-        // },
+      //
+      _id: '$transaction.productLongID',
+      //
+      sales_qty: {
+        $sum: {
+          $cond: [{ $gte: ['$transaction.unitsQuantity', 0] }, 1, 0],
+        },
       },
-      euro: {
-        $sum: '$transaction.price',
-        // $sum: {
-        //   $cond: [{ $gte: ['$transaction.price', 0] }, '$transaction.price', 0],
-        // },
+      cashbacks_qty: {
+        $sum: {
+          $cond: [{ $lt: ['$transaction.unitsQuantity', 0] }, 1, 0],
+        },
       },
+      transactions_qty: { $sum: 1 },
+      //
+      sales_euro: {
+        $sum: {
+          $cond: [{ $gte: ['$transaction.unitsQuantity', 0] }, '$transaction.unitsQuantity', 0],
+        },
+      },
+      cashbacks_euro: {
+        $sum: {
+          $cond: [{ $lt: ['$transaction.unitsQuantity', 0] }, '$transaction.unitsQuantity', 0],
+        },
+      },
+      transactions_euro: {
+        $sum: '$transaction.unitsQuantity',
+      },
+      //
     },
   };
 
   const projectClause = {
     $project: {
       _id: 0,
-      qty: 1,
-      euro: 1,
-      productLongID: '$productLongID',
+      product_id: '$_id',
+      sales_qty: 1,
+      cashbacks_qty: 1,
+      transactions_qty: 1,
+      sales_euro: 1,
+      cashbacks_euro: 1,
+      transactions_euro: 1,
     },
   };
 
@@ -121,8 +140,8 @@ export default async function handler(req, res) {
   // Perform database search
 
   try {
-    console.log('Searching sales...');
-    result = await REALTIMEDB.SalesEntity.aggregate([matchClauseNegative, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).toArray();
+    console.log('Searching validations...');
+    result = await REALTIMEDB.ValidationEntity.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 900000 }).toArray();
   } catch (error) {
     console.log(error);
     return await res.status(500).json({ message: error.message || 'Cannot search for APEX Transactions.' });
@@ -132,8 +151,7 @@ export default async function handler(req, res) {
   // Perform database search
 
   try {
-    if (result.length > 0) res.send(result[0]);
-    else res.send({});
+    res.send(result);
   } catch (error) {
     console.log(error);
     return await res.status(500).json({ message: error.message || 'Error sending response to client.' });

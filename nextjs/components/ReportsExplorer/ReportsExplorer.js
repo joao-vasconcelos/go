@@ -22,8 +22,7 @@ export default function ReportsExplorer() {
   // B. Transform data
 
   const reportIcons = {
-    sales: <IconCoinEuro size={50} />,
-    validations: <IconTicket size={50} />,
+    revenue: <IconCoinEuro size={50} />,
     realtime: <IconArrowsShuffle size={50} />,
   };
 
