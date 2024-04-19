@@ -106,7 +106,7 @@ export default async function handler(req, res) {
     for await (const doc of queryStream) {
       await csvWriter.write(workdir, 'report.csv', {
         _id: doc._id,
-        type: 'sales',
+        type: 'onboard',
         transactionId: doc.transaction?.transactionId || 'N/A',
         operatorLongID: doc.transaction?.operatorLongID || 'N/A',
         transactionDate: doc.transaction?.transactionDate || 'N/A',

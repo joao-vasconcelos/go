@@ -7,6 +7,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import REALTIMEDB from '@/services/REALTIMEDB';
 import STORAGE from '@/services/STORAGE';
 import { DateTime } from 'luxon';
+import { ReportOptions } from '@/schemas/Report/options';
 
 /* * */
 
@@ -96,9 +97,13 @@ export default async function handler(req, res) {
     // Setup database query stream
     const queryStream = REALTIMEDB.ValidationEntity.find(
       {
-        'transaction.transactionDate': { $gte: startDateFormatted, $lte: endDateFormatted },
+        'transaction.transactionDate': {
+          $gte: startDateFormatted,
+          $lte: endDateFormatted,
+        },
         'transaction.operatorLongID': { $eq: req.body.agency_code },
-        'transaction.productLongID': 'id-prod-zapping',
+        'transaction.productLongID': { $in: ReportOptions.apex_transaction_prepaid_product_ids },
+        'transaction.validationStatus': { $in: ReportOptions.apex_transaction_valid_status },
       },
       { allowDiskUse: true, maxTimeMS: 999000 }
     ).stream();
@@ -106,7 +111,7 @@ export default async function handler(req, res) {
     for await (const doc of queryStream) {
       await csvWriter.write(workdir, 'report.csv', {
         _id: doc._id,
-        type: 'sales',
+        type: 'prepaid',
         transactionId: doc.transaction?.transactionId || 'N/A',
         operatorLongID: doc.transaction?.operatorLongID || 'N/A',
         transactionDate: doc.transaction?.transactionDate || 'N/A',
