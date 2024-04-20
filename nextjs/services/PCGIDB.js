@@ -10,7 +10,7 @@ const MAX_CONNECTION_RETRIES = 3;
 
 /* * */
 
-class REALTIMEDB {
+class PCGIDB {
   //
 
   constructor() {
@@ -32,7 +32,7 @@ class REALTIMEDB {
 
   async connect() {
     try {
-      console.log('REALTIMEDB: New connection request...');
+      console.log('PCGIDB: New connection request...');
 
       //
       // Establish SSH tunnel
@@ -43,7 +43,7 @@ class REALTIMEDB {
       // If another connection request is already in progress, wait for it to complete
 
       if (this.mongoClientConnecting) {
-        console.log('REALTIMEDB: Waiting for MongoDB Client connection...');
+        console.log('PCGIDB: Waiting for MongoDB Client connection...');
         await this.waitForMongoClientConnection();
         return;
       }
@@ -78,7 +78,7 @@ class REALTIMEDB {
       } else if (global._mongoClientConnectionInstance && global._mongoClientConnectionInstance.topology && global._mongoClientConnectionInstance.topology.isConnected()) {
         mongoClientInstance = global._mongoClientConnectionInstance;
       } else {
-        mongoClientInstance = await MongoClient.connect(process.env.REALTIMEDB_MONGODB_URI, mongoClientOptions);
+        mongoClientInstance = await MongoClient.connect(process.env.PCGIDB_MONGODB_URI, mongoClientOptions);
       }
 
       //
@@ -111,11 +111,11 @@ class REALTIMEDB {
     } catch (error) {
       this.mongoClientConnectionRetries++;
       if (this.mongoClientConnectionRetries < MAX_CONNECTION_RETRIES) {
-        console.error(`REALTIMEDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.sshTunnelConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
+        console.error(`PCGIDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.sshTunnelConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
         await this.reset();
         await this.connect();
       } else {
-        console.error('REALTIMEDB: Error creating MongoDB Client instance:', error);
+        console.error('PCGIDB: Error creating MongoDB Client instance:', error);
         await this.reset();
       }
     }
@@ -135,7 +135,7 @@ class REALTIMEDB {
     // If another setup request is already in progress, wait for it to complete
 
     if (this.sshTunnelConnecting) {
-      console.log('REALTIMEDB: Waiting for SSH Tunnel connection...');
+      console.log('PCGIDB: Waiting for SSH Tunnel connection...');
       await this.waitForSshTunnelConnection();
       return;
     }
@@ -147,7 +147,7 @@ class REALTIMEDB {
     console.log('global._sshTunnelConnectionInstance?.listening', global._sshTunnelConnectionInstance?.listening);
 
     if (this.sshTunnelConnectionInstance?.listening || global._sshTunnelConnectionInstance?.listening) {
-      console.log('REALTIMEDB: SSH Tunnel already connected. Skipping...');
+      console.log('PCGIDB: SSH Tunnel already connected. Skipping...');
       return;
     }
 
@@ -162,7 +162,7 @@ class REALTIMEDB {
 
     try {
       //
-      console.log('REALTIMEDB: Starting SSH Tunnel connection...');
+      console.log('PCGIDB: Starting SSH Tunnel connection...');
 
       //
       // Setup the flag to prevent double connection
@@ -177,21 +177,21 @@ class REALTIMEDB {
       };
 
       const serverOptions = {
-        port: process.env.REALTIMEDB_TUNNEL_LOCAL_PORT,
+        port: process.env.PCGIDB_TUNNEL_LOCAL_PORT,
       };
 
       const sshOptions = {
-        host: process.env.REALTIMEDB_SSH_HOST,
-        port: process.env.REALTIMEDB_SSH_PORT,
-        username: process.env.REALTIMEDB_SSH_USERNAME,
-        privateKey: readFileSync(process.env.REALTIMEDB_SSH_KEY_PATH),
+        host: process.env.PCGIDB_SSH_HOST,
+        port: process.env.PCGIDB_SSH_PORT,
+        username: process.env.PCGIDB_SSH_USERNAME,
+        privateKey: readFileSync(process.env.PCGIDB_SSH_KEY_PATH),
       };
 
       const forwardOptions = {
-        srcAddr: process.env.REALTIMEDB_TUNNEL_LOCAL_HOST,
-        srcPort: process.env.REALTIMEDB_TUNNEL_LOCAL_PORT,
-        dstAddr: process.env.REALTIMEDB_TUNNEL_REMOTE_HOST,
-        dstPort: process.env.REALTIMEDB_TUNNEL_REMOTE_PORT,
+        srcAddr: process.env.PCGIDB_TUNNEL_LOCAL_HOST,
+        srcPort: process.env.PCGIDB_TUNNEL_LOCAL_PORT,
+        dstAddr: process.env.PCGIDB_TUNNEL_REMOTE_HOST,
+        dstPort: process.env.PCGIDB_TUNNEL_REMOTE_PORT,
       };
 
       //
@@ -199,7 +199,7 @@ class REALTIMEDB {
 
       const [server, client] = await createTunnel(tunnelOptions, serverOptions, sshOptions, forwardOptions);
 
-      console.log(`REALTIMEDB: Created SSH Tunnel instance on host port ${server.address().port}`);
+      console.log(`PCGIDB: Created SSH Tunnel instance on host port ${server.address().port}`);
 
       if (process.env.NODE_ENV === 'development') global._sshTunnelConnectionInstance = server;
       else this.sshTunnelConnectionInstance = server;
@@ -214,11 +214,11 @@ class REALTIMEDB {
     } catch (error) {
       this.sshTunnelConnectionRetries++;
       if (this.sshTunnelConnectionRetries < MAX_CONNECTION_RETRIES) {
-        console.error(`REALTIMEDB: Error creating SSH Tunnel instance ["${error.message}"]. Retrying (${this.sshTunnelConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
+        console.error(`PCGIDB: Error creating SSH Tunnel instance ["${error.message}"]. Retrying (${this.sshTunnelConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
         await this.reset();
         await this.connect();
       } else {
-        console.error('REALTIMEDB: Error creating SSH Tunnel instance:', error);
+        console.error('PCGIDB: Error creating SSH Tunnel instance:', error);
         await this.reset();
       }
     }
@@ -247,7 +247,7 @@ class REALTIMEDB {
     this.mongoClientConnectionInstance = null;
     global._mongoClientConnectionInstance = null;
     //
-    console.log('REALTIMEDB: Reset all connections.');
+    console.log('PCGIDB: Reset all connections.');
   }
 
   /* * *
@@ -282,7 +282,7 @@ class REALTIMEDB {
 
 /* * */
 
-const realtimedb = new REALTIMEDB();
+const realtimedb = new PCGIDB();
 
 /* * */
 

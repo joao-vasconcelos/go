@@ -3,7 +3,7 @@
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { ReportOptions } from '@/schemas/Report/options';
-import REALTIMEDB from '@/services/REALTIMEDB';
+import PCGIDB from '@/services/PCGIDB';
 import { DateTime } from 'luxon';
 
 /* * */
@@ -61,13 +61,13 @@ export default async function handler(req, res) {
   }
 
   // 6.
-  // Connect to REALTIMEDB
+  // Connect to PCGIDB
 
   try {
-    await REALTIMEDB.connect();
+    await PCGIDB.connect();
   } catch (error) {
     console.log(error);
-    return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
+    return await res.status(500).json({ message: 'Could not connect to PCGIDB.' });
   }
 
   // 7.
@@ -112,7 +112,7 @@ export default async function handler(req, res) {
 
   try {
     console.log('Searching validations...');
-    result = await REALTIMEDB.ValidationEntity.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 900000 }).toArray();
+    result = await PCGIDB.ValidationEntity.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 900000 }).toArray();
   } catch (error) {
     console.log(error);
     return await res.status(500).json({ message: error.message || 'Cannot search for APEX Transactions.' });

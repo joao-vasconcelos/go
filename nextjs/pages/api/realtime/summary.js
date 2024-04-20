@@ -2,7 +2,7 @@
 
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import REALTIMEDB from '@/services/REALTIMEDB';
+import PCGIDB from '@/services/PCGIDB';
 import JSONStream from 'JSONStream';
 import { DateTime } from 'luxon';
 
@@ -66,13 +66,13 @@ export default async function handler(req, res) {
   }
 
   // 6.
-  // Connect to REALTIMEDB
+  // Connect to PCGIDB
 
   try {
-    await REALTIMEDB.connect();
+    await PCGIDB.connect();
   } catch (error) {
     console.log(error);
-    return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
+    return await res.status(500).json({ message: 'Could not connect to PCGIDB.' });
   }
 
   // 7.
@@ -157,7 +157,7 @@ export default async function handler(req, res) {
 
   try {
     console.log('Searching events...');
-    await REALTIMEDB.VehicleEvents.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).stream().pipe(JSONStream.stringify()).pipe(res);
+    await PCGIDB.VehicleEvents.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 90000 }).stream().pipe(JSONStream.stringify()).pipe(res);
   } catch (error) {
     console.log(error);
     return await res.status(500).json({ message: error.message || 'Cannot list VehicleEvents.' });

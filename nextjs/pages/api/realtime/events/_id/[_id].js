@@ -1,6 +1,6 @@
 /* * */
 
-import REALTIMEDB from '@/services/REALTIMEDB';
+import PCGIDB from '@/services/PCGIDB';
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
@@ -35,20 +35,20 @@ export default async function handler(req, res) {
   }
 
   // 2.
-  // Connect to REALTIMEDB
+  // Connect to PCGIDB
 
   try {
-    await REALTIMEDB.connect();
+    await PCGIDB.connect();
   } catch (error) {
     console.log(error);
-    return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
+    return await res.status(500).json({ message: 'Could not connect to PCGIDB.' });
   }
 
   // 3.
   // Perform database search
 
   try {
-    const foundDocument = await REALTIMEDB.VehicleEvents.findOne({ _id: { $eq: REALTIMEDB.toObjectId(req.query._id) } });
+    const foundDocument = await PCGIDB.VehicleEvents.findOne({ _id: { $eq: PCGIDB.toObjectId(req.query._id) } });
     return await res.status(200).json(foundDocument);
   } catch (error) {
     console.log(error);

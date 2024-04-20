@@ -4,7 +4,7 @@ import fs from 'fs';
 import getSession from '@/authentication/getSession';
 import CSVWRITER from '@/services/CSVWRITER';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import REALTIMEDB from '@/services/REALTIMEDB';
+import PCGIDB from '@/services/PCGIDB';
 import STORAGE from '@/services/STORAGE';
 import { DateTime } from 'luxon';
 import { ReportOptions } from '@/schemas/Report/options';
@@ -68,13 +68,13 @@ export default async function handler(req, res) {
   }
 
   // 6.
-  // Connect to REALTIMEDB
+  // Connect to PCGIDB
 
   try {
-    await REALTIMEDB.connect();
+    await PCGIDB.connect();
   } catch (error) {
-    console.log('Error connecting to REALTIMEDB:', error);
-    return await res.status(500).json({ message: 'Could not connect to REALTIMEDB.' });
+    console.log('Error connecting to PCGIDB:', error);
+    return await res.status(500).json({ message: 'Could not connect to PCGIDB.' });
   }
 
   // 7.
@@ -95,7 +95,7 @@ export default async function handler(req, res) {
 
   try {
     // Setup database query stream
-    const queryStream = REALTIMEDB.ValidationEntity.find(
+    const queryStream = PCGIDB.ValidationEntity.find(
       {
         'transaction.transactionDate': {
           $gte: startDateFormatted,
