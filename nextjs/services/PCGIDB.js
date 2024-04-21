@@ -1,6 +1,6 @@
 /* * */
 
-import { readFileSync } from 'fs';
+import fs from 'fs';
 import { createTunnel } from 'tunnel-ssh';
 import { MongoClient } from 'mongodb';
 
@@ -184,7 +184,7 @@ class PCGIDB {
         host: process.env.PCGIDB_SSH_HOST,
         port: process.env.PCGIDB_SSH_PORT,
         username: process.env.PCGIDB_SSH_USERNAME,
-        privateKey: readFileSync(process.env.PCGIDB_SSH_KEY_PATH),
+        privateKey: fs.readFileSync(process.env.PCGIDB_SSH_KEY_PATH),
       };
 
       const forwardOptions = {
