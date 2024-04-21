@@ -87,12 +87,10 @@ export default async function handler(req, res) {
     },
   };
 
-  console.log(matchClause);
-
   const groupClause = {
     $group: {
       //
-      _id: '$transaction.productLongID',
+      _id: '$transaction.unitsQuantity',
       //
       sales_qty: {
         $sum: {

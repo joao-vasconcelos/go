@@ -4,7 +4,7 @@
 
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { NumberInput, SimpleGrid, Table } from '@mantine/core';
+import { SimpleGrid, Table } from '@mantine/core';
 import StatCard from '@/components/StatCard/StatCard';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import { useReportsExplorerRevenueContext } from '@/contexts/ReportsExplorerRevenueContext';
@@ -26,23 +26,20 @@ export default function ReportsExplorerRevenueResultSummaryPrepaid() {
 
   const metricsDataFormatted = useMemo(() => {
     if (!reportsExplorerSalesContext.request.summary_prepaid) return {};
-    const result = {
+    return {
       total_transactions_qty: reportsExplorerSalesContext.request.summary_prepaid.reduce((acc, item) => acc + item.transactions_qty, 0),
       total_sales_qty: reportsExplorerSalesContext.request.summary_prepaid.reduce((acc, item) => acc + item.sales_qty, 0),
       total_cashbacks_qty: reportsExplorerSalesContext.request.summary_prepaid.reduce((acc, item) => acc + item.cashbacks_qty, 0),
       total_transactions_euro: reportsExplorerSalesContext.request.summary_prepaid.reduce((acc, item) => acc + item.transactions_euro, 0) / 100,
       total_sales_euro: reportsExplorerSalesContext.request.summary_prepaid.reduce((acc, item) => acc + item.sales_euro, 0) / 100,
       total_cashbacks_euro: reportsExplorerSalesContext.request.summary_prepaid.reduce((acc, item) => acc + item.cashbacks_euro, 0) / 100,
-      estimated_revenue_euro: -1,
     };
-    result.estimated_revenue_euro = result.total_transactions_euro * reportsExplorerSalesContext.multipliers.values.prepaid;
-    return result;
-  }, [reportsExplorerSalesContext.multipliers.values.prepaid, reportsExplorerSalesContext.request.summary_prepaid]);
+  }, [reportsExplorerSalesContext.request.summary_prepaid]);
 
   const tableDataFormatted = useMemo(() => {
     if (!reportsExplorerSalesContext.request.summary_prepaid) return {};
     return {
-      head: [t('table.product_id.title'), t('table.sales_qty.title'), t('table.cashbacks_qty.title'), t('table.transactions_qty.title'), t('table.sales_euro.title'), t('table.cashbacks_euro.title'), t('table.transactions_euro.title'), t('table.estimated_revenue_euro.title')],
+      head: [t('table.product_id.title'), t('table.sales_qty.title'), t('table.cashbacks_qty.title'), t('table.transactions_qty.title'), t('table.sales_euro.title'), t('table.cashbacks_euro.title'), t('table.transactions_euro.title')],
       body: reportsExplorerSalesContext.request.summary_prepaid.map((item) => [
         item.product_id,
         t('table.sales_qty.value', { value: item.sales_qty }),
@@ -51,22 +48,15 @@ export default function ReportsExplorerRevenueResultSummaryPrepaid() {
         t('table.sales_euro.value', { value: item.sales_euro / 100 }),
         t('table.cashbacks_euro.value', { value: item.cashbacks_euro / 100 }),
         t('table.transactions_euro.value', { value: item.transactions_euro / 100 }),
-        t('table.transactions_euro.value', { value: (item.transactions_euro * reportsExplorerSalesContext.multipliers.values.prepaid) / 100 }),
       ]),
     };
-  }, [reportsExplorerSalesContext.multipliers.values.prepaid, reportsExplorerSalesContext.request.summary_prepaid, t]);
+  }, [reportsExplorerSalesContext.request.summary_prepaid, t]);
 
   //
   // C. Render components
 
   return (
     <AppLayoutSection title={t('title')} description={t('description')}>
-      <SimpleGrid cols={3}>
-        <NumberInput label={t('form.multiplier.label')} description={t('form.multiplier.description')} placeholder={t('form.multiplier.placeholder')} {...reportsExplorerSalesContext.multipliers.getInputProps('prepaid')} min={0} max={1} decimalScale={2} step={0.01} />
-      </SimpleGrid>
-      <SimpleGrid cols={3}>
-        <StatCard label={t('metrics.estimated_revenue_euro.label')} value={metricsDataFormatted.estimated_revenue_euro} displayValue={t('metrics.estimated_revenue_euro.value', { value: metricsDataFormatted.estimated_revenue_euro })} />
-      </SimpleGrid>
       <SimpleGrid cols={3}>
         <StatCard label={t('metrics.total_sales_qty.label')} value={metricsDataFormatted.total_sales_qty} displayValue={t('metrics.total_sales_qty.value', { value: metricsDataFormatted.total_sales_qty })} />
         <StatCard label={t('metrics.total_cashbacks_qty.label')} value={metricsDataFormatted.total_cashbacks_qty} displayValue={t('metrics.total_cashbacks_qty.value', { value: metricsDataFormatted.total_cashbacks_qty })} />

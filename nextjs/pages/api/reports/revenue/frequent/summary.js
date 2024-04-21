@@ -87,8 +87,6 @@ export default async function handler(req, res) {
     },
   };
 
-  console.log([...ReportOptions.apex_transaction_onboard_product_ids, ...ReportOptions.apex_transaction_prepaid_product_ids]);
-
   const groupClause = {
     $group: {
       //
