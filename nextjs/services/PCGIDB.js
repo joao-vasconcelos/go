@@ -282,8 +282,8 @@ class PCGIDB {
 
 /* * */
 
-const realtimedb = new PCGIDB();
+const pcgidb = new PCGIDB();
 
 /* * */
 
-export default realtimedb;
+export default pcgidb;

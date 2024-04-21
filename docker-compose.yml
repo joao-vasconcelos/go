@@ -3,7 +3,7 @@ volumes:
   mongodbdata:
 
 secrets:
-  realtimedbkey:
+  pcgidbkey:
     file: PCGIDB.key
 
 services:
@@ -100,4 +100,4 @@ services:
     env_file:
       - .env.production
     secrets:
-      - realtimedbkey
+      - pcgidbkey
