@@ -1,6 +1,6 @@
 /* * */
 
-import mongodb from '@/services/mongodb';
+import mongodb from '@/services/GODB';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
 import { MediaModel } from '@/schemas/Media/model';

@@ -4,7 +4,7 @@ import NextAuth from 'next-auth';
 import EmailProvider from 'next-auth/providers/email';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import clientPromise from '@/services/mongodb-adapter';
-import mongodb from '@/services/mongodb';
+import mongodb from '@/services/GODB';
 import { UserModel } from '@/schemas/User/model';
 
 /* * */
