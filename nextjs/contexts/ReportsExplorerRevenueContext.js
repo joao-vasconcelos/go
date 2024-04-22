@@ -113,11 +113,13 @@ export function ReportsExplorerRevenueContextProvider({ children }) {
       // Parse request body
       const requestBody = getRequestBodyFormatted();
       // Fetch the trips summary
-      const summaryOnboard = await API({ service: 'reports/revenue/onboard', operation: 'summary', method: 'POST', body: requestBody });
-      const summaryPrepaid = await API({ service: 'reports/revenue/prepaid', operation: 'summary', method: 'POST', body: requestBody });
-      const summaryFrequent = await API({ service: 'reports/revenue/frequent', operation: 'summary', method: 'POST', body: requestBody });
+      const reportValues = await Promise.all([
+        API({ service: 'reports/revenue/onboard', operation: 'summary', method: 'POST', body: requestBody }),
+        API({ service: 'reports/revenue/prepaid', operation: 'summary', method: 'POST', body: requestBody }),
+        API({ service: 'reports/revenue/frequent', operation: 'summary', method: 'POST', body: requestBody }),
+      ]);
       // Update state to indicate progress
-      setRequestState({ ...initialRequestState, is_success: true, summary_onboard: summaryOnboard, summary_prepaid: summaryPrepaid, summary_frequent: summaryFrequent });
+      setRequestState({ ...initialRequestState, is_success: true, summary_onboard: reportValues[0], summary_prepaid: reportValues[1], summary_frequent: reportValues[2] });
       //
     } catch (error) {
       setRequestState({ ...initialRequestState, is_error: error.message });

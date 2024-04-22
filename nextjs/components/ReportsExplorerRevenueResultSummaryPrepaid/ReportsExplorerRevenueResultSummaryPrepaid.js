@@ -9,6 +9,7 @@ import StatCard from '@/components/StatCard/StatCard';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import { useReportsExplorerRevenueContext } from '@/contexts/ReportsExplorerRevenueContext';
 import ReportsExplorerRevenueResultSummaryPrepaidDownload from '@/components/ReportsExplorerRevenueResultSummaryPrepaidDownload/ReportsExplorerRevenueResultSummaryPrepaidDownload';
+import sorter from '@/helpers/sorter';
 
 /* * */
 
@@ -40,15 +41,17 @@ export default function ReportsExplorerRevenueResultSummaryPrepaid() {
     if (!reportsExplorerSalesContext.request.summary_prepaid) return {};
     return {
       head: [t('table.product_id.title'), t('table.sales_qty.title'), t('table.cashbacks_qty.title'), t('table.transactions_qty.title'), t('table.sales_euro.title'), t('table.cashbacks_euro.title'), t('table.transactions_euro.title')],
-      body: reportsExplorerSalesContext.request.summary_prepaid.map((item) => [
-        item.product_id,
-        t('table.sales_qty.value', { value: item.sales_qty }),
-        t('table.cashbacks_qty.value', { value: item.cashbacks_qty }),
-        t('table.transactions_qty.value', { value: item.transactions_qty }),
-        t('table.sales_euro.value', { value: item.sales_euro / 100 }),
-        t('table.cashbacks_euro.value', { value: item.cashbacks_euro / 100 }),
-        t('table.transactions_euro.value', { value: item.transactions_euro / 100 }),
-      ]),
+      body: reportsExplorerSalesContext.request.summary_prepaid
+        .sort((a, b) => sorter.compare(a.product_id, b.product_id))
+        .map((item) => [
+          item.product_id,
+          t('table.sales_qty.value', { value: item.sales_qty }),
+          t('table.cashbacks_qty.value', { value: item.cashbacks_qty }),
+          t('table.transactions_qty.value', { value: item.transactions_qty }),
+          t('table.sales_euro.value', { value: item.sales_euro / 100 }),
+          t('table.cashbacks_euro.value', { value: item.cashbacks_euro / 100 }),
+          t('table.transactions_euro.value', { value: item.transactions_euro / 100 }),
+        ]),
     };
   }, [reportsExplorerSalesContext.request.summary_prepaid, t]);
 

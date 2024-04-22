@@ -9,6 +9,7 @@ import StatCard from '@/components/StatCard/StatCard';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import { useReportsExplorerRevenueContext } from '@/contexts/ReportsExplorerRevenueContext';
 import ReportsExplorerRevenueResultSummaryFrequentDownload from '@/components/ReportsExplorerRevenueResultSummaryFrequentDownload/ReportsExplorerRevenueResultSummaryFrequentDownload';
+import sorter from '@/helpers/sorter';
 
 /* * */
 
@@ -37,11 +38,9 @@ export default function ReportsExplorerRevenueResultSummaryFrequent() {
     if (!reportsExplorerSalesContext.request.summary_frequent) return {};
     return {
       head: [t('table.product_id.title'), t('table.transactions_qty.title'), t('table.transactions_euro.title')],
-      body: reportsExplorerSalesContext.request.summary_frequent.map((item) => [
-        item.product_id,
-        t('table.transactions_qty.value', { value: item.transactions_qty }),
-        t('table.transactions_euro.value', { value: (item.transactions_qty * reportsExplorerSalesContext.multipliers.values.frequent) / 100 }),
-      ]),
+      body: reportsExplorerSalesContext.request.summary_frequent
+        .sort((a, b) => sorter.compare(a.product_id, b.product_id))
+        .map((item) => [item.product_id, t('table.transactions_qty.value', { value: item.transactions_qty }), t('table.transactions_euro.value', { value: (item.transactions_qty * reportsExplorerSalesContext.multipliers.values.frequent) / 100 })]),
     };
   }, [reportsExplorerSalesContext.multipliers.values.frequent, reportsExplorerSalesContext.request.summary_frequent, t]);
 
