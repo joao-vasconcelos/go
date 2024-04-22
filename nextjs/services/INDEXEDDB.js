@@ -8,7 +8,7 @@ class INDEXEDDB {
   connection = null;
   connectionVersion = null;
 
-  databaseName = 'RealtimeExplorer';
+  databaseName = 'ReportsExplorerRealtime';
 
   objectStores = {
     vehicleEvents: {

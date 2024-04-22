@@ -1494,7 +1494,7 @@
 			"placeholder": "R. Mrch. Gomes da Costa 14"
 		}
 	},
-	"RealtimeExplorerForm": {
+	"ReportsExplorerRealtimeForm": {
 		"summary": "Sobre o Realtime e histórico de circulações...",
 		"operations": {
 			"submit": {
@@ -1532,24 +1532,24 @@
 			}
 		}
 	},
-	"RealtimeExplorerResult": {
+	"ReportsExplorerRealtimeResult": {
 		"no_data": "Inicie uma nova procura",
 		"title": "Resultado da Pesquisa de Eventos"
 	},
-	"RealtimeExplorerResultLoading": {
+	"ReportsExplorerRealtimeResultLoading": {
 		"refresh_image": "Mudar de Gatinho",
 		"alt": "Um gatinho ao calhas."
 	},
-	"RealtimeExplorerResultError": {
+	"ReportsExplorerRealtimeResultError": {
 		"text": "Ocorreu um Erro"
 	},
-	"RealtimeExplorerResultSummaryHeader": {
+	"ReportsExplorerRealtimeResultSummaryHeader": {
 		"title": "Resultado da Pesquisa de Eventos"
 	},
-	"RealtimeExplorerResultSummaryDescription": {
+	"ReportsExplorerRealtimeResultSummaryDescription": {
 		"description": "Resumo do dia escolhido..."
 	},
-	"RealtimeExplorerResultSummaryMetrics": {
+	"ReportsExplorerRealtimeResultSummaryMetrics": {
 		"total_events": {
 			"title": "Total de Eventos"
 		},
@@ -1557,7 +1557,7 @@
 			"title": "Total de Circulações"
 		}
 	},
-	"RealtimeExplorerResultSummaryTable": {
+	"ReportsExplorerRealtimeResultSummaryTable": {
 		"search": {
 			"placeholder": "Procurar por trip_id..."
 		},
@@ -1581,13 +1581,13 @@
 			}
 		}
 	},
-	"RealtimeExplorerResultTripDetailHeader": {
+	"ReportsExplorerRealtimeResultTripDetailHeader": {
 		"title": "Detalhe da Viagem {trip_id}"
 	},
-	"RealtimeExplorerResultTripDetailDescription": {
+	"ReportsExplorerRealtimeResultTripDetailDescription": {
 		"summary": "Sobre esta circulação específica..."
 	},
-	"RealtimeExplorerResultTripDetailMetricsDelays": {
+	"ReportsExplorerRealtimeResultTripDetailMetricsDelays": {
 		"title": "Delays Médios",
 		"description": "O delay deve ser o menor possível, idealmente zero, no entanto é aceitável um pequeno delay (max. 2-3 segundos) para garantir uma boa qualidade de informação ao público.",
 		"metrics": {
@@ -1602,7 +1602,7 @@
 			}
 		}
 	},
-	"RealtimeExplorerResultTripDetailToolsOrdering": {
+	"ReportsExplorerRealtimeResultTripDetailToolsOrdering": {
 		"title": "Ordem dos Eventos e Inversão de Cronologia",
 		"description": "Há várias formas de ordenar os eventos...",
 		"event_order_type": {
@@ -1611,7 +1611,7 @@
 			"vehicle_timestamp": "Hora do Veículo"
 		}
 	},
-	"RealtimeExplorerResultTripDetailToolsAnimation": {
+	"ReportsExplorerRealtimeResultTripDetailToolsAnimation": {
 		"title": "Animar progressão da viagem",
 		"description": "Ao animar os eventos dá para ver o que aconteceu...",
 		"actions": {
@@ -1619,7 +1619,7 @@
 			"pause": "Pausar Animação"
 		}
 	},
-	"RealtimeExplorerResultTripDetailEventsTable": {
+	"ReportsExplorerRealtimeResultTripDetailEventsTable": {
 		"search": {
 			"placeholder": "Procurar eventos..."
 		},
@@ -4523,7 +4523,9 @@
 	"ReportsExplorerRevenueResultError": {
 		"text": "Ocorreu um Erro"
 	},
-	"ReportsExplorerValidations": {},
+	"ReportsExplorerRealtimeFormHeader": {
+		"title": "Relatório Realtime"
+	},
 	"ReportsExplorerRealtime": {},
 	"ReportsExplorerRevenueResultSummaryHeader": {
 		"title": "Resultado da Pesquisa"

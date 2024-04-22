@@ -1,9 +1,9 @@
 /* * */
 
-import RealtimeExplorer from '@/components/RealtimeExplorer/RealtimeExplorer';
+import ReportsExplorerRealtime from '@/components/ReportsExplorerRealtime/ReportsExplorerRealtime';
 
 /* * */
 
 export default function Page() {
-  return <RealtimeExplorer />;
+  return <ReportsExplorerRealtime />;
 }
