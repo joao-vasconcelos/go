@@ -7,10 +7,10 @@ import mongoose from 'mongoose';
 async function connect() {
   await mongoose
     .set('strictQuery', false)
-    .connect(process.env.MONGODB_URI)
+    .connect(process.env.GODB_MONGODB_URI)
     // .then(() => console.log('Connected.'))
     .catch((error) => {
-      console.log('Connection to MongoDB failed.');
+      console.log('Connection to GODB failed.');
       console.log('At database.js > mongoose.connect()');
       console.log(error);
       process.exit();
@@ -20,9 +20,9 @@ async function connect() {
 async function disconnect() {
   await mongoose
     .disconnect()
-    // .then(() => console.log('Disconnected from MongoDB.'))
+    // .then(() => console.log('Disconnected from GODB.'))
     .catch((error) => {
-      console.log('Failed closing connection to MongoDB.');
+      console.log('Failed closing connection to GODB.');
       console.log('At database.js > mongoose.disconnect()');
       console.log(error);
     });

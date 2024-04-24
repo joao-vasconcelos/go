@@ -1,6 +1,7 @@
 volumes:
   certbotdata:
-  mongodbdata:
+  godbdata:
+  tripsauditdbdata:
 
 secrets:
   pcgidbkey:
@@ -56,7 +57,7 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  mongodb:
+  godb:
     image: mongo
     restart: unless-stopped
     logging:
@@ -64,10 +65,26 @@ services:
         max-size: '1m'
         max-file: '1'
     volumes:
-      - mongodbdata:/data/db
+      - godbdata:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=mongodbuser
-      - MONGO_INITDB_ROOT_PASSWORD=mongodbpassword
+      - MONGO_INITDB_ROOT_USERNAME=godbuser
+      - MONGO_INITDB_ROOT_PASSWORD=godbpassword
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  tripsauditdb:
+    image: mongo
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - tripsauditdbdata:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=tripsauditdbuser
+      - MONGO_INITDB_ROOT_PASSWORD=tripsauditdbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

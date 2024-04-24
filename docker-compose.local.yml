@@ -1,5 +1,6 @@
 volumes:
-  mongodbdata:
+  godbdata:
+  tripsauditdbdata:
 
 services:
   #
@@ -7,7 +8,7 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  mongodb:
+  godb:
     image: mongo
     restart: unless-stopped
     logging:
@@ -15,12 +16,30 @@ services:
         max-size: '1m'
         max-file: '1'
     ports:
-      - 37001:27017
+      - 37011:27017
     volumes:
-      - mongodbdata:/data/db
+      - godbdata:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=mongodbuser
-      - MONGO_INITDB_ROOT_PASSWORD=mongodbpassword
+      - MONGO_INITDB_ROOT_USERNAME=godbuser
+      - MONGO_INITDB_ROOT_PASSWORD=godbpassword
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  tripsauditdb:
+    image: mongo
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    ports:
+      - 37012:27017
+    volumes:
+      - tripsauditdbdata:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=tripsauditdbuser
+      - MONGO_INITDB_ROOT_PASSWORD=tripsauditdbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
