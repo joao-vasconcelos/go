@@ -1,6 +1,6 @@
 volumes:
   offermanagerdbdata:
-  tripsauditdbdata:
+  slamanagerdbdata:
 
 services:
   #
