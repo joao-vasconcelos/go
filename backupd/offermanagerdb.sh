@@ -18,7 +18,7 @@ files_to_keep=300
 while true; do
 
     # Backup the database to an archive
-    echo "Starting backup..."
+    echo "Starting backup for "$module"..."
     mongodump --uri="$OFFERMANAGERDB_MONGODB_URI" --gzip --archive="/$directory/$module/go-backup-$module-$(date +\%Y\%m\%d\%H\%M\%S)"
     echo "Backup complete!"
 
@@ -49,6 +49,7 @@ while true; do
 
     # Log end of program
     echo "Complete! Next run in $frequency seconds :)"
+		echo "-------------------------------------------"
 
     # Sleep until the next iteration
     sleep $frequency
