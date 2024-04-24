@@ -15,14 +15,16 @@ files_to_keep=300
 while true; do
 
     # Backup the database to an archive
-    # echo "Starting backup..."
-    # mongodump --uri="$OFFERMANAGERDB_MONGODB_URI" --gzip --archive="$directory/go-backup-$(date +\%Y\%m\%d\%H\%M\%S)"
-    # echo "Backup complete!"
+    echo "Starting backup..."
+    mongodump --uri="$OFFERMANAGERDB_MONGODB_URI" --gzip --archive="$directory/offermanagerdb/go-backup-offermanagerdb-$(date +\%Y\%m\%d\%H\%M\%S)"
+    mongodump --uri="$SLAMANAGERDB_MONGODB_URI" --gzip --archive="$directory/slamanagerdb/go-backup-slamanagerdb-$(date +\%Y\%m\%d\%H\%M\%S)"
+    echo "Backup complete!"
 
     # Restore the database from backup
-    echo "Starting restore..."
-    mongorestore --uri="$OFFERMANAGERDB_MONGODB_URI" --drop --preserveUUID --gzip --archive="$directory/go-backup-20240424180102"
-    echo "Restore complete!"
+    # echo "Starting restore..."
+    # mongorestore --uri="$OFFERMANAGERDB_MONGODB_URI" --drop --preserveUUID --gzip --archive="$directory/offermanagerdb/go-backup-offermanagerdb-20240424180102"
+    # mongorestore --uri="$SLAMANAGERDB_MONGODB_URI" --drop --preserveUUID --gzip --archive="$directory/offermanagerdb/go-backup-slamanagerdb-20240424180102"
+    # echo "Restore complete!"
 
     # Only keep the most recent files
     echo "Preparing to remove older backups. Will only keep the $files_to_keep most recent backup archives."
