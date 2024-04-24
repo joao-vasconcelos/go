@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 async function connect() {
   await mongoose
     .set('strictQuery', false)
-    .connect(process.env.GODB_MONGODB_URI)
+    .connect(process.env.OFFERMANAGERDB_MONGODB_URI)
     // .then(() => console.log('Connected.'))
     .catch((error) => {
       console.log('Connection to GODB failed.');
