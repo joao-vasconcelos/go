@@ -2,7 +2,7 @@ FROM mongo:latest
 
 WORKDIR /backupd
 
-COPY ./backupd.sh ./backupd.sh
+COPY . .
 
 RUN chmod 0644 ./backupd.sh
 
