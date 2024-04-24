@@ -1,7 +1,7 @@
 volumes:
   certbotdata:
-  godbdata:
-  tripsauditdbdata:
+  offermanagerdbdata:
+  slamanagerdbdata:
 
 secrets:
   pcgidbkey:
@@ -57,7 +57,7 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  godb:
+  offermanagerdb:
     image: mongo
     restart: unless-stopped
     logging:
@@ -65,15 +65,15 @@ services:
         max-size: '1m'
         max-file: '1'
     volumes:
-      - godbdata:/data/db
+      - offermanagerdbdata:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=godbuser
-      - MONGO_INITDB_ROOT_PASSWORD=godbpassword
+      - MONGO_INITDB_ROOT_USERNAME=offermanagerdbuser
+      - MONGO_INITDB_ROOT_PASSWORD=offermanagerdbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  tripsauditdb:
+  slamanagerdb:
     image: mongo
     restart: unless-stopped
     logging:
@@ -81,10 +81,10 @@ services:
         max-size: '1m'
         max-file: '1'
     volumes:
-      - tripsauditdbdata:/data/db
+      - slamanagerdbdata:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=tripsauditdbuser
-      - MONGO_INITDB_ROOT_PASSWORD=tripsauditdbpassword
+      - MONGO_INITDB_ROOT_USERNAME=slamanagerdbuser
+      - MONGO_INITDB_ROOT_PASSWORD=slamanagerdbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

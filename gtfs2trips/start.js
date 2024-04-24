@@ -1,13 +1,13 @@
 /* * */
 
-const GODB = require('./services/GODB');
-const TRIPSAUDITDB = require('./services/TRIPSAUDITDB');
+const OFFERMANAGERDB = require('./services/OFFERMANAGERDB');
+const SLAMANAGERDB = require('./services/SLAMANAGERDB');
 const TIMETRACKER = require('./services/TIMETRACKER');
+const DBWRITER = require('./services/DBWRITER');
 const { DateTime } = require('luxon');
 const AdmZip = require('adm-zip');
 const { Readable } = require('stream');
 const { parse: csvParser } = require('csv-parse');
-const DBWRITER = require('./services/DBWRITER');
 
 /* * */
 
@@ -30,19 +30,19 @@ module.exports = async () => {
     console.log();
     console.log('STEP 0.1: Connect to databases');
 
-    await GODB.connect();
-    await TRIPSAUDITDB.connect();
+    await OFFERMANAGERDB.connect();
+    await SLAMANAGERDB.connect();
 
     // 2.
     // Setup database writers
 
-    const shapesDbWritter = new DBWRITER('Shape', TRIPSAUDITDB.Shape);
-    const tripsDbWritter = new DBWRITER('Trip', TRIPSAUDITDB.Trip);
+    const shapesDbWritter = new DBWRITER('Shape', SLAMANAGERDB.Shape);
+    const tripsDbWritter = new DBWRITER('Trip', SLAMANAGERDB.Trip);
 
     // 3.
     // Get all archives (GTFS plans) from GO database, and iterate on each one
 
-    const allArchivesData = await GODB.Archive.find({ status: 'active' }).toArray();
+    const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active' }).toArray();
 
     for (const [archiveIndex, archiveData] of allArchivesData.entries()) {
       //

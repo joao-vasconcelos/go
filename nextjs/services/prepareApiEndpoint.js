@@ -1,6 +1,6 @@
 /* * */
 
-import mongodb from '@/services/GODB';
+import mongodb from '@/services/OFFERMANAGERDB';
 import isAllowed from '@/authentication/isAllowed';
 
 /* * */

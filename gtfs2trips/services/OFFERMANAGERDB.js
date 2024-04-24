@@ -4,11 +4,11 @@ const { MongoClient } = require('mongodb');
 
 /* * */
 
-const MAX_CONNECTION_RETRIES = 1;
+const MAX_CONNECTION_RETRIES = 3;
 
 /* * */
 
-class TRIPSAUDITDB {
+class OFFERMANAGERDB {
   //
 
   constructor() {
@@ -26,13 +26,13 @@ class TRIPSAUDITDB {
 
   async connect() {
     try {
-      console.log('TRIPSAUDITDB: New connection request...');
+      console.log('OFFERMANAGERDB: New connection request...');
 
       //
       // If another connection request is already in progress, wait for it to complete
 
       if (this.mongoClientConnecting) {
-        console.log('TRIPSAUDITDB: Waiting for MongoDB Client connection...');
+        console.log('OFFERMANAGERDB: Waiting for MongoDB Client connection...');
         await this.waitForMongoClientConnection();
         return;
       }
@@ -67,7 +67,7 @@ class TRIPSAUDITDB {
       } else if (global._mongoClientConnectionInstance && global._mongoClientConnectionInstance.topology && global._mongoClientConnectionInstance.topology.isConnected()) {
         mongoClientInstance = global._mongoClientConnectionInstance;
       } else {
-        mongoClientInstance = await MongoClient.connect(process.env.TRIPSAUDITDB_MONGODB_URI, mongoClientOptions);
+        mongoClientInstance = await MongoClient.connect(process.env.OFFERMANAGERDB_MONGODB_URI, mongoClientOptions);
       }
 
       //
@@ -78,23 +78,8 @@ class TRIPSAUDITDB {
       //
       // Setup collections
 
-      this.Trip = productionDatabase.collection('Trip');
-      this.Shape = productionDatabase.collection('Shape');
-
-      //
-      // Setup indexes
-
-      this.Trip.createIndex({ code: 1 }, { unique: true });
-      this.Trip.createIndex({ status: 1 });
-      this.Trip.createIndex({ operational_day: 1 });
-      this.Trip.createIndex({ agency_id: 1 });
-      this.Trip.createIndex({ plan_id: 1 });
-      this.Trip.createIndex({ trip_id: 1 });
-      this.Trip.createIndex({ line_id: 1 });
-      this.Trip.createIndex({ pattern_id: 1 });
-
-      this.Shape.createIndex({ code: 1 }, { unique: true });
-      this.Shape.createIndex({ shape_id: 1 });
+      this.Archive = productionDatabase.collection('archives');
+      this.Media = productionDatabase.collection('media');
 
       //
       // Save the instance in memory
@@ -112,11 +97,11 @@ class TRIPSAUDITDB {
     } catch (error) {
       this.mongoClientConnectionRetries++;
       if (this.mongoClientConnectionRetries < MAX_CONNECTION_RETRIES) {
-        console.error(`TRIPSAUDITDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.mongoClientConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
+        console.error(`OFFERMANAGERDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.mongoClientConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
         await this.reset();
         await this.connect();
       } else {
-        console.error('TRIPSAUDITDB: Error creating MongoDB Client instance:', error);
+        console.error('OFFERMANAGERDB: Error creating MongoDB Client instance:', error);
         await this.reset();
       }
     }
@@ -133,7 +118,7 @@ class TRIPSAUDITDB {
     this.mongoClientConnecting = false;
     this.mongoClientConnectionInstance = null;
     global._mongoClientConnectionInstance = null;
-    console.log('TRIPSAUDITDB: Reset connection.');
+    console.log('OFFERMANAGERDB: Reset connection.');
   }
 
   async waitForMongoClientConnection() {
@@ -152,4 +137,4 @@ class TRIPSAUDITDB {
 
 /* * */
 
-module.exports = new TRIPSAUDITDB();
+module.exports = new OFFERMANAGERDB();

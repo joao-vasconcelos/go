@@ -30,11 +30,11 @@ async function disconnect() {
 
 /* * */
 
-const godb = {
+const offermanagerdb = {
   connect,
   disconnect,
 };
 
 /* * */
 
-export default godb;
+export default offermanagerdb;

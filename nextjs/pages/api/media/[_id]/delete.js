@@ -1,6 +1,6 @@
 /* * */
 
-import mongodb from '@/services/GODB';
+import mongodb from '@/services/OFFERMANAGERDB';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
 import STORAGE from '@/services/STORAGE';

@@ -1,5 +1,5 @@
 volumes:
-  godbdata:
+  offermanagerdbdata:
   tripsauditdbdata:
 
 services:
@@ -8,7 +8,7 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  godb:
+  offermanagerdb:
     image: mongo
     restart: unless-stopped
     logging:
@@ -18,15 +18,15 @@ services:
     ports:
       - 37011:27017
     volumes:
-      - godbdata:/data/db
+      - offermanagerdbdata:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=godbuser
-      - MONGO_INITDB_ROOT_PASSWORD=godbpassword
+      - MONGO_INITDB_ROOT_USERNAME=offermanagerdbuser
+      - MONGO_INITDB_ROOT_PASSWORD=offermanagerdbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  tripsauditdb:
+  slamanagerdb:
     image: mongo
     restart: unless-stopped
     logging:
@@ -36,10 +36,10 @@ services:
     ports:
       - 37012:27017
     volumes:
-      - tripsauditdbdata:/data/db
+      - slamanagerdbdata:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=tripsauditdbuser
-      - MONGO_INITDB_ROOT_PASSWORD=tripsauditdbpassword
+      - MONGO_INITDB_ROOT_USERNAME=slamanagerdbuser
+      - MONGO_INITDB_ROOT_PASSWORD=slamanagerdbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

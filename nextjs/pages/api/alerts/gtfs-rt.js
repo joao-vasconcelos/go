@@ -1,6 +1,6 @@
 /* * */
 
-import mongodb from '@/services/GODB';
+import mongodb from '@/services/OFFERMANAGERDB';
 import { AlertModel } from '@/schemas/Alert/model';
 import { DateTime } from 'luxon';
 
