@@ -10,26 +10,6 @@
       "options": {
         "cwd": "${workspaceFolder}/nextjs"
       }
-    },
-    {
-      "label": "Install Dashboard Dependencies",
-      "detail": "Install project dependencies.",
-      "type": "npm",
-      "script": "install",
-      "problemMatcher": [],
-      "options": {
-        "cwd": "${workspaceFolder}/nextjs"
-      }
-    },
-    {
-      "type": "npm",
-      "script": "bump",
-      "problemMatcher": [],
-      "label": "Bump Dashboard Version",
-      "detail": "Increase version number to now.",
-      "options": {
-        "cwd": "${workspaceFolder}/nextjs"
-      }
     }
   ]
 }

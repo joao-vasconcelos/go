@@ -11,8 +11,8 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  go-nextjs:
-    name: 'Build Docker Image (nextjs)'
+  go-backupd:
+    name: Build Docker Image (backupd)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -31,7 +31,38 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image - nextjs
+      - name: Build Docker Image (backupd)
+        uses: docker/build-push-action@master
+        with:
+          push: true
+          context: ./backupd
+          file: ./backupd/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go-backupd:${{ github.ref_name }}
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  go-nextjs:
+    name: Build Docker Image (NextJS)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@main
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@master
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker Image (NextJS)
         uses: docker/build-push-action@master
         with:
           push: true
@@ -42,8 +73,8 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  go-backupd:
-    name: 'Build Docker Image (backupd)'
+  go-slamanager-feeder:
+    name: Build Docker Image (SLA Manager - feeder)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -62,10 +93,41 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image - backupd
+      - name: Build Docker Image (SLA Manager - feeder)
         uses: docker/build-push-action@master
         with:
           push: true
-          context: ./backupd
-          file: ./backupd/Dockerfile
-          tags: ghcr.io/joao-vasconcelos/go-backupd:${{ github.ref_name }}
+          context: ./slamanager-feeder
+          file: ./slamanager-feeder/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go-slamanager-feeder:${{ github.ref_name }}
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  go-slamanager-monitor:
+    name: Build Docker Image (SLA Manager - monitor)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@main
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@master
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker Image (SLA Manager - monitor)
+        uses: docker/build-push-action@master
+        with:
+          push: true
+          context: ./slamanager-monitor
+          file: ./slamanager-monitor/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go-slamanager-monitor:${{ github.ref_name }}
