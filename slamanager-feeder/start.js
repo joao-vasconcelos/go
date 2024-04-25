@@ -75,6 +75,7 @@ module.exports = async () => {
 
       const archiveStartDate = DateTime.fromJSDate(archiveData.start_date).startOf('day').toJSDate();
       const archiveEndDate = DateTime.fromJSDate(archiveData.end_date).startOf('day').toJSDate();
+      const todayDate = DateTime.now().startOf('day').toJSDate();
 
       // 3.4.
       // Unzip the associated operation plan
@@ -124,7 +125,7 @@ module.exports = async () => {
           // Parse this row's date
           const rowDateObject = DateTime.fromFormat(data.date, 'yyyyMMdd').toJSDate();
           // Skip if this row's date is before the archive's start date or after the archive's end date
-          if (rowDateObject < archiveStartDate || rowDateObject > archiveEndDate) return;
+          if (rowDateObject < archiveStartDate || rowDateObject > archiveEndDate || rowDateObject > todayDate) return;
           // Get the previously saved calendar
           const savedCalendar = savedCalendarDates.get(data.service_id);
           //
