@@ -26,13 +26,13 @@ class SLAMANAGERDB {
 
   async connect() {
     try {
-      console.log('SLAMANAGERDB: New connection request...');
+      console.log('→ SLAMANAGERDB: New connection request...');
 
       //
       // If another connection request is already in progress, wait for it to complete
 
       if (this.mongoClientConnecting) {
-        console.log('SLAMANAGERDB: Waiting for MongoDB Client connection...');
+        console.log('→ SLAMANAGERDB: Waiting for MongoDB Client connection...');
         await this.waitForMongoClientConnection();
         return;
       }
@@ -78,23 +78,32 @@ class SLAMANAGERDB {
       //
       // Setup collections
 
-      this.Trip = productionDatabase.collection('Trip');
-      this.Shape = productionDatabase.collection('Shape');
+      this.UniqueTrip = productionDatabase.collection('UniqueTrip');
+      this.UniqueShape = productionDatabase.collection('UniqueShape');
+      this.TripAnalysis = productionDatabase.collection('TripAnalysis');
 
       //
       // Setup indexes
 
-      this.Trip.createIndex({ code: 1 }, { unique: true });
-      this.Trip.createIndex({ status: 1 });
-      this.Trip.createIndex({ operational_day: 1 });
-      this.Trip.createIndex({ agency_id: 1 });
-      this.Trip.createIndex({ plan_id: 1 });
-      this.Trip.createIndex({ trip_id: 1 });
-      this.Trip.createIndex({ line_id: 1 });
-      this.Trip.createIndex({ pattern_id: 1 });
+      this.UniqueTrip.createIndex({ code: 1 }, { unique: true });
+      this.UniqueTrip.createIndex({ agency_id: 1 });
+      this.UniqueTrip.createIndex({ line_id: 1 });
+      this.UniqueTrip.createIndex({ route_id: 1 });
+      this.UniqueTrip.createIndex({ pattern_id: 1 });
+      this.UniqueTrip.createIndex({ service_id: 1 });
+      this.UniqueTrip.createIndex({ trip_id: 1 });
 
-      this.Shape.createIndex({ code: 1 }, { unique: true });
-      this.Shape.createIndex({ shape_id: 1 });
+      this.UniqueShape.createIndex({ code: 1 }, { unique: true });
+      this.UniqueShape.createIndex({ agency_id: 1 });
+      this.UniqueShape.createIndex({ shape_id: 1 });
+
+      this.TripAnalysis.createIndex({ code: 1 }, { unique: true });
+      this.TripAnalysis.createIndex({ status: 1 });
+      this.TripAnalysis.createIndex({ operational_day: 1 });
+      this.TripAnalysis.createIndex({ agency_id: 1 });
+      this.TripAnalysis.createIndex({ plan_id: 1 });
+      this.TripAnalysis.createIndex({ trip_id: 1 });
+      this.TripAnalysis.createIndex({ operational_day: 1, trip_id: 1 });
 
       //
       // Save the instance in memory
@@ -112,11 +121,11 @@ class SLAMANAGERDB {
     } catch (error) {
       this.mongoClientConnectionRetries++;
       if (this.mongoClientConnectionRetries < MAX_CONNECTION_RETRIES) {
-        console.error(`SLAMANAGERDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.mongoClientConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
+        console.error(`✖︎ SLAMANAGERDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.mongoClientConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
         await this.reset();
         await this.connect();
       } else {
-        console.error('SLAMANAGERDB: Error creating MongoDB Client instance:', error);
+        console.error('✖︎ SLAMANAGERDB: Error creating MongoDB Client instance:', error);
         await this.reset();
       }
     }
@@ -133,7 +142,7 @@ class SLAMANAGERDB {
     this.mongoClientConnecting = false;
     this.mongoClientConnectionInstance = null;
     global._mongoClientConnectionInstance = null;
-    console.log('SLAMANAGERDB: Reset connection.');
+    console.log('→ SLAMANAGERDB: Reset connection.');
   }
 
   async waitForMongoClientConnection() {

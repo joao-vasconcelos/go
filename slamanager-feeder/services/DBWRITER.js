@@ -5,7 +5,7 @@ class DBWRITER {
 
   INSTANCE_NAME = 'Unnamed Instance';
 
-  MAX_BATCH_SIZE = 1000;
+  MAX_BATCH_SIZE = 3000;
 
   DB_COLLECTION = null;
 
@@ -41,7 +41,9 @@ class DBWRITER {
     try {
       //
 
-      console.log(`> DBWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | DB Collection: ${this.DB_COLLECTION.collectionName}`);
+      console.log(`→ DBWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | DB Collection: ${this.DB_COLLECTION.collectionName}`);
+
+      if (this.CURRENT_BATCH_DATA.length === 0) return;
 
       const writeOperations = [];
 
@@ -62,7 +64,7 @@ class DBWRITER {
 
       //
     } catch (error) {
-      console.log(`Error at flush(): ${error.message}`);
+      console.log(`✖︎ Error at DBWRITER.flush(): ${error.message}`);
     }
   }
 }

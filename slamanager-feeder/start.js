@@ -8,6 +8,7 @@ const { DateTime } = require('luxon');
 const AdmZip = require('adm-zip');
 const { Readable } = require('stream');
 const { parse: csvParser } = require('csv-parse');
+const crypto = require('crypto');
 
 /* * */
 
@@ -28,7 +29,7 @@ module.exports = async () => {
     // Connect to databases
 
     console.log();
-    console.log('STEP 0.1: Connect to databases');
+    console.log('→ Connecting to databases...');
 
     await OFFERMANAGERDB.connect();
     await SLAMANAGERDB.connect();
@@ -36,10 +37,18 @@ module.exports = async () => {
     // 2.
     // Setup database writers
 
-    const shapesDbWritter = new DBWRITER('Shape', SLAMANAGERDB.Shape);
-    const tripsDbWritter = new DBWRITER('Trip', SLAMANAGERDB.Trip);
+    const uniqueTripsDbWritter = new DBWRITER('UniqueTrip', SLAMANAGERDB.UniqueTrip);
+    const uniqueShapesDbWritter = new DBWRITER('UniqueShape', SLAMANAGERDB.UniqueShape);
+    const tripAnalysisDbWritter = new DBWRITER('TripAnalysis', SLAMANAGERDB.TripAnalysis);
 
     // 3.
+    // Setup variables to keep track of created IDs
+
+    const createdUniqueTripCodes = new Set();
+    const createdUniqueShapeCodes = new Set();
+    const createdTripAnalysisCodes = new Set();
+
+    // 4.
     // Get all archives (GTFS plans) from GO database, and iterate on each one
 
     const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active' }).toArray();
@@ -47,12 +56,12 @@ module.exports = async () => {
     for (const [archiveIndex, archiveData] of allArchivesData.entries()) {
       //
 
-      // 3.1.
+      // 4.1.
       // Skip if this archive has no associated operation plan
 
       if (!archiveData.operation_plan) continue;
 
-      // 3.2.
+      // 4.2.
       // Setup variables to save formatted entities found in this archive
 
       const savedCalendarDates = new Map();
@@ -66,7 +75,7 @@ module.exports = async () => {
       const referencedShapes = new Set();
       const referencedRoutes = new Set();
 
-      // 3.3.
+      // 4.3.
       // Get the associated start and end dates for this archive.
       // Even though most operation plans (GTFS files) will be annual, as in having calendar_dates for a given year,
       // they are valid only on a given set of days, usually one month. Therefore we have multiple annual plans, each one
@@ -77,13 +86,13 @@ module.exports = async () => {
       const archiveEndDate = DateTime.fromJSDate(archiveData.end_date).startOf('day').toJSDate();
       const todayDate = DateTime.now().startOf('day').toJSDate();
 
-      // 3.4.
+      // 4.4.
       // Unzip the associated operation plan
 
       const zipArchive = new AdmZip(`../nextjs/storage/archives/${archiveData.operation_plan.toString()}.zip`);
       const zipEntries = zipArchive.getEntries();
 
-      // 3.5.
+      // 4.5.
       // Setup each zip entry.
 
       const zipEntryCalendarDates = zipEntries.find((item) => item.entryName === 'calendar_dates.txt');
@@ -93,7 +102,7 @@ module.exports = async () => {
       const zipEntryRoutes = zipEntries.find((item) => item.entryName === 'routes.txt');
       const zipEntryStops = zipEntries.find((item) => item.entryName === 'stops.txt');
 
-      // 3.6.
+      // 4.6.
       // Log progress
 
       console.log();
@@ -106,18 +115,18 @@ module.exports = async () => {
       // By having a list of trips we can extract only the necessary info from the other files, and thus reducing significantly
       // the amount of information to be checked.
 
-      // 3.7.
+      // 4.7.
       // Extract calendar_dates.txt and filter only service_ids valid between the given archive start_date and end_date.
 
       try {
         //
 
-        // 3.7.1.
+        // 4.7.1.
         // Extract the calendar_dates.txt file from the zip archive
 
         const calendarDatesTxt = await readZip(zipArchive, zipEntryCalendarDates);
 
-        // 3.7.2.
+        // 4.7.2.
         // Parse each row, and save only the matching servic_ids
 
         const parseEachRow = async (data) => {
@@ -139,20 +148,20 @@ module.exports = async () => {
           //
         };
 
-        // 3.7.3.
+        // 4.7.3.
         // Setup the CSV parsing operation
 
         await parseCsvFile(calendarDatesTxt, parseEachRow);
 
-        console.log(`> Done with calendar_dates.txt of archive ${archiveData.code}`);
+        console.log(`✔︎ Finished processing "calendar_dates.txt" of archive "${archiveData.code}".`);
 
         //
       } catch (error) {
-        console.log('Error processing calendar_dates.txt file.', error);
-        throw new Error('Error processing calendar_dates.txt file.');
+        console.log('✖︎ Error processing "calendar_dates.txt" file.', error);
+        throw new Error('✖︎ Error processing "calendar_dates.txt" file.');
       }
 
-      // 3.8.
+      // 4.8.
       // Next up: trips.txt
       // Now that the calendars are sorted out, the jobs is easier for the trips.
       // Only include trips which have the referenced service IDs saved before.
@@ -160,12 +169,12 @@ module.exports = async () => {
       try {
         //
 
-        // 3.8.1.
+        // 4.8.1.
         // Extract the trips.txt file from the zip archive
 
         const tripsTxt = await readZip(zipArchive, zipEntryTrips);
 
-        // 3.8.2.
+        // 4.8.2.
         // For each trip, check if the associated service_id was saved in the previous step or not.
         // Include it if yes, skip otherwise.
 
@@ -190,32 +199,32 @@ module.exports = async () => {
           //
         };
 
-        // 3.8.3.
+        // 4.8.3.
         // Setup the CSV parsing operation
 
         await parseCsvFile(tripsTxt, parseEachRow);
 
-        console.log(`> Done with trips.txt of archive ${archiveData.code}`);
+        console.log(`✔︎ Finished processing "trips.txt" of archive "${archiveData.code}".`);
 
         //
       } catch (error) {
-        console.log('Error processing trips.txt file.', error);
-        throw new Error('Error processing trips.txt file.');
+        console.log('✖︎ Error processing "trips.txt" file.', error);
+        throw new Error('✖︎ Error processing "trips.txt" file.');
       }
 
-      // 3.9.
+      // 4.9.
       // Next up: routes.txt
       // For routes, only include the ones referenced in the filtered trips.
 
       try {
         //
 
-        // 3.9.1.
+        // 4.9.1.
         // Extract the routes.txt file from the zip archive
 
         const routesTxt = await readZip(zipArchive, zipEntryRoutes);
 
-        // 3.9.2.
+        // 4.9.2.
         // For each route, only save the ones referenced by previously saved trips.
 
         const parseEachRow = async (data) => {
@@ -239,32 +248,32 @@ module.exports = async () => {
           //
         };
 
-        // 3.9.3.
+        // 4.9.3.
         // Setup the CSV parsing operation
 
         await parseCsvFile(routesTxt, parseEachRow);
 
-        console.log(`> Done with routes.txt of archive ${archiveData.code}`);
+        console.log(`✔︎ Finished processing "routes.txt" of archive "${archiveData.code}".`);
 
         //
       } catch (error) {
-        console.log('Error processing routes.txt file.', error);
-        throw new Error('Error processing routes.txt file.');
+        console.log('✖︎ Error processing "routes.txt" file.', error);
+        throw new Error('✖︎ Error processing "routes.txt" file.');
       }
 
-      // 3.10.
+      // 4.10.
       // Next up: shapes.txt
       // Do a similiar check as the previous step. Only include the shapes for trips referenced before.
 
       try {
         //
 
-        // 3.10.1.
+        // 4.10.1.
         // Extract the shapes.txt file from the zip archive
 
         const shapesTxt = await readZip(zipArchive, zipEntryShapes);
 
-        // 3.10.2.
+        // 4.10.2.
         // For each point of each shape, check if the shape_id was referenced by valid trips.
 
         const parseEachRow = async (data) => {
@@ -290,20 +299,20 @@ module.exports = async () => {
           //
         };
 
-        // 3.10.3.
+        // 4.10.3.
         // Setup the CSV parsing operation
 
         await parseCsvFile(shapesTxt, parseEachRow);
 
-        console.log(`> Done with shapes.txt of archive ${archiveData.code}`);
+        console.log(`✔︎ Finished processing "shapes.txt" of archive "${archiveData.code}".`);
 
         //
       } catch (error) {
-        console.log('Error processing shapes.txt file.', error);
-        throw new Error('Error processing shapes.txt file.');
+        console.log('✖︎ Error processing "shapes.txt" file.', error);
+        throw new Error('✖︎ Error processing "shapes.txt" file.');
       }
 
-      // 3.11.
+      // 4.11.
       // Next up: stops.txt
       // For stops, include all of them since we don't have a way to filter them yet like trips/routes/shapes.
       // By saving all of them, we also speed up the processing of each stop_time by including the stop data right away.
@@ -311,12 +320,12 @@ module.exports = async () => {
       try {
         //
 
-        // 3.11.1.
+        // 4.11.1.
         // Extract the stops.txt file from the zip archive
 
         const stopsTxt = await readZip(zipArchive, zipEntryStops);
 
-        // 3.11.2.
+        // 4.11.2.
         // Save all stops, but only the mininum required data.
 
         const parseEachRow = async (data) => {
@@ -332,20 +341,20 @@ module.exports = async () => {
           //
         };
 
-        // 3.11.3.
+        // 4.11.3.
         // Setup the CSV parsing operation
 
         await parseCsvFile(stopsTxt, parseEachRow);
 
-        console.log(`> Done with stops.txt of archive ${archiveData.code}`);
+        console.log(`✔︎ Finished processing "stops.txt" of archive "${archiveData.code}".`);
 
         //
       } catch (error) {
-        console.log('Error processing stops.txt file.', error);
-        throw new Error('Error processing stops.txt file.');
+        console.log('✖︎ Error processing "stops.txt" file.', error);
+        throw new Error('✖︎ Error processing "stops.txt" file.');
       }
 
-      // 3.12.
+      // 4.12.
       // Next up: stop_times.txt
       // Do a similiar check as the previous steps. Only include the stop_times for trips referenced before.
       // Since this is the most resource intensive operation of them all, include the associated stop data
@@ -354,12 +363,12 @@ module.exports = async () => {
       try {
         //
 
-        // 3.12.1.
+        // 4.12.1.
         // Extract the stop_times.txt file from the zip archive
 
         const stopTimesTxt = await readZip(zipArchive, zipEntryStopTimes);
 
-        // 3.12.2.
+        // 4.12.2.
         // For each stop of each trip, check if the associated trip_id was saved in the previous step or not.
         // Save valid stop times along with the associated stop data.
 
@@ -378,7 +387,7 @@ module.exports = async () => {
             stop_name: stopData.stop_name,
             arrival_time: data.arrival_time,
             departure_time: data.departure_time,
-            stop_sequence: data.stop_sequence,
+            stop_sequence: Number(data.stop_sequence),
             pickup_type: data.pickup_type,
             drop_off_type: data.drop_off_type,
             timepoint: data.timepoint,
@@ -396,48 +405,20 @@ module.exports = async () => {
           //
         };
 
-        // 3.12.3.
+        // 4.12.3.
         // Setup the CSV parsing operation
 
         await parseCsvFile(stopTimesTxt, parseEachRow);
 
-        console.log(`> Done with stop_times.txt of archive ${archiveData.code}`);
+        console.log(`✔︎ Finished processing "stop_times.txt" of archive "${archiveData.code}".`);
 
         //
       } catch (error) {
-        console.log('Error processing stop_times.txt file.', error);
-        throw new Error('Error processing stop_times.txt file.');
+        console.log('✖︎ Error processing "stop_times.txt" file.', error);
+        throw new Error('✖︎ Error processing "stop_times.txt" file.');
       }
 
-      // 3.13.
-      // Transform each shape object into the database format, and save it to the database.
-
-      try {
-        //
-
-        for (const [shapeId, shapeData] of savedShapes.entries()) {
-          //
-          const parsedShapeData = {
-            code: `${archiveData.code}-${shapeId}`,
-            shape_id: shapeId,
-            points: shapeData?.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence),
-          };
-          // Save the shape using DBWRITER
-          await shapesDbWritter.write(parsedShapeData);
-          // Delete this shape to free up memory sooner
-          savedShapes.delete(shapeId);
-          //
-        }
-
-        await shapesDbWritter.flush();
-
-        //
-      } catch (error) {
-        console.log('Error transforming or saving shapes to database.', error);
-        throw new Error('Error transforming or saving shapes to database.');
-      }
-
-      // 3.14.
+      // 4.13.
       // Transform each trip object into the database format, and save it to the database.
       // Combine the previously extracted info from all files into a single object.
 
@@ -445,44 +426,89 @@ module.exports = async () => {
         //
 
         for (const tripData of savedTrips.values()) {
+          //
+
+          // 4.13.1.
           // Get associated data
+
           const calendarDatesData = savedCalendarDates.get(tripData.service_id);
-          const stopTimesData = savedStopTimes.get(tripData.trip_id)?.sort((a, b) => a.stop_sequence - b.stop_sequence);
+          const stopTimesData = savedStopTimes.get(tripData.trip_id);
           const routeData = savedRoutes.get(tripData.route_id);
-          // Create unique trips for each day
+          const shapeData = savedShapes.get(tripData.shape_id);
+
+          // 4.13.2.
+          // Setup the unique trip data
+
+          const uniqueTripData = {
+            //
+            agency_id: routeData.agency_id,
+            //
+            line_id: routeData.line_id,
+            line_short_name: routeData.line_short_name,
+            line_long_name: routeData.line_long_name,
+            //
+            route_id: tripData.route_id,
+            route_short_name: routeData.route_short_name,
+            route_long_name: routeData.route_long_name,
+            route_color: routeData.route_color,
+            route_text_color: routeData.route_text_color,
+            //
+            pattern_id: tripData.pattern_id,
+            trip_headsign: tripData.trip_headsign,
+            //
+            path: stopTimesData?.sort((a, b) => a.stop_sequence - b.stop_sequence),
+            //
+          };
+
+          // 4.13.3.
+          // Hash the unique trip contents to prevent duplicates
+          // Check if this unique trip already exists. If it does not exist, save it to the database.
+
+          uniqueTripData.code = crypto.createHash('sha256').update(JSON.stringify(uniqueTripData)).digest('hex');
+          const currentSpineAlreadyExists = await SLAMANAGERDB.UniqueTrip.findOne({ code: uniqueTripData.code });
+          if (!currentSpineAlreadyExists) await uniqueTripsDbWritter.write(uniqueTripData);
+          createdUniqueTripCodes.add(uniqueTripData.code);
+
+          // 4.13.4.
+          // Setup the unique shape data
+
+          const uniqueShapeData = {
+            agency_id: routeData.agency_id,
+            shape_id: tripData.shape_id,
+            points: shapeData?.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence),
+          };
+
+          // 4.13.5.
+          // Hash the unique shape contents to prevent duplicates
+          // Check if this unique shape already exists. If it does not exist, save it to the database.
+
+          uniqueShapeData.code = crypto.createHash('sha256').update(JSON.stringify(uniqueShapeData)).digest('hex');
+          const currentShapeAlreadyExists = await SLAMANAGERDB.UniqueShape.findOne({ code: uniqueShapeData.code });
+          if (!currentShapeAlreadyExists) await uniqueShapesDbWritter.write(uniqueShapeData);
+          createdUniqueShapeCodes.add(uniqueShapeData.code);
+
+          // 4.13.6.
+          // Create a trip analysis document for each day this trip is scheduled to run
+
           for (const calendarDate of calendarDatesData) {
             //
-            const parsedTripFinal = {
+            const tripAnalysisData = {
               //
               code: `${archiveData.code}-${routeData.agency_id}-${calendarDate}-${tripData.trip_id}`,
               //
               status: 'waiting',
               //
               plan_id: archiveData.code,
-              plan_start_date: archiveData.start_date,
-              plan_end_date: archiveData.end_date,
-              //
               agency_id: routeData.agency_id,
-              //
               operational_day: calendarDate,
-              //
               line_id: routeData.line_id,
-              line_short_name: routeData.line_short_name,
-              line_long_name: routeData.line_long_name,
-              //
               route_id: routeData.route_id,
-              route_short_name: routeData.route_short_name,
-              route_long_name: routeData.route_long_name,
-              route_color: routeData.route_color,
-              route_text_color: routeData.route_text_color,
-              //
               pattern_id: tripData.pattern_id,
-              trip_headsign: tripData.trip_headsign,
               trip_id: tripData.trip_id,
+              service_id: tripData.service_id,
               //
-              calendar_id: tripData.service_id,
-              //
-              path: stopTimesData,
+              unique_trip_code: uniqueTripData.code,
+              unique_shape_code: uniqueShapeData.code,
               //
               parse_timestamp: new Date(),
               analysis_timestamp: null,
@@ -493,30 +519,66 @@ module.exports = async () => {
               //
             };
             //
-            await tripsDbWritter.write(parsedTripFinal);
+            await tripAnalysisDbWritter.write(tripAnalysisData);
+            //
+            createdTripAnalysisCodes.add(tripAnalysisData.code);
             //
           }
-          // Delete this trip to free up memory sooner
+
+          // 4.13.7.
+          // Delete the current trip to free up memory sooner
+
           savedTrips.delete(tripData.trip_id);
+          savedStopTimes.delete(tripData.trip_id);
+
           //
         }
 
-        await tripsDbWritter.flush();
+        await uniqueTripsDbWritter.flush();
+        await uniqueShapesDbWritter.flush();
+        await tripAnalysisDbWritter.flush();
 
         //
       } catch (error) {
-        console.log('Error transforming or saving shapes to database.', error);
-        throw new Error('Error transforming or saving shapes to database.');
+        console.log('✖︎ Error transforming or saving shapes to database.', error);
+        throw new Error('✖︎ Error transforming or saving shapes to database.');
       }
 
       //
 
-      console.log(`> Done with archive ${archiveData.code}`);
+      console.log(`✔︎ Finished processing archive ${archiveData.code}`);
       console.log();
       console.log('- - - - - - - - - - - - - - - - - - - - -');
 
       //
     }
+
+    console.log();
+    console.log('→ Deleting stale entries...');
+
+    const staleUniqueTripCodes = [];
+    const existingUniqueTripCodes = await SLAMANAGERDB.UniqueTrip.find({}, 'code').stream();
+    for await (const existingUniqueTripData of existingUniqueTripCodes) {
+      if (!createdUniqueTripCodes.has(existingUniqueTripData.code)) staleUniqueTripCodes.push(existingUniqueTripData.code);
+    }
+    const deletedUniqueTripEntries = await SLAMANAGERDB.UniqueTrip.deleteMany({ code: { $in: staleUniqueTripCodes } });
+
+    const staleUniqueShapeCodes = [];
+    const existingUniqueShapeCodes = await SLAMANAGERDB.UniqueShape.find({}, 'code').stream();
+    for await (const existingUniqueShapeData of existingUniqueShapeCodes) {
+      if (!createdUniqueShapeCodes.has(existingUniqueShapeData.code)) staleUniqueShapeCodes.push(existingUniqueShapeData.code);
+    }
+    const deletedUniqueShapeEntries = await SLAMANAGERDB.UniqueShape.deleteMany({ code: { $in: staleUniqueShapeCodes } });
+
+    const staleTripAnalysisCodes = [];
+    const existingTripAnalysisCodes = await SLAMANAGERDB.TripAnalysis.find({}, 'code').stream();
+    for await (const existingTripAnalysisData of existingTripAnalysisCodes) {
+      if (!createdTripAnalysisCodes.has(existingTripAnalysisData.code)) staleTripAnalysisCodes.push(existingTripAnalysisData.code);
+    }
+    const deletedTripAnalysisEntries = await SLAMANAGERDB.TripAnalysis.deleteMany({ code: { $in: staleTripAnalysisCodes } });
+
+    console.log(`✔︎ Deleted stale entries: UniqueTrip: ${deletedUniqueTripEntries.deletedCount} | UniqueShape: ${deletedUniqueShapeEntries.deletedCount} | TripAnalysis: ${deletedTripAnalysisEntries.deletedCount}`);
+    console.log();
 
     //
 
@@ -530,8 +592,8 @@ module.exports = async () => {
 
     //
   } catch (err) {
-    console.log('An error occurred. Halting execution.', err);
-    console.log('Retrying in 10 seconds...');
+    console.log('✖︎ An error occurred. Halting execution.', err);
+    console.log('✖︎ Retrying in 10 seconds...');
     setTimeout(() => {
       process.exit(0); // End process
     }, 10000); // after 10 seconds
@@ -545,15 +607,14 @@ module.exports = async () => {
 async function readZip(zipArchive, zipEntry) {
   return new Promise((resolve, reject) => {
     try {
-      console.log('> Start Read Zip', zipEntry.name);
+      console.log(`→ Reading zip entry "${zipEntry.name}"...`);
       zipArchive.readFileAsync(zipEntry, (data, error) => {
         if (error) reject(error.message);
-        // resolve(data);
-        console.log('> DONE Read Zip', zipEntry.name);
+        console.log(`→ Done read zip entry "${zipEntry.name}".`);
         resolve(Readable.from(data));
       });
     } catch (error) {
-      reject(`Error at readZip(): ${error.message}`);
+      reject(`✖︎ Error at readZip(): ${error.message}`);
     }
   });
 }

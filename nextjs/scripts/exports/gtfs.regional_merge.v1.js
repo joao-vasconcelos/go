@@ -252,8 +252,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
   // main plan, the currently active plan, on the export. The information contained in this active plan
   // will have precedence over other plans also included in the export.
 
-  const currentDate = DateTime.fromFormat('20240219', 'yyyyMMdd').startOf('day').toJSDate();
-  //   const currentDate = DateTime.now().startOf('day').toJSDate();
+  // const currentDate = DateTime.fromFormat('20240219', 'yyyyMMdd').startOf('day').toJSDate();
+  const currentDate = DateTime.now().startOf('day').toJSDate();
   //   const currentDate = DateTime.fromJSDate(new Date(exportOptions.current_date)).startOf('day').toJSDate();
 
   // 3.
