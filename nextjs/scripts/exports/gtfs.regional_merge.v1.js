@@ -220,8 +220,7 @@ async function readZip(zipArchive, zipEntry) {
 //
 
 /* * */
-/* BUILD GTFS V29 */
-/* This builds the GTFS archive. */
+
 export default async function exportGtfsRegionalMergeV1(exportDocument, exportOptions) {
   //
 
@@ -417,7 +416,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
         // Format the exported row. Be very explicit to ensure the same number and order of columns.
         const exportedRowData = {
           route_id: data.route_id,
-          pattern_id: `${data.pattern_id}_${archiveData.code}`,
+          pattern_id: data.pattern_id,
           service_id: `${data.service_id}_${archiveData.code}`,
           trip_id: `${data.trip_id}_${archiveData.code}`,
           trip_headsign: data.trip_headsign,
@@ -425,8 +424,9 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
           shape_id: `${data.shape_id}_${archiveData.code}`,
           calendar_desc: data.calendar_desc,
         };
-        // Include this trip in the final export and save a reference to the current trip_id
+        // Include this trip in the final export
         await fileWriter.write(exportDocument.workdir, 'trips.txt', exportedRowData);
+        // Save a reference to the current trip_id, shape_id and route_id
         referencedTrips.add(data.trip_id);
         referencedShapes.add(data.shape_id);
         referencedRoutes.add(data.route_id);
