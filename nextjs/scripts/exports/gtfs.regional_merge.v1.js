@@ -1,5 +1,6 @@
 /* * */
 
+import fs from 'fs';
 import { Readable } from 'stream';
 import { ExportModel } from '@/schemas/Export/model';
 import { PatternModel } from '@/schemas/Pattern/model';
@@ -36,9 +37,10 @@ async function update(exportDocument, updates) {
 //
 //
 
-async function parseCsvFile(dataStream, rowParser = async () => {}) {
+async function parseCsvFile(filePath, rowParser = async () => {}) {
   const parser = csvParser({ columns: true, trim: true, skip_empty_lines: true, bom: true, record_delimiter: ['\n', '\r', '\r\n'] });
-  const stream = dataStream.pipe(parser);
+  const fileStream = fs.createReadStream(filePath);
+  const stream = fileStream.pipe(parser);
   for await (const rowData of stream) {
     await rowParser(rowData);
   }
@@ -265,6 +267,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 
   const allArchivesData = await ArchiveModel.find({ status: 'active' });
 
+  const extractLocation = `/tmp/exports/${exportDocument._id}`;
+
   // 5.
   // Iterate on all found archives to merge them into a single GTFS file
 
@@ -314,16 +318,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
     // Unzip the associated operation plan
 
     const zipArchive = new AdmZip(operationPlanMediaFilePath);
-    const zipEntries = zipArchive.getEntries();
-
-    // 5.6.
-    // Extract each entry in the zip file.
-
-    const zipEntryCalendarDates = zipEntries.find((item) => item.entryName === 'calendar_dates.txt');
-    const zipEntryTrips = zipEntries.find((item) => item.entryName === 'trips.txt');
-    const zipEntryStopTimes = zipEntries.find((item) => item.entryName === 'stop_times.txt');
-    const zipEntryShapes = zipEntries.find((item) => item.entryName === 'shapes.txt');
-    const zipEntryRoutes = zipEntries.find((item) => item.entryName === 'routes.txt');
+    zipArchive.extractAllTo(extractLocation, true);
 
     // 5.7.
     // The order in which files are merged matters.
@@ -340,11 +335,6 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       //
 
       // 5.7.1.
-      // Extract the calendar_dates.txt file from the zip archive
-
-      const calendarDatesTxt = await readZip(zipArchive, zipEntryCalendarDates);
-
-      // 5.7.2.
       // Decide for each date of each service ID if it should be included in the final export or not
       // If this archive is the main one, then include all dates in the plan until the end_date.
       // In other words, ignore start_date. Else, cut from the start date until the end_date.
@@ -379,10 +369,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
         //
       };
 
-      // 5.7.3.
+      // 5.7.2.
       // Setup the CSV parsing operation
 
-      await parseCsvFile(calendarDatesTxt, parseEachRow);
+      await parseCsvFile(`${extractLocation}/calendar_dates.txt`, parseEachRow);
 
       console.log(`> Done with calendar_dates.txt of archive ${archiveData.code}`);
 
@@ -401,11 +391,6 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       //
 
       // 5.8.1.
-      // Extract the trips.txt file from the zip archive
-
-      const tripsTxt = await readZip(zipArchive, zipEntryTrips);
-
-      // 5.8.2.
       // For each trip, check if the associated service_id was saved in the previous step or not.
       // Include it if yes, skip otherwise.
 
@@ -433,10 +418,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
         //
       };
 
-      // 5.7.3.
+      // 5.7.2.
       // Setup the CSV parsing operation
 
-      await parseCsvFile(tripsTxt, parseEachRow);
+      await parseCsvFile(`${extractLocation}/trips.txt`, parseEachRow);
 
       console.log(`> Done with trips.txt of archive ${archiveData.code}`);
 
@@ -454,11 +439,6 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       //
 
       // 5.9.1.
-      // Extract the stop_times.txt file from the zip archive
-
-      const stopTimesTxt = await readZip(zipArchive, zipEntryStopTimes);
-
-      // 5.9.2.
       // For each stop of each trip, check if the associated trip_id was saved in the previous step or not.
       // Include it if yes, skip otherwise.
 
@@ -484,10 +464,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
         //
       };
 
-      // 5.9.3.
+      // 5.9.2.
       // Setup the CSV parsing operation
 
-      await parseCsvFile(stopTimesTxt, parseEachRow);
+      await parseCsvFile(`${extractLocation}/stop_times.txt`, parseEachRow);
 
       console.log(`> Done with stop_times.txt of archive ${archiveData.code}`);
 
@@ -505,11 +485,6 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       //
 
       // 5.10.1.
-      // Extract the shapes.txt file from the zip archive
-
-      const shapesTxt = await readZip(zipArchive, zipEntryShapes);
-
-      // 5.10.2.
       // For each point of each shape, check if the shape_id was saved in the previous step or not.
       // Include it if yes, skip otherwise.
 
@@ -530,10 +505,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
         //
       };
 
-      // 5.10.3.
+      // 5.10.2.
       // Setup the CSV parsing operation
 
-      await parseCsvFile(shapesTxt, parseEachRow);
+      await parseCsvFile(`${extractLocation}/shapes.txt`, parseEachRow);
 
       console.log(`> Done with shapes.txt of archive ${archiveData.code}`);
 
@@ -556,11 +531,6 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       //
 
       // 5.11.1.
-      // Extract the routes.txt file from the zip archive
-
-      const routesTxt = await readZip(zipArchive, zipEntryRoutes);
-
-      // 5.11.2.
       // For each route, decide if it should be marked for export or not.
       // Priority is given to routes in the main archive, which is to say that name, color and other attributes
       // for a given route, if included in multiple archives, the one from the main archive will be the exported one.
@@ -601,7 +571,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
       // 5.11.3.
       // Setup the CSV parsing operation
 
-      await parseCsvFile(routesTxt, parseEachRow);
+      await parseCsvFile(`${extractLocation}/routes.txt`, parseEachRow);
 
       console.log(`> Done with routes.txt of archive ${archiveData.code}`);
 
@@ -633,6 +603,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
   await fileWriter.write(exportDocument.workdir, 'feed_info.txt', feedInfoData);
 
   await fileWriter.flush();
+
+  fs.rmdirSync(extractLocation, { recursive: true });
 
   //
 }

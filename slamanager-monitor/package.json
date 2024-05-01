@@ -1,6 +1,6 @@
 {
   "name": "@joao-vasconcelos/go-slamanager-monitor",
-  "version": "2024.04.27-2301",
+  "version": "2024.05.01-0257",
   "private": true,
   "main": "index.js",
   "scripts": {

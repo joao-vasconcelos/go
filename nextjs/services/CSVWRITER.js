@@ -32,7 +32,7 @@ export default class CSVWRITER {
       await this.flush();
     }
     // Check if the batch is full
-    if (this.CURRENT_BATCH_DATA.length > this.MAX_BATCH_SIZE) {
+    if (this.CURRENT_BATCH_DATA.length >= this.MAX_BATCH_SIZE) {
       await this.flush();
     }
     // Set the working dir
