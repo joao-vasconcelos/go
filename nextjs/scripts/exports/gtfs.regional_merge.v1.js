@@ -6,6 +6,7 @@ import { ExportModel } from '@/schemas/Export/model';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { StopModel } from '@/schemas/Stop/model';
 import { ArchiveModel } from '@/schemas/Archive/model';
+import { AgencyModel } from '@/schemas/Agency/model';
 import { MediaModel } from '@/schemas/Media/model';
 import STORAGE from '@/services/STORAGE';
 import { ArchiveOptions } from '@/schemas/Archive/options';
@@ -265,7 +266,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
   // 4.
   // Fetch all active archives from the database
 
-  const allArchivesData = await ArchiveModel.find({ status: 'active' });
+  const allArchivesData = await ArchiveModel.find({ status: 'active' }).populate('agency');
 
   // 5.
   // Setup a temporary location to extract each GTFS archive
@@ -582,6 +583,29 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
     } catch (error) {
       console.log('Error processing routes.txt file.', error);
       throw new Error('Error processing routes.txt file.');
+    }
+
+    // 6.11.
+    // Add the current archive to the list of archives that this export is made of.
+
+    try {
+      //
+
+      const exportedRowData = {
+        plan_id: archiveData.code,
+        operator_id: archiveData.agency?.code || 'N/A',
+        plan_start_date: DateTime.fromJSDate(archiveData.start_date).startOf('day').toFormat('yyyyMMdd'),
+        plan_end_date: DateTime.fromJSDate(archiveData.end_date).startOf('day').toFormat('yyyyMMdd'),
+      };
+
+      await fileWriter.write(exportDocument.workdir, 'plans.txt', exportedRowData);
+
+      console.log(`> Done with plans.txt entry for archive ${archiveData.code}`);
+
+      //
+    } catch (error) {
+      console.log('Error processing plans.txt file.', error);
+      throw new Error('Error processing plans.txt file.');
     }
 
     //

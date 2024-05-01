@@ -16,8 +16,8 @@ export const ArchiveSchema = new mongoose.Schema(
       maxlength: 50,
     },
     agency: {
-      type: String,
-      maxlength: 50,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Agency',
     },
     start_date: {
       type: Date,
