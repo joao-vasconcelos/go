@@ -48,7 +48,7 @@ export default async function handler(req, res) {
   // List all documents
 
   try {
-    const allDocuments = await ArchiveModel.find({ agency: { $in: [...sessionData.user.permissions.archives.view.fields.agency, null, undefined] } });
+    const allDocuments = await ArchiveModel.find(); //.find({ agency: { $in: [...sessionData.user.permissions.archives.view.fields.agency, null, undefined] } });
     const sortedDocuments = allDocuments.sort((a, b) => new Date(b.start_date) - new Date(a.start_date));
     return await res.status(200).send(sortedDocuments);
   } catch (error) {
