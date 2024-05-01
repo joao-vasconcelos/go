@@ -5,7 +5,7 @@ export const ArchiveDefault = {
   code: '',
   status: 'disabled',
   //
-  agency: '',
+  agency: null,
   start_date: new Date().setHours(0, 0, 0, 0),
   end_date: new Date().setHours(0, 0, 0, 0),
   //
