@@ -146,7 +146,7 @@ export function RoutesExplorerContextProvider({ children }) {
       setPageState((prev) => ({ ...prev, is_saving: false }));
     } catch (error) {
       console.log(error);
-      setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: err }));
+      setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: error }));
     }
   }, [allItemsMutate, formState, itemId, itemMutate]);
 
