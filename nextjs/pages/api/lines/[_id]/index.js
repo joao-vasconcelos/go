@@ -4,6 +4,7 @@ import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { LineModel } from '@/schemas/Line/model';
 import { RouteModel } from '@/schemas/Route/model';
+import sorter from '@/helpers/sorter';
 
 /* * */
 
@@ -41,6 +42,7 @@ export default async function handler(req, res) {
 
   try {
     lineDocument = await LineModel.findOne({ _id: { $eq: req.query._id } });
+    console.log(lineDocument);
     if (!lineDocument) return await res.status(404).json({ message: `Line with _id "${req.query._id}" not found.` });
   } catch (error) {
     console.log(error);
@@ -51,8 +53,8 @@ export default async function handler(req, res) {
   // Synchronize descendant routes for this line
 
   try {
-    const allDescendantRoutesForThisLine = await RouteModel.find({ parent_line: { $eq: lineDocument._id } }, '_id');
-    lineDocument.routes = allDescendantRoutesForThisLine.map((item) => item._id);
+    const allDescendantRoutesForThisLine = await RouteModel.find({ parent_line: { $eq: lineDocument._id } }, '_id code');
+    lineDocument.routes = allDescendantRoutesForThisLine.sort((a, b) => sorter.compare(a.code, b.code)).map((item) => item._id);
     await lineDocument.save();
   } catch (error) {
     console.log(error);

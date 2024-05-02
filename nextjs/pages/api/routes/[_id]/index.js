@@ -4,6 +4,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import getSession from '@/authentication/getSession';
 import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
+import sorter from '@/helpers/sorter';
 
 /* * */
 
@@ -51,8 +52,8 @@ export default async function handler(req, res) {
   // Synchronize descendant patterns for this route
 
   try {
-    const allDescendantPatternsForThisRoute = await PatternModel.find({ parent_route: { $eq: routeDocument._id } }, '_id');
-    routeDocument.patterns = allDescendantPatternsForThisRoute.map((item) => item._id);
+    const allDescendantPatternsForThisRoute = await PatternModel.find({ parent_route: { $eq: routeDocument._id } }, '_id code');
+    routeDocument.patterns = allDescendantPatternsForThisRoute.sort((a, b) => sorter.compare(a.code, b.code)).map((item) => item._id);
     await routeDocument.save();
   } catch (error) {
     console.log(error);
