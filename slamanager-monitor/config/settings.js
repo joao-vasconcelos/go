@@ -1,5 +1,7 @@
+/* * */
+
 module.exports = {
-  //
-  RUN_INTERVAL: 1200000, // 20 minutes
-  //
+	//
+	RUN_INTERVAL: 1000, // 1 second
+	//
 };

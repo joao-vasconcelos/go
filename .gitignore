@@ -42,3 +42,6 @@ storage
 
 # Backup files
 go-backup-*
+
+# build
+*/build/*
