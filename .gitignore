@@ -44,4 +44,4 @@ storage
 go-backup-*
 
 # build
-*/build/*
+build/
