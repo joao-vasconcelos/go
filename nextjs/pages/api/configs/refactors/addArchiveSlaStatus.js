@@ -2,7 +2,6 @@
 
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { PatternModel } from '@/schemas/Pattern/model';
 import { ArchiveModel } from '@/schemas/Archive/model';
 
 /* * */
