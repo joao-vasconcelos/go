@@ -1,19 +1,25 @@
 /* * */
 
 export const ArchiveOptions = {
-  //
+	//
 
-  /*
+	/*
    * STORAGE SCOPE
    */
 
-  storage_scope: 'archives',
+	storage_scope: 'archives',
 
-  /*
+	/*
    * STATUS
    */
 
-  status: ['active', 'disabled'],
+	status: ['active', 'disabled'],
 
-  //
+	/*
+   * SLAMANAGER FEEDER STATUS
+   */
+
+	slamanager_feeder_status: ['waiting', 'parsed', 'error'],
+
+	//
 };

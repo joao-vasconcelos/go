@@ -16,57 +16,111 @@ import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 /* * */
 
 export default function Page() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const [isImporting, setIsImporting] = useState(false);
+	const [isImporting, setIsImporting] = useState(false);
 
-  //
-  // D. Handle actiona
+	//
+	// D. Handle actiona
 
-  const handleRemoveSpecialCalendars = async () => {
-    openConfirmModal({
-      title: <Text size="h2">Remove Special Calendars?</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">Are you sure?</Text>,
-      labels: { confirm: 'Yes, Remove Special Calendars', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          setIsImporting(true);
-          notify('removeSpecialCalendars', 'loading', 'Loading');
-          await API({ service: 'configs/refactors/removeSpecialCalendars', method: 'GET' });
-          notify('removeSpecialCalendars', 'success', 'success');
-          setIsImporting(false);
-        } catch (error) {
-          console.log(error);
-          notify('removeSpecialCalendars', 'error', error.message || 'Error');
-          setIsImporting(false);
-        }
-      },
-    });
-  };
+	const handleRemoveSpecialCalendars = async () => {
+		openConfirmModal({
+			title: <Text size="h2">Remove Special Calendars?</Text>,
+			centered: true,
+			closeOnClickOutside: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			labels: { confirm: 'Yes, Remove Special Calendars', cancel: 'Cancel' },
+			confirmProps: { color: 'red' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('removeSpecialCalendars', 'loading', 'Loading');
+					await API({ service: 'configs/refactors/removeSpecialCalendars', method: 'GET' });
+					notify('removeSpecialCalendars', 'success', 'success');
+					setIsImporting(false);
+				} catch (error) {
+					console.log(error);
+					notify('removeSpecialCalendars', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+		});
+	};
 
-  //
-  // C. Render components
+	const handleMergeVariants = async () => {
+		openConfirmModal({
+			title: <Text size="h2">Merge Variants?</Text>,
+			centered: true,
+			closeOnClickOutside: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			labels: { confirm: 'Yes, Merge Variants', cancel: 'Cancel' },
+			confirmProps: { color: 'red' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('mergeVariants', 'loading', 'Loading');
+					await API({ service: 'configs/refactors/mergeVariants', method: 'GET' });
+					notify('mergeVariants', 'success', 'success');
+					setIsImporting(false);
+				} catch (error) {
+					console.log(error);
+					notify('mergeVariants', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+		});
+	};
 
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
-      <Pannel>
-        <AppLayoutSection>
-          <NoDataLabel text="No operations available" />
-          <SimpleGrid cols={3}>
-            <Button onClick={handleRemoveSpecialCalendars} color="red" loading={isImporting}>
+	const handleAddArchiveSlaStatus = async () => {
+		openConfirmModal({
+			title: <Text size="h2">Add Archive SLA Status?</Text>,
+			centered: true,
+			closeOnClickOutside: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			labels: { confirm: 'Yes, Add Archive SLA Status', cancel: 'Cancel' },
+			confirmProps: { color: 'red' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('mergeVariants', 'loading', 'Loading');
+					await API({ service: 'configs/refactors/addArchiveSlaStatus', method: 'GET' });
+					notify('mergeVariants', 'success', 'success');
+					setIsImporting(false);
+				} catch (error) {
+					console.log(error);
+					notify('mergeVariants', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+		});
+	};
+
+	//
+	// C. Render components
+
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
+			<Pannel>
+				<AppLayoutSection>
+					<NoDataLabel text="No operations available" />
+					<SimpleGrid cols={3}>
+						<Button onClick={handleRemoveSpecialCalendars} color="red" loading={isImporting}>
               Remove Special Calendars
-            </Button>
-          </SimpleGrid>
-        </AppLayoutSection>
-      </Pannel>
-    </AppAuthenticationCheck>
-  );
+						</Button>
+						<Button onClick={handleMergeVariants} color="red" loading={isImporting}>
+              Merge Variants
+						</Button>
+						<Button onClick={handleAddArchiveSlaStatus} color="red" loading={isImporting}>
+              Add Archive SLA Status
+						</Button>
+					</SimpleGrid>
+				</AppLayoutSection>
+			</Pannel>
+		</AppAuthenticationCheck>
+	);
 
-  //
+	//
 }
