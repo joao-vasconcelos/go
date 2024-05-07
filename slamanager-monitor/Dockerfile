@@ -3,8 +3,10 @@ FROM node:alpine
 WORKDIR /app
 
 COPY package.json ./
-RUN npm --omit=dev install
+RUN npm install
 
 COPY . .
 
-CMD ["node", "index.js"]
+RUN ["npm", "run", "build"]
+
+CMD ["node", "build/index.js"]
