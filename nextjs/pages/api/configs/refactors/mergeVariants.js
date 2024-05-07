@@ -9,7 +9,7 @@ import { PatternModel } from '@/schemas/Pattern/model';
 export default async function handler(req, res) {
 	//
 
-	// throw new Error('Feature is disabled.');
+	throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
