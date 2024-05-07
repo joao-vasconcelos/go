@@ -33,6 +33,10 @@ export default async () => {
 		await PCGIDB.connect();
 		await SLAMANAGERDB.connect();
 
+		//
+		// RESET ALL ANALYSIS STATUS
+		// await SLAMANAGERDB.TripAnalysis.updateMany({ }, { $set: { status: 'waiting' } });
+
 		// 2.
 		// Fetch a fresh batch of trips
 
@@ -102,7 +106,7 @@ export default async () => {
 
 				await SLAMANAGERDB.TripAnalysis.findOneAndReplace({ code: tripData.code }, tripData);
 
-				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] DONE | ${tripData.code} | grade: ${simpleThreeEventsAnalyzerResult.grade}`);
+				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] DONE | ${tripData.code} | grade: ${simpleThreeEventsAnalyzerResult.grade} | reason: ${simpleThreeEventsAnalyzerResult.reason}`);
 
 				//
 			}
