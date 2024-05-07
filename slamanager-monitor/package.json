@@ -15,7 +15,8 @@
     "dotenv": "16.4.5",
     "luxon": "3.4.4",
     "mongodb": "6.6.0",
-    "tunnel-ssh": "5.1.2"
+    "tunnel-ssh": "5.1.2",
+    "@turf/turf": "6.5.0"
   },
   "devDependencies": {
     "@carrismetropolitana/eslint": "2024.5.6151",

@@ -5,6 +5,8 @@ import SLAMANAGERDB from './services/SLAMANAGERDB';
 import TIMETRACKER from './services/TIMETRACKER';
 import { DateTime } from 'luxon';
 
+/* * */
+
 import simpleThreeEventsAnalyzer from './analyzers/simpleThreeEvents.analyzer';
 
 /* * */
@@ -26,59 +28,82 @@ export default async () => {
 		// Connect to databases
 
 		console.log();
-		console.log('STEP 0.1: Connect to databases');
+		console.log('-> Connect to databases');
 
 		await PCGIDB.connect();
 		await SLAMANAGERDB.connect();
 
 		// 2.
-		// Await for a random amount of time to reduce chances of requesting the same trips as another worker
-
-		const randomDelay = Math.floor(Math.random() * 5000); // 0 - 5 seconds
-		await new Promise((resolve) => setTimeout(resolve, randomDelay));
-
-		// 3.
 		// Fetch a fresh batch of trips
 
-		const allTripsData = await SLAMANAGERDB.TripAnalysis.find({ status: 'waiting', operational_day: { $gte: '20240429' } }).sort({ operational_day: 1, trip_id: 1 }).limit(1000).toArray();
+		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'waiting' });
 
-		for (const [
-			tripIndex, tripData,
-		] of allTripsData.entries()) {
+		for (const [operationalDayIndex, operationalDay] of allOperationalDays.entries()) {
 			//
 
-			const tripTimer = new TIMETRACKER;
+			console.log();
+			console.log('----------------------------------------------------------');
 
-			const uniqueTripData = await SLAMANAGERDB.UniqueTrip.findOne({ code: tripData.unique_trip_code });
+			const allEventIdsOrganizedByTripId = new Map;
 
-			// const uniqueShapeData = await SLAMANAGERDB.UniqueShape.findOne({ code: tripData.unique_shape_code })
+			const pcgiDbTimer = new TIMETRACKER;
 
-			const pcgiQuery = {
-				'content.entity.vehicle.trip.tripId': { $eq: tripData.trip_id },
-				'content.entity.vehicle.timestamp': {
-					$gte: DateTime.fromFormat(tripData.operational_day, 'yyyyMMdd').set({ hour: 4, minute: 0, second: 0 }).toUnixInteger(),
-					$lte: DateTime.fromFormat(tripData.operational_day, 'yyyyMMdd').plus({ day: 1 }).set({ hour: 3, minute: 59, second: 59 }).toUnixInteger(),
-				},
-			};
+			const operationalDayStart = DateTime.fromFormat(operationalDay, 'yyyyMMdd').set({ hour: 4, minute: 0, second: 0 }).toMillis();
+			const operationalDayEnd = DateTime.fromFormat(operationalDay, 'yyyyMMdd').plus({ day: 1 }).set({ hour: 3, minute: 59, second: 59 }).toMillis();
 
-			const tripEvents = await PCGIDB.VehicleEvents.find(pcgiQuery).hint({ 'content.entity.vehicle.trip.tripId': 1 }).toArray();
+			const foundEventIdsbyTripId = PCGIDB.VehicleEvents
+				.aggregate([
+					{ $match: { millis: { $gte: operationalDayStart, $lte: operationalDayEnd } } },
+					{ $project: { _id: 1, tripId: '$content.entity.vehicle.trip.tripId' } },
+					{ $group: { _id: '$tripId', document_ids: { $addToSet: '$_id' } } },
+				])
+				.stream();
 
-			// RUN ANALYZERS
+			let foundEventIdsCounter = 0;
+			for await (const eventIdsForTripId of foundEventIdsbyTripId) {
+				foundEventIdsCounter++;
+				const currentTripId = eventIdsForTripId._id[0];
+				if (!allEventIdsOrganizedByTripId.has(currentTripId)) {
+					allEventIdsOrganizedByTripId.set(currentTripId, eventIdsForTripId.document_ids);
+				}
+				allEventIdsOrganizedByTripId.set(currentTripId, [...allEventIdsOrganizedByTripId.get(currentTripId), ...eventIdsForTripId.document_ids].flat());
+			}
 
-			const simpleThreeEventsAnalyzerResult = await simpleThreeEventsAnalyzer({ unique_trip: uniqueTripData, events: tripEvents });
-
-			tripData.analysis = [
-				simpleThreeEventsAnalyzerResult,
-			];
-			tripData.status = 'complete';
-
-			await SLAMANAGERDB.TripAnalysis.findOneAndReplace({ code: tripData.code }, tripData);
-
-			console.log('-------');
-			console.log(pcgiQuery);
-			console.log(`[${tripIndex + 1}/${allTripsData.length}] DONE | ${tripData.code} | grade: ${simpleThreeEventsAnalyzerResult.grade} | tripTimer: ${tripTimer.get()}`);
+			console.log(`FETCH EVENTS | operational_day: ${operationalDay} | foundEventIdsCounter: ${foundEventIdsCounter} | pcgiDbTimer: ${pcgiDbTimer.get()}`);
 
 			//
+			//
+			//
+			//
+
+			const allTripsData = await SLAMANAGERDB.TripAnalysis.find({ status: 'waiting', operational_day: operationalDay }).sort({ trip_id: 1 }).toArray();
+
+			for (const [tripIndex, tripData] of allTripsData.entries()) {
+				//
+
+				const uniqueTripData = await SLAMANAGERDB.UniqueTrip.findOne({ code: tripData.unique_trip_code });
+
+				const tripEventIds = allEventIdsOrganizedByTripId.get(tripData.trip_id);
+
+				let tripEvents = [];
+
+				if (tripEventIds) {
+					tripEvents = await PCGIDB.VehicleEvents.find({ _id: { $in: tripEventIds } }).toArray();
+				}
+
+				// RUN ANALYZERS
+
+				const simpleThreeEventsAnalyzerResult = await simpleThreeEventsAnalyzer({ unique_trip: uniqueTripData, events: tripEvents });
+
+				tripData.analysis = [simpleThreeEventsAnalyzerResult];
+				tripData.status = 'complete';
+
+				await SLAMANAGERDB.TripAnalysis.findOneAndReplace({ code: tripData.code }, tripData);
+
+				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] DONE | ${tripData.code} | grade: ${simpleThreeEventsAnalyzerResult.grade}`);
+
+				//
+			}
 		}
 
 		//
