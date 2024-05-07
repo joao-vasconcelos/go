@@ -51,9 +51,10 @@ module.exports = async () => {
     // 4.
     // Get all archives (GTFS plans) from GO database, and iterate on each one
 
-    const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active' }).toArray();
+    const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active', slamanager_feeder_status: 'waiting' }).toArray();
 
     for (const [archiveIndex, archiveData] of allArchivesData.entries()) {
+      try {
       //
 
       // 4.1.
@@ -546,39 +547,48 @@ module.exports = async () => {
 
       //
 
+      await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'processed' } });
+
+      //
+
       console.log(`✔︎ Finished processing archive ${archiveData.code}`);
       console.log();
       console.log('- - - - - - - - - - - - - - - - - - - - -');
 
+    } catch (error) {
+      console.log(`✖︎ Error processing archive ${archiveData.code}`, error);
+      await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'error' } });
+    }
+
       //
     }
 
-    console.log();
-    console.log('→ Deleting stale entries...');
+    // console.log();
+    // console.log('→ Deleting stale entries...');
 
-    const staleUniqueTripCodes = [];
-    const existingUniqueTripCodes = await SLAMANAGERDB.UniqueTrip.find({}, 'code').stream();
-    for await (const existingUniqueTripData of existingUniqueTripCodes) {
-      if (!createdUniqueTripCodes.has(existingUniqueTripData.code)) staleUniqueTripCodes.push(existingUniqueTripData.code);
-    }
-    const deletedUniqueTripEntries = await SLAMANAGERDB.UniqueTrip.deleteMany({ code: { $in: staleUniqueTripCodes } });
+    // const staleUniqueTripCodes = [];
+    // const existingUniqueTripCodes = await SLAMANAGERDB.UniqueTrip.find({}, 'code').stream();
+    // for await (const existingUniqueTripData of existingUniqueTripCodes) {
+    //   if (!createdUniqueTripCodes.has(existingUniqueTripData.code)) staleUniqueTripCodes.push(existingUniqueTripData.code);
+    // }
+    // const deletedUniqueTripEntries = await SLAMANAGERDB.UniqueTrip.deleteMany({ code: { $in: staleUniqueTripCodes } });
 
-    const staleUniqueShapeCodes = [];
-    const existingUniqueShapeCodes = await SLAMANAGERDB.UniqueShape.find({}, 'code').stream();
-    for await (const existingUniqueShapeData of existingUniqueShapeCodes) {
-      if (!createdUniqueShapeCodes.has(existingUniqueShapeData.code)) staleUniqueShapeCodes.push(existingUniqueShapeData.code);
-    }
-    const deletedUniqueShapeEntries = await SLAMANAGERDB.UniqueShape.deleteMany({ code: { $in: staleUniqueShapeCodes } });
+    // const staleUniqueShapeCodes = [];
+    // const existingUniqueShapeCodes = await SLAMANAGERDB.UniqueShape.find({}, 'code').stream();
+    // for await (const existingUniqueShapeData of existingUniqueShapeCodes) {
+    //   if (!createdUniqueShapeCodes.has(existingUniqueShapeData.code)) staleUniqueShapeCodes.push(existingUniqueShapeData.code);
+    // }
+    // const deletedUniqueShapeEntries = await SLAMANAGERDB.UniqueShape.deleteMany({ code: { $in: staleUniqueShapeCodes } });
 
-    const staleTripAnalysisCodes = [];
-    const existingTripAnalysisCodes = await SLAMANAGERDB.TripAnalysis.find({}, 'code').stream();
-    for await (const existingTripAnalysisData of existingTripAnalysisCodes) {
-      if (!createdTripAnalysisCodes.has(existingTripAnalysisData.code)) staleTripAnalysisCodes.push(existingTripAnalysisData.code);
-    }
-    const deletedTripAnalysisEntries = await SLAMANAGERDB.TripAnalysis.deleteMany({ code: { $in: staleTripAnalysisCodes } });
+    // const staleTripAnalysisCodes = [];
+    // const existingTripAnalysisCodes = await SLAMANAGERDB.TripAnalysis.find({}, 'code').stream();
+    // for await (const existingTripAnalysisData of existingTripAnalysisCodes) {
+    //   if (!createdTripAnalysisCodes.has(existingTripAnalysisData.code)) staleTripAnalysisCodes.push(existingTripAnalysisData.code);
+    // }
+    // const deletedTripAnalysisEntries = await SLAMANAGERDB.TripAnalysis.deleteMany({ code: { $in: staleTripAnalysisCodes } });
 
-    console.log(`✔︎ Deleted stale entries: UniqueTrip: ${deletedUniqueTripEntries.deletedCount} | UniqueShape: ${deletedUniqueShapeEntries.deletedCount} | TripAnalysis: ${deletedTripAnalysisEntries.deletedCount}`);
-    console.log();
+    // console.log(`✔︎ Deleted stale entries: UniqueTrip: ${deletedUniqueTripEntries.deletedCount} | UniqueShape: ${deletedUniqueShapeEntries.deletedCount} | TripAnalysis: ${deletedTripAnalysisEntries.deletedCount}`);
+    // console.log();
 
     //
 
