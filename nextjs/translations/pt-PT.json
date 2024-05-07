@@ -1642,6 +1642,9 @@
 				},
 				"vehicle_to_insert_delay": {
 					"title": "Delay entre Veículo e TML"
+				},
+				"stop_id": {
+					"title": "Stop ID"
 				}
 			}
 		}

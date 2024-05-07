@@ -37,6 +37,7 @@ export default function ReportsExplorerRealtimeResultTripDetailEventsTable() {
 
 	const tableDataFiltered = useMemo(() => {
 		// Return empty if data is not ready
+		console.log(reportsExplorerRealtimeContext.selectedTrip.positions);
 		if (!reportsExplorerRealtimeContext.selectedTrip.positions) return [];
 		// Iterate through all trip positions
 		const sortedPositions = reportsExplorerRealtimeContext.selectedTrip.positions.sort((a, b) => Number(a[reportsExplorerRealtimeContext.form.event_order_type]) - Number(b[reportsExplorerRealtimeContext.form.event_order_type]));
@@ -127,6 +128,7 @@ export default function ReportsExplorerRealtimeResultTripDetailEventsTable() {
 							<Table.Th>{t('table.header.header_timestamp.title')}</Table.Th>
 							<Table.Th>{t('table.header.insert_timestamp.title')}</Table.Th>
 							<Table.Th>{t('table.header.vehicle_to_insert_delay.title')}</Table.Th>
+							<Table.Th>{t('table.header.stop_id.title')}</Table.Th>
 						</Table.Tr>
 					</Table.Thead>
 					<Table.Tbody>
@@ -136,7 +138,8 @@ export default function ReportsExplorerRealtimeResultTripDetailEventsTable() {
 							<Table.Td>{row.vehicle_timestamp}</Table.Td>
 							<Table.Td>{row.header_timestamp}</Table.Td>
 							<Table.Td>{row.insert_timestamp}</Table.Td>
-							<Table.Td>tbd</Table.Td>
+							<Table.Td>{row.insert_timestamp - (row.vehicle_timestamp * 1000)} ms</Table.Td>
+							<Table.Td>{row.stop_id}</Table.Td>
 						</Table.Tr>)}
 					</Table.Tbody>
 				</Table>
