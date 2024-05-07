@@ -41,6 +41,8 @@ export default async () => {
 		for (const [operationalDayIndex, operationalDay] of allOperationalDays.entries()) {
 			//
 
+			if (operationalDay !== '20240401') continue;
+
 			console.log();
 			console.log('----------------------------------------------------------');
 

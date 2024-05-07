@@ -1,8 +1,8 @@
 /* * */
 
-const { readFileSync } = require('fs');
-const { createTunnel } = require('tunnel-ssh');
-const { MongoClient } = require('mongodb');
+import { readFileSync } from 'fs';
+import { createTunnel } from 'tunnel-ssh';
+import { MongoClient, ObjectId } from 'mongodb';
 
 /* * */
 
@@ -23,6 +23,15 @@ class PCGIDB {
 		this.mongoClientConnectionRetries = 0;
 		this.mongoClientConnectionInstance = null;
 		//
+	}
+
+	/* * *
+	 * OBJECT ID
+	 * Convenience function to create a new ObjectId from a string
+	 */
+
+	toObjectId(string = '') {
+		return new ObjectId(string);
 	}
 
 	/* * *
@@ -78,7 +87,12 @@ class PCGIDB {
 			} else if (global._mongoClientConnectionInstance && global._mongoClientConnectionInstance.topology && global._mongoClientConnectionInstance.topology.isConnected()) {
 				mongoClientInstance = global._mongoClientConnectionInstance;
 			} else {
-				mongoClientInstance = await MongoClient.connect(process.env.PCGIDB_MONGODB_URI, mongoClientOptions);
+				const mongoUser = process.env.PCGIDB_MONGODB_USERNAME;
+				const mongoPass = process.env.PCGIDB_MONGODB_PASSWORD;
+				const mongoLocalHost = '127.0.0.1';
+				const mongoLocalPort = this.sshTunnelConnectionInstance?.address().port || global._sshTunnelConnectionInstance?.address().port;
+				const mongoConnectionString = `mongodb://${mongoUser}:${mongoPass}@${mongoLocalHost}:${mongoLocalPort}/`;
+				mongoClientInstance = await MongoClient.connect(mongoConnectionString, mongoClientOptions);
 			}
 
 			//
@@ -169,9 +183,7 @@ class PCGIDB {
 				autoClose: true,
 			};
 
-			const serverOptions = {
-				port: process.env.PCGIDB_TUNNEL_LOCAL_PORT,
-			};
+			const serverOptions = {};
 
 			const sshOptions = {
 				host: process.env.PCGIDB_SSH_HOST,
@@ -181,8 +193,6 @@ class PCGIDB {
 			};
 
 			const forwardOptions = {
-				srcAddr: process.env.PCGIDB_TUNNEL_LOCAL_HOST,
-				srcPort: process.env.PCGIDB_TUNNEL_LOCAL_PORT,
 				dstAddr: process.env.PCGIDB_TUNNEL_REMOTE_HOST,
 				dstPort: process.env.PCGIDB_TUNNEL_REMOTE_PORT,
 			};
@@ -275,4 +285,4 @@ class PCGIDB {
 
 /* * */
 
-module.exports = new PCGIDB();
+export default new PCGIDB;
