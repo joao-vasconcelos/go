@@ -521,7 +521,18 @@ export default async () => {
 								//
 							};
 							//
-							await tripAnalysisDbWritter.write(tripAnalysisData);
+							const tripAnalysisOptions = {
+								//
+								write_mode: 'replace',
+								//
+								filter: {
+									code: tripAnalysisData.code,
+									status: 'waiting',
+								},
+								//
+							};
+							//
+							await tripAnalysisDbWritter.write(tripAnalysisData, tripAnalysisOptions);
 							//
 							createdTripAnalysisCodes.add(tripAnalysisData.code);
 							//
