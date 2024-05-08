@@ -1,5 +1,6 @@
 /* * */
 
+import fs from 'fs';
 import OFFERMANAGERDB from './services/OFFERMANAGERDB';
 import SLAMANAGERDB from './services/SLAMANAGERDB';
 import TIMETRACKER from './services/TIMETRACKER';
@@ -52,7 +53,7 @@ export default async () => {
 		// 4.
 		// Get all archives (GTFS plans) from GO database, and iterate on each one
 
-		const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active', slamanager_feeder_status: 'waiting' }).toArray();
+		const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active', slamanager_feeder_status: 'complete' }).toArray();
 
 		for (const [archiveIndex, archiveData] of allArchivesData.entries()) {
 			try {
@@ -89,20 +90,17 @@ export default async () => {
 				const todayDate = DateTime.now().startOf('day').toJSDate();
 
 				// 4.4.
+				// Setup a temporary location to extract each GTFS archive
+
+				const extractLocation = `${process.env.APP_TMP_DIR}/extractions/${Math.random() * 1000}/${archiveData._id}`;
+
+				console.log(extractLocation);
+
+				// 4.5.
 				// Unzip the associated operation plan
 
 				const zipArchive = new AdmZip(`${process.env.APP_STORAGE_DIR}/archives/${archiveData.operation_plan.toString()}.zip`);
-				const zipEntries = zipArchive.getEntries();
-
-				// 4.5.
-				// Setup each zip entry.
-
-				const zipEntryCalendarDates = zipEntries.find((item) => item.entryName === 'calendar_dates.txt');
-				const zipEntryTrips = zipEntries.find((item) => item.entryName === 'trips.txt');
-				const zipEntryStopTimes = zipEntries.find((item) => item.entryName === 'stop_times.txt');
-				const zipEntryShapes = zipEntries.find((item) => item.entryName === 'shapes.txt');
-				const zipEntryRoutes = zipEntries.find((item) => item.entryName === 'routes.txt');
-				const zipEntryStops = zipEntries.find((item) => item.entryName === 'stops.txt');
+				zipArchive.extractAllTo(extractLocation, true);
 
 				// 4.6.
 				// Log progress
@@ -124,11 +122,6 @@ export default async () => {
 					//
 
 					// 4.7.1.
-					// Extract the calendar_dates.txt file from the zip archive
-
-					const calendarDatesTxt = await readZip(zipArchive, zipEntryCalendarDates);
-
-					// 4.7.2.
 					// Parse each row, and save only the matching servic_ids
 
 					const parseEachRow = async (data) => {
@@ -150,10 +143,10 @@ export default async () => {
 						//
 					};
 
-					// 4.7.3.
+					// 4.7.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(calendarDatesTxt, parseEachRow);
+					await parseCsvFile(`${extractLocation}/calendar_dates.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "calendar_dates.txt" of archive "${archiveData.code}".`);
 
@@ -172,11 +165,6 @@ export default async () => {
 					//
 
 					// 4.8.1.
-					// Extract the trips.txt file from the zip archive
-
-					const tripsTxt = await readZip(zipArchive, zipEntryTrips);
-
-					// 4.8.2.
 					// For each trip, check if the associated service_id was saved in the previous step or not.
 					// Include it if yes, skip otherwise.
 
@@ -201,10 +189,10 @@ export default async () => {
 						//
 					};
 
-					// 4.8.3.
+					// 4.8.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(tripsTxt, parseEachRow);
+					await parseCsvFile(`${extractLocation}/trips.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "trips.txt" of archive "${archiveData.code}".`);
 
@@ -222,11 +210,6 @@ export default async () => {
 					//
 
 					// 4.9.1.
-					// Extract the routes.txt file from the zip archive
-
-					const routesTxt = await readZip(zipArchive, zipEntryRoutes);
-
-					// 4.9.2.
 					// For each route, only save the ones referenced by previously saved trips.
 
 					const parseEachRow = async (data) => {
@@ -250,10 +233,10 @@ export default async () => {
 						//
 					};
 
-					// 4.9.3.
+					// 4.9.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(routesTxt, parseEachRow);
+					await parseCsvFile(`${extractLocation}/routes.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "routes.txt" of archive "${archiveData.code}".`);
 
@@ -271,11 +254,6 @@ export default async () => {
 					//
 
 					// 4.10.1.
-					// Extract the shapes.txt file from the zip archive
-
-					const shapesTxt = await readZip(zipArchive, zipEntryShapes);
-
-					// 4.10.2.
 					// For each point of each shape, check if the shape_id was referenced by valid trips.
 
 					const parseEachRow = async (data) => {
@@ -301,10 +279,10 @@ export default async () => {
 						//
 					};
 
-					// 4.10.3.
+					// 4.10.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(shapesTxt, parseEachRow);
+					await parseCsvFile(`${extractLocation}/shapes.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "shapes.txt" of archive "${archiveData.code}".`);
 
@@ -323,11 +301,6 @@ export default async () => {
 					//
 
 					// 4.11.1.
-					// Extract the stops.txt file from the zip archive
-
-					const stopsTxt = await readZip(zipArchive, zipEntryStops);
-
-					// 4.11.2.
 					// Save all stops, but only the mininum required data.
 
 					const parseEachRow = async (data) => {
@@ -343,10 +316,10 @@ export default async () => {
 						//
 					};
 
-					// 4.11.3.
+					// 4.11.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(stopsTxt, parseEachRow);
+					await parseCsvFile(`${extractLocation}/stops.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "stops.txt" of archive "${archiveData.code}".`);
 
@@ -366,11 +339,6 @@ export default async () => {
 					//
 
 					// 4.12.1.
-					// Extract the stop_times.txt file from the zip archive
-
-					const stopTimesTxt = await readZip(zipArchive, zipEntryStopTimes);
-
-					// 4.12.2.
 					// For each stop of each trip, check if the associated trip_id was saved in the previous step or not.
 					// Save valid stop times along with the associated stop data.
 
@@ -407,10 +375,10 @@ export default async () => {
 						//
 					};
 
-					// 4.12.3.
+					// 4.12.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(stopTimesTxt, parseEachRow);
+					await parseCsvFile(`${extractLocation}/stop_times.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "stop_times.txt" of archive "${archiveData.code}".`);
 
@@ -638,9 +606,10 @@ async function readZip(zipArchive, zipEntry) {
 
 /* * */
 
-async function parseCsvFile(dataStream, rowParser = async () => null) {
+async function parseCsvFile(filePath, rowParser = async () => null) {
 	const parser = csvParser({ columns: true, trim: true, skip_empty_lines: true, bom: true, record_delimiter: ['\n', '\r', '\r\n'] });
-	const stream = dataStream.pipe(parser);
+	const fileStream = fs.createReadStream(filePath);
+	const stream = fileStream.pipe(parser);
 	for await (const rowData of stream) {
 		await rowParser(rowData);
 	}

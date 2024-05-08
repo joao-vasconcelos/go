@@ -38,7 +38,7 @@ async function update(exportDocument, updates) {
 //
 //
 
-async function parseCsvFile(filePath, rowParser = async () => {}) {
+async function parseCsvFile(filePath, rowParser = async () => null) {
 	const parser = csvParser({ columns: true, trim: true, skip_empty_lines: true, bom: true, record_delimiter: ['\n', '\r', '\r\n'] });
 	const fileStream = fs.createReadStream(filePath);
 	const stream = fileStream.pipe(parser);
@@ -89,21 +89,16 @@ async function getMediaFilePath(mediaId) {
 //
 
 function getAgencyData() {
-	try {
-		return {
-			agency_id: 'CM',
-			agency_name: 'Carris Metropolitana',
-			agency_url: 'https://www.carrismetropolitana.pt',
-			agency_timezone: 'Europe/Lisbon',
-			agency_lang: 'pt',
-			agency_phone: '210410400',
-			agency_fare_url: 'https://www.carrismetropolitana.pt/tarifarios/',
-			agency_email: 'contacto@carrismetropolitana.pt',
-		};
-	} catch (error) {
-		console.log(`Error at getAgencyData()`, error);
-		throw new Error(`Error at getAgencyData()`);
-	}
+	return {
+		agency_id: 'CM',
+		agency_name: 'Carris Metropolitana',
+		agency_url: 'https://www.carrismetropolitana.pt',
+		agency_timezone: 'Europe/Lisbon',
+		agency_lang: 'pt',
+		agency_phone: '210410400',
+		agency_fare_url: 'https://www.carrismetropolitana.pt/tarifarios/',
+		agency_email: 'contacto@carrismetropolitana.pt',
+	};
 }
 
 function getFeedInfoData(startDateString, endDateString) {
