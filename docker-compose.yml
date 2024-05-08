@@ -138,7 +138,7 @@ services:
       - .env.production
     secrets:
       - pcgidbkey
-    mem_limit: 512m
+    mem_limit: 2g
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

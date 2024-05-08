@@ -6,9 +6,15 @@ import SLAMANAGERDB from './services/SLAMANAGERDB';
 import TIMETRACKER from './services/TIMETRACKER';
 import DBWRITER from './services/DBWRITER';
 import { DateTime } from 'luxon';
-import AdmZip from 'adm-zip';
 import { parse as csvParser } from 'csv-parse';
 import crypto from 'crypto';
+import extract from 'extract-zip';
+
+/* * */
+
+async function unzipFile(zipFilePath, outputDir) {
+	await extract(zipFilePath, { dir: outputDir });
+}
 
 /* * */
 
@@ -98,8 +104,10 @@ export default async () => {
 				// 4.5.
 				// Unzip the associated operation plan
 
-				const zipArchive = new AdmZip(`${process.env.APP_STORAGE_DIR}/archives/${archiveData.operation_plan.toString()}.zip`);
-				zipArchive.extractAllTo(extractLocation, true);
+				await unzipFile(`${process.env.APP_STORAGE_DIR}/archives/${archiveData.operation_plan.toString()}.zip`, extractLocation);
+
+				// const zipArchive = new AdmZip(`${process.env.APP_STORAGE_DIR}/archives/${archiveData.operation_plan.toString()}.zip`);
+				// zipArchive.extractAllTo(extractLocation, true);
 
 				// 4.6.
 				// Log progress
@@ -274,11 +282,11 @@ export default async () => {
 							shape_pt_lon: data.shape_pt_lon,
 						};
 						// Get the previously saved shape
-						const savedShape = savedShapes.get(data.shape_id);
+						const savedShape = savedShapes.has(data.shape_id);
 						//
 						if (savedShape) {
 							// If this shape_id was previously saved, add the current point to it
-							savedShapes.set(data.shape_id, [...savedShape, thisShapeRowPoint]);
+							savedShapes.get(data.shape_id).push(thisShapeRowPoint);
 						} else {
 							// If this is the first time we're seeing this shape_id, initiate the points array with the current point
 							savedShapes.set(data.shape_id, [thisShapeRowPoint]);
@@ -374,10 +382,10 @@ export default async () => {
 							timepoint: data.timepoint,
 						};
 						//
-						const savedStopTime = savedStopTimes.get(data.trip_id);
+						const savedStopTime = savedStopTimes.has(data.trip_id);
 						//
 						if (savedStopTime) {
-							savedStopTimes.set(data.trip_id, [...savedStopTime, parsedRowData]);
+							savedStopTimes.get(data.trip_id).push(parsedRowData);
 						} else {
 							savedStopTimes.set(data.trip_id, [parsedRowData]);
 						}
@@ -447,7 +455,7 @@ export default async () => {
 
 						uniqueTripData.code = crypto.createHash('sha256').update(JSON.stringify(uniqueTripData)).digest('hex');
 						const currentSpineAlreadyExists = await SLAMANAGERDB.UniqueTrip.findOne({ code: uniqueTripData.code });
-						if (!currentSpineAlreadyExists) await uniqueTripsDbWritter.write(uniqueTripData);
+						if (!currentSpineAlreadyExists) await uniqueTripsDbWritter.write(uniqueTripData, { filter: { code: uniqueTripData.code } });
 						createdUniqueTripCodes.add(uniqueTripData.code);
 
 						// 4.13.4.
@@ -465,7 +473,7 @@ export default async () => {
 
 						uniqueShapeData.code = crypto.createHash('sha256').update(JSON.stringify(uniqueShapeData)).digest('hex');
 						const currentShapeAlreadyExists = await SLAMANAGERDB.UniqueShape.findOne({ code: uniqueShapeData.code });
-						if (!currentShapeAlreadyExists) await uniqueShapesDbWritter.write(uniqueShapeData);
+						if (!currentShapeAlreadyExists) await uniqueShapesDbWritter.write(uniqueShapeData, { filter: { code: uniqueShapeData.code } });
 						createdUniqueShapeCodes.add(uniqueShapeData.code);
 
 						// 4.13.6.
@@ -551,7 +559,7 @@ export default async () => {
 				console.log('- - - - - - - - - - - - - - - - - - - - -');
 			} catch (error) {
 				console.log(`✖︎ Error processing archive ${archiveData.code}`, error);
-				await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'error' } });
+				await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'waiting' } });
 			}
 
 			//

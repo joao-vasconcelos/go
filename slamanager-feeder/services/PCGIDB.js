@@ -1,8 +1,8 @@
 /* * */
 
-const { readFileSync } = require('fs');
-const { createTunnel } = require('tunnel-ssh');
-const { MongoClient } = require('mongodb');
+import { readFileSync } from 'fs';
+import { createTunnel } from 'tunnel-ssh';
+import { MongoClient } from 'mongodb';
 
 /* * */
 
@@ -275,4 +275,4 @@ class PCGIDB {
 
 /* * */
 
-module.exports = new PCGIDB;
+export default new PCGIDB;
