@@ -74,7 +74,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
 
   go-slamanager-feeder:
-    name: Build Docker Image (SLA Manager - feeder)
+    name: Docker Build (SLA Manager - feeder)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
