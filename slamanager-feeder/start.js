@@ -52,7 +52,7 @@ export default async () => {
 		// 4.
 		// Get all archives (GTFS plans) from GO database, and iterate on each one
 
-		const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active' }).toArray(); // slamanager_feeder_status: 'waiting'
+		const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active', slamanager_feeder_status: 'waiting' }).toArray();
 
 		for (const [archiveIndex, archiveData] of allArchivesData.entries()) {
 			try {
