@@ -54,6 +54,8 @@ export default async () => {
 
 		const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active', slamanager_feeder_status: 'waiting' }).toArray();
 
+		console.log(`→ Found ${allArchivesData.length} archives to process...`);
+
 		for (const [archiveIndex, archiveData] of allArchivesData.entries()) {
 			try {
 				//

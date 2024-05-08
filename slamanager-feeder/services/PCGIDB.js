@@ -32,7 +32,7 @@ class PCGIDB {
 
 	async connect() {
 		try {
-			console.log('PCGIDB: New connection request...');
+			console.log('→ PCGIDB: New connection request...');
 
 			//
 			// Establish SSH tunnel
@@ -275,4 +275,4 @@ class PCGIDB {
 
 /* * */
 
-module.exports = new PCGIDB();
+module.exports = new PCGIDB;
