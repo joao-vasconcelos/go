@@ -53,7 +53,7 @@ export default async () => {
 		// 4.
 		// Get all archives (GTFS plans) from GO database, and iterate on each one
 
-		const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active', slamanager_feeder_status: 'complete' }).toArray();
+		const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active' }).toArray(); // slamanager_feeder_status: 'waiting'
 
 		for (const [archiveIndex, archiveData] of allArchivesData.entries()) {
 			try {
@@ -92,9 +92,7 @@ export default async () => {
 				// 4.4.
 				// Setup a temporary location to extract each GTFS archive
 
-				const extractLocation = `${process.env.APP_TMP_DIR}/extractions/${Math.random() * 1000}/${archiveData._id}`;
-
-				console.log(extractLocation);
+				const extractLocation = `${process.env.APP_TMP_DIR}/extractions/${Math.floor(Math.random() * 1000)}/${archiveData._id}`;
 
 				// 4.5.
 				// Unzip the associated operation plan
@@ -120,6 +118,8 @@ export default async () => {
 
 				try {
 					//
+
+					console.log(`→ Reading zip entry "calendar_dates.txt" of archive "${archiveData.code}"...`);
 
 					// 4.7.1.
 					// Parse each row, and save only the matching servic_ids
@@ -163,6 +163,8 @@ export default async () => {
 
 				try {
 					//
+
+					console.log(`→ Reading zip entry "trips.txt" of archive "${archiveData.code}"...`);
 
 					// 4.8.1.
 					// For each trip, check if the associated service_id was saved in the previous step or not.
@@ -209,6 +211,8 @@ export default async () => {
 				try {
 					//
 
+					console.log(`→ Reading zip entry "routes.txt" of archive "${archiveData.code}"...`);
+
 					// 4.9.1.
 					// For each route, only save the ones referenced by previously saved trips.
 
@@ -252,6 +256,8 @@ export default async () => {
 
 				try {
 					//
+
+					console.log(`→ Reading zip entry "shapes.txt" of archive "${archiveData.code}"...`);
 
 					// 4.10.1.
 					// For each point of each shape, check if the shape_id was referenced by valid trips.
@@ -300,6 +306,8 @@ export default async () => {
 				try {
 					//
 
+					console.log(`→ Reading zip entry "stops.txt" of archive "${archiveData.code}"...`);
+
 					// 4.11.1.
 					// Save all stops, but only the mininum required data.
 
@@ -337,6 +345,8 @@ export default async () => {
 
 				try {
 					//
+
+					console.log(`→ Reading zip entry "stop_times.txt" of archive "${archiveData.code}"...`);
 
 					// 4.12.1.
 					// For each stop of each trip, check if the associated trip_id was saved in the previous step or not.
@@ -493,6 +503,8 @@ export default async () => {
 								//
 								write_mode: 'replace',
 								//
+								upsert: false,
+								//
 								filter: {
 									code: tripAnalysisData.code,
 									status: 'waiting',
@@ -586,23 +598,6 @@ export default async () => {
 
 	//
 };
-
-/* * */
-
-async function readZip(zipArchive, zipEntry) {
-	return new Promise((resolve, reject) => {
-		try {
-			console.log(`→ Reading zip entry "${zipEntry.name}"...`);
-			zipArchive.readFileAsync(zipEntry, (data, error) => {
-				if (error) reject(error.message);
-				console.log(`→ Done read zip entry "${zipEntry.name}".`);
-				resolve(Readable.from(data));
-			});
-		} catch (error) {
-			reject(`✖︎ Error at readZip(): ${error.message}`);
-		}
-	});
-}
 
 /* * */
 

@@ -54,7 +54,7 @@ class DBWRITER {
 						replaceOne: {
 							filter: item.options.filter,
 							replacement: item.data,
-							upsert: true,
+							upsert: item.options?.upsert ? true : false,
 						},
 					};
 				case 'update':
@@ -79,4 +79,4 @@ class DBWRITER {
 	}
 }
 
-module.exports = DBWRITER;
+export default DBWRITER;
