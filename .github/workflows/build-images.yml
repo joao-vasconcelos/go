@@ -12,7 +12,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
 
   go-backupd:
-    name: Build Docker Image (backupd)
+    name: backupd (Docker)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -43,7 +43,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
 
   go-nextjs:
-    name: Build Docker Image (NextJS)
+    name: NextJS (Docker)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -74,7 +74,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
 
   go-slamanager-feeder:
-    name: Docker Build (SLA Manager - feeder)
+    name: SLA Manager - feeder (Docker)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -105,7 +105,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
 
   go-slamanager-monitor:
-    name: Build Docker Image (SLA Manager - monitor)
+    name: SLA Manager - monitor (Docker)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
