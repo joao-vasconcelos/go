@@ -40,12 +40,10 @@ export default async () => {
 		// 2.
 		// Fetch a fresh batch of trips
 
-		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'waiting' });
+		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'waiting', operational_day: { $gte: '20240401', $lte: '20240430' } });
 
 		for (const [operationalDayIndex, operationalDay] of allOperationalDays.entries()) {
 			//
-
-			if (operationalDay !== '20240401') continue;
 
 			console.log();
 			console.log('----------------------------------------------------------');

@@ -91,7 +91,7 @@ export default async () => {
 				// 4.4.
 				// Unzip the associated operation plan
 
-				const zipArchive = new AdmZip(`../nextjs/storage/archives/${archiveData.operation_plan.toString()}.zip`);
+				const zipArchive = new AdmZip(`${process.env.APP_STORAGE_DIR}/archives/${archiveData.operation_plan.toString()}.zip`);
 				const zipEntries = zipArchive.getEntries();
 
 				// 4.5.

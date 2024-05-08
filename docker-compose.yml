@@ -121,3 +121,37 @@ services:
       - .env.production
     secrets:
       - pcgidbkey
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  slamanager-feeder:
+    image: ghcr.io/joao-vasconcelos/go-slamanager-feeder:production
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - ./storage/:/app/storage
+    env_file:
+      - .env.production
+    secrets:
+      - pcgidbkey
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  slamanager-monitor:
+    image: ghcr.io/joao-vasconcelos/go-slamanager-monitor:production
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - ./storage/:/app/storage
+    env_file:
+      - .env.production
+    secrets:
+      - pcgidbkey

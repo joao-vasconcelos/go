@@ -10,7 +10,6 @@ import { RUN_INTERVAL } from './config/settings';
 	//
 
 	const runOnInterval = async () => {
-		// await start();
 		await start();
 		setTimeout(runOnInterval, RUN_INTERVAL);
 	};
