@@ -584,8 +584,6 @@ export default async () => {
 		console.log('- - - - - - - - - - - - - - - - - - - - -');
 		console.log();
 
-		process.exit(0);
-
 		//
 	} catch (err) {
 		console.log('✖︎ An error occurred. Halting execution.', err);
