@@ -10,8 +10,8 @@ export const ArchiveValidation = yup.object({
 	//   status: yup.string().max(100),
 	//   //
 	//   agency: yup.string().max(100),
-	start_date: yup.date().nullable(),
-	end_date: yup.date().nullable(),
+	start_date: yup.string().nullable(),
+	end_date: yup.string().nullable(),
 	//
 	//   reference_plan: yup.string().max(100),
 	//   offer_plan: yup.string().max(100),

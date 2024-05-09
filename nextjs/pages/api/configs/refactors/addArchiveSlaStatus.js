@@ -3,13 +3,14 @@
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { ArchiveModel } from '@/schemas/Archive/model';
+import { DateTime } from 'luxon';
 
 /* * */
 
 export default async function handler(req, res) {
 	//
 
-	throw new Error('Feature is disabled.');
+	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -45,7 +46,9 @@ export default async function handler(req, res) {
 		const allArchivesData = await ArchiveModel.find();
 
 		for (const archiveData of allArchivesData) {
-			archiveData.slamanager_feeder_status = 'waiting';
+			archiveData.start_date = DateTime.fromJSDate(new Date(archiveData.start_date)).toFormat('yyyyMMdd');
+			archiveData.end_date = DateTime.fromJSDate(new Date(archiveData.end_date)).toFormat('yyyyMMdd');
+			archiveData.slamanager_feeder_status = 'processed';
 			await archiveData.save();
 		}
 

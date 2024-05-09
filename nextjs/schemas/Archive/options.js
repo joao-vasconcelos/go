@@ -19,7 +19,7 @@ export const ArchiveOptions = {
    * SLAMANAGER FEEDER STATUS
    */
 
-	slamanager_feeder_status: ['waiting', 'parsed', 'error'],
+	slamanager_feeder_status: ['pending', 'processed', 'error'],
 
 	//
 };

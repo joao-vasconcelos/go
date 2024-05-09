@@ -98,6 +98,8 @@ export default function ExportsExplorerFormGtfsV29() {
 		//
 	};
 
+	console.log(exportsExplorerContext.form_gtfs_v29.values.feed_start_date);
+
 	//
 	// E. Render components
 
@@ -162,7 +164,7 @@ export default function ExportsExplorerFormGtfsV29() {
 						description={t('form.feed_end_date.description')}
 						placeholder={t('form.feed_end_date.placeholder')}
 						{...exportsExplorerContext.form_gtfs_v29.getInputProps('feed_end_date')}
-						disabled={!exportsExplorerContext.form_gtfs_v29.values.feed_end_date}
+						disabled={!exportsExplorerContext.form_gtfs_v29.values.feed_start_date}
 						minDate={exportsExplorerContext.form_gtfs_v29.values.feed_start_date}
 						dropdownType="modal"
 						clearable

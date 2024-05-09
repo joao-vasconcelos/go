@@ -6,8 +6,8 @@ export const ArchiveDefault = {
 	status: 'disabled',
 	//
 	agency: null,
-	start_date: (new Date).setHours(0, 0, 0, 0),
-	end_date: (new Date).setHours(0, 0, 0, 0),
+	start_date: null,
+	end_date: null,
 	//
 	reference_plan: null,
 	offer_plan: null,

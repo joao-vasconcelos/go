@@ -11,6 +11,7 @@ import { ArchiveValidation } from '@/schemas/Archive/validation';
 import { ArchiveDefault } from '@/schemas/Archive/default';
 import populate from '@/services/populate';
 import API from '@/services/API';
+import { DateTime } from 'luxon';
 
 /* * */
 
@@ -79,8 +80,8 @@ export function ArchivesExplorerItemContextProvider({ itemId, itemData, children
 		// Merge the data with the default
 		const populated = populate(ArchiveDefault, itemData);
 		// Special case for dates
-		populated.start_date = itemData.start_date ? new Date(itemData.start_date) : null;
-		populated.end_date = itemData.end_date ? new Date(itemData.end_date) : null;
+		populated.start_date = itemData.start_date ? DateTime.fromFormat(itemData.start_date, 'yyyyMMdd').toJSDate() : null;
+		populated.end_date = itemData.end_date ? DateTime.fromFormat(itemData.end_date, 'yyyyMMdd').toJSDate() : null;
 		// Update form
 		formState.setValues(populated);
 		formState.resetDirty(populated);
@@ -97,7 +98,12 @@ export function ArchivesExplorerItemContextProvider({ itemId, itemData, children
 	const saveItem = useCallback(async () => {
 		try {
 			setItemState((prev) => ({ ...prev, is_saving: true, is_error_saving: false }));
-			await API({ service: 'archives', resourceId: itemId, operation: 'edit', method: 'PUT', body: formState.values });
+			const parsedFormValues = {
+				...formState.values,
+				start_date: formState.values.start_date ? DateTime.fromJSDate(formState.values.start_date).startOf('day').toFormat('yyyyMMdd') : null,
+				end_date: formState.values.end_date ? DateTime.fromJSDate(formState.values.end_date).startOf('day').toFormat('yyyyMMdd') : null,
+			};
+			await API({ service: 'archives', resourceId: itemId, operation: 'edit', method: 'PUT', body: parsedFormValues });
 			allItemsMutate();
 			formState.resetDirty();
 			setItemState((prev) => ({ ...prev, is_saving: false }));

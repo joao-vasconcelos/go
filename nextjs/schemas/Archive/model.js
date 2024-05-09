@@ -20,10 +20,12 @@ export const ArchiveSchema = new mongoose.Schema(
 			ref: 'Agency',
 		},
 		start_date: {
-			type: Date,
+			type: String,
+			maxlength: 8,
 		},
 		end_date: {
-			type: Date,
+			type: String,
+			maxlength: 8,
 		},
 		reference_plan: {
 			type: mongoose.Schema.Types.ObjectId,
