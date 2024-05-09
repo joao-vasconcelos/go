@@ -558,7 +558,7 @@ export default async () => {
 				console.log('- - - - - - - - - - - - - - - - - - - - -');
 			} catch (error) {
 				console.log(`✖︎ Error processing archive ${archiveData.code}`, error);
-				await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'waiting' } });
+				await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'error' } });
 			}
 
 			//
