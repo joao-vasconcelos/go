@@ -5,5 +5,5 @@ import TagsExplorerIdPage from '@/components/TagsExplorerIdPage/TagsExplorerIdPa
 /* * */
 
 export default function Page() {
-  return <TagsExplorerIdPage />;
+	return <TagsExplorerIdPage />;
 }

@@ -15,50 +15,50 @@ import PatternsExplorerIdPageShapeMap from '@/components/PatternsExplorerIdPageS
 /* * */
 
 export default function PatternsExplorerIdPageShape() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('PatternsExplorerIdPageShape');
-  const linessExplorerContext = useLinesExplorerContext();
-  const patternsExplorerContext = usePatternsExplorerContext();
+	const t = useTranslations('PatternsExplorerIdPageShape');
+	const linessExplorerContext = useLinesExplorerContext();
+	const patternsExplorerContext = usePatternsExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { data: agencyData } = useSWR(linessExplorerContext.item_data && linessExplorerContext.item_data.agency && `/api/agencies/${linessExplorerContext.item_data.agency}`);
+	const { data: agencyData } = useSWR(linessExplorerContext.item_data && linessExplorerContext.item_data.agency && `/api/agencies/${linessExplorerContext.item_data.agency}`);
 
-  //
-  // C. Transform data
+	//
+	// C. Transform data
 
-  const shapeExtensionCardValue = useMemo(() => {
-    if (!patternsExplorerContext.form.values?.shape?.extension) return '(no shape)';
-    if (patternsExplorerContext.form.values?.shape?.extension > 1000) return `${(patternsExplorerContext.form.values.shape.extension / 1000).toFixed(3)} km`;
-    else return `${patternsExplorerContext.form.values.shape.extension} m`;
-  }, [patternsExplorerContext.form.values]);
+	const shapeExtensionCardValue = useMemo(() => {
+		if (!patternsExplorerContext.form.values?.shape?.extension) return '(no shape)';
+		if (patternsExplorerContext.form.values?.shape?.extension > 1000) return `${(patternsExplorerContext.form.values.shape.extension / 1000).toFixed(3)} km`;
+		else return `${patternsExplorerContext.form.values.shape.extension} m`;
+	}, [patternsExplorerContext.form.values]);
 
-  const shapeCost = useMemo(() => {
-    if (!patternsExplorerContext.form.values?.shape?.extension || !agencyData) return '(no shape)';
-    const shapeExtensionInKm = patternsExplorerContext.form.values?.shape?.extension / 1000;
-    const shapeCostRaw = shapeExtensionInKm * agencyData.price_per_km;
-    return `${shapeCostRaw.toFixed(2)} €`;
-  }, [agencyData, patternsExplorerContext.form.values]);
+	const shapeCost = useMemo(() => {
+		if (!patternsExplorerContext.form.values?.shape?.extension || !agencyData) return '(no shape)';
+		const shapeExtensionInKm = patternsExplorerContext.form.values?.shape?.extension / 1000;
+		const shapeCostRaw = shapeExtensionInKm * agencyData.price_per_km;
+		return `${shapeCostRaw.toFixed(2)} €`;
+	}, [agencyData, patternsExplorerContext.form.values]);
 
-  //
-  // D. Render components
+	//
+	// D. Render components
 
-  return (
-    <>
-      <AppLayoutSection>
-        <SimpleGrid cols={2}>
-          <StatCard title={t('cards.extension')} value={shapeExtensionCardValue} />
-          <StatCard title={t('cards.cost')} value={shapeCost} />
-        </SimpleGrid>
-      </AppLayoutSection>
-      <PatternsExplorerIdPageShapeMap />
-    </>
-  );
+	return (
+		<>
+			<AppLayoutSection>
+				<SimpleGrid cols={2}>
+					<StatCard title={t('cards.extension')} value={shapeExtensionCardValue} />
+					<StatCard title={t('cards.cost')} value={shapeCost} />
+				</SimpleGrid>
+			</AppLayoutSection>
+			<PatternsExplorerIdPageShapeMap />
+		</>
+	);
 
-  //
+	//
 }

@@ -5,5 +5,5 @@ import LinesExplorerIdPage from '@/components/LinesExplorerIdPage/LinesExplorerI
 /* * */
 
 export default function Page() {
-  return <LinesExplorerIdPage />;
+	return <LinesExplorerIdPage />;
 }

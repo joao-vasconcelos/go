@@ -13,19 +13,19 @@ import ReportsExplorerRealtimeResultTripDetailEventsTable from '@/components/Rep
 /* * */
 
 export default function ReportsExplorerRealtimeResultTripDetail() {
-  return (
-    <Pannel header={<ReportsExplorerRealtimeResultTripDetailHeader />}>
-      <ReportsExplorerRealtimeResultTripDetailDescription />
-      <Divider />
-      <ReportsExplorerRealtimeResultTripDetailTools />
-      <Divider />
-      <ReportsExplorerRealtimeResultTripDetailMap />
-      <Divider />
-      <ReportsExplorerRealtimeResultTripDetailMetrics />
-      <Divider />
-      <ReportsExplorerRealtimeResultTripDetailChartsTimestampsDistribution />
-      <Divider />
-      <ReportsExplorerRealtimeResultTripDetailEventsTable />
-    </Pannel>
-  );
+	return (
+		<Pannel header={<ReportsExplorerRealtimeResultTripDetailHeader />}>
+			<ReportsExplorerRealtimeResultTripDetailDescription />
+			<Divider />
+			<ReportsExplorerRealtimeResultTripDetailTools />
+			<Divider />
+			<ReportsExplorerRealtimeResultTripDetailMap />
+			<Divider />
+			<ReportsExplorerRealtimeResultTripDetailMetrics />
+			<Divider />
+			<ReportsExplorerRealtimeResultTripDetailChartsTimestampsDistribution />
+			<Divider />
+			<ReportsExplorerRealtimeResultTripDetailEventsTable />
+		</Pannel>
+	);
 }

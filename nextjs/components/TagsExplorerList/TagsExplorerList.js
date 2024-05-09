@@ -15,27 +15,27 @@ import { useTagsExplorerContext } from '@/contexts/TagsExplorerContext';
 /* * */
 
 export default function TagsExplorerList() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('TagsExplorerList');
-  const tagsExplorerContext = useTagsExplorerContext();
+	const t = useTranslations('TagsExplorerList');
+	const tagsExplorerContext = useTagsExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { error: allTagsError, isLoading: allTagsLoading, isValidating: allTagsValidating } = useSWR('/api/tags');
+	const { error: allTagsError, isLoading: allTagsLoading, isValidating: allTagsValidating } = useSWR('/api/tags');
 
-  //
-  // C. Render data
+	//
+	// C. Render data
 
-  return (
-    <Pannel loading={allTagsLoading} validating={allTagsValidating} error={allTagsError} header={<TagsExplorerListHeader />} footer={<TagsExplorerListFooter />}>
-      {tagsExplorerContext.list.items.length > 0 ? tagsExplorerContext.list.items.map((item) => <TagsExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
-    </Pannel>
-  );
+	return (
+		<Pannel loading={allTagsLoading} validating={allTagsValidating} error={allTagsError} header={<TagsExplorerListHeader />} footer={<TagsExplorerListFooter />}>
+			{tagsExplorerContext.list.items.length > 0 ? tagsExplorerContext.list.items.map((item) => <TagsExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		</Pannel>
+	);
 
-  //
+	//
 }

@@ -9,18 +9,18 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 /* * */
 
 export default function ArchivesExplorerListFooter() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ArchivesExplorerListFooter');
-  const archivesExplorerContext = useArchivesExplorerContext();
+	const t = useTranslations('ArchivesExplorerListFooter');
+	const archivesExplorerContext = useArchivesExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <ListFooter>{t('found_items', { count: archivesExplorerContext.list.items.length })}</ListFooter>;
+	return <ListFooter>{t('found_items', { count: archivesExplorerContext.list.items.length })}</ListFooter>;
 
-  //
+	//
 }

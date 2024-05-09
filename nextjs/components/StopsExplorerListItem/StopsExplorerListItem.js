@@ -13,39 +13,39 @@ import { Group } from '@mantine/core';
 /* * */
 
 export default function StopsExplorerListItem({ item, style }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const router = useRouter();
-  const { stop_id } = useParams();
-  const t = useTranslations('StopsExplorerListItem');
+	const router = useRouter();
+	const { stop_id } = useParams();
+	const t = useTranslations('StopsExplorerListItem');
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleClick = () => {
-    if (stop_id === item._id) return;
-    router.push(`/stops/${item._id}`);
-  };
+	const handleClick = () => {
+		if (stop_id === item._id) return;
+		router.push(`/stops/${item._id}`);
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <BaseListItem onClick={handleClick} isSelected={stop_id === item._id} style={style} withChevron>
-      <Text size="title" style={!item.name && 'untitled'}>
-        {item.name || t('untitled')}
-      </Text>
-      <Group>
-        <Badge>{item.code}</Badge>
-        <Badge>
-          {item.latitude} {item.longitude}
-        </Badge>
-      </Group>
-    </BaseListItem>
-  );
+	return (
+		<BaseListItem onClick={handleClick} isSelected={stop_id === item._id} style={style} withChevron>
+			<Text size="title" style={!item.name && 'untitled'}>
+				{item.name || t('untitled')}
+			</Text>
+			<Group>
+				<Badge>{item.code}</Badge>
+				<Badge>
+					{item.latitude} {item.longitude}
+				</Badge>
+			</Group>
+		</BaseListItem>
+	);
 
-  //
+	//
 }

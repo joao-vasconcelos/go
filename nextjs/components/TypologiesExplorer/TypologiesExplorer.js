@@ -10,11 +10,11 @@ import { TypologiesExplorerContextProvider } from '@/contexts/TypologiesExplorer
 /* * */
 
 export default function TypologiesExplorer({ children }) {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'typologies', action: 'navigate' }]} redirect>
-      <TypologiesExplorerContextProvider>
-        <TwoUnevenColumns first={<TypologiesExplorerList />} second={children} />
-      </TypologiesExplorerContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'typologies', action: 'navigate' }]} redirect>
+			<TypologiesExplorerContextProvider>
+				<TwoUnevenColumns first={<TypologiesExplorerList />} second={children} />
+			</TypologiesExplorerContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

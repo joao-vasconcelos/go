@@ -6,17 +6,17 @@ import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 /* * */
 
 export default function TypologiesExplorerPage() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('TypologiesExplorerPage');
+	const t = useTranslations('TypologiesExplorerPage');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <NoDataLabel fill text={t('no_data')} />;
+	return <NoDataLabel fill text={t('no_data')} />;
 
-  //
+	//
 }

@@ -10,11 +10,11 @@ import { LinesExplorerContextProvider } from '@/contexts/LinesExplorerContext';
 /* * */
 
 export default function LinesExplorer({ children }) {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'navigate' }]} redirect>
-      <LinesExplorerContextProvider>
-        <TwoUnevenColumns first={<LinesExplorerList />} second={children} />
-      </LinesExplorerContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'navigate' }]} redirect>
+			<LinesExplorerContextProvider>
+				<TwoUnevenColumns first={<LinesExplorerList />} second={children} />
+			</LinesExplorerContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

@@ -5,5 +5,5 @@ import IssuesExplorerIdPage from '@/components/IssuesExplorerIdPage/IssuesExplor
 /* * */
 
 export default function Page() {
-  return <IssuesExplorerIdPage />;
+	return <IssuesExplorerIdPage />;
 }

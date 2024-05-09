@@ -9,30 +9,30 @@ import BaseListItem from '@/components/BaseListItem/BaseListItem';
 /* * */
 
 export default function AlertsExplorerListItem({ item }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const router = useRouter();
-  const { alert_id } = useParams();
+	const router = useRouter();
+	const { alert_id } = useParams();
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleClick = () => {
-    if (alert_id === item._id) return;
-    router.push(`/alerts/${item._id}`);
-  };
+	const handleClick = () => {
+		if (alert_id === item._id) return;
+		router.push(`/alerts/${item._id}`);
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <BaseListItem onClick={handleClick} isSelected={alert_id === item._id} withChevron>
-      <p>{item.title}</p>
-    </BaseListItem>
-  );
+	return (
+		<BaseListItem onClick={handleClick} isSelected={alert_id === item._id} withChevron>
+			<p>{item.title}</p>
+		</BaseListItem>
+	);
 
-  //
+	//
 }

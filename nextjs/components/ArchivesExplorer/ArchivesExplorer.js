@@ -10,11 +10,11 @@ import ArchivesExplorerList from '@/components/ArchivesExplorerList/ArchivesExpl
 /* * */
 
 export default function ArchivesExplorer() {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'archives', action: 'navigate' }]} redirect>
-      <ArchivesExplorerContextProvider>
-        <OneFullColumn first={<ArchivesExplorerList />} />
-      </ArchivesExplorerContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'archives', action: 'navigate' }]} redirect>
+			<ArchivesExplorerContextProvider>
+				<OneFullColumn first={<ArchivesExplorerList />} />
+			</ArchivesExplorerContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

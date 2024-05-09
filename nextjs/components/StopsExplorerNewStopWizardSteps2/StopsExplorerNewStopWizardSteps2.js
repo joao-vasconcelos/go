@@ -9,10 +9,10 @@ import StopsExplorerNewStopWizardSteps2Summary from '@/components/StopsExplorerN
 /* * */
 
 export default function StopsExplorerNewStopWizardSteps2() {
-  return (
-    <div className={styles.container}>
-      <StopsExplorerNewStopWizardSteps2Summary />
-      <StopsExplorerNewStopWizardSteps2Nav />
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<StopsExplorerNewStopWizardSteps2Summary />
+			<StopsExplorerNewStopWizardSteps2Nav />
+		</div>
+	);
 }

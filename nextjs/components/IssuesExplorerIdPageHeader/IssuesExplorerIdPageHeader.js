@@ -20,72 +20,72 @@ import GlobalAuthorTimestamp from '@/components/GlobalAuthorTimestamp/GlobalAuth
 /* * */
 
 export default function IssuesExplorerIdPageHeader() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('IssuesExplorerIdPageHeader');
-  const issuesExplorerContext = useIssuesExplorerContext();
+	const t = useTranslations('IssuesExplorerIdPageHeader');
+	const issuesExplorerContext = useIssuesExplorerContext();
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleChangeStatus = (newValue) => {
-    issuesExplorerContext.form.setFieldValue('status', newValue);
-  };
+	const handleChangeStatus = (newValue) => {
+		issuesExplorerContext.form.setFieldValue('status', newValue);
+	};
 
-  const handleChangePriority = (newValue) => {
-    issuesExplorerContext.form.setFieldValue('priority', newValue);
-  };
+	const handleChangePriority = (newValue) => {
+		issuesExplorerContext.form.setFieldValue('priority', newValue);
+	};
 
-  const handleDelete = async () => {
-    openConfirmModal({
-      title: <Text size="h2">{t('operations.delete.title')}</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">{t('operations.delete.description')}</Text>,
-      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          notify(issuesExplorerContext.item_id, 'loading', t('operations.delete.loading'));
-          await issuesExplorerContext.deleteItem();
-          notify(issuesExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (error) {
-          console.log(error);
-          notify(issuesExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
-        }
-      },
-    });
-  };
+	const handleDelete = async () => {
+		openConfirmModal({
+			title: <Text size="h2">{t('operations.delete.title')}</Text>,
+			centered: true,
+			closeOnClickOutside: true,
+			children: <Text size="h3">{t('operations.delete.description')}</Text>,
+			labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
+			confirmProps: { color: 'red' },
+			onConfirm: async () => {
+				try {
+					notify(issuesExplorerContext.item_id, 'loading', t('operations.delete.loading'));
+					await issuesExplorerContext.deleteItem();
+					notify(issuesExplorerContext.item_id, 'success', t('operations.delete.success'));
+				} catch (error) {
+					console.log(error);
+					notify(issuesExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
+				}
+			},
+		});
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <ListHeader>
-      <AutoSave
-        isValid={issuesExplorerContext.form.isValid()}
-        isDirty={issuesExplorerContext.form.isDirty()}
-        onValidate={issuesExplorerContext.validateItem}
-        isErrorValidating={issuesExplorerContext.page.is_error}
-        isErrorSaving={issuesExplorerContext.page.is_error_saving}
-        isSaving={issuesExplorerContext.page.is_saving}
-        onSave={issuesExplorerContext.saveItem}
-        onClose={issuesExplorerContext.closeItem}
-      />
-      <div className={styles.wrapper}>
-        <IssuesExplorerAttributeStatusSelect value={issuesExplorerContext.form.values.status} onChange={handleChangeStatus} />
-        <IssuesExplorerAttributePrioritySelect value={issuesExplorerContext.form.values.priority} onChange={handleChangePriority} />
-      </div>
-      <GlobalAuthorTimestamp actionVerb={'abriu'} timestamp={issuesExplorerContext.form.values.created_at} userId={issuesExplorerContext.form.values.created_by} />
-      <AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'lock' }]}>
-        <AppButtonLock isLocked={issuesExplorerContext.item_data?.is_locked} onClick={issuesExplorerContext.lockItem} />
-      </AppAuthenticationCheck>
-      <AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'delete' }]}>
-        <AppButtonDelete onClick={handleDelete} disabled={issuesExplorerContext.page.is_read_only} />
-      </AppAuthenticationCheck>
-    </ListHeader>
-  );
+	return (
+		<ListHeader>
+			<AutoSave
+				isValid={issuesExplorerContext.form.isValid()}
+				isDirty={issuesExplorerContext.form.isDirty()}
+				onValidate={issuesExplorerContext.validateItem}
+				isErrorValidating={issuesExplorerContext.page.is_error}
+				isErrorSaving={issuesExplorerContext.page.is_error_saving}
+				isSaving={issuesExplorerContext.page.is_saving}
+				onSave={issuesExplorerContext.saveItem}
+				onClose={issuesExplorerContext.closeItem}
+			/>
+			<div className={styles.wrapper}>
+				<IssuesExplorerAttributeStatusSelect value={issuesExplorerContext.form.values.status} onChange={handleChangeStatus} />
+				<IssuesExplorerAttributePrioritySelect value={issuesExplorerContext.form.values.priority} onChange={handleChangePriority} />
+			</div>
+			<GlobalAuthorTimestamp actionVerb={'abriu'} timestamp={issuesExplorerContext.form.values.created_at} userId={issuesExplorerContext.form.values.created_by} />
+			<AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'lock' }]}>
+				<AppButtonLock isLocked={issuesExplorerContext.item_data?.is_locked} onClick={issuesExplorerContext.lockItem} />
+			</AppAuthenticationCheck>
+			<AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'delete' }]}>
+				<AppButtonDelete onClick={handleDelete} disabled={issuesExplorerContext.page.is_read_only} />
+			</AppAuthenticationCheck>
+		</ListHeader>
+	);
 }

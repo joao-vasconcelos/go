@@ -18,62 +18,62 @@ import ListHeader from '@/components/ListHeader/ListHeader';
 /* * */
 
 export default function FaresExplorerListHeader() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const router = useRouter();
-  const t = useTranslations('FaresExplorerListHeader');
-  const [isCreating, setIsCreating] = useState(false);
-  const faresExplorerContext = useFaresExplorerContext();
+	const router = useRouter();
+	const t = useTranslations('FaresExplorerListHeader');
+	const [isCreating, setIsCreating] = useState(false);
+	const faresExplorerContext = useFaresExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { isLoading: allFaresLoading, mutate: allFaresMutate } = useSWR('/api/fares');
+	const { isLoading: allFaresLoading, mutate: allFaresMutate } = useSWR('/api/fares');
 
-  //
-  // C. Handle actions
+	//
+	// C. Handle actions
 
-  const handleCreate = async () => {
-    try {
-      setIsCreating(true);
-      notify('new', 'loading', t('operations.create.loading'));
-      const response = await API({ service: 'fares', operation: 'create', method: 'GET' });
-      allFaresMutate();
-      router.push(`/fares/${response._id}`);
-      notify('new', 'success', t('operations.create.success'));
-      setIsCreating(false);
-    } catch (error) {
-      notify('new', 'error', error.message || t('operations.create.error'));
-      setIsCreating(false);
-      console.log(error);
-    }
-  };
+	const handleCreate = async () => {
+		try {
+			setIsCreating(true);
+			notify('new', 'loading', t('operations.create.loading'));
+			const response = await API({ service: 'fares', operation: 'create', method: 'GET' });
+			allFaresMutate();
+			router.push(`/fares/${response._id}`);
+			notify('new', 'success', t('operations.create.success'));
+			setIsCreating(false);
+		} catch (error) {
+			notify('new', 'error', error.message || t('operations.create.error'));
+			setIsCreating(false);
+			console.log(error);
+		}
+	};
 
-  //
-  // D. Render components
+	//
+	// D. Render components
 
-  return (
-    <ListHeader>
-      <SearchField query={faresExplorerContext.list.search_query} onChange={faresExplorerContext.updateSearchQuery} />
-      <Menu shadow="md" position="bottom-end">
-        <Menu.Target>
-          <ActionIcon variant="light" size="lg" color="gray" loading={allFaresLoading || isCreating}>
-            <IconDots size={20} />
-          </ActionIcon>
-        </Menu.Target>
-        <Menu.Dropdown>
-          <AppAuthenticationCheck permissions={[{ scope: 'fares', action: 'create' }]}>
-            <Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
-              {t('operations.create.title')}
-            </Menu.Item>
-          </AppAuthenticationCheck>
-        </Menu.Dropdown>
-      </Menu>
-    </ListHeader>
-  );
+	return (
+		<ListHeader>
+			<SearchField query={faresExplorerContext.list.search_query} onChange={faresExplorerContext.updateSearchQuery} />
+			<Menu shadow="md" position="bottom-end">
+				<Menu.Target>
+					<ActionIcon variant="light" size="lg" color="gray" loading={allFaresLoading || isCreating}>
+						<IconDots size={20} />
+					</ActionIcon>
+				</Menu.Target>
+				<Menu.Dropdown>
+					<AppAuthenticationCheck permissions={[{ scope: 'fares', action: 'create' }]}>
+						<Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
+							{t('operations.create.title')}
+						</Menu.Item>
+					</AppAuthenticationCheck>
+				</Menu.Dropdown>
+			</Menu>
+		</ListHeader>
+	);
 
-  //
+	//
 }

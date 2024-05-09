@@ -9,18 +9,18 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 /* * */
 
 export default function AlertsExplorerListFooter() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('AlertsExplorerListFooter');
-  const alertsExplorerContext = useAlertsExplorerContext();
+	const t = useTranslations('AlertsExplorerListFooter');
+	const alertsExplorerContext = useAlertsExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <ListFooter>{t('found_items', { count: alertsExplorerContext.list.items.length })}</ListFooter>;
+	return <ListFooter>{t('found_items', { count: alertsExplorerContext.list.items.length })}</ListFooter>;
 
-  //
+	//
 }

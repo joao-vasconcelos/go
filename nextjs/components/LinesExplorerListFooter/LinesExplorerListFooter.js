@@ -9,18 +9,18 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 /* * */
 
 export default function LinesExplorerListFooter() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('LinesExplorerListFooter');
-  const linesExplorerContext = useLinesExplorerContext();
+	const t = useTranslations('LinesExplorerListFooter');
+	const linesExplorerContext = useLinesExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <ListFooter>{t('found_items', { count: linesExplorerContext.list.items.length })}</ListFooter>;
+	return <ListFooter>{t('found_items', { count: linesExplorerContext.list.items.length })}</ListFooter>;
 
-  //
+	//
 }

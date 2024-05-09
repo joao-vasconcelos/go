@@ -14,150 +14,150 @@ import { useForm, yupResolver } from '@mantine/form';
 const ExportsExplorerContext = createContext(null);
 
 export function useExportsExplorerContext() {
-  return useContext(ExportsExplorerContext);
+	return useContext(ExportsExplorerContext);
 }
 
 /* * */
 
 const initialListState = {
-  //
-  is_loading: false,
-  //
+	//
+	is_loading: false,
+	//
 };
 
 const initialFormState = {
-  //
-  is_loading: false,
-  is_valid: false,
-  is_error: false,
-  is_read_only: false,
-  //
+	//
+	is_loading: false,
+	is_valid: false,
+	is_error: false,
+	is_read_only: false,
+	//
 };
 
 /* * */
 
 export function ExportsExplorerContextProvider({ children }) {
-  //
+	//
 
-  //
-  // B. Setup state
+	//
+	// B. Setup state
 
-  const [formState, setFormState] = useState(initialFormState);
-  const [formStateMainValuesState, setFormStateMainValuesState] = useState(ExportFormDefault);
+	const [formState, setFormState] = useState(initialFormState);
+	const [formStateMainValuesState, setFormStateMainValuesState] = useState(ExportFormDefault);
 
-  //
-  // C. Setup forms
+	//
+	// C. Setup forms
 
-  const formStateMain = useForm({
-    validateInputOnBlur: true,
-    validateInputOnChange: true,
-    clearInputErrorOnChange: true,
-    validate: yupResolver(ExportFormValidation),
-    initialValues: ExportFormDefault,
-  });
+	const formStateMain = useForm({
+		validateInputOnBlur: true,
+		validateInputOnChange: true,
+		clearInputErrorOnChange: true,
+		validate: yupResolver(ExportFormValidation),
+		initialValues: ExportFormDefault,
+	});
 
-  const formStateGtfsV29 = useForm({
-    validateInputOnBlur: true,
-    validateInputOnChange: true,
-    clearInputErrorOnChange: true,
-    validate: yupResolver(ExportFormValidationGtfsV29),
-    initialValues: ExportFormDefaultGtfsV29,
-  });
+	const formStateGtfsV29 = useForm({
+		validateInputOnBlur: true,
+		validateInputOnChange: true,
+		clearInputErrorOnChange: true,
+		validate: yupResolver(ExportFormValidationGtfsV29),
+		initialValues: ExportFormDefaultGtfsV29,
+	});
 
-  const formStateNetexV1 = useForm({
-    validateInputOnBlur: true,
-    validateInputOnChange: true,
-    clearInputErrorOnChange: true,
-    validate: yupResolver(ExportFormValidationNetexV1),
-    initialValues: ExportFormDefaultNetexV1,
-  });
+	const formStateNetexV1 = useForm({
+		validateInputOnBlur: true,
+		validateInputOnChange: true,
+		clearInputErrorOnChange: true,
+		validate: yupResolver(ExportFormValidationNetexV1),
+		initialValues: ExportFormDefaultNetexV1,
+	});
 
-  const formStateRegionalMergeV1 = useForm({
-    validateInputOnBlur: true,
-    validateInputOnChange: true,
-    clearInputErrorOnChange: true,
-    validate: yupResolver(ExportFormValidationRegionalMergeV1),
-    initialValues: ExportFormDefaultRegionalMergeV1,
-  });
+	const formStateRegionalMergeV1 = useForm({
+		validateInputOnBlur: true,
+		validateInputOnChange: true,
+		clearInputErrorOnChange: true,
+		validate: yupResolver(ExportFormValidationRegionalMergeV1),
+		initialValues: ExportFormDefaultRegionalMergeV1,
+	});
 
-  //
-  // F. Setup actions
+	//
+	// F. Setup actions
 
-  const { mutate: allExportsMutate } = useSWR('/api/exports');
+	const { mutate: allExportsMutate } = useSWR('/api/exports');
 
-  //
-  // F. Setup actions
+	//
+	// F. Setup actions
 
-  useEffect(() => {
-    setFormState((prev) => ({ ...prev, is_valid: true }));
-    if (formStateMain.values.kind === 'regional_merge_v1') formStateMain.setFieldValue('notify_user', false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formStateMain.values.kind]);
+	useEffect(() => {
+		setFormState((prev) => ({ ...prev, is_valid: true }));
+		if (formStateMain.values.kind === 'regional_merge_v1') formStateMain.setFieldValue('notify_user', false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [formStateMain.values.kind]);
 
-  //
-  // F. Setup actions
+	//
+	// F. Setup actions
 
-  const handleStartExport = useCallback(async () => {
-    try {
-      // Update interface
-      setFormState((prev) => ({ ...prev, is_loading: true, is_read_only: true }));
-      // Setup request body based on export kind
-      const formStateMainValues = formStateMain.getValues();
-      //
-      let requestBody = {};
-      switch (formStateMainValues.kind) {
-        case 'gtfs_v29':
-          requestBody = { ...formStateMainValues, ...formStateGtfsV29.values };
-          break;
-        case 'netex_v1':
-          requestBody = { ...formStateMainValues, ...formStateNetexV1.values };
-          break;
-        case 'regional_merge_v1':
-          requestBody = { ...formStateMainValues, ...formStateRegionalMergeV1.values };
-          break;
-      }
-      // Perform the API call
-      await API({ service: 'exports', operation: 'create', method: 'POST', body: requestBody });
-      // Mutate results
-      allExportsMutate();
-      // Reset form
-      formStateMain.setValues(ExportFormDefault);
-      formStateGtfsV29.setValues(ExportFormDefaultGtfsV29);
-      formStateNetexV1.setValues(ExportFormDefaultNetexV1);
-      formStateRegionalMergeV1.setValues(ExportFormDefaultRegionalMergeV1);
-      // Update interface
-      setFormState(initialFormState);
-      //
-    } catch (error) {
-      console.log(error);
-      setFormState((prev) => ({ ...prev, is_loading: false, is_read_only: false, is_error: true }));
-    }
-  }, [allExportsMutate, formStateGtfsV29, formStateMain, formStateNetexV1, formStateRegionalMergeV1]);
+	const handleStartExport = useCallback(async () => {
+		try {
+			// Update interface
+			setFormState((prev) => ({ ...prev, is_loading: true, is_read_only: true }));
+			// Setup request body based on export kind
+			const formStateMainValues = formStateMain.getValues();
+			//
+			let requestBody = {};
+			switch (formStateMainValues.kind) {
+			case 'gtfs_v29':
+				requestBody = { ...formStateMainValues, ...formStateGtfsV29.values };
+				break;
+			case 'netex_v1':
+				requestBody = { ...formStateMainValues, ...formStateNetexV1.values };
+				break;
+			case 'regional_merge_v1':
+				requestBody = { ...formStateMainValues, ...formStateRegionalMergeV1.values };
+				break;
+			}
+			// Perform the API call
+			await API({ service: 'exports', operation: 'create', method: 'POST', body: requestBody });
+			// Mutate results
+			allExportsMutate();
+			// Reset form
+			formStateMain.setValues(ExportFormDefault);
+			formStateGtfsV29.setValues(ExportFormDefaultGtfsV29);
+			formStateNetexV1.setValues(ExportFormDefaultNetexV1);
+			formStateRegionalMergeV1.setValues(ExportFormDefaultRegionalMergeV1);
+			// Update interface
+			setFormState(initialFormState);
+			//
+		} catch (error) {
+			console.log(error);
+			setFormState((prev) => ({ ...prev, is_loading: false, is_read_only: false, is_error: true }));
+		}
+	}, [allExportsMutate, formStateGtfsV29, formStateMain, formStateNetexV1, formStateRegionalMergeV1]);
 
-  //
-  // G. Setup context object
+	//
+	// G. Setup context object
 
-  const contextObject = useMemo(
-    () => ({
-      //
-      form: formState,
-      //
-      form_main: formStateMain,
-      form_main_values: formStateMainValuesState,
-      form_gtfs_v29: formStateGtfsV29,
-      form_netex_v1: formStateNetexV1,
-      form_regional_merge_v1: formStateRegionalMergeV1,
-      //
-      startExport: handleStartExport,
-      //
-    }),
-    [formState, formStateGtfsV29, formStateMain, formStateMainValuesState, formStateNetexV1, formStateRegionalMergeV1, handleStartExport]
-  );
+	const contextObject = useMemo(
+		() => ({
+			//
+			form: formState,
+			//
+			form_main: formStateMain,
+			form_main_values: formStateMainValuesState,
+			form_gtfs_v29: formStateGtfsV29,
+			form_netex_v1: formStateNetexV1,
+			form_regional_merge_v1: formStateRegionalMergeV1,
+			//
+			startExport: handleStartExport,
+			//
+		}),
+		[formState, formStateGtfsV29, formStateMain, formStateMainValuesState, formStateNetexV1, formStateRegionalMergeV1, handleStartExport],
+	);
 
-  //
-  // H. Return provider
+	//
+	// H. Return provider
 
-  return <ExportsExplorerContext.Provider value={contextObject}>{children}</ExportsExplorerContext.Provider>;
+	return <ExportsExplorerContext.Provider value={contextObject}>{children}</ExportsExplorerContext.Provider>;
 
-  //
+	//
 }

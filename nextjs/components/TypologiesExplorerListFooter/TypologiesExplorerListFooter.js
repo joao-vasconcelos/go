@@ -9,18 +9,18 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 /* * */
 
 export default function TypologiesExplorerListFooter() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('TypologiesExplorerListFooter');
-  const typologiesExplorerContext = useTypologiesExplorerContext();
+	const t = useTranslations('TypologiesExplorerListFooter');
+	const typologiesExplorerContext = useTypologiesExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <ListFooter>{t('found_items', { count: typologiesExplorerContext.list.items.length })}</ListFooter>;
+	return <ListFooter>{t('found_items', { count: typologiesExplorerContext.list.items.length })}</ListFooter>;
 
-  //
+	//
 }

@@ -9,23 +9,23 @@ import { useTranslations } from 'next-intl';
 /* * */
 
 export default function ReportsExplorerRealtimeResultTripDetailDescription() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ReportsExplorerRealtimeResultTripDetailDescription');
+	const t = useTranslations('ReportsExplorerRealtimeResultTripDetailDescription');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <Section>
-      <Text size="h4" color="muted">
-        {t('summary')}
-      </Text>
-    </Section>
-  );
+	return (
+		<Section>
+			<Text size="h4" color="muted">
+				{t('summary')}
+			</Text>
+		</Section>
+	);
 
-  //
+	//
 }

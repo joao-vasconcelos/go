@@ -12,14 +12,14 @@ import Standout from '@/components/Standout/Standout';
 /* * */
 
 export default function ArchivesExplorerListItem({ item }) {
-  return (
-    <ArchivesExplorerItemContextProvider itemId={item._id} itemData={item}>
-      <Standout icon={<ArchivesExplorerListItemHeader />} defaultOpen={false} collapsible>
-        <AppAuthenticationCheck permissions={[{ scope: 'archives', action: 'edit' }]}>
-          <ArchivesExplorerListItemEdit />
-        </AppAuthenticationCheck>
-        <ArchivesExplorerListItemFiles />
-      </Standout>
-    </ArchivesExplorerItemContextProvider>
-  );
+	return (
+		<ArchivesExplorerItemContextProvider itemId={item._id} itemData={item}>
+			<Standout icon={<ArchivesExplorerListItemHeader />} defaultOpen={false} collapsible>
+				<AppAuthenticationCheck permissions={[{ scope: 'archives', action: 'edit' }]}>
+					<ArchivesExplorerListItemEdit />
+				</AppAuthenticationCheck>
+				<ArchivesExplorerListItemFiles />
+			</Standout>
+		</ArchivesExplorerItemContextProvider>
+	);
 }

@@ -10,11 +10,11 @@ import { UsersExplorerContextProvider } from '@/contexts/UsersExplorerContext';
 /* * */
 
 export default function UsersExplorer({ children }) {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'users', action: 'navigate' }]} redirect>
-      <UsersExplorerContextProvider>
-        <TwoUnevenColumns first={<UsersExplorerList />} second={children} />
-      </UsersExplorerContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'users', action: 'navigate' }]} redirect>
+			<UsersExplorerContextProvider>
+				<TwoUnevenColumns first={<UsersExplorerList />} second={children} />
+			</UsersExplorerContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

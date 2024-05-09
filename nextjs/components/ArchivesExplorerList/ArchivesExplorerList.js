@@ -14,26 +14,26 @@ import styles from './ArchivesExplorerList.module.css';
 /* * */
 
 export default function ArchivesExplorerList() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const archivesExplorerContext = useArchivesExplorerContext();
+	const archivesExplorerContext = useArchivesExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { error: allArchivesError, isLoading: allArchivesLoading, isValidating: allArchivesValidating } = useSWR('/api/archives');
+	const { error: allArchivesError, isLoading: allArchivesLoading, isValidating: allArchivesValidating } = useSWR('/api/archives');
 
-  //
-  // C. Render data
+	//
+	// C. Render data
 
-  return (
-    <Pannel loading={allArchivesLoading} validating={allArchivesValidating} error={allArchivesError} header={<ArchivesExplorerListHeader />} footer={<ArchivesExplorerListFooter />}>
-      <div className={styles.listWrapper}>{archivesExplorerContext.list.items.length > 0 ? archivesExplorerContext.list.items.map((item) => <ArchivesExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}</div>
-    </Pannel>
-  );
+	return (
+		<Pannel loading={allArchivesLoading} validating={allArchivesValidating} error={allArchivesError} header={<ArchivesExplorerListHeader />} footer={<ArchivesExplorerListFooter />}>
+			<div className={styles.listWrapper}>{archivesExplorerContext.list.items.length > 0 ? archivesExplorerContext.list.items.map((item) => <ArchivesExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}</div>
+		</Pannel>
+	);
 
-  //
+	//
 }

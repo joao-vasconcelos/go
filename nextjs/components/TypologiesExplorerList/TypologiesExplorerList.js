@@ -13,26 +13,26 @@ import { useTypologiesExplorerContext } from '@/contexts/TypologiesExplorerConte
 /* * */
 
 export default function TypologiesExplorerList() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const typologiesExplorerContext = useTypologiesExplorerContext();
+	const typologiesExplorerContext = useTypologiesExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { error: allTypologiesError, isLoading: allTypologiesLoading, isValidating: allTypologiesValidating } = useSWR('/api/typologies');
+	const { error: allTypologiesError, isLoading: allTypologiesLoading, isValidating: allTypologiesValidating } = useSWR('/api/typologies');
 
-  //
-  // C. Render data
+	//
+	// C. Render data
 
-  return (
-    <Pannel loading={allTypologiesLoading} validating={allTypologiesValidating} error={allTypologiesError} header={<TypologiesExplorerListHeader />} footer={<TypologiesExplorerListFooter />}>
-      {typologiesExplorerContext.list.items.length > 0 ? typologiesExplorerContext.list.items.map((item) => <TypologiesExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
-    </Pannel>
-  );
+	return (
+		<Pannel loading={allTypologiesLoading} validating={allTypologiesValidating} error={allTypologiesError} header={<TypologiesExplorerListHeader />} footer={<TypologiesExplorerListFooter />}>
+			{typologiesExplorerContext.list.items.length > 0 ? typologiesExplorerContext.list.items.map((item) => <TypologiesExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		</Pannel>
+	);
 
-  //
+	//
 }

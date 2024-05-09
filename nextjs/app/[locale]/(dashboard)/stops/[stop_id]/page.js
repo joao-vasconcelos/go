@@ -5,5 +5,5 @@ import StopsExplorerIdPage from '@/components/StopsExplorerIdPage/StopsExplorerI
 /* * */
 
 export default function Page() {
-  return <StopsExplorerIdPage />;
+	return <StopsExplorerIdPage />;
 }

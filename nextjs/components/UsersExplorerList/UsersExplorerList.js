@@ -13,26 +13,26 @@ import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
 /* * */
 
 export default function UsersExplorerList() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const usersExplorerContext = useUsersExplorerContext();
+	const usersExplorerContext = useUsersExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { error: allUsersError, isLoading: allUsersLoading, isValidating: allUsersValidating } = useSWR('/api/users');
+	const { error: allUsersError, isLoading: allUsersLoading, isValidating: allUsersValidating } = useSWR('/api/users');
 
-  //
-  // C. Render data
+	//
+	// C. Render data
 
-  return (
-    <Pannel loading={allUsersLoading} validating={allUsersValidating} error={allUsersError} header={<UsersExplorerListHeader />} footer={<UsersExplorerListFooter />}>
-      {usersExplorerContext.list.items.length > 0 ? usersExplorerContext.list.items.map((item) => <UsersExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
-    </Pannel>
-  );
+	return (
+		<Pannel loading={allUsersLoading} validating={allUsersValidating} error={allUsersError} header={<UsersExplorerListHeader />} footer={<UsersExplorerListFooter />}>
+			{usersExplorerContext.list.items.length > 0 ? usersExplorerContext.list.items.map((item) => <UsersExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		</Pannel>
+	);
 
-  //
+	//
 }

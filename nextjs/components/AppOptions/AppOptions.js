@@ -14,54 +14,52 @@ import { signOut } from 'next-auth/react';
 /* * */
 
 export default function AppOptions() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const locale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
+	const locale = useLocale();
+	const router = useRouter();
+	const pathname = usePathname();
 
-  const t = useTranslations('AppOptions');
+	const t = useTranslations('AppOptions');
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleLocaleSwitch = (selectedLocale) => {
-    router.replace(`/${selectedLocale}${pathname}`);
-  };
+	const handleLocaleSwitch = (selectedLocale) => {
+		router.replace(`/${selectedLocale}${pathname}`);
+	};
 
-  const handleLogout = () => {
-    signOut();
-  };
+	const handleLogout = () => {
+		signOut();
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <Menu offset={15} position="bottom-end" shadow="lg">
-      <Menu.Target>
-        <ActionIcon variant="subtle" color="gray" size="lg">
-          <IconSettings size={20} />
-        </ActionIcon>
-      </Menu.Target>
-      <Menu.Dropdown>
-        <Menu.Label>{t('language.label')}</Menu.Label>
-        {availableLocales.map((availableLocale) => (
-          <Menu.Item key={availableLocale} icon={<IconLanguage size={20} />} onClick={() => handleLocaleSwitch(availableLocale)} disabled={locale === availableLocale}>
-            {t(`language.locale.${availableLocale}`)}
-          </Menu.Item>
-        ))}
-        <Menu.Divider />
-        <Menu.Item icon={<IconLogin size={20} />} color="red" onClick={handleLogout}>
-          {t('auth.logout')}
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Label>{t('version.label', { version: pjson.version })}</Menu.Label>
-      </Menu.Dropdown>
-    </Menu>
-  );
+	return (
+		<Menu offset={15} position="bottom-end" shadow="lg">
+			<Menu.Target>
+				<ActionIcon variant="subtle" color="gray" size="lg">
+					<IconSettings size={20} />
+				</ActionIcon>
+			</Menu.Target>
+			<Menu.Dropdown>
+				<Menu.Label>{t('language.label')}</Menu.Label>
+				{availableLocales.map((availableLocale) => <Menu.Item key={availableLocale} icon={<IconLanguage size={20} />} onClick={() => handleLocaleSwitch(availableLocale)} disabled={locale === availableLocale}>
+					{t(`language.locale.${availableLocale}`)}
+				</Menu.Item>)}
+				<Menu.Divider />
+				<Menu.Item icon={<IconLogin size={20} />} color="red" onClick={handleLogout}>
+					{t('auth.logout')}
+				</Menu.Item>
+				<Menu.Divider />
+				<Menu.Label>{t('version.label', { version: pjson.version })}</Menu.Label>
+			</Menu.Dropdown>
+		</Menu>
+	);
 
-  //
+	//
 }

@@ -11,41 +11,41 @@ import { useState } from 'react';
 /* * */
 
 export default function AppButtonDelete({ onClick = async () => {}, disabled }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('AppButtonDelete');
-  const [isLoading, setIsLoading] = useState(false);
+	const t = useTranslations('AppButtonDelete');
+	const [isLoading, setIsLoading] = useState(false);
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleClick = async () => {
-    setIsLoading(true);
-    await onClick();
-    setIsLoading(false);
-  };
+	const handleClick = async () => {
+		setIsLoading(true);
+		await onClick();
+		setIsLoading(false);
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  if (isLoading) {
-    return (
-      <ActionIcon variant="light" size="lg" loading>
-        <IconCircleDotted size={20} />
-      </ActionIcon>
-    );
-  }
+	if (isLoading) {
+		return (
+			<ActionIcon variant="light" size="lg" loading>
+				<IconCircleDotted size={20} />
+			</ActionIcon>
+		);
+	}
 
-  return (
-    <Tooltip label={t('label')} color="red" position="bottom" disabled={disabled} withArrow>
-      <ActionIcon color="red" variant="light" size="lg" onClick={handleClick} disabled={disabled}>
-        <IconTrash size={20} />
-      </ActionIcon>
-    </Tooltip>
-  );
+	return (
+		<Tooltip label={t('label')} color="red" position="bottom" disabled={disabled} withArrow>
+			<ActionIcon color="red" variant="light" size="lg" onClick={handleClick} disabled={disabled}>
+				<IconTrash size={20} />
+			</ActionIcon>
+		</Tooltip>
+	);
 
-  //
+	//
 }

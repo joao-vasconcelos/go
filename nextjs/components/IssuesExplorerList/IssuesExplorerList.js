@@ -15,37 +15,34 @@ import { Table } from '@mantine/core';
 /* * */
 
 export default function IssuesExplorerList() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const issuesExplorerContext = useIssuesExplorerContext();
+	const issuesExplorerContext = useIssuesExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { error: allIssuesError, isLoading: allIssuesLoading, isValidating: allIssuesValidating } = useSWR('/api/issues');
+	const { error: allIssuesError, isLoading: allIssuesLoading, isValidating: allIssuesValidating } = useSWR('/api/issues');
 
-  //
-  // C. Render data
+	//
+	// C. Render data
 
-  return (
-    <Pannel loading={allIssuesLoading} validating={allIssuesValidating} error={allIssuesError} header={<IssuesExplorerListHeader />} footer={<IssuesExplorerListFooter />}>
-      {issuesExplorerContext.list.items.length > 0 ? (
-        <Table highlightOnHover horizontalSpacing="md" stickyHeader>
-          <IssuesExplorerListTableHeader />
-          <Table.Tbody>
-            {issuesExplorerContext.list.items.map((item) => (
-              <IssuesExplorerListTableRow key={item._id} item={item} />
-            ))}
-          </Table.Tbody>
-        </Table>
-      ) : (
-        <NoDataLabel fill />
-      )}
-    </Pannel>
-  );
+	return (
+		<Pannel loading={allIssuesLoading} validating={allIssuesValidating} error={allIssuesError} header={<IssuesExplorerListHeader />} footer={<IssuesExplorerListFooter />}>
+			{issuesExplorerContext.list.items.length > 0 ?
+				<Table highlightOnHover horizontalSpacing="md" stickyHeader>
+					<IssuesExplorerListTableHeader />
+					<Table.Tbody>
+						{issuesExplorerContext.list.items.map((item) => <IssuesExplorerListTableRow key={item._id} item={item} />)}
+					</Table.Tbody>
+				</Table> :
+				<NoDataLabel fill />
+			}
+		</Pannel>
+	);
 
-  //
+	//
 }

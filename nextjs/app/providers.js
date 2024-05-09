@@ -15,44 +15,44 @@ import { theme } from '@/styles/theme';
 /* * */
 
 export default function Providers({ children, session }) {
-  //
+	//
 
-  //
-  // A. Setup SWR
+	//
+	// A. Setup SWR
 
-  const swrOptions = {
-    refreshInterval: 30000,
-    revalidateOnMount: true,
-    fetcher: async (...args) => {
-      const res = await fetch(...args);
-      if (!res.ok) {
-        const errorDetails = await res.json();
-        const error = new Error(errorDetails.message || 'An error occurred while fetching data.');
-        error.description = errorDetails.description || 'No additional information was provided by the API.';
-        error.status = res.status;
-        throw error;
-      }
-      return res.json();
-    },
-  };
+	const swrOptions = {
+		refreshInterval: 30000,
+		revalidateOnMount: true,
+		fetcher: async (...args) => {
+			const res = await fetch(...args);
+			if (!res.ok) {
+				const errorDetails = await res.json();
+				const error = new Error(errorDetails.message || 'An error occurred while fetching data.');
+				error.description = errorDetails.description || 'No additional information was provided by the API.';
+				error.status = res.status;
+				throw error;
+			}
+			return res.json();
+		},
+	};
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <SessionProvider session={session} refetchInterval={5}>
-      <SWRConfig value={swrOptions}>
-        <MapProvider>
-          <MantineProvider theme={theme} defaultColorScheme="auto">
-            <DatesProvider settings={{ locale: 'pt', consistentWeeks: true }}>
-              <Notifications />
-              <ModalsProvider>{children}</ModalsProvider>
-            </DatesProvider>
-          </MantineProvider>
-        </MapProvider>
-      </SWRConfig>
-    </SessionProvider>
-  );
+	return (
+		<SessionProvider session={session} refetchInterval={5}>
+			<SWRConfig value={swrOptions}>
+				<MapProvider>
+					<MantineProvider theme={theme} defaultColorScheme="auto">
+						<DatesProvider settings={{ locale: 'pt', consistentWeeks: true }}>
+							<Notifications />
+							<ModalsProvider>{children}</ModalsProvider>
+						</DatesProvider>
+					</MantineProvider>
+				</MapProvider>
+			</SWRConfig>
+		</SessionProvider>
+	);
 
-  //
+	//
 }

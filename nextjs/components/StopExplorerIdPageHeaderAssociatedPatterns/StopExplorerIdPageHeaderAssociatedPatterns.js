@@ -13,30 +13,30 @@ import PatternsExplorerPattern from '@/components/PatternsExplorerPattern/Patter
 /* * */
 
 export default function StopExplorerIdPageHeaderAssociatedPatterns() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('StopExplorerIdPageHeaderAssociatedPatterns');
-  const stopsExplorerContext = useStopsExplorerContext();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+	const t = useTranslations('StopExplorerIdPageHeaderAssociatedPatterns');
+	const stopsExplorerContext = useStopsExplorerContext();
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <>
-      <Modal opened={isModalOpen} onClose={() => setIsModalOpen(!isModalOpen)} title={t('title')}>
-        {stopsExplorerContext.page.associated_patterns.length > 0 ? stopsExplorerContext.page.associated_patterns.map((item) => <PatternsExplorerPattern key={item._id} patternId={item._id} openInNewTab />) : <NoDataLabel text={t('no_data')} />}
-      </Modal>
-      <Tooltip label={t('label')} position="bottom" withArrow>
-        <ActionIcon color="blue" variant="subtle" size="lg" onClick={() => setIsModalOpen(!isModalOpen)} loading={stopsExplorerContext.page.is_loading}>
-          <IconEye size={20} />
-        </ActionIcon>
-      </Tooltip>
-    </>
-  );
+	return (
+		<>
+			<Modal opened={isModalOpen} onClose={() => setIsModalOpen(!isModalOpen)} title={t('title')}>
+				{stopsExplorerContext.page.associated_patterns.length > 0 ? stopsExplorerContext.page.associated_patterns.map((item) => <PatternsExplorerPattern key={item._id} patternId={item._id} openInNewTab />) : <NoDataLabel text={t('no_data')} />}
+			</Modal>
+			<Tooltip label={t('label')} position="bottom" withArrow>
+				<ActionIcon color="blue" variant="subtle" size="lg" onClick={() => setIsModalOpen(!isModalOpen)} loading={stopsExplorerContext.page.is_loading}>
+					<IconEye size={20} />
+				</ActionIcon>
+			</Tooltip>
+		</>
+	);
 
-  //
+	//
 }

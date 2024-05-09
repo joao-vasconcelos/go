@@ -13,54 +13,54 @@ import notify from '../../services/notify';
 import Loader from '../Loader/Loader';
 
 export default function MessageWriter({ thread_id }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('threads');
-  const { data: sessionData } = useSession();
-  const { mutate } = useSWRConfig();
-  const [isSending, setIsSending] = useState(false);
+	const t = useTranslations('threads');
+	const { data: sessionData } = useSession();
+	const { mutate } = useSWRConfig();
+	const [isSending, setIsSending] = useState(false);
 
-  //
-  // C. Setup form
+	//
+	// C. Setup form
 
-  const form = useForm({
-    clearInputErrorOnChange: true,
-    validate: yupResolver(MessageValidation),
-    initialValues: MessageDefault,
-  });
+	const form = useForm({
+		clearInputErrorOnChange: true,
+		validate: yupResolver(MessageValidation),
+		initialValues: MessageDefault,
+	});
 
-  //
-  // D. Handle actions
+	//
+	// D. Handle actions
 
-  const handleSend = async () => {
-    if (!form.isValid()) return;
-    try {
-      setIsSending(true);
-      form.setFieldValue('thread_id', thread_id);
-      form.setFieldValue('sent_by', sessionData.user._id);
-      await API({ service: 'messages', operation: 'create', method: 'POST', body: form });
-      mutate(`/api/threads/${thread_id}`);
-      form.reset();
-      setIsSending(false);
-    } catch (error) {
-      notify('new', 'error', error.message || t('operations.create.error'));
-      setIsSending(false);
-      console.log(error);
-    }
-  };
+	const handleSend = async () => {
+		if (!form.isValid()) return;
+		try {
+			setIsSending(true);
+			form.setFieldValue('thread_id', thread_id);
+			form.setFieldValue('sent_by', sessionData.user._id);
+			await API({ service: 'messages', operation: 'create', method: 'POST', body: form });
+			mutate(`/api/threads/${thread_id}`);
+			form.reset();
+			setIsSending(false);
+		} catch (error) {
+			notify('new', 'error', error.message || t('operations.create.error'));
+			setIsSending(false);
+			console.log(error);
+		}
+	};
 
-  return (
-    <form className={styles.container} onSubmit={form.onSubmit(async () => await handleSend())}>
-      <div className={styles.attach}>
-        <IconPaperclip size={18} />
-      </div>
-      <Textarea placeholder={t('messages.content.placeholder')} {...form.getInputProps('content')} w="100%" minRows={1} maxRows={5} autosize />
-      <div className={`${styles.send} ${!form.isValid() && styles.disabled}`} onClick={handleSend}>
-        {isSending ? <Loader visible /> : <IconArrowBigUpFilled size={14} />}
-      </div>
-    </form>
-  );
+	return (
+		<form className={styles.container} onSubmit={form.onSubmit(async () => await handleSend())}>
+			<div className={styles.attach}>
+				<IconPaperclip size={18} />
+			</div>
+			<Textarea placeholder={t('messages.content.placeholder')} {...form.getInputProps('content')} w="100%" minRows={1} maxRows={5} autosize />
+			<div className={`${styles.send} ${!form.isValid() && styles.disabled}`} onClick={handleSend}>
+				{isSending ? <Loader visible /> : <IconArrowBigUpFilled size={14} />}
+			</div>
+		</form>
+	);
 }

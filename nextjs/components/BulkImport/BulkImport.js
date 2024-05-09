@@ -5,22 +5,22 @@ import BulkImportFileSelect from '../BulkImportFileSelect/BulkImportFileSelect';
 import BulkImportTable from '../BulkImportTable/BulkImportTable';
 
 export default function BulkImport({ filesParser, dataUploader }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const bulkImportController = useBulkImportController(dataUploader);
+	const bulkImportController = useBulkImportController(dataUploader);
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleOnParse = (parsedData) => {
-    bulkImportController.onReceiveData(parsedData);
-  };
+	const handleOnParse = (parsedData) => {
+		bulkImportController.onReceiveData(parsedData);
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return !bulkImportController.allRows.length ? <BulkImportFileSelect filesParser={filesParser} onParse={handleOnParse} /> : <BulkImportTable controller={bulkImportController} />;
+	return !bulkImportController.allRows.length ? <BulkImportFileSelect filesParser={filesParser} onParse={handleOnParse} /> : <BulkImportTable controller={bulkImportController} />;
 }

@@ -12,26 +12,26 @@ import ReportsExplorerRevenueResultSummary from '@/components/ReportsExplorerRev
 /* * */
 
 export default function ReportsExplorerRevenueResult() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ReportsExplorerRevenueResult');
-  const reportsExplorerSalesContext = useReportsExplorerRevenueContext();
+	const t = useTranslations('ReportsExplorerRevenueResult');
+	const reportsExplorerSalesContext = useReportsExplorerRevenueContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  if (reportsExplorerSalesContext.request.is_error) {
-    return <ReportsExplorerRevenueResultError />;
-  } else if (reportsExplorerSalesContext.request.is_loading) {
-    return <ReportsExplorerRevenueResultLoading />;
-  } else if (reportsExplorerSalesContext.request.is_success) {
-    return <ReportsExplorerRevenueResultSummary />;
-  } else {
-    return <NoDataLabel text={t('no_data')} fill />;
-  }
+	if (reportsExplorerSalesContext.request.is_error) {
+		return <ReportsExplorerRevenueResultError />;
+	} else if (reportsExplorerSalesContext.request.is_loading) {
+		return <ReportsExplorerRevenueResultLoading />;
+	} else if (reportsExplorerSalesContext.request.is_success) {
+		return <ReportsExplorerRevenueResultSummary />;
+	} else {
+		return <NoDataLabel text={t('no_data')} fill />;
+	}
 
-  //
+	//
 }

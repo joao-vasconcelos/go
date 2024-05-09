@@ -13,22 +13,22 @@ import UsersExplorerIdPagePermissions from '@/components/UsersExplorerIdPagePerm
 /* * */
 
 export default function UsersExplorerIdPage() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('UsersExplorerIdPage');
-  const usersExplorerContext = useUsersExplorerContext();
+	const t = useTranslations('UsersExplorerIdPage');
+	const usersExplorerContext = useUsersExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <Pannel loading={usersExplorerContext.page.is_loading} header={<UsersExplorerIdPageHeader />}>
-      <UsersExplorerIdPageDetails />
-      <Divider />
-      <UsersExplorerIdPagePermissions />
-    </Pannel>
-  );
+	return (
+		<Pannel loading={usersExplorerContext.page.is_loading} header={<UsersExplorerIdPageHeader />}>
+			<UsersExplorerIdPageDetails />
+			<Divider />
+			<UsersExplorerIdPagePermissions />
+		</Pannel>
+	);
 }

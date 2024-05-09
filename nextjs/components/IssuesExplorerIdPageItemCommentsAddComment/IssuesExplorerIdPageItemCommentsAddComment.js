@@ -11,30 +11,30 @@ import { useState } from 'react';
 /* * */
 
 export default function IssuesExplorerIdPageItemCommentsAddComment() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('IssuesExplorerIdPageItemCommentsAddComment');
-  const issuesExplorerContext = useIssuesExplorerContext();
+	const t = useTranslations('IssuesExplorerIdPageItemCommentsAddComment');
+	const issuesExplorerContext = useIssuesExplorerContext();
 
-  const [commentText, setCommentText] = useState('');
+	const [commentText, setCommentText] = useState('');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  const handleAddComment = () => {
-    issuesExplorerContext.addComment(commentText);
-  };
+	const handleAddComment = () => {
+		issuesExplorerContext.addComment(commentText);
+	};
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <div className={styles.container}>
-      <Textarea label={t('form.text.label')} placeholder={t('form.text.placeholder')} w="100%" value={commentText} onChange={({ currentTarget }) => setCommentText(currentTarget.value)} />
-      <Button onClick={handleAddComment}>{t('form.submit.label')}</Button>
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<Textarea label={t('form.text.label')} placeholder={t('form.text.placeholder')} w="100%" value={commentText} onChange={({ currentTarget }) => setCommentText(currentTarget.value)} />
+			<Button onClick={handleAddComment}>{t('form.submit.label')}</Button>
+		</div>
+	);
 }

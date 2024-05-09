@@ -11,12 +11,12 @@ import StopsExplorerNewStopWizardSteps0Info from '@/components/StopsExplorerNewS
 /* * */
 
 export default function StopsExplorerNewStopWizardSteps0() {
-  return (
-    <div className={styles.container}>
-      <StopsExplorerNewStopWizardSteps0Toolbar />
-      <StopsExplorerNewStopWizardSteps0Map />
-      <StopsExplorerNewStopWizardSteps0Info />
-      <StopsExplorerNewStopWizardSteps0Nav />
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<StopsExplorerNewStopWizardSteps0Toolbar />
+			<StopsExplorerNewStopWizardSteps0Map />
+			<StopsExplorerNewStopWizardSteps0Info />
+			<StopsExplorerNewStopWizardSteps0Nav />
+		</div>
+	);
 }

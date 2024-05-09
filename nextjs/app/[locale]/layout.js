@@ -7,17 +7,17 @@ import { NextIntlClientProvider, useMessages } from 'next-intl';
 /* * */
 
 export default function Layout({ children, params: { locale } }) {
-  //
+	//
 
-  if (!availableLocales.includes(locale)) notFound();
+	if (!availableLocales.includes(locale)) notFound();
 
-  const messages = useMessages();
+	const messages = useMessages();
 
-  return (
-    <NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Lisbon" now={Date.now()} formats={availableFormats}>
-      {children}
-    </NextIntlClientProvider>
-  );
+	return (
+		<NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Lisbon" now={Date.now()} formats={availableFormats}>
+			{children}
+		</NextIntlClientProvider>
+	);
 
-  //
+	//
 }

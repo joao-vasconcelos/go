@@ -13,28 +13,28 @@ import ReportsExplorerRealtimeResultTripDetail from '@/components/ReportsExplore
 /* * */
 
 export default function ReportsExplorerRealtimeResult() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ReportsExplorerRealtimeResult');
-  const reportsExplorerRealtimeContext = useReportsExplorerRealtimeContext();
+	const t = useTranslations('ReportsExplorerRealtimeResult');
+	const reportsExplorerRealtimeContext = useReportsExplorerRealtimeContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  if (reportsExplorerRealtimeContext.request.is_error) {
-    return <ReportsExplorerRealtimeResultError />;
-  } else if (reportsExplorerRealtimeContext.request.is_loading) {
-    return <ReportsExplorerRealtimeResultLoading />;
-  } else if (reportsExplorerRealtimeContext.selectedTrip.trip_id) {
-    return <ReportsExplorerRealtimeResultTripDetail />;
-  } else if (reportsExplorerRealtimeContext.request.summary?.length > 0) {
-    return <ReportsExplorerRealtimeResultSummary />;
-  } else {
-    return <NoDataLabel text={t('no_data')} fill />;
-  }
+	if (reportsExplorerRealtimeContext.request.is_error) {
+		return <ReportsExplorerRealtimeResultError />;
+	} else if (reportsExplorerRealtimeContext.request.is_loading) {
+		return <ReportsExplorerRealtimeResultLoading />;
+	} else if (reportsExplorerRealtimeContext.selectedTrip.trip_id) {
+		return <ReportsExplorerRealtimeResultTripDetail />;
+	} else if (reportsExplorerRealtimeContext.request.summary?.length > 0) {
+		return <ReportsExplorerRealtimeResultSummary />;
+	} else {
+		return <NoDataLabel text={t('no_data')} fill />;
+	}
 
-  //
+	//
 }

@@ -9,42 +9,42 @@ import styles from './Standout.module.css';
 /* * */
 
 export default function Standout({ icon, title = '', description = '', collapsible = false, defaultOpen = true, children }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const [isOpen, setIsOpen] = useState(collapsible ? defaultOpen : true);
+	const [isOpen, setIsOpen] = useState(collapsible ? defaultOpen : true);
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleToggle = () => {
-    if (collapsible) setIsOpen((prev) => !prev);
-  };
+	const handleToggle = () => {
+		if (collapsible) setIsOpen((prev) => !prev);
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <div className={`${styles.container} ${collapsible && styles.collapsible} ${isOpen && styles.isOpen}`}>
-      {(icon || title || collapsible) && (
+	return (
+		<div className={`${styles.container} ${collapsible && styles.collapsible} ${isOpen && styles.isOpen}`}>
+			{(icon || title || collapsible) &&
         <div className={styles.header} onClick={handleToggle}>
-          <div className={styles.leftSection}>
-            {icon && icon}
-            {title && <h4 className={styles.title}>{title}</h4>}
-          </div>
-          <div className={styles.rightSection}>{collapsible && <div className={styles.toggleIcon}>{isOpen ? <IconCaretDownFilled size={18} /> : <IconCaretLeftFilled size={18} />}</div>}</div>
+        	<div className={styles.leftSection}>
+        		{icon && icon}
+        		{title && <h4 className={styles.title}>{title}</h4>}
+        	</div>
+        	<div className={styles.rightSection}>{collapsible && <div className={styles.toggleIcon}>{isOpen ? <IconCaretDownFilled size={18} /> : <IconCaretLeftFilled size={18} />}</div>}</div>
         </div>
-      )}
-      {(description || children) && isOpen && (
+			}
+			{(description || children) && isOpen &&
         <div className={styles.content}>
-          {description && <p className={styles.description}>{description}</p>}
-          {children && <div className={styles.children}>{children}</div>}
+        	{description && <p className={styles.description}>{description}</p>}
+        	{children && <div className={styles.children}>{children}</div>}
         </div>
-      )}
-    </div>
-  );
+			}
+		</div>
+	);
 
-  //
+	//
 }

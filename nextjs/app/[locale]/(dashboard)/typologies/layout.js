@@ -5,5 +5,5 @@ import TypologiesExplorer from '@/components/TypologiesExplorer/TypologiesExplor
 /* * */
 
 export default function Layout({ children }) {
-  return <TypologiesExplorer>{children}</TypologiesExplorer>;
+	return <TypologiesExplorer>{children}</TypologiesExplorer>;
 }

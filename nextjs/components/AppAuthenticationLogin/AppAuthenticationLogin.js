@@ -13,44 +13,44 @@ import { useTranslations } from 'next-intl';
 /* * */
 
 export default function AppAuthenticationLogin() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('AppAuthenticationLogin');
-  const [isLoading, setIsLoading] = useState(false);
+	const t = useTranslations('AppAuthenticationLogin');
+	const [isLoading, setIsLoading] = useState(false);
 
-  //
-  // B. Setup form
+	//
+	// B. Setup form
 
-  const form = useForm({
-    clearInputErrorOnChange: true,
-    validate: yupResolver(EmailValidation),
-    initialValues: EmailDefault,
-  });
+	const form = useForm({
+		clearInputErrorOnChange: true,
+		validate: yupResolver(EmailValidation),
+		initialValues: EmailDefault,
+	});
 
-  //
-  // C. Handle actions
+	//
+	// C. Handle actions
 
-  const handleSignIn = async () => {
-    setIsLoading(true);
-    signIn('email', { email: form.values.email, callbackUrl: '/' });
-  };
+	const handleSignIn = async () => {
+		setIsLoading(true);
+		signIn('email', { email: form.values.email, callbackUrl: '/' });
+	};
 
-  //
-  // D. Render components
+	//
+	// D. Render components
 
-  return (
-    <form onSubmit={form.onSubmit(handleSignIn)}>
-      <SimpleGrid>
-        <TextInput aria-label={t('email.label')} placeholder={t('email.placeholder')} {...form.getInputProps('email')} disabled={isLoading} />
-        <Button type={'submit'} fullWidth loading={isLoading}>
-          {t('login.label')}
-        </Button>
-      </SimpleGrid>
-    </form>
-  );
+	return (
+		<form onSubmit={form.onSubmit(handleSignIn)}>
+			<SimpleGrid>
+				<TextInput aria-label={t('email.label')} placeholder={t('email.placeholder')} {...form.getInputProps('email')} disabled={isLoading} />
+				<Button type={'submit'} fullWidth loading={isLoading}>
+					{t('login.label')}
+				</Button>
+			</SimpleGrid>
+		</form>
+	);
 
-  //
+	//
 }

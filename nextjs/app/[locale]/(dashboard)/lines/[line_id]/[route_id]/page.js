@@ -5,5 +5,5 @@ import RoutesExplorerIdPage from '@/components/RoutesExplorerIdPage/RoutesExplor
 /* * */
 
 export default function Page() {
-  return <RoutesExplorerIdPage />;
+	return <RoutesExplorerIdPage />;
 }

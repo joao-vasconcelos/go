@@ -10,30 +10,30 @@ import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser'
 /* * */
 
 export default function UsersExplorerListItem({ item }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const router = useRouter();
-  const { user_id } = useParams();
+	const router = useRouter();
+	const { user_id } = useParams();
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleClick = () => {
-    if (user_id === item._id) return;
-    router.push(`/users/${item._id}`);
-  };
+	const handleClick = () => {
+		if (user_id === item._id) return;
+		router.push(`/users/${item._id}`);
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <BaseListItem onClick={handleClick} isSelected={user_id === item._id} withChevron>
-      <UsersExplorerUser userId={item._id} type="full" withHoverCard={false} />
-    </BaseListItem>
-  );
+	return (
+		<BaseListItem onClick={handleClick} isSelected={user_id === item._id} withChevron>
+			<UsersExplorerUser userId={item._id} type="full" withHoverCard={false} />
+		</BaseListItem>
+	);
 
-  //
+	//
 }

@@ -5,5 +5,5 @@ import FaresExplorerIdPage from '@/components/FaresExplorerIdPage/FaresExplorerI
 /* * */
 
 export default function Page() {
-  return <FaresExplorerIdPage />;
+	return <FaresExplorerIdPage />;
 }

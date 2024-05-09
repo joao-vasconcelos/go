@@ -12,34 +12,32 @@ import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthe
 /* * */
 
 export default function Page() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const { data: allPatternsData } = useSWR('/api/patterns');
+	const { data: allPatternsData } = useSWR('/api/patterns');
 
-  //
-  // E. Render components
+	//
+	// E. Render components
 
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
-      <Pannel>
-        <Section>
-          <Text size="h2">All Pattern Ids</Text>
-          {allPatternsData && (
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
+			<Pannel>
+				<Section>
+					<Text size="h2">All Pattern Ids</Text>
+					{allPatternsData &&
             <SimpleGrid cols={1}>
-              {allPatternsData.map((pattern) => (
-                <div key={pattern._id}>
-                  {pattern.code} - {pattern._id} - {pattern.parent_route}
-                </div>
-              ))}
+            	{allPatternsData.map((pattern) => <div key={pattern._id}>
+            			{pattern.code} - {pattern._id} - {pattern.parent_route}
+            		</div>)}
             </SimpleGrid>
-          )}
-        </Section>
-      </Pannel>
-    </AppAuthenticationCheck>
-  );
+					}
+				</Section>
+			</Pannel>
+		</AppAuthenticationCheck>
+	);
 
-  //
+	//
 }

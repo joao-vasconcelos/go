@@ -6,17 +6,17 @@ import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 /* * */
 
 export default function TagsExplorerPage() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('TagsExplorerPage');
+	const t = useTranslations('TagsExplorerPage');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <NoDataLabel fill text={t('no_data')} />;
+	return <NoDataLabel fill text={t('no_data')} />;
 
-  //
+	//
 }

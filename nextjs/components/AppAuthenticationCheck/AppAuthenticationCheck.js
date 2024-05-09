@@ -10,35 +10,35 @@ import isAllowed from '@/authentication/isAllowed';
 /* * */
 
 export default function AppAuthenticationCheck({ permissions = [], redirect = false, children }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const router = useRouter();
-  const { data: sessionData, status: sessionStatus } = useSession();
+	const router = useRouter();
+	const { data: sessionData, status: sessionStatus } = useSession();
 
-  //
-  // B. Transform data
+	//
+	// B. Transform data
 
-  const hasPermission = useMemo(() => {
-    return isAllowed(sessionData, permissions, { handleError: true });
-  }, [permissions, sessionData]);
+	const hasPermission = useMemo(() => {
+		return isAllowed(sessionData, permissions, { handleError: true });
+	}, [permissions, sessionData]);
 
-  //
-  // C. Handle actions
+	//
+	// C. Handle actions
 
-  useEffect(() => {
-    if (sessionStatus === 'authenticated') {
-      if (!hasPermission && redirect) router.push('/dashboard');
-    }
-  }, [hasPermission, redirect, router, sessionStatus]);
+	useEffect(() => {
+		if (sessionStatus === 'authenticated') {
+			if (!hasPermission && redirect) router.push('/dashboard');
+		}
+	}, [hasPermission, redirect, router, sessionStatus]);
 
-  //
-  // D. Render components
+	//
+	// D. Render components
 
-  if (hasPermission) return children;
-  else return <></>;
+	if (hasPermission) return children;
+	else return <></>;
 
-  //
+	//
 }

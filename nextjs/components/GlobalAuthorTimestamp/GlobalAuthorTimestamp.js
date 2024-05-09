@@ -9,22 +9,22 @@ import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser'
 /* * */
 
 export default function GlobalAuthorTimestamp({ userId, timestamp, actionVerb }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('GlobalAuthorTimestamp');
+	const t = useTranslations('GlobalAuthorTimestamp');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <div className={styles.container}>
-      <UsersExplorerUser userId={userId} type="simple" />
-      <p className={styles.timestamp}>{t('timestamp', { verb: actionVerb, timestamp: new Date(timestamp) })}</p>
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<UsersExplorerUser userId={userId} type="simple" />
+			<p className={styles.timestamp}>{t('timestamp', { verb: actionVerb, timestamp: new Date(timestamp) })}</p>
+		</div>
+	);
 
-  //
+	//
 }

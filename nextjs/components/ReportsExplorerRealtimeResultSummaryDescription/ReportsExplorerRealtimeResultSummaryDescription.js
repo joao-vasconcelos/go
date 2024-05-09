@@ -7,23 +7,23 @@ import { useTranslations } from 'next-intl';
 /* * */
 
 export default function ReportsExplorerRealtimeResultSummaryDescription() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ReportsExplorerRealtimeResultSummaryDescription');
+	const t = useTranslations('ReportsExplorerRealtimeResultSummaryDescription');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <Section>
-      <Text size="h4" color="muted">
-        {t('description')}
-      </Text>
-    </Section>
-  );
+	return (
+		<Section>
+			<Text size="h4" color="muted">
+				{t('description')}
+			</Text>
+		</Section>
+	);
 
-  //
+	//
 }

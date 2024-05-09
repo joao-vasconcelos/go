@@ -5,5 +5,5 @@ import ReportsExplorerRealtime from '@/components/ReportsExplorerRealtime/Report
 /* * */
 
 export default function Page() {
-  return <ReportsExplorerRealtime />;
+	return <ReportsExplorerRealtime />;
 }

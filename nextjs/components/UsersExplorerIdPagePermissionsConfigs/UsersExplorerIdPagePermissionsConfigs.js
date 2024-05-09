@@ -10,20 +10,20 @@ import GlobalCheckboxCard from '@/components/GlobalCheckboxCard/GlobalCheckboxCa
 /* * */
 
 export default function UsersExplorerIdPagePermissionsConfigs() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('UsersExplorerIdPagePermissionsConfigs');
-  const usersExplorerContext = useUsersExplorerContext();
+	const t = useTranslations('UsersExplorerIdPagePermissionsConfigs');
+	const usersExplorerContext = useUsersExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <AppLayoutSection>
-      <GlobalCheckboxCard label={t('admin.label')} description={t('admin.description')} {...usersExplorerContext.form.getInputProps('permissions.configs.admin.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />
-    </AppLayoutSection>
-  );
+	return (
+		<AppLayoutSection>
+			<GlobalCheckboxCard label={t('admin.label')} description={t('admin.description')} {...usersExplorerContext.form.getInputProps('permissions.configs.admin.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />
+		</AppLayoutSection>
+	);
 }

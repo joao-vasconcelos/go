@@ -9,28 +9,28 @@ import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNe
 /* * */
 
 export default function StopsExplorerNewStopWizardSteps2Summary() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('StopsExplorerNewStopWizardSteps2Summary');
-  const stopsExplorerNewStopWizardContext = useStopsExplorerNewStopWizardContext();
+	const t = useTranslations('StopsExplorerNewStopWizardSteps2Summary');
+	const stopsExplorerNewStopWizardContext = useStopsExplorerNewStopWizardContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <div className={styles.container}>
-      <h2 className={styles.stopName}>{stopsExplorerNewStopWizardContext.newStop.name}</h2>
-      <h3 className={styles.stopLocation}>
-        {stopsExplorerNewStopWizardContext.newStop.locality}, {stopsExplorerNewStopWizardContext.newStop.municipality.name}
-      </h3>
-      <h4 className={styles.stopCoordinates}>
-        {stopsExplorerNewStopWizardContext.newStop.latitude}, {stopsExplorerNewStopWizardContext.newStop.longitude}
-      </h4>
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<h2 className={styles.stopName}>{stopsExplorerNewStopWizardContext.newStop.name}</h2>
+			<h3 className={styles.stopLocation}>
+				{stopsExplorerNewStopWizardContext.newStop.locality}, {stopsExplorerNewStopWizardContext.newStop.municipality.name}
+			</h3>
+			<h4 className={styles.stopCoordinates}>
+				{stopsExplorerNewStopWizardContext.newStop.latitude}, {stopsExplorerNewStopWizardContext.newStop.longitude}
+			</h4>
+		</div>
+	);
 
-  //
+	//
 }

@@ -11,13 +11,13 @@ import { StopsExplorerNewStopWizardContextProvider } from '@/contexts/StopsExplo
 /* * */
 
 export default function StopsExplorer({ children }) {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'navigate' }]} redirect>
-      <StopsExplorerContextProvider>
-        <StopsExplorerNewStopWizardContextProvider>
-          <TwoUnevenColumns first={<StopsExplorerList />} second={children} />
-        </StopsExplorerNewStopWizardContextProvider>
-      </StopsExplorerContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'navigate' }]} redirect>
+			<StopsExplorerContextProvider>
+				<StopsExplorerNewStopWizardContextProvider>
+					<TwoUnevenColumns first={<StopsExplorerList />} second={children} />
+				</StopsExplorerNewStopWizardContextProvider>
+			</StopsExplorerContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

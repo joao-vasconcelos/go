@@ -5,5 +5,5 @@ import MediaExplorerIdPage from '@/components/MediaExplorerIdPage/MediaExplorerI
 /* * */
 
 export default function Page() {
-  return <MediaExplorerIdPage />;
+	return <MediaExplorerIdPage />;
 }

@@ -11,38 +11,37 @@ import styles from './AlertsExplorerIdPageItemMedia.module.css';
 /* * */
 
 export default function AlertsExplorerIdPageItemMedia() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const alertsExplorerContext = useAlertsExplorerContext();
+	const alertsExplorerContext = useAlertsExplorerContext();
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleUploadComplete = (result) => {
-    if (result._id) alertsExplorerContext.form.setFieldValue('media', result._id);
-  };
+	const handleUploadComplete = (result) => {
+		if (result._id) alertsExplorerContext.form.setFieldValue('media', result._id);
+	};
 
-  const handleMediaDelete = () => {
-    alertsExplorerContext.form.setFieldValue('media', null);
-  };
+	const handleMediaDelete = () => {
+		alertsExplorerContext.form.setFieldValue('media', null);
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.mediaList}>
-        {alertsExplorerContext.form.values.media ? (
-          <MediaExplorerMedia key={alertsExplorerContext.form.values.media} mediaId={alertsExplorerContext.form.values.media} onDelete={handleMediaDelete} />
-        ) : (
-          <MediaExplorerMediaUpload storageScope={AlertOptions.storage_scope} onUploadComplete={handleUploadComplete} />
-        )}
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<div className={styles.mediaList}>
+				{alertsExplorerContext.form.values.media ?
+					<MediaExplorerMedia key={alertsExplorerContext.form.values.media} mediaId={alertsExplorerContext.form.values.media} onDelete={handleMediaDelete} /> :
+					<MediaExplorerMediaUpload storageScope={AlertOptions.storage_scope} onUploadComplete={handleUploadComplete} />
+				}
+			</div>
+		</div>
+	);
 
-  //
+	//
 }

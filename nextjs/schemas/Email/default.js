@@ -1,5 +1,5 @@
 /* * */
 
 export const EmailDefault = {
-  email: '',
+	email: '',
 };

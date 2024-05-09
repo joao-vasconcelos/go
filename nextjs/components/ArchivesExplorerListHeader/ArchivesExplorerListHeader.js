@@ -17,53 +17,53 @@ import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthe
 /* * */
 
 export default function ArchivesExplorerListHeader() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ArchivesExplorerListHeader');
-  const [isCreating, setIsCreating] = useState(false);
-  const archivesExplorerContext = useArchivesExplorerContext();
+	const t = useTranslations('ArchivesExplorerListHeader');
+	const [isCreating, setIsCreating] = useState(false);
+	const archivesExplorerContext = useArchivesExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { isLoading: allArchivesLoading, mutate: allArchivesMutate } = useSWR('/api/archives');
+	const { isLoading: allArchivesLoading, mutate: allArchivesMutate } = useSWR('/api/archives');
 
-  //
-  // C. Handle actions
+	//
+	// C. Handle actions
 
-  const handleCreate = async () => {
-    try {
-      setIsCreating(true);
-      notify('new', 'loading', t('operations.create.loading'));
-      await API({ service: 'archives', operation: 'create', method: 'GET' });
-      allArchivesMutate();
-      notify('new', 'success', t('operations.create.success'));
-      setIsCreating(false);
-    } catch (error) {
-      notify('new', 'error', error.message || t('operations.create.error'));
-      setIsCreating(false);
-      console.log(error);
-    }
-  };
+	const handleCreate = async () => {
+		try {
+			setIsCreating(true);
+			notify('new', 'loading', t('operations.create.loading'));
+			await API({ service: 'archives', operation: 'create', method: 'GET' });
+			allArchivesMutate();
+			notify('new', 'success', t('operations.create.success'));
+			setIsCreating(false);
+		} catch (error) {
+			notify('new', 'error', error.message || t('operations.create.error'));
+			setIsCreating(false);
+			console.log(error);
+		}
+	};
 
-  //
-  // D. Render components
+	//
+	// D. Render components
 
-  return (
-    <ListHeader>
-      <AppAuthenticationCheck permissions={[{ scope: 'archives', action: 'create' }]}>
-        <div>
-          <Button variant="light" color="gray" leftSection={<IconPlus size={20} />} loading={allArchivesLoading || isCreating} onClick={handleCreate}>
-            {t('operations.create.title')}
-          </Button>
-        </div>
-      </AppAuthenticationCheck>
-      <SearchField query={archivesExplorerContext.list.search_query} onChange={archivesExplorerContext.updateSearchQuery} />
-    </ListHeader>
-  );
+	return (
+		<ListHeader>
+			<AppAuthenticationCheck permissions={[{ scope: 'archives', action: 'create' }]}>
+				<div>
+					<Button variant="light" color="gray" leftSection={<IconPlus size={20} />} loading={allArchivesLoading || isCreating} onClick={handleCreate}>
+						{t('operations.create.title')}
+					</Button>
+				</div>
+			</AppAuthenticationCheck>
+			<SearchField query={archivesExplorerContext.list.search_query} onChange={archivesExplorerContext.updateSearchQuery} />
+		</ListHeader>
+	);
 
-  //
+	//
 }

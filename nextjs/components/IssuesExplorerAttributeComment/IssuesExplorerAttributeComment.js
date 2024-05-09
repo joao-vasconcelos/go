@@ -13,33 +13,33 @@ import GlobalAuthorTimestamp from '../GlobalAuthorTimestamp/GlobalAuthorTimestam
 /* * */
 
 export default function IssuesExplorerAttributeComment({ commentData, onDelete, readOnly = false }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('IssuesExplorerAttributeComment');
+	const t = useTranslations('IssuesExplorerAttributeComment');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.commentHeader}>
-        <div className={styles.leftSide}>
-          <GlobalAuthorTimestamp userId={commentData.created_by} timestamp={commentData.created_at} actionVerb={t('action_verb')} />
-        </div>
-        <div className={styles.rightSide}>
-          {!readOnly && (
+	return (
+		<div className={styles.container}>
+			<div className={styles.commentHeader}>
+				<div className={styles.leftSide}>
+					<GlobalAuthorTimestamp userId={commentData.created_by} timestamp={commentData.created_at} actionVerb={t('action_verb')} />
+				</div>
+				<div className={styles.rightSide}>
+					{!readOnly &&
             <ActionIcon size="sm" variant="subtle" color="gray" onClick={onDelete}>
-              <IconTrash size={15} />
+            	<IconTrash size={15} />
             </ActionIcon>
-          )}
-        </div>
-      </div>
-      <div className={styles.commentText}>{commentData.text}</div>
-    </div>
-  );
+					}
+				</div>
+			</div>
+			<div className={styles.commentText}>{commentData.text}</div>
+		</div>
+	);
 
-  //
+	//
 }

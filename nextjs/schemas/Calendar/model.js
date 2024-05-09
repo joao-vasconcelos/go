@@ -8,37 +8,37 @@ import mongoose from 'mongoose';
 /* * */
 /* A. Mongoose Schema */
 export const CalendarSchema = new mongoose.Schema(
-  {
-    code: {
-      type: String,
-      maxlength: 100,
-      unique: true,
-    },
-    numeric_code: {
-      type: Number,
-      min: 0,
-      max: 99999,
-      unique: true,
-    },
-    name: {
-      type: String,
-      maxlength: 250,
-    },
-    description: {
-      type: String,
-      maxlength: 250,
-    },
-    dates: [
-      {
-        type: String,
-        maxlength: 8,
-      },
-    ],
-    is_locked: {
-      type: Boolean,
-    },
-  },
-  { timestamps: true }
+	{
+		code: {
+			type: String,
+			maxlength: 100,
+			unique: true,
+		},
+		numeric_code: {
+			type: Number,
+			min: 0,
+			max: 99999,
+			unique: true,
+		},
+		name: {
+			type: String,
+			maxlength: 250,
+		},
+		description: {
+			type: String,
+			maxlength: 250,
+		},
+		dates: [
+			{
+				type: String,
+				maxlength: 8,
+			},
+		],
+		is_locked: {
+			type: Boolean,
+		},
+	},
+	{ timestamps: true },
 );
 
 /* * */

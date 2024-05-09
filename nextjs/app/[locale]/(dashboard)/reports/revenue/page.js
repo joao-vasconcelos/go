@@ -5,5 +5,5 @@ import ReportsExplorerRevenue from '@/components/ReportsExplorerRevenue/ReportsE
 /* * */
 
 export default function Page() {
-  return <ReportsExplorerRevenue />;
+	return <ReportsExplorerRevenue />;
 }

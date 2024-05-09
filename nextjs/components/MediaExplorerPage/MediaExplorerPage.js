@@ -6,17 +6,17 @@ import MediaExplorerMediaUpload from '../MediaExplorerMediaUpload/MediaExplorerM
 /* * */
 
 export default function MediaExplorerPage() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('MediaExplorerPage');
+	const t = useTranslations('MediaExplorerPage');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <MediaExplorerMediaUpload />;
+	return <MediaExplorerMediaUpload />;
 
-  //
+	//
 }

@@ -5,5 +5,5 @@ import AlertsExplorerIdPage from '@/components/AlertsExplorerIdPage/AlertsExplor
 /* * */
 
 export default function Page() {
-  return <AlertsExplorerIdPage />;
+	return <AlertsExplorerIdPage />;
 }

@@ -17,63 +17,63 @@ import styles from './FaresExplorerIdPageHeader.module.css';
 /* * */
 
 export default function FaresExplorerIdPageHeader() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('FaresExplorerIdPageHeader');
-  const faresExplorerContext = useFaresExplorerContext();
+	const t = useTranslations('FaresExplorerIdPageHeader');
+	const faresExplorerContext = useFaresExplorerContext();
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleDelete = async () => {
-    openConfirmModal({
-      title: <Text size="h2">{t('operations.delete.title')}</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">{t('operations.delete.description')}</Text>,
-      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          notify(faresExplorerContext.item_id, 'loading', t('operations.delete.loading'));
-          await faresExplorerContext.deleteItem();
-          notify(faresExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (error) {
-          console.log(error);
-          notify(faresExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
-        }
-      },
-    });
-  };
+	const handleDelete = async () => {
+		openConfirmModal({
+			title: <Text size="h2">{t('operations.delete.title')}</Text>,
+			centered: true,
+			closeOnClickOutside: true,
+			children: <Text size="h3">{t('operations.delete.description')}</Text>,
+			labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
+			confirmProps: { color: 'red' },
+			onConfirm: async () => {
+				try {
+					notify(faresExplorerContext.item_id, 'loading', t('operations.delete.loading'));
+					await faresExplorerContext.deleteItem();
+					notify(faresExplorerContext.item_id, 'success', t('operations.delete.success'));
+				} catch (error) {
+					console.log(error);
+					notify(faresExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
+				}
+			},
+		});
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <ListHeader>
-      <AutoSave
-        isValid={faresExplorerContext.form.isValid()}
-        isDirty={faresExplorerContext.form.isDirty()}
-        onValidate={faresExplorerContext.validateItem}
-        isErrorValidating={faresExplorerContext.page.is_error}
-        isErrorSaving={faresExplorerContext.page.is_error_saving}
-        isSaving={faresExplorerContext.page.is_saving}
-        onSave={faresExplorerContext.saveItem}
-        onClose={faresExplorerContext.closeItem}
-      />
-      <Text size="h1" style={!faresExplorerContext.form.values.name && 'untitled'} full>
-        {faresExplorerContext.form.values.name || t('untitled')}
-      </Text>
-      <div className={styles.spacer} />
-      <AppAuthenticationCheck permissions={[{ scope: 'fares', action: 'lock' }]}>
-        <AppButtonLock isLocked={faresExplorerContext.item_data?.is_locked} onClick={faresExplorerContext.lockItem} />
-      </AppAuthenticationCheck>
-      <AppAuthenticationCheck permissions={[{ scope: 'fares', action: 'delete' }]}>
-        <AppButtonDelete onClick={handleDelete} disabled={faresExplorerContext.page.is_read_only} />
-      </AppAuthenticationCheck>
-    </ListHeader>
-  );
+	return (
+		<ListHeader>
+			<AutoSave
+				isValid={faresExplorerContext.form.isValid()}
+				isDirty={faresExplorerContext.form.isDirty()}
+				onValidate={faresExplorerContext.validateItem}
+				isErrorValidating={faresExplorerContext.page.is_error}
+				isErrorSaving={faresExplorerContext.page.is_error_saving}
+				isSaving={faresExplorerContext.page.is_saving}
+				onSave={faresExplorerContext.saveItem}
+				onClose={faresExplorerContext.closeItem}
+			/>
+			<Text size="h1" style={!faresExplorerContext.form.values.name && 'untitled'} full>
+				{faresExplorerContext.form.values.name || t('untitled')}
+			</Text>
+			<div className={styles.spacer} />
+			<AppAuthenticationCheck permissions={[{ scope: 'fares', action: 'lock' }]}>
+				<AppButtonLock isLocked={faresExplorerContext.item_data?.is_locked} onClick={faresExplorerContext.lockItem} />
+			</AppAuthenticationCheck>
+			<AppAuthenticationCheck permissions={[{ scope: 'fares', action: 'delete' }]}>
+				<AppButtonDelete onClick={handleDelete} disabled={faresExplorerContext.page.is_read_only} />
+			</AppAuthenticationCheck>
+		</ListHeader>
+	);
 }

@@ -9,18 +9,18 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 /* * */
 
 export default function StopsExplorerListFooter() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('StopsExplorerListFooter');
-  const stopsExplorerContext = useStopsExplorerContext();
+	const t = useTranslations('StopsExplorerListFooter');
+	const stopsExplorerContext = useStopsExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <ListFooter>{t('found_items', { count: stopsExplorerContext.list.items.length })}</ListFooter>;
+	return <ListFooter>{t('found_items', { count: stopsExplorerContext.list.items.length })}</ListFooter>;
 
-  //
+	//
 }

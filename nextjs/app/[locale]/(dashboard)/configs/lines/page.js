@@ -12,34 +12,32 @@ import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthe
 /* * */
 
 export default function Page() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const { data: allLinesData } = useSWR('/api/lines');
+	const { data: allLinesData } = useSWR('/api/lines');
 
-  //
-  // E. Render components
+	//
+	// E. Render components
 
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
-      <Pannel>
-        <Section>
-          <Text size="h2">All Line Ids</Text>
-          {allLinesData && (
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
+			<Pannel>
+				<Section>
+					<Text size="h2">All Line Ids</Text>
+					{allLinesData &&
             <SimpleGrid cols={1}>
-              {allLinesData.map((line) => (
-                <div key={line._id}>
-                  {line.code} - {line._id}
-                </div>
-              ))}
+            	{allLinesData.map((line) => <div key={line._id}>
+            			{line.code} - {line._id}
+            		</div>)}
             </SimpleGrid>
-          )}
-        </Section>
-      </Pannel>
-    </AppAuthenticationCheck>
-  );
+					}
+				</Section>
+			</Pannel>
+		</AppAuthenticationCheck>
+	);
 
-  //
+	//
 }

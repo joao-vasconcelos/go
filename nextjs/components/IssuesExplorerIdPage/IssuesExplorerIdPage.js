@@ -21,46 +21,46 @@ import IssuesExplorerIdPageItemIssues from '@/components/IssuesExplorerIdPageIte
 /* * */
 
 export default function IssuesExplorerIdPage() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('IssuesExplorerIdPage');
-  const issuesExplorerContext = useIssuesExplorerContext();
+	const t = useTranslations('IssuesExplorerIdPage');
+	const issuesExplorerContext = useIssuesExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <Pannel loading={issuesExplorerContext.page.is_loading} header={<IssuesExplorerIdPageHeader />}>
-      <Section>
-        <IssuesExplorerIdPageItemTitle />
-        <IssuesExplorerIdPageItemTags />
-      </Section>
-      <Divider />
-      <Section>
-        <IssuesExplorerIdPageItemMedia />
-      </Section>
-      <Divider />
-      <Section>
-        <IssuesExplorerIdPageItemLines />
-      </Section>
-      <Divider />
-      <Section>
-        <IssuesExplorerIdPageItemStops />
-      </Section>
-      <Divider />
-      <Section>
-        <IssuesExplorerIdPageItemIssues />
-      </Section>
-      <Divider />
-      <Section>
-        <div className={styles.unevenColumns}>
-          <IssuesExplorerIdPageItemComments />
-          <IssuesExplorerIdPageItemMilestones />
-        </div>
-      </Section>
-    </Pannel>
-  );
+	return (
+		<Pannel loading={issuesExplorerContext.page.is_loading} header={<IssuesExplorerIdPageHeader />}>
+			<Section>
+				<IssuesExplorerIdPageItemTitle />
+				<IssuesExplorerIdPageItemTags />
+			</Section>
+			<Divider />
+			<Section>
+				<IssuesExplorerIdPageItemMedia />
+			</Section>
+			<Divider />
+			<Section>
+				<IssuesExplorerIdPageItemLines />
+			</Section>
+			<Divider />
+			<Section>
+				<IssuesExplorerIdPageItemStops />
+			</Section>
+			<Divider />
+			<Section>
+				<IssuesExplorerIdPageItemIssues />
+			</Section>
+			<Divider />
+			<Section>
+				<div className={styles.unevenColumns}>
+					<IssuesExplorerIdPageItemComments />
+					<IssuesExplorerIdPageItemMilestones />
+				</div>
+			</Section>
+		</Pannel>
+	);
 }

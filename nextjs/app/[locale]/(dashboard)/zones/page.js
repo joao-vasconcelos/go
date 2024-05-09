@@ -4,9 +4,9 @@ import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import { useTranslations } from 'next-intl';
 
 export default function Page() {
-  //
+	//
 
-  const t = useTranslations('zones');
+	const t = useTranslations('zones');
 
-  return <NoDataLabel fill text={t('list.no_selection')} />;
+	return <NoDataLabel fill text={t('list.no_selection')} />;
 }

@@ -16,50 +16,47 @@ import ListHeader from '@/components/ListHeader/ListHeader';
 /* * */
 
 export default function ExportsExplorerList() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ExportsExplorerList');
+	const t = useTranslations('ExportsExplorerList');
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { data: allExportsData, isLoading: allExportsLoading } = useSWR('/api/exports', { refreshInterval: 250 });
+	const { data: allExportsData, isLoading: allExportsLoading } = useSWR('/api/exports', { refreshInterval: 250 });
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <Pannel
-      loading={allExportsLoading}
-      header={
-        <ListHeader>
-          <IconCloudDownload size={22} />
-          <Text size="h2" full>
-            {t('title')}
-          </Text>
-        </ListHeader>
-      }
-    >
-      <Section>
-        <Text size="h4" color="muted">
-          {t('description')}
-        </Text>
-      </Section>
-      <Divider />
-      {allExportsData && allExportsData.length > 0 ? (
-        <Section>
-          {allExportsData.map((item) => (
-            <ExportsExplorerListItem key={item._id} item={item} />
-          ))}
-        </Section>
-      ) : (
-        <NoDataLabel text={t('no_data')} />
-      )}
-    </Pannel>
-  );
+	return (
+		<Pannel
+			loading={allExportsLoading}
+			header={
+				<ListHeader>
+					<IconCloudDownload size={22} />
+					<Text size="h2" full>
+						{t('title')}
+					</Text>
+				</ListHeader>
+			}
+		>
+			<Section>
+				<Text size="h4" color="muted">
+					{t('description')}
+				</Text>
+			</Section>
+			<Divider />
+			{allExportsData && allExportsData.length > 0 ?
+				<Section>
+					{allExportsData.map((item) => <ExportsExplorerListItem key={item._id} item={item} />)}
+				</Section> :
+				<NoDataLabel text={t('no_data')} />
+			}
+		</Pannel>
+	);
 
-  //
+	//
 }

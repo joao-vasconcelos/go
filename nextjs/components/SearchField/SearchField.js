@@ -4,33 +4,33 @@ import { IconSearch, IconX } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 
 export default function SearchField({ query, onChange, placeholder }) {
-  //
+	//
 
-  const t = useTranslations('SearchField');
+	const t = useTranslations('SearchField');
 
-  const handleChange = ({ target }) => {
-    onChange(target.value);
-  };
+	const handleChange = ({ target }) => {
+		onChange(target.value);
+	};
 
-  const handleClear = () => {
-    onChange('');
-  };
+	const handleClear = () => {
+		onChange('');
+	};
 
-  return (
-    <div className={styles.container}>
-      <TextInput
-        value={query}
-        placeholder={placeholder || t('placeholder')}
-        icon={<IconSearch size={16} />}
-        onChange={handleChange}
-        rightSection={
-          query && (
+	return (
+		<div className={styles.container}>
+			<TextInput
+				value={query}
+				placeholder={placeholder || t('placeholder')}
+				icon={<IconSearch size={16} />}
+				onChange={handleChange}
+				rightSection={
+					query &&
             <ActionIcon variant="subtle" onClick={handleClear}>
-              <IconX size={16} />
+            	<IconX size={16} />
             </ActionIcon>
-          )
-        }
-      />
-    </div>
-  );
+
+				}
+			/>
+		</div>
+	);
 }

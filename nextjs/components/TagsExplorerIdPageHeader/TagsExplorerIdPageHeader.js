@@ -18,67 +18,66 @@ import styles from './TagsExplorerIdPageHeader.module.css';
 /* * */
 
 export default function TagsExplorerIdPageHeader() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('TagsExplorerIdPageHeader');
-  const tagsExplorerContext = useTagsExplorerContext();
+	const t = useTranslations('TagsExplorerIdPageHeader');
+	const tagsExplorerContext = useTagsExplorerContext();
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleDelete = async () => {
-    openConfirmModal({
-      title: <Text size="h2">{t('operations.delete.title')}</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">{t('operations.delete.description')}</Text>,
-      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          notify(tagsExplorerContext.item_id, 'loading', t('operations.delete.loading'));
-          await tagsExplorerContext.deleteItem();
-          notify(tagsExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (error) {
-          console.log(error);
-          notify(tagsExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
-        }
-      },
-    });
-  };
+	const handleDelete = async () => {
+		openConfirmModal({
+			title: <Text size="h2">{t('operations.delete.title')}</Text>,
+			centered: true,
+			closeOnClickOutside: true,
+			children: <Text size="h3">{t('operations.delete.description')}</Text>,
+			labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
+			confirmProps: { color: 'red' },
+			onConfirm: async () => {
+				try {
+					notify(tagsExplorerContext.item_id, 'loading', t('operations.delete.loading'));
+					await tagsExplorerContext.deleteItem();
+					notify(tagsExplorerContext.item_id, 'success', t('operations.delete.success'));
+				} catch (error) {
+					console.log(error);
+					notify(tagsExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
+				}
+			},
+		});
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <ListHeader>
-      <AutoSave
-        isValid={tagsExplorerContext.form.isValid()}
-        isDirty={tagsExplorerContext.form.isDirty()}
-        onValidate={tagsExplorerContext.validateItem}
-        isErrorValidating={tagsExplorerContext.page.is_error}
-        isErrorSaving={tagsExplorerContext.page.is_error_saving}
-        isSaving={tagsExplorerContext.page.is_saving}
-        onSave={tagsExplorerContext.saveItem}
-        onClose={tagsExplorerContext.closeItem}
-      />
-      {tagsExplorerContext.form.values.label ? (
-        <TagsExplorerTag tagId={tagsExplorerContext.item_id} />
-      ) : (
-        <Text size="h1" style="untitled" full>
-          {t('untitled')}
-        </Text>
-      )}
-      <div className={styles.spacer} />
-      <AppAuthenticationCheck permissions={[{ scope: 'tags', action: 'lock' }]}>
-        <AppButtonLock isLocked={tagsExplorerContext.item_data?.is_locked} onClick={tagsExplorerContext.lockItem} />
-      </AppAuthenticationCheck>
-      <AppAuthenticationCheck permissions={[{ scope: 'tags', action: 'delete' }]}>
-        <AppButtonDelete onClick={handleDelete} disabled={tagsExplorerContext.page.is_read_only} />
-      </AppAuthenticationCheck>
-    </ListHeader>
-  );
+	return (
+		<ListHeader>
+			<AutoSave
+				isValid={tagsExplorerContext.form.isValid()}
+				isDirty={tagsExplorerContext.form.isDirty()}
+				onValidate={tagsExplorerContext.validateItem}
+				isErrorValidating={tagsExplorerContext.page.is_error}
+				isErrorSaving={tagsExplorerContext.page.is_error_saving}
+				isSaving={tagsExplorerContext.page.is_saving}
+				onSave={tagsExplorerContext.saveItem}
+				onClose={tagsExplorerContext.closeItem}
+			/>
+			{tagsExplorerContext.form.values.label ?
+				<TagsExplorerTag tagId={tagsExplorerContext.item_id} /> :
+				<Text size="h1" style="untitled" full>
+					{t('untitled')}
+				</Text>
+			}
+			<div className={styles.spacer} />
+			<AppAuthenticationCheck permissions={[{ scope: 'tags', action: 'lock' }]}>
+				<AppButtonLock isLocked={tagsExplorerContext.item_data?.is_locked} onClick={tagsExplorerContext.lockItem} />
+			</AppAuthenticationCheck>
+			<AppAuthenticationCheck permissions={[{ scope: 'tags', action: 'delete' }]}>
+				<AppButtonDelete onClick={handleDelete} disabled={tagsExplorerContext.page.is_read_only} />
+			</AppAuthenticationCheck>
+		</ListHeader>
+	);
 }

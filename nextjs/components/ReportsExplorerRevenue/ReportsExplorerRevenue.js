@@ -9,11 +9,11 @@ import { ReportsExplorerRevenueContextProvider } from '@/contexts/ReportsExplore
 /* * */
 
 export default function ReportsExplorerRevenue() {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['revenue'] }] }]} redirect>
-      <ReportsExplorerRevenueContextProvider>
-        <TwoUnevenColumns first={<ReportsExplorerRevenueForm />} second={<ReportsExplorerRevenueResult />} />
-      </ReportsExplorerRevenueContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['revenue'] }] }]} redirect>
+			<ReportsExplorerRevenueContextProvider>
+				<TwoUnevenColumns first={<ReportsExplorerRevenueForm />} second={<ReportsExplorerRevenueResult />} />
+			</ReportsExplorerRevenueContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

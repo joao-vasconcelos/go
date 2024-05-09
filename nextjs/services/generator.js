@@ -6,26 +6,26 @@ const alphanumericSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 /* * */
 
 export default function generator({ length = 2, type = 'alphanumeric' }) {
-  //
+	//
 
-  let allowedCharacters;
+	let allowedCharacters;
 
-  switch (type) {
-    case 'numeric':
-      allowedCharacters = numericSet;
-      break;
-    default:
-      allowedCharacters = alphanumericSet;
-      break;
-  }
+	switch (type) {
+	case 'numeric':
+		allowedCharacters = numericSet;
+		break;
+	default:
+		allowedCharacters = alphanumericSet;
+		break;
+	}
 
-  let result = '';
+	let result = '';
 
-  for (let i = 0; i < length; i++) {
-    result += allowedCharacters.charAt(Math.floor(Math.random() * allowedCharacters.length));
-  }
+	for (let i = 0; i < length; i++) {
+		result += allowedCharacters.charAt(Math.floor(Math.random() * allowedCharacters.length));
+	}
 
-  return result;
+	return result;
 
-  //
+	//
 }

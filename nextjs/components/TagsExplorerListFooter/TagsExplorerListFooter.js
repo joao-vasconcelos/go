@@ -9,18 +9,18 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 /* * */
 
 export default function TagsExplorerListFooter() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('TagsExplorerListFooter');
-  const tagsExplorerContext = useTagsExplorerContext();
+	const t = useTranslations('TagsExplorerListFooter');
+	const tagsExplorerContext = useTagsExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <ListFooter>{t('found_items', { count: tagsExplorerContext.list.items.length })}</ListFooter>;
+	return <ListFooter>{t('found_items', { count: tagsExplorerContext.list.items.length })}</ListFooter>;
 
-  //
+	//
 }

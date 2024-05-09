@@ -9,14 +9,14 @@ import styles from './AppWrapper.module.css';
 /* * */
 
 export default function AppWrapper({ children }) {
-  return (
-    <div className={styles.container}>
-      <Link href={'/'} className={styles.appIcon}>
-        <CMIcon />
-      </Link>
-      <AppHeader />
-      <AppSidebar />
-      <div className={styles.content}>{children}</div>
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<Link href={'/'} className={styles.appIcon}>
+				<CMIcon />
+			</Link>
+			<AppHeader />
+			<AppSidebar />
+			<div className={styles.content}>{children}</div>
+		</div>
+	);
 }

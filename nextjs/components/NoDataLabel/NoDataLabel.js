@@ -6,17 +6,17 @@ import styles from './NoDataLabel.module.css';
 /* * */
 
 export default function NoDataLabel({ text, fill = false }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('NoDataLabel');
+	const t = useTranslations('NoDataLabel');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <div className={`${styles.container} ${fill && styles.fill}`}>{text || t('title')}</div>;
+	return <div className={`${styles.container} ${fill && styles.fill}`}>{text || t('title')}</div>;
 
-  //
+	//
 }

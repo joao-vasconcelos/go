@@ -10,53 +10,53 @@ import { useState } from 'react';
 /* * */
 
 export default function AppButtonLock({ isLocked, onClick, disabled }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('AppButtonLock');
-  const [isLoading, setIsLoading] = useState(false);
+	const t = useTranslations('AppButtonLock');
+	const [isLoading, setIsLoading] = useState(false);
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleClick = async () => {
-    setIsLoading(true);
-    await onClick(!isLocked);
-    setIsLoading(false);
-  };
+	const handleClick = async () => {
+		setIsLoading(true);
+		await onClick(!isLocked);
+		setIsLoading(false);
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  if (isLoading || (isLocked !== true && isLocked !== false)) {
-    return (
-      <ActionIcon variant="light" size="lg" loading>
-        <IconCircleDotted size={20} />
-      </ActionIcon>
-    );
-  }
+	if (isLoading || (isLocked !== true && isLocked !== false)) {
+		return (
+			<ActionIcon variant="light" size="lg" loading>
+				<IconCircleDotted size={20} />
+			</ActionIcon>
+		);
+	}
 
-  if (isLocked === true) {
-    return (
-      <Tooltip label={t('locked')} color="teal" position="bottom" disabled={disabled} withArrow>
-        <ActionIcon color="teal" variant="light" size="lg" onClick={handleClick} disabled={disabled}>
-          <IconLock size={20} />
-        </ActionIcon>
-      </Tooltip>
-    );
-  }
+	if (isLocked === true) {
+		return (
+			<Tooltip label={t('locked')} color="teal" position="bottom" disabled={disabled} withArrow>
+				<ActionIcon color="teal" variant="light" size="lg" onClick={handleClick} disabled={disabled}>
+					<IconLock size={20} />
+				</ActionIcon>
+			</Tooltip>
+		);
+	}
 
-  if (isLocked === false) {
-    return (
-      <Tooltip label={t('unlocked')} position="bottom" disabled={disabled} withArrow>
-        <ActionIcon color="blue" variant="subtle" size="lg" onClick={handleClick} disabled={disabled}>
-          <IconLockOpen size={20} />
-        </ActionIcon>
-      </Tooltip>
-    );
-  }
+	if (isLocked === false) {
+		return (
+			<Tooltip label={t('unlocked')} position="bottom" disabled={disabled} withArrow>
+				<ActionIcon color="blue" variant="subtle" size="lg" onClick={handleClick} disabled={disabled}>
+					<IconLockOpen size={20} />
+				</ActionIcon>
+			</Tooltip>
+		);
+	}
 
-  //
+	//
 }

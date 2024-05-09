@@ -13,44 +13,44 @@ import PatternsExplorerPattern from '@/components/PatternsExplorerPattern/Patter
 /* * */
 
 export default function CalendarPatternsView({ calendar_id }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('CalendarPatternsView');
+	const t = useTranslations('CalendarPatternsView');
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { data: allCalendarAssociatedPatternsData, isLoading: allCalendarAssociatedPatternsLoading } = useSWR(calendar_id && `/api/calendars/${calendar_id}/associatedPatterns`);
+	const { data: allCalendarAssociatedPatternsData, isLoading: allCalendarAssociatedPatternsLoading } = useSWR(calendar_id && `/api/calendars/${calendar_id}/associatedPatterns`);
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  const allCalendarAssociatedPatternsDataSorted = useMemo(() => {
-    if (!allCalendarAssociatedPatternsData || allCalendarAssociatedPatternsData.length === 0) return [];
-    const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
-    return allCalendarAssociatedPatternsData.sort((a, b) => collator.compare(a.code, b.code));
-  }, [allCalendarAssociatedPatternsData]);
+	const allCalendarAssociatedPatternsDataSorted = useMemo(() => {
+		if (!allCalendarAssociatedPatternsData || allCalendarAssociatedPatternsData.length === 0) return [];
+		const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+		return allCalendarAssociatedPatternsData.sort((a, b) => collator.compare(a.code, b.code));
+	}, [allCalendarAssociatedPatternsData]);
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <>
-      <Modal opened={isModalOpen} onClose={() => setIsModalOpen(!isModalOpen)} title={t('title')}>
-        {allCalendarAssociatedPatternsDataSorted.length > 0 ? allCalendarAssociatedPatternsDataSorted.map((item) => <PatternsExplorerPattern key={item._id} patternId={item._id} openInNewTab />) : <NoDataLabel text="No Patterns Found" />}
-      </Modal>
-      <Tooltip label={t('label')} position="bottom" withArrow>
-        <ActionIcon color="blue" variant="subtle" size="lg" onClick={() => setIsModalOpen(!isModalOpen)} loading={allCalendarAssociatedPatternsLoading}>
-          <IconEye size={20} />
-        </ActionIcon>
-      </Tooltip>
-    </>
-  );
+	return (
+		<>
+			<Modal opened={isModalOpen} onClose={() => setIsModalOpen(!isModalOpen)} title={t('title')}>
+				{allCalendarAssociatedPatternsDataSorted.length > 0 ? allCalendarAssociatedPatternsDataSorted.map((item) => <PatternsExplorerPattern key={item._id} patternId={item._id} openInNewTab />) : <NoDataLabel text="No Patterns Found" />}
+			</Modal>
+			<Tooltip label={t('label')} position="bottom" withArrow>
+				<ActionIcon color="blue" variant="subtle" size="lg" onClick={() => setIsModalOpen(!isModalOpen)} loading={allCalendarAssociatedPatternsLoading}>
+					<IconEye size={20} />
+				</ActionIcon>
+			</Tooltip>
+		</>
+	);
 
-  //
+	//
 }

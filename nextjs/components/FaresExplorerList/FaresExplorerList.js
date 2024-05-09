@@ -13,26 +13,26 @@ import { useFaresExplorerContext } from '@/contexts/FaresExplorerContext';
 /* * */
 
 export default function FaresExplorerList() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const faresExplorerContext = useFaresExplorerContext();
+	const faresExplorerContext = useFaresExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { error: allFaresError, isLoading: allFaresLoading, isValidating: allFaresValidating } = useSWR('/api/fares');
+	const { error: allFaresError, isLoading: allFaresLoading, isValidating: allFaresValidating } = useSWR('/api/fares');
 
-  //
-  // C. Render data
+	//
+	// C. Render data
 
-  return (
-    <Pannel loading={allFaresLoading} validating={allFaresValidating} error={allFaresError} header={<FaresExplorerListHeader />} footer={<FaresExplorerListFooter />}>
-      {faresExplorerContext.list.items.length > 0 ? faresExplorerContext.list.items.map((item) => <FaresExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
-    </Pannel>
-  );
+	return (
+		<Pannel loading={allFaresLoading} validating={allFaresValidating} error={allFaresError} header={<FaresExplorerListHeader />} footer={<FaresExplorerListFooter />}>
+			{faresExplorerContext.list.items.length > 0 ? faresExplorerContext.list.items.map((item) => <FaresExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		</Pannel>
+	);
 
-  //
+	//
 }

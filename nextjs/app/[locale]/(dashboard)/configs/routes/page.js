@@ -12,34 +12,32 @@ import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthe
 /* * */
 
 export default function Page() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const { data: allRoutesData } = useSWR('/api/routes');
+	const { data: allRoutesData } = useSWR('/api/routes');
 
-  //
-  // E. Render components
+	//
+	// E. Render components
 
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
-      <Pannel>
-        <Section>
-          <Text size="h2">All Route Ids</Text>
-          {allRoutesData && (
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
+			<Pannel>
+				<Section>
+					<Text size="h2">All Route Ids</Text>
+					{allRoutesData &&
             <SimpleGrid cols={1}>
-              {allRoutesData.map((route) => (
-                <div key={route._id}>
-                  {route.code} - {route._id} - {route.parent_line}
-                </div>
-              ))}
+            	{allRoutesData.map((route) => <div key={route._id}>
+            			{route.code} - {route._id} - {route.parent_line}
+            		</div>)}
             </SimpleGrid>
-          )}
-        </Section>
-      </Pannel>
-    </AppAuthenticationCheck>
-  );
+					}
+				</Section>
+			</Pannel>
+		</AppAuthenticationCheck>
+	);
 
-  //
+	//
 }

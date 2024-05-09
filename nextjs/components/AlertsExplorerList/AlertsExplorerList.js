@@ -14,27 +14,27 @@ import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
 /* * */
 
 export default function AlertsExplorerList() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('AlertsExplorerList');
-  const alertsExplorerContext = useAlertsExplorerContext();
+	const t = useTranslations('AlertsExplorerList');
+	const alertsExplorerContext = useAlertsExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { error: allAlertsError, isLoading: allAlertsLoading, isValidating: allAlertsValidating } = useSWR('/api/alerts');
+	const { error: allAlertsError, isLoading: allAlertsLoading, isValidating: allAlertsValidating } = useSWR('/api/alerts');
 
-  //
-  // C. Render data
+	//
+	// C. Render data
 
-  return (
-    <Pannel loading={allAlertsLoading} validating={allAlertsValidating} error={allAlertsError} header={<AlertsExplorerListHeader />} footer={<AlertsExplorerListFooter />}>
-      {alertsExplorerContext.list.items.length > 0 ? alertsExplorerContext.list.items.map((item) => <AlertsExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
-    </Pannel>
-  );
+	return (
+		<Pannel loading={allAlertsLoading} validating={allAlertsValidating} error={allAlertsError} header={<AlertsExplorerListHeader />} footer={<AlertsExplorerListFooter />}>
+			{alertsExplorerContext.list.items.length > 0 ? alertsExplorerContext.list.items.map((item) => <AlertsExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		</Pannel>
+	);
 
-  //
+	//
 }

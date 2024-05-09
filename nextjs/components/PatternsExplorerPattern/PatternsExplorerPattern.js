@@ -13,49 +13,48 @@ import Loader from '@/components/Loader/Loader';
 /* * */
 
 export default function PatternsExplorerPattern({ patternId, openInNewTab = false }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const router = useRouter();
-  const t = useTranslations('PatternsExplorerPattern');
+	const router = useRouter();
+	const t = useTranslations('PatternsExplorerPattern');
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { data: patternData } = useSWR(patternId && `/api/patterns/${patternId}`);
-  const { data: routeData } = useSWR(patternData?.parent_route && `/api/routes/${patternData?.parent_route}`);
+	const { data: patternData } = useSWR(patternId && `/api/patterns/${patternId}`);
+	const { data: routeData } = useSWR(patternData?.parent_route && `/api/routes/${patternData?.parent_route}`);
 
-  //
-  // C. Handle actions
+	//
+	// C. Handle actions
 
-  const handleClick = () => {
-    const url = `/lines/${routeData?.parent_line}/${routeData._id}/${patternId}`;
-    if (openInNewTab) window.open(url, '_blank');
-    else router.push(url);
-  };
+	const handleClick = () => {
+		const url = `/lines/${routeData?.parent_line}/${routeData._id}/${patternId}`;
+		if (openInNewTab) window.open(url, '_blank');
+		else router.push(url);
+	};
 
-  //
-  // D. Render components
+	//
+	// D. Render components
 
-  return patternData ? (
-    <div className={styles.container} onClick={handleClick}>
-      <div className={styles.routeInfo}>
-        <Text size="subtitle" style="muted">
-          {patternData.code || '...'}
-        </Text>
-        <Text size="title" style={!patternData.headsign && 'untitled'}>
-          {patternData.headsign ? patternData.headsign : t('untitled')}
-        </Text>
-      </div>
-      <IconChevronRight size="20px" />
-    </div>
-  ) : (
-    <div className={styles.loading}>
-      <Loader visible />
-    </div>
-  );
+	return patternData ?
+		<div className={styles.container} onClick={handleClick}>
+			<div className={styles.routeInfo}>
+				<Text size="subtitle" style="muted">
+					{patternData.code || '...'}
+				</Text>
+				<Text size="title" style={!patternData.headsign && 'untitled'}>
+					{patternData.headsign ? patternData.headsign : t('untitled')}
+				</Text>
+			</div>
+			<IconChevronRight size="20px" />
+		</div> :
+		<div className={styles.loading}>
+			<Loader visible />
+		</div>
+	;
 
-  //
+	//
 }

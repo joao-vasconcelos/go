@@ -10,9 +10,9 @@
 //
 
 export const RouteOptions = {
-  //
+	//
 
-  /*
+	/*
    * PATH TYPE
    *
    * 1 - Base Path
@@ -20,7 +20,7 @@ export const RouteOptions = {
    * 3 - Variant
    */
 
-  path_type: ['1', '2', '3'],
+	path_type: ['1', '2', '3'],
 
-  //
+	//
 };

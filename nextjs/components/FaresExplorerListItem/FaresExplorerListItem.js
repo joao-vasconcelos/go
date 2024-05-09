@@ -13,38 +13,38 @@ import { Group } from '@mantine/core';
 /* * */
 
 export default function FaresExplorerListItem({ item }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const router = useRouter();
-  const { fare_id } = useParams();
-  const t = useTranslations('FaresExplorerListItem');
+	const router = useRouter();
+	const { fare_id } = useParams();
+	const t = useTranslations('FaresExplorerListItem');
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleClick = () => {
-    if (fare_id === item._id) return;
-    router.push(`/fares/${item._id}`);
-  };
+	const handleClick = () => {
+		if (fare_id === item._id) return;
+		router.push(`/fares/${item._id}`);
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <BaseListItem onClick={handleClick} isSelected={fare_id === item._id} withChevron>
-      <Text size="title" style={!item.name && 'untitled'}>
-        {item.name || t('untitled')}
-      </Text>
-      <Group>
-        <Badge>{item.code}</Badge>
-        <Badge>{item.short_name}</Badge>
-        <Badge>{`${item.price} ${item.currency_type}`}</Badge>
-      </Group>
-    </BaseListItem>
-  );
+	return (
+		<BaseListItem onClick={handleClick} isSelected={fare_id === item._id} withChevron>
+			<Text size="title" style={!item.name && 'untitled'}>
+				{item.name || t('untitled')}
+			</Text>
+			<Group>
+				<Badge>{item.code}</Badge>
+				<Badge>{item.short_name}</Badge>
+				<Badge>{`${item.price} ${item.currency_type}`}</Badge>
+			</Group>
+		</BaseListItem>
+	);
 
-  //
+	//
 }

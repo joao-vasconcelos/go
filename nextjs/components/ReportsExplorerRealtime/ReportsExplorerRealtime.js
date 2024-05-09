@@ -11,11 +11,11 @@ import { ReportsExplorerRealtimeContextProvider } from '@/contexts/ReportsExplor
 /* * */
 
 export default function ReportsExplorerRealtime() {
-  return (
-    <AppAuthenticationCheck permission={[{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['realtime'] }] }]} redirect>
-      <ReportsExplorerRealtimeContextProvider>
-        <TwoUnevenColumns first={<ReportsExplorerRealtimeForm />} second={<ReportsExplorerRealtimeResult />} />
-      </ReportsExplorerRealtimeContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permission={[{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['realtime'] }] }]} redirect>
+			<ReportsExplorerRealtimeContextProvider>
+				<TwoUnevenColumns first={<ReportsExplorerRealtimeForm />} second={<ReportsExplorerRealtimeResult />} />
+			</ReportsExplorerRealtimeContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

@@ -5,5 +5,5 @@ import TypologiesExplorerPage from '@/components/TypologiesExplorerPage/Typologi
 /* * */
 
 export default function Page() {
-  return <TypologiesExplorerPage />;
+	return <TypologiesExplorerPage />;
 }

@@ -5,5 +5,5 @@ import AppAuthenticationLoginError from '@/components/AppAuthenticationLoginErro
 /* * */
 
 export default function Page() {
-  return <AppAuthenticationLoginError />;
+	return <AppAuthenticationLoginError />;
 }

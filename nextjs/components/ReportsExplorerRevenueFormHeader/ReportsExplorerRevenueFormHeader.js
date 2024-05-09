@@ -8,24 +8,24 @@ import AppButtonBack from '@/components/AppButtonBack/AppButtonBack';
 /* * */
 
 export default function ReportsExplorerRevenueFormHeader() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ReportsExplorerRevenueFormHeader');
+	const t = useTranslations('ReportsExplorerRevenueFormHeader');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <ListHeader>
-      <AppButtonBack href={'/reports'} />
-      <Text size="h1" full>
-        {t('title')}
-      </Text>
-    </ListHeader>
-  );
+	return (
+		<ListHeader>
+			<AppButtonBack href={'/reports'} />
+			<Text size="h1" full>
+				{t('title')}
+			</Text>
+		</ListHeader>
+	);
 
-  //
+	//
 }

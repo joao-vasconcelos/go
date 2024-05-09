@@ -8,24 +8,24 @@ import { IconCloudPlus } from '@tabler/icons-react';
 /* * */
 
 export default function ExportsExplorerFormHeader() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ExportsExplorerFormHeader');
+	const t = useTranslations('ExportsExplorerFormHeader');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <ListHeader>
-      <IconCloudPlus size={22} />
-      <Text size="h2" full>
-        {t('title')}
-      </Text>
-    </ListHeader>
-  );
+	return (
+		<ListHeader>
+			<IconCloudPlus size={22} />
+			<Text size="h2" full>
+				{t('title')}
+			</Text>
+		</ListHeader>
+	);
 
-  //
+	//
 }

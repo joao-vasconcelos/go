@@ -11,31 +11,31 @@ import { IconArrowsShuffle, IconCoinEuro, IconTicket } from '@tabler/icons-react
 /* * */
 
 export default function ReportsExplorer() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const reportOptionsLabels = useTranslations('ReportOptions');
+	const reportOptionsLabels = useTranslations('ReportOptions');
 
-  //
-  // B. Transform data
+	//
+	// B. Transform data
 
-  const reportIcons = {
-    revenue: <IconCoinEuro size={50} />,
-    realtime: <IconArrowsShuffle size={50} />,
-  };
+	const reportIcons = {
+		revenue: <IconCoinEuro size={50} />,
+		realtime: <IconArrowsShuffle size={50} />,
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'reports', action: 'view' }]} redirect>
-      <OneFullColumn
-        first={<div className={styles.container}>{ReportOptions.kind && ReportOptions.kind.map((item) => <ReportsExplorerItem key={item} id={item} icon={reportIcons[item]} title={reportOptionsLabels(`kind.${item}.label`)} description={reportOptionsLabels(`kind.${item}.description`)} />)}</div>}
-      />
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'reports', action: 'view' }]} redirect>
+			<OneFullColumn
+				first={<div className={styles.container}>{ReportOptions.kind && ReportOptions.kind.map((item) => <ReportsExplorerItem key={item} id={item} icon={reportIcons[item]} title={reportOptionsLabels(`kind.${item}.label`)} description={reportOptionsLabels(`kind.${item}.description`)} />)}</div>}
+			/>
+		</AppAuthenticationCheck>
+	);
 
-  //
+	//
 }

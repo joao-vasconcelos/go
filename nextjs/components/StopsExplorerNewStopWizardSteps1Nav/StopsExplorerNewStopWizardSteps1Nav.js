@@ -10,27 +10,27 @@ import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNe
 /* * */
 
 export default function StopsExplorerNewStopWizardSteps1Nav() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('StopsExplorerNewStopWizardSteps1Nav');
-  const stopsExplorerNewStopWizardContext = useStopsExplorerNewStopWizardContext();
+	const t = useTranslations('StopsExplorerNewStopWizardSteps1Nav');
+	const stopsExplorerNewStopWizardContext = useStopsExplorerNewStopWizardContext();
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <div className={styles.container}>
-      <Button variant="light" onClick={stopsExplorerNewStopWizardContext.returnWizardToPreviousStep}>
-        {t('previous_step.label')}
-      </Button>
-      <Button onClick={stopsExplorerNewStopWizardContext.advanceWizardToNextStep} variant="filled" disabled={!stopsExplorerNewStopWizardContext.wizard.step_1_complete}>
-        {t('next_step.label')}
-      </Button>
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<Button variant="light" onClick={stopsExplorerNewStopWizardContext.returnWizardToPreviousStep}>
+				{t('previous_step.label')}
+			</Button>
+			<Button onClick={stopsExplorerNewStopWizardContext.advanceWizardToNextStep} variant="filled" disabled={!stopsExplorerNewStopWizardContext.wizard.step_1_complete}>
+				{t('next_step.label')}
+			</Button>
+		</div>
+	);
 
-  //
+	//
 }

@@ -7,10 +7,10 @@ import UsersExplorerUserSimple from '@/components/UsersExplorerUserSimple/UsersE
 /* * */
 
 export default function UsersExplorerUserFull({ userData }) {
-  return (
-    <div className={styles.container}>
-      <UsersExplorerUserAvatar userData={userData} />
-      <UsersExplorerUserSimple userData={userData} size="md" />
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<UsersExplorerUserAvatar userData={userData} />
+			<UsersExplorerUserSimple userData={userData} size="md" />
+		</div>
+	);
 }

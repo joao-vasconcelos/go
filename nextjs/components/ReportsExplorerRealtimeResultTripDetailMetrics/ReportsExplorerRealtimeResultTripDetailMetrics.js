@@ -6,9 +6,9 @@ import ReportsExplorerRealtimeResultTripDetailMetricsDelays from '@/components/R
 /* * */
 
 export default function ReportsExplorerRealtimeResultTripDetailMetrics() {
-  return (
-    <Section>
-      <ReportsExplorerRealtimeResultTripDetailMetricsDelays />
-    </Section>
-  );
+	return (
+		<Section>
+			<ReportsExplorerRealtimeResultTripDetailMetricsDelays />
+		</Section>
+	);
 }

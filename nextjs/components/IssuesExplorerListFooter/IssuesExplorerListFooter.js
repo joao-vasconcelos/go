@@ -9,18 +9,18 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 /* * */
 
 export default function IssuesExplorerListFooter() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('IssuesExplorerListFooter');
-  const issuesExplorerContext = useIssuesExplorerContext();
+	const t = useTranslations('IssuesExplorerListFooter');
+	const issuesExplorerContext = useIssuesExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <ListFooter>{t('found_items', { count: issuesExplorerContext.list.items.length })}</ListFooter>;
+	return <ListFooter>{t('found_items', { count: issuesExplorerContext.list.items.length })}</ListFooter>;
 
-  //
+	//
 }

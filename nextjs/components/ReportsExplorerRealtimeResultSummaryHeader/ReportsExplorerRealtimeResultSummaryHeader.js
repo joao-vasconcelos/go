@@ -12,27 +12,27 @@ import ListHeader from '@/components/ListHeader/ListHeader';
 /* * */
 
 export default function ReportsExplorerRealtimeResultSummaryHeader() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ReportsExplorerRealtimeResultSummaryHeader');
-  const reportsExplorerRealtimeContext = useReportsExplorerRealtimeContext();
+	const t = useTranslations('ReportsExplorerRealtimeResultSummaryHeader');
+	const reportsExplorerRealtimeContext = useReportsExplorerRealtimeContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <ListHeader>
-      <ActionIcon size="lg" onClick={reportsExplorerRealtimeContext.clearAllData} variant="subtle" color="gray">
-        <IconX size="20px" />
-      </ActionIcon>
-      <Text size="h2" full>
-        {t('title')}
-      </Text>
-    </ListHeader>
-  );
+	return (
+		<ListHeader>
+			<ActionIcon size="lg" onClick={reportsExplorerRealtimeContext.clearAllData} variant="subtle" color="gray">
+				<IconX size="20px" />
+			</ActionIcon>
+			<Text size="h2" full>
+				{t('title')}
+			</Text>
+		</ListHeader>
+	);
 
-  //
+	//
 }

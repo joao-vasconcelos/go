@@ -8,9 +8,9 @@ import { PatternsExplorerContextProvider } from '@/contexts/PatternsExplorerCont
 /* * */
 
 export default function PatternsExplorer({ children }) {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'navigate' }]} redirect>
-      <PatternsExplorerContextProvider>{children}</PatternsExplorerContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'navigate' }]} redirect>
+			<PatternsExplorerContextProvider>{children}</PatternsExplorerContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

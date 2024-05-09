@@ -5,5 +5,5 @@ import PatternsExplorerIdPage from '@/components/PatternsExplorerIdPage/Patterns
 /* * */
 
 export default function Page() {
-  return <PatternsExplorerIdPage />;
+	return <PatternsExplorerIdPage />;
 }

@@ -12,34 +12,34 @@ import Badge from '@/components/Badge/Badge';
 /* * */
 
 export default function TypologiesExplorerListItem({ item }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const router = useRouter();
-  const { typology_id } = useParams();
-  const t = useTranslations('TypologiesExplorerListItem');
+	const router = useRouter();
+	const { typology_id } = useParams();
+	const t = useTranslations('TypologiesExplorerListItem');
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleClick = () => {
-    if (typology_id === item._id) return;
-    router.push(`/typologies/${item._id}`);
-  };
+	const handleClick = () => {
+		if (typology_id === item._id) return;
+		router.push(`/typologies/${item._id}`);
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <BaseListItem onClick={handleClick} isSelected={typology_id === item._id} withChevron>
-      <Text size="title" style={!item.name && 'untitled'}>
-        {item.name || t('untitled')}
-      </Text>
-      <Badge>{item.code}</Badge>
-    </BaseListItem>
-  );
+	return (
+		<BaseListItem onClick={handleClick} isSelected={typology_id === item._id} withChevron>
+			<Text size="title" style={!item.name && 'untitled'}>
+				{item.name || t('untitled')}
+			</Text>
+			<Badge>{item.code}</Badge>
+		</BaseListItem>
+	);
 
-  //
+	//
 }

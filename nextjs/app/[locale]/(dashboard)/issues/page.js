@@ -5,5 +5,5 @@ import IssuesExplorerList from '@/components/IssuesExplorerList/IssuesExplorerLi
 /* * */
 
 export default function Page() {
-  return <IssuesExplorerList />;
+	return <IssuesExplorerList />;
 }

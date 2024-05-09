@@ -11,11 +11,11 @@ import { TwoEvenColumns } from '@/components/Layouts/Layouts';
 /* * */
 
 export default function ExportsExplorer() {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'exports', action: 'navigate' }]} redirect>
-      <ExportsExplorerContextProvider>
-        <TwoEvenColumns first={<ExportsExplorerList />} second={<ExportsExplorerForm />} />
-      </ExportsExplorerContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'exports', action: 'navigate' }]} redirect>
+			<ExportsExplorerContextProvider>
+				<TwoEvenColumns first={<ExportsExplorerList />} second={<ExportsExplorerForm />} />
+			</ExportsExplorerContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

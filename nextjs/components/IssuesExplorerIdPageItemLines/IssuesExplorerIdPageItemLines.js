@@ -14,81 +14,79 @@ import { IconTrash } from '@tabler/icons-react';
 /* * */
 
 export default function IssuesExplorerIdPageItemLines() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('IssuesExplorerIdPageItemLines');
-  const issuesExplorerContext = useIssuesExplorerContext();
+	const t = useTranslations('IssuesExplorerIdPageItemLines');
+	const issuesExplorerContext = useIssuesExplorerContext();
 
-  const [selectedLineId, setSelectedLineId] = useState(null);
+	const [selectedLineId, setSelectedLineId] = useState(null);
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { data: allLinesData } = useSWR('/api/lines');
+	const { data: allLinesData } = useSWR('/api/lines');
 
-  //
-  // C. Transform data
+	//
+	// C. Transform data
 
-  const allLinesDataFormatted = useMemo(() => {
-    // Exit if no data is available
-    if (!allLinesData) return [];
-    // For each line check if it related with the current issue or not
-    return allLinesData.map((line) => ({ value: line._id, label: `[${line.short_name}] ${line.name}` }));
-    //
-  }, [allLinesData]);
+	const allLinesDataFormatted = useMemo(() => {
+		// Exit if no data is available
+		if (!allLinesData) return [];
+		// For each line check if it related with the current issue or not
+		return allLinesData.map((line) => ({ value: line._id, label: `[${line.short_name}] ${line.name}` }));
+		//
+	}, [allLinesData]);
 
-  //
-  // D. Handle actions
+	//
+	// D. Handle actions
 
-  const handleAddRelatedLine = () => {
-    issuesExplorerContext.toggleRelatedLine(selectedLineId);
-    setSelectedLineId(null);
-  };
+	const handleAddRelatedLine = () => {
+		issuesExplorerContext.toggleRelatedLine(selectedLineId);
+		setSelectedLineId(null);
+	};
 
-  const handleRemoveRelatedLine = (lineId) => {
-    issuesExplorerContext.toggleRelatedLine(lineId);
-  };
+	const handleRemoveRelatedLine = (lineId) => {
+		issuesExplorerContext.toggleRelatedLine(lineId);
+	};
 
-  //
-  // E. Render components
+	//
+	// E. Render components
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.list}>
-        {issuesExplorerContext.form.values.related_lines.length > 0 &&
-          issuesExplorerContext.form.values.related_lines.map((lineId) => (
-            <div key={lineId} className={styles.itemWrapper}>
-              <LinesExplorerLine lineId={lineId} />
-              {!issuesExplorerContext.page.is_read_only && (
+	return (
+		<div className={styles.container}>
+			<div className={styles.list}>
+				{issuesExplorerContext.form.values.related_lines.length > 0 &&
+          issuesExplorerContext.form.values.related_lines.map((lineId) => <div key={lineId} className={styles.itemWrapper}>
+          		<LinesExplorerLine lineId={lineId} />
+          		{!issuesExplorerContext.page.is_read_only &&
                 <ActionIcon onClick={() => handleRemoveRelatedLine(lineId)} variant="light" color="red">
-                  <IconTrash size={20} />
+                	<IconTrash size={20} />
                 </ActionIcon>
-              )}
-            </div>
-          ))}
-      </div>
-      {!issuesExplorerContext.page.is_read_only && (
+          		}
+          	</div>)}
+			</div>
+			{!issuesExplorerContext.page.is_read_only &&
         <>
-          <Select
-            label={t('related_lines.label')}
-            placeholder={t('related_lines.placeholder')}
-            nothingFoundMessage={t('related_lines.nothingFound')}
-            data={allLinesDataFormatted}
-            value={selectedLineId}
-            onChange={setSelectedLineId}
-            limit={100}
-            w="100%"
-            readOnly={issuesExplorerContext.page.is_read_only}
-            searchable
-          />
-          <Button onClick={handleAddRelatedLine} disabled={!selectedLineId || issuesExplorerContext.page.is_read_only}>
+        	<Select
+        		label={t('related_lines.label')}
+        		placeholder={t('related_lines.placeholder')}
+        		nothingFoundMessage={t('related_lines.nothingFound')}
+        		data={allLinesDataFormatted}
+        		value={selectedLineId}
+        		onChange={setSelectedLineId}
+        		limit={100}
+        		w="100%"
+        		readOnly={issuesExplorerContext.page.is_read_only}
+        		searchable
+        	/>
+        	<Button onClick={handleAddRelatedLine} disabled={!selectedLineId || issuesExplorerContext.page.is_read_only}>
             Add Related Line
-          </Button>
+        	</Button>
         </>
-      )}
-    </div>
-  );
+			}
+		</div>
+	);
 }

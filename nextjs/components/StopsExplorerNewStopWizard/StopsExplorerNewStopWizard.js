@@ -9,27 +9,27 @@ import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNe
 /* * */
 
 export default function StopsExplorerNewStopWizard() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const stopsExplorerNewStopWizardContext = useStopsExplorerNewStopWizardContext();
+	const stopsExplorerNewStopWizardContext = useStopsExplorerNewStopWizardContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <Modal.Root opened={stopsExplorerNewStopWizardContext.wizard.is_open} onClose={() => {}} size="xl">
-      <Modal.Overlay className={styles.modalOverlay} blur={15} />
-      <Modal.Content className={styles.modalContent}>
-        <Modal.Body className={styles.modalBody}>
-          <StopsExplorerNewStopWizardHeader />
-          <StopsExplorerNewStopWizardSteps />
-        </Modal.Body>
-      </Modal.Content>
-    </Modal.Root>
-  );
+	return (
+		<Modal.Root opened={stopsExplorerNewStopWizardContext.wizard.is_open} onClose={() => {}} size="xl">
+			<Modal.Overlay className={styles.modalOverlay} blur={15} />
+			<Modal.Content className={styles.modalContent}>
+				<Modal.Body className={styles.modalBody}>
+					<StopsExplorerNewStopWizardHeader />
+					<StopsExplorerNewStopWizardSteps />
+				</Modal.Body>
+			</Modal.Content>
+		</Modal.Root>
+	);
 
-  //
+	//
 }

@@ -11,12 +11,12 @@ import ArchivesExplorerListItemFilesApex from '@/components/ArchivesExplorerList
 /* * */
 
 export default function ArchivesExplorerListItemFiles() {
-  return (
-    <div className={styles.container}>
-      <ArchivesExplorerListItemFilesReference />
-      <ArchivesExplorerListItemFilesOffer />
-      <ArchivesExplorerListItemFilesOperation />
-      <ArchivesExplorerListItemFilesApex />
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<ArchivesExplorerListItemFilesReference />
+			<ArchivesExplorerListItemFilesOffer />
+			<ArchivesExplorerListItemFilesOperation />
+			<ArchivesExplorerListItemFilesApex />
+		</div>
+	);
 }

@@ -5,5 +5,5 @@ import TypologiesExplorerIdPage from '@/components/TypologiesExplorerIdPage/Typo
 /* * */
 
 export default function Page() {
-  return <TypologiesExplorerIdPage />;
+	return <TypologiesExplorerIdPage />;
 }

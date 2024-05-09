@@ -9,18 +9,18 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 /* * */
 
 export default function FaresExplorerListFooter() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('FaresExplorerListFooter');
-  const faresExplorerContext = useFaresExplorerContext();
+	const t = useTranslations('FaresExplorerListFooter');
+	const faresExplorerContext = useFaresExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <ListFooter>{t('found_items', { count: faresExplorerContext.list.items.length })}</ListFooter>;
+	return <ListFooter>{t('found_items', { count: faresExplorerContext.list.items.length })}</ListFooter>;
 
-  //
+	//
 }

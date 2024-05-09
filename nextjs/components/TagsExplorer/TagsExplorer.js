@@ -10,11 +10,11 @@ import { TagsExplorerContextProvider } from '@/contexts/TagsExplorerContext';
 /* * */
 
 export default function TagsExplorer({ children }) {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'tags', action: 'navigate' }]} redirect>
-      <TagsExplorerContextProvider>
-        <TwoUnevenColumns first={<TagsExplorerList />} second={children} />
-      </TagsExplorerContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'tags', action: 'navigate' }]} redirect>
+			<TagsExplorerContextProvider>
+				<TwoUnevenColumns first={<TagsExplorerList />} second={children} />
+			</TagsExplorerContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

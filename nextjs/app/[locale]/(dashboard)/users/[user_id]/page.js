@@ -5,5 +5,5 @@ import UsersExplorerIdPage from '@/components/UsersExplorerIdPage/UsersExplorerI
 /* * */
 
 export default function Page() {
-  return <UsersExplorerIdPage />;
+	return <UsersExplorerIdPage />;
 }

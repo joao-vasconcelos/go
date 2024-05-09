@@ -9,11 +9,11 @@ import { IssuesExplorerContextProvider } from '@/contexts/IssuesExplorerContext'
 /* * */
 
 export default function IssuesExplorer({ children }) {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'navigate' }]} redirect>
-      <IssuesExplorerContextProvider>
-        <OneFullColumn first={children} />
-      </IssuesExplorerContextProvider>
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'issues', action: 'navigate' }]} redirect>
+			<IssuesExplorerContextProvider>
+				<OneFullColumn first={children} />
+			</IssuesExplorerContextProvider>
+		</AppAuthenticationCheck>
+	);
 }

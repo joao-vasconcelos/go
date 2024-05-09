@@ -15,27 +15,27 @@ import { useMediaExplorerContext } from '@/contexts/MediaExplorerContext';
 /* * */
 
 export default function MediaExplorerList() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('MediaExplorerList');
-  const mediaExplorerContext = useMediaExplorerContext();
+	const t = useTranslations('MediaExplorerList');
+	const mediaExplorerContext = useMediaExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { error: allMediaError, isLoading: allMediaLoading, isValidating: allMediaValidating } = useSWR('/api/media');
+	const { error: allMediaError, isLoading: allMediaLoading, isValidating: allMediaValidating } = useSWR('/api/media');
 
-  //
-  // C. Render data
+	//
+	// C. Render data
 
-  return (
-    <Pannel loading={allMediaLoading} validating={allMediaValidating} error={allMediaError} header={<MediaExplorerListHeader />} footer={<MediaExplorerListFooter />}>
-      {mediaExplorerContext.list.items.length > 0 ? mediaExplorerContext.list.items.map((item) => <MediaExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
-    </Pannel>
-  );
+	return (
+		<Pannel loading={allMediaLoading} validating={allMediaValidating} error={allMediaError} header={<MediaExplorerListHeader />} footer={<MediaExplorerListFooter />}>
+			{mediaExplorerContext.list.items.length > 0 ? mediaExplorerContext.list.items.map((item) => <MediaExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		</Pannel>
+	);
 
-  //
+	//
 }

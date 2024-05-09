@@ -11,36 +11,34 @@ import { IssueOptions } from '@/schemas/Issue/options';
 /* * */
 
 export default function IssuesExplorerIdPageItemMedia() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const issuesExplorerContext = useIssuesExplorerContext();
+	const issuesExplorerContext = useIssuesExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  const handleUploadComplete = (result) => {
-    if (result._id) issuesExplorerContext.form.insertListItem('media', result._id);
-  };
+	const handleUploadComplete = (result) => {
+		if (result._id) issuesExplorerContext.form.insertListItem('media', result._id);
+	};
 
-  const handleMediaDelete = (mediaId) => {
-    const index = issuesExplorerContext.form.values.media.indexOf(mediaId);
-    if (index > -1) issuesExplorerContext.form.removeListItem('media', index);
-  };
+	const handleMediaDelete = (mediaId) => {
+		const index = issuesExplorerContext.form.values.media.indexOf(mediaId);
+		if (index > -1) issuesExplorerContext.form.removeListItem('media', index);
+	};
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.mediaList}>
-        {issuesExplorerContext.form.values.media.map((mediaId) => (
-          <MediaExplorerMedia key={mediaId} mediaId={mediaId} onDelete={handleMediaDelete} readOnly={issuesExplorerContext.page.is_read_only} />
-        ))}
-        {!issuesExplorerContext.page.is_read_only && <MediaExplorerMediaUpload storageScope={IssueOptions.storage_scope} onUploadComplete={handleUploadComplete} />}
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<div className={styles.mediaList}>
+				{issuesExplorerContext.form.values.media.map((mediaId) => <MediaExplorerMedia key={mediaId} mediaId={mediaId} onDelete={handleMediaDelete} readOnly={issuesExplorerContext.page.is_read_only} />)}
+				{!issuesExplorerContext.page.is_read_only && <MediaExplorerMediaUpload storageScope={IssueOptions.storage_scope} onUploadComplete={handleUploadComplete} />}
+			</div>
+		</div>
+	);
 }

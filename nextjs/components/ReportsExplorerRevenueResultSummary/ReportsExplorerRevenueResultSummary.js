@@ -11,15 +11,15 @@ import ReportsExplorerRevenueResultSummaryFrequent from '@/components/ReportsExp
 /* * */
 
 export default function ReportsExplorerRevenueResultSummary() {
-  return (
-    <Pannel header={<ReportsExplorerRevenueResultSummaryHeader />}>
-      <ReportsExplorerRevenueResultSummaryDescription />
-      <Divider />
-      <ReportsExplorerRevenueResultSummaryOnboard />
-      <Divider />
-      <ReportsExplorerRevenueResultSummaryPrepaid />
-      <Divider />
-      <ReportsExplorerRevenueResultSummaryFrequent />
-    </Pannel>
-  );
+	return (
+		<Pannel header={<ReportsExplorerRevenueResultSummaryHeader />}>
+			<ReportsExplorerRevenueResultSummaryDescription />
+			<Divider />
+			<ReportsExplorerRevenueResultSummaryOnboard />
+			<Divider />
+			<ReportsExplorerRevenueResultSummaryPrepaid />
+			<Divider />
+			<ReportsExplorerRevenueResultSummaryFrequent />
+		</Pannel>
+	);
 }

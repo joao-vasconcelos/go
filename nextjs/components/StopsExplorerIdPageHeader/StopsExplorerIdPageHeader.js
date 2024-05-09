@@ -20,78 +20,78 @@ import StopExplorerIdPageHeaderViewInWebsite from '@/components/StopExplorerIdPa
 /* * */
 
 export default function StopsExplorerIdPageHeader() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('StopsExplorerIdPageHeader');
-  const stopsExplorerContext = useStopsExplorerContext();
+	const t = useTranslations('StopsExplorerIdPageHeader');
+	const stopsExplorerContext = useStopsExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { mutate: allStopsMutate } = useSWR('/api/stops');
-  const { mutate: stopMutate } = useSWR(stopsExplorerContext.item_id && `/api/stops/${stopsExplorerContext.item_id}`);
+	const { mutate: allStopsMutate } = useSWR('/api/stops');
+	const { mutate: stopMutate } = useSWR(stopsExplorerContext.item_id && `/api/stops/${stopsExplorerContext.item_id}`);
 
-  //
-  // C. Handle actions
+	//
+	// C. Handle actions
 
-  const handleDelete = async () => {
-    openConfirmModal({
-      title: <Text size="h2">{t('operations.delete.title')}</Text>,
-      centered: true,
-      closeOnClickOutside: true,
-      children: <Text size="h3">{t('operations.delete.description')}</Text>,
-      labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
-        try {
-          if (!stopsExplorerContext.page.is_deletable) throw new Error(t('operations.delete.error'));
-          notify(stopsExplorerContext.item_id, 'loading', t('operations.delete.loading'));
-          await API({ service: 'stops', resourceId: stopsExplorerContext.item_id, operation: 'delete', method: 'DELETE' });
-          stopMutate();
-          allStopsMutate();
-          stopsExplorerContext.closeItem();
-          notify(stopsExplorerContext.item_id, 'success', t('operations.delete.success'));
-        } catch (error) {
-          console.log(error);
-          stopMutate();
-          allStopsMutate();
-          notify(stopsExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
-        }
-      },
-    });
-  };
+	const handleDelete = async () => {
+		openConfirmModal({
+			title: <Text size="h2">{t('operations.delete.title')}</Text>,
+			centered: true,
+			closeOnClickOutside: true,
+			children: <Text size="h3">{t('operations.delete.description')}</Text>,
+			labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
+			confirmProps: { color: 'red' },
+			onConfirm: async () => {
+				try {
+					if (!stopsExplorerContext.page.is_deletable) throw new Error(t('operations.delete.error'));
+					notify(stopsExplorerContext.item_id, 'loading', t('operations.delete.loading'));
+					await API({ service: 'stops', resourceId: stopsExplorerContext.item_id, operation: 'delete', method: 'DELETE' });
+					stopMutate();
+					allStopsMutate();
+					stopsExplorerContext.closeItem();
+					notify(stopsExplorerContext.item_id, 'success', t('operations.delete.success'));
+				} catch (error) {
+					console.log(error);
+					stopMutate();
+					allStopsMutate();
+					notify(stopsExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
+				}
+			},
+		});
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return (
-    <ListHeader>
-      <AutoSave
-        isValid={stopsExplorerContext.form.isValid()}
-        isDirty={stopsExplorerContext.form.isDirty()}
-        onValidate={stopsExplorerContext.validateItem}
-        isErrorValidating={stopsExplorerContext.page.is_error}
-        isErrorSaving={stopsExplorerContext.page.is_error_saving}
-        isSaving={stopsExplorerContext.page.is_saving}
-        onSave={stopsExplorerContext.saveItem}
-        onClose={stopsExplorerContext.closeItem}
-      />
-      <Text size="h1" style={!stopsExplorerContext.form.values.name && 'untitled'} full>
-        {stopsExplorerContext.form.values.name || t('untitled')}
-      </Text>
-      <AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'view' }]}>
-        <StopExplorerIdPageHeaderAssociatedPatterns />
-      </AppAuthenticationCheck>
-      <StopExplorerIdPageHeaderViewInWebsite />
-      <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'lock' }]}>
-        <AppButtonLock isLocked={stopsExplorerContext.item_data?.is_locked} onClick={stopsExplorerContext.lockItem} />
-      </AppAuthenticationCheck>
-      <AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'delete' }]}>
-        <AppButtonDelete onClick={handleDelete} disabled={stopsExplorerContext.page.is_read_only || !stopsExplorerContext.page.is_deletable} />
-      </AppAuthenticationCheck>
-    </ListHeader>
-  );
+	return (
+		<ListHeader>
+			<AutoSave
+				isValid={stopsExplorerContext.form.isValid()}
+				isDirty={stopsExplorerContext.form.isDirty()}
+				onValidate={stopsExplorerContext.validateItem}
+				isErrorValidating={stopsExplorerContext.page.is_error}
+				isErrorSaving={stopsExplorerContext.page.is_error_saving}
+				isSaving={stopsExplorerContext.page.is_saving}
+				onSave={stopsExplorerContext.saveItem}
+				onClose={stopsExplorerContext.closeItem}
+			/>
+			<Text size="h1" style={!stopsExplorerContext.form.values.name && 'untitled'} full>
+				{stopsExplorerContext.form.values.name || t('untitled')}
+			</Text>
+			<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'view' }]}>
+				<StopExplorerIdPageHeaderAssociatedPatterns />
+			</AppAuthenticationCheck>
+			<StopExplorerIdPageHeaderViewInWebsite />
+			<AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'lock' }]}>
+				<AppButtonLock isLocked={stopsExplorerContext.item_data?.is_locked} onClick={stopsExplorerContext.lockItem} />
+			</AppAuthenticationCheck>
+			<AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'delete' }]}>
+				<AppButtonDelete onClick={handleDelete} disabled={stopsExplorerContext.page.is_read_only || !stopsExplorerContext.page.is_deletable} />
+			</AppAuthenticationCheck>
+		</ListHeader>
+	);
 }

@@ -7,23 +7,23 @@ import Text from '@/components/Text/Text';
 /* * */
 
 export default function ReportsExplorerRevenueFormSummary() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ReportsExplorerRevenueFormSummary');
+	const t = useTranslations('ReportsExplorerRevenueFormSummary');
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <Section>
-      <Text size="h4" color="muted">
-        {t('text')}
-      </Text>
-    </Section>
-  );
+	return (
+		<Section>
+			<Text size="h4" color="muted">
+				{t('text')}
+			</Text>
+		</Section>
+	);
 
-  //
+	//
 }

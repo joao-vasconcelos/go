@@ -8,17 +8,17 @@ import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 /* * */
 
 export default function ReportsExplorerRealtimeResultError() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ReportsExplorerRealtimeResultError');
+	const t = useTranslations('ReportsExplorerRealtimeResultError');
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return <NoDataLabel text={t('text')} fill />;
+	return <NoDataLabel text={t('text')} fill />;
 
-  //
+	//
 }

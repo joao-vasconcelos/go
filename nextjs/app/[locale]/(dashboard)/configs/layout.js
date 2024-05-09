@@ -6,9 +6,9 @@ import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthe
 /* * */
 
 export default function Layout({ children }) {
-  return (
-    <AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
-      <OneFullColumn first={children} />
-    </AppAuthenticationCheck>
-  );
+	return (
+		<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
+			<OneFullColumn first={children} />
+		</AppAuthenticationCheck>
+	);
 }

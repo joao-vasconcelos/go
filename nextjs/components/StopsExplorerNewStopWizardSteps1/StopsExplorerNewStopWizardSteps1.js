@@ -9,10 +9,10 @@ import StopsExplorerNewStopWizardSteps1Form from '@/components/StopsExplorerNewS
 /* * */
 
 export default function StopsExplorerNewStopWizardSteps1() {
-  return (
-    <div className={styles.container}>
-      <StopsExplorerNewStopWizardSteps1Form />
-      <StopsExplorerNewStopWizardSteps1Nav />
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<StopsExplorerNewStopWizardSteps1Form />
+			<StopsExplorerNewStopWizardSteps1Nav />
+		</div>
+	);
 }

@@ -10,13 +10,13 @@ import ReportsExplorerRealtimeResultSummaryTable from '@/components/ReportsExplo
 /* * */
 
 export default function ReportsExplorerRealtimeResultSummary() {
-  return (
-    <Pannel header={<ReportsExplorerRealtimeResultSummaryHeader />}>
-      <ReportsExplorerRealtimeResultSummaryDescription />
-      <Divider />
-      <ReportsExplorerRealtimeResultSummaryMetrics />
-      <Divider />
-      <ReportsExplorerRealtimeResultSummaryTable />
-    </Pannel>
-  );
+	return (
+		<Pannel header={<ReportsExplorerRealtimeResultSummaryHeader />}>
+			<ReportsExplorerRealtimeResultSummaryDescription />
+			<Divider />
+			<ReportsExplorerRealtimeResultSummaryMetrics />
+			<Divider />
+			<ReportsExplorerRealtimeResultSummaryTable />
+		</Pannel>
+	);
 }

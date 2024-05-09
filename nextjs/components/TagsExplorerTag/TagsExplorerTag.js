@@ -11,34 +11,33 @@ import styles from './TagsExplorerTag.module.css';
 /* * */
 
 export default function TagsExplorerTag({ tagId, withHoverCard = true }) {
-  //
+	//
 
-  //
-  // A. Fetch data
+	//
+	// A. Fetch data
 
-  const { data: tagData, isLoading: tagLoading, error: tagError } = useSWR(tagId && `/api/tags/${tagId}`);
+	const { data: tagData, isLoading: tagLoading, error: tagError } = useSWR(tagId && `/api/tags/${tagId}`);
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return !tagData ? (
-    <div className={styles.container}>
-      <Loader size={15} visible />
-    </div>
-  ) : (
-    <HoverCard width={280} openDelay={500} shadow="md">
-      <HoverCard.Target>
-        <div className={styles.container} style={{ color: tagData.text_color, backgroundColor: tagData.color }}>
-          {tagData.label}
-        </div>
-      </HoverCard.Target>
-      {withHoverCard && (
+	return !tagData ?
+		<div className={styles.container}>
+			<Loader size={15} visible />
+		</div> :
+		<HoverCard width={280} openDelay={500} shadow="md">
+			<HoverCard.Target>
+				<div className={styles.container} style={{ color: tagData.text_color, backgroundColor: tagData.color }}>
+					{tagData.label}
+				</div>
+			</HoverCard.Target>
+			{withHoverCard &&
         <HoverCard.Dropdown p={0}>
-          <TagsExplorerTagHoverCard tagData={tagData} />
+        	<TagsExplorerTagHoverCard tagData={tagData} />
         </HoverCard.Dropdown>
-      )}
-    </HoverCard>
-  );
+			}
+		</HoverCard>
+	;
 
-  //
+	//
 }

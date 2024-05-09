@@ -9,31 +9,30 @@ import Loader from '@/components/Loader/Loader';
 /* * */
 
 export function IssuesExplorerIssue({ issueId }) {
-  //
+	//
 
-  //
-  // A. Fetch data
+	//
+	// A. Fetch data
 
-  const { data: issueData } = useSWR(issueId && `/api/issues/${issueId}`);
+	const { data: issueData } = useSWR(issueId && `/api/issues/${issueId}`);
 
-  //
-  // B. Handle actions
+	//
+	// B. Handle actions
 
-  const handleOpenIssue = () => {
-    window.open(`/issues/${issueId}`, '_blank');
-  };
+	const handleOpenIssue = () => {
+		window.open(`/issues/${issueId}`, '_blank');
+	};
 
-  //
-  // C. Render components
+	//
+	// C. Render components
 
-  return issueData ? (
-    <div className={styles.container} onClick={handleOpenIssue}>
-      <div className={styles.badge}>#{issueData.code}</div>
-      <div className={styles.name}>{issueData.title}</div>
-    </div>
-  ) : (
-    <Loader size={10} visible />
-  );
+	return issueData ?
+		<div className={styles.container} onClick={handleOpenIssue}>
+			<div className={styles.badge}>#{issueData.code}</div>
+			<div className={styles.name}>{issueData.title}</div>
+		</div> :
+		<Loader size={10} visible />
+	;
 
-  //
+	//
 }

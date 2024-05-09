@@ -7,55 +7,55 @@ import { UserModel } from '@/schemas/User/model';
 /* * */
 
 export default async function handler(req, res) {
-  //
+	//
 
-  // 1.
-  // Setup variables
+	// 1.
+	// Setup variables
 
-  let sessionData;
+	let sessionData;
 
-  // 2.
-  // Get session data
+	// 2.
+	// Get session data
 
-  try {
-    sessionData = await getSession(req, res);
-  } catch (error) {
-    console.log(error);
-    return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
-  }
+	try {
+		sessionData = await getSession(req, res);
+	} catch (error) {
+		console.log(error);
+		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
+	}
 
-  // 3.
-  // Prepare endpoint
+	// 3.
+	// Prepare endpoint
 
-  try {
-    await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'users', action: 'view' }] });
-  } catch (error) {
-    console.log(error);
-    return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
-  }
+	try {
+		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'users', action: 'view' }] });
+	} catch (error) {
+		console.log(error);
+		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
+	}
 
-  // 4.
-  // Ensure latest schema modifications are applied in the database
+	// 4.
+	// Ensure latest schema modifications are applied in the database
 
-  try {
-    await UserModel.syncIndexes();
-  } catch (error) {
-    console.log(error);
-    return await res.status(500).json({ message: 'Cannot sync indexes.' });
-  }
+	try {
+		await UserModel.syncIndexes();
+	} catch (error) {
+		console.log(error);
+		return await res.status(500).json({ message: 'Cannot sync indexes.' });
+	}
 
-  // 5.
-  // List all documents
+	// 5.
+	// List all documents
 
-  try {
-    const allDocuments = await UserModel.find({});
-    const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
-    const sortedDocuments = allDocuments.sort((a, b) => collator.compare(a.name, b.name));
-    return await res.status(200).send(sortedDocuments);
-  } catch (error) {
-    console.log(error);
-    return await res.status(500).json({ message: 'Cannot list Users.' });
-  }
+	try {
+		const allDocuments = await UserModel.find({});
+		const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+		const sortedDocuments = allDocuments.sort((a, b) => collator.compare(a.name, b.name));
+		return await res.status(200).send(sortedDocuments);
+	} catch (error) {
+		console.log(error);
+		return await res.status(500).json({ message: 'Cannot list Users.' });
+	}
 
-  //
+	//
 }

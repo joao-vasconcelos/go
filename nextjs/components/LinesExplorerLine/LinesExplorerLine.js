@@ -11,62 +11,58 @@ import { useRouter } from 'next/navigation';
 /* * */
 
 export function LinesExplorerLine({ lineId, withLineData, withBadge = true, withLink = true, withLinkOpenNewTab = true }) {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('LinesExplorerLine');
-  const router = useRouter();
+	const t = useTranslations('LinesExplorerLine');
+	const router = useRouter();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { data: lineData } = useSWR(!withLineData && lineId && `/api/lines/${lineId}`);
-  const { data: typologyData } = useSWR(!withLineData && lineId ? `/api/typologies/${lineData?.typology}` : `/api/typologies/${withLineData?.typology}`);
+	const { data: lineData } = useSWR(!withLineData && lineId && `/api/lines/${lineId}`);
+	const { data: typologyData } = useSWR(!withLineData && lineId ? `/api/typologies/${lineData?.typology}` : `/api/typologies/${withLineData?.typology}`);
 
-  //
-  // C. Handle actions
+	//
+	// C. Handle actions
 
-  const handleOpenLine = () => {
-    if (withLink) {
-      if (withLinkOpenNewTab) window.open(`/lines/${lineId || withLineData._id}`, '_blank');
-      else router.push(`/lines/${lineId || withLineData._id}`);
-    }
-  };
+	const handleOpenLine = () => {
+		if (withLink) {
+			if (withLinkOpenNewTab) window.open(`/lines/${lineId || withLineData._id}`, '_blank');
+			else router.push(`/lines/${lineId || withLineData._id}`);
+		}
+	};
 
-  //
-  // D. Render components
+	//
+	// D. Render components
 
-  if (!withLineData && lineId) {
-    return lineData && typologyData ? (
-      <div className={`${styles.container} ${withLink && styles.withLink}`} onClick={handleOpenLine}>
-        {withBadge && (
+	if (!withLineData && lineId) {
+		return lineData && typologyData ?
+			<div className={`${styles.container} ${withLink && styles.withLink}`} onClick={handleOpenLine}>
+				{withBadge &&
           <div className={styles.badge} style={{ backgroundColor: typologyData.color, color: typologyData.text_color }}>
-            {lineData.short_name || t('untitled')}
+          	{lineData.short_name || t('untitled')}
           </div>
-        )}
-        <div className={styles.name}>{lineData.name}</div>
-      </div>
-    ) : (
-      <Loader size={10} visible />
-    );
-  }
+				}
+				<div className={styles.name}>{lineData.name}</div>
+			</div> :
+			<Loader size={10} visible />;
+	}
 
-  if (withLineData && !lineId) {
-    return withLineData && typologyData ? (
-      <div className={`${styles.container} ${withLink && styles.withLink}`} onClick={handleOpenLine}>
-        {withBadge && (
+	if (withLineData && !lineId) {
+		return withLineData && typologyData ?
+			<div className={`${styles.container} ${withLink && styles.withLink}`} onClick={handleOpenLine}>
+				{withBadge &&
           <div className={styles.badge} style={{ backgroundColor: typologyData.color, color: typologyData.text_color }}>
-            {withLineData.short_name || t('untitled')}
+          	{withLineData.short_name || t('untitled')}
           </div>
-        )}
-        <div className={styles.name}>{withLineData.name}</div>
-      </div>
-    ) : (
-      <Loader size={10} visible />
-    );
-  }
+				}
+				<div className={styles.name}>{withLineData.name}</div>
+			</div> :
+			<Loader size={10} visible />;
+	}
 
-  //
+	//
 }

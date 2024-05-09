@@ -7,10 +7,10 @@ import ReportsExplorerRealtimeResultTripDetailToolsAnimation from '@/components/
 /* * */
 
 export default function ReportsExplorerRealtimeResultTripDetailTools() {
-  return (
-    <Section>
-      <ReportsExplorerRealtimeResultTripDetailToolsOrdering />
-      <ReportsExplorerRealtimeResultTripDetailToolsAnimation />
-    </Section>
-  );
+	return (
+		<Section>
+			<ReportsExplorerRealtimeResultTripDetailToolsOrdering />
+			<ReportsExplorerRealtimeResultTripDetailToolsAnimation />
+		</Section>
+	);
 }

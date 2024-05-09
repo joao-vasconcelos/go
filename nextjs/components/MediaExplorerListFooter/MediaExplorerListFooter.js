@@ -9,18 +9,18 @@ import ListFooter from '@/components/ListFooter/ListFooter';
 /* * */
 
 export default function MediaExplorerListFooter() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('MediaExplorerListFooter');
-  const mediaExplorerContext = useMediaExplorerContext();
+	const t = useTranslations('MediaExplorerListFooter');
+	const mediaExplorerContext = useMediaExplorerContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <ListFooter>{t('found_items', { count: mediaExplorerContext.list.items.length })}</ListFooter>;
+	return <ListFooter>{t('found_items', { count: mediaExplorerContext.list.items.length })}</ListFooter>;
 
-  //
+	//
 }

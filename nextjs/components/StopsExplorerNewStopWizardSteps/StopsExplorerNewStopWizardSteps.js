@@ -12,24 +12,24 @@ import StopsExplorerNewStopWizardSteps3 from '@/components/StopsExplorerNewStopW
 /* * */
 
 export default function StopsExplorerNewStopWizardSteps() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const stopsExplorerNewStopWizardContext = useStopsExplorerNewStopWizardContext();
+	const stopsExplorerNewStopWizardContext = useStopsExplorerNewStopWizardContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return (
-    <div className={styles.container}>
-      {stopsExplorerNewStopWizardContext.wizard.current_step === 0 && <StopsExplorerNewStopWizardSteps0 />}
-      {stopsExplorerNewStopWizardContext.wizard.current_step === 1 && <StopsExplorerNewStopWizardSteps1 />}
-      {stopsExplorerNewStopWizardContext.wizard.current_step === 2 && <StopsExplorerNewStopWizardSteps2 />}
-      {stopsExplorerNewStopWizardContext.wizard.current_step === 3 && <StopsExplorerNewStopWizardSteps3 />}
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			{stopsExplorerNewStopWizardContext.wizard.current_step === 0 && <StopsExplorerNewStopWizardSteps0 />}
+			{stopsExplorerNewStopWizardContext.wizard.current_step === 1 && <StopsExplorerNewStopWizardSteps1 />}
+			{stopsExplorerNewStopWizardContext.wizard.current_step === 2 && <StopsExplorerNewStopWizardSteps2 />}
+			{stopsExplorerNewStopWizardContext.wizard.current_step === 3 && <StopsExplorerNewStopWizardSteps3 />}
+		</div>
+	);
 
-  //
+	//
 }

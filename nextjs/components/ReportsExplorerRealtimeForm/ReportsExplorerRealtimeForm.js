@@ -18,91 +18,91 @@ import { IconMoodAnnoyed } from '@tabler/icons-react';
 /* * */
 
 export default function ReportsExplorerRealtimeForm() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const t = useTranslations('ReportsExplorerRealtimeForm');
-  const reportsExplorerRealtimeContext = useReportsExplorerRealtimeContext();
+	const t = useTranslations('ReportsExplorerRealtimeForm');
+	const reportsExplorerRealtimeContext = useReportsExplorerRealtimeContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { data: allAgenciesData } = useSWR('/api/agencies');
+	const { data: allAgenciesData } = useSWR('/api/agencies');
 
-  //
-  // C. Format data
+	//
+	// C. Format data
 
-  const availableAgencies = useMemo(() => {
-    if (!allAgenciesData) return [];
-    return allAgenciesData.map((agency) => ({ value: agency.code, label: agency.name || '-' }));
-  }, [allAgenciesData]);
+	const availableAgencies = useMemo(() => {
+		if (!allAgenciesData) return [];
+		return allAgenciesData.map((agency) => ({ value: agency.code, label: agency.name || '-' }));
+	}, [allAgenciesData]);
 
-  //
-  // D. Render components
+	//
+	// D. Render components
 
-  return (
-    <Pannel header={<ReportsExplorerRealtimeFormHeader />}>
-      <Section>
-        <Text size="h4" color="muted">
-          {t('summary')}
-        </Text>
-      </Section>
-      <Divider />
-      <Section>
-        <Select
-          label={t('form.agency_code.label')}
-          description={t('form.agency_code.description')}
-          placeholder={t('form.agency_code.placeholder')}
-          nothingFoundMessage={t('form.agency_code.nothingFound')}
-          data={availableAgencies}
-          value={reportsExplorerRealtimeContext.form.agency_code}
-          onChange={reportsExplorerRealtimeContext.selectAgencyId}
-          disabled={reportsExplorerRealtimeContext.request.is_loading}
-          searchable
-          clearable
-        />
-        <DatePickerInput
-          label={t('form.operation_day.label')}
-          description={t('form.operation_day.description')}
-          placeholder={t('form.operation_day.placeholder')}
-          value={reportsExplorerRealtimeContext.form.operation_day}
-          onChange={reportsExplorerRealtimeContext.selectOperationDay}
-          disabled={reportsExplorerRealtimeContext.request.is_loading || !reportsExplorerRealtimeContext.form.agency_code}
-          dropdownType="modal"
-          clearable
-        />
-      </Section>
-      <Divider />
-      <Section>
-        {reportsExplorerRealtimeContext.request.is_error && (
+	return (
+		<Pannel header={<ReportsExplorerRealtimeFormHeader />}>
+			<Section>
+				<Text size="h4" color="muted">
+					{t('summary')}
+				</Text>
+			</Section>
+			<Divider />
+			<Section>
+				<Select
+					label={t('form.agency_code.label')}
+					description={t('form.agency_code.description')}
+					placeholder={t('form.agency_code.placeholder')}
+					nothingFoundMessage={t('form.agency_code.nothingFound')}
+					data={availableAgencies}
+					value={reportsExplorerRealtimeContext.form.agency_code}
+					onChange={reportsExplorerRealtimeContext.selectAgencyId}
+					disabled={reportsExplorerRealtimeContext.request.is_loading}
+					searchable
+					clearable
+				/>
+				<DatePickerInput
+					label={t('form.operation_day.label')}
+					description={t('form.operation_day.description')}
+					placeholder={t('form.operation_day.placeholder')}
+					value={reportsExplorerRealtimeContext.form.operation_day}
+					onChange={reportsExplorerRealtimeContext.selectOperationDay}
+					disabled={reportsExplorerRealtimeContext.request.is_loading || !reportsExplorerRealtimeContext.form.agency_code}
+					dropdownType="modal"
+					clearable
+				/>
+			</Section>
+			<Divider />
+			<Section>
+				{reportsExplorerRealtimeContext.request.is_error &&
           <Alert icon={<IconMoodAnnoyed size={20} />} title={t('info.is_error.title')} color="red">
-            {t('info.is_error.description', { errorMessage: reportsExplorerRealtimeContext.request.is_error })}
+          	{t('info.is_error.description', { errorMessage: reportsExplorerRealtimeContext.request.is_error })}
           </Alert>
-        )}
-        {reportsExplorerRealtimeContext.request.is_loading && !reportsExplorerRealtimeContext.request.summary?.length && (
+				}
+				{reportsExplorerRealtimeContext.request.is_loading && !reportsExplorerRealtimeContext.request.summary?.length &&
           <Alert icon={<Loader visible size={20} />} title={t('info.is_loading.title')} color="gray">
-            {t('info.is_loading.description')}
+          	{t('info.is_loading.description')}
           </Alert>
-        )}
-        {reportsExplorerRealtimeContext.request.is_loading && reportsExplorerRealtimeContext.request.summary?.length > 0 && (
+				}
+				{reportsExplorerRealtimeContext.request.is_loading && reportsExplorerRealtimeContext.request.summary?.length > 0 &&
           <Alert icon={<Loader visible size={20} />} title={t('info.is_loading_found_trips.title', { value: reportsExplorerRealtimeContext.request.summary?.length || 0 })} color="green">
-            {t('info.is_loading_found_trips.description')}
+          	{t('info.is_loading_found_trips.description')}
           </Alert>
-        )}
-        {!reportsExplorerRealtimeContext.request.is_loading && (
+				}
+				{!reportsExplorerRealtimeContext.request.is_loading &&
           <Button
-            onClick={reportsExplorerRealtimeContext.fetchEvents}
-            disabled={!reportsExplorerRealtimeContext.form.agency_code || !reportsExplorerRealtimeContext.form.operation_day || reportsExplorerRealtimeContext.request.summary?.length > 0}
-            loading={reportsExplorerRealtimeContext.request.is_loading}
+          	onClick={reportsExplorerRealtimeContext.fetchEvents}
+          	disabled={!reportsExplorerRealtimeContext.form.agency_code || !reportsExplorerRealtimeContext.form.operation_day || reportsExplorerRealtimeContext.request.summary?.length > 0}
+          	loading={reportsExplorerRealtimeContext.request.is_loading}
           >
-            {reportsExplorerRealtimeContext.request.is_error ? t('operations.retry.label') : t('operations.submit.label')}
+          	{reportsExplorerRealtimeContext.request.is_error ? t('operations.retry.label') : t('operations.submit.label')}
           </Button>
-        )}
-      </Section>
-    </Pannel>
-  );
+				}
+			</Section>
+		</Pannel>
+	);
 
-  //
+	//
 }

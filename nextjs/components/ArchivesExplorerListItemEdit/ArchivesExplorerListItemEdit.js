@@ -10,17 +10,17 @@ import styles from './ArchivesExplorerListItemEdit.module.css';
 /* * */
 
 export default function ArchivesExplorerListItemEdit() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const archivesExplorerItemContext = useArchivesExplorerItemContext();
+	const archivesExplorerItemContext = useArchivesExplorerItemContext();
 
-  //
-  // B. Render components
+	//
+	// B. Render components
 
-  return <div className={styles.container}>{archivesExplorerItemContext.item.is_edit_mode ? <ArchivesExplorerListItemEditForm /> : <ArchivesExplorerListItemEditButton />}</div>;
+	return <div className={styles.container}>{archivesExplorerItemContext.item.is_edit_mode ? <ArchivesExplorerListItemEditForm /> : <ArchivesExplorerListItemEditButton />}</div>;
 
-  //
+	//
 }

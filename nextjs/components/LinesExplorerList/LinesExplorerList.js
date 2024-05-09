@@ -13,26 +13,26 @@ import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
 /* * */
 
 export default function LinesExplorerList() {
-  //
+	//
 
-  //
-  // A. Setup variables
+	//
+	// A. Setup variables
 
-  const linesExplorerContext = useLinesExplorerContext();
+	const linesExplorerContext = useLinesExplorerContext();
 
-  //
-  // B. Fetch data
+	//
+	// B. Fetch data
 
-  const { error: allLinesError, isLoading: allLinesLoading, isValidating: allLinesValidating } = useSWR('/api/lines');
+	const { error: allLinesError, isLoading: allLinesLoading, isValidating: allLinesValidating } = useSWR('/api/lines');
 
-  //
-  // C. Render data
+	//
+	// C. Render data
 
-  return (
-    <Pannel loading={allLinesLoading} validating={allLinesValidating} error={allLinesError} header={<LinesExplorerListHeader />} footer={<LinesExplorerListFooter />}>
-      {linesExplorerContext.list.items.length > 0 ? linesExplorerContext.list.items.map((item) => <LinesExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
-    </Pannel>
-  );
+	return (
+		<Pannel loading={allLinesLoading} validating={allLinesValidating} error={allLinesError} header={<LinesExplorerListHeader />} footer={<LinesExplorerListFooter />}>
+			{linesExplorerContext.list.items.length > 0 ? linesExplorerContext.list.items.map((item) => <LinesExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		</Pannel>
+	);
 
-  //
+	//
 }
