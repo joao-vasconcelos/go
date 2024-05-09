@@ -454,7 +454,7 @@ export default async () => {
 
 						hashedTripData.code = crypto.createHash('sha256').update(JSON.stringify(hashedTripData)).digest('hex');
 						const currentSpineAlreadyExists = await SLAMANAGERDB.HashedTrip.findOne({ code: hashedTripData.code });
-						if (!currentSpineAlreadyExists) await hashedTripsDbWritter.write(hashedTripData, { filter: { code: hashedTripData.code } });
+						if (!currentSpineAlreadyExists) await hashedTripsDbWritter.write(hashedTripData, { upsert: true, filter: { code: hashedTripData.code } });
 						createdHashedTripCodes.add(hashedTripData.code);
 
 						// 4.13.4.
@@ -472,7 +472,7 @@ export default async () => {
 
 						hashedShapeData.code = crypto.createHash('sha256').update(JSON.stringify(hashedShapeData)).digest('hex');
 						const currentShapeAlreadyExists = await SLAMANAGERDB.HashedShape.findOne({ code: hashedShapeData.code });
-						if (!currentShapeAlreadyExists) await hashedShapesDbWritter.write(hashedShapeData, { filter: { code: hashedShapeData.code } });
+						if (!currentShapeAlreadyExists) await hashedShapesDbWritter.write(hashedShapeData, { upsert: true, filter: { code: hashedShapeData.code } });
 						createdHashedShapeCodes.add(hashedShapeData.code);
 
 						// 4.13.6.

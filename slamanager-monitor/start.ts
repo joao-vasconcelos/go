@@ -3,15 +3,16 @@
 import PCGIDB from './services/PCGIDB';
 import SLAMANAGERDB from './services/SLAMANAGERDB';
 import TIMETRACKER from './services/TIMETRACKER';
+import { AnalysisData } from '@/types/analysisData';
 import { DateTime } from 'luxon';
 
 /* * */
 
-import simpleThreeEventsAnalyzer from './analyzers/simpleThreeEvents.analyzer';
-import { AnalysisData } from 'analyzers/analysisData.types';
-import simpleOneEventAnalyzer from 'analyzers/simpleOneEvent.analyzer';
-import lessThanTenEventsAnalyzer from 'analyzers/lessThanTenEvents.analyzer';
-import atMostTwoDriversAnalyzer from 'analyzers/atMostTwoDrivers.analyzer';
+import simpleThreeEventsAnalyzer from '@/analyzers/simpleThreeEvents.analyzer';
+import simpleOneEventAnalyzer from '@/analyzers/simpleOneEvent.analyzer';
+import lessThanTenEventsAnalyzer from '@/analyzers/lessThanTenEvents.analyzer';
+import atMostTwoDriversAnalyzer from '@/analyzers/atMostTwoDrivers.analyzer';
+import atMostTwoVehiclesAnalyzer from '@/analyzers/atMostTwoVehicles.analyzer';
 
 /* * */
 
@@ -40,7 +41,7 @@ export default async () => {
 		// 2.
 		// Get all operational days pending analysis
 
-		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'waiting', operational_day: { $gte: '20240401', $lte: '20240430' } });
+		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'waiting' });
 
 		console.log(`→ Found ${allOperationalDays.length} operational days pending analysis.`);
 
@@ -80,7 +81,7 @@ export default async () => {
 
 			// For Vehicle Events
 
-			console.log('→ Fetching PCGI Vehicle Events...');
+			console.log(`→ Fetching PCGI Vehicle Events for "${operationalDay}"...`);
 
 			const pcgiVehicleEventsIdsAggregationStream = PCGIDB.VehicleEvents
 				.aggregate([
@@ -103,7 +104,7 @@ export default async () => {
 
 			// For Validation Transactions
 
-			console.log('→ Fetching PCGI Validation Transactions...');
+			console.log(`→ Fetching PCGI Validation Transactions for "${operationalDay}"...`);
 
 			const pcgiValidationTransactionsIdsAggregationStream = PCGIDB.ValidationEntity
 				.aggregate([
@@ -126,7 +127,7 @@ export default async () => {
 
 			// For Location Transactions
 
-			console.log('→ Fetching PCGI Location Transactions...');
+			console.log(`→ Fetching PCGI Location Transactions for "${operationalDay}"...`);
 
 			const pcgiLocationTransactionsIdsAggregationStream = PCGIDB.LocationEntity
 				.aggregate([
@@ -149,7 +150,9 @@ export default async () => {
 
 			//
 
+			console.log();
 			console.log(`→ PCGI Request for operational_day "${operationalDay}" (${pcgiDbTimer.get()}) | VehicleEvents: ${pcgiVehicleEventsCounter} | ValidationTransactions: ${pcgiValidationTransactionsCounter} | LocationTransactions: ${pcgiLocationTransactionsCounter}`);
+			console.log();
 
 			// 3.4.
 			// Request SLAMANAGERDB for all pending trips for the current operational day
@@ -165,8 +168,8 @@ export default async () => {
 				// 3.5.1.
 				// Get hashed path and shape for this trip
 
-				const hashedTripData = await SLAMANAGERDB.UniqueTrip.findOne({ code: tripData.unique_trip_code });
-				const hashedShapeData = await SLAMANAGERDB.UniqueShape.findOne({ code: tripData.unique_shape_code });
+				const hashedTripData = await SLAMANAGERDB.HashedTrip.findOne({ code: tripData.hashed_trip_code });
+				const hashedShapeData = await SLAMANAGERDB.HashedShape.findOne({ code: tripData.hashed_shape_code });
 
 				// 3.5.2.
 				// Get PCGI Vehicle Events for this trip (from an array of IDs)
@@ -224,11 +227,19 @@ export default async () => {
 
 					atMostTwoDriversAnalyzer(analysisData),
 
+					atMostTwoVehiclesAnalyzer(analysisData),
+
 					/* * * * */
 
 				];
 
 				// 3.5.7.
+				// Count how many analysis passed and how many failed
+
+				const passAnalysisCount = tripData.analysis.filter((item) => item.grade === 'PASS');
+				const failAnalysisCount = tripData.analysis.filter((item) => item.grade === 'FAIL');
+
+				// 3.5.8.
 				// Update trip with analysis result and status
 
 				tripData.status = 'complete';
@@ -237,7 +248,7 @@ export default async () => {
 
 				//
 
-				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] DONE | ${tripData.code}`);
+				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] | ${tripData.code} | PASS: ${passAnalysisCount.length} | FAIL: ${failAnalysisCount.length}`);
 
 				//
 			}

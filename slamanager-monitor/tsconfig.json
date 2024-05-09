@@ -9,7 +9,8 @@
       "@/config/*": ["config/*"],
       "@/modules/*": ["modules/*"],
       "@/services/*": ["services/*"],
-      "@/parsers/*": ["parsers/*"]
+      "@/analyzers/*": ["analyzers/*"],
+      "@/types/*": ["types/*"]
     },
     "allowJs": true,
     "outDir": "build",
