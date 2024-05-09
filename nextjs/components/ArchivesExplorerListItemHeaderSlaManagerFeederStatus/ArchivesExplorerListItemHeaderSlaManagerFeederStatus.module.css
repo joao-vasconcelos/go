@@ -1,0 +1,15 @@
+/* * */
+/* ICON */
+
+.pending {
+  color: var(--warning6);
+}
+
+.processed {
+  color: var(--success6);
+}
+
+.error,
+.unknown {
+  color: var(--danger7);
+}

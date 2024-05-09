@@ -103,6 +103,7 @@ export default function MediaExplorerMedia({ mediaId, onDelete, readOnly = false
 					{mediaData.file_mime_type === 'image/png' && <MediaExplorerMediaPreviewImage mediaData={mediaData} />}
 					{mediaData.file_mime_type === 'application/pdf' && <MediaExplorerMediaPreviewPdf />}
 					{mediaData.file_mime_type === 'application/zip' && <MediaExplorerMediaPreviewZip />}
+					{mediaData.file_mime_type === 'application/x-zip-compressed' && <MediaExplorerMediaPreviewZip />}
 				</div>
 			}
 			<div className={styles.mediaDetails}>

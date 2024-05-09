@@ -109,7 +109,7 @@ export default async () => {
 				// Log progress
 
 				console.log();
-				console.log(`[${archiveIndex + 1}/${allArchivesData.length}] Plan ${archiveData.code} | start_date: ${archiveData.start_date} | end_date: ${archiveData.end_date}`);
+				console.log(`[${archiveIndex + 1}/${allArchivesData.length}] Archive ${archiveData.code} | start_date: ${archiveData.start_date} | end_date: ${archiveData.end_date}`);
 				console.log();
 
 				// The order of execution matters when parsing each file. This is because archives are valid on a set of dates.

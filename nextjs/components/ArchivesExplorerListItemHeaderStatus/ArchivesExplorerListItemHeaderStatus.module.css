@@ -1,0 +1,14 @@
+/* * */
+/* ICON */
+
+.active {
+  color: var(--success6);
+}
+
+.disabled {
+  color: var(--gray8);
+}
+
+.unknown {
+  color: var(--danger7);
+}

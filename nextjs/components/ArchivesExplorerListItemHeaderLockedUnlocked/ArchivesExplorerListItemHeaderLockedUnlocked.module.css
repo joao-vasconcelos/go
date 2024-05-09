@@ -1,0 +1,10 @@
+/* * */
+/* ICON */
+
+.locked {
+  color: var(--success6);
+}
+
+.unlocked {
+  color: var(--warning6);
+}

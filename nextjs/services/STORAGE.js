@@ -9,8 +9,6 @@ import generator from './generator';
 class STORAGE {
 	//
 
-	storage_directory_name = 'storage';
-
 	allowed_scopes = { alerts: 'alerts', issues: 'issues', stops: 'stops', exports: 'exports', archives: 'archives', reports: 'reports' };
 
 	getScopeDirPath(scope) {
@@ -19,7 +17,7 @@ class STORAGE {
 		// Return if there is not a valid scope here
 		if (!scopePath) throw new Error(`Storage scope not allowed: "${scope}"`);
 		// Build the scoped directory path
-		const scopedPath = `${process.env.PWD}/${this.storage_directory_name}/${scopePath}`;
+		const scopedPath = `${process.env.APP_STORAGE_DIR}/${scopePath}`;
 		// Create the directory if it does not exist
 		if (!fs.existsSync(scopedPath)) fs.mkdirSync(scopedPath, { recursive: true });
 		// Return scoped path
@@ -67,8 +65,8 @@ class STORAGE {
 	}
 
 	getFileExtension(filepath, includeDot = true) {
-		if (includeDot) return path.extname(filepath);
-		else return path.extname(filepath).replace('.', '');
+		if (includeDot) return path.extname(filepath).toLowerCase();
+		else return path.extname(filepath).replace('.', '').toLowerCase();
 	}
 
 	//

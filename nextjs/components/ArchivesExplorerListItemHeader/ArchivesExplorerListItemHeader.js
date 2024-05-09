@@ -6,7 +6,9 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
-import { IconArrowRight, IconCircleCheckFilled, IconCircleDotted } from '@tabler/icons-react';
+import { IconArrowRight } from '@tabler/icons-react';
+import ArchivesExplorerListItemHeaderStatus from '@/components/ArchivesExplorerListItemHeaderStatus/ArchivesExplorerListItemHeaderStatus';
+import ArchivesExplorerListItemHeaderLockedUnlocked from '@/components/ArchivesExplorerListItemHeaderLockedUnlocked/ArchivesExplorerListItemHeaderLockedUnlocked';
 import ArchivesExplorerListItemHeaderSlaManagerFeederStatus from '@/components/ArchivesExplorerListItemHeaderSlaManagerFeederStatus/ArchivesExplorerListItemHeaderSlaManagerFeederStatus';
 import styles from './ArchivesExplorerListItemHeader.module.css';
 import { DateTime } from 'luxon';
@@ -50,7 +52,8 @@ export default function ArchivesExplorerListItemHeader() {
 
 	return (
 		<div className={styles.container}>
-			{archivesExplorerItemContext.item_data.status === 'active' ? <IconCircleCheckFilled size={20} /> : <IconCircleDotted size={20} />}
+			<ArchivesExplorerListItemHeaderStatus />
+			<ArchivesExplorerListItemHeaderLockedUnlocked />
 			<ArchivesExplorerListItemHeaderSlaManagerFeederStatus />
 			<div className={styles.datesWrapper}>
 				<p className={`${styles.date} ${styles.start}`}>{startDateFormatted}</p>
