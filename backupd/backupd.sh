@@ -9,11 +9,23 @@ frequency=21600
 # Infinite loop to run mongodump continously
 while true; do
 
+  echo ""
+  echo ""
+  echo ""
+
   # RUN OFFERMANAGERDB BACKUP
   sh offermanagerdb.sh
 
+  echo ""
+  echo ""
+  echo ""
+
   # RUN SLAMANAGERDB BACKUP
   sh slamanagerdb.sh
+
+  echo ""
+  echo ""
+  echo ""
 
   # Log end of program
   echo "Complete! Next run in $frequency seconds :)"
