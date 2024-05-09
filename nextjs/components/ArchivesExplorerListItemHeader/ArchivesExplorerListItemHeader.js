@@ -9,6 +9,7 @@ import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemC
 import { IconArrowRight, IconCircleCheckFilled, IconCircleDotted } from '@tabler/icons-react';
 import styles from './ArchivesExplorerListItemHeader.module.css';
 import { DateTime } from 'luxon';
+import ArchivesExplorerListItemHeaderSlaManagerFeederStatus from '../ArchivesExplorerListItemHeaderSlaManagerFeederStatus/ArchivesExplorerListItemHeaderSlaManagerFeederStatus';
 
 /* * */
 
@@ -50,6 +51,7 @@ export default function ArchivesExplorerListItemHeader() {
 	return (
 		<div className={styles.container}>
 			{archivesExplorerItemContext.item_data.status === 'active' ? <IconCircleCheckFilled size={20} /> : <IconCircleDotted size={20} />}
+			<ArchivesExplorerListItemHeaderSlaManagerFeederStatus />
 			<div className={styles.datesWrapper}>
 				<p className={`${styles.date} ${styles.start}`}>{startDateFormatted}</p>
 				<IconArrowRight size={16} />
