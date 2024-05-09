@@ -7,9 +7,9 @@ import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
 import { IconArrowRight, IconCircleCheckFilled, IconCircleDotted } from '@tabler/icons-react';
+import ArchivesExplorerListItemHeaderSlaManagerFeederStatus from '@/components/ArchivesExplorerListItemHeaderSlaManagerFeederStatus/ArchivesExplorerListItemHeaderSlaManagerFeederStatus';
 import styles from './ArchivesExplorerListItemHeader.module.css';
 import { DateTime } from 'luxon';
-import ArchivesExplorerListItemHeaderSlaManagerFeederStatus from '../ArchivesExplorerListItemHeaderSlaManagerFeederStatus/ArchivesExplorerListItemHeaderSlaManagerFeederStatus';
 
 /* * */
 

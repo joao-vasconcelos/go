@@ -2,9 +2,9 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
+// import { useTranslations } from 'next-intl';
 import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
-import { IconArrowRight, IconCircleCheckFilled, IconCircleDotted, IconClockCog, IconExclamationCircle, IconRosetteDiscountCheck } from '@tabler/icons-react';
+import { IconClockCog, IconExclamationCircle, IconRosetteDiscountCheck } from '@tabler/icons-react';
 
 /* * */
 
@@ -14,7 +14,7 @@ export default function ArchivesExplorerListItemHeaderSlaManagerFeederStatus() {
 	//
 	// A. Setup variables
 
-	const t = useTranslations('ArchivesExplorerListItemHeaderSlaManagerFeederStatus');
+	// const t = useTranslations('ArchivesExplorerListItemHeaderSlaManagerFeederStatus');
 	const archivesExplorerItemContext = useArchivesExplorerItemContext();
 
 	//
