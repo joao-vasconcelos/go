@@ -8,11 +8,13 @@ import { DateTime } from 'luxon';
 
 /* * */
 
-import simpleThreeEventsAnalyzer from '@/analyzers/simpleThreeEvents.analyzer';
 import simpleOneEventAnalyzer from '@/analyzers/simpleOneEvent.analyzer';
+import simpleOneValidationAnalyzer from '@/analyzers/simpleOneValidation.analyzer';
+import simpleThreeEventsAnalyzer from '@/analyzers/simpleThreeEvents.analyzer';
 import lessThanTenEventsAnalyzer from '@/analyzers/lessThanTenEvents.analyzer';
 import atMostTwoDriversAnalyzer from '@/analyzers/atMostTwoDrivers.analyzer';
 import atMostTwoVehiclesAnalyzer from '@/analyzers/atMostTwoVehicles.analyzer';
+import matchingLocationTransactionsAnalyzer from '@/analyzers/matchingLocationTransactions.analyzer';
 
 /* * */
 
@@ -221,6 +223,8 @@ export default async () => {
 
 					simpleOneEventAnalyzer(analysisData),
 
+					simpleOneValidationAnalyzer(analysisData),
+
 					simpleThreeEventsAnalyzer(analysisData),
 
 					lessThanTenEventsAnalyzer(analysisData),
@@ -228,6 +232,8 @@ export default async () => {
 					atMostTwoDriversAnalyzer(analysisData),
 
 					atMostTwoVehiclesAnalyzer(analysisData),
+
+					matchingLocationTransactionsAnalyzer(analysisData),
 
 					/* * * * */
 
