@@ -1,11 +1,25 @@
 #!/bin/sh
 
-# RUN OFFERMANAGERDB BACKUP
-echo "Running offermanagerdb.sh"
-sh offermanagerdb.sh
-echo "Offermanagerdb.sh completed"
+# BACKUP FREQUENCY
+# Run every 6 hours (21600 seconds)
+frequency=21600
 
-# RUN SLAMANAGERDB BACKUP
-echo "Running slamanagerdb.sh"
-sh slamanagerdb.sh
-echo "Slamanagerdb.sh completed"
+
+
+# Infinite loop to run mongodump continously
+while true; do
+
+  # RUN OFFERMANAGERDB BACKUP
+  sh offermanagerdb.sh
+
+  # RUN SLAMANAGERDB BACKUP
+  sh slamanagerdb.sh
+
+  # Log end of program
+  echo "Complete! Next run in $frequency seconds :)"
+  echo "-------------------------------------------"
+
+  # Sleep until the next iteration
+  sleep $frequency
+
+done
