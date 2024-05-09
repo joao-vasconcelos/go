@@ -9,6 +9,9 @@ import { DateTime } from 'luxon';
 
 import simpleThreeEventsAnalyzer from './analyzers/simpleThreeEvents.analyzer';
 import { AnalysisData } from 'analyzers/analysisData.types';
+import simpleOneEventAnalyzer from 'analyzers/simpleOneEvent.analyzer';
+import lessThanTenEventsAnalyzer from 'analyzers/lessThanTenEvents.analyzer';
+import atMostTwoDriversAnalyzer from 'analyzers/atMostTwoDrivers.analyzer';
 
 /* * */
 
@@ -213,9 +216,13 @@ export default async () => {
 
 					/* * * * */
 
-					simpleThreeEventsAnalyzer(analysisData),
+					simpleOneEventAnalyzer(analysisData),
 
 					simpleThreeEventsAnalyzer(analysisData),
+
+					lessThanTenEventsAnalyzer(analysisData),
+
+					atMostTwoDriversAnalyzer(analysisData),
 
 					/* * * * */
 

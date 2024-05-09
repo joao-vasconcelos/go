@@ -43,22 +43,22 @@ export default async () => {
 		// 2.
 		// Setup database writers
 
-		const uniqueTripsDbWritter = new DBWRITER('UniqueTrip', SLAMANAGERDB.UniqueTrip);
-		const uniqueShapesDbWritter = new DBWRITER('UniqueShape', SLAMANAGERDB.UniqueShape);
+		const hashedTripsDbWritter = new DBWRITER('HashedTrip', SLAMANAGERDB.HashedTrip);
+		const hashedShapesDbWritter = new DBWRITER('HashedShape', SLAMANAGERDB.HashedShape);
 		const tripAnalysisDbWritter = new DBWRITER('TripAnalysis', SLAMANAGERDB.TripAnalysis);
 
 		// 3.
 		// Setup variables to keep track of created IDs
 
 		const parsedArchiveCodes = new Set;
-		const createdUniqueTripCodes = new Set;
-		const createdUniqueShapeCodes = new Set;
+		const createdHashedTripCodes = new Set;
+		const createdHashedShapeCodes = new Set;
 		const createdTripAnalysisCodes = new Set;
 
 		// 4.
 		// Get all archives (GTFS plans) from GO database, and iterate on each one
 
-		const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active', slamanager_feeder_status: 'waiting' }).toArray();
+		const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active', slamanager_feeder_status: 'pending' }).toArray();
 
 		console.log(`→ Found ${allArchivesData.length} archives to process...`);
 
@@ -92,28 +92,24 @@ export default async () => {
 				// valid on a different month. The validity dates will be used to clip the calendars and only saved the actual part
 				// of the plan that was actually active in that period.
 
-				const archiveStartDate = DateTime.fromJSDate(archiveData.start_date).startOf('day').toJSDate();
-				const archiveEndDate = DateTime.fromJSDate(archiveData.end_date).startOf('day').toJSDate();
-				const todayDate = DateTime.now().startOf('day').toJSDate();
+				const todayDateString = DateTime.now().startOf('day').toFormat('yyyyMMdd');
 
 				// 4.4.
 				// Setup a temporary location to extract each GTFS archive
 
-				const extractLocation = `${process.env.APP_TMP_DIR}/extractions/${Math.floor(Math.random() * 1000)}/${archiveData._id}`;
+				const archiveFilePath = `${process.env.APP_STORAGE_DIR}/archives/${archiveData.operation_plan.toString()}.zip`;
+				const extractDirPath = `${process.env.APP_TMP_DIR}/extractions/${Math.floor(Math.random() * 1000)}/${archiveData._id}`;
 
 				// 4.5.
 				// Unzip the associated operation plan
 
-				await unzipFile(`${process.env.APP_STORAGE_DIR}/archives/${archiveData.operation_plan.toString()}.zip`, extractLocation);
-
-				// const zipArchive = new AdmZip(`${process.env.APP_STORAGE_DIR}/archives/${archiveData.operation_plan.toString()}.zip`);
-				// zipArchive.extractAllTo(extractLocation, true);
+				await unzipFile(archiveFilePath, extractDirPath);
 
 				// 4.6.
 				// Log progress
 
 				console.log();
-				console.log(`[${archiveIndex + 1}/${allArchivesData.length}] Plan ${archiveData.code} | start_date: ${archiveStartDate.toISOString()} | end_date: ${archiveEndDate.toISOString()}`);
+				console.log(`[${archiveIndex + 1}/${allArchivesData.length}] Plan ${archiveData.code} | start_date: ${archiveData.start_date} | end_date: ${archiveData.end_date}`);
 				console.log();
 
 				// The order of execution matters when parsing each file. This is because archives are valid on a set of dates.
@@ -135,10 +131,13 @@ export default async () => {
 
 					const parseEachRow = async (data) => {
 						//
-						// Parse this row's date
-						const rowDateObject = DateTime.fromFormat(data.date, 'yyyyMMdd').toJSDate();
 						// Skip if this row's date is before the archive's start date or after the archive's end date
-						if (rowDateObject < archiveStartDate || rowDateObject > archiveEndDate || rowDateObject > todayDate) return;
+						if (data.date < archiveData.start_date || data.date > archiveData.end_date || data.date > todayDateString) return;
+
+						// Parse this row's date
+						// const rowDateObject = DateTime.fromFormat(data.date, 'yyyyMMdd').toJSDate();
+						// Skip if this row's date is before the archive's start date or after the archive's end date
+						// if (rowDateObject < archiveStartDate || rowDateObject > archiveEndDate || rowDateObject > todayDateString) return;
 						// Get the previously saved calendar
 						const savedCalendar = savedCalendarDates.get(data.service_id);
 						//
@@ -155,7 +154,7 @@ export default async () => {
 					// 4.7.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(`${extractLocation}/calendar_dates.txt`, parseEachRow);
+					await parseCsvFile(`${extractDirPath}/calendar_dates.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "calendar_dates.txt" of archive "${archiveData.code}".`);
 
@@ -203,7 +202,7 @@ export default async () => {
 					// 4.8.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(`${extractLocation}/trips.txt`, parseEachRow);
+					await parseCsvFile(`${extractDirPath}/trips.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "trips.txt" of archive "${archiveData.code}".`);
 
@@ -249,7 +248,7 @@ export default async () => {
 					// 4.9.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(`${extractLocation}/routes.txt`, parseEachRow);
+					await parseCsvFile(`${extractDirPath}/routes.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "routes.txt" of archive "${archiveData.code}".`);
 
@@ -297,7 +296,7 @@ export default async () => {
 					// 4.10.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(`${extractLocation}/shapes.txt`, parseEachRow);
+					await parseCsvFile(`${extractDirPath}/shapes.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "shapes.txt" of archive "${archiveData.code}".`);
 
@@ -336,7 +335,7 @@ export default async () => {
 					// 4.11.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(`${extractLocation}/stops.txt`, parseEachRow);
+					await parseCsvFile(`${extractDirPath}/stops.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "stops.txt" of archive "${archiveData.code}".`);
 
@@ -397,7 +396,7 @@ export default async () => {
 					// 4.12.2.
 					// Setup the CSV parsing operation
 
-					await parseCsvFile(`${extractLocation}/stop_times.txt`, parseEachRow);
+					await parseCsvFile(`${extractDirPath}/stop_times.txt`, parseEachRow);
 
 					console.log(`✔︎ Finished processing "stop_times.txt" of archive "${archiveData.code}".`);
 
@@ -426,9 +425,9 @@ export default async () => {
 						const shapeData = savedShapes.get(tripData.shape_id);
 
 						// 4.13.2.
-						// Setup the unique trip data
+						// Setup the hashed trip data
 
-						const uniqueTripData = {
+						const hashedTripData = {
 							//
 							agency_id: routeData.agency_id,
 							//
@@ -450,31 +449,31 @@ export default async () => {
 						};
 
 						// 4.13.3.
-						// Hash the unique trip contents to prevent duplicates
-						// Check if this unique trip already exists. If it does not exist, save it to the database.
+						// Hash the hashed trip contents to prevent duplicates
+						// Check if this hashed trip already exists. If it does not exist, save it to the database.
 
-						uniqueTripData.code = crypto.createHash('sha256').update(JSON.stringify(uniqueTripData)).digest('hex');
-						const currentSpineAlreadyExists = await SLAMANAGERDB.UniqueTrip.findOne({ code: uniqueTripData.code });
-						if (!currentSpineAlreadyExists) await uniqueTripsDbWritter.write(uniqueTripData, { filter: { code: uniqueTripData.code } });
-						createdUniqueTripCodes.add(uniqueTripData.code);
+						hashedTripData.code = crypto.createHash('sha256').update(JSON.stringify(hashedTripData)).digest('hex');
+						const currentSpineAlreadyExists = await SLAMANAGERDB.HashedTrip.findOne({ code: hashedTripData.code });
+						if (!currentSpineAlreadyExists) await hashedTripsDbWritter.write(hashedTripData, { filter: { code: hashedTripData.code } });
+						createdHashedTripCodes.add(hashedTripData.code);
 
 						// 4.13.4.
-						// Setup the unique shape data
+						// Setup the hashed shape data
 
-						const uniqueShapeData = {
+						const hashedShapeData = {
 							agency_id: routeData.agency_id,
 							shape_id: tripData.shape_id,
 							points: shapeData?.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence),
 						};
 
 						// 4.13.5.
-						// Hash the unique shape contents to prevent duplicates
-						// Check if this unique shape already exists. If it does not exist, save it to the database.
+						// Hash the hashed shape contents to prevent duplicates
+						// Check if this hashed shape already exists. If it does not exist, save it to the database.
 
-						uniqueShapeData.code = crypto.createHash('sha256').update(JSON.stringify(uniqueShapeData)).digest('hex');
-						const currentShapeAlreadyExists = await SLAMANAGERDB.UniqueShape.findOne({ code: uniqueShapeData.code });
-						if (!currentShapeAlreadyExists) await uniqueShapesDbWritter.write(uniqueShapeData, { filter: { code: uniqueShapeData.code } });
-						createdUniqueShapeCodes.add(uniqueShapeData.code);
+						hashedShapeData.code = crypto.createHash('sha256').update(JSON.stringify(hashedShapeData)).digest('hex');
+						const currentShapeAlreadyExists = await SLAMANAGERDB.HashedShape.findOne({ code: hashedShapeData.code });
+						if (!currentShapeAlreadyExists) await hashedShapesDbWritter.write(hashedShapeData, { filter: { code: hashedShapeData.code } });
+						createdHashedShapeCodes.add(hashedShapeData.code);
 
 						// 4.13.6.
 						// Create a trip analysis document for each day this trip is scheduled to run
@@ -496,8 +495,8 @@ export default async () => {
 								trip_id: tripData.trip_id,
 								service_id: tripData.service_id,
 								//
-								unique_trip_code: uniqueTripData.code,
-								unique_shape_code: uniqueShapeData.code,
+								hashed_trip_code: hashedTripData.code,
+								hashed_shape_code: hashedShapeData.code,
 								//
 								parse_timestamp: new Date,
 								analysis_timestamp: null,
@@ -512,11 +511,11 @@ export default async () => {
 								//
 								write_mode: 'replace',
 								//
-								upsert: false,
+								upsert: true,
 								//
 								filter: {
 									code: tripAnalysisData.code,
-									status: 'waiting',
+									// status: 'waiting',
 								},
 								//
 							};
@@ -536,8 +535,8 @@ export default async () => {
 						//
 					}
 
-					await uniqueTripsDbWritter.flush();
-					await uniqueShapesDbWritter.flush();
+					await hashedTripsDbWritter.flush();
+					await hashedShapesDbWritter.flush();
 					await tripAnalysisDbWritter.flush();
 
 					//
@@ -576,14 +575,14 @@ export default async () => {
 		const deletedTripAnalysisEntries = await SLAMANAGERDB.TripAnalysis.deleteMany({ code: { $in: staleTripAnalysisCodes } });
 
 		//
-		const existingAndUsedUniqueTripCodes = new Set(await SLAMANAGERDB.TripAnalysis.distinct('unique_trip_code'));
-		const deletedUniqueTripEntries = await SLAMANAGERDB.UniqueTrip.deleteMany({ code: { $nin: Array.from(existingAndUsedUniqueTripCodes) } });
+		const existingAndUsedHashedTripCodes = new Set(await SLAMANAGERDB.TripAnalysis.distinct('hashed_trip_code'));
+		const deletedHashedTripEntries = await SLAMANAGERDB.HashedTrip.deleteMany({ code: { $nin: Array.from(existingAndUsedHashedTripCodes) } });
 
 		//
-		const existingAndUsedUniqueShapeCodes = new Set(await SLAMANAGERDB.TripAnalysis.distinct('unique_shape_code'));
-		const deletedUniqueShapeEntries = await SLAMANAGERDB.UniqueShape.deleteMany({ code: { $nin: Array.from(existingAndUsedUniqueShapeCodes) } });
+		const existingAndUsedHashedShapeCodes = new Set(await SLAMANAGERDB.TripAnalysis.distinct('hashed_shape_code'));
+		const deletedHashedShapeEntries = await SLAMANAGERDB.HashedShape.deleteMany({ code: { $nin: Array.from(existingAndUsedHashedShapeCodes) } });
 
-		console.log(`✔︎ Deleted stale entries: UniqueTrip: ${deletedUniqueTripEntries.deletedCount} | UniqueShape: ${deletedUniqueShapeEntries.deletedCount} | TripAnalysis: ${deletedTripAnalysisEntries.deletedCount}`);
+		console.log(`✔︎ Deleted stale entries: HashedTrip: ${deletedHashedTripEntries.deletedCount} | HashedShape: ${deletedHashedShapeEntries.deletedCount} | TripAnalysis: ${deletedTripAnalysisEntries.deletedCount}`);
 		console.log();
 
 		//

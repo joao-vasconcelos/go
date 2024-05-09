@@ -1,6 +1,6 @@
 # # #
 
-name: go
+name: go-local
 
 volumes:
   offermanagerdbdata:
@@ -48,18 +48,18 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  slamanager-feeder:
-    build: ./slamanager-feeder
-    restart: unless-stopped
-    logging:
-      options:
-        max-size: '1m'
-        max-file: '1'
-    volumes:
-      - ./storage/:/app/storage
-    env_file:
-      - .env.production
-    mem_limit: 2g
+  # slamanager-feeder:
+  #   build: ./slamanager-feeder
+  #   restart: unless-stopped
+  #   logging:
+  #     options:
+  #       max-size: '1m'
+  #       max-file: '1'
+  #   volumes:
+  #     - ./storage/:/app/storage
+  #   env_file:
+  #     - .env.production
+  #   mem_limit: 2g
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

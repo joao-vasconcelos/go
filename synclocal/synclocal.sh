@@ -6,6 +6,6 @@ mongorestore --uri="mongodb://offermanagerdbuser:offermanagerdbpassword@offerman
 echo "Restore complete!"
 
 # Restore the database from backup
-echo "Starting restore..."
-mongorestore --uri="mongodb://slamanagerdbuser:slamanagerdbpassword@slamanagerdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-slamanagerdb-20240509102732"
-echo "Restore complete!"
+# echo "Starting restore..."
+# mongorestore --uri="mongodb://slamanagerdbuser:slamanagerdbpassword@slamanagerdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-slamanagerdb-20240509102732"
+# echo "Restore complete!"

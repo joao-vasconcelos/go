@@ -4484,6 +4484,10 @@
 			"realtime": {
 				"label": "Realtime",
 				"description": "Consultar histórico de viagens"
+			},
+			"sla": {
+				"label": "SLA Inspect",
+				"description": "Consultar estado das viagens"
 			}
 		}
 	},

@@ -7,7 +7,7 @@ export const ReportOptions = {
    * KIND
    */
 
-	kind: ['revenue', 'realtime'],
+	kind: ['revenue', 'realtime', 'sla'],
 
 	/*
    * APEX TRANSACTION VALID STATUS
