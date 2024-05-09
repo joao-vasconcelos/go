@@ -50,8 +50,16 @@ export function ArchivesExplorerContextProvider({ children }) {
 		if (!allItemsData) return;
 		// Filter items based on search query
 		const filteredItems = doSearch(listState.search_query, allItemsData, { keys: ['code'] });
+		// Sort items by agency ascending, start_date descending
+		const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+		const sortedItems = filteredItems.sort((a, b) => {
+			// First, compare by 'agency' ascending
+			if (String(a.agency) !== String(b.agency)) return collator.compare(String(a.agency), String(b.agency));
+			// If 'agency' is the same, then compare by 'start_date' descending
+			else return collator.compare(b.start_date, a.start_date);
+		});
 		// Update state
-		setListState((prev) => ({ ...prev, items: filteredItems }));
+		setListState((prev) => ({ ...prev, items: sortedItems }));
 		//
 	}, [allItemsData, listState.search_query]);
 
