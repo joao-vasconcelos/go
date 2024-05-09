@@ -12,7 +12,7 @@ frequency=21600
 
 # BACKUP HISTORYS
 # Only keep the 300 most recent files
-files_to_keep=300
+files_to_keep=30
 
 # Infinite loop to run mongodump continously
 while true; do
