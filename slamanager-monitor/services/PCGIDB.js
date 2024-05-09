@@ -99,11 +99,15 @@ class PCGIDB {
 			// Setup databases
 
 			const coreManagementDatabase = mongoClientInstance.db('CoreManagement');
+			const validationsManagementDatabase = mongoClientInstance.db('ValidationsManagement');
+			const locationManagementDatabase = mongoClientInstance.db('LocationManagement');
 
 			//
 			// Setup collections
 
 			this.VehicleEvents = coreManagementDatabase.collection('VehicleEvents');
+			this.ValidationEntity = validationsManagementDatabase.collection('validationEntity');
+			this.LocationEntity = locationManagementDatabase.collection('locationEntity');
 
 			//
 			// Save the instance in memory

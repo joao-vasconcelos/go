@@ -1,6 +1,10 @@
 /* * */
 
-// This analyser tests if at least one stop_id is found for each segment of the trip.
+import { AnalysisData } from './analysisData.types';
+
+/* * */
+
+// This analyzer tests if at least one stop_id is found for each segment of the trip.
 // The first three stops, the first middle 4 stops and the last 3 stops for each trip are saved.
 // Then, a simple lookup for any of these Stop IDs is performed.
 //
@@ -10,7 +14,7 @@
 
 /* * */
 
-export default async ({ unique_trip, events = [] }) => {
+export default (analysisData: AnalysisData) => {
 	//
 
 	try {
@@ -19,7 +23,7 @@ export default async ({ unique_trip, events = [] }) => {
 		// 1.
 		// Sort the path by stop_sequence
 
-		const sortedTripPath = unique_trip.path.sort((a, b) => {
+		const sortedTripPath = analysisData.hashed_trip.path.sort((a, b) => {
 			return a.stop_sequence - b.stop_sequence;
 		});
 
@@ -35,7 +39,7 @@ export default async ({ unique_trip, events = [] }) => {
 		const lastStopIds = new Set;
 		const foundLastStopIds = new Set;
 
-		// 4.
+		// 3.
 		// Get stops for each segment
 
 		// Get first three stops of trip
@@ -46,10 +50,10 @@ export default async ({ unique_trip, events = [] }) => {
 		// Get last three stops of trip
 		sortedTripPath.slice(-2).forEach((item) => lastStopIds.add(item.stop_id));
 
-		// 5.
+		// 4.
 		// Test if at least one stop is found for each segment
 
-		for (const event of events) {
+		for (const event of analysisData.vehicle_events) {
 			if (firstStopIds.has(event.content.entity[0].vehicle.stopId)) {
 				foundFirstStopIds.add(event.content.entity[0].vehicle.stopId);
 			}
@@ -61,7 +65,7 @@ export default async ({ unique_trip, events = [] }) => {
 			}
 		}
 
-		// 6.
+		// 5.
 		// Based on the test, attribute the grades
 
 		if (!foundFirstStopIds.size) {
