@@ -48,7 +48,6 @@ export default function ReportsExplorerSlaList() {
 				{ accessor: 'pattern_id' },
 				{ accessor: 'status' },
 				{ accessor: 'trip_id' },
-				{ accessor: 'analysis' },
 			]}
 			records={reportsExplorerSlaContext.form.list_data}
 			emptyState={<NoDataLabel/>}

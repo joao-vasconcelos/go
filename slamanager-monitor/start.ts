@@ -57,6 +57,12 @@ export default async () => {
 			console.log('----------------------------------------------------------');
 			console.log();
 
+			const operationalDayTimer = new TIMETRACKER;
+
+			let passAnalysisTotalCount = 0;
+			let failAnalysisTotalCount = 0;
+			let errorAnalysisTotalCount = 0;
+
 			// 3.1.
 			// Setup hashmap variables to hold PCGi data organized by trip_id
 
@@ -242,8 +248,14 @@ export default async () => {
 				// 3.5.7.
 				// Count how many analysis passed and how many failed
 
-				const passAnalysisCount = tripData.analysis.filter((item) => item.grade === 'PASS');
-				const failAnalysisCount = tripData.analysis.filter((item) => item.grade === 'FAIL');
+				const passAnalysisCount = tripData.analysis.filter((item) => item.grade === 'PASS').length;
+				passAnalysisTotalCount += passAnalysisCount;
+
+				const failAnalysisCount = tripData.analysis.filter((item) => item.grade === 'FAIL').length;
+				failAnalysisTotalCount += failAnalysisCount;
+
+				const errorAnalysisCount = tripData.analysis.filter((item) => item.grade === 'ERROR').length;
+				errorAnalysisTotalCount += errorAnalysisCount;
 
 				// 3.5.8.
 				// Update trip with analysis result and status
@@ -254,10 +266,16 @@ export default async () => {
 
 				//
 
-				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] | ${tripData.code} | PASS: ${passAnalysisCount.length} | FAIL: ${failAnalysisCount.length}`);
+				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] | ${tripData.code} | PASS: ${passAnalysisCount} | FAIL: ${failAnalysisCount} | ERROR: ${errorAnalysisCount}`);
 
 				//
 			}
+
+			console.log();
+			console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] | Complete analysis for operational_day "${operationalDay}" (${operationalDayTimer.get()}) | TOTAL PASS: ${passAnalysisTotalCount} | TOTAL FAIL: ${failAnalysisTotalCount} | TOTAL ERROR: ${errorAnalysisTotalCount}`);
+			console.log();
+
+			//
 		}
 
 		//
