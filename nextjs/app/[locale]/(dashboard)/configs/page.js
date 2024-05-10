@@ -26,24 +26,24 @@ export default function Page() {
 	//
 	// D. Handle actiona
 
-	const handleAddArchiveSlaStatus = async () => {
+	const handleResetTripAnalysis = async () => {
 		openConfirmModal({
-			title: <Text size="h2">Add Archive SLA Status?</Text>,
+			title: <Text size="h2">Reset All Trip Analysis?</Text>,
 			centered: true,
 			closeOnClickOutside: true,
 			children: <Text size="h3">Are you sure?</Text>,
-			labels: { confirm: 'Yes, Add Archive SLA Status', cancel: 'Cancel' },
+			labels: { confirm: 'Yes, Reset All Trip Analysis', cancel: 'Cancel' },
 			confirmProps: { color: 'red' },
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify('addArchiveSlaStatus', 'loading', 'Loading');
-					await API({ service: 'configs/refactors/addArchiveSlaStatus', method: 'GET' });
-					notify('addArchiveSlaStatus', 'success', 'success');
+					notify('resetAllTripAnalysis', 'loading', 'Loading');
+					await API({ service: 'configs/refactors/resetAllTripAnalysis', method: 'GET' });
+					notify('resetAllTripAnalysis', 'success', 'success');
 					setIsImporting(false);
 				} catch (error) {
 					console.log(error);
-					notify('addArchiveSlaStatus', 'error', error.message || 'Error');
+					notify('resetAllTripAnalysis', 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
@@ -59,8 +59,8 @@ export default function Page() {
 				<AppLayoutSection>
 					<NoDataLabel text="No operations available" />
 					<SimpleGrid cols={3}>
-						<Button onClick={handleAddArchiveSlaStatus} color="red" loading={isImporting}>
-              Add Archive SLA Status
+						<Button onClick={handleResetTripAnalysis} color="red" loading={isImporting}>
+              Reset All Trip Analysis
 						</Button>
 					</SimpleGrid>
 				</AppLayoutSection>

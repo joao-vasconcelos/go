@@ -40,9 +40,9 @@ export default (analysisData: AnalysisData) => {
 
 		const missingStopIds = new Set;
 
-		for (const locationTransactionsStopId of locationTransactionsStopIds) {
-			if (!pathStopIds.has(locationTransactionsStopId)) {
-				missingStopIds.add(locationTransactionsStopId);
+		for (const pathStopId of pathStopIds.values()) {
+			if (!locationTransactionsStopIds.has(pathStopId)) {
+				missingStopIds.add(pathStopId);
 			}
 		}
 

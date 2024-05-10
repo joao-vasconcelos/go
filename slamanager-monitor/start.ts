@@ -43,7 +43,7 @@ export default async () => {
 		// 2.
 		// Get all operational days pending analysis
 
-		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'waiting' });
+		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'pending' });
 
 		console.log(`→ Found ${allOperationalDays.length} operational days pending analysis.`);
 
@@ -165,13 +165,15 @@ export default async () => {
 			// 3.4.
 			// Request SLAMANAGERDB for all pending trips for the current operational day
 
-			const allTripsData = await SLAMANAGERDB.TripAnalysis.find({ status: 'waiting', operational_day: operationalDay }).sort({ trip_id: 1 }).toArray();
+			const allTripsData = await SLAMANAGERDB.TripAnalysis.find({ status: 'pending', operational_day: operationalDay }).sort({ trip_id: 1 }).toArray();
 
 			// 3.5.
 			// Iterate on each trip
 
 			for (const [tripIndex, tripData] of allTripsData.entries()) {
 				//
+
+				const tripAnalysisTimer = new TIMETRACKER;
 
 				// 3.5.1.
 				// Get hashed path and shape for this trip
@@ -185,7 +187,7 @@ export default async () => {
 				const allPcgiVehicleEventsIds = allPcgiVehicleEventsIdsOrganizedByTripId.get(tripData.trip_id);
 
 				let allPcgiVehicleEventsData = [];
-				if (allPcgiVehicleEventsIdsOrganizedByTripId.has(tripData.trip_id)) {
+				if (allPcgiVehicleEventsIds?.length) {
 					allPcgiVehicleEventsData = await PCGIDB.VehicleEvents.find({ _id: { $in: allPcgiVehicleEventsIds || [] } }).toArray();
 				}
 
@@ -195,8 +197,8 @@ export default async () => {
 				const allPcgiValidationTransactionsIds = allPcgiValidationTransactionsIdsOrganizedByTripId.get(tripData.trip_id);
 
 				let allPcgiValidationTransactionsData = [];
-				if (allPcgiVehicleEventsIdsOrganizedByTripId.has(tripData.trip_id)) {
-					allPcgiValidationTransactionsData = await PCGIDB.VehicleEvents.find({ _id: { $in: allPcgiValidationTransactionsIds || [] } }).toArray();
+				if (allPcgiValidationTransactionsIds?.length) {
+					allPcgiValidationTransactionsData = await PCGIDB.ValidationEntity.find({ _id: { $in: allPcgiValidationTransactionsIds || [] } }).toArray();
 				}
 
 				// 3.5.4.
@@ -205,8 +207,8 @@ export default async () => {
 				const allPcgiLocationTransactionsIds = allPcgiLocationTransactionsIdsOrganizedByTripId.get(tripData.trip_id);
 
 				let allPcgiLocationTransactionsData = [];
-				if (allPcgiVehicleEventsIdsOrganizedByTripId.has(tripData.trip_id)) {
-					allPcgiLocationTransactionsData = await PCGIDB.VehicleEvents.find({ _id: { $in: allPcgiLocationTransactionsIds || [] } }).toArray();
+				if (allPcgiLocationTransactionsIds?.length) {
+					allPcgiLocationTransactionsData = await PCGIDB.LocationEntity.find({ _id: { $in: allPcgiLocationTransactionsIds || [] } }).toArray();
 				}
 
 				// 3.5.5.
@@ -248,25 +250,25 @@ export default async () => {
 				// 3.5.7.
 				// Count how many analysis passed and how many failed
 
-				const passAnalysisCount = tripData.analysis.filter((item) => item.grade === 'PASS').length;
-				passAnalysisTotalCount += passAnalysisCount;
+				const passAnalysisCount = tripData.analysis.filter((item) => item.grade === 'PASS').map((item) => item.code);
+				passAnalysisTotalCount += passAnalysisCount.length;
 
-				const failAnalysisCount = tripData.analysis.filter((item) => item.grade === 'FAIL').length;
-				failAnalysisTotalCount += failAnalysisCount;
+				const failAnalysisCount = tripData.analysis.filter((item) => item.grade === 'FAIL').map((item) => item.code);
+				failAnalysisTotalCount += failAnalysisCount.length;
 
-				const errorAnalysisCount = tripData.analysis.filter((item) => item.grade === 'ERROR').length;
-				errorAnalysisTotalCount += errorAnalysisCount;
+				const errorAnalysisCount = tripData.analysis.filter((item) => item.grade === 'ERROR').map((item) => item.code);
+				errorAnalysisTotalCount += errorAnalysisCount.length;
 
 				// 3.5.8.
 				// Update trip with analysis result and status
 
-				tripData.status = 'complete';
+				tripData.status = 'processed';
 
 				await SLAMANAGERDB.TripAnalysis.findOneAndReplace({ code: tripData.code }, tripData);
 
 				//
 
-				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] | ${tripData.code} | PASS: ${passAnalysisCount} | FAIL: ${failAnalysisCount} | ERROR: ${errorAnalysisCount}`);
+				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] (${tripAnalysisTimer.get()}) | ${tripData.code} | PASS: ${passAnalysisCount.length} | FAIL: ${failAnalysisCount.length} [${failAnalysisCount.join('|')}] | ERROR: ${errorAnalysisCount.length} [${errorAnalysisCount.join('|')}]`);
 
 				//
 			}

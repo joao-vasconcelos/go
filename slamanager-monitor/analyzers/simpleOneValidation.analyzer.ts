@@ -19,7 +19,7 @@ export default (analysisData: AnalysisData) => {
 		//
 
 		// 1.
-		// Test if at least one Vehicle Event is found
+		// Test if at least one Validation Transaction is found
 
 		if (analysisData.validation_transactions.length > 0) {
 			return {
