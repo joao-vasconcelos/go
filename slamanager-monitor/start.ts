@@ -101,7 +101,7 @@ export default async () => {
 				}
 				const mergedVehicleEventsIds = [...allPcgiVehicleEventsIdsOrganizedByTripId.get(currentTripId), ...vehicleEventsIdsForTripId.document_ids];
 				allPcgiVehicleEventsIdsOrganizedByTripId.set(currentTripId, mergedVehicleEventsIds.flat());
-				pcgiVehicleEventsCounter += mergedVehicleEventsIds.length;
+				pcgiVehicleEventsCounter += vehicleEventsIdsForTripId.document_ids.length;
 			}
 
 			// For Validation Transactions
@@ -124,7 +124,7 @@ export default async () => {
 				}
 				const mergedValidationTransactionsIds = [...allPcgiValidationTransactionsIdsOrganizedByTripId.get(currentTripId), ...validationTransactionsIdsForTripId.document_ids];
 				allPcgiValidationTransactionsIdsOrganizedByTripId.set(currentTripId, mergedValidationTransactionsIds.flat());
-				pcgiValidationTransactionsCounter += mergedValidationTransactionsIds.length;
+				pcgiValidationTransactionsCounter += validationTransactionsIdsForTripId.document_ids.length;
 			}
 
 			// For Location Transactions
@@ -140,14 +140,14 @@ export default async () => {
 				.stream();
 
 			let pcgiLocationTransactionsCounter = 0;
-			for await (const vehicleEventsIdsForTripId of pcgiLocationTransactionsIdsAggregationStream) {
-				const currentTripId = vehicleEventsIdsForTripId._id;
+			for await (const locationTransactionsIdsForTripId of pcgiLocationTransactionsIdsAggregationStream) {
+				const currentTripId = locationTransactionsIdsForTripId._id;
 				if (!allPcgiLocationTransactionsIdsOrganizedByTripId.has(currentTripId)) {
-					allPcgiLocationTransactionsIdsOrganizedByTripId.set(currentTripId, vehicleEventsIdsForTripId.document_ids);
+					allPcgiLocationTransactionsIdsOrganizedByTripId.set(currentTripId, locationTransactionsIdsForTripId.document_ids);
 				}
-				const mergedLocationTransactionsIds = [...allPcgiLocationTransactionsIdsOrganizedByTripId.get(currentTripId), ...vehicleEventsIdsForTripId.document_ids];
+				const mergedLocationTransactionsIds = [...allPcgiLocationTransactionsIdsOrganizedByTripId.get(currentTripId), ...locationTransactionsIdsForTripId.document_ids];
 				allPcgiLocationTransactionsIdsOrganizedByTripId.set(currentTripId, mergedLocationTransactionsIds.flat());
-				pcgiLocationTransactionsCounter += mergedLocationTransactionsIds.length;
+				pcgiLocationTransactionsCounter += locationTransactionsIdsForTripId.document_ids.length;
 			}
 
 			//
