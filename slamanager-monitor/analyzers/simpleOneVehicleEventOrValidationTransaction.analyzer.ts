@@ -23,7 +23,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (analysisData.vehicle_events.length > 0 || analysisData.validation_transactions.length > 0) {
 			return {
-				code: 'SIMPLE_ONE_EVENT/1.0.0',
+				code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_',
 				status: 'COMPLETE',
 				grade: 'PASS',
 				reason: 'FOUND_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION',
@@ -32,7 +32,7 @@ export default (analysisData: AnalysisData) => {
 		}
 
 		return {
-			code: 'SIMPLE_ONE_EVENT/1.0.0',
+			code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_',
 			status: 'COMPLETE',
 			grade: 'FAIL',
 			reason: 'NO_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_FOUND',
@@ -43,7 +43,7 @@ export default (analysisData: AnalysisData) => {
 	} catch (error) {
 		console.log(error);
 		return {
-			code: 'SIMPLE_ONE_EVENT/1.0.0',
+			code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_',
 			status: 'ERROR',
 			grade: null,
 			reason: null,

@@ -23,7 +23,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (analysisData.vehicle_events.length > 10) {
 			return {
-				code: 'LESS_THAN_TEN_EVENTS/1.0.0',
+				code: 'LESS_THAN_TEN_VEHICLE_EVENTS',
 				status: 'COMPLETE',
 				grade: 'PASS',
 				reason: 'FOUND_MORE_THAN_10_VEHICLE_EVENTS',
@@ -33,7 +33,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (analysisData.vehicle_events.length === 1) {
 			return {
-				code: 'LESS_THAN_TEN_EVENTS/1.0.0',
+				code: 'LESS_THAN_TEN_VEHICLE_EVENTS',
 				status: 'COMPLETE',
 				grade: 'FAIL',
 				reason: 'FOUND_ONLY_1_VEHICLE_EVENT',
@@ -42,7 +42,7 @@ export default (analysisData: AnalysisData) => {
 		}
 
 		return {
-			code: 'LESS_THAN_TEN_EVENTS/1.0.0',
+			code: 'LESS_THAN_TEN_VEHICLE_EVENTS',
 			status: 'COMPLETE',
 			grade: 'FAIL',
 			reason: `FOUND_ONLY_${analysisData.vehicle_events.length}_VEHICLE_EVENTS`,
@@ -53,7 +53,7 @@ export default (analysisData: AnalysisData) => {
 	} catch (error) {
 		console.log(error);
 		return {
-			code: 'LESS_THAN_TEN_EVENTS/1.0.0',
+			code: 'LESS_THAN_TEN_VEHICLE_EVENTS',
 			status: 'ERROR',
 			grade: null,
 			reason: null,

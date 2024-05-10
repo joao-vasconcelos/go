@@ -70,7 +70,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (!foundFirstStopIds.size) {
 			return {
-				code: 'SIMPLE_THREE_EVENTS/1.0.0',
+				code: 'SIMPLE_THREE_VEHICLE_EVENTS',
 				status: 'COMPLETE',
 				grade: 'FAIL',
 				reason: 'MISSING_FIRST_STOPS',
@@ -80,7 +80,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (!foundMiddleStopIds.size) {
 			return {
-				code: 'SIMPLE_THREE_EVENTS/1.0.0',
+				code: 'SIMPLE_THREE_VEHICLE_EVENTS',
 				status: 'COMPLETE',
 				grade: 'FAIL',
 				reason: 'MISSING_MIDDLE_STOPS',
@@ -90,7 +90,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (!foundLastStopIds.size) {
 			return {
-				code: 'SIMPLE_THREE_EVENTS/1.0.0',
+				code: 'SIMPLE_THREE_VEHICLE_EVENTS',
 				status: 'COMPLETE',
 				grade: 'FAIL',
 				reason: 'MISSING_LAST_STOPS',
@@ -99,7 +99,7 @@ export default (analysisData: AnalysisData) => {
 		}
 
 		return {
-			code: 'SIMPLE_THREE_EVENTS/1.0.0',
+			code: 'SIMPLE_THREE_VEHICLE_EVENTS',
 			status: 'COMPLETE',
 			grade: 'PASS',
 			reason: 'ALL_STOPS_FOUND',
@@ -110,7 +110,7 @@ export default (analysisData: AnalysisData) => {
 	} catch (error) {
 		console.log(error);
 		return {
-			code: 'SIMPLE_THREE_EVENTS/1.0.0',
+			code: 'SIMPLE_THREE_VEHICLE_EVENTS',
 			status: 'ERROR',
 			grade: null,
 			reason: null,

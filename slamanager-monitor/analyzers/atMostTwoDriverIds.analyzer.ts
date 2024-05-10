@@ -7,8 +7,8 @@ import { AnalysisData } from '@/types/analysisData';
 // This analyzer tests if the trip has at most two drivers (at least one, maximum of two).
 //
 // GRADES:
-// → PASS = At least one Driver, and maximum two Driver for the trip.
-// → FAIL = No Driver or more than two Drivers for the trip.
+// → PASS = At least one Driver, and maximum two Driver IDs for the trip.
+// → FAIL = No Driver or more than two Drivers IDs for the trip.
 
 /* * */
 
@@ -32,7 +32,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (foundDriverIds.size === 0) {
 			return {
-				code: 'AT_MOST_TWO_DRIVERS/1.0.0',
+				code: 'AT_MOST_TWO_DRIVER_IDS',
 				status: 'COMPLETE',
 				grade: 'FAIL',
 				reason: 'NO_DRIVER_ID_FOUND',
@@ -42,7 +42,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (foundDriverIds.size > 2) {
 			return {
-				code: 'AT_MOST_TWO_DRIVERS/1.0.0',
+				code: 'AT_MOST_TWO_DRIVER_IDS',
 				status: 'COMPLETE',
 				grade: 'FAIL',
 				reason: 'FOUND_MORE_THAN_2_DRIVER_IDS',
@@ -51,7 +51,7 @@ export default (analysisData: AnalysisData) => {
 		}
 
 		return {
-			code: 'AT_MOST_TWO_DRIVERS/1.0.0',
+			code: 'AT_MOST_TWO_DRIVER_IDS',
 			status: 'COMPLETE',
 			grade: 'PASS',
 			reason: 'FOUND_ONE_OR_TWO_DRIVER_IDS',
@@ -62,7 +62,7 @@ export default (analysisData: AnalysisData) => {
 	} catch (error) {
 		console.log(error);
 		return {
-			code: 'AT_MOST_TWO_DRIVERS/1.0.0',
+			code: 'AT_MOST_TWO_DRIVER_IDS',
 			status: 'ERROR',
 			grade: null,
 			reason: null,

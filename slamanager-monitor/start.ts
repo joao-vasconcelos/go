@@ -8,12 +8,12 @@ import { DateTime } from 'luxon';
 
 /* * */
 
-import simpleOneEventAnalyzer from '@/analyzers/simpleOneEvent.analyzer';
-import simpleOneValidationAnalyzer from '@/analyzers/simpleOneValidation.analyzer';
-import simpleThreeEventsAnalyzer from '@/analyzers/simpleThreeEvents.analyzer';
-import lessThanTenEventsAnalyzer from '@/analyzers/lessThanTenEvents.analyzer';
-import atMostTwoDriversAnalyzer from '@/analyzers/atMostTwoDrivers.analyzer';
-import atMostTwoVehiclesAnalyzer from '@/analyzers/atMostTwoVehicles.analyzer';
+import simpleOneVehicleEventOrValidationTransactionAnalyzer from '@/analyzers/simpleOneVehicleEventOrValidationTransaction.analyzer';
+import simpleOneValidationTransactionAnalyzer from '@/analyzers/simpleOneValidationTransaction.analyzer';
+import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEvents.analyzer';
+import lessThanTenVehicleEventsAnalyzer from '@/analyzers/lessThanTenVehicleEvents.analyzer';
+import atMostTwoDriverIdsAnalyzer from '@/analyzers/atMostTwoDriverIds.analyzer';
+import atMostTwoVehicleIdsAnalyzer from '@/analyzers/atMostTwoVehicleIds.analyzer';
 import matchingLocationTransactionsAnalyzer from '@/analyzers/matchingLocationTransactions.analyzer';
 
 /* * */
@@ -229,17 +229,17 @@ export default async () => {
 
 					/* * * * */
 
-					simpleOneEventAnalyzer(analysisData),
+					simpleOneVehicleEventOrValidationTransactionAnalyzer(analysisData),
 
-					simpleOneValidationAnalyzer(analysisData),
+					simpleOneValidationTransactionAnalyzer(analysisData),
 
-					simpleThreeEventsAnalyzer(analysisData),
+					simpleThreeVehicleEventsAnalyzer(analysisData),
 
-					lessThanTenEventsAnalyzer(analysisData),
+					lessThanTenVehicleEventsAnalyzer(analysisData),
 
-					atMostTwoDriversAnalyzer(analysisData),
+					atMostTwoDriverIdsAnalyzer(analysisData),
 
-					atMostTwoVehiclesAnalyzer(analysisData),
+					atMostTwoVehicleIdsAnalyzer(analysisData),
 
 					matchingLocationTransactionsAnalyzer(analysisData),
 

@@ -51,7 +51,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (missingStopIds.size > 0) {
 			return {
-				code: 'MATCHING_LOCATION_TRANSACTIONS/1.0.0',
+				code: 'MATCHING_LOCATION_TRANSACTIONS',
 				status: 'COMPLETE',
 				grade: 'FAIL',
 				reason: 'MISSING_LOCATION_TRANSACTION_FOR_AT_LEAST_ONE_STOP',
@@ -60,7 +60,7 @@ export default (analysisData: AnalysisData) => {
 		}
 
 		return {
-			code: 'MATCHING_LOCATION_TRANSACTIONS/1.0.0',
+			code: 'MATCHING_LOCATION_TRANSACTIONS',
 			status: 'COMPLETE',
 			grade: 'PASS',
 			reason: 'ALL_STOPS_HAVE_LOCATION_TRANSACTIONS',
@@ -71,7 +71,7 @@ export default (analysisData: AnalysisData) => {
 	} catch (error) {
 		console.log(error);
 		return {
-			code: 'MATCHING_LOCATION_TRANSACTIONS/1.0.0',
+			code: 'MATCHING_LOCATION_TRANSACTIONS',
 			status: 'ERROR',
 			grade: null,
 			reason: null,

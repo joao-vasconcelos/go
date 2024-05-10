@@ -4,11 +4,11 @@ import { AnalysisData } from '@/types/analysisData';
 
 /* * */
 
-// This analyzer tests if the trip has at most two vehicles (at least one, maximum of two).
+// This analyzer tests if the trip has at most two vehicle IDs (at least one, maximum of two).
 //
 // GRADES:
-// → PASS = At least one Vehicle, and maximum two Vehicle for the trip.
-// → FAIL = No Vehicle or more than two Vehicles for the trip.
+// → PASS = At least one Vehicle, and maximum two Vehicle IDs for the trip.
+// → FAIL = No Vehicle or more than two Vehicle IDs for the trip.
 
 /* * */
 
@@ -32,7 +32,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (foundVehicleIds.size === 0) {
 			return {
-				code: 'AT_MOST_TWO_VEHICLES/1.0.0',
+				code: 'AT_MOST_TWO_VEHICLE_IDS',
 				status: 'COMPLETE',
 				grade: 'FAIL',
 				reason: 'NO_VEHICLE_ID_FOUND',
@@ -42,7 +42,7 @@ export default (analysisData: AnalysisData) => {
 
 		if (foundVehicleIds.size > 2) {
 			return {
-				code: 'AT_MOST_TWO_VEHICLES/1.0.0',
+				code: 'AT_MOST_TWO_VEHICLE_IDS',
 				status: 'COMPLETE',
 				grade: 'FAIL',
 				reason: 'FOUND_MORE_THAN_2_VEHICLE_IDS',
@@ -51,7 +51,7 @@ export default (analysisData: AnalysisData) => {
 		}
 
 		return {
-			code: 'AT_MOST_TWO_VEHICLES/1.0.0',
+			code: 'AT_MOST_TWO_VEHICLE_IDS',
 			status: 'COMPLETE',
 			grade: 'PASS',
 			reason: 'FOUND_ONE_OR_TWO_VEHICLE_IDS',
@@ -62,7 +62,7 @@ export default (analysisData: AnalysisData) => {
 	} catch (error) {
 		console.log(error);
 		return {
-			code: 'AT_MOST_TWO_VEHICLES/1.0.0',
+			code: 'AT_MOST_TWO_VEHICLE_IDS',
 			status: 'ERROR',
 			grade: null,
 			reason: null,
