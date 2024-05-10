@@ -4,11 +4,11 @@ import { AnalysisData } from '@/types/analysisData';
 
 /* * */
 
-// This analyzer tests if at least one vehicle event or one validation is found for the trip.
+// This analyzer tests if there is an excess delay starting the trip.
 //
 // GRADES:
-// → PASS = At least one Vehicle Event OR one Validation Transaction is found for the trip.
-// → FAIL = No Vehicle Events OR Validation Transactions found for the trip.
+// → PASS = Trip start time delay is less than or equal to 10 minutes.
+// → FAIL = Trip start time delay is greater than 10 minutes.
 
 /* * */
 
@@ -19,11 +19,23 @@ export default (analysisData: AnalysisData) => {
 		//
 
 		// 1.
+		// Sort the path by stop_sequence
+
+		const sortedTripPath = analysisData.hashed_trip.path.sort((a, b) => {
+			return a.stop_sequence - b.stop_sequence;
+		});
+
+		// 2.
+		// Extract the expected arrival time of the first stop of the trip
+
+		const firstStopExpectedArrivalTime = sortedTripPath[0]?.arrival_time;
+
+		// 1.
 		// Test if at least one Vehicle Event is found
 
 		if (analysisData.vehicle_events.length > 0 || analysisData.validation_transactions.length > 0) {
 			return {
-				code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION',
+				code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_',
 				status: 'COMPLETE',
 				grade: 'PASS',
 				reason: 'FOUND_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION',
@@ -32,7 +44,7 @@ export default (analysisData: AnalysisData) => {
 		}
 
 		return {
-			code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION',
+			code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_',
 			status: 'COMPLETE',
 			grade: 'FAIL',
 			reason: 'NO_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_FOUND',
@@ -43,7 +55,7 @@ export default (analysisData: AnalysisData) => {
 	} catch (error) {
 		console.log(error);
 		return {
-			code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION',
+			code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_',
 			status: 'ERROR',
 			grade: null,
 			reason: null,

@@ -15,6 +15,7 @@ import lessThanTenVehicleEventsAnalyzer from '@/analyzers/lessThanTenVehicleEven
 import atMostTwoDriverIdsAnalyzer from '@/analyzers/atMostTwoDriverIds.analyzer';
 import atMostTwoVehicleIdsAnalyzer from '@/analyzers/atMostTwoVehicleIds.analyzer';
 import matchingLocationTransactionsAnalyzer from '@/analyzers/matchingLocationTransactions.analyzer';
+// import simpleDelayedStartAnalyzer from '@/analyzers/simpleDelayedStart.analyzer';
 
 /* * */
 
@@ -243,6 +244,8 @@ export default async () => {
 
 					matchingLocationTransactionsAnalyzer(analysisData),
 
+					// simpleDelayedStartAnalyzer(analysisData),
+
 					/* * * * */
 
 				];
@@ -268,7 +271,7 @@ export default async () => {
 
 				//
 
-				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] (${tripAnalysisTimer.get()}) | ${tripData.code} | PASS: ${passAnalysisCount.length} | FAIL: ${failAnalysisCount.length} [${failAnalysisCount.join('|')}] | ERROR: ${errorAnalysisCount.length} [${errorAnalysisCount.join('|')}]`);
+				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] | ${tripData.code} (${tripAnalysisTimer.get()}) | PASS: ${passAnalysisCount.length} | FAIL: ${failAnalysisCount.length} [${failAnalysisCount.join('|')}] | ERROR: ${errorAnalysisCount.length} [${errorAnalysisCount.join('|')}]`);
 
 				//
 			}
