@@ -51,7 +51,8 @@
     "sharp": "0.33.3",
     "swr": "2.2.5",
     "tunnel-ssh": "5.1.2",
-    "yup": "1.4.0"
+    "yup": "1.4.0",
+    "extract-zip": "2.0.1"
   },
   "devDependencies": {
     "@carrismetropolitana/eslint": "2024.5.71115",

@@ -10,11 +10,32 @@ import { AgencyModel } from '@/schemas/Agency/model';
 import { MediaModel } from '@/schemas/Media/model';
 import STORAGE from '@/services/STORAGE';
 import { ArchiveOptions } from '@/schemas/Archive/options';
-import AdmZip from 'adm-zip';
 import { DateTime } from 'luxon';
 import { MunicipalityOptions } from '@/schemas/Municipality/options';
 import { parse as csvParser } from 'csv-parse';
 import CSVWRITER from '@/services/CSVWRITER';
+import extract from 'extract-zip';
+
+/* * */
+
+async function unzipFile(zipFilePath, outputDir) {
+	await extract(zipFilePath, { dir: outputDir });
+	setDirectoryPermissions(outputDir);
+}
+
+/* * */
+
+const setDirectoryPermissions = (dirPath, mode = 0o666) => {
+	const files = fs.readdirSync(dirPath, { withFileTypes: true });
+	for (const file of files) {
+		const filePath = `${dirPath}/${file.name}`;
+		if (file.isDirectory()) {
+			setDirectoryPermissions(filePath, mode);
+		} else {
+			fs.chmodSync(filePath, mode);
+		}
+	}
+};
 
 //
 //
@@ -191,32 +212,6 @@ async function getStopsData() {
 	}
 }
 
-//
-//
-//
-//
-
-async function readZip(zipArchive, zipEntry) {
-	return new Promise((resolve, reject) => {
-		try {
-			console.log('> Start Read Zip', zipEntry.name);
-			zipArchive.readFileAsync(zipEntry, (data, error) => {
-				if (error) reject(error.message);
-				// resolve(data);
-				console.log('> DONE Read Zip', zipEntry.name);
-				resolve(Readable.from(data));
-			});
-		} catch (error) {
-			reject(`Error at readZip(): ${error.message}`);
-		}
-	});
-}
-
-//
-//
-//
-//
-
 /* * */
 
 export default async function exportGtfsRegionalMergeV1(exportDocument, exportOptions) {
@@ -264,22 +259,17 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	const allArchivesData = await ArchiveModel.find({ status: 'active' }).populate('agency');
 
 	// 5.
-	// Setup a temporary location to extract each GTFS archive
-
-	const extractLocation = `/tmp/exports/${exportDocument._id}`;
-
-	// 6.
 	// Iterate on all found archives to merge them into a single GTFS file
 
 	for (const [archiveIndex, archiveData] of allArchivesData.entries()) {
 		//
 
-		// 6.0.
+		// 5.0.
 		// Update progress
 
 		await update(exportDocument, { progress_current: archiveIndex + 1, progress_total: allArchivesData.length });
 
-		// 6.1.
+		// 5.1.
 		// Setup variables to keep track of referenced entities in this archive
 
 		const referencedCalendarDates = new Set;
@@ -288,7 +278,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		const referencedRoutes = new Set;
 		const referencedStops = new Set;
 
-		// 6.2.
+		// 5.2.
 		// Find out if this plan should be included in the final export, and if it is the main, currently active, plan.
 		// Set the corresponding flag to be used throughout the script.
 
@@ -303,23 +293,23 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		// Archive is valid and is the one being used now
 		if (currentDate > archiveStartDate && currentDate < archiveEndDate) thisIsTheMainArchiveOfThisExport = true;
 
-		// 6.3.
+		// 5.3.
 		// Skip if this archive has no associated operation plan
 
 		if (!archiveData.operation_plan) continue;
 
-		// 6.4.
+		// 5.4.
 		// Retrieve the associated operation plan, saved as a Media object in STORAGE
 
 		const operationPlanMediaFilePath = await getMediaFilePath(archiveData.operation_plan);
+		const extractDirPath = `${process.env.APP_TMP_DIR}/extractions/${Math.floor(Math.random() * 1000)}/${exportDocument._id}`;
 
-		// 6.5.
+		// 5.5.
 		// Unzip the associated operation plan
 
-		const zipArchive = new AdmZip(operationPlanMediaFilePath);
-		zipArchive.extractAllTo(extractLocation, true);
+		await unzipFile(operationPlanMediaFilePath, extractDirPath);
 
-		// 6.6.
+		// 5.6.
 		// The order in which files are merged matters.
 		// Since the goal of this whole operation is to merge several GTFS archives into a single one,
 		// each with its own valid period, it makes sense to start with 'calendar_dates.txt' of each archive.
@@ -333,7 +323,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		try {
 			//
 
-			// 6.6.1.
+			// 5.6.1.
 			// Decide for each date of each service ID if it should be included in the final export or not
 			// If this archive is the main one, then include all dates in the plan until the end_date.
 			// In other words, ignore start_date. Else, cut from the start date until the end_date.
@@ -368,10 +358,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				//
 			};
 
-			// 6.6.2.
+			// 5.6.2.
 			// Setup the CSV parsing operation
 
-			await parseCsvFile(`${extractLocation}/calendar_dates.txt`, parseEachRow);
+			await parseCsvFile(`${extractDirPath}/calendar_dates.txt`, parseEachRow);
 
 			console.log(`> Done with calendar_dates.txt of archive ${archiveData.code}`);
 
@@ -381,7 +371,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			throw new Error('Error processing calendar_dates.txt file.');
 		}
 
-		// 6.7.
+		// 5.7.
 		// Next up: trips.txt
 		// Now that the calendars are sorted out, the jobs is easier for the trips.
 		// Only include trips which have the referenced service IDs saved before.
@@ -389,7 +379,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		try {
 			//
 
-			// 6.7.1.
+			// 5.7.1.
 			// For each trip, check if the associated service_id was saved in the previous step or not.
 			// Include it if yes, skip otherwise.
 
@@ -417,10 +407,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				//
 			};
 
-			// 6.7.2.
+			// 5.7.2.
 			// Setup the CSV parsing operation
 
-			await parseCsvFile(`${extractLocation}/trips.txt`, parseEachRow);
+			await parseCsvFile(`${extractDirPath}/trips.txt`, parseEachRow);
 
 			console.log(`> Done with trips.txt of archive ${archiveData.code}`);
 
@@ -430,14 +420,14 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			throw new Error('Error processing trips.txt file.');
 		}
 
-		// 6.8.
+		// 5.8.
 		// Next up: stop_times.txt
 		// Do a similiar check as the previous step. Only include the stop_times for trips referenced before.
 
 		try {
 			//
 
-			// 6.8.1.
+			// 5.8.1.
 			// For each stop of each trip, check if the associated trip_id was saved in the previous step or not.
 			// Include it if yes, skip otherwise.
 
@@ -463,10 +453,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				//
 			};
 
-			// 6.8.2.
+			// 5.8.2.
 			// Setup the CSV parsing operation
 
-			await parseCsvFile(`${extractLocation}/stop_times.txt`, parseEachRow);
+			await parseCsvFile(`${extractDirPath}/stop_times.txt`, parseEachRow);
 
 			console.log(`> Done with stop_times.txt of archive ${archiveData.code}`);
 
@@ -476,14 +466,14 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			throw new Error('Error processing stop_times.txt file.');
 		}
 
-		// 6.9.
+		// 5.9.
 		// Next up: shapes.txt
 		// Do a similiar check as the previous step. Only include the shapes for trips referenced before.
 
 		try {
 			//
 
-			// 6.9.1.
+			// 5.9.1.
 			// For each point of each shape, check if the shape_id was saved in the previous step or not.
 			// Include it if yes, skip otherwise.
 
@@ -504,10 +494,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				//
 			};
 
-			// 6.9.2.
+			// 5.9.2.
 			// Setup the CSV parsing operation
 
-			await parseCsvFile(`${extractLocation}/shapes.txt`, parseEachRow);
+			await parseCsvFile(`${extractDirPath}/shapes.txt`, parseEachRow);
 
 			console.log(`> Done with shapes.txt of archive ${archiveData.code}`);
 
@@ -517,7 +507,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			throw new Error('Error processing shapes.txt file.');
 		}
 
-		// 6.10.
+		// 5.10.
 		// Next up: routes.txt
 		// Do a similiar check as the previous step, with a few modifications. Only include routes referenced before,
 		// but do not add the archive code modifier to the route_id. This a stylisitc choice that impacts how routes
@@ -529,7 +519,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		try {
 			//
 
-			// 6.10.1.
+			// 5.10.1.
 			// For each route, decide if it should be marked for export or not.
 			// Priority is given to routes in the main archive, which is to say that name, color and other attributes
 			// for a given route, if included in multiple archives, the one from the main archive will be the exported one.
@@ -567,10 +557,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				//
 			};
 
-			// 6.10.2.
+			// 5.10.2.
 			// Setup the CSV parsing operation
 
-			await parseCsvFile(`${extractLocation}/routes.txt`, parseEachRow);
+			await parseCsvFile(`${extractDirPath}/routes.txt`, parseEachRow);
 
 			console.log(`> Done with routes.txt of archive ${archiveData.code}`);
 
@@ -580,7 +570,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			throw new Error('Error processing routes.txt file.');
 		}
 
-		// 6.11.
+		// 5.11.
 		// Add the current archive to the list of archives that this export is made of.
 
 		try {
@@ -606,30 +596,28 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		//
 	}
 
-	// 7.
+	// 6.
 	// After exporting each archive-specific file, handle exporting routes.
 
 	const routesMarkedForFinalExportData = Array.from(routesMarkedForFinalExport.values());
 	await fileWriter.write(exportDocument.workdir, 'routes.txt', routesMarkedForFinalExportData);
 
-	// 8.
+	// 7.
 	// Export stops file
 
 	const allStopsData = await getStopsData();
 	await fileWriter.write(exportDocument.workdir, 'stops.txt', allStopsData);
 
-	// 9.
+	// 8.
 	// Finally setup the feed_info.txt file
 
 	const feedInfoData = getFeedInfoData('20240101', '20241231');
 	await fileWriter.write(exportDocument.workdir, 'feed_info.txt', feedInfoData);
 
-	// 10.
+	// 9.
 	// Do the final cleanup. Flush all pending writes to the exported files and cleanup extract directory.
 
 	await fileWriter.flush();
-
-	fs.rmdirSync(extractLocation, { recursive: true });
 
 	//
 }
