@@ -4,37 +4,47 @@
 
 import API from '@/services/API';
 import parseDate from '@/services/parseDate';
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { ReportRevenueDefault, ReportRevenueMultipliersDefault } from '@/schemas/Report/Revenue/default';
-import { ReportRevenueValidation, ReportRevenueMultipliersValidation } from '@/schemas/Report/Revenue/validation';
-import { useForm, yupResolver } from '@mantine/form';
+import { JSONParser } from '@streamparser/json';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
 // 1.
 // SETUP INITIAL STATE
 
-const initialRequestState = {
+const initialFormState = {
 	//
 	is_loading: false,
-	is_success: false,
 	is_error: false,
 	//
-	agency_code: null,
-	start_date: null,
-	end_date: null,
+	list_data: [],
 	//
-	summary_onboard: null,
-	summary_prepaid: null,
-	summary_frequent: null,
+	table_search_query: '',
+	table_current_page: 1,
 	//
 };
 
-const initialDetailsState = {
+const initialListState = {
 	//
-	is_loading: false,
-	is_success: false,
-	is_error: false,
+	//
+};
+
+const initialSelectedTripState = {
+	//
+	trip_id: null,
+	//
+	line_id: null,
+	route_id: null,
+	pattern_id: null,
+	//
+	agency_code: null,
+	//
+	schedule_relationship: null,
+	//
+	found_vehicles: null,
+	//
+	event_animation_index: null,
 	//
 };
 
@@ -65,117 +75,130 @@ export function ReportsExplorerSlaContextProvider({ children }) {
 	//
 	// A. Setup state
 
-	const [requestState, setRequestState] = useState(initialRequestState);
-	const [detailsState, setDetailsState] = useState(initialDetailsState);
+	const [formState, setFormState] = useState(initialFormState);
+	const [requestState, setListState] = useState(initialListState);
+	const [selectedTripState, setSelectedTripState] = useState(initialSelectedTripState);
 
 	//
-	// C. Setup form
+	// B. Fetch data
 
-	const formState = useForm({
-		validateInputOnBlur: true,
-		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(ReportRevenueValidation),
-		initialValues: ReportRevenueDefault,
-	});
-
-	const multipliersState = useForm({
-		validateInputOnBlur: true,
-		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(ReportRevenueMultipliersValidation),
-		initialValues: ReportRevenueMultipliersDefault,
-	});
+	const { data: allTripAnalysisData, isLoading: allTripAnalysisLoading } = useSWR('/api/reports/sla/summary');
 
 	//
 	// C. Setup actions
 
-	const clearAllData = useCallback(async () => {
-		setRequestState(initialRequestState);
+	useEffect(() => {
+		setFormState((prev) => ({ ...prev, is_loading: allTripAnalysisLoading }));
+	}, [allTripAnalysisLoading]);
+
+	useEffect(() => {
+		if (!allTripAnalysisData) return;
+		const parsedTripAnalysisData = allTripAnalysisData;
+		setFormState((prev) => ({ ...prev, list_data: parsedTripAnalysisData }));
+	}, [allTripAnalysisData]);
+
+	//
+	// C. Setup actions
+
+	const handleTablePageChange = useCallback((page) => {
+		setFormState((prev) => ({ ...prev, table_current_page: page }));
 	}, []);
 
-	const getRequestBodyFormatted = useCallback(() => {
-		if (!formState.values.agency_code || !formState.values.start_date || !formState.values.end_date) return {};
-		// Parse request body
-		return {
-			agency_code: formState.values.agency_code,
-			start_date: parseDate(formState.values.start_date),
-			end_date: parseDate(formState.values.end_date),
-		};
-	}, [formState.values.agency_code, formState.values.end_date, formState.values.start_date]);
+	const clearOperationDay = useCallback(() => {
+		setListState((prev) => ({ ...prev, is_error: false }));
+	}, []);
 
-	const fetchSummaries = useCallback(async () => {
+	const selectAgencyId = useCallback((agencyId) => {
+		setFormState((prev) => ({ ...prev, agency_code: agencyId }));
+		setListState((prev) => ({ ...prev, is_error: false }));
+	}, []);
+
+	const clearAgencyId = useCallback(() => {
+		setFormState((prev) => ({ ...prev, agency_code: null }));
+		setListState((prev) => ({ ...prev, is_error: false }));
+	}, []);
+
+	const updateTableSearchQuery = useCallback((value) => {
+		setFormState((prev) => ({ ...prev, table_search_query: value }));
+	}, []);
+
+	const clearTableSearchQuery = useCallback(() => {
+		setFormState((prev) => ({ ...prev, table_search_query: '' }));
+	}, []);
+
+	const updateTimeDistributionGraphTimeframe = useCallback((value) => {
+		setFormState((prev) => ({ ...prev, time_distribution_graph_timeframe: value }));
+	}, []);
+
+	const updateTimeDistributionGraphType = useCallback((value) => {
+		setFormState((prev) => ({ ...prev, time_distribution_graph_type: value }));
+	}, []);
+
+	const updateEventOrderType = useCallback((value) => {
+		setFormState((prev) => ({ ...prev, event_order_type: value }));
+	}, []);
+
+	const updateEventAnimationIndex = useCallback((value) => {
+		setSelectedTripState((prev) => ({ ...prev, event_animation_index: value }));
+	}, []);
+
+	const selectTripId = useCallback(
+		(tripId) => {
+			// Check if there are parsed unique trips
+			if (!requestState.summary) return;
+			// Retrieve the desired trip from the list of unique trips
+			const foundTripData = requestState.summary.find((trip) => trip.trip_id === tripId);
+			// Return early if no trip is found
+			if (!foundTripData) return;
+			// Set the selected trip state
+			setSelectedTripState({ ...foundTripData, event_animation_index: foundTripData.positions.length });
+			//
+		},
+		[requestState.summary],
+	);
+
+	const clearTripId = useCallback(() => {
+		setSelectedTripState(initialSelectedTripState);
+	}, []);
+
+	const clearAllData = useCallback(async () => {
+		setListState(initialListState);
+		setSelectedTripState(initialSelectedTripState);
+	}, []);
+
+	const fetchEvents = useCallback(async () => {
 		try {
 			// Return empty if filters are empty
-			if (!formState.values.agency_code || !formState.values.start_date || !formState.values.end_date) return;
+			if (!formState.agency_code || !formState.operation_day) return;
 			// Update state to include request details
-			setRequestState({ ...initialRequestState, is_loading: true });
-			// Parse request body
-			const requestBody = getRequestBodyFormatted();
+			setListState({ ...initialListState, is_loading: true, is_error: false, agency_code: formState.agency_code, operation_day: formState.operation_day, summary: [] });
 			// Fetch the trips summary
-			const reportValues = await Promise.all([
-				API({ service: 'reports/revenue/onboard', operation: 'summary', method: 'POST', body: requestBody }),
-				API({ service: 'reports/revenue/prepaid', operation: 'summary', method: 'POST', body: requestBody }),
-				API({ service: 'reports/revenue/frequent', operation: 'summary', method: 'POST', body: requestBody }),
-			]);
+			const summaryResponse = await API({ service: 'reports/realtime', operation: 'summary', method: 'POST', body: { agency_code: formState.agency_code, operation_day: parseDate(formState.operation_day) }, parseType: 'raw' });
+			// Setup the JSON parser to handle streaming response in the following pattern: [ {•••}, {•••}, {•••}, ... ]
+			const jsonStreamParser = new JSONParser({ stringBufferSize: undefined, paths: ['$.*'], keepStack: false });
+			// Set what happens when a new value is parsed
+			jsonStreamParser.onValue = async ({ value, stack }) => {
+				// Only procceed if value is a complete object
+				if (stack > 0) return;
+				// Update the state summary to save the streamed events
+				setListState((prev) => ({ ...prev, summary: [...prev.summary, value] }));
+			};
+			// Get response Reader object
+			const reader = summaryResponse.body.getReader(TextDecoderStream);
+			// Parse reader values while data is available
+			while (true) {
+				const { done, value } = await reader.read();
+				if (done) break;
+				jsonStreamParser.write(value);
+			}
 			// Update state to indicate progress
-			setRequestState({ ...initialRequestState, is_success: true, summary_onboard: reportValues[0], summary_prepaid: reportValues[1], summary_frequent: reportValues[2] });
+			setListState((prev) => ({ ...prev, is_loading: false }));
 			//
 		} catch (error) {
-			setRequestState({ ...initialRequestState, is_error: error.message });
+			// Update state to indicate progress
+			setListState((prev) => ({ ...prev, is_loading: false, is_error: error.message, summary: null }));
 		}
-	}, [formState.values.agency_code, formState.values.end_date, formState.values.start_date, getRequestBodyFormatted]);
-
-	const downloadOnboardDetail = useCallback(async () => {
-		try {
-			setDetailsState((prev) => ({ ...prev, is_loading: true, is_error: false }));
-			const requestBody = getRequestBodyFormatted();
-			const responseBlob = await API({ service: 'reports/revenue/onboard', operation: 'detail', method: 'POST', body: requestBody, parseType: 'blob' });
-			const objectURL = URL.createObjectURL(responseBlob);
-			const zipDownload = document.createElement('a');
-			zipDownload.href = objectURL;
-			zipDownload.download = 'report.csv';
-			document.body.appendChild(zipDownload);
-			zipDownload.click();
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: false }));
-		} catch (error) {
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: error.message }));
-		}
-	}, [getRequestBodyFormatted]);
-
-	const downloadPrepaidDetail = useCallback(async () => {
-		try {
-			setDetailsState((prev) => ({ ...prev, is_loading: true, is_error: false }));
-			const requestBody = getRequestBodyFormatted();
-			const responseBlob = await API({ service: 'reports/revenue/prepaid', operation: 'detail', method: 'POST', body: requestBody, parseType: 'blob' });
-			const objectURL = URL.createObjectURL(responseBlob);
-			const zipDownload = document.createElement('a');
-			zipDownload.href = objectURL;
-			zipDownload.download = 'report.csv';
-			document.body.appendChild(zipDownload);
-			zipDownload.click();
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: false }));
-		} catch (error) {
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: error.message }));
-		}
-	}, [getRequestBodyFormatted]);
-
-	const downloadFrequentDetail = useCallback(async () => {
-		try {
-			setDetailsState((prev) => ({ ...prev, is_loading: true, is_error: false }));
-			const requestBody = getRequestBodyFormatted();
-			const responseBlob = await API({ service: 'reports/revenue/frequent', operation: 'detail', method: 'POST', body: requestBody, parseType: 'blob' });
-			const objectURL = URL.createObjectURL(responseBlob);
-			const zipDownload = document.createElement('a');
-			zipDownload.href = objectURL;
-			zipDownload.download = 'report.csv';
-			document.body.appendChild(zipDownload);
-			zipDownload.click();
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: false }));
-		} catch (error) {
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: error.message }));
-		}
-	}, [getRequestBodyFormatted]);
+	}, [formState.agency_code, formState.operation_day]);
 
 	//
 	// E. Setup context object
@@ -185,21 +208,49 @@ export function ReportsExplorerSlaContextProvider({ children }) {
 			//
 			form: formState,
 			request: requestState,
-			multipliers: multipliersState,
-			details: detailsState,
+			selectedTrip: selectedTripState,
 			//
 			clearAllData: clearAllData,
 			//
-			getRequestBodyFormatted: getRequestBodyFormatted,
+			handleTablePageChange: handleTablePageChange,
+			clearOperationDay: clearOperationDay,
 			//
-			fetchSummaries: fetchSummaries,
+			selectAgencyId: selectAgencyId,
+			clearAgencyId: clearAgencyId,
 			//
-			downloadOnboardDetail: downloadOnboardDetail,
-			downloadPrepaidDetail: downloadPrepaidDetail,
-			downloadFrequentDetail: downloadFrequentDetail,
+			updateTableSearchQuery: updateTableSearchQuery,
+			clearTableSearchQuery: clearTableSearchQuery,
+			//
+			updateTimeDistributionGraphTimeframe: updateTimeDistributionGraphTimeframe,
+			updateTimeDistributionGraphType: updateTimeDistributionGraphType,
+			updateEventOrderType: updateEventOrderType,
+			updateEventAnimationIndex: updateEventAnimationIndex,
+			//
+			fetchEvents: fetchEvents,
+			//
+			selectTripId: selectTripId,
+			clearTripId: clearTripId,
 			//
 		}),
-		[formState, requestState, multipliersState, detailsState, clearAllData, getRequestBodyFormatted, fetchSummaries, downloadOnboardDetail, downloadPrepaidDetail, downloadFrequentDetail],
+		[
+			formState,
+			requestState,
+			selectedTripState,
+			clearAllData,
+			handleTablePageChange,
+			clearOperationDay,
+			selectAgencyId,
+			clearAgencyId,
+			updateTableSearchQuery,
+			clearTableSearchQuery,
+			updateTimeDistributionGraphTimeframe,
+			updateTimeDistributionGraphType,
+			updateEventOrderType,
+			updateEventAnimationIndex,
+			fetchEvents,
+			selectTripId,
+			clearTripId,
+		],
 	);
 
 	//

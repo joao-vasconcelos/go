@@ -1,9 +1,12 @@
+'use client';
+
 /* * */
 
-// import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
+import { OneFullColumn } from '@/components/Layouts/Layouts';
+import Pannel from '@/components/Pannel/Pannel';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-// import ReportsExplorerSlaForm from '@/components/ReportsExplorerSlaForm/ReportsExplorerSlaForm';
-// import ReportsExplorerSlaResult from '@/components/ReportsExplorerSlaResult/ReportsExplorerSlaResult';
+import ReportsExplorerSlaHeader from '@/components/ReportsExplorerSlaHeader/ReportsExplorerSlaHeader';
+import ReportsExplorerSlaList from '@/components/ReportsExplorerSlaList/ReportsExplorerSlaList';
 import { ReportsExplorerSlaContextProvider } from '@/contexts/ReportsExplorerSlaContext';
 
 /* * */
@@ -12,7 +15,7 @@ export default function ReportsExplorerSla() {
 	return (
 		<AppAuthenticationCheck permissions={[{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['sla'] }] }]} redirect>
 			<ReportsExplorerSlaContextProvider>
-				{/* <TwoUnevenColumns first={<ReportsExplorerSlaForm />} second={<ReportsExplorerSlaResult />} /> */}
+				<OneFullColumn first={<Pannel header={<ReportsExplorerSlaHeader/>}><ReportsExplorerSlaList/></Pannel>} />
 			</ReportsExplorerSlaContextProvider>
 		</AppAuthenticationCheck>
 	);

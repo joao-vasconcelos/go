@@ -4491,6 +4491,14 @@
 			}
 		}
 	},
+	"ReportsExplorerSlaHeader": {
+		"title": "SLA Inspect"
+	},
+	"ReportsExplorerSlaHeaderToolbar": {
+		"search": {
+			"placeholder": "Procurar por trip_id..."
+		}
+	},
 	"ReportsExplorerRevenueFormHeader": {
 		"title": "Relatório de Receita"
 	},
