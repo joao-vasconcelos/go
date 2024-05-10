@@ -79,7 +79,7 @@ async function getMediaFilePath(mediaId) {
 	//
 	const mediaData = await MediaModel.findOne({ _id: mediaId });
 	//
-	return STORAGE.getFilePath(ArchiveOptions.storage_scope, `${mediaData._id}${mediaData.file_extension}`);
+	return STORAGE.getFilePath(ArchiveOptions.storage_scope, `${mediaData._id}${mediaData.file_extension.toLowerCase()}`);
 	//
 }
 
