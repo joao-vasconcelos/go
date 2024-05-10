@@ -30,7 +30,7 @@ export default async function parseGTFS(req, res) {
 		//
 		form.parse(req, async (error, fields, files) => {
 			// Abort if error
-			if (error) return res.status(400).json({ message: err });
+			if (error) return res.status(400).json({ message: error });
 			// Setup AdmZip with archive location
 			const zipArchive = new AdmZip(files.file[0].filepath);
 			//

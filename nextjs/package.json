@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "csv-parse": "5.5.5",
     "dayjs": "1.11.11",
+    "extract-zip": "2.0.1",
     "formidable": "3.5.1",
     "inflected": "2.1.0",
     "JSONStream": "1.3.5",
@@ -51,8 +52,8 @@
     "sharp": "0.33.3",
     "swr": "2.2.5",
     "tunnel-ssh": "5.1.2",
-    "yup": "1.4.0",
-    "extract-zip": "2.0.1"
+    "yazl": "^2.5.1",
+    "yup": "1.4.0"
   },
   "devDependencies": {
     "@carrismetropolitana/eslint": "2024.5.71115",

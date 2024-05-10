@@ -1,10 +1,10 @@
 /* * */
 
+import fs from 'fs';
+import path from 'path';
 import isAllowed from '@/authentication/isAllowed';
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import fs from 'fs';
-import AdmZip from 'adm-zip';
 import { ExportDefault } from '@/schemas/Export/default';
 import { ExportModel } from '@/schemas/Export/model';
 import { AgencyModel } from '@/schemas/Agency/model';
@@ -14,6 +14,7 @@ import exportNetexV1 from '@/scripts/exports/netex.v1';
 import exportGtfsRegionalMergeV1 from '@/scripts/exports/gtfs.regional_merge.v1';
 import SMTP from '@/services/SMTP';
 import STORAGE from '@/services/STORAGE';
+import yazl from 'yazl';
 
 /* * */
 
@@ -206,10 +207,19 @@ export default async function handler(req, res) {
 		// 8.3.
 		// Zip the workdir folder that contains the generated files.
 		// Name the resulting archive with the _id of this Export.
-		const outputZip = new AdmZip;
-		outputZip.addLocalFolder(exportDocument.workdir);
-		outputZip.writeZip(`${exportDocument.workdir}/${exportDocument._id}.zip`);
-		await update(exportDocument, { progress_current: 2, progress_total: 2 });
+
+		const outputZip = new yazl.ZipFile;
+
+		await new Promise((resolve, _) => {
+			const outputDirContents = fs.readdirSync(exportDocument.workdir, { withFileTypes: true });
+			outputDirContents.forEach((outputDirFile) => {
+				outputZip.addFile(path.resolve(`${exportDocument.workdir}/${outputDirFile.name}`), outputDirFile.name);
+			});
+			outputZip.outputStream.pipe(fs.createWriteStream(path.resolve(`${exportDocument.workdir}/${exportDocument._id}.zip`))).on('close', () => resolve());
+			outputZip.end();
+		});
+
+		const outputZipBuffer = fs.readFileSync(path.resolve(`${exportDocument.workdir}/${exportDocument._id}.zip`));
 
 		// 8.5.
 		// Update progress to indicate the requested operation is complete
@@ -223,13 +233,13 @@ export default async function handler(req, res) {
 				to: sessionData.user.email,
 				subject: '✅ Exportação Concluída',
 				html: `Por favor verifique o ficheiro em anexo. A exportação também está disponível no GO durante as próximas 4 horas. <pre>${exportDocument}</pre>`,
-				attachments: [{ filename: exportDocument.filename, content: outputZip.toBuffer(), contentType: 'application/zip' }],
+				attachments: [{ filename: exportDocument.filename, content: outputZipBuffer, contentType: 'application/zip' }],
 			});
 		}
 
 		//
 	} catch (error) {
-		console.log('error7', error.message);
+		console.log('error7', error);
 		await update(exportDocument, { status: 'ERROR' });
 		if (exportDocument.notify_user && sessionData.user?.email) {
 			await SMTP.sendMail({
