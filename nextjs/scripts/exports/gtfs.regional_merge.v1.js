@@ -571,8 +571,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			const exportedRowData = {
 				plan_id: archiveData.code,
 				operator_id: archiveData.agency?.code || 'N/A',
-				plan_start_date: DateTime.fromJSDate(archiveData.start_date).startOf('day').toFormat('yyyyMMdd'),
-				plan_end_date: DateTime.fromJSDate(archiveData.end_date).startOf('day').toFormat('yyyyMMdd'),
+				plan_start_date: archiveData.start_date,
+				plan_end_date: archiveData.end_date,
 			};
 
 			await fileWriter.write(exportDocument.workdir, 'plans.txt', exportedRowData);
