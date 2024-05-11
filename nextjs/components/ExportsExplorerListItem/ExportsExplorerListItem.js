@@ -24,6 +24,7 @@ export default function ExportsExplorerListItem({ item }) {
 	const now = useNow({ updateInterval: 1000 });
 	const format = useFormatter();
 	const [isDownloading, setIsDownloading] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
 
 	//
 	// B. Fetch data
@@ -45,10 +46,13 @@ export default function ExportsExplorerListItem({ item }) {
 			confirmProps: { color: 'red' },
 			onConfirm: async () => {
 				try {
+					setIsDeleting(true);
 					await API({ service: 'exports', resourceId: item._id, operation: 'delete', method: 'DELETE' });
+					setIsDeleting(false);
 					allExportsMutate();
 				} catch (error) {
 					console.log(error);
+					setIsDeleting(false);
 				}
 			},
 		});
@@ -77,6 +81,26 @@ export default function ExportsExplorerListItem({ item }) {
 	if (isDownloading) {
 		return (
 			<div className={`${styles.container} ${styles.downloading}`}>
+				<div className={styles.mainSection}>
+					<div className={styles.iconWrapper}>
+						<Loader size={30} visible />
+					</div>
+					<div className={styles.infoWrapper}>
+						<div className={styles.badgesWrapper}>
+							<div className={`${styles.badge} ${styles.status}`}>{t(`kind.${item.kind}.label`)}</div>
+							<div className={`${styles.badge} ${styles.status}`}>{t('status.DOWNLOADING')}</div>
+						</div>
+						<div className={styles.filename}>{item.filename || 'Untitled File'}</div>
+						<div className={styles.exportedBy}>{t('exported_by', { name: (userData && userData.name) || '• • •', time: format.relativeTime(new Date(item.createdAt), now) })}</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	if (isDeleting) {
+		return (
+			<div className={`${styles.container} ${styles.deleting}`}>
 				<div className={styles.mainSection}>
 					<div className={styles.iconWrapper}>
 						<Loader size={30} visible />
