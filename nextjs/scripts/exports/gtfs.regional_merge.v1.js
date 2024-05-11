@@ -1,7 +1,6 @@
 /* * */
 
 import fs from 'fs';
-import { Readable } from 'stream';
 import { ExportModel } from '@/schemas/Export/model';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { StopModel } from '@/schemas/Stop/model';
@@ -244,9 +243,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// main plan, the currently active plan, on the export. The information contained in this active plan
 	// will have precedence over other plans also included in the export.
 
-	// const currentDate = DateTime.fromFormat('20240219', 'yyyyMMdd').startOf('day').toJSDate();
-	const currentDate = DateTime.now().startOf('day').toJSDate();
-	//   const currentDate = DateTime.fromJSDate(new Date(exportOptions.current_date)).startOf('day').toJSDate();
+	const todayDateString = DateTime.now().startOf('day').toFormat('yyyyMMdd');
 
 	// 3.
 	// Setup map variables to keep track of the entities included in the final plan.
@@ -284,14 +281,11 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 
 		let thisIsTheMainArchiveOfThisExport = false;
 
-		const archiveStartDate = DateTime.fromJSDate(archiveData.start_date).startOf('day').toJSDate();
-		const archiveEndDate = DateTime.fromJSDate(archiveData.end_date).startOf('day').toJSDate();
-
 		// Skip if the archive is no longer valid
-		if (currentDate > archiveEndDate) continue;
+		if (todayDateString > archiveData.end_date) continue;
 
 		// Archive is valid and is the one being used now
-		if (currentDate > archiveStartDate && currentDate < archiveEndDate) thisIsTheMainArchiveOfThisExport = true;
+		if (todayDateString > archiveData.start_date && todayDateString < archiveData.end_date) thisIsTheMainArchiveOfThisExport = true;
 
 		// 5.3.
 		// Skip if this archive has no associated operation plan
@@ -330,17 +324,15 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 
 			const parseEachRow = async (data) => {
 				//
-				// Parse this row's date
-				const rowDateObject = DateTime.fromFormat(data.date, 'yyyyMMdd').toJSDate();
 				// For the main archive, only the end_date matters
 				if (thisIsTheMainArchiveOfThisExport) {
 					// Skip if this row's date is after the archive's end date
-					if (rowDateObject > archiveEndDate) return;
+					if (data.date > archiveData.end_date) return;
 					//
 				} else {
 					// For all other archives, also look at start_date
 					// Skip if this row's date is before the archive's start date or after the archive's end date
-					if (rowDateObject < archiveStartDate || rowDateObject > archiveEndDate) return;
+					if (data.date < archiveData.start_date || data.date > archiveData.end_date) return;
 					//
 				}
 				// Format the exported row. Be very explicit to ensure the same number and order of columns.
