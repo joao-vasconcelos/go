@@ -1275,9 +1275,10 @@
 			}
 		},
 		"status": {
-			"PROCESSING": "Processing",
-			"COMPLETED": "Completed",
-			"ERROR": "Error"
+			"PROCESSING": "Em Processamento",
+			"COMPLETED": "Concluído",
+			"DOWNLOADING": "Em Preparação...",
+			"ERROR": "Erro"
 		},
 		"operations": {
 			"delete": {

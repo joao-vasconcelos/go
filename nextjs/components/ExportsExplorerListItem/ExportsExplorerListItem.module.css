@@ -186,6 +186,34 @@
 }
 
 /* * */
+/* DOWNLOADING */
+
+.downloading,
+.downloading:hover {
+  cursor: wait;
+  border-color: var(--color-gray-2);
+  background-color: var(--color-gray-0);
+  opacity: 0.75;
+}
+
+.downloading .badge {
+  color: var(--info8);
+  background-color: var(--info1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .downloading,
+  .downloading:hover {
+    border-color: var(--color-gray-3);
+    background-color: var(--color-gray-2);
+  }
+  .downloading .badge {
+    color: var(--info0);
+    background-color: var(--info8);
+  }
+}
+
+/* * */
 /* ERROR */
 
 .error {

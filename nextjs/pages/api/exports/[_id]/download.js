@@ -14,6 +14,8 @@ export const config = { api: { responseLimit: false } };
 export default async function handler(req, res) {
 	//
 
+	await new Promise((resolve) => setTimeout(resolve, 20000));
+
 	// 1.
 	// Setup variables
 
