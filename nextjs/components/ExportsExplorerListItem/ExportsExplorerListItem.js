@@ -48,7 +48,6 @@ export default function ExportsExplorerListItem({ item }) {
 				try {
 					setIsDeleting(true);
 					await API({ service: 'exports', resourceId: item._id, operation: 'delete', method: 'DELETE' });
-					setIsDeleting(false);
 					allExportsMutate();
 				} catch (error) {
 					console.log(error);
