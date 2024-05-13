@@ -50,29 +50,29 @@ export default function Page() {
 		});
 	};
 
-	const handleModifyOfferForSpecialCalendars = async () => {
-		openConfirmModal({
-			title: <Text size="h2">Mofidy Offer for Special Calendars?</Text>,
-			centered: true,
-			closeOnClickOutside: true,
-			children: <Text size="h3">Are you sure?</Text>,
-			labels: { confirm: 'Yes, Mofidy Offer for Special Calendars', cancel: 'Cancel' },
-			confirmProps: { color: 'red' },
-			onConfirm: async () => {
-				try {
-					setIsImporting(true);
-					notify('modifyOfferForSpecialCalendars', 'loading', 'Loading');
-					await API({ service: 'configs/refactors/modifyOfferForSpecialCalendars', method: 'GET' });
-					notify('modifyOfferForSpecialCalendars', 'success', 'success');
-					setIsImporting(false);
-				} catch (error) {
-					console.log(error);
-					notify('modifyOfferForSpecialCalendars', 'error', error.message || 'Error');
-					setIsImporting(false);
-				}
-			},
-		});
-	};
+	// const handleModifyOfferForSpecialCalendars = async () => {
+	// 	openConfirmModal({
+	// 		title: <Text size="h2">Mofidy Offer for Special Calendars?</Text>,
+	// 		centered: true,
+	// 		closeOnClickOutside: true,
+	// 		children: <Text size="h3">Are you sure?</Text>,
+	// 		labels: { confirm: 'Yes, Mofidy Offer for Special Calendars', cancel: 'Cancel' },
+	// 		confirmProps: { color: 'red' },
+	// 		onConfirm: async () => {
+	// 			try {
+	// 				setIsImporting(true);
+	// 				notify('modifyOfferForSpecialCalendars', 'loading', 'Loading');
+	// 				await API({ service: 'configs/refactors/modifyOfferForSpecialCalendars', method: 'GET' });
+	// 				notify('modifyOfferForSpecialCalendars', 'success', 'success');
+	// 				setIsImporting(false);
+	// 			} catch (error) {
+	// 				console.log(error);
+	// 				notify('modifyOfferForSpecialCalendars', 'error', error.message || 'Error');
+	// 				setIsImporting(false);
+	// 			}
+	// 		},
+	// 	});
+	// };
 
 	//
 	// C. Render components
@@ -86,9 +86,9 @@ export default function Page() {
 						<Button onClick={handleResetTripAnalysis} color="red" loading={isImporting}>
               Reset All Trip Analysis
 						</Button>
-						<Button onClick={handleModifyOfferForSpecialCalendars} color="red" loading={isImporting}>
+						{/* <Button onClick={handleModifyOfferForSpecialCalendars} color="red" loading={isImporting}>
               Modify Offer For Special Calendars
-						</Button>
+						</Button> */}
 					</SimpleGrid>
 				</AppLayoutSection>
 			</Pannel>
