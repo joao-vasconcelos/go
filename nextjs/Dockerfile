@@ -11,13 +11,15 @@ FROM node:alpine AS base
 
 FROM base AS dependencies
 
-RUN apk add --no-cache libc6-compat
+RUN apk add --update --no-cache \
+        libc6-compat
 
 WORKDIR /app
 
 COPY package.json ./
 
-RUN npm install --omit-dev
+RUN npm --omit=dev install \
+    && npm cache clean --force
 
 
 # # # # # # # # #
