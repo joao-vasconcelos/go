@@ -271,7 +271,7 @@ export default async () => {
 
 				//
 
-				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] | ${tripData.code} (${tripAnalysisTimer.get()}) | PASS: ${passAnalysisCount.length} | FAIL: ${failAnalysisCount.length} [${failAnalysisCount.join('|')}] | ERROR: ${errorAnalysisCount.length} [${errorAnalysisCount.join('|')}]`);
+				console.log(`[${operationalDayIndex + 1}/${allOperationalDays.length}] [${tripIndex + 1}/${allTripsData.length}] | ${tripData.code} (${tripAnalysisTimer.get()}) | PASS: ${passAnalysisCount.length} | FAIL: ${failAnalysisCount.length} | ERROR: ${errorAnalysisCount.length} [${errorAnalysisCount.join('|')}]`);
 
 				//
 			}

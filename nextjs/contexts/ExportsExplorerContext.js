@@ -8,6 +8,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { ExportFormDefault, ExportFormDefaultGtfsV29, ExportFormDefaultNetexV1, ExportFormDefaultRegionalMergeV1 } from '@/schemas/Export/default';
 import { ExportFormValidation, ExportFormValidationGtfsV29, ExportFormValidationNetexV1, ExportFormValidationRegionalMergeV1 } from '@/schemas/Export/validation';
 import { useForm, yupResolver } from '@mantine/form';
+import { DateTime } from 'luxon';
 
 /* * */
 
@@ -107,7 +108,14 @@ export function ExportsExplorerContextProvider({ children }) {
 			let requestBody = {};
 			switch (formStateMainValues.kind) {
 			case 'gtfs_v29':
-				requestBody = { ...formStateMainValues, ...formStateGtfsV29.values };
+				requestBody = {
+					...formStateMainValues,
+					...formStateGtfsV29.values,
+					feed_start_date: DateTime.fromJSDate(formStateGtfsV29.values.feed_start_date).toFormat('yyyyMMdd'),
+					feed_end_date: DateTime.fromJSDate(formStateGtfsV29.values.feed_end_date).toFormat('yyyyMMdd'),
+					calendars_clip_start_date: formStateGtfsV29.values.calendars_clip_start_date ? DateTime.fromJSDate(formStateGtfsV29.values.calendars_clip_start_date).toFormat('yyyyMMdd') : null,
+					calendars_clip_end_date: formStateGtfsV29.values.calendars_clip_end_date ? DateTime.fromJSDate(formStateGtfsV29.values.calendars_clip_end_date).toFormat('yyyyMMdd') : null,
+				};
 				break;
 			case 'netex_v1':
 				requestBody = { ...formStateMainValues, ...formStateNetexV1.values };

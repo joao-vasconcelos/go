@@ -1,6 +1,6 @@
 /* * */
 
-const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
 
 /* * */
 
@@ -78,24 +78,24 @@ class SLAMANAGERDB {
 			//
 			// Setup collections
 
-			this.UniqueTrip = productionDatabase.collection('UniqueTrip');
-			this.UniqueShape = productionDatabase.collection('UniqueShape');
+			this.HashedTrip = productionDatabase.collection('HashedTrip');
+			this.HashedShape = productionDatabase.collection('HashedShape');
 			this.TripAnalysis = productionDatabase.collection('TripAnalysis');
 
 			//
 			// Setup indexes
 
-			this.UniqueTrip.createIndex({ code: 1 }, { unique: true });
-			this.UniqueTrip.createIndex({ agency_id: 1 });
-			this.UniqueTrip.createIndex({ line_id: 1 });
-			this.UniqueTrip.createIndex({ route_id: 1 });
-			this.UniqueTrip.createIndex({ pattern_id: 1 });
-			this.UniqueTrip.createIndex({ service_id: 1 });
-			this.UniqueTrip.createIndex({ trip_id: 1 });
+			this.HashedTrip.createIndex({ code: 1 }, { unique: true });
+			this.HashedTrip.createIndex({ agency_id: 1 });
+			this.HashedTrip.createIndex({ line_id: 1 });
+			this.HashedTrip.createIndex({ route_id: 1 });
+			this.HashedTrip.createIndex({ pattern_id: 1 });
+			this.HashedTrip.createIndex({ service_id: 1 });
+			this.HashedTrip.createIndex({ trip_id: 1 });
 
-			this.UniqueShape.createIndex({ code: 1 }, { unique: true });
-			this.UniqueShape.createIndex({ agency_id: 1 });
-			this.UniqueShape.createIndex({ shape_id: 1 });
+			this.HashedShape.createIndex({ code: 1 }, { unique: true });
+			this.HashedShape.createIndex({ agency_id: 1 });
+			this.HashedShape.createIndex({ shape_id: 1 });
 
 			this.TripAnalysis.createIndex({ code: 1 }, { unique: true });
 			this.TripAnalysis.createIndex({ status: 1 });

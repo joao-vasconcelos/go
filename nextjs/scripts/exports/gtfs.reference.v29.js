@@ -1,7 +1,5 @@
 /* * */
 
-import Papa from 'papaparse';
-import fs from 'fs';
 import calculateDateDayType from '../../services/calculateDateDayType';
 import { ExportModel } from '@/schemas/Export/model';
 import { LineModel } from '@/schemas/Line/model';
@@ -15,7 +13,6 @@ import { StopModel } from '@/schemas/Stop/model';
 import { DateModel } from '@/schemas/Date/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
 import { AgencyModel } from '@/schemas/Agency/model';
-import { DateTime } from 'luxon';
 import CSVWRITER from '@/services/CSVWRITER';
 
 /* * */
@@ -641,8 +638,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 						if (exportOptions.clip_calendars) {
 							[...calendarOnDates].forEach((currentDate) => {
 								// If the current date is before the start date OR after the end date, then remove it from the set
-								const currentDateObject = DateTime.fromFormat(currentDate, 'yyyyMMdd').startOf('day').toJSDate();
-								if (currentDateObject < new Date(exportOptions.calendars_clip_start_date) || currentDateObject > new Date(exportOptions.calendars_clip_end_date)) {
+								if (currentDate < exportOptions.calendars_clip_start_date || currentDate > exportOptions.calendars_clip_end_date) {
 									calendarOnDates.delete(currentDate);
 								}
 							});
