@@ -45,17 +45,17 @@ export default async function stopsSyncIntermodal() {
 			'04', // BARREIRO
 			'05', // CASCAIS
 			'06', // LISBOA
-			'07', // LOURES
-			'08', // MAFRA
+			// '07', // LOURES
+			// '08', // MAFRA
 			'09', // MOITA
 			'10', // MONTIJO
-			'11', // ODIVELAS
+			// '11', // ODIVELAS
 			'12', // OEIRAS
 			'13', // PALMELA
 			'14', // SEIXAL
 			'15', // SESIMBRA
 			'16', // SETÚBAL
-			'17', // SINTRA
+			// '17', // SINTRA
 			'18', // VILA FRANCA DE XIRA
 			'19', // OUT AML (MARGEM SUL)
 			'20', // OUT AML (MARGEM NORTE)
