@@ -43,7 +43,31 @@ export default async function handler(req, res) {
 	try {
 		//
 
-		const allCalendarCodes = await CalendarModel.find({ code: { $in: ['ESP_CARNAVAL_DIA', 'ESP_CARNAVAL_FERIAS', 'ESP_PASCOA', 'ESP_NATAL_VESP', 'ESP_NATAL_DIA', 'ESP_ANONOVO_VESP', 'ESP_ANONOVO_DIA'] } }, '_id code');
+		const allCalendarCodes = await CalendarModel.find({
+			code: {
+				$in: [
+					'ESP_CARNAVAL_DIA',
+					'ESP_CARNAVAL_FERIAS',
+					'ESP_PASCOA',
+					'ESP_NATAL_VESP',
+					'ESP_NATAL_DIA',
+					'ESP_ANONOVO_VESP',
+					'ESP_ANONOVO_DIA',
+					'P1_1712',
+					'7H',
+					'P1_1411',
+					'P1_1702',
+					'P1_1311',
+					'P1_1511',
+					'P1_1512',
+					'P1_1213',
+					'P1_1112',
+					'P1_1211',
+					'p1_1111',
+					'p1_1611',
+				],
+			},
+		}, '_id code');
 
 		const allCalendarIdsToRemove = new Set(allCalendarCodes.map((item) => String(item._id)));
 
@@ -55,7 +79,7 @@ export default async function handler(req, res) {
 		for (const patternCode of allPatternCodesWithSpecialCalendars) {
 			//
 
-			if (!patternCode.code.startsWith('1')) {
+			if (!patternCode.code.startsWith('2')) {
 				continue;
 			}
 
