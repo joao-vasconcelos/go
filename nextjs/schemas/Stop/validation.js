@@ -6,8 +6,11 @@ import { StopOptions } from './options';
 /* * */
 
 export const StopValidation = yup.object({
-	//
-	// General
+
+	/*
+   * GENERAL
+   */
+
 	code: yup
 		.string()
 		.min(6)
@@ -42,20 +45,26 @@ export const StopValidation = yup.object({
 		.transform((value) => value.length > 0 ? value.replace(/  +/g, ' ').trim() : value),
 	parent_station: yup
 		.string()
-		.max(100)
+		.max(6)
 		.transform((value) => value.length > 0 ? value.replace(/  +/g, ' ').trim() : value),
-	operational_status: yup.string(),
+	operational_status: yup.string().max(25),
 
-	// Operation
+	/*
+	 * OPERATION
+   */
+
 	zones: yup.array(),
 
-	// Administrative
-	jurisdiction: yup
+	/*
+	 * ADMINISTRATIVE
+   */
+
+	municipality: yup.string().max(100),
+	parish_code: yup
 		.string()
 		.max(100)
 		.transform((value) => value.length > 0 ? value.replace(/  +/g, ' ').trim() : value),
-	municipality: yup.string().max(100),
-	parish: yup
+	parish_name: yup
 		.string()
 		.max(100)
 		.transform((value) => value.length > 0 ? value.replace(/  +/g, ' ').trim() : value),
@@ -63,50 +72,68 @@ export const StopValidation = yup.object({
 		.string()
 		.max(100)
 		.transform((value) => value.length > 0 ? value.replace(/  +/g, ' ').trim() : value),
+	jurisdiction: yup
+		.string()
+		.max(100)
+		.transform((value) => value.length > 0 ? value.replace(/  +/g, ' ').trim() : value),
 
-	// Infrastructure
-	has_pole: yup.string().max(2).nullable(),
-	pole_material: yup.string().max(100),
-	has_shelter: yup.string().max(2).nullable(),
+	/*
+	 * INFRASTRUCTURE
+   */
+
+	has_pole: yup.string().max(50),
+	has_cover: yup.string().max(50),
+	has_shelter: yup.string().max(50),
 	shelter_code: yup.string().max(100),
 	shelter_maintainer: yup.string().max(100),
-	has_mupi: yup.string().max(2).nullable(),
-	has_bench: yup.string().max(2).nullable(),
-	has_trash_bin: yup.string().max(2).nullable(),
-	has_lighting: yup.string().max(2).nullable(),
-	has_electricity: yup.string().max(2).nullable(),
-	docking_bay_type: yup.string().max(100),
+	has_mupi: yup.string().max(50),
+	has_bench: yup.string().max(50),
+	has_trash_bin: yup.string().max(50),
+	has_lighting: yup.string().max(50),
+	has_electricity: yup.string().max(50),
+	docking_bay_type: yup.string().max(50),
 	last_infrastructure_maintenance: yup.string().max(100).nullable(),
 	last_infrastructure_check: yup.string().max(100).nullable(),
 
-	// Public Information
-	has_stop_sign: yup.string().max(2).nullable(),
-	stop_sign_maintainer: yup.string().max(100),
-	has_pole_frame: yup.string().max(2).nullable(),
-	shelter_frame_area_cm: yup.string().max(100),
-	has_pip_real_time: yup.string().max(2).nullable(),
-	pip_real_time_code: yup.string().max(100),
-	has_h2oa_signage: yup.string().max(2).nullable(),
-	has_schedules: yup.string().max(2).nullable(),
-	has_network_map: yup.string().max(2).nullable(),
+	/*
+	 * PUBLIC INFORMATION
+   */
+
+	has_flag: yup.string().max(50),
+	flag_maintainer: yup.string().max(100),
+	has_pip_static: yup.string().max(50),
+	has_pip_audio: yup.string().max(50),
+	pip_audio_code: yup.string().max(100),
+	has_pip_realtime: yup.string().max(50),
+	pip_realtime_code: yup.string().max(100),
+	has_h2oa_signage: yup.string().max(50),
+	has_schedules: yup.string().max(50),
+	has_tactile_schedules: yup.string().max(50),
+	has_network_map: yup.string().max(50),
 	last_schedules_maintenance: yup.string().max(100).nullable(),
 	last_schedules_check: yup.string().max(100).nullable(),
-	last_stop_sign_maintenance: yup.string().max(100).nullable(),
-	last_stop_sign_check: yup.string().max(100).nullable(),
+	last_flag_maintenance: yup.string().max(100).nullable(),
+	last_flag_check: yup.string().max(100).nullable(),
 
-	// Accessibility
-	has_sidewalk: yup.string().max(2).nullable(),
+	/*
+	* ACCESSIBILITY
+	*/
+
+	has_sidewalk: yup.string().max(50),
 	sidewalk_type: yup.string().max(100),
-	has_tactile_schedules: yup.string().max(2).nullable(),
 	stop_access_type: yup.string().max(100),
-	has_crosswalk: yup.string().max(2).nullable(),
-	has_tactile_pavement: yup.string().max(2).nullable(),
-	has_abusive_parking: yup.string().max(2).nullable(),
-	has_audio_stop_info: yup.string().max(2).nullable(),
+	has_crossing: yup.string().max(50),
+	has_tactile_access: yup.string().max(50),
+	has_abusive_parking: yup.string().max(50),
+	has_audio_stop_info: yup.string().max(50),
 	wheelchair_boarding: yup.string().max(100),
+	last_accessibility_maintenance: yup.string().max(100).nullable(),
 	last_accessibility_check: yup.string().max(100).nullable(),
 
-	// Services
+	/*
+	 * SERVICES
+   */
+
 	near_health_clinic: yup.boolean(),
 	near_hospital: yup.boolean(),
 	near_university: yup.boolean(),
@@ -117,9 +144,12 @@ export const StopValidation = yup.object({
 	near_historic_building: yup.boolean(),
 	near_transit_office: yup.boolean(),
 
-	// Intermodal Connections
-	near_light_rail: yup.boolean(),
+	/*
+	 * CONNECTIONS
+   */
+
 	near_subway: yup.boolean(),
+	near_light_rail: yup.boolean(),
 	near_train: yup.boolean(),
 	near_boat: yup.boolean(),
 	near_airport: yup.boolean(),
@@ -127,8 +157,23 @@ export const StopValidation = yup.object({
 	near_bike_parking: yup.boolean(),
 	near_car_parking: yup.boolean(),
 
-	// Notes
+	/*
+   * MEDIA
+   */
+
+	media: yup.array(),
+
+	/*
+   * USER NOTES
+   */
+
 	notes: yup.string().max(10000),
+
+	/*
+   * LOCK STATUS
+   */
+
+	is_locked: yup.boolean(),
 
 	//
 });

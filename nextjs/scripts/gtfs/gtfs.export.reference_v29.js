@@ -111,11 +111,11 @@ function parseAgency(agencyData) {
 	try {
 		return {
 			agency_id: agencyData.code,
-			agency_name: 'Carris Metropolitana' || agencyData.name,
-			agency_url: 'https://www.carrismetropolitana.pt' || agencyData.url,
-			agency_timezone: 'Europe/Lisbon' || agencyData.timezone,
-			agency_lang: 'pt' || agencyData.lang,
-			agency_phone: '210410400' || agencyData.phone,
+			agency_name: 'Carris Metropolitana', // || agencyData.name,
+			agency_url: 'https://www.carrismetropolitana.pt', // || agencyData.url,
+			agency_timezone: 'Europe/Lisbon', // || agencyData.timezone,
+			agency_lang: 'pt', // || agencyData.lang,
+			agency_phone: '210410400', // || agencyData.phone,
 			agency_fare_url: agencyData.fare_url,
 			agency_email: agencyData.email,
 		};

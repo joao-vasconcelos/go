@@ -9,9 +9,9 @@ import { ExportDefault } from '@/schemas/Export/default';
 import { ExportModel } from '@/schemas/Export/model';
 import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportOptions } from '@/schemas/Export/options';
-import exportGtfsV29 from '@/scripts/exports/gtfs.reference.v29';
-import exportNetexV1 from '@/scripts/exports/netex.v1';
-import exportGtfsRegionalMergeV1 from '@/scripts/exports/gtfs.regional_merge.v1';
+import gtfsExportReferenceV29 from '@/scripts/gtfs/gtfs.export.reference_v29';
+import netexExportV1 from '@/scripts/netex/netex.export.v1';
+import gtfsExportRegionalMergeV1 from '@/scripts/gtfs/gtfs.export.regional_merge_v1';
 import SMTP from '@/services/SMTP';
 import STORAGE from '@/services/STORAGE';
 import yazl from 'yazl';
@@ -189,17 +189,17 @@ export default async function handler(req, res) {
 		switch (exportDocument.kind) {
 		// 8.2.1.
 		case 'gtfs_v29':
-			await exportGtfsV29(exportDocument, req.body);
+			await gtfsExportReferenceV29(exportDocument, req.body);
 			await update(exportDocument, { progress_current: 1, progress_total: 2 });
 			break;
 			// 8.2.2.
 		case 'netex_v1':
-			await exportNetexV1(exportDocument, req.body);
+			await netexExportV1(exportDocument, req.body);
 			await update(exportDocument, { progress_current: 1, progress_total: 2 });
 			break;
 			// 8.2.2.
 		case 'regional_merge_v1':
-			await exportGtfsRegionalMergeV1(exportDocument, req.body);
+			await gtfsExportRegionalMergeV1(exportDocument, req.body);
 			await update(exportDocument, { progress_current: 1, progress_total: 2 });
 			break;
 		}

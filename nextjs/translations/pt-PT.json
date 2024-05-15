@@ -3955,19 +3955,10 @@
 				"placeholder": "Escolha uma opção...",
 				"nothingFound": "Nenhum Resultado Encontrado"
 			},
-			"current_status": {
-				"label": "Status da Paragem",
-				"placeholder": "Escolha uma opção...",
-				"nothingFound": "Nenhum Resultado Encontrado"
-			},
 			"zones": {
 				"label": "Aceitação de Passes pré-definida",
 				"placeholder": "Escolha uma opção...",
 				"nothingFound": "Nenhum Resultado Encontrado"
-			},
-			"region": {
-				"label": "Região",
-				"placeholder": "PT1234"
 			},
 			"municipality": {
 				"label": "Município",
@@ -3988,6 +3979,11 @@
 			},
 			"has_pole": {
 				"label": "Existe Poste?",
+				"placeholder": "Escolha uma opção...",
+				"nothingFound": "Nenhum Resultado Encontrado"
+			},
+			"has_cover": {
+				"label": "Existe Cobertura?",
 				"placeholder": "Escolha uma opção...",
 				"nothingFound": "Nenhum Resultado Encontrado"
 			},
@@ -4042,32 +4038,37 @@
 				"label": "Última Verificação da Infraestrutura",
 				"placeholder": "2023-02-10"
 			},
-			"has_stop_sign": {
+			"has_flag": {
 				"label": "Tem Postalete?",
 				"placeholder": "Escolha uma opção...",
 				"nothingFound": "Nenhum Resultado Encontrado"
 			},
-			"stop_sign_maintainer": {
+			"flag_maintainer": {
 				"label": "Entidade Gestora do Postalete",
 				"placeholder": "Alsa Todi"
 			},
-			"has_pole_frame": {
-				"label": "Tem Moldura no Poste?",
+			"has_pip_static": {
+				"label": "Tem Moldura?",
 				"placeholder": "Escolha uma opção...",
 				"nothingFound": "Nenhum Resultado Encontrado"
 			},
-			"shelter_frame_area_cm": {
-				"label": "Dimensões da Moldura do Abrigo (h x w cm)",
-				"placeholder": "23 x 42 cm"
-			},
-			"has_pip_real_time": {
-				"label": "Tem PIP?",
+			"has_pip_audio": {
+				"label": "Tem PIP Áudio?",
 				"placeholder": "Escolha uma opção...",
 				"nothingFound": "Nenhum Resultado Encontrado"
 			},
-			"pip_real_time_code": {
-				"label": "Código do PIP",
-				"placeholder": "PIP372"
+			"pip_audio_code": {
+				"label": "Código do PIP Áudio",
+				"placeholder": "PIPA372"
+			},
+			"has_pip_realtime": {
+				"label": "Tem PIP Realtime?",
+				"placeholder": "Escolha uma opção...",
+				"nothingFound": "Nenhum Resultado Encontrado"
+			},
+			"pip_realtime_code": {
+				"label": "Código do PIP Realtime",
+				"placeholder": "PIPRT372"
 			},
 			"has_h2oa_signage": {
 				"label": "Tem Sinalização H2OA?",
@@ -4076,6 +4077,11 @@
 			},
 			"has_schedules": {
 				"label": "Tem Horários?",
+				"placeholder": "Escolha uma opção...",
+				"nothingFound": "Nenhum Resultado Encontrado"
+			},
+			"has_tactile_schedules": {
+				"label": "Tem Horários Táteis?",
 				"placeholder": "Escolha uma opção...",
 				"nothingFound": "Nenhum Resultado Encontrado"
 			},
@@ -4092,11 +4098,11 @@
 				"label": "Última Verificação dos Horários",
 				"placeholder": "2023-02-10"
 			},
-			"last_stop_sign_maintenance": {
+			"last_flag_maintenance": {
 				"label": "Última Manutenção do Postalete",
 				"placeholder": "2023-02-10"
 			},
-			"last_stop_sign_check": {
+			"last_flag_check": {
 				"label": "Última Verificação do Postalete",
 				"placeholder": "2023-02-10"
 			},
@@ -4109,33 +4115,28 @@
 				"label": "Tipo de Passeio",
 				"placeholder": "Calçada Portuguesa, Betão"
 			},
-			"has_tactile_schedules": {
-				"label": "Tem Horários Táteis?",
-				"placeholder": "Escolha uma opção...",
-				"nothingFound": "Nenhum Resultado Encontrado"
-			},
-			"stop_access_type": {
-				"label": "Tipo de Acesso à Paragem",
-				"placeholder": "Escolha uma opção...",
-				"nothingFound": "Nenhum Resultado Encontrado"
-			},
-			"has_crosswalk": {
+			"has_crossing": {
 				"label": "Tem Passadeira?",
 				"placeholder": "Escolha uma opção...",
 				"nothingFound": "Nenhum Resultado Encontrado"
 			},
-			"has_tactile_pavement": {
+			"has_flat_access": {
+				"label": "Tem Acesso Rebaixado/Contínuo?",
+				"placeholder": "Escolha uma opção...",
+				"nothingFound": "Nenhum Resultado Encontrado"
+			},
+			"has_wide_access": {
+				"label": "Tem Acesso Largo?",
+				"placeholder": "Escolha uma opção...",
+				"nothingFound": "Nenhum Resultado Encontrado"
+			},
+			"has_tactile_access": {
 				"label": "Tem Pavimento Tátil?",
 				"placeholder": "Escolha uma opção...",
 				"nothingFound": "Nenhum Resultado Encontrado"
 			},
 			"has_abusive_parking": {
 				"label": "Tem Estacionamento Abusivo?",
-				"placeholder": "Escolha uma opção...",
-				"nothingFound": "Nenhum Resultado Encontrado"
-			},
-			"has_audio_stop_info": {
-				"label": "Tem Informação Áudio?",
 				"placeholder": "Escolha uma opção...",
 				"nothingFound": "Nenhum Resultado Encontrado"
 			},
@@ -4179,28 +4180,31 @@
 			"near_transit_office": {
 				"label": "Espaço navegante®"
 			},
-			"subway": {
+			"near_beach": {
+				"label": "Praia"
+			},
+			"near_subway": {
 				"label": "Metro"
 			},
-			"light_rail": {
+			"near_light_rail": {
 				"label": "Metro de Superfície"
 			},
-			"train": {
+			"near_train": {
 				"label": "Comboio"
 			},
-			"boat": {
+			"near_boat": {
 				"label": "Barco"
 			},
-			"airport": {
+			"near_airport": {
 				"label": "Aeroporto"
 			},
-			"bike_sharing": {
+			"near_bike_sharing": {
 				"label": "Partilha de Bicicletas"
 			},
-			"bike_parking": {
+			"near_bike_parking": {
 				"label": "Estacionamento de Bicicletas"
 			},
-			"car_parking": {
+			"near_car_parking": {
 				"label": "Estacionamento Automóvel"
 			},
 			"notes": {
@@ -4219,179 +4223,409 @@
 	},
 	"StopOptions": {
 		"operational_status": {
-			"active": {
+			"ACTIVE": {
 				"label": "Paragem Ativa",
 				"description": "A paragem está em funcionamento normal."
 			},
-			"provisional": {
+			"PROVISIONAL": {
 				"label": "Paragem Provisória",
 				"description": "A paragem encontra-se temporariamente ativa (ex: paragem de substituição devido a obras na via)."
 			},
-			"seasonal": {
-				"label": "Paragem Sasonal",
+			"SEASONAL": {
+				"label": "Paragem Sazonal",
 				"description": "A paragem está ativa durante determinadas alturas do ano ou em circunstâncias específicas (ex: Praias, Festivais)."
 			},
-			"inactive": {
+			"INACTIVE": {
 				"label": "Paragem Inativa",
 				"description": "A paragem está desativada temporariamente (ex: devido a obras na via)."
 			},
-			"voided": {
-				"label": "Paragem Marcada para Eliminação",
-				"description": "A paragem está marcada para eliminação definitiva."
-			}
-		},
-		"current_status": {
-			"1": {
-				"label": "Paragem Ativa",
-				"description": "A paragem está em funcionamento normal."
-			},
-			"2": {
-				"label": "Paragem Temporariamente Desativada",
-				"description": "A paragem encontra-se desativada por tempo significativo, por exemplo devido a obras na via."
-			},
-			"3": {
-				"label": "Paragem Provisória / Sasonal",
-				"description": "A paragem só está disponível durante determinadas alturas do ano ou em circunstâncias específicas."
-			},
-			"4": {
+			"VOIDED": {
 				"label": "Paragem Marcada para Eliminação",
 				"description": "A paragem está marcada para eliminação definitiva."
 			}
 		},
 		"has_pole": {
-			"0": {
-				"label": "Não Aplicável"
+			"UNKNOWN": {
+				"label": "Desconhecido"
 			},
-			"1": {
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
 				"label": "Não existe, mas deve ser colocado"
 			},
-			"2": {
+			"DAMAGED": {
 				"label": "Existe, mas está danificado"
 			},
-			"3": {
+			"YES": {
+				"label": "Existe e está OK"
+			}
+		},
+		"has_cover": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
+				"label": "Não existe, mas deve ser colocado"
+			},
+			"DAMAGED": {
+				"label": "Existe, mas está danificado"
+			},
+			"YES": {
 				"label": "Existe e está OK"
 			}
 		},
 		"has_shelter": {
-			"0": {
-				"label": "Não Aplicável"
+			"UNKNOWN": {
+				"label": "Desconhecido"
 			},
-			"1": {
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
 				"label": "Não existe, mas deve ser colocado"
 			},
-			"2": {
+			"DAMAGED": {
 				"label": "Existe, mas está danificado"
 			},
-			"3": {
+			"YES": {
 				"label": "Existe e está OK"
 			}
 		},
 		"has_mupi": {
-			"0": {
-				"label": "Não Aplicável"
+			"UNKNOWN": {
+				"label": "Desconhecido"
 			},
-			"1": {
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
 				"label": "Não existe, mas deve ser colocado"
 			},
-			"2": {
+			"DAMAGED": {
 				"label": "Existe, mas está danificado"
 			},
-			"3": {
+			"YES": {
 				"label": "Existe e está OK"
 			}
 		},
 		"has_bench": {
-			"0": {
-				"label": "Não Aplicável"
+			"UNKNOWN": {
+				"label": "Desconhecido"
 			},
-			"1": {
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
 				"label": "Não existe, mas deve ser colocado"
 			},
-			"2": {
+			"DAMAGED": {
 				"label": "Existe, mas está danificado"
 			},
-			"3": {
+			"YES": {
 				"label": "Existe e está OK"
 			}
 		},
 		"has_trash_bin": {
-			"0": {
-				"label": "Não Aplicável"
+			"UNKNOWN": {
+				"label": "Desconhecido"
 			},
-			"1": {
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
 				"label": "Não existe, mas deve ser colocado"
 			},
-			"2": {
+			"DAMAGED": {
 				"label": "Existe, mas está danificado"
 			},
-			"3": {
+			"YES": {
 				"label": "Existe e está OK"
 			}
 		},
 		"has_lighting": {
-			"0": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"UNAVAILABLE": {
 				"label": "Sem qualquer iluminação"
 			},
-			"1": {
+			"DAMAGED": {
+				"label": "Iluminação Avariada"
+			},
+			"INSUFICIENT": {
 				"label": "Iluminação insuficiente"
 			},
-			"2": {
+			"MODERATE": {
 				"label": "Imediações visíveis"
 			},
-			"3": {
+			"CONFORTABLE": {
 				"label": "Leitura é possível e confortável"
 			}
 		},
 		"has_electricity": {
-			"0": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
 				"label": "Não"
 			},
-			"1": {
+			"YES": {
 				"label": "Sim"
 			}
 		},
 		"docking_bay_type": {
-			"1": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"SIMPLE": {
 				"label": "Interação simples"
 			},
-			"2": {
+			"ROAD_MARKS": {
 				"label": "Recorte na via, sem marcas"
 			},
-			"3": {
+			"BAY": {
 				"label": "Recorte na via, com marcas"
 			},
-			"4": {
+			"ISLAND": {
 				"label": "Ilha"
 			},
-			"5": {
+			"PENINSULA": {
 				"label": "Península"
 			}
 		},
-		"has_stop_sign": {
-			"1": {
+		"has_flag": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
 				"label": "Não existe, mas deve ser colocado"
 			},
-			"2": {
+			"DAMAGED": {
 				"label": "Existe, mas está danificado"
 			},
-			"3": {
+			"YES": {
 				"label": "Existe e está OK"
 			}
 		},
-		"has_pole_frame": {
-			"0": {
-				"label": "Não Aplicável"
+		"has_pip_static": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
 			},
-			"1": {
+			"NO": {
+				"label": "Não existe"
+			},
+			"TYPE_1": {
+				"label": "Tipo 1 - Painéis e-Ink DMS"
+			},
+			"TYPE_2": {
+				"label": "Tipo 2 - Outros Paineis"
+			},
+			"LEGACY": {
+				"label": "Paineis Antigos"
+			}
+		},
+		"has_pip_audio": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não existe"
+			},
+			"TYPE_1": {
+				"label": "Tipo 1 - Painéis e-Ink DMS"
+			},
+			"TYPE_2": {
+				"label": "Tipo 2 - Outros Paineis"
+			},
+			"LEGACY": {
+				"label": "Paineis Antigos"
+			}
+		},
+		"has_pip_realtime": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não existe"
+			},
+			"TYPE_1": {
+				"label": "Tipo 1 - Painéis e-Ink DMS"
+			},
+			"TYPE_2": {
+				"label": "Tipo 2 - Outros Paineis"
+			},
+			"LEGACY": {
+				"label": "Paineis Antigos"
+			}
+		},
+		"has_h2oa_signage": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
 				"label": "Não existe, mas deve ser colocado"
 			},
-			"2": {
+			"DAMAGED": {
 				"label": "Existe, mas está danificado"
 			},
-			"3": {
+			"YES": {
 				"label": "Existe e está OK"
 			}
+		},
+		"has_schedules": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"MISSING": {
+				"label": "Não existe, mas deve ser colocado"
+			},
+			"DAMAGED": {
+				"label": "Existe, mas está danificado"
+			},
+			"YES": {
+				"label": "Existe e está OK"
+			}
+		},
+		"has_tactile_schedules": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
+				"label": "Não existe, mas deve ser colocado"
+			},
+			"DAMAGED": {
+				"label": "Existe, mas está danificado"
+			},
+			"YES": {
+				"label": "Existe e está OK"
+			}
+		},
+		"has_network_map": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
+				"label": "Não existe, mas deve ser colocado"
+			},
+			"DAMAGED": {
+				"label": "Existe, mas está danificado"
+			},
+			"YES": {
+				"label": "Existe e está OK"
+			}
+		},
+		"has_sidewalk": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não existe"
+			},
+			"TYPE_1": {
+				"label": "Tipo 1..."
+			},
+			"TYPE_2": {
+				"label": "Tipo 2..."
+			}
+		},
+		"has_crossing": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
+				"label": "Não existe, mas deve ser colocado"
+			},
+			"DAMAGED": {
+				"label": "Existe, mas está danificado"
+			},
+			"YES": {
+				"label": "Existe e está OK"
+			}
+		},
+		"has_flat_access": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não"
+			},
+			"YES": {
+				"label": "Sim"
+			}
+		},
+		"has_wide_access": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não"
+			},
+			"YES": {
+				"label": "Sim"
+			}
+		},
+		"has_tactile_access": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não existe"
+			},
+			"MISSING": {
+				"label": "Não existe, mas deve ser colocado"
+			},
+			"DAMAGED": {
+				"label": "Existe, mas está danificado"
+			},
+			"YES": {
+				"label": "Existe e está OK"
+			}
+		},
+		"has_abusive_parking": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não"
+			},
+			"ABUSIVE_LEGAL": {
+				"label": "Sim, e é legalmente permitido"
+			},
+			"ABUSIVE_ILLEGAL": {
+				"label": "Sim, mas não é legalmente permitido"
+			}
+		},
+		"wheelchair_boarding": {
+			"UNKNOWN": {
+				"label": "Desconhecido"
+			},
+			"NO": {
+				"label": "Não"
+			},
+			"YES": {
+				"label": "Sim"
+			}
 		}
+
 	},
 	"ArchivesExplorerListHeader": {
 		"operations": {

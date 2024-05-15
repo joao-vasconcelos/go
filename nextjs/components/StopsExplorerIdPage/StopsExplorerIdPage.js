@@ -11,7 +11,7 @@ import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import StopsExplorerIdPageHeader from '@/components/StopsExplorerIdPageHeader/StopsExplorerIdPageHeader';
 import { StopOptions } from '@/schemas/Stop/options';
-import { IconAB, IconAB2, IconABOff, IconLock, IconLockOpen2, IconVolume, IconWashDryclean, IconWorldLatitude, IconWorldLongitude } from '@tabler/icons-react';
+import { IconAB, IconABOff, IconVolume, IconWorldLatitude, IconWorldLongitude } from '@tabler/icons-react';
 import GlobalCheckboxCard from '@/components/GlobalCheckboxCard/GlobalCheckboxCard';
 import StopsExplorerIdPageMap from '@/components/StopsExplorerIdPageMap/StopsExplorerIdPageMap';
 import StopsExplorerIdPageItemMedia from '@/components/StopsExplorerIdPageItemMedia/StopsExplorerIdPageItemMedia';
@@ -65,6 +65,13 @@ export default function StopsExplorerIdPage() {
 		});
 	}, [stopOptionsLabels]);
 
+	const hasCoverOptionsData = useMemo(() => {
+		if (!StopOptions.has_cover) return [];
+		return StopOptions.has_cover.map((option) => {
+			return { value: option, label: stopOptionsLabels(`has_cover.${option}.label`) };
+		});
+	}, [stopOptionsLabels]);
+
 	const hasShelterOptionsData = useMemo(() => {
 		if (!StopOptions.has_shelter) return [];
 		return StopOptions.has_shelter.map((option) => {
@@ -114,24 +121,31 @@ export default function StopsExplorerIdPage() {
 		});
 	}, [stopOptionsLabels]);
 
-	const hasStopSignOptionsData = useMemo(() => {
-		if (!StopOptions.has_stop_sign) return [];
-		return StopOptions.has_stop_sign.map((option) => {
-			return { value: option, label: stopOptionsLabels(`has_stop_sign.${option}.label`) };
+	const hasFlagOptionsData = useMemo(() => {
+		if (!StopOptions.has_flag) return [];
+		return StopOptions.has_flag.map((option) => {
+			return { value: option, label: stopOptionsLabels(`has_flag.${option}.label`) };
 		});
 	}, [stopOptionsLabels]);
 
-	const hasPoleFrameOptionsData = useMemo(() => {
-		if (!StopOptions.has_pole_frame) return [];
-		return StopOptions.has_pole_frame.map((option) => {
-			return { value: option, label: stopOptionsLabels(`has_pole_frame.${option}.label`) };
+	const hasPipStaticOptionsData = useMemo(() => {
+		if (!StopOptions.has_pip_static) return [];
+		return StopOptions.has_pip_static.map((option) => {
+			return { value: option, label: stopOptionsLabels(`has_pip_static.${option}.label`) };
 		});
 	}, [stopOptionsLabels]);
 
-	const hasPipRealTimeOptionsData = useMemo(() => {
-		if (!StopOptions.has_pip_real_time) return [];
-		return StopOptions.has_pip_real_time.map((option) => {
-			return { value: option, label: stopOptionsLabels(`has_pip_real_time.${option}.label`) };
+	const hasPipAudioOptionsData = useMemo(() => {
+		if (!StopOptions.has_pip_audio) return [];
+		return StopOptions.has_pip_audio.map((option) => {
+			return { value: option, label: stopOptionsLabels(`has_pip_audio.${option}.label`) };
+		});
+	}, [stopOptionsLabels]);
+
+	const hasPipRealtimeOptionsData = useMemo(() => {
+		if (!StopOptions.has_pip_realtime) return [];
+		return StopOptions.has_pip_realtime.map((option) => {
+			return { value: option, label: stopOptionsLabels(`has_pip_realtime.${option}.label`) };
 		});
 	}, [stopOptionsLabels]);
 
@@ -149,6 +163,13 @@ export default function StopsExplorerIdPage() {
 		});
 	}, [stopOptionsLabels]);
 
+	const hasTactileSchedulesOptionsData = useMemo(() => {
+		if (!StopOptions.has_tactile_schedules) return [];
+		return StopOptions.has_tactile_schedules.map((option) => {
+			return { value: option, label: stopOptionsLabels(`has_tactile_schedules.${option}.label`) };
+		});
+	}, [stopOptionsLabels]);
+
 	const hasNetworkMapOptionsData = useMemo(() => {
 		if (!StopOptions.has_network_map) return [];
 		return StopOptions.has_network_map.map((option) => {
@@ -163,31 +184,31 @@ export default function StopsExplorerIdPage() {
 		});
 	}, [stopOptionsLabels]);
 
-	const hasTactileSchedulesOptionsData = useMemo(() => {
-		if (!StopOptions.has_tactile_schedules) return [];
-		return StopOptions.has_tactile_schedules.map((option) => {
-			return { value: option, label: stopOptionsLabels(`has_tactile_schedules.${option}.label`) };
+	const hasCrossingOptionsData = useMemo(() => {
+		if (!StopOptions.has_crossing) return [];
+		return StopOptions.has_crossing.map((option) => {
+			return { value: option, label: stopOptionsLabels(`has_crossing.${option}.label`) };
 		});
 	}, [stopOptionsLabels]);
 
-	const hasStopAccessTypeOptionsData = useMemo(() => {
-		if (!StopOptions.stop_access_type) return [];
-		return StopOptions.stop_access_type.map((option) => {
-			return { value: option, label: stopOptionsLabels(`stop_access_type.${option}.label`) };
+	const hasFlatAccessOptionsData = useMemo(() => {
+		if (!StopOptions.has_flat_access) return [];
+		return StopOptions.has_flat_access.map((option) => {
+			return { value: option, label: stopOptionsLabels(`has_flat_access.${option}.label`) };
 		});
 	}, [stopOptionsLabels]);
 
-	const hasCrosswalkOptionsData = useMemo(() => {
-		if (!StopOptions.has_crosswalk) return [];
-		return StopOptions.has_crosswalk.map((option) => {
-			return { value: option, label: stopOptionsLabels(`has_crosswalk.${option}.label`) };
+	const hasWideAccessOptionsData = useMemo(() => {
+		if (!StopOptions.has_wide_access) return [];
+		return StopOptions.has_wide_access.map((option) => {
+			return { value: option, label: stopOptionsLabels(`has_wide_access.${option}.label`) };
 		});
 	}, [stopOptionsLabels]);
 
-	const hasTactilePavementOptionsData = useMemo(() => {
-		if (!StopOptions.has_tactile_pavement) return [];
-		return StopOptions.has_tactile_pavement.map((option) => {
-			return { value: option, label: stopOptionsLabels(`has_tactile_pavement.${option}.label`) };
+	const hasTactileAccessOptionsData = useMemo(() => {
+		if (!StopOptions.has_tactile_access) return [];
+		return StopOptions.has_tactile_access.map((option) => {
+			return { value: option, label: stopOptionsLabels(`has_tactile_access.${option}.label`) };
 		});
 	}, [stopOptionsLabels]);
 
@@ -198,14 +219,7 @@ export default function StopsExplorerIdPage() {
 		});
 	}, [stopOptionsLabels]);
 
-	const hasAudioStopInfoOptionsData = useMemo(() => {
-		if (!StopOptions.has_audio_stop_info) return [];
-		return StopOptions.has_audio_stop_info.map((option) => {
-			return { value: option, label: stopOptionsLabels(`has_audio_stop_info.${option}.label`) };
-		});
-	}, [stopOptionsLabels]);
-
-	const hasWeelchairBoardingOptionsData = useMemo(() => {
+	const wheelchairBoardingOptionsData = useMemo(() => {
 		if (!StopOptions.wheelchair_boarding) return [];
 		return StopOptions.wheelchair_boarding.map((option) => {
 			return { value: option, label: stopOptionsLabels(`wheelchair_boarding.${option}.label`) };
@@ -216,10 +230,14 @@ export default function StopsExplorerIdPage() {
 	// D. Handle actions
 
 	const handlePlayPhoneticName = async () => {
-		const synth = window.speechSynthesis;
-		const utterance = new SpeechSynthesisUtterance(stopsExplorerContext.form.values.tts_name || '');
-		utterance.lang = 'pt';
-		synth.speak(utterance);
+		if (typeof window !== 'undefined') {
+			// eslint-disable-next-line no-undef
+			const synth = window.speechSynthesis;
+			// eslint-disable-next-line no-undef
+			const utterance = new SpeechSynthesisUtterance(stopsExplorerContext.form.values.tts_name || '');
+			utterance.lang = 'pt';
+			synth.speak(utterance);
+		}
 	};
 
 	const handleLockShortName = () => {
@@ -340,7 +358,7 @@ export default function StopsExplorerIdPage() {
 			<Divider />
 
 			<AppLayoutSection title={t('sections.infrastructure.title')} description={t('sections.infrastructure.description')}>
-				<SimpleGrid cols={2}>
+				<SimpleGrid cols={3}>
 					<Select
 						data={hasPoleOptionsData}
 						label={t('form.has_pole.label')}
@@ -351,8 +369,16 @@ export default function StopsExplorerIdPage() {
 						searchable
 						clearable
 					/>
-				</SimpleGrid>
-				<SimpleGrid cols={3}>
+					<Select
+						data={hasCoverOptionsData}
+						label={t('form.has_cover.label')}
+						placeholder={t('form.has_cover.placeholder')}
+						nothingFoundMessage={t('form.has_cover.nothingFound')}
+						{...stopsExplorerContext.form.getInputProps('has_cover')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+						searchable
+						clearable
+					/>
 					<Select
 						data={hasShelterOptionsData}
 						label={t('form.has_shelter.label')}
@@ -363,19 +389,21 @@ export default function StopsExplorerIdPage() {
 						searchable
 						clearable
 					/>
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
 					<TextInput
 						label={t('form.shelter_code.label')}
 						placeholder={t('form.shelter_code.placeholder')}
 						{...stopsExplorerContext.form.getInputProps('shelter_code')}
 						readOnly={stopsExplorerContext.page.is_read_only}
-						disabled={!stopsExplorerContext.form.values.has_shelter || stopsExplorerContext.form.values.has_shelter === '0'}
+						disabled={!stopsExplorerContext.form.values.has_shelter || stopsExplorerContext.form.values.has_shelter === 'UNKNOWN' || stopsExplorerContext.form.values.has_shelter === 'NO'}
 					/>
 					<TextInput
 						label={t('form.shelter_maintainer.label')}
 						placeholder={t('form.shelter_maintainer.placeholder')}
 						{...stopsExplorerContext.form.getInputProps('shelter_maintainer')}
 						readOnly={stopsExplorerContext.page.is_read_only}
-						disabled={!stopsExplorerContext.form.values.has_shelter || stopsExplorerContext.form.values.has_shelter === '0'}
+						disabled={!stopsExplorerContext.form.values.has_shelter || stopsExplorerContext.form.values.has_shelter === 'UNKNOWN' || stopsExplorerContext.form.values.has_shelter === 'NO'}
 					/>
 				</SimpleGrid>
 				<SimpleGrid cols={3}>
@@ -431,6 +459,8 @@ export default function StopsExplorerIdPage() {
 						searchable
 						clearable
 					/>
+				</SimpleGrid>
+				<SimpleGrid cols={1}>
 					<Select
 						data={dockingBayTypeOptionsData}
 						label={t('form.docking_bay_type.label')}
@@ -441,8 +471,10 @@ export default function StopsExplorerIdPage() {
 						searchable
 						clearable
 					/>
-					{/* <TextInput label={t('form.last_infrastructure_maintenance.label')} placeholder={t('form.last_infrastructure_maintenance.placeholder')} {...stopsExplorerContext.form.getInputProps('last_infrastructure_maintenance')} readOnly={stopsExplorerContext.page.is_read_only} /> */}
-					{/* <TextInput label={t('form.last_infrastructure_check.label')} placeholder={t('form.last_infrastructure_check.placeholder')} {...stopsExplorerContext.form.getInputProps('last_infrastructure_check')} readOnly={stopsExplorerContext.page.is_read_only} /> */}
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
+					<TextInput label={t('form.last_infrastructure_maintenance.label')} placeholder={t('form.last_infrastructure_maintenance.placeholder')} {...stopsExplorerContext.form.getInputProps('last_infrastructure_maintenance')} readOnly={stopsExplorerContext.page.is_read_only} />
+					<TextInput label={t('form.last_infrastructure_check.label')} placeholder={t('form.last_infrastructure_check.placeholder')} {...stopsExplorerContext.form.getInputProps('last_infrastructure_check')} readOnly={stopsExplorerContext.page.is_read_only} />
 				</SimpleGrid>
 			</AppLayoutSection>
 
@@ -451,52 +483,68 @@ export default function StopsExplorerIdPage() {
 			<AppLayoutSection title={t('sections.public_info.title')} description={t('sections.public_info.description')}>
 				<SimpleGrid cols={2}>
 					<Select
-						data={hasStopSignOptionsData}
-						label={t('form.has_stop_sign.label')}
-						placeholder={t('form.has_stop_sign.placeholder')}
-						nothingFoundMessage={t('form.has_stop_sign.nothingFound')}
-						{...stopsExplorerContext.form.getInputProps('has_stop_sign')}
+						data={hasFlagOptionsData}
+						label={t('form.has_flag.label')}
+						placeholder={t('form.has_flag.placeholder')}
+						nothingFoundMessage={t('form.has_flag.nothingFound')}
+						{...stopsExplorerContext.form.getInputProps('has_flag')}
 						readOnly={stopsExplorerContext.page.is_read_only}
 						searchable
 						clearable
 					/>
-					<TextInput label={t('form.stop_sign_maintainer.label')} placeholder={t('form.stop_sign_maintainer.placeholder')} {...stopsExplorerContext.form.getInputProps('stop_sign_maintainer')} readOnly={stopsExplorerContext.page.is_read_only} />
+					<TextInput label={t('form.flag_maintainer.label')} placeholder={t('form.flag_maintainer.placeholder')} {...stopsExplorerContext.form.getInputProps('flag_maintainer')} readOnly={stopsExplorerContext.page.is_read_only} />
 				</SimpleGrid>
-				<SimpleGrid cols={3}>
+				<SimpleGrid cols={1}>
 					<Select
-						data={hasPoleFrameOptionsData}
-						label={t('form.has_pole_frame.label')}
-						placeholder={t('form.has_pole_frame.placeholder')}
-						nothingFoundMessage={t('form.has_pole_frame.nothingFound')}
-						{...stopsExplorerContext.form.getInputProps('has_pole_frame')}
+						data={hasPipStaticOptionsData}
+						label={t('form.has_pip_static.label')}
+						placeholder={t('form.has_pip_static.placeholder')}
+						nothingFoundMessage={t('form.has_pip_static.nothingFound')}
+						{...stopsExplorerContext.form.getInputProps('has_pip_static')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+						searchable
+						clearable
+					/>
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
+					<Select
+						data={hasPipAudioOptionsData}
+						label={t('form.has_pip_audio.label')}
+						placeholder={t('form.has_pip_audio.placeholder')}
+						nothingFoundMessage={t('form.has_pip_audio.nothingFound')}
+						{...stopsExplorerContext.form.getInputProps('has_pip_audio')}
 						readOnly={stopsExplorerContext.page.is_read_only}
 						searchable
 						clearable
 					/>
 					<TextInput
-						label={t('form.shelter_frame_area_cm.label')}
-						placeholder={t('form.shelter_frame_area_cm.placeholder')}
-						{...stopsExplorerContext.form.getInputProps('shelter_frame_area_cm')}
+						label={t('form.pip_audio_code.label')}
+						placeholder={t('form.pip_audio_code.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('pip_audio_code')}
 						readOnly={stopsExplorerContext.page.is_read_only}
-						disabled={!stopsExplorerContext.form.values.has_pole_frame || stopsExplorerContext.form.values.has_pole_frame === '0'}
+						disabled={!stopsExplorerContext.form.values.has_pip_audio || stopsExplorerContext.form.values.has_pip_audio === 'UNKNOWN' || stopsExplorerContext.form.values.has_pip_audio === 'NO'}
 					/>
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
 					<Select
-						data={hasPipRealTimeOptionsData}
-						label={t('form.has_pip_real_time.label')}
-						placeholder={t('form.has_pip_real_time.placeholder')}
-						nothingFoundMessage={t('form.has_pip_real_time.nothingFound')}
-						{...stopsExplorerContext.form.getInputProps('has_pip_real_time')}
+						data={hasPipRealtimeOptionsData}
+						label={t('form.has_pip_realtime.label')}
+						placeholder={t('form.has_pip_realtime.placeholder')}
+						nothingFoundMessage={t('form.has_pip_realtime.nothingFound')}
+						{...stopsExplorerContext.form.getInputProps('has_pip_realtime')}
 						readOnly={stopsExplorerContext.page.is_read_only}
 						searchable
 						clearable
 					/>
 					<TextInput
-						label={t('form.pip_real_time_code.label')}
-						placeholder={t('form.pip_real_time_code.placeholder')}
-						{...stopsExplorerContext.form.getInputProps('pip_real_time_code')}
+						label={t('form.pip_realtime_code.label')}
+						placeholder={t('form.pip_realtime_code.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('pip_realtime_code')}
 						readOnly={stopsExplorerContext.page.is_read_only}
-						disabled={!stopsExplorerContext.form.values.has_pip_real_time || stopsExplorerContext.form.values.has_pip_real_time === '0'}
+						disabled={!stopsExplorerContext.form.values.has_pip_realtime || stopsExplorerContext.form.values.has_pip_realtime === '0'}
 					/>
+				</SimpleGrid>
+				<SimpleGrid cols={1}>
 					<Select
 						data={hasH2oaSignageOptionsData}
 						label={t('form.has_h2oa_signage.label')}
@@ -507,6 +555,8 @@ export default function StopsExplorerIdPage() {
 						searchable
 						clearable
 					/>
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
 					<Select
 						data={hasSchedulesOptionsData}
 						label={t('form.has_schedules.label')}
@@ -518,6 +568,18 @@ export default function StopsExplorerIdPage() {
 						clearable
 					/>
 					<Select
+						data={hasTactileSchedulesOptionsData}
+						label={t('form.has_tactile_schedules.label')}
+						placeholder={t('form.has_tactile_schedules.placeholder')}
+						nothingFoundMessage={t('form.has_tactile_schedules.nothingFound')}
+						{...stopsExplorerContext.form.getInputProps('has_tactile_schedules')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+						searchable
+						clearable
+					/>
+				</SimpleGrid>
+				<SimpleGrid cols={1}>
+					<Select
 						data={hasNetworkMapOptionsData}
 						label={t('form.has_network_map.label')}
 						placeholder={t('form.has_network_map.placeholder')}
@@ -527,17 +589,19 @@ export default function StopsExplorerIdPage() {
 						searchable
 						clearable
 					/>
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
 					<TextInput label={t('form.last_schedules_maintenance.label')} placeholder={t('form.last_schedules_maintenance.placeholder')} {...stopsExplorerContext.form.getInputProps('last_schedules_maintenance')} readOnly={stopsExplorerContext.page.is_read_only} />
 					<TextInput label={t('form.last_schedules_check.label')} placeholder={t('form.last_schedules_check.placeholder')} {...stopsExplorerContext.form.getInputProps('last_schedules_check')} readOnly={stopsExplorerContext.page.is_read_only} />
-					<TextInput label={t('form.last_stop_sign_maintenance.label')} placeholder={t('form.last_stop_sign_maintenance.placeholder')} {...stopsExplorerContext.form.getInputProps('last_stop_sign_maintenance')} readOnly={stopsExplorerContext.page.is_read_only} />
-					<TextInput label={t('form.last_stop_sign_check.label')} placeholder={t('form.last_stop_sign_check.placeholder')} {...stopsExplorerContext.form.getInputProps('last_stop_sign_check')} readOnly={stopsExplorerContext.page.is_read_only} />
+					<TextInput label={t('form.last_flag_maintenance.label')} placeholder={t('form.last_flag_maintenance.placeholder')} {...stopsExplorerContext.form.getInputProps('last_flag_maintenance')} readOnly={stopsExplorerContext.page.is_read_only} />
+					<TextInput label={t('form.last_flag_check.label')} placeholder={t('form.last_flag_check.placeholder')} {...stopsExplorerContext.form.getInputProps('last_flag_check')} readOnly={stopsExplorerContext.page.is_read_only} />
 				</SimpleGrid>
 			</AppLayoutSection>
 
 			<Divider />
 
 			<AppLayoutSection title={t('sections.accessibility.title')} description={t('sections.accessibility.description')}>
-				<SimpleGrid cols={4}>
+				<SimpleGrid cols={2}>
 					<Select
 						data={hasSidewalkOptionsData}
 						label={t('form.has_sidewalk.label')}
@@ -549,46 +613,50 @@ export default function StopsExplorerIdPage() {
 						clearable
 					/>
 					<TextInput label={t('form.sidewalk_type.label')} placeholder={t('form.sidewalk_type.placeholder')} {...stopsExplorerContext.form.getInputProps('sidewalk_type')} readOnly={stopsExplorerContext.page.is_read_only} />
+				</SimpleGrid>
+				<SimpleGrid cols={4}>
 					<Select
-						data={hasTactileSchedulesOptionsData}
-						label={t('form.has_tactile_schedules.label')}
-						placeholder={t('form.has_tactile_schedules.placeholder')}
-						nothingFoundMessage={t('form.has_tactile_schedules.nothingFound')}
-						{...stopsExplorerContext.form.getInputProps('has_tactile_schedules')}
+						data={hasCrossingOptionsData}
+						label={t('form.has_crossing.label')}
+						placeholder={t('form.has_crossing.placeholder')}
+						nothingFoundMessage={t('form.has_crossing.nothingFound')}
+						{...stopsExplorerContext.form.getInputProps('has_crossing')}
 						readOnly={stopsExplorerContext.page.is_read_only}
 						searchable
 						clearable
 					/>
 					<Select
-						data={hasStopAccessTypeOptionsData}
-						label={t('form.stop_access_type.label')}
-						placeholder={t('form.stop_access_type.placeholder')}
-						nothingFoundMessage={t('form.stop_access_type.nothingFound')}
-						{...stopsExplorerContext.form.getInputProps('stop_access_type')}
+						data={hasFlatAccessOptionsData}
+						label={t('form.has_flat_access.label')}
+						placeholder={t('form.has_flat_access.placeholder')}
+						nothingFoundMessage={t('form.has_flat_access.nothingFound')}
+						{...stopsExplorerContext.form.getInputProps('has_flat_access')}
 						readOnly={stopsExplorerContext.page.is_read_only}
 						searchable
 						clearable
 					/>
 					<Select
-						data={hasCrosswalkOptionsData}
-						label={t('form.has_crosswalk.label')}
-						placeholder={t('form.has_crosswalk.placeholder')}
-						nothingFoundMessage={t('form.has_crosswalk.nothingFound')}
-						{...stopsExplorerContext.form.getInputProps('has_crosswalk')}
+						data={hasWideAccessOptionsData}
+						label={t('form.has_wide_access.label')}
+						placeholder={t('form.has_wide_access.placeholder')}
+						nothingFoundMessage={t('form.has_wide_access.nothingFound')}
+						{...stopsExplorerContext.form.getInputProps('has_wide_access')}
 						readOnly={stopsExplorerContext.page.is_read_only}
 						searchable
 						clearable
 					/>
 					<Select
-						data={hasTactilePavementOptionsData}
-						label={t('form.has_tactile_pavement.label')}
-						placeholder={t('form.has_tactile_pavement.placeholder')}
-						nothingFoundMessage={t('form.has_tactile_pavement.nothingFound')}
-						{...stopsExplorerContext.form.getInputProps('has_tactile_pavement')}
+						data={hasTactileAccessOptionsData}
+						label={t('form.has_tactile_access.label')}
+						placeholder={t('form.has_tactile_access.placeholder')}
+						nothingFoundMessage={t('form.has_tactile_access.nothingFound')}
+						{...stopsExplorerContext.form.getInputProps('has_tactile_access')}
 						readOnly={stopsExplorerContext.page.is_read_only}
 						searchable
 						clearable
 					/>
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
 					<Select
 						data={hasAbusiveParkingOptionsData}
 						label={t('form.has_abusive_parking.label')}
@@ -600,17 +668,7 @@ export default function StopsExplorerIdPage() {
 						clearable
 					/>
 					<Select
-						data={hasAudioStopInfoOptionsData}
-						label={t('form.has_audio_stop_info.label')}
-						placeholder={t('form.has_audio_stop_info.placeholder')}
-						nothingFoundMessage={t('form.has_audio_stop_info.nothingFound')}
-						{...stopsExplorerContext.form.getInputProps('has_audio_stop_info')}
-						readOnly={stopsExplorerContext.page.is_read_only}
-						searchable
-						clearable
-					/>
-					<Select
-						data={hasWeelchairBoardingOptionsData}
+						data={wheelchairBoardingOptionsData}
 						label={t('form.wheelchair_boarding.label')}
 						placeholder={t('form.wheelchair_boarding.placeholder')}
 						nothingFoundMessage={t('form.wheelchair_boarding.nothingFound')}
@@ -619,6 +677,9 @@ export default function StopsExplorerIdPage() {
 						searchable
 						clearable
 					/>
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
+					<TextInput label={t('form.last_accessibility_maintenance.label')} placeholder={t('form.last_accessibility_maintenance.placeholder')} {...stopsExplorerContext.form.getInputProps('last_accessibility_maintenance')} readOnly={stopsExplorerContext.page.is_read_only} />
 					<TextInput label={t('form.last_accessibility_check.label')} placeholder={t('form.last_accessibility_check.placeholder')} {...stopsExplorerContext.form.getInputProps('last_accessibility_check')} readOnly={stopsExplorerContext.page.is_read_only} />
 				</SimpleGrid>
 			</AppLayoutSection>
@@ -626,7 +687,7 @@ export default function StopsExplorerIdPage() {
 			<Divider />
 
 			<AppLayoutSection title={t('sections.services.title')} description={t('sections.services.description')}>
-				<SimpleGrid cols={3}>
+				<SimpleGrid cols={4}>
 					<GlobalCheckboxCard label={t('form.near_health_clinic.label')} {...stopsExplorerContext.form.getInputProps('near_health_clinic')} readOnly />
 					<GlobalCheckboxCard label={t('form.near_hospital.label')} {...stopsExplorerContext.form.getInputProps('near_hospital')} readOnly />
 					<GlobalCheckboxCard label={t('form.near_university.label')} {...stopsExplorerContext.form.getInputProps('near_university')} readOnly />
@@ -636,21 +697,22 @@ export default function StopsExplorerIdPage() {
 					<GlobalCheckboxCard label={t('form.near_shopping.label')} {...stopsExplorerContext.form.getInputProps('near_shopping')} readOnly />
 					<GlobalCheckboxCard label={t('form.near_historic_building.label')} {...stopsExplorerContext.form.getInputProps('near_historic_building')} readOnly />
 					<GlobalCheckboxCard label={t('form.near_transit_office.label')} {...stopsExplorerContext.form.getInputProps('near_transit_office')} readOnly />
+					<GlobalCheckboxCard label={t('form.near_beach.label')} {...stopsExplorerContext.form.getInputProps('near_beach')} readOnly />
 				</SimpleGrid>
 			</AppLayoutSection>
 
 			<Divider />
 
 			<AppLayoutSection title={t('sections.connections.title')} description={t('sections.connections.description')}>
-				<SimpleGrid cols={3}>
-					<GlobalCheckboxCard label={t('form.subway.label')} {...stopsExplorerContext.form.getInputProps('subway')} readOnly />
-					<GlobalCheckboxCard label={t('form.light_rail.label')} {...stopsExplorerContext.form.getInputProps('light_rail')} readOnly />
-					<GlobalCheckboxCard label={t('form.train.label')} {...stopsExplorerContext.form.getInputProps('train')} readOnly />
-					<GlobalCheckboxCard label={t('form.boat.label')} {...stopsExplorerContext.form.getInputProps('boat')} readOnly />
-					<GlobalCheckboxCard label={t('form.airport.label')} {...stopsExplorerContext.form.getInputProps('airport')} readOnly />
-					<GlobalCheckboxCard label={t('form.bike_sharing.label')} {...stopsExplorerContext.form.getInputProps('bike_sharing')} readOnly />
-					<GlobalCheckboxCard label={t('form.bike_parking.label')} {...stopsExplorerContext.form.getInputProps('bike_parking')} readOnly />
-					<GlobalCheckboxCard label={t('form.car_parking.label')} {...stopsExplorerContext.form.getInputProps('car_parking')} readOnly />
+				<SimpleGrid cols={4}>
+					<GlobalCheckboxCard label={t('form.near_subway.label')} {...stopsExplorerContext.form.getInputProps('near_subway')} readOnly />
+					<GlobalCheckboxCard label={t('form.near_light_rail.label')} {...stopsExplorerContext.form.getInputProps('near_light_rail')} readOnly />
+					<GlobalCheckboxCard label={t('form.near_train.label')} {...stopsExplorerContext.form.getInputProps('near_train')} readOnly />
+					<GlobalCheckboxCard label={t('form.near_boat.label')} {...stopsExplorerContext.form.getInputProps('near_boat')} readOnly />
+					<GlobalCheckboxCard label={t('form.near_airport.label')} {...stopsExplorerContext.form.getInputProps('near_airport')} readOnly />
+					<GlobalCheckboxCard label={t('form.near_bike_sharing.label')} {...stopsExplorerContext.form.getInputProps('near_bike_sharing')} readOnly />
+					<GlobalCheckboxCard label={t('form.near_bike_parking.label')} {...stopsExplorerContext.form.getInputProps('near_bike_parking')} readOnly />
+					<GlobalCheckboxCard label={t('form.near_car_parking.label')} {...stopsExplorerContext.form.getInputProps('near_car_parking')} readOnly />
 				</SimpleGrid>
 			</AppLayoutSection>
 

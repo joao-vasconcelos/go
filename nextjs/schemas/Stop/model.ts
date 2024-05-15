@@ -1,13 +1,17 @@
 /* * */
 
 import mongoose from 'mongoose';
+import { StopOptions, StopPropertyDockingBayType, StopPropertyHasAbusiveParking, StopPropertyHasBench, StopPropertyHasCrossing, StopPropertyHasElectricity, StopPropertyHasFlag, StopPropertyHasFlatAccess, StopPropertyHasH2oaSignage, StopPropertyHasLighting, StopPropertyHasMupi, StopPropertyHasNetworkMap, StopPropertyHasPipAudio, StopPropertyHasPipRealtime, StopPropertyHasPipStatic, StopPropertyHasPole, StopPropertyHasSchedules, StopPropertyHasShelter, StopPropertyHasSidewalk, StopPropertyHasTactileAccess, StopPropertyHasTactileSchedules, StopPropertyHasTrashBin, StopPropertyHasWideAccess, StopPropertyOperationalStatus, StopPropertyWheelchairBoarding } from '@/schemas/Stop/options';
 
 /* * */
 
 export const StopSchema = new mongoose.Schema(
 	{
-		//
-		// General
+
+		/*
+     * GENERAL
+     */
+
 		code: {
 			type: String,
 			maxlength: 6,
@@ -15,15 +19,15 @@ export const StopSchema = new mongoose.Schema(
 		},
 		name: {
 			type: String,
-			maxlength: 100,
+			maxlength: StopOptions.max_stop_name_length,
 		},
 		name_new: {
 			type: String,
-			maxlength: 100,
+			maxlength: StopOptions.max_stop_name_length,
 		},
 		short_name: {
 			type: String,
-			maxlength: 100,
+			maxlength: StopOptions.max_stop_short_name_length,
 		},
 		short_name_auto: {
 			type: Boolean,
@@ -49,12 +53,16 @@ export const StopSchema = new mongoose.Schema(
 			type: String,
 			maxlength: 6,
 		},
+
+		/*
+		* OPERATION
+		*/
+
 		operational_status: {
 			type: String,
 			maxlength: 25,
+			default: StopPropertyOperationalStatus.Active,
 		},
-
-		// Operation
 		zones: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
@@ -62,16 +70,15 @@ export const StopSchema = new mongoose.Schema(
 			},
 		],
 
-		// Administrative
+		/*
+     * ADMINISTRATIVE
+     */
+
 		municipality: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Municipality',
 		},
-		parish_code: {
-			type: String,
-			maxlength: 100,
-		},
-		parish_name: {
+		parish: {
 			type: String,
 			maxlength: 100,
 		},
@@ -84,16 +91,24 @@ export const StopSchema = new mongoose.Schema(
 			maxlength: 100,
 		},
 
-		// Infrastructure
+		/*
+     * INFRASTRUCTURE
+     */
+
 		has_pole: {
 			type: String,
-			maxlength: 2,
-			default: '0',
+			maxlength: 50,
+			default: StopPropertyHasPole.Unknown,
+		},
+		has_cover: {
+			type: String,
+			maxlength: 50,
+			default: StopPropertyHasShelter.Unknown,
 		},
 		has_shelter: {
 			type: String,
-			maxlength: 2,
-			default: '0',
+			maxlength: 50,
+			default: StopPropertyHasShelter.Unknown,
 		},
 		shelter_code: {
 			type: String,
@@ -105,27 +120,33 @@ export const StopSchema = new mongoose.Schema(
 		},
 		has_mupi: {
 			type: String,
-			maxlength: 2,
+			maxlength: 50,
+			default: StopPropertyHasMupi.Unknown,
 		},
 		has_bench: {
 			type: String,
-			maxlength: 2,
+			maxlength: 50,
+			default: StopPropertyHasBench.Unknown,
 		},
 		has_trash_bin: {
 			type: String,
-			maxlength: 2,
+			maxlength: 50,
+			default: StopPropertyHasTrashBin.Unknown,
 		},
 		has_lighting: {
 			type: String,
-			maxlength: 2,
+			maxlength: 50,
+			default: StopPropertyHasLighting.Unknown,
 		},
 		has_electricity: {
 			type: String,
-			maxlength: 2,
+			maxlength: 50,
+			default: StopPropertyHasElectricity.Unknown,
 		},
 		docking_bay_type: {
 			type: String,
-			maxlength: 2,
+			maxlength: 50,
+			default: StopPropertyDockingBayType.Unknown,
 		},
 		last_infrastructure_maintenance: {
 			type: String,
@@ -136,42 +157,61 @@ export const StopSchema = new mongoose.Schema(
 			maxlength: 100,
 		},
 
-		// Public Information
-		has_stop_sign: {
+		/*
+     * PUBLIC INFORMATION
+     */
+
+		has_flag: {
 			type: String,
-			maxlength: 2,
+			maxlength: 50,
+			default: StopPropertyHasFlag.Unknown,
 		},
-		stop_sign_maintainer: {
-			type: String,
-			maxlength: 2,
-		},
-		has_pole_frame: {
-			type: String,
-			maxlength: 2,
-		},
-		shelter_frame_area_cm: {
+		flag_maintainer: {
 			type: String,
 			maxlength: 100,
 		},
-		has_pip_real_time: {
+		has_pip_static: {
+			type: String,
+			maxlength: 50,
+			default: StopPropertyHasPipStatic.Unknown,
+		},
+		has_pip_audio: {
+			type: String,
+			maxlength: 50,
+			default: StopPropertyHasPipAudio.Unknown,
+		},
+		pip_audio_code: {
 			type: String,
 			maxlength: 100,
 		},
-		pip_real_time_code: {
+		has_pip_realtime: {
+			type: String,
+			maxlength: 50,
+			default: StopPropertyHasPipRealtime.Unknown,
+		},
+		pip_realtime_code: {
 			type: String,
 			maxlength: 100,
 		},
 		has_h2oa_signage: {
 			type: String,
-			maxlength: 100,
+			maxlength: 50,
+			default: StopPropertyHasH2oaSignage.Unknown,
 		},
 		has_schedules: {
 			type: String,
-			maxlength: 100,
+			maxlength: 50,
+			default: StopPropertyHasSchedules.Unknown,
+		},
+		has_tactile_schedules: {
+			type: String,
+			maxlength: 50,
+			default: StopPropertyHasTactileSchedules.Unknown,
 		},
 		has_network_map: {
 			type: String,
-			maxlength: 100,
+			maxlength: 50,
+			default: StopPropertyHasNetworkMap.Unknown,
 		},
 		last_schedules_maintenance: {
 			type: String,
@@ -181,49 +221,59 @@ export const StopSchema = new mongoose.Schema(
 			type: String,
 			maxlength: 100,
 		},
-		last_stop_sign_maintenance: {
+		last_flag_maintenance: {
 			type: String,
 			maxlength: 100,
 		},
-		last_stop_sign_check: {
+		last_flag_check: {
 			type: String,
 			maxlength: 100,
 		},
 
-		// Accessibility
+		/*
+     * ACCESSIBILITY
+     */
+
 		has_sidewalk: {
 			type: String,
-			maxlength: 100,
+			maxlength: 50,
+			default: StopPropertyHasSidewalk.Unknown,
 		},
 		sidewalk_type: {
 			type: String,
 			maxlength: 100,
 		},
-		has_tactile_schedules: {
+		has_crossing: {
 			type: String,
-			maxlength: 100,
+			maxlength: 50,
+			default: StopPropertyHasCrossing.Unknown,
 		},
-		stop_access_type: {
+		has_flat_access: {
 			type: String,
-			maxlength: 100,
+			maxlength: 50,
+			default: StopPropertyHasFlatAccess.Unknown,
 		},
-		has_crosswalk: {
+		has_wide_access: {
 			type: String,
-			maxlength: 100,
+			maxlength: 50,
+			default: StopPropertyHasWideAccess.Unknown,
 		},
-		has_tactile_pavement: {
+		has_tactile_access: {
 			type: String,
-			maxlength: 100,
+			maxlength: 50,
+			default: StopPropertyHasTactileAccess.Unknown,
 		},
 		has_abusive_parking: {
 			type: String,
-			maxlength: 100,
-		},
-		has_audio_stop_info: {
-			type: String,
-			maxlength: 100,
+			maxlength: 50,
+			default: StopPropertyHasAbusiveParking.Unknown,
 		},
 		wheelchair_boarding: {
+			type: String,
+			maxlength: 50,
+			default: StopPropertyWheelchairBoarding.Unknown,
+		},
+		last_accessibility_maintenance: {
 			type: String,
 			maxlength: 100,
 		},
@@ -232,7 +282,10 @@ export const StopSchema = new mongoose.Schema(
 			maxlength: 100,
 		},
 
-		// Services
+		/*
+     * SERVICES
+     */
+
 		near_health_clinic: {
 			type: Boolean,
 		},
@@ -260,8 +313,14 @@ export const StopSchema = new mongoose.Schema(
 		near_transit_office: {
 			type: Boolean,
 		},
+		near_beach: {
+			type: Boolean,
+		},
 
-		// Intermodal Connections
+		/*
+     * CONNECTIONS
+     */
+
 		near_subway: {
 			type: Boolean,
 		},
@@ -287,7 +346,10 @@ export const StopSchema = new mongoose.Schema(
 			type: Boolean,
 		},
 
-		// Media
+		/*
+     * MEDIA
+     */
+
 		media: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
@@ -295,13 +357,19 @@ export const StopSchema = new mongoose.Schema(
 			},
 		],
 
-		// Comments
+		/*
+     * USER NOTES
+     */
+
 		notes: {
 			type: String,
 			maxlength: 10000,
 		},
 
-		// Lock
+		/*
+     * LOCK STATUS
+     */
+
 		is_locked: {
 			type: Boolean,
 		},

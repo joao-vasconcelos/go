@@ -148,11 +148,11 @@ export const AuditTripSchema = new mongoose.Schema(
 		},
 
 		// Public Information
-		has_stop_sign: {
+		has_flag: {
 			type: String,
 			maxlength: 2,
 		},
-		stop_sign_maintainer: {
+		flag_maintainer: {
 			type: String,
 			maxlength: 2,
 		},
@@ -164,7 +164,7 @@ export const AuditTripSchema = new mongoose.Schema(
 			type: String,
 			maxlength: 100,
 		},
-		has_pip_real_time: {
+		has_pip_realtime: {
 			type: String,
 			maxlength: 100,
 		},
@@ -192,11 +192,11 @@ export const AuditTripSchema = new mongoose.Schema(
 			type: String,
 			maxlength: 100,
 		},
-		last_stop_sign_maintenance: {
+		last_flag_maintenance: {
 			type: String,
 			maxlength: 100,
 		},
-		last_stop_sign_check: {
+		last_flag_check: {
 			type: String,
 			maxlength: 100,
 		},
@@ -218,11 +218,11 @@ export const AuditTripSchema = new mongoose.Schema(
 			type: String,
 			maxlength: 100,
 		},
-		has_crosswalk: {
+		has_crossing: {
 			type: String,
 			maxlength: 100,
 		},
-		has_tactile_pavement: {
+		has_tactile_access: {
 			type: String,
 			maxlength: 100,
 		},
