@@ -11,6 +11,8 @@ import { parse as csvParser } from 'csv-parse';
 import CSVWRITER from '@/services/CSVWRITER';
 import extract from 'extract-zip';
 import stopsExportDefault from '@/scripts/stops/stops.export.default';
+import datesExportDefault from '@/scripts/dates/dates.export.default';
+import periodsExportDefault from '@/scripts/periods/periods.export.default';
 
 /* * */
 
@@ -526,12 +528,24 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	await fileWriter.write(exportDocument.workdir, 'stops.txt', allStopsExportedData);
 
 	// 8.
+	// Export dates file
+
+	const allDatesExportedData = await datesExportDefault();
+	await fileWriter.write(exportDocument.workdir, 'dates.txt', allDatesExportedData);
+
+	// 9.
+	// Export dates file
+
+	const allPeriodsExportedData = await periodsExportDefault();
+	await fileWriter.write(exportDocument.workdir, 'periods.txt', allPeriodsExportedData);
+
+	// 10.
 	// Finally setup the feed_info.txt file
 
 	const feedInfoData = getFeedInfoData('20240101', '20241231');
 	await fileWriter.write(exportDocument.workdir, 'feed_info.txt', feedInfoData);
 
-	// 9.
+	// 11.
 	// Do the final cleanup. Flush all pending writes to the exported files and cleanup extract directory.
 
 	await fileWriter.flush();

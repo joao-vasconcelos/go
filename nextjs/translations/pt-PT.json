@@ -257,6 +257,12 @@
 				"success": "Ficheiro dates.txt exportado!",
 				"error": "An error occurred while exporting the file."
 			},
+			"export_periods": {
+				"title": "Exportar periods.txt",
+				"loading": "A gerar ficheiro...",
+				"success": "Ficheiro periods.txt exportado!",
+				"error": "An error occurred while exporting the file."
+			},
 			"delete": {
 				"title": "Delete Calendar",
 				"description": "Deleting is irreversible. Are you sure you want to delete this Calendar forever?",
@@ -2627,6 +2633,10 @@
 		},
 		"export_dates": {
 			"label": "Exportar dates.txt",
+			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
+		},
+		"export_periods": {
+			"label": "Exportar periods.txt",
 			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla."
 		}
 	},

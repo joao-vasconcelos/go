@@ -63,7 +63,7 @@ export default function Layout({ children }) {
 		try {
 			setIsCreating(true);
 			notify('export_dates', 'loading', t('operations.export_dates.loading'));
-			const responseBlob = await API({ service: 'calendars', operation: 'export_dates', method: 'GET', parseType: 'blob' });
+			const responseBlob = await API({ service: 'calendars', operation: 'export/dates', method: 'GET', parseType: 'blob' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			const htmlAnchorElement = document.createElement('a');
 			htmlAnchorElement.href = objectURL;
@@ -74,6 +74,26 @@ export default function Layout({ children }) {
 			setIsCreating(false);
 		} catch (error) {
 			notify('export_dates', 'error', error.message || t('operations.export_dates.error'));
+			setIsCreating(false);
+			console.log(error);
+		}
+	};
+
+	const handleExportPeriods = async () => {
+		try {
+			setIsCreating(true);
+			notify('export_dates', 'loading', t('operations.export_periods.loading'));
+			const responseBlob = await API({ service: 'calendars', operation: 'export/periods', method: 'GET', parseType: 'blob' });
+			const objectURL = URL.createObjectURL(responseBlob);
+			const htmlAnchorElement = document.createElement('a');
+			htmlAnchorElement.href = objectURL;
+			htmlAnchorElement.download = 'periods.txt';
+			document.body.appendChild(htmlAnchorElement);
+			htmlAnchorElement.click();
+			notify('export_periods', 'success', t('operations.export_periods.success'));
+			setIsCreating(false);
+		} catch (error) {
+			notify('export_periods', 'error', error.message || t('operations.export_periods.error'));
 			setIsCreating(false);
 			console.log(error);
 		}
@@ -104,6 +124,11 @@ export default function Layout({ children }) {
 										<AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'export_dates' }]}>
 											<Menu.Item leftSection={<IconDownload size={20} />} onClick={handleExportDates}>
 												{t('operations.export_dates.title')}
+											</Menu.Item>
+										</AppAuthenticationCheck>
+										<AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'export_dates' }]}>
+											<Menu.Item leftSection={<IconDownload size={20} />} onClick={handleExportPeriods}>
+												{t('operations.export_periods.title')}
 											</Menu.Item>
 										</AppAuthenticationCheck>
 									</Menu.Dropdown>

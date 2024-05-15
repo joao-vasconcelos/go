@@ -231,7 +231,7 @@ export function StopsExplorerContextProvider({ children }) {
 		try {
 			setListState((prev) => ({ ...prev, is_loading: true }));
 			setPageState((prev) => ({ ...prev, is_loading: true }));
-			const responseBlob = await API({ service: 'stops', operation: 'export', method: 'GET', parseType: 'blob' });
+			const responseBlob = await API({ service: 'stops', operation: 'export/default', method: 'GET', parseType: 'blob' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			const htmlAnchorElement = document.createElement('a');
 			htmlAnchorElement.href = objectURL;
@@ -251,7 +251,7 @@ export function StopsExplorerContextProvider({ children }) {
 		try {
 			setListState((prev) => ({ ...prev, is_loading: true }));
 			setPageState((prev) => ({ ...prev, is_loading: true }));
-			const responseBlob = await API({ service: 'stops', operation: 'export_deleted', method: 'GET', parseType: 'blob' });
+			const responseBlob = await API({ service: 'stops', operation: 'export/deleted', method: 'GET', parseType: 'blob' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			const htmlAnchorElement = document.createElement('a');
 			htmlAnchorElement.href = objectURL;
