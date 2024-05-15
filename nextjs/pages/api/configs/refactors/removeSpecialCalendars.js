@@ -10,7 +10,7 @@ import { CalendarModel } from '@/schemas/Calendar/model';
 export default async function handler(req, res) {
 	//
 
-	throw new Error('Feature is disabled.');
+	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -55,7 +55,7 @@ export default async function handler(req, res) {
 		for (const patternCode of allPatternCodesWithSpecialCalendars) {
 			//
 
-			if (!patternCode.code.startsWith('4')) {
+			if (!patternCode.code.startsWith('1')) {
 				continue;
 			}
 

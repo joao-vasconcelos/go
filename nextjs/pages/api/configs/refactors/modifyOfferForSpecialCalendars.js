@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 		patternLoop: for (const patternCode of allPatternCodes) {
 			//
 
-			if (!patternCode.code.startsWith('4')) {
+			if (!patternCode.code.startsWith('17') || patternCode.code.startsWith('1731') || patternCode.code.startsWith('1715')) {
 				continue patternLoop;
 			}
 
@@ -88,13 +88,16 @@ export default async function handler(req, res) {
 				// Check if this schedule has the following calendars
 
 				const hasCalendarEscDu = allCalendarsOnData.findIndex((c) => c.code === 'ESC_DU') >= 0;
-				const hasCalendar62 = allCalendarsOnData.findIndex((c) => c.code === '62') >= 0;
-				const hasCalendar100 = allCalendarsOnData.findIndex((c) => c.code === '100') >= 0;
+				const hasCalendarEscSab = allCalendarsOnData.findIndex((c) => c.code === 'ESC_SAB') >= 0;
 
 				/* * * * * * * * * */
 
-				if (hasCalendarEscDu || hasCalendar62 || hasCalendar100) {
-					addedCalendarsOff.add('MES_JUN_U2S');
+				if (hasCalendarEscDu && !hasCalendarEscSab) {
+					addedCalendarsOff.add('ESP_SANTOS_DIA');
+				}
+
+				if (hasCalendarEscSab && !hasCalendarEscDu) {
+					addedCalendarsOn.add('ESP_SANTOS_DIA');
 				}
 
 				/* * * * * * * * * */
