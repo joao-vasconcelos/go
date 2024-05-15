@@ -1,6 +1,6 @@
 {
   "name": "@joao-vasconcelos/go-nextjs",
-  "version": "2024.05.13-1051",
+  "version": "2024.05.15-1739",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",

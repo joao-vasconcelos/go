@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 		patternLoop: for (const patternCode of allPatternCodes) {
 			//
 
-			if (!patternCode.code.startsWith('27')) {
+			if (!patternCode.code.startsWith('28')) {
 				continue patternLoop;
 			}
 
