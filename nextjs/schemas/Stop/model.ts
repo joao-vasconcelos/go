@@ -383,15 +383,4 @@ export const StopSchema = new mongoose.Schema(
 
 export const StopModel = mongoose?.models?.Stop || mongoose.model('Stop', StopSchema);
 
-/* * */
-
-export const DeletedStopSchema = new mongoose.Schema({
-	code: { type: String, maxlength: 6, unique: true },
-	name: { type: String, maxlength: 500 },
-	latitude: { type: Number, required: true },
-	longitude: { type: Number, required: true },
-});
-
-/* * */
-
-export const DeletedStopModel = mongoose?.models?.DeletedStop || mongoose.model('DeletedStop', DeletedStopSchema);
+export const DeletedStopModel = mongoose?.models?.DeletedStop || mongoose.model('DeletedStop', StopSchema);

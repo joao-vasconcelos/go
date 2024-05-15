@@ -2,14 +2,15 @@
 
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { DeletedStopModel } from '@/schemas/Stop/model';
+import { StopModel, DeletedStopModel } from '@/schemas/Stop/model';
+import { StopDefault } from '@/schemas/Stop/default';
 
 /* * */
 
 export default async function handler(req, res) {
 	//
 
-	throw new Error('Feature is disabled.');
+	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -42,7 +43,15 @@ export default async function handler(req, res) {
 	try {
 		//
 
-		await DeletedStopModel.findOneAndDelete({ code: '060457' });
+		const deletedStopToRevert = await DeletedStopModel.findOne({ code: '162842' }).lean();
+
+		const newStop = { ...StopDefault, ...deletedStopToRevert };
+
+		// console.log(newStop);
+
+		await StopModel(newStop).save();
+
+		await DeletedStopModel.findOneAndDelete({ code: '162842' });
 
 		//
 	} catch (error) {
