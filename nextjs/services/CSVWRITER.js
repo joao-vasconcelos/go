@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import Papa from 'papaparse';
+import TIMETRACKER from '@/services/TIMETRACKER';
 
 /* * */
 
@@ -57,7 +58,7 @@ export default class CSVWRITER {
 					return resolve();
 				}
 
-				console.log(`> CSVWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | File: ${this.CURRENT_BATCH_PATH}`);
+				const flushTimer = new TIMETRACKER;
 
 				// Setup a variable to keep track if the file exists or not
 				let fileAlreadyExists = true;
@@ -74,11 +75,14 @@ export default class CSVWRITER {
 						if (appendErr) {
 							reject(`Error appending data to file: ${appendErr.message}`);
 						} else {
+							console.log(`> CSVWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | File: ${this.CURRENT_BATCH_PATH} (${flushTimer.get()})`);
 							this.CURRENT_BATCH_DATA = [];
 							resolve();
 						}
 					});
 				});
+
+				//
 			} catch (error) {
 				reject(`Error at flush(): ${error.message}`);
 			}
