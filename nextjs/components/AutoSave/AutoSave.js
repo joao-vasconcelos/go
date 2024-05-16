@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import AppButtonBack from '@/components/AppButtonBack/AppButtonBack';
 import AppButtonClose from '@/components/AppButtonClose/AppButtonClose';
 import { useIdle } from '@mantine/hooks';
+import { useEffect } from 'react';
 
 /* * */
 /* AUTOSAVE COMPONENT */
@@ -15,8 +16,8 @@ import { useIdle } from '@mantine/hooks';
 export default function AutoSave({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, closeType = 'close', interval = 2000 }) {
 	//
 
-	const isIdle = useIdle(interval);
 	const t = useTranslations('AutoSave');
+	const isIdle = useIdle(interval, { initialState: false });
 
 	//
 	// A. AUTOSAVE INTERVAL
@@ -24,11 +25,13 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 	// On each interval trigger, call the onSave() function.
 	// On component unmount, clear the interval.
 
-	// If form is valid, has changed, is not currently saving,
-	// did not have an error saving and has a valid action to perform.
-	if (isIdle && isValid && isDirty && !isSaving && !isErrorSaving && onSave) {
-		onSave();
-	}
+	useEffect(() => {
+		// If form is valid, has changed, is not currently saving,
+		// did not have an error saving and has a valid action to perform.
+		if (isIdle && isValid && isDirty && !isSaving && !isErrorSaving && onSave) {
+			onSave();
+		}
+	}, [isIdle, isValid, isDirty, !isSaving, !isErrorSaving, onSave]);
 
 	//
 	// B. RETRY (IS SAVING AFTER ERROR)
