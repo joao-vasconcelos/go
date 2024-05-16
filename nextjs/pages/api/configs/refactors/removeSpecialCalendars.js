@@ -46,25 +46,9 @@ export default async function handler(req, res) {
 		const allCalendarCodes = await CalendarModel.find({
 			code: {
 				$in: [
-					'ESP_CARNAVAL_DIA',
-					'ESP_CARNAVAL_FERIAS',
-					'ESP_PASCOA',
-					'ESP_NATAL_VESP',
-					'ESP_NATAL_DIA',
-					'ESP_ANONOVO_VESP',
-					'ESP_ANONOVO_DIA',
-					'P1_1712',
-					'7H',
-					'P1_1411',
-					'P1_1702',
-					'P1_1311',
-					'P1_1511',
-					'P1_1512',
-					'P1_1213',
-					'P1_1112',
-					'P1_1211',
-					'p1_1111',
-					'p1_1611',
+					'ESP_SANTOS_VESP',
+					'ESP_SANTOS_DIA',
+					'EVENTOS_RIR_TOD',
 				],
 			},
 		}, '_id code');
@@ -79,7 +63,7 @@ export default async function handler(req, res) {
 		for (const patternCode of allPatternCodesWithSpecialCalendars) {
 			//
 
-			if (!patternCode.code.startsWith('2')) {
+			if (!patternCode.code.startsWith('4')) {
 				continue;
 			}
 

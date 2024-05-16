@@ -8,7 +8,7 @@ import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
 import ListItem from './listItem';
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots, IconFileDownload } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ErrorDisplay from '@/components/ErrorDisplay';
@@ -59,6 +59,25 @@ export default function Layout({ children }) {
 		}
 	};
 
+	const exportAsFile = async () => {
+		try {
+			setIsCreating(true);
+			const responseBlob = await API({ service: 'municipalities', operation: 'export/default', method: 'GET', parseType: 'blob' });
+			const objectURL = URL.createObjectURL(responseBlob);
+			// eslint-disable-next-line no-undef
+			const htmlAnchorElement = document.createElement('a');
+			htmlAnchorElement.href = objectURL;
+			htmlAnchorElement.download = 'municipalities.txt';
+			// eslint-disable-next-line no-undef
+			document.body.appendChild(htmlAnchorElement);
+			htmlAnchorElement.click();
+			setIsCreating(false);
+		} catch (error) {
+			console.log(error);
+			setIsCreating(false);
+		}
+	};
+
 	//
 	// D. Render data
 
@@ -81,6 +100,11 @@ export default function Layout({ children }) {
 										<AppAuthenticationCheck permissions={[{ scope: 'municipalities', action: 'create' }]}>
 											<Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
 												{t('operations.create.title')}
+											</Menu.Item>
+										</AppAuthenticationCheck>
+										<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
+											<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={exportAsFile}>
+												{t('operations.export.title')}
 											</Menu.Item>
 										</AppAuthenticationCheck>
 									</Menu.Dropdown>

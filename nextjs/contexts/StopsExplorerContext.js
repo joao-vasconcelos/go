@@ -173,7 +173,7 @@ export function StopsExplorerContextProvider({ children }) {
 		// Update form
 		formState.setValues(populated);
 		formState.resetDirty(populated);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formState.isDirty(), itemData]);
 
 	useEffect(() => {
@@ -190,7 +190,7 @@ export function StopsExplorerContextProvider({ children }) {
 			});
 		// Save the new name
 		formState.setFieldValue('short_name', shortenedStopName);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formState.values.name_new, formState.values.short_name_auto]);
 
 	useEffect(() => {
@@ -209,7 +209,7 @@ export function StopsExplorerContextProvider({ children }) {
 		};
 		// Save the new name
 		formState.setFieldValue('tts_name', tts.makeText(formState.values.name, stopModalConnections).trim());
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formState.values.name, formState.values.near_subway, formState.values.near_light_rail, formState.values.near_train, formState.values.near_boat, formState.values.near_airport, formState.values.near_bike_sharing, formState.values.near_bike_parking, formState.values.near_car_parking]);
 
 	//
@@ -233,9 +233,11 @@ export function StopsExplorerContextProvider({ children }) {
 			setPageState((prev) => ({ ...prev, is_loading: true }));
 			const responseBlob = await API({ service: 'stops', operation: 'export/default', method: 'GET', parseType: 'blob' });
 			const objectURL = URL.createObjectURL(responseBlob);
+			// eslint-disable-next-line no-undef
 			const htmlAnchorElement = document.createElement('a');
 			htmlAnchorElement.href = objectURL;
 			htmlAnchorElement.download = 'stops.txt';
+			// eslint-disable-next-line no-undef
 			document.body.appendChild(htmlAnchorElement);
 			htmlAnchorElement.click();
 			setListState((prev) => ({ ...prev, is_loading: false }));
@@ -253,9 +255,11 @@ export function StopsExplorerContextProvider({ children }) {
 			setPageState((prev) => ({ ...prev, is_loading: true }));
 			const responseBlob = await API({ service: 'stops', operation: 'export/deleted', method: 'GET', parseType: 'blob' });
 			const objectURL = URL.createObjectURL(responseBlob);
+			// eslint-disable-next-line no-undef
 			const htmlAnchorElement = document.createElement('a');
 			htmlAnchorElement.href = objectURL;
 			htmlAnchorElement.download = 'stops_deleted.txt';
+			// eslint-disable-next-line no-undef
 			document.body.appendChild(htmlAnchorElement);
 			htmlAnchorElement.click();
 			setListState((prev) => ({ ...prev, is_loading: false }));
@@ -309,7 +313,7 @@ export function StopsExplorerContextProvider({ children }) {
 			setPageState((prev) => ({ ...prev, is_saving: false }));
 		} catch (error) {
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: err }));
+			setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: error }));
 		}
 	}, [allItemsMutate, formState, itemId, itemMutate]);
 
@@ -322,7 +326,7 @@ export function StopsExplorerContextProvider({ children }) {
 			itemMutate();
 			allItemsMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: err }));
+			setPageState((prev) => ({ ...prev, is_error: error }));
 		}
 	}, [allItemsMutate, itemId, itemMutate]);
 
@@ -331,6 +335,7 @@ export function StopsExplorerContextProvider({ children }) {
 	}, [router]);
 
 	const openInWebsite = useCallback(async () => {
+		// eslint-disable-next-line no-undef
 		window.open(`https://on.carrismetropolitana.pt/stops/${itemData.code}`, '_blank');
 	}, [itemData?.code]);
 

@@ -7,7 +7,7 @@ import { useRouter } from '@/translations/navigation';
 import useSWR from 'swr';
 import API from '@/services/API';
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots } from '@tabler/icons-react';
+import { IconCirclePlus, IconDots, IconFileDownload } from '@tabler/icons-react';
 import notify from '@/services/notify';
 import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
@@ -68,6 +68,16 @@ export default function FaresExplorerListHeader() {
 					<AppAuthenticationCheck permissions={[{ scope: 'fares', action: 'create' }]}>
 						<Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
 							{t('operations.create.title')}
+						</Menu.Item>
+					</AppAuthenticationCheck>
+					<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
+						<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={faresExplorerContext.exportAttributesAsFile}>
+							{t('operations.export_attributes.title')}
+						</Menu.Item>
+					</AppAuthenticationCheck>
+					<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
+						<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={faresExplorerContext.exportRulesAsFile}>
+							{t('operations.export_rules.title')}
 						</Menu.Item>
 					</AppAuthenticationCheck>
 				</Menu.Dropdown>

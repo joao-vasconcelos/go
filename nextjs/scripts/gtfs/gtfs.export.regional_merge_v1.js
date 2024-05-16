@@ -11,6 +11,9 @@ import { parse as csvParser } from 'csv-parse';
 import CSVWRITER from '@/services/CSVWRITER';
 import extract from 'extract-zip';
 import stopsExportDefault from '@/scripts/stops/stops.export.default';
+import faresExportAttributes from '@/scripts/fares/fares.export.attributes';
+import faresExportRules from '@/scripts/fares/fares.export.rules';
+import municipalitiesExportDefault from '@/scripts/municipalities/municipalities.export.default';
 import datesExportDefault from '@/scripts/dates/dates.export.default';
 import periodsExportDefault from '@/scripts/periods/periods.export.default';
 
@@ -528,19 +531,35 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	await fileWriter.write(exportDocument.workdir, 'stops.txt', allStopsExportedData);
 
 	// 8.
+	// Export fare attributes and fare rules files.
+
+	const allFareAttributesExportData = await faresExportAttributes();
+	await fileWriter.write(exportDocument.workdir, 'fare_attributes.txt', allFareAttributesExportData);
+
+	const lineIdsMarkedForFinalExport = Array.from(new Set(Array.from(routesMarkedForFinalExport.values()).map((item) => item.line_id)));
+	const allFareRulesExportData = await faresExportRules({ line_codes: lineIdsMarkedForFinalExport });
+	await fileWriter.write(exportDocument.workdir, 'fare_rules.txt', allFareRulesExportData);
+
+	// 9.
+	// Export municipalities file
+
+	const allMunicipalitiesExportedData = await municipalitiesExportDefault();
+	await fileWriter.write(exportDocument.workdir, 'municipalities.txt', allMunicipalitiesExportedData);
+
+	// 9.
 	// Export dates file
 
 	const allDatesExportedData = await datesExportDefault();
 	await fileWriter.write(exportDocument.workdir, 'dates.txt', allDatesExportedData);
 
 	// 9.
-	// Export dates file
+	// Export periods file
 
 	const allPeriodsExportedData = await periodsExportDefault();
 	await fileWriter.write(exportDocument.workdir, 'periods.txt', allPeriodsExportedData);
 
 	// 10.
-	// Finally setup the feed_info.txt file
+	// Export feed_info.txt file
 
 	const feedInfoData = getFeedInfoData('20240101', '20241231');
 	await fileWriter.write(exportDocument.workdir, 'feed_info.txt', feedInfoData);

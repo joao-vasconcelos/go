@@ -508,6 +508,12 @@
 				"success": "A new Municipality was created!",
 				"error": "An error occurred while creating this Municipality."
 			},
+			"export": {
+				"title": "Exportar municipalities.txt",
+				"loading": "A gerar ficheiro...",
+				"success": "O ficheiro foi gerado com sucesso!",
+				"error": "Ocorreu um erro ao gerar o ficheiro."
+			},
 			"delete": {
 				"title": "Delete Municipality",
 				"description": "Deleting is irreversible. Are you sure you want to delete this Municipality forever?",
@@ -3138,6 +3144,18 @@
 				"loading": "A criar tarifa...",
 				"success": "Foi criada uma nova tarifa!",
 				"error": "Ocorreu um erro ao criar a tarifa."
+			},
+			"export_attributes": {
+				"title": "Exportar fare_attributes.txt",
+				"loading": "A gerar ficheiro...",
+				"success": "O ficheiro foi gerado com sucesso!",
+				"error": "Ocorreu um erro ao gerar o ficheiro."
+			},
+			"export_rules": {
+				"title": "Exportar fare_rules.txt",
+				"loading": "A gerar ficheiro...",
+				"success": "O ficheiro foi gerado com sucesso!",
+				"error": "Ocorreu um erro ao gerar o ficheiro."
 			}
 		}
 	},

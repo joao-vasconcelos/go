@@ -2,7 +2,7 @@
 
 # Restore the database from backup
 echo "Starting restore..."
-mongorestore --uri="mongodb://offermanagerdbuser:offermanagerdbpassword@offermanagerdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-offermanagerdb-20240515083007"
+mongorestore --uri="mongodb://offermanagerdbuser:offermanagerdbpassword@offermanagerdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-offermanagerdb-20240516134536"
 echo "Restore complete!"
 
 # Restore the database from backup

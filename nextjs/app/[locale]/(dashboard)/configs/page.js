@@ -76,11 +76,11 @@ export default function Page() {
 
 	// const handleRemoveSpecialCalendars = async () => {
 	// 	openConfirmModal({
-	// 		title: <Text size="h2">Remover Special Calendars?</Text>,
+	// 		title: <Text size="h2">Remove Special Calendars?</Text>,
 	// 		centered: true,
 	// 		closeOnClickOutside: true,
 	// 		children: <Text size="h3">Are you sure?</Text>,
-	// 		labels: { confirm: 'Yes, Remover Special Calendars', cancel: 'Cancel' },
+	// 		labels: { confirm: 'Yes, Remove Special Calendars', cancel: 'Cancel' },
 	// 		confirmProps: { color: 'red' },
 	// 		onConfirm: async () => {
 	// 			try {
@@ -114,7 +114,7 @@ export default function Page() {
               Modify Offer for Special Calendars
 						</Button> */}
 						{/* <Button onClick={handleRemoveSpecialCalendars} color="red" loading={isImporting}>
-							Remover Special Calendars
+							Remove Special Calendars
 						</Button> */}
 					</SimpleGrid>
 				</AppLayoutSection>

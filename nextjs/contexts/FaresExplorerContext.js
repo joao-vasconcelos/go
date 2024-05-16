@@ -115,7 +115,7 @@ export function FaresExplorerContextProvider({ children }) {
 		// Update form
 		formState.setValues(populated);
 		formState.resetDirty(populated);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formState.isDirty(), itemData]);
 
 	//
@@ -143,7 +143,7 @@ export function FaresExplorerContextProvider({ children }) {
 			setPageState((prev) => ({ ...prev, is_saving: false }));
 		} catch (error) {
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: err }));
+			setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: error }));
 		}
 	}, [allItemsMutate, formState, itemId, itemMutate]);
 
@@ -156,7 +156,7 @@ export function FaresExplorerContextProvider({ children }) {
 			itemMutate();
 			allItemsMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: err }));
+			setPageState((prev) => ({ ...prev, is_error: error }));
 		}
 	}, [allItemsMutate, itemId, itemMutate]);
 
@@ -171,13 +171,57 @@ export function FaresExplorerContextProvider({ children }) {
 			itemMutate();
 			allItemsMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: err }));
+			setPageState((prev) => ({ ...prev, is_error: error }));
 		}
 	}, [allItemsMutate, formState, itemId, itemMutate, router]);
 
 	const closeItem = useCallback(async () => {
 		router.push('/fares');
 	}, [router]);
+
+	const exportAttributesAsFile = useCallback(async () => {
+		try {
+			setListState((prev) => ({ ...prev, is_loading: true }));
+			setPageState((prev) => ({ ...prev, is_loading: true }));
+			const responseBlob = await API({ service: 'fares', operation: 'export/attributes', method: 'GET', parseType: 'blob' });
+			const objectURL = URL.createObjectURL(responseBlob);
+			// eslint-disable-next-line no-undef
+			const htmlAnchorElement = document.createElement('a');
+			htmlAnchorElement.href = objectURL;
+			htmlAnchorElement.download = 'fare_attributes.txt';
+			// eslint-disable-next-line no-undef
+			document.body.appendChild(htmlAnchorElement);
+			htmlAnchorElement.click();
+			setListState((prev) => ({ ...prev, is_loading: false }));
+			setPageState((prev) => ({ ...prev, is_loading: false }));
+		} catch (error) {
+			console.log(error);
+			setListState((prev) => ({ ...prev, is_loading: false }));
+			setPageState((prev) => ({ ...prev, is_loading: false }));
+		}
+	}, []);
+
+	const exportRulesAsFile = useCallback(async () => {
+		try {
+			setListState((prev) => ({ ...prev, is_loading: true }));
+			setPageState((prev) => ({ ...prev, is_loading: true }));
+			const responseBlob = await API({ service: 'fares', operation: 'export/rules', method: 'GET', parseType: 'blob' });
+			const objectURL = URL.createObjectURL(responseBlob);
+			// eslint-disable-next-line no-undef
+			const htmlAnchorElement = document.createElement('a');
+			htmlAnchorElement.href = objectURL;
+			htmlAnchorElement.download = 'fare_rules.txt';
+			// eslint-disable-next-line no-undef
+			document.body.appendChild(htmlAnchorElement);
+			htmlAnchorElement.click();
+			setListState((prev) => ({ ...prev, is_loading: false }));
+			setPageState((prev) => ({ ...prev, is_loading: false }));
+		} catch (error) {
+			console.log(error);
+			setListState((prev) => ({ ...prev, is_loading: false }));
+			setPageState((prev) => ({ ...prev, is_loading: false }));
+		}
+	}, []);
 
 	//
 	// G. Setup context object
@@ -201,8 +245,11 @@ export function FaresExplorerContextProvider({ children }) {
 			deleteItem: deleteItem,
 			closeItem: closeItem,
 			//
+			exportAttributesAsFile: exportAttributesAsFile,
+			exportRulesAsFile: exportRulesAsFile,
+			//
 		}),
-		[listState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, validateItem, saveItem, lockItem, deleteItem, closeItem],
+		[listState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, validateItem, saveItem, lockItem, deleteItem, closeItem, exportAttributesAsFile, exportRulesAsFile],
 	);
 
 	//

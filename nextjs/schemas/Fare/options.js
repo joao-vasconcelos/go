@@ -11,8 +11,8 @@ export const FareOptions = {
 
 	/*
    * PAYMENT METHODS
-   * 1 = Onboard
-   * 2 = Prepaid
+   * 0 = Onboard
+   * 1 = Prepaid
    */
 
 	payment_method: ['0', '1'],
