@@ -531,14 +531,15 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	await fileWriter.write(exportDocument.workdir, 'stops.txt', allStopsExportedData);
 
 	// 8.
-	// Export fare attributes and fare rules files.
-
-	const allFareAttributesExportData = await faresExportAttributes();
-	await fileWriter.write(exportDocument.workdir, 'fare_attributes.txt', allFareAttributesExportData);
+	// Export fare rules and fare attributes files
 
 	const lineIdsMarkedForFinalExport = Array.from(new Set(Array.from(routesMarkedForFinalExport.values()).map((item) => item.line_id)));
 	const allFareRulesExportData = await faresExportRules({ line_codes: lineIdsMarkedForFinalExport });
 	await fileWriter.write(exportDocument.workdir, 'fare_rules.txt', allFareRulesExportData);
+
+	const fareIdsMarkedForFinalExport = Array.from(new Set(Array.from(allFareRulesExportData.values()).map((item) => item.fare_id)));
+	const allFareAttributesExportData = await faresExportAttributes({ fare_codes: fareIdsMarkedForFinalExport });
+	await fileWriter.write(exportDocument.workdir, 'fare_attributes.txt', allFareAttributesExportData);
 
 	// 9.
 	// Export municipalities file
