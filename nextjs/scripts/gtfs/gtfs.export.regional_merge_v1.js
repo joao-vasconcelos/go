@@ -105,10 +105,7 @@ async function getMediaFilePath(mediaId) {
 	//
 }
 
-//
-//
-//
-//
+/* * */
 
 function getAgencyData() {
 	return {
@@ -122,6 +119,8 @@ function getAgencyData() {
 		agency_email: 'contacto@carrismetropolitana.pt',
 	};
 }
+
+/* * */
 
 function getFeedInfoData(startDateString, endDateString) {
 	try {
@@ -562,7 +561,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// 10.
 	// Export feed_info.txt file
 
-	const feedInfoData = getFeedInfoData('20240101', '20241231');
+	const lowestArchiveStartDate = allArchivesData.reduce((min, { start_date }) => start_date < min ? start_date : min, allArchivesData[0].start_date);
+	const highestArchiveEndDate = allArchivesData.reduce((max, { start_date }) => start_date < max ? start_date : max, allArchivesData[0].end_date);
+
+	const feedInfoData = getFeedInfoData(lowestArchiveStartDate, highestArchiveEndDate);
 	await fileWriter.write(exportDocument.workdir, 'feed_info.txt', feedInfoData);
 
 	// 11.
