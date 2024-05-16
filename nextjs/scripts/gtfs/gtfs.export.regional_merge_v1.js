@@ -562,7 +562,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// Export feed_info.txt file
 
 	const lowestArchiveStartDate = allArchivesData.reduce((min, { start_date }) => start_date < min ? start_date : min, allArchivesData[0].start_date);
-	const highestArchiveEndDate = allArchivesData.reduce((max, { start_date }) => start_date < max ? start_date : max, allArchivesData[0].end_date);
+	const highestArchiveEndDate = allArchivesData.reduce((max, { end_date }) => end_date > max ? end_date : max, allArchivesData[0].end_date);
 
 	const feedInfoData = getFeedInfoData(lowestArchiveStartDate, highestArchiveEndDate);
 	await fileWriter.write(exportDocument.workdir, 'feed_info.txt', feedInfoData);
