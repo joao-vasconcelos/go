@@ -1,20 +1,21 @@
 /* * */
 
-import { useEffect } from 'react';
 import { Tooltip, ActionIcon, Button } from '@mantine/core';
 import { IconDeviceFloppy, IconAlertTriangleFilled } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import AppButtonBack from '@/components/AppButtonBack/AppButtonBack';
 import AppButtonClose from '@/components/AppButtonClose/AppButtonClose';
+import { useIdle } from '@mantine/hooks';
 
 /* * */
 /* AUTOSAVE COMPONENT */
 /* Pair of buttons that trigger an action on an interval and on click. */
 /* * */
 
-export default function AutoSave({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, closeType = 'close', interval = 1000 }) {
+export default function AutoSave({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, closeType = 'close', interval = 2000 }) {
 	//
 
+	const isIdle = useIdle(interval);
 	const t = useTranslations('AutoSave');
 
 	//
@@ -23,18 +24,11 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 	// On each interval trigger, call the onSave() function.
 	// On component unmount, clear the interval.
 
-	useEffect(() => {
-		// Trigger the onSave action on a set interval
-		const autoSaveInterval = setInterval(() => {
-			// If form is valid, has changed, is not currently saving,
-			// did not have an error saving and has a valid action to perform.
-			if (isValid && isDirty && !isSaving && !isErrorSaving && onSave) {
-				onSave();
-			}
-		}, interval);
-		// Clear the interval on unmount (from React API)
-		return () => clearInterval(autoSaveInterval);
-	}, [isValid, isDirty, isSaving, isErrorSaving, onSave, interval]);
+	// If form is valid, has changed, is not currently saving,
+	// did not have an error saving and has a valid action to perform.
+	if (isIdle && isValid && isDirty && !isSaving && !isErrorSaving && onSave) {
+		onSave();
+	}
 
 	//
 	// B. RETRY (IS SAVING AFTER ERROR)

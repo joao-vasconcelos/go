@@ -66,7 +66,6 @@ export default function PatternsExplorerIdPageHeader() {
 				onSave={patternsExplorerContext.saveItem}
 				onClose={patternsExplorerContext.closeItem}
 				closeType="back"
-				interval={15000}
 			/>
 			{linesExplorerContext.item_data?.name ?
 				<LinesExplorerLine lineId={linesExplorerContext.item_id} withLink={false} /> :
