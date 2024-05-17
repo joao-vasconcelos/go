@@ -1332,7 +1332,7 @@
 		},
 		"no_data": "Selecione um Modelo de Exportação"
 	},
-	"ExportsExplorerFormGtfsV29": {
+	"ExportsExplorerFormGtfsReferenceV29": {
 		"operations": {
 			"start": {
 				"label": "Iniciar Exportação"
@@ -1389,6 +1389,15 @@
 				"label": "Base de Contagem da Sequência de Paragens",
 				"description": "As paragens de um percurso são ordenadas sequencialmente por um número inteiro. É recomendado que se inicie a contagem com o número '1', no entanto é possível alterar (por exemplo para '0') em casos específicos.",
 				"placeholder": "1"
+			}
+		}
+	},
+	"ExportsExplorerFormGtfsRegionalMergeV1": {
+		"form": {
+			"active_date": {
+				"label": "Data Principal de Exportação",
+				"description": "Os arquivos serão unificados para esta data, rejeitando ou aceitando os serviços de acordo com a sua validade nesta data.",
+				"placeholder": "Escolha uma data..."
 			}
 		}
 	},

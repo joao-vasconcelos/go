@@ -15,7 +15,8 @@ import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
 import ExportsExplorerFormHeader from '@/components/ExportsExplorerFormHeader/ExportsExplorerFormHeader';
 import ExportsExplorerFormIntro from '@/components/ExportsExplorerFormIntro/ExportsExplorerFormIntro';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import ExportsExplorerFormGtfsV29 from '@/components/ExportsExplorerFormGtfsV29/ExportsExplorerFormGtfsV29';
+import ExportsExplorerFormGtfsReferenceV29 from '@/components/ExportsExplorerFormGtfsReferenceV29/ExportsExplorerFormGtfsReferenceV29';
+import ExportsExplorerFormGtfsRegionalMergeV1 from '@/components/ExportsExplorerFormGtfsRegionalMergeV1/ExportsExplorerFormGtfsRegionalMergeV1';
 
 /* * */
 
@@ -56,9 +57,9 @@ export default function ExportsExplorerForm() {
 			<Divider />
 
 			{!exportsExplorerContext.form_main.values.kind && <NoDataLabel text={t('no_data')} fill />}
-			{exportsExplorerContext.form_main.values.kind === 'gtfs_v29' && <ExportsExplorerFormGtfsV29 />}
+			{exportsExplorerContext.form_main.values.kind === 'gtfs_v29' && <ExportsExplorerFormGtfsReferenceV29 />}
 			{/* {exportsExplorerContext.form_main.values.kind === 'netex_v1' && <ExportsExplorerFormNetexV1 />} */}
-			{/* {exportsExplorerContext.form_main.values.kind === 'regional_merge_v1' && <ExportsExplorerFormRegionalMergeV1 />} */}
+			{exportsExplorerContext.form_main.values.kind === 'regional_merge_v1' && <ExportsExplorerFormGtfsRegionalMergeV1 />}
 
 			<Divider />
 			<Section>

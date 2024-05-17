@@ -92,7 +92,7 @@ export function ExportsExplorerContextProvider({ children }) {
 	useEffect(() => {
 		setFormState((prev) => ({ ...prev, is_valid: true }));
 		if (formStateMain.values.kind === 'regional_merge_v1') formStateMain.setFieldValue('notify_user', false);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formStateMain.values.kind]);
 
 	//
@@ -118,7 +118,11 @@ export function ExportsExplorerContextProvider({ children }) {
 				};
 				break;
 			case 'netex_v1':
-				requestBody = { ...formStateMainValues, ...formStateNetexV1.values };
+				requestBody = {
+					...formStateMainValues,
+					...formStateNetexV1.values,
+					active_Date: DateTime.fromJSDate(formStateGtfsV29.values.active_date).toFormat('yyyyMMdd'),
+				};
 				break;
 			case 'regional_merge_v1':
 				requestBody = { ...formStateMainValues, ...formStateRegionalMergeV1.values };

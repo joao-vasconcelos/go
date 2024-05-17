@@ -13,13 +13,13 @@ import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
 
 /* * */
 
-export default function ExportsExplorerFormGtfsV29() {
+export default function ExportsExplorerFormGtfsReferenceV29() {
 	//
 
 	//
 	// A. Setup variables
 
-	const t = useTranslations('ExportsExplorerFormGtfsV29');
+	const t = useTranslations('ExportsExplorerFormGtfsReferenceV29');
 	const exportsExplorerContext = useExportsExplorerContext();
 
 	//

@@ -49,5 +49,5 @@ export const ExportFormDefaultNetexV1 = {
 /* * */
 
 export const ExportFormDefaultRegionalMergeV1 = {
-	agency_id: null,
+	active_date: new Date,
 };
