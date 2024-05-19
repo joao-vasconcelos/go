@@ -1,7 +1,7 @@
 {
   "name": "@joao-vasconcelos/go-slamanager-monitor",
   "type": "commonjs",
-  "version": "2024.05.17-0003",
+  "version": "2024.05.19-1205",
   "private": true,
   "main": "index.js",
   "scripts": {
@@ -14,15 +14,15 @@
   "dependencies": {
     "dotenv": "16.4.5",
     "luxon": "3.4.4",
-    "mongodb": "6.6.0",
+    "mongodb": "6.6.2",
     "tunnel-ssh": "5.1.2",
     "@turf/turf": "6.5.0"
   },
   "devDependencies": {
-    "@carrismetropolitana/eslint": "2024.5.6151",
+    "@carrismetropolitana/eslint": "2024.5.71115",
     "@types/luxon": "3.4.2",
-    "@types/node": "20.12.9",
-    "resolve-tspaths": "0.8.18",
+    "@types/node": "20.12.12",
+    "resolve-tspaths": "0.8.19",
     "typescript": "5.4.5"
   }
 }

@@ -532,12 +532,13 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// 8.
 	// Export fare rules and fare attributes files
 
-	const lineIdsMarkedForFinalExport = Array.from(new Set(Array.from(routesMarkedForFinalExport.values()).map((item) => item.line_id)));
-	const allFareRulesExportData = await faresExportRules({ line_codes: lineIdsMarkedForFinalExport });
+	const lineCodesMarkedForFinalExport = Array.from(new Set(Array.from(routesMarkedForFinalExport.values()).map((item) => item.line_id)));
+	const routeCodesMarkedForFinalExport = Array.from(new Set(Array.from(routesMarkedForFinalExport.values()).map((item) => item.route_id)));
+	const allFareRulesExportData = await faresExportRules({ line_codes: lineCodesMarkedForFinalExport, route_codes: routeCodesMarkedForFinalExport });
 	await fileWriter.write(exportDocument.workdir, 'fare_rules.txt', allFareRulesExportData);
 
-	const fareIdsMarkedForFinalExport = Array.from(new Set(Array.from(allFareRulesExportData.values()).map((item) => item.fare_id)));
-	const allFareAttributesExportData = await faresExportAttributes({ fare_codes: fareIdsMarkedForFinalExport });
+	const fareCodesMarkedForFinalExport = Array.from(new Set(Array.from(allFareRulesExportData.values()).map((item) => item.fare_id)));
+	const allFareAttributesExportData = await faresExportAttributes({ fare_codes: fareCodesMarkedForFinalExport });
 	await fileWriter.write(exportDocument.workdir, 'fare_attributes.txt', allFareAttributesExportData);
 
 	// 9.

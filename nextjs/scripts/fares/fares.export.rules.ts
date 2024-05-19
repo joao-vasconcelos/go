@@ -11,6 +11,8 @@ import { FareModel } from '@/schemas/Fare/model';
 interface FaresExportRulesOptions {
 	line_ids?: string[];
 	line_codes?: string[];
+	route_ids?: string[];
+	route_codes?: string[];
 	forced_agency_id?: string;
 }
 
@@ -29,8 +31,14 @@ export default async function faresExportRules(options: FaresExportRulesOptions)
 	// Setup filter based on options
 
 	let linesQueryFilter = {};
-	if (options?.line_ids && options.line_ids.length > 0) linesQueryFilter = { _id: { $in: options.line_ids } };
-	else if (options?.line_codes && options.line_codes.length > 0) linesQueryFilter = { code: { $in: options.line_codes } };
+
+	if (options?.line_ids && options.line_ids.length > 0) {
+		linesQueryFilter = { _id: { $in: options.line_ids } };
+	}
+
+	if (options?.line_codes && options.line_codes.length > 0) {
+		linesQueryFilter = { code: { $in: options.line_codes } };
+	}
 
 	// 2.
 	// Get all lines and routes from the database
@@ -44,6 +52,14 @@ export default async function faresExportRules(options: FaresExportRulesOptions)
 
 	for (const lineData of allLinesData) {
 		for (const routeData of lineData.routes) {
+			//
+
+			if (options?.route_codes && options.route_codes.length > 0) {
+				if (!options.route_codes.includes(routeData.code)) {
+					continue;
+				}
+			}
+
 			for (const onboardFareData of lineData.onboard_fares) {
 				//
 				if (options?.forced_agency_id) {
