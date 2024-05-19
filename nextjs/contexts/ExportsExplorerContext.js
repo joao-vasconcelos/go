@@ -121,11 +121,14 @@ export function ExportsExplorerContextProvider({ children }) {
 				requestBody = {
 					...formStateMainValues,
 					...formStateNetexV1.values,
-					active_Date: DateTime.fromJSDate(formStateGtfsV29.values.active_date).toFormat('yyyyMMdd'),
 				};
 				break;
 			case 'regional_merge_v1':
-				requestBody = { ...formStateMainValues, ...formStateRegionalMergeV1.values };
+				requestBody = {
+					...formStateMainValues,
+					...formStateRegionalMergeV1.values,
+					active_date: DateTime.fromJSDate(formStateRegionalMergeV1.values.active_date).toFormat('yyyyMMdd'),
+				};
 				break;
 			}
 			// Perform the API call
