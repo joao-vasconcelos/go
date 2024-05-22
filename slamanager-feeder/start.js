@@ -107,7 +107,8 @@ export default async () => {
 				// valid on a different month. The validity dates will be used to clip the calendars and only saved the actual part
 				// of the plan that was actually active in that period.
 
-				const todayDateString = DateTime.now().startOf('day').toFormat('yyyyMMdd');
+				const startDateString = '20240501'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
+				const endDateString = '20240531'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
 
 				// 4.4.
 				// Setup a temporary location to extract each GTFS archive
@@ -147,15 +148,11 @@ export default async () => {
 					const parseEachRow = async (data) => {
 						//
 						// Skip if this row's date is before the archive's start date or after the archive's end date
-						if (data.date < archiveData.start_date || data.date > archiveData.end_date || data.date > todayDateString) return;
+						if (data.date < archiveData.start_date || data.date > archiveData.end_date || data.date < startDateString || data.date > endDateString) return;
 
-						// Parse this row's date
-						// const rowDateObject = DateTime.fromFormat(data.date, 'yyyyMMdd').toJSDate();
-						// Skip if this row's date is before the archive's start date or after the archive's end date
-						// if (rowDateObject < archiveStartDate || rowDateObject > archiveEndDate || rowDateObject > todayDateString) return;
 						// Get the previously saved calendar
 						const savedCalendar = savedCalendarDates.get(data.service_id);
-						//
+
 						if (savedCalendar) {
 							// If this service_id was previously saved, add the current date to it
 							savedCalendarDates.set(data.service_id, Array.from(new Set([...savedCalendar, data.date])));
@@ -468,8 +465,8 @@ export default async () => {
 						// Check if this hashed trip already exists. If it does not exist, save it to the database.
 
 						hashedTripData.code = crypto.createHash('sha256').update(JSON.stringify(hashedTripData)).digest('hex');
-						const currentSpineAlreadyExists = await SLAMANAGERDB.HashedTrip.findOne({ code: hashedTripData.code });
-						if (!currentSpineAlreadyExists) await hashedTripsDbWritter.write(hashedTripData, { upsert: true, filter: { code: hashedTripData.code } });
+						const currentHashedTripAlreadyExists = await SLAMANAGERDB.HashedTrip.findOne({ code: hashedTripData.code });
+						if (!currentHashedTripAlreadyExists) await hashedTripsDbWritter.write(hashedTripData, { upsert: true, filter: { code: hashedTripData.code } });
 						createdHashedTripCodes.add(hashedTripData.code);
 
 						// 4.13.4.
@@ -486,8 +483,8 @@ export default async () => {
 						// Check if this hashed shape already exists. If it does not exist, save it to the database.
 
 						hashedShapeData.code = crypto.createHash('sha256').update(JSON.stringify(hashedShapeData)).digest('hex');
-						const currentShapeAlreadyExists = await SLAMANAGERDB.HashedShape.findOne({ code: hashedShapeData.code });
-						if (!currentShapeAlreadyExists) await hashedShapesDbWritter.write(hashedShapeData, { upsert: true, filter: { code: hashedShapeData.code } });
+						const currentHashedShapeAlreadyExists = await SLAMANAGERDB.HashedShape.findOne({ code: hashedShapeData.code });
+						if (!currentHashedShapeAlreadyExists) await hashedShapesDbWritter.write(hashedShapeData, { upsert: true, filter: { code: hashedShapeData.code } });
 						createdHashedShapeCodes.add(hashedShapeData.code);
 
 						// 4.13.6.
@@ -499,7 +496,7 @@ export default async () => {
 								//
 								code: `${archiveData.code}-${routeData.agency_id}-${calendarDate}-${tripData.trip_id}`,
 								//
-								status: 'waiting',
+								status: 'pending',
 								//
 								archive_id: archiveData.code,
 								agency_id: routeData.agency_id,
@@ -530,7 +527,7 @@ export default async () => {
 								//
 								filter: {
 									code: tripAnalysisData.code,
-									// status: 'waiting',
+									// status: 'pending',
 								},
 								//
 							};
