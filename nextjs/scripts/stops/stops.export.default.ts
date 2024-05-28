@@ -4,15 +4,18 @@ import { StopModel } from '@/schemas/Stop/model';
 import { StopPropertyWheelchairBoarding } from '@/schemas/Stop/options';
 import { MunicipalityOptions } from '@/schemas/Municipality/options';
 import { PatternModel } from '@/schemas/Pattern/model';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { LineModel } from '@/schemas/Line/model';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AgencyModel } from '@/schemas/Agency/model';
+import { MunicipalityModel } from '@/schemas/Municipality/model';
 
 /* * */
 
 export default async function stopsExportDefault() {
 	//
+
+	LineModel;
+	AgencyModel;
+	MunicipalityModel;
 
 	// 1.
 	// Get all stops from the database
