@@ -6,8 +6,8 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-	thread_id: '',
 	content: '',
-	sent_by: '',
 	files: [],
+	sent_by: '',
+	thread_id: '',
 };

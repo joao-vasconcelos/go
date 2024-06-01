@@ -5,124 +5,124 @@ import mongoose from 'mongoose';
 /* * */
 
 export const IssueSchema = new mongoose.Schema({
+	assigned_to: {
+		ref: 'User',
+		type: mongoose.Schema.Types.ObjectId,
+	},
 	//
 	code: {
-		type: String,
 		maxlength: 5,
+		type: String,
+	},
+	//
+	comments: [
+		{
+			created_at: {
+				default: Date.now,
+				type: Date,
+			},
+			created_by: {
+				ref: 'User',
+				type: mongoose.Schema.Types.ObjectId,
+			},
+			text: {
+				maxlength: 5000,
+				type: String,
+			},
+		},
+	],
+	created_at: {
+		default: Date.now,
+		type: Date,
 	},
 	//
 	created_by: {
-		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
-	},
-	created_at: {
-		type: Date,
-		default: Date.now,
-	},
-	//
-	title: {
-		type: String,
-		maxlength: 100,
-	},
-	summary: {
-		type: String,
-		maxlength: 5000,
-	},
-	tags: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Tag',
-		},
-	],
-	//
-	status: {
-		type: String,
-		maxlength: 50,
-	},
-	priority: {
-		type: String,
-		maxlength: 50,
+		type: mongoose.Schema.Types.ObjectId,
 	},
 	due_date: {
 		type: Date,
 	},
-	assigned_to: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-	},
 	//
-	related_lines: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Line',
-		},
-	],
-	related_stops: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Stop',
-		},
-	],
-	related_reports: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Report',
-		},
-	],
-	related_issues: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Issue',
-		},
-	],
+	is_locked: {
+		type: Boolean,
+	},
 	//
 	media: [
 		{
-			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Media',
-		},
-	],
-	//
-	comments: [
-		{
-			created_by: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'User',
-			},
-			created_at: {
-				type: Date,
-				default: Date.now,
-			},
-			text: {
-				type: String,
-				maxlength: 5000,
-			},
+			type: mongoose.Schema.Types.ObjectId,
 		},
 	],
 	//
 	milestones: [
 		{
-			created_by: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'User',
-			},
 			created_at: {
-				type: Date,
 				default: Date.now,
+				type: Date,
+			},
+			created_by: {
+				ref: 'User',
+				type: mongoose.Schema.Types.ObjectId,
 			},
 			type: {
-				type: String,
 				maxlength: 50,
+				type: String,
 			},
 			value: {
-				type: String,
 				maxlength: 100,
+				type: String,
 			},
 		},
 	],
+	priority: {
+		maxlength: 50,
+		type: String,
+	},
+	related_issues: [
+		{
+			ref: 'Issue',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+	],
 	//
-	is_locked: {
-		type: Boolean,
+	related_lines: [
+		{
+			ref: 'Line',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+	],
+	related_reports: [
+		{
+			ref: 'Report',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+	],
+	related_stops: [
+		{
+			ref: 'Stop',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+	],
+	//
+	status: {
+		maxlength: 50,
+		type: String,
+	},
+	summary: {
+		maxlength: 5000,
+		type: String,
+	},
+	tags: [
+		{
+			ref: 'Tag',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+	],
+	//
+	title: {
+		maxlength: 100,
+		type: String,
 	},
 	//
 });

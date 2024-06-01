@@ -1,11 +1,11 @@
 /* * */
 
 export const ExportDefault = {
+	filename: '',
 	kind: null,
-	status: 'PROCESSING',
 	progress_current: 0,
 	progress_total: 0,
-	filename: '',
+	status: 'PROCESSING',
 	workdir: '',
 };
 
@@ -20,13 +20,13 @@ export const ExportFormDefault = {
 
 export const ExportFormDefaultGtfsV29 = {
 	agency_id: null,
-	lines_include: [],
-	lines_exclude: [],
-	feed_start_date: null,
-	feed_end_date: null,
-	clip_calendars: true,
-	calendars_clip_start_date: null,
 	calendars_clip_end_date: null,
+	calendars_clip_start_date: null,
+	clip_calendars: true,
+	feed_end_date: null,
+	feed_start_date: null,
+	lines_exclude: [],
+	lines_include: [],
 	numeric_calendar_codes: false,
 	stop_sequence_start: 1,
 };
@@ -35,13 +35,13 @@ export const ExportFormDefaultGtfsV29 = {
 
 export const ExportFormDefaultNetexV1 = {
 	agency_id: null,
-	lines_included: [],
-	lines_excluded: [],
-	feed_start_date: null,
-	feed_end_date: null,
-	clip_calendars: true,
-	calendars_clip_start_date: null,
 	calendars_clip_end_date: null,
+	calendars_clip_start_date: null,
+	clip_calendars: true,
+	feed_end_date: null,
+	feed_start_date: null,
+	lines_excluded: [],
+	lines_included: [],
 	numeric_calendar_codes: false,
 	stop_sequence_start: 1,
 };
@@ -49,5 +49,5 @@ export const ExportFormDefaultNetexV1 = {
 /* * */
 
 export const ExportFormDefaultRegionalMergeV1 = {
-	active_date: new Date,
+	active_date: new Date(),
 };

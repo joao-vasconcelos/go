@@ -2,20 +2,20 @@
 
 /* * */
 
-import useSWR from 'swr';
-import doSearch from '@/services/doSearch';
-import { useRouter } from '@/translations/navigation';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import isAllowed from '@/authentication/isAllowed';
-import { useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
-import { useForm, yupResolver } from '@mantine/form';
-import { PatternValidation } from '@/schemas/Pattern/validation';
-import { PatternDefault, PatternPathDefault, PatternScheduleDefault, PatternShapePointDefault } from '@/schemas/Pattern/default';
-import populate from '@/services/populate';
-import API from '@/services/API';
 import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
 import { useRoutesExplorerContext } from '@/contexts/RoutesExplorerContext';
+import { PatternDefault, PatternPathDefault, PatternScheduleDefault, PatternShapePointDefault } from '@/schemas/Pattern/default';
+import { PatternValidation } from '@/schemas/Pattern/validation';
+import API from '@/services/API';
+import doSearch from '@/services/doSearch';
+import populate from '@/services/populate';
+import { useRouter } from '@/translations/navigation';
+import { useForm, yupResolver } from '@mantine/form';
+import { useParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -29,25 +29,25 @@ export function usePatternsExplorerContext() {
 
 const initialDataState = {
 	//
+	all_zones_data: [],
+	//
 	is_error: false,
 	is_loading: false,
-	//
-	all_zones_data: [],
 	//
 };
 
 const initialPageState = {
 	//
-	is_error: false,
-	is_loading: false,
-	is_saving: false,
-	is_error_saving: false,
-	//
-	is_read_only: false,
-	//
 	active_section: null,
 	//
 	is_admin: false,
+	//
+	is_error: false,
+	is_error_saving: false,
+	is_loading: false,
+	//
+	is_read_only: false,
+	is_saving: false,
 	//
 };
 
@@ -75,11 +75,11 @@ export function PatternsExplorerContextProvider({ children }) {
 	// C. Setup form
 
 	const formState = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: PatternDefault,
+		validate: yupResolver(PatternValidation),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(PatternValidation),
-		initialValues: PatternDefault,
 	});
 
 	//
@@ -96,7 +96,7 @@ export function PatternsExplorerContextProvider({ children }) {
 	// E. Transform data
 
 	useEffect(() => {
-		setPageState((prev) => ({ ...prev, is_loading: itemLoading }));
+		setPageState(prev => ({ ...prev, is_loading: itemLoading }));
 	}, [itemLoading]);
 
 	useEffect(() => {
@@ -104,10 +104,10 @@ export function PatternsExplorerContextProvider({ children }) {
 		if (!allZonesData) return;
 		// Filter items based on search query
 		const allZonesDataFormatted = allZonesData.map((item) => {
-			return { value: item._id, label: item.name || '-' };
+			return { label: item.name || '-', value: item._id };
 		});
 		// Update state
-		setDataState((prev) => ({ ...prev, all_zones_data: allZonesDataFormatted }));
+		setDataState(prev => ({ ...prev, all_zones_data: allZonesDataFormatted }));
 		//
 	}, [allZonesData]);
 
@@ -116,26 +116,26 @@ export function PatternsExplorerContextProvider({ children }) {
 		if (!allCalendarsData) return;
 		// Filter items based on search query
 		const allCalendarsDataFormatted = allCalendarsData.map((item) => {
-			return { value: item._id, label: `[${item.code}] ${item.name || '-'}` };
+			return { label: `[${item.code}] ${item.name || '-'}`, value: item._id };
 		});
 		// Update state
-		setDataState((prev) => ({ ...prev, all_calendars_data: allCalendarsDataFormatted }));
+		setDataState(prev => ({ ...prev, all_calendars_data: allCalendarsDataFormatted }));
 		//
 	}, [allCalendarsData]);
 
 	useEffect(() => {
 		// Check if the use is allowed to edit the current page
-		const isReadOnly = !isAllowed(sessionData, [{ scope: 'lines', action: 'edit' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving || linesExplorerContext.item_data?.is_locked || routesExplorerContext.item_data?.is_locked;
+		const isReadOnly = !isAllowed(sessionData, [{ action: 'edit', scope: 'lines' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving || linesExplorerContext.item_data?.is_locked || routesExplorerContext.item_data?.is_locked;
 		// Update state
-		setPageState((prev) => ({ ...prev, is_read_only: isReadOnly }));
+		setPageState(prev => ({ ...prev, is_read_only: isReadOnly }));
 		//
 	}, [itemData?.is_locked, linesExplorerContext.item_data?.is_locked, pageState.is_saving, routesExplorerContext.item_data?.is_locked, sessionData]);
 
 	useEffect(() => {
 		// Check if the use is allowed to edit the current page
-		const isAdmin = isAllowed(sessionData, [{ scope: 'configs', action: 'admin' }], { handleError: true });
+		const isAdmin = isAllowed(sessionData, [{ action: 'admin', scope: 'configs' }], { handleError: true });
 		// Update state
-		setPageState((prev) => ({ ...prev, is_admin: isAdmin }));
+		setPageState(prev => ({ ...prev, is_admin: isAdmin }));
 		//
 	}, [sessionData]);
 
@@ -173,15 +173,15 @@ export function PatternsExplorerContextProvider({ children }) {
 	// F. Setup actions
 
 	const updateSearchQuery = useCallback((value) => {
-		setDataState((prev) => ({ ...prev, search_query: value }));
+		setDataState(prev => ({ ...prev, search_query: value }));
 	}, []);
 
 	const clearSearchQuery = useCallback(() => {
-		setDataState((prev) => ({ ...prev, search_query: '' }));
+		setDataState(prev => ({ ...prev, search_query: '' }));
 	}, []);
 
 	const updateActiveSection = useCallback((value) => {
-		setPageState((prev) => ({ ...prev, active_section: prev.active_section === value ? null : value }));
+		setPageState(prev => ({ ...prev, active_section: prev.active_section === value ? null : value }));
 	}, []);
 
 	const validateItem = useCallback(async () => {
@@ -190,41 +190,44 @@ export function PatternsExplorerContextProvider({ children }) {
 
 	const saveItem = useCallback(async () => {
 		try {
-			setPageState((prev) => ({ ...prev, is_saving: true, is_error_saving: false }));
-			await API({ service: 'patterns', resourceId: itemId, operation: 'edit', method: 'PUT', body: formState.values });
+			setPageState(prev => ({ ...prev, is_error_saving: false, is_saving: true }));
+			await API({ body: formState.values, method: 'PUT', operation: 'edit', resourceId: itemId, service: 'patterns' });
 			itemMutate(formState.values);
 			formState.resetDirty();
-			setPageState((prev) => ({ ...prev, is_saving: false }));
-		} catch (error) {
+			setPageState(prev => ({ ...prev, is_saving: false }));
+		}
+		catch (error) {
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: err }));
+			setPageState(prev => ({ ...prev, is_error_saving: error, is_saving: false }));
 		}
 	}, [formState, itemId, itemMutate]);
 
 	const lockItem = useCallback(async () => {
 		try {
-			await API({ service: 'patterns', resourceId: itemId, operation: 'lock', method: 'PUT' });
+			await API({ method: 'PUT', operation: 'lock', resourceId: itemId, service: 'patterns' });
 			itemMutate();
-		} catch (error) {
+		}
+		catch (error) {
 			itemMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: err }));
+			setPageState(prev => ({ ...prev, is_error: error }));
 		}
 	}, [itemId, itemMutate]);
 
 	const deleteItem = useCallback(async () => {
 		try {
-			setPageState((prev) => ({ ...prev, is_error: false }));
-			await API({ service: 'patterns', resourceId: itemId, operation: 'delete', method: 'DELETE' });
+			setPageState(prev => ({ ...prev, is_error: false }));
+			await API({ method: 'DELETE', operation: 'delete', resourceId: itemId, service: 'patterns' });
 			router.push(`/lines/${linesExplorerContext.item_id}/${routesExplorerContext.item_id}`);
 			formState.resetDirty();
 			itemMutate();
 			parentRouteMutate();
-		} catch (error) {
+		}
+		catch (error) {
 			itemMutate();
 			parentRouteMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: err }));
+			setPageState(prev => ({ ...prev, is_error: error }));
 		}
 	}, [formState, itemId, itemMutate, linesExplorerContext.item_id, parentRouteMutate, router, routesExplorerContext.item_id]);
 
@@ -234,7 +237,7 @@ export function PatternsExplorerContextProvider({ children }) {
 
 	const importPatternFromGtfs = useCallback(
 		async (importedPattern) => {
-			await API({ service: 'patterns', resourceId: itemId, operation: 'import', method: 'PUT', body: importedPattern });
+			await API({ body: importedPattern, method: 'PUT', operation: 'import', resourceId: itemId, service: 'patterns' });
 			itemMutate();
 			formState.resetDirty();
 		},
@@ -246,26 +249,26 @@ export function PatternsExplorerContextProvider({ children }) {
 
 	const contextObject = useMemo(
 		() => ({
+			clearSearchQuery: clearSearchQuery,
+			closeItem: closeItem,
 			//
 			data: dataState,
-			page: pageState,
+			deleteItem: deleteItem,
 			form: formState,
 			//
-			item_id: itemId,
+			importPatternFromGtfs: importPatternFromGtfs,
 			item_data: itemData,
 			//
-			updateSearchQuery: updateSearchQuery,
-			clearSearchQuery: clearSearchQuery,
+			item_id: itemId,
+			lockItem: lockItem,
+			page: pageState,
+			saveItem: saveItem,
 			//
 			updateActiveSection: updateActiveSection,
 			//
-			validateItem: validateItem,
-			saveItem: saveItem,
-			lockItem: lockItem,
-			deleteItem: deleteItem,
-			closeItem: closeItem,
+			updateSearchQuery: updateSearchQuery,
 			//
-			importPatternFromGtfs: importPatternFromGtfs,
+			validateItem: validateItem,
 			//
 		}),
 		[dataState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, updateActiveSection, validateItem, saveItem, lockItem, deleteItem, closeItem, importPatternFromGtfs],

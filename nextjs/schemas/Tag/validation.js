@@ -9,6 +9,6 @@ export const TagValidation = yup.object({
 		.string()
 		.required()
 		.max(20)
-		.transform((value) => value.replace(/  +/g, ' ').trim())
+		.transform(value => value.replace(/  +/g, ' ').trim())
 		.uppercase(),
 });

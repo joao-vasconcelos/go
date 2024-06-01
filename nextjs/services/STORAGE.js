@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
+
 import generator from './generator';
 
 /* * */
@@ -9,7 +10,22 @@ import generator from './generator';
 class STORAGE {
 	//
 
-	allowed_scopes = { alerts: 'alerts', issues: 'issues', stops: 'stops', exports: 'exports', archives: 'archives', reports: 'reports' };
+	allowed_scopes = { alerts: 'alerts', archives: 'archives', exports: 'exports', issues: 'issues', reports: 'reports', stops: 'stops' };
+
+	exists(scope, filename) {
+		const scopeDirPath = this.getScopeDirPath(scope);
+		return fs.existsSync(`${scopeDirPath}/${filename}`);
+	}
+
+	getFileExtension(filepath, includeDot = true) {
+		if (includeDot) return path.extname(filepath).toLowerCase();
+		else return path.extname(filepath).replace('.', '').toLowerCase();
+	}
+
+	getFilePath(scope, filename) {
+		const scopeDirPath = this.getScopeDirPath(scope);
+		return `${scopeDirPath}/${filename}`;
+	}
 
 	getScopeDirPath(scope) {
 		// Get the scope path from allowed list
@@ -25,38 +41,9 @@ class STORAGE {
 		//
 	}
 
-	setupWorkdir(scope, id = generator({ length: 12 })) {
-		// Get the scope dir path
-		const scopedPath = this.getScopeDirPath(scope);
-		// Setup the working directory for the given scope and id
-		const workdir = `${scopedPath}/${id}`;
-		// Out of an abundance of caution, delete the directory and all its contents if it already exists
-		if (fs.existsSync(workdir)) fs.rmSync(workdir, { recursive: true, force: true });
-		// Create a fresh empty directory in the given path
-		fs.mkdirSync(workdir, { recursive: true });
-		// Return workdir to the caller
-		return workdir;
-		//
-	}
-
-	getFilePath(scope, filename) {
-		const scopeDirPath = this.getScopeDirPath(scope);
-		return `${scopeDirPath}/${filename}`;
-	}
-
-	exists(scope, filename) {
-		const scopeDirPath = this.getScopeDirPath(scope);
-		return fs.existsSync(`${scopeDirPath}/${filename}`);
-	}
-
 	moveFile(scope, filename, originalPath) {
 		const originalData = fs.readFileSync(originalPath);
 		return this.saveFile(scope, filename, originalData);
-	}
-
-	saveFile(scope, filename, data) {
-		const scopeDirPath = this.getScopeDirPath(scope);
-		fs.writeFileSync(`${scopeDirPath}/${filename}`, data);
 	}
 
 	removeFile(scope, filename) {
@@ -64,9 +51,23 @@ class STORAGE {
 		return fs.rmSync(`${scopeDirPath}/${filename}`, { force: true });
 	}
 
-	getFileExtension(filepath, includeDot = true) {
-		if (includeDot) return path.extname(filepath).toLowerCase();
-		else return path.extname(filepath).replace('.', '').toLowerCase();
+	saveFile(scope, filename, data) {
+		const scopeDirPath = this.getScopeDirPath(scope);
+		fs.writeFileSync(`${scopeDirPath}/${filename}`, data);
+	}
+
+	setupWorkdir(scope, id = generator({ length: 12 })) {
+		// Get the scope dir path
+		const scopedPath = this.getScopeDirPath(scope);
+		// Setup the working directory for the given scope and id
+		const workdir = `${scopedPath}/${id}`;
+		// Out of an abundance of caution, delete the directory and all its contents if it already exists
+		if (fs.existsSync(workdir)) fs.rmSync(workdir, { force: true, recursive: true });
+		// Create a fresh empty directory in the given path
+		fs.mkdirSync(workdir, { recursive: true });
+		// Return workdir to the caller
+		return workdir;
+		//
 	}
 
 	//
@@ -74,7 +75,7 @@ class STORAGE {
 
 /* * */
 
-const storage = new STORAGE;
+const storage = new STORAGE();
 
 /* * */
 

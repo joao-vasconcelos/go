@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 /* * */
 
-export default function AppButtonDelete({ onClick = async () => {}, disabled }) {
+export default function AppButtonDelete({ disabled, onClick = async () => null }) {
 	//
 
 	//
@@ -33,15 +33,15 @@ export default function AppButtonDelete({ onClick = async () => {}, disabled }) 
 
 	if (isLoading) {
 		return (
-			<ActionIcon variant="light" size="lg" loading>
+			<ActionIcon size="lg" variant="light" loading>
 				<IconCircleDotted size={20} />
 			</ActionIcon>
 		);
 	}
 
 	return (
-		<Tooltip label={t('label')} color="red" position="bottom" disabled={disabled} withArrow>
-			<ActionIcon color="red" variant="light" size="lg" onClick={handleClick} disabled={disabled}>
+		<Tooltip color="red" disabled={disabled} label={t('label')} position="bottom" withArrow>
+			<ActionIcon color="red" disabled={disabled} onClick={handleClick} size="lg" variant="light">
 				<IconTrash size={20} />
 			</ActionIcon>
 		</Tooltip>

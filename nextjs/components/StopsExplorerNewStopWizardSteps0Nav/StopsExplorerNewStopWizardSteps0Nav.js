@@ -2,9 +2,10 @@
 
 /* * */
 
+import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
 import { Button } from '@mantine/core';
 import { useTranslations } from 'next-intl';
-import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
+
 import styles from './StopsExplorerNewStopWizardSteps0Nav.module.css';
 
 /* * */
@@ -30,10 +31,10 @@ export default function StopsExplorerNewStopWizardSteps0Nav() {
 
 	return (
 		<div className={styles.container}>
-			<Button variant="light" color="red" onClick={handleCloseWizard}>
+			<Button color="red" onClick={handleCloseWizard} variant="light">
 				{t('cancel.label')}
 			</Button>
-			<Button onClick={stopsExplorerNewStopWizardContext.advanceWizardToNextStep} variant="filled" disabled={!stopsExplorerNewStopWizardContext.wizard.step_0_complete}>
+			<Button disabled={!stopsExplorerNewStopWizardContext.wizard.step_0_complete} onClick={stopsExplorerNewStopWizardContext.advanceWizardToNextStep} variant="filled">
 				{t('next_step.label')}
 			</Button>
 		</div>

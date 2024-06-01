@@ -2,14 +2,14 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
 import { useRouter } from '@/translations/navigation';
-import { Tooltip, ActionIcon } from '@mantine/core';
+import { ActionIcon, Tooltip } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
-export default function AppButtonClose({ onClick = () => {}, href = '' }) {
+export default function AppButtonClose({ href = '', onClick = () => null }) {
 	//
 
 	//
@@ -30,8 +30,8 @@ export default function AppButtonClose({ onClick = () => {}, href = '' }) {
 	// C. Render components
 
 	return (
-		<Tooltip label={t('label')} color="gray" position="bottom" withArrow>
-			<ActionIcon size="lg" onClick={handleClick} variant="subtle" color="gray">
+		<Tooltip color="gray" label={t('label')} position="bottom" withArrow>
+			<ActionIcon color="gray" onClick={handleClick} size="lg" variant="subtle">
 				<IconX size={20} />
 			</ActionIcon>
 		</Tooltip>

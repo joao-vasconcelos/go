@@ -2,10 +2,10 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
+import { useReportsExplorerSlaContext } from '@/contexts/ReportsExplorerSlaContext';
 import { ActionIcon, TextInput } from '@mantine/core';
 import { IconSearch, IconX } from '@tabler/icons-react';
-import { useReportsExplorerSlaContext } from '@/contexts/ReportsExplorerSlaContext';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -34,18 +34,20 @@ export default function ReportsExplorerSlaHeaderToolbar() {
 
 	return (
 		<TextInput
-			placeholder={t('search.placeholder')}
 			leftSection={<IconSearch size={20} />}
+			onChange={handleTableSearchQueryChange}
+			placeholder={t('search.placeholder')}
 			size="xl"
-			w="100%"
 			styles={{ input: { border: 0 } }}
 			value={reportsExplorerSlaContext.form.table_search_query}
-			onChange={handleTableSearchQueryChange}
+			w="100%"
 			rightSection={
-				reportsExplorerSlaContext.form.table_search_query.length > 0 &&
-              <ActionIcon onClick={handleClearSearchChange} variant="subtle" color="gray">
-              	<IconX size={20} />
-              </ActionIcon>
+				reportsExplorerSlaContext.form.table_search_query.length > 0
+				&& (
+					<ActionIcon color="gray" onClick={handleClearSearchChange} variant="subtle">
+						<IconX size={20} />
+					</ActionIcon>
+				)
 
 			}
 		/>

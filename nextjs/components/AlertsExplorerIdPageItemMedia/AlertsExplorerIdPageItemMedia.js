@@ -2,10 +2,11 @@
 
 /* * */
 
-import { AlertOptions } from '@/schemas/Alert/options';
-import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
-import MediaExplorerMediaUpload from '@/components/MediaExplorerMediaUpload/MediaExplorerMediaUpload';
 import MediaExplorerMedia from '@/components/MediaExplorerMedia/MediaExplorerMedia';
+import MediaExplorerMediaUpload from '@/components/MediaExplorerMediaUpload/MediaExplorerMediaUpload';
+import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
+import { AlertOptions } from '@/schemas/Alert/options';
+
 import styles from './AlertsExplorerIdPageItemMedia.module.css';
 
 /* * */
@@ -35,10 +36,9 @@ export default function AlertsExplorerIdPageItemMedia() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.mediaList}>
-				{alertsExplorerContext.form.values.media ?
-					<MediaExplorerMedia key={alertsExplorerContext.form.values.media} mediaId={alertsExplorerContext.form.values.media} onDelete={handleMediaDelete} /> :
-					<MediaExplorerMediaUpload storageScope={AlertOptions.storage_scope} onUploadComplete={handleUploadComplete} />
-				}
+				{alertsExplorerContext.form.values.media
+					? <MediaExplorerMedia key={alertsExplorerContext.form.values.media} mediaId={alertsExplorerContext.form.values.media} onDelete={handleMediaDelete} />
+					: <MediaExplorerMediaUpload onUploadComplete={handleUploadComplete} storageScope={AlertOptions.storage_scope} />}
 			</div>
 		</div>
 	);

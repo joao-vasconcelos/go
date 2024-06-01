@@ -29,10 +29,10 @@ export default async function datesExportDefault() {
 
 		return {
 			date: item.date,
-			period: item.period,
 			day_type: thisDateDayType,
-			holiday: item.is_holiday ? '1' : '0',
 			description: '',
+			holiday: item.is_holiday ? '1' : '0',
+			period: item.period,
 		};
 
 		//

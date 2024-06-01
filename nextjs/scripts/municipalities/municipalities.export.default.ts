@@ -22,18 +22,18 @@ export default async function municipalitiesExportDefault() {
 		// 2.1.
 		// Get associated data
 
-		const thisMunicipalityDistrictName = MunicipalityOptions.district.find((district) => district.value === item.district)?.label || '-';
-		const thisMunicipalityRegionName = MunicipalityOptions.region.find((region) => region.value === item.region)?.label || '-';
+		const thisMunicipalityDistrictName = MunicipalityOptions.district.find(district => district.value === item.district)?.label || '-';
+		const thisMunicipalityRegionName = MunicipalityOptions.region.find(region => region.value === item.region)?.label || '-';
 
 		// 2.2.
 		// Build the final municipality object
 
 		return {
-			municipality_prefix: item.prefix,
-			municipality_id: item.code,
-			municipality_name: item.name,
 			district_id: item.district,
 			district_name: thisMunicipalityDistrictName,
+			municipality_id: item.code,
+			municipality_name: item.name,
+			municipality_prefix: item.prefix,
 			region_id: item.region,
 			region_name: thisMunicipalityRegionName,
 		};

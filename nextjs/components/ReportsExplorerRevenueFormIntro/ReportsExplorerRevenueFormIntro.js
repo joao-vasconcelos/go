@@ -1,8 +1,8 @@
 /* * */
 
-import { useTranslations } from 'next-intl';
 import { Section } from '@/components/Layouts/Layouts';
 import Text from '@/components/Text/Text';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -19,7 +19,7 @@ export default function ReportsExplorerRevenueFormSummary() {
 
 	return (
 		<Section>
-			<Text size="h4" color="muted">
+			<Text color="muted" size="h4">
 				{t('text')}
 			</Text>
 		</Section>

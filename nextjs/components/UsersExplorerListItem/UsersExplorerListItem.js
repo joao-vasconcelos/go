@@ -2,10 +2,10 @@
 
 /* * */
 
-import { useParams } from 'next/navigation';
-import { useRouter } from '@/translations/navigation';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser';
+import { useRouter } from '@/translations/navigation';
+import { useParams } from 'next/navigation';
 
 /* * */
 
@@ -30,8 +30,8 @@ export default function UsersExplorerListItem({ item }) {
 	// C. Render components
 
 	return (
-		<BaseListItem onClick={handleClick} isSelected={user_id === item._id} withChevron>
-			<UsersExplorerUser userId={item._id} type="full" withHoverCard={false} />
+		<BaseListItem isSelected={user_id === item._id} onClick={handleClick} withChevron>
+			<UsersExplorerUser type="full" userId={item._id} withHoverCard={false} />
 		</BaseListItem>
 	);
 

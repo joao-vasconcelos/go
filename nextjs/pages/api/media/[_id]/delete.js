@@ -1,10 +1,10 @@
 /* * */
 
-import mongodb from '@/services/OFFERMANAGERDB';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import STORAGE from '@/services/STORAGE';
 import { MediaModel } from '@/schemas/Media/model';
+import mongodb from '@/services/OFFERMANAGERDB';
+import STORAGE from '@/services/STORAGE';
 
 /* * */
 
@@ -29,8 +29,9 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-		isAllowed(sessionData, [{ scope: 'media', action: 'delete' }]);
-	} catch (error) {
+		isAllowed(sessionData, [{ action: 'delete', scope: 'media' }]);
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
 	}
@@ -40,7 +41,8 @@ export default async function handler(req, res) {
 
 	try {
 		await mongodb.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'MongoDB connection error.' });
 	}
@@ -53,7 +55,8 @@ export default async function handler(req, res) {
 		if (!deletedDocument) return await res.status(404).json({ message: `Media with _id "${req.query._id}" not found.` });
 		STORAGE.removeFile(deletedDocument.storage_scope, `${deletedDocument._id}${deletedDocument.file_extension}`);
 		return await res.status(200).send(deletedDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot delete this Media.' });
 	}

@@ -2,9 +2,9 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 import ListFooter from '@/components/ListFooter/ListFooter';
+import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
+import { useTranslations } from 'next-intl';
 
 /* * */
 

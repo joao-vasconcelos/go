@@ -1,9 +1,9 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { LineModel } from '@/schemas/Line/model';
 import { TypologyModel } from '@/schemas/Typology/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -20,7 +20,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -29,8 +30,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'lines', action: 'view' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'view', scope: 'lines' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -40,7 +42,8 @@ export default async function handler(req, res) {
 
 	try {
 		await LineModel.syncIndexes();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot sync indexes.' });
 	}
@@ -51,7 +54,8 @@ export default async function handler(req, res) {
 	try {
 		const allDocuments = await LineModel.find({ agency: { $in: sessionData.user.permissions.lines.view.fields.agencies } }).sort({ code: 1 });
 		return await res.status(200).send(allDocuments);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot list Lines.' });
 	}

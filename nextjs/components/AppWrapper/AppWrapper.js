@@ -1,9 +1,10 @@
 /* * */
 
-import { Link } from '@/translations/navigation';
-import { CMIcon } from '@/components/AppLogos/AppLogos';
 import AppHeader from '@/components/AppHeader/AppHeader';
+import { CMIcon } from '@/components/AppLogos/AppLogos';
 import AppSidebar from '@/components/AppSidebar/AppSidebar';
+import { Link } from '@/translations/navigation';
+
 import styles from './AppWrapper.module.css';
 
 /* * */
@@ -11,7 +12,7 @@ import styles from './AppWrapper.module.css';
 export default function AppWrapper({ children }) {
 	return (
 		<div className={styles.container}>
-			<Link href={'/'} className={styles.appIcon}>
+			<Link className={styles.appIcon} href="/">
 				<CMIcon />
 			</Link>
 			<AppHeader />

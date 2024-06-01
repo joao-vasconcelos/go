@@ -1,11 +1,11 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import generator from '@/services/generator';
+import { LineModel } from '@/schemas/Line/model';
 import { RouteDefault } from '@/schemas/Route/default';
 import { RouteModel } from '@/schemas/Route/model';
-import { LineModel } from '@/schemas/Line/model';
+import generator from '@/services/generator';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -22,7 +22,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -31,8 +32,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'lines', action: 'edit' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'POST', permissions: [{ action: 'edit', scope: 'lines' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -42,7 +44,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = await JSON.parse(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		await res.status(500).json({ message: 'JSON parse error.' });
 		return;
@@ -63,7 +66,8 @@ export default async function handler(req, res) {
 		const newRoute = { ...RouteDefault, code: newRouteCode, parent_line: req.body.parent_line };
 		const createdDocument = await RouteModel(newRoute).save();
 		return await res.status(201).json(createdDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot create this Route.' });
 	}

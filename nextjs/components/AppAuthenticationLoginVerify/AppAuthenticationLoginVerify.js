@@ -30,7 +30,7 @@ export default function AppAuthenticationLoginVerify() {
 	return (
 		<SimpleGrid>
 			<Text align="center">{t('instruction')}</Text>
-			<Button fullWidth variant="light" onClick={handleSignInRetry}>
+			<Button onClick={handleSignInRetry} variant="light" fullWidth>
 				{t('retry.label')}
 			</Button>
 		</SimpleGrid>

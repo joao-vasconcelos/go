@@ -1,18 +1,19 @@
 'use client';
 
-import styles from './HCalendarToggle.module.css';
-import { useDisclosure } from '@mantine/hooks';
-import { Modal, SimpleGrid } from '@mantine/core';
-import dayjs from 'dayjs';
 import Text from '@/components/Text/Text';
+import { Modal, SimpleGrid } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import dayjs from 'dayjs';
 
-export default function HCalendarToggle({ date, dateObj, activeDates = [], onToggle, readOnly }) {
+import styles from './HCalendarToggle.module.css';
+
+export default function HCalendarToggle({ activeDates = [], date, dateObj, onToggle, readOnly }) {
 	//
 
 	//
 	// A. Setup variables
 
-	const [isModalPresented, { open: openModal, close: closeModal }] = useDisclosure(false);
+	const [isModalPresented, { close: closeModal, open: openModal }] = useDisclosure(false);
 
 	const dayString = dayjs(date).format('D');
 	const fullDateString = dayjs(date).locale('pt').format('dddd, DD MMM YYYY');
@@ -34,7 +35,7 @@ export default function HCalendarToggle({ date, dateObj, activeDates = [], onTog
 
 	return (
 		<>
-			<Modal opened={isModalPresented} onClose={closeModal} title={fullDateString} size="500px" centered>
+			<Modal onClose={closeModal} opened={isModalPresented} size="500px" title={fullDateString} centered>
 				<SimpleGrid cols={1}>
 					<Text size="h4">Periodo: {dateObj.period}</Text>
 					<Text size="h4">day_type: {dateObj.day_type}</Text>

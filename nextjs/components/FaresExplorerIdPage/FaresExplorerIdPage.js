@@ -2,14 +2,14 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import Pannel from '@/components/Pannel/Pannel';
-import { SimpleGrid, TextInput, NumberInput, Select } from '@mantine/core';
-import { useFaresExplorerContext } from '@/contexts/FaresExplorerContext';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import FaresExplorerIdPageHeader from '@/components/FaresExplorerIdPageHeader/FaresExplorerIdPageHeader';
-import { useMemo } from 'react';
+import Pannel from '@/components/Pannel/Pannel';
+import { useFaresExplorerContext } from '@/contexts/FaresExplorerContext';
 import { FareOptions } from '@/schemas/Fare/options';
+import { NumberInput, Select, SimpleGrid, TextInput } from '@mantine/core';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
 /* * */
 
@@ -28,37 +28,37 @@ export default function FaresExplorerIdPage() {
 
 	const allCurrencyTypesFormatted = useMemo(() => {
 		if (!FareOptions.currency_type) return [];
-		return FareOptions.currency_type.map((item) => ({ value: item, label: fareOptionsLabels(`currency_type.${item}`) }));
+		return FareOptions.currency_type.map(item => ({ label: fareOptionsLabels(`currency_type.${item}`), value: item }));
 	}, [fareOptionsLabels]);
 
 	const allPaymentMethodsFormatted = useMemo(() => {
 		if (!FareOptions.payment_method) return [];
-		return FareOptions.payment_method.map((item) => ({ value: item, label: fareOptionsLabels(`payment_method.${item}`) }));
+		return FareOptions.payment_method.map(item => ({ label: fareOptionsLabels(`payment_method.${item}`), value: item }));
 	}, [fareOptionsLabels]);
 
 	const allTransfersFormatted = useMemo(() => {
 		if (!FareOptions.transfers) return [];
-		return FareOptions.transfers.map((item) => ({ value: item, label: fareOptionsLabels(`transfers.${item}`) }));
+		return FareOptions.transfers.map(item => ({ label: fareOptionsLabels(`transfers.${item}`), value: item }));
 	}, [fareOptionsLabels]);
 
 	//
 	// C. Render components
 
 	return (
-		<Pannel loading={faresExplorerContext.page.is_loading} header={<FaresExplorerIdPageHeader />}>
-			<AppLayoutSection title={t('sections.intro.title')} description={t('sections.intro.description')}>
+		<Pannel header={<FaresExplorerIdPageHeader />} loading={faresExplorerContext.page.is_loading}>
+			<AppLayoutSection description={t('sections.intro.description')} title={t('sections.intro.title')}>
 				<SimpleGrid cols={3}>
 					<TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...faresExplorerContext.form.getInputProps('code')} readOnly={faresExplorerContext.page.isReadOnly} />
 					<TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...faresExplorerContext.form.getInputProps('name')} readOnly={faresExplorerContext.page.isReadOnly} />
 					<TextInput label={t('form.short_name.label')} placeholder={t('form.short_name.placeholder')} {...faresExplorerContext.form.getInputProps('short_name')} readOnly={faresExplorerContext.page.isReadOnly} />
 				</SimpleGrid>
 				<SimpleGrid cols={2}>
-					<NumberInput label={t('form.price.label')} placeholder={t('form.price.placeholder')} precision={2} step={0.05} min={0.0} {...faresExplorerContext.form.getInputProps('price')} readOnly={faresExplorerContext.page.isReadOnly} />
+					<NumberInput label={t('form.price.label')} min={0.0} placeholder={t('form.price.placeholder')} precision={2} step={0.05} {...faresExplorerContext.form.getInputProps('price')} readOnly={faresExplorerContext.page.isReadOnly} />
 					<Select
-						label={t('form.currency_type.label')}
-						placeholder={t('form.currency_type.placeholder')}
-						nothingFoundMessage={t('form.currency_type.nothingFound')}
 						data={allCurrencyTypesFormatted}
+						label={t('form.currency_type.label')}
+						nothingFoundMessage={t('form.currency_type.nothingFound')}
+						placeholder={t('form.currency_type.placeholder')}
 						{...faresExplorerContext.form.getInputProps('currency_type')}
 						readOnly={faresExplorerContext.page.isReadOnly}
 						searchable
@@ -66,19 +66,19 @@ export default function FaresExplorerIdPage() {
 				</SimpleGrid>
 				<SimpleGrid cols={2}>
 					<Select
-						label={t('form.payment_method.label')}
-						placeholder={t('form.payment_method.placeholder')}
-						nothingFoundMessage={t('form.payment_method.nothingFound')}
 						data={allPaymentMethodsFormatted}
+						label={t('form.payment_method.label')}
+						nothingFoundMessage={t('form.payment_method.nothingFound')}
+						placeholder={t('form.payment_method.placeholder')}
 						{...faresExplorerContext.form.getInputProps('payment_method')}
 						readOnly={faresExplorerContext.page.isReadOnly}
 						searchable
 					/>
 					<Select
-						label={t('form.transfers.label')}
-						placeholder={t('form.transfers.placeholder')}
-						nothingFoundMessage={t('form.transfers.nothingFound')}
 						data={allTransfersFormatted}
+						label={t('form.transfers.label')}
+						nothingFoundMessage={t('form.transfers.nothingFound')}
+						placeholder={t('form.transfers.placeholder')}
 						{...faresExplorerContext.form.getInputProps('transfers')}
 						readOnly={faresExplorerContext.page.isReadOnly}
 						searchable

@@ -2,8 +2,9 @@
 
 /* * */
 
-import styles from './MediaExplorerMediaPreviewZip.module.css';
 import { IconFileTypeZip } from '@tabler/icons-react';
+
+import styles from './MediaExplorerMediaPreviewZip.module.css';
 
 /* * */
 

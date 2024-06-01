@@ -1,11 +1,11 @@
 /* * */
 
-import mongodb from '@/services/OFFERMANAGERDB';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import generator from '@/services/generator';
 import { TypologyDefault } from '@/schemas/Typology/default';
 import { TypologyModel } from '@/schemas/Typology/model';
+import mongodb from '@/services/OFFERMANAGERDB';
+import generator from '@/services/generator';
 
 /* * */
 
@@ -30,8 +30,9 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-		isAllowed(sessionData, [{ scope: 'typologies', action: 'create' }]);
-	} catch (error) {
+		isAllowed(sessionData, [{ action: 'create', scope: 'typologies' }]);
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
 	}
@@ -41,7 +42,8 @@ export default async function handler(req, res) {
 
 	try {
 		await mongodb.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'MongoDB connection error.' });
 	}
@@ -56,7 +58,8 @@ export default async function handler(req, res) {
 		}
 		const createdDocument = await TypologyModel(newDocument).save();
 		return await res.status(201).json(createdDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot create this Typology.' });
 	}

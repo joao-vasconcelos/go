@@ -2,10 +2,11 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
-import styles from './IssuesExplorerIdPageItemCreatedByAt.module.css';
+import { useTranslations } from 'next-intl';
+
 import UsersExplorerUser from '../UsersExplorerUser/UsersExplorerUser';
+import styles from './IssuesExplorerIdPageItemCreatedByAt.module.css';
 
 /* * */
 

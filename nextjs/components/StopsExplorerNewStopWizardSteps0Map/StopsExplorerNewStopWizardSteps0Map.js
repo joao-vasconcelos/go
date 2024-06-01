@@ -2,12 +2,13 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useEffect, useMemo, useState } from 'react';
 import OSMMap from '@/components/OSMMap/OSMMap';
-import { useMap, Source, Layer } from 'react-map-gl/maplibre';
-import styles from './StopsExplorerNewStopWizardSteps0Map.module.css';
 import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
+import { useEffect, useMemo, useState } from 'react';
+import { Layer, Source, useMap } from 'react-map-gl/maplibre';
+import useSWR from 'swr';
+
+import styles from './StopsExplorerNewStopWizardSteps0Map.module.css';
 
 /* * */
 
@@ -44,21 +45,21 @@ export default function StopsExplorerNewStopWizardSteps0Map() {
 	const allStopsMapData = useMemo(() => {
 		if (allStopsData) {
 			return {
-				type: 'FeatureCollection',
-				features: allStopsData.map((stop) => ({
-					type: 'Feature',
+				features: allStopsData.map(stop => ({
 					geometry: {
-						type: 'Point',
 						coordinates: [parseFloat(stop.longitude), parseFloat(stop.latitude)],
+						type: 'Point',
 					},
 					properties: {
 						_id: stop._id,
 						code: stop.code,
-						name: stop.name,
 						latitude: stop.latitude,
 						longitude: stop.longitude,
+						name: stop.name,
 					},
+					type: 'Feature',
 				})),
+				type: 'FeatureCollection',
 			};
 		}
 		return null;
@@ -67,11 +68,11 @@ export default function StopsExplorerNewStopWizardSteps0Map() {
 	const selectedCoordinatesMapData = useMemo(() => {
 		if (stopsExplorerNewStopWizardContext.newStop.latitude && stopsExplorerNewStopWizardContext.newStop.longitude) {
 			return {
-				type: 'Feature',
 				geometry: {
-					type: 'Point',
 					coordinates: [stopsExplorerNewStopWizardContext.newStop.longitude, stopsExplorerNewStopWizardContext.newStop.latitude],
+					type: 'Point',
 				},
+				type: 'Feature',
 			};
 		}
 		return null;
@@ -97,33 +98,35 @@ export default function StopsExplorerNewStopWizardSteps0Map() {
 
 	return (
 		<div className={styles.container}>
-			<OSMMap id="stopsExplorerNewStopWizardSteps0Map" mapStyle={mapStyle} onClick={handleMapClick} onMouseMove={handleMapDragEnd} onDragStart={handleMapDragStart} onDragEnd={handleMapDragEnd} interactiveLayerIds={['all-stops']}>
-				{allStopsMapData != null &&
-          <Source id="all-stops" type="geojson" data={allStopsMapData}>
-          	<Layer id="all-stops" type="circle" source="all-stops" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
-          </Source>
-				}
-				{selectedCoordinatesMapData != null &&
-          <Source id="selected-coordinates" type="geojson" data={selectedCoordinatesMapData} generateId={true}>
-          	<Layer
-          		id="selected-coordinates-pin"
-          		type="symbol"
-          		source="selected-coordinates"
-          		layout={{
-          			'icon-allow-overlap': true,
-          			'icon-ignore-placement': true,
-          			'icon-anchor': 'bottom',
-          			'symbol-placement': 'point',
-          			'icon-image': 'map-pin',
-          			'icon-size': ['interpolate', ['linear', 0.5], ['zoom'], 10, 0.25, 20, 0.35],
-          			'icon-offset': [0, 5],
-          		}}
-          		paint={{
-          			'icon-opacity': ['interpolate', ['linear', 0.5], ['zoom'], 7, 0, 10, 1],
-          		}}
-          	/>
-          </Source>
-				}
+			<OSMMap id="stopsExplorerNewStopWizardSteps0Map" interactiveLayerIds={['all-stops']} mapStyle={mapStyle} onClick={handleMapClick} onDragEnd={handleMapDragEnd} onDragStart={handleMapDragStart} onMouseMove={handleMapDragEnd}>
+				{allStopsMapData != null
+				&& (
+					<Source data={allStopsMapData} id="all-stops" type="geojson">
+						<Layer id="all-stops" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-color': '#000000', 'circle-stroke-width': 2 }} source="all-stops" type="circle" />
+					</Source>
+				)}
+				{selectedCoordinatesMapData != null
+				&& (
+					<Source data={selectedCoordinatesMapData} generateId={true} id="selected-coordinates" type="geojson">
+						<Layer
+							id="selected-coordinates-pin"
+							source="selected-coordinates"
+							type="symbol"
+							layout={{
+								'icon-allow-overlap': true,
+								'icon-anchor': 'bottom',
+								'icon-ignore-placement': true,
+								'icon-image': 'map-pin',
+								'icon-offset': [0, 5],
+								'icon-size': ['interpolate', ['linear', 0.5], ['zoom'], 10, 0.25, 20, 0.35],
+								'symbol-placement': 'point',
+							}}
+							paint={{
+								'icon-opacity': ['interpolate', ['linear', 0.5], ['zoom'], 7, 0, 10, 1],
+							}}
+						/>
+					</Source>
+				)}
 			</OSMMap>
 		</div>
 	);

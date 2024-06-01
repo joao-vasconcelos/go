@@ -2,12 +2,13 @@
 
 /* * */
 
-import { useMemo } from 'react';
-import { useTranslations } from 'next-intl';
-import { IconSearch, IconX } from '@tabler/icons-react';
 import { Section } from '@/components/Layouts/Layouts';
-import { ActionIcon, SimpleGrid, Table, TextInput } from '@mantine/core';
 import { useReportsExplorerRealtimeContext } from '@/contexts/ReportsExplorerRealtimeContext';
+import { ActionIcon, SimpleGrid, Table, TextInput } from '@mantine/core';
+import { IconSearch, IconX } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+
 import styles from './ReportsExplorerRealtimeResultSummaryTable.module.css';
 
 /* * */
@@ -30,7 +31,7 @@ export default function ReportsExplorerRealtimeResultSummaryTable() {
 		// uniformize the search query
 		const query = reportsExplorerRealtimeContext.form.table_search_query.toLowerCase().trim();
 		// Filter the table data by the search query
-		return reportsExplorerRealtimeContext.request.summary.filter((item) => Object.values(item).join(' ').toLowerCase().includes(query));
+		return reportsExplorerRealtimeContext.request.summary.filter(item => Object.values(item).join(' ').toLowerCase().includes(query));
 		//
 	}, [reportsExplorerRealtimeContext.form.table_search_query, reportsExplorerRealtimeContext.request.summary]);
 
@@ -56,15 +57,17 @@ export default function ReportsExplorerRealtimeResultSummaryTable() {
 		<Section>
 			<SimpleGrid cols={1}>
 				<TextInput
-					placeholder={t('search.placeholder')}
 					leftSection={<IconSearch size={20} />}
-					value={reportsExplorerRealtimeContext.form.table_search_query}
 					onChange={handleTableSearchQueryChange}
+					placeholder={t('search.placeholder')}
+					value={reportsExplorerRealtimeContext.form.table_search_query}
 					rightSection={
-						reportsExplorerRealtimeContext.form.table_search_query.length > 0 &&
-              <ActionIcon onClick={handleClearSearchChange} variant="subtle" color="gray">
-              	<IconX size={20} />
-              </ActionIcon>
+						reportsExplorerRealtimeContext.form.table_search_query.length > 0
+						&& (
+							<ActionIcon color="gray" onClick={handleClearSearchChange} variant="subtle">
+								<IconX size={20} />
+							</ActionIcon>
+						)
 
 					}
 				/>
@@ -79,13 +82,15 @@ export default function ReportsExplorerRealtimeResultSummaryTable() {
 						</Table.Tr>
 					</Table.Thead>
 					<Table.Tbody>
-						{tableDataFiltered.map((row) => <Table.Tr key={row.trip_id} onClick={() => handleRowClick(row)} className={styles.tableRow}>
-							<Table.Td>{row.pattern_id}</Table.Td>
-							<Table.Td>{row.trip_id}</Table.Td>
-							<Table.Td>{row.num_events}</Table.Td>
-							<Table.Td>{row.vehicle_id.join(', ')}</Table.Td>
-							<Table.Td>{row.driver_id.join(', ')}</Table.Td>
-						</Table.Tr>)}
+						{tableDataFiltered.map(row => (
+							<Table.Tr key={row.trip_id} className={styles.tableRow} onClick={() => handleRowClick(row)}>
+								<Table.Td>{row.pattern_id}</Table.Td>
+								<Table.Td>{row.trip_id}</Table.Td>
+								<Table.Td>{row.num_events}</Table.Td>
+								<Table.Td>{row.vehicle_id.join(', ')}</Table.Td>
+								<Table.Td>{row.driver_id.join(', ')}</Table.Td>
+							</Table.Tr>
+						))}
 					</Table.Tbody>
 				</Table>
 			</SimpleGrid>

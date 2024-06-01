@@ -19,7 +19,7 @@ export default function populate(template, data) {
 
 			// If the template is an array and the data is also an array, populate each element recursively
 			if (Array.isArray(currentTemplateStep) && Array.isArray(currentDataStep)) {
-				return currentDataStep?.map((item) => recursivePopulate(currentTemplateStep, item));
+				return currentDataStep?.map(item => recursivePopulate(currentTemplateStep, item));
 			}
 
 			// If the data is also an object, recursively populate its properties

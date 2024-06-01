@@ -31,7 +31,7 @@ export default async function stopsSyncIntermodal() {
 		// 2.1.
 		// Skip stops that are not from the desired operator
 
-		const intermodalStopDataOperatorInfo = intermodalStopData.operators.find((item) => item.operator_id === INTERMODAL_CARRIS_METROPOLITANA_OPERATOR_ID);
+		const intermodalStopDataOperatorInfo = intermodalStopData.operators.find(item => item.operator_id === INTERMODAL_CARRIS_METROPOLITANA_OPERATOR_ID);
 		if (!intermodalStopDataOperatorInfo) continue;
 
 		// 2.2.

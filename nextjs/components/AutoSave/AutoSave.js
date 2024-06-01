@@ -1,11 +1,11 @@
 /* * */
 
-import { Tooltip, ActionIcon, Button } from '@mantine/core';
-import { IconDeviceFloppy, IconAlertTriangleFilled } from '@tabler/icons-react';
-import { useTranslations } from 'next-intl';
 import AppButtonBack from '@/components/AppButtonBack/AppButtonBack';
 import AppButtonClose from '@/components/AppButtonClose/AppButtonClose';
+import { ActionIcon, Button, Tooltip } from '@mantine/core';
 import { useIdle } from '@mantine/hooks';
+import { IconAlertTriangleFilled, IconDeviceFloppy } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 
 /* * */
@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 /* Pair of buttons that trigger an action on an interval and on click. */
 /* * */
 
-export default function AutoSave({ isValid, isDirty, isLoading, isValidating, isErrorValidating, isSaving, isErrorSaving, onValidate, onSave, onClose, closeType = 'close', interval = 2000 }) {
+export default function AutoSave({ closeType = 'close', interval = 2000, isDirty, isErrorSaving, isErrorValidating, isLoading, isSaving, isValid, isValidating, onClose, onSave, onValidate }) {
 	//
 
 	const t = useTranslations('AutoSave');
@@ -40,7 +40,7 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
 	if (isErrorSaving && isSaving) {
 		return (
-			<Button size="xs" leftSection={<IconAlertTriangleFilled size="20px" />} variant="light" color="red" loading>
+			<Button color="red" leftSection={<IconAlertTriangleFilled size="20px" />} size="xs" variant="light" loading>
 				{t('retry.title')}
 			</Button>
 		);
@@ -53,9 +53,9 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
 	if (isErrorSaving) {
 		return (
-			<Tooltip label={`Ocorreu um erro ao salvar as alterações: ${isErrorSaving.message}`} color="red" position="bottom" width={300} multiline withArrow>
-				<Button size="xs" leftSection={<IconAlertTriangleFilled size="20px" />} variant="light" color="red" onClick={onSave}>
-          Salvar Alterações
+			<Tooltip color="red" label={`Ocorreu um erro ao salvar as alterações: ${isErrorSaving.message}`} position="bottom" width={300} multiline withArrow>
+				<Button color="red" leftSection={<IconAlertTriangleFilled size="20px" />} onClick={onSave} size="xs" variant="light">
+					Salvar Alterações
 				</Button>
 			</Tooltip>
 		);
@@ -69,7 +69,7 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 	// https://swr.vercel.app/docs/advanced/understanding#combining-with-isloading-and-isvalidating-for-better-ux
 
 	if (isLoading || isSaving) {
-		return <ActionIcon size="lg" loading={true} variant="subtle" color="gray" />;
+		return <ActionIcon color="gray" loading={true} size="lg" variant="subtle" />;
 	}
 
 	//
@@ -79,8 +79,8 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
 	if (isErrorValidating) {
 		return (
-			<Tooltip label={`Ocorreu um erro ao atualizar: ${isErrorValidating.message}`} color="red" position="bottom" width={300} multiline withArrow>
-				<ActionIcon size="lg" variant="light" color="red">
+			<Tooltip color="red" label={`Ocorreu um erro ao atualizar: ${isErrorValidating.message}`} position="bottom" width={300} multiline withArrow>
+				<ActionIcon color="red" size="lg" variant="light">
 					<IconAlertTriangleFilled size="20px" />
 				</ActionIcon>
 			</Tooltip>
@@ -94,8 +94,8 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
 	if (isDirty && !isValid) {
 		return (
-			<Tooltip label="Erro de Preenchimento" color="gray" position="bottom" withArrow>
-				<ActionIcon size="lg" onClick={onValidate} variant="subtle" color="gray">
+			<Tooltip color="gray" label="Erro de Preenchimento" position="bottom" withArrow>
+				<ActionIcon color="gray" onClick={onValidate} size="lg" variant="subtle">
 					<IconDeviceFloppy size="20px" />
 				</ActionIcon>
 			</Tooltip>
@@ -109,8 +109,8 @@ export default function AutoSave({ isValid, isDirty, isLoading, isValidating, is
 
 	if (isDirty && isValid) {
 		return (
-			<Tooltip label="Guardar Alterações" color="green" position="bottom" withArrow>
-				<ActionIcon size="lg" color="green" variant="light" onClick={onSave}>
+			<Tooltip color="green" label="Guardar Alterações" position="bottom" withArrow>
+				<ActionIcon color="green" onClick={onSave} size="lg" variant="light">
 					<IconDeviceFloppy size="20px" />
 				</ActionIcon>
 			</Tooltip>

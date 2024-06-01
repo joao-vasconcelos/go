@@ -1,25 +1,25 @@
 /* * */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { FareModel } from '@/schemas/Fare/model';
 import { LineModel } from '@/schemas/Line/model';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { RouteModel } from '@/schemas/Route/model';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FareModel } from '@/schemas/Fare/model';
 
 /* * */
 
 interface FaresExportRulesOptions {
-	line_ids?: string[];
-	line_codes?: string[];
-	route_ids?: string[];
-	route_codes?: string[];
-	forced_agency_id?: string;
+	forced_agency_id?: string
+	line_codes?: string[]
+	line_ids?: string[]
+	route_codes?: string[]
+	route_ids?: string[]
 }
 
 interface FareRuleDataFormatted {
-	agency_id?: string,
-	route_id: string,
-	fare_id: string,
+	agency_id?: string
+	fare_id: string
+	route_id: string
 }
 
 /* * */
@@ -65,22 +65,23 @@ export default async function faresExportRules(options: FaresExportRulesOptions)
 				if (options?.forced_agency_id) {
 					allFareRulesDataFormatted.push({
 						agency_id: options.forced_agency_id,
-						route_id: routeData.code,
 						fare_id: lineData.prepaid_fare.code,
+						route_id: routeData.code,
 					});
 					allFareRulesDataFormatted.push({
 						agency_id: options.forced_agency_id,
-						route_id: routeData.code,
 						fare_id: onboardFareData.code,
-					});
-				} else {
-					allFareRulesDataFormatted.push({
 						route_id: routeData.code,
+					});
+				}
+				else {
+					allFareRulesDataFormatted.push({
 						fare_id: lineData.prepaid_fare.code,
+						route_id: routeData.code,
 					});
 					allFareRulesDataFormatted.push({
-						route_id: routeData.code,
 						fare_id: onboardFareData.code,
+						route_id: routeData.code,
 					});
 				}
 				//

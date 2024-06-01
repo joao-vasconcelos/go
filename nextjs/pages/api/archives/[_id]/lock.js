@@ -1,9 +1,9 @@
 /* * */
 
-import mongodb from '@/services/OFFERMANAGERDB';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
 import { ArchiveModel } from '@/schemas/Archive/model';
+import mongodb from '@/services/OFFERMANAGERDB';
 
 /* * */
 
@@ -28,8 +28,9 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-		isAllowed(sessionData, [{ scope: 'archives', action: 'lock' }]);
-	} catch (error) {
+		isAllowed(sessionData, [{ action: 'lock', scope: 'archives' }]);
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
 	}
@@ -39,7 +40,8 @@ export default async function handler(req, res) {
 
 	try {
 		await mongodb.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'MongoDB connection error.' });
 	}
@@ -52,7 +54,8 @@ export default async function handler(req, res) {
 		if (!foundDocument) return await res.status(404).json({ message: `Archive with _id "${req.query._id}" not found.` });
 		const updatedDocument = await ArchiveModel.updateOne({ _id: { $eq: foundDocument._id } }, { is_locked: !foundDocument.is_locked }, { new: true });
 		return await res.status(200).json(updatedDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot lock or unlock this Archive.' });
 	}

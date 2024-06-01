@@ -1,23 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import useSWR from 'swr';
-import API from '@/services/API';
-import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
-import Pannel from '@/components/Pannel/Pannel';
-import ListItem from './listItem';
-import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots, IconFileDownload } from '@tabler/icons-react';
-import notify from '@/services/notify';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import ErrorDisplay from '@/components/ErrorDisplay';
-import { useTranslations } from 'next-intl';
-import ListFooter from '@/components/ListFooter/ListFooter';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import ErrorDisplay from '@/components/ErrorDisplay';
+import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
+import ListFooter from '@/components/ListFooter/ListFooter';
+import ListHeader from '@/components/ListHeader/ListHeader';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import Pannel from '@/components/Pannel/Pannel';
 import SearchField from '@/components/SearchField/SearchField';
 import useSearch from '@/hooks/useSearch';
-import ListHeader from '@/components/ListHeader/ListHeader';
+import API from '@/services/API';
+import notify from '@/services/notify';
+import { ActionIcon, Menu } from '@mantine/core';
+import { IconCirclePlus, IconDots, IconFileDownload } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import useSWR from 'swr';
+
+import ListItem from './listItem';
 
 export default function Layout({ children }) {
 	//
@@ -47,12 +48,13 @@ export default function Layout({ children }) {
 		try {
 			setIsCreating(true);
 			notify('new', 'loading', t('operations.create.loading'));
-			const response = await API({ service: 'municipalities', operation: 'create', method: 'GET' });
+			const response = await API({ method: 'GET', operation: 'create', service: 'municipalities' });
 			allMunicipalitiesMutate();
 			router.push(`/municipalities/${response._id}`);
 			notify('new', 'success', t('operations.create.success'));
 			setIsCreating(false);
-		} catch (error) {
+		}
+		catch (error) {
 			notify('new', 'error', error.message || t('operations.create.error'));
 			setIsCreating(false);
 			console.log(error);
@@ -62,7 +64,7 @@ export default function Layout({ children }) {
 	const exportAsFile = async () => {
 		try {
 			setIsCreating(true);
-			const responseBlob = await API({ service: 'municipalities', operation: 'export/default', method: 'GET', parseType: 'blob' });
+			const responseBlob = await API({ method: 'GET', operation: 'export/default', parseType: 'blob', service: 'municipalities' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			// eslint-disable-next-line no-undef
 			const htmlAnchorElement = document.createElement('a');
@@ -72,7 +74,8 @@ export default function Layout({ children }) {
 			document.body.appendChild(htmlAnchorElement);
 			htmlAnchorElement.click();
 			setIsCreating(false);
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(error);
 			setIsCreating(false);
 		}
@@ -82,27 +85,29 @@ export default function Layout({ children }) {
 	// D. Render data
 
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'municipalities', action: 'navigate' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'navigate', scope: 'municipalities' }]} redirect>
 			<TwoUnevenColumns
-				first={
+				second={children}
+				first={(
 					<Pannel
+						footer={filteredMunicipalitiesData && <ListFooter>{t('list.footer', { count: filteredMunicipalitiesData.length })}</ListFooter>}
 						loading={allMunicipalitiesLoading}
-						header={
+						header={(
 							<ListHeader>
-								<SearchField query={searchQuery} onChange={setSearchQuery} />
-								<Menu shadow="md" position="bottom-end">
+								<SearchField onChange={setSearchQuery} query={searchQuery} />
+								<Menu position="bottom-end" shadow="md">
 									<Menu.Target>
-										<ActionIcon variant="light" size="lg" color="gray" loading={allMunicipalitiesLoading || isCreating}>
+										<ActionIcon color="gray" loading={allMunicipalitiesLoading || isCreating} size="lg" variant="light">
 											<IconDots size={20} />
 										</ActionIcon>
 									</Menu.Target>
 									<Menu.Dropdown>
-										<AppAuthenticationCheck permissions={[{ scope: 'municipalities', action: 'create' }]}>
+										<AppAuthenticationCheck permissions={[{ action: 'create', scope: 'municipalities' }]}>
 											<Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
 												{t('operations.create.title')}
 											</Menu.Item>
 										</AppAuthenticationCheck>
-										<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
+										<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]}>
 											<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={exportAsFile}>
 												{t('operations.export.title')}
 											</Menu.Item>
@@ -110,14 +115,12 @@ export default function Layout({ children }) {
 									</Menu.Dropdown>
 								</Menu>
 							</ListHeader>
-						}
-						footer={filteredMunicipalitiesData && <ListFooter>{t('list.footer', { count: filteredMunicipalitiesData.length })}</ListFooter>}
+						)}
 					>
 						<ErrorDisplay error={allMunicipalitiesError} loading={allMunicipalitiesValidating} />
-						{filteredMunicipalitiesData && filteredMunicipalitiesData.length > 0 ? filteredMunicipalitiesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} district={item.district} region={item.region} />) : <NoDataLabel />}
+						{filteredMunicipalitiesData && filteredMunicipalitiesData.length > 0 ? filteredMunicipalitiesData.map(item => <ListItem key={item._id} _id={item._id} code={item.code} district={item.district} name={item.name} region={item.region} />) : <NoDataLabel />}
 					</Pannel>
-				}
-				second={children}
+				)}
 			/>
 		</AppAuthenticationCheck>
 	);

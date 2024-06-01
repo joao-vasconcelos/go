@@ -2,29 +2,30 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { Accordion } from '@mantine/core';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
-import styles from './UsersExplorerIdPagePermissions.module.css';
+import UsersExplorerIdPagePermissionsAgencies from '@/components/UsersExplorerIdPagePermissionsAgencies/UsersExplorerIdPagePermissionsAgencies';
 import UsersExplorerIdPagePermissionsAlerts from '@/components/UsersExplorerIdPagePermissionsAlerts/UsersExplorerIdPagePermissionsAlerts';
-import UsersExplorerIdPagePermissionsReports from '@/components/UsersExplorerIdPagePermissionsReports/UsersExplorerIdPagePermissionsReports';
+import UsersExplorerIdPagePermissionsArchives from '@/components/UsersExplorerIdPagePermissionsArchives/UsersExplorerIdPagePermissionsArchives';
 import UsersExplorerIdPagePermissionsAudits from '@/components/UsersExplorerIdPagePermissionsAudits/UsersExplorerIdPagePermissionsAudits';
+import UsersExplorerIdPagePermissionsCalendars from '@/components/UsersExplorerIdPagePermissionsCalendars/UsersExplorerIdPagePermissionsCalendars';
+import UsersExplorerIdPagePermissionsConfigs from '@/components/UsersExplorerIdPagePermissionsConfigs/UsersExplorerIdPagePermissionsConfigs';
+import UsersExplorerIdPagePermissionsExports from '@/components/UsersExplorerIdPagePermissionsExports/UsersExplorerIdPagePermissionsExports';
+import UsersExplorerIdPagePermissionsFares from '@/components/UsersExplorerIdPagePermissionsFares/UsersExplorerIdPagePermissionsFares';
 import UsersExplorerIdPagePermissionsFeedback from '@/components/UsersExplorerIdPagePermissionsFeedback/UsersExplorerIdPagePermissionsFeedback';
 import UsersExplorerIdPagePermissionsIssues from '@/components/UsersExplorerIdPagePermissionsIssues/UsersExplorerIdPagePermissionsIssues';
-import UsersExplorerIdPagePermissionsStops from '@/components/UsersExplorerIdPagePermissionsStops/UsersExplorerIdPagePermissionsStops';
-import UsersExplorerIdPagePermissionsCalendars from '@/components/UsersExplorerIdPagePermissionsCalendars/UsersExplorerIdPagePermissionsCalendars';
 import UsersExplorerIdPagePermissionsLines from '@/components/UsersExplorerIdPagePermissionsLines/UsersExplorerIdPagePermissionsLines';
-import UsersExplorerIdPagePermissionsExports from '@/components/UsersExplorerIdPagePermissionsExports/UsersExplorerIdPagePermissionsExports';
-import UsersExplorerIdPagePermissionsArchives from '@/components/UsersExplorerIdPagePermissionsArchives/UsersExplorerIdPagePermissionsArchives';
-import UsersExplorerIdPagePermissionsMunicipalities from '@/components/UsersExplorerIdPagePermissionsMunicipalities/UsersExplorerIdPagePermissionsMunicipalities';
-import UsersExplorerIdPagePermissionsZones from '@/components/UsersExplorerIdPagePermissionsZones/UsersExplorerIdPagePermissionsZones';
-import UsersExplorerIdPagePermissionsFares from '@/components/UsersExplorerIdPagePermissionsFares/UsersExplorerIdPagePermissionsFares';
-import UsersExplorerIdPagePermissionsTypologies from '@/components/UsersExplorerIdPagePermissionsTypologies/UsersExplorerIdPagePermissionsTypologies';
-import UsersExplorerIdPagePermissionsAgencies from '@/components/UsersExplorerIdPagePermissionsAgencies/UsersExplorerIdPagePermissionsAgencies';
-import UsersExplorerIdPagePermissionsTags from '@/components/UsersExplorerIdPagePermissionsTags/UsersExplorerIdPagePermissionsTags';
 import UsersExplorerIdPagePermissionsMedia from '@/components/UsersExplorerIdPagePermissionsMedia/UsersExplorerIdPagePermissionsMedia';
+import UsersExplorerIdPagePermissionsMunicipalities from '@/components/UsersExplorerIdPagePermissionsMunicipalities/UsersExplorerIdPagePermissionsMunicipalities';
+import UsersExplorerIdPagePermissionsReports from '@/components/UsersExplorerIdPagePermissionsReports/UsersExplorerIdPagePermissionsReports';
+import UsersExplorerIdPagePermissionsStops from '@/components/UsersExplorerIdPagePermissionsStops/UsersExplorerIdPagePermissionsStops';
+import UsersExplorerIdPagePermissionsTags from '@/components/UsersExplorerIdPagePermissionsTags/UsersExplorerIdPagePermissionsTags';
+import UsersExplorerIdPagePermissionsTypologies from '@/components/UsersExplorerIdPagePermissionsTypologies/UsersExplorerIdPagePermissionsTypologies';
 import UsersExplorerIdPagePermissionsUsers from '@/components/UsersExplorerIdPagePermissionsUsers/UsersExplorerIdPagePermissionsUsers';
-import UsersExplorerIdPagePermissionsConfigs from '@/components/UsersExplorerIdPagePermissionsConfigs/UsersExplorerIdPagePermissionsConfigs';
+import UsersExplorerIdPagePermissionsZones from '@/components/UsersExplorerIdPagePermissionsZones/UsersExplorerIdPagePermissionsZones';
+import { Accordion } from '@mantine/core';
+import { useTranslations } from 'next-intl';
+
+import styles from './UsersExplorerIdPagePermissions.module.css';
 
 /* * */
 
@@ -43,171 +44,171 @@ export default function UsersExplorerIdPagePermissions() {
 		<Accordion>
 			<Accordion.Item value="alerts">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('alerts.title')} description={t('alerts.description')} />
+					<AppLayoutSection description={t('alerts.description')} title={t('alerts.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsAlerts />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="reports">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('reports.title')} description={t('reports.description')} />
+					<AppLayoutSection description={t('reports.description')} title={t('reports.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsReports />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="audits">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('audits.title')} description={t('audits.description')} />
+					<AppLayoutSection description={t('audits.description')} title={t('audits.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsAudits />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="feedback">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('feedback.title')} description={t('feedback.description')} />
+					<AppLayoutSection description={t('feedback.description')} title={t('feedback.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsFeedback />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="issues">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('issues.title')} description={t('issues.description')} />
+					<AppLayoutSection description={t('issues.description')} title={t('issues.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsIssues />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="stops">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('stops.title')} description={t('stops.description')} />
+					<AppLayoutSection description={t('stops.description')} title={t('stops.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsStops />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="calendars">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('calendars.title')} description={t('calendars.description')} />
+					<AppLayoutSection description={t('calendars.description')} title={t('calendars.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsCalendars />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="lines">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('lines.title')} description={t('lines.description')} />
+					<AppLayoutSection description={t('lines.description')} title={t('lines.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsLines />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="exports">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('exports.title')} description={t('exports.description')} />
+					<AppLayoutSection description={t('exports.description')} title={t('exports.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsExports />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="archives">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('archives.title')} description={t('archives.description')} />
+					<AppLayoutSection description={t('archives.description')} title={t('archives.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsArchives />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="municipalities">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('municipalities.title')} description={t('municipalities.description')} />
+					<AppLayoutSection description={t('municipalities.description')} title={t('municipalities.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsMunicipalities />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="zones">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('zones.title')} description={t('zones.description')} />
+					<AppLayoutSection description={t('zones.description')} title={t('zones.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsZones />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="fares">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('fares.title')} description={t('fares.description')} />
+					<AppLayoutSection description={t('fares.description')} title={t('fares.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsFares />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="typologies">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('typologies.title')} description={t('typologies.description')} />
+					<AppLayoutSection description={t('typologies.description')} title={t('typologies.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsTypologies />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="agencies">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('agencies.title')} description={t('agencies.description')} />
+					<AppLayoutSection description={t('agencies.description')} title={t('agencies.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsAgencies />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="tags">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('tags.title')} description={t('tags.description')} />
+					<AppLayoutSection description={t('tags.description')} title={t('tags.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsTags />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="media">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('media.title')} description={t('media.description')} />
+					<AppLayoutSection description={t('media.description')} title={t('media.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsMedia />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="users">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('users.title')} description={t('users.description')} />
+					<AppLayoutSection description={t('users.description')} title={t('users.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsUsers />
 				</Accordion.Panel>
 			</Accordion.Item>
 
 			<Accordion.Item value="configs">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection title={t('configs.title')} description={t('configs.description')} />
+					<AppLayoutSection description={t('configs.description')} title={t('configs.title')} />
 				</Accordion.Control>
-				<Accordion.Panel classNames={{ panel: styles.accordionPanel, content: styles.accordionContent }}>
+				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsConfigs />
 				</Accordion.Panel>
 			</Accordion.Item>

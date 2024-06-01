@@ -2,18 +2,18 @@
 
 /* * */
 
-import { useState } from 'react';
-import { useRouter } from '@/translations/navigation';
-import useSWR from 'swr';
-import API from '@/services/API';
-import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots } from '@tabler/icons-react';
-import notify from '@/services/notify';
-import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import ListHeader from '@/components/ListHeader/ListHeader';
 import SearchField from '@/components/SearchField/SearchField';
 import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
-import ListHeader from '@/components/ListHeader/ListHeader';
+import API from '@/services/API';
+import notify from '@/services/notify';
+import { useRouter } from '@/translations/navigation';
+import { ActionIcon, Menu } from '@mantine/core';
+import { IconCirclePlus, IconDots } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -40,12 +40,13 @@ export default function LinesExplorerListHeader() {
 		try {
 			setIsCreating(true);
 			notify('new', 'loading', t('operations.create.loading'));
-			const response = await API({ service: 'lines', operation: 'create', method: 'GET' });
+			const response = await API({ method: 'GET', operation: 'create', service: 'lines' });
 			allLinesMutate();
 			router.push(`/lines/${response._id}`);
 			notify('new', 'success', t('operations.create.success'));
 			setIsCreating(false);
-		} catch (error) {
+		}
+		catch (error) {
 			notify('new', 'error', error.message || t('operations.create.error'));
 			setIsCreating(false);
 			console.log(error);
@@ -57,15 +58,15 @@ export default function LinesExplorerListHeader() {
 
 	return (
 		<ListHeader>
-			<SearchField query={linesExplorerContext.list.search_query} onChange={linesExplorerContext.updateSearchQuery} />
-			<Menu shadow="md" position="bottom-end">
+			<SearchField onChange={linesExplorerContext.updateSearchQuery} query={linesExplorerContext.list.search_query} />
+			<Menu position="bottom-end" shadow="md">
 				<Menu.Target>
-					<ActionIcon variant="light" size="lg" color="gray" loading={allLinesLoading || isCreating}>
+					<ActionIcon color="gray" loading={allLinesLoading || isCreating} size="lg" variant="light">
 						<IconDots size={20} />
 					</ActionIcon>
 				</Menu.Target>
 				<Menu.Dropdown>
-					<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'create' }]}>
+					<AppAuthenticationCheck permissions={[{ action: 'create', scope: 'lines' }]}>
 						<Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
 							{t('operations.create.title')}
 						</Menu.Item>

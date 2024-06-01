@@ -2,16 +2,16 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import isAllowed from '@/authentication/isAllowed';
-import { useSession } from 'next-auth/react';
-import { useForm, yupResolver } from '@mantine/form';
-import { ArchiveValidation } from '@/schemas/Archive/validation';
 import { ArchiveDefault } from '@/schemas/Archive/default';
-import populate from '@/services/populate';
+import { ArchiveValidation } from '@/schemas/Archive/validation';
 import API from '@/services/API';
+import populate from '@/services/populate';
+import { useForm, yupResolver } from '@mantine/form';
 import { DateTime } from 'luxon';
+import { useSession } from 'next-auth/react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -25,20 +25,20 @@ export function useArchivesExplorerItemContext() {
 
 const initialItemState = {
 	//
+	is_edit_mode: false,
+	//
 	is_error: false,
-	is_loading: false,
-	is_saving: false,
 	is_error_saving: false,
+	is_loading: false,
 	//
 	is_read_only: false,
-	//
-	is_edit_mode: false,
+	is_saving: false,
 	//
 };
 
 /* * */
 
-export function ArchivesExplorerItemContextProvider({ itemId, itemData, children }) {
+export function ArchivesExplorerItemContextProvider({ children, itemData, itemId }) {
 	//
 
 	//
@@ -50,11 +50,11 @@ export function ArchivesExplorerItemContextProvider({ itemId, itemData, children
 	// C. Setup form
 
 	const formState = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: ArchiveDefault,
+		validate: yupResolver(ArchiveValidation),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(ArchiveValidation),
-		initialValues: ArchiveDefault,
 	});
 
 	//
@@ -68,9 +68,9 @@ export function ArchivesExplorerItemContextProvider({ itemId, itemData, children
 
 	useEffect(() => {
 		// Check if the use is allowed to edit the current page
-		const isReadOnly = !isAllowed(sessionData, [{ scope: 'archives', action: 'edit' }], { handleError: true }) || itemData?.is_locked || itemState.is_saving;
+		const isReadOnly = !isAllowed(sessionData, [{ action: 'edit', scope: 'archives' }], { handleError: true }) || itemData?.is_locked || itemState.is_saving;
 		// Update state
-		setItemState((prev) => ({ ...prev, is_read_only: isReadOnly }));
+		setItemState(prev => ({ ...prev, is_read_only: isReadOnly }));
 		//
 	}, [itemData?.is_locked, itemState.is_saving, sessionData]);
 
@@ -97,49 +97,52 @@ export function ArchivesExplorerItemContextProvider({ itemId, itemData, children
 
 	const saveItem = useCallback(async () => {
 		try {
-			setItemState((prev) => ({ ...prev, is_saving: true, is_error_saving: false }));
+			setItemState(prev => ({ ...prev, is_error_saving: false, is_saving: true }));
 			const parsedFormValues = {
 				...formState.values,
-				start_date: formState.values.start_date ? DateTime.fromJSDate(formState.values.start_date).startOf('day').toFormat('yyyyMMdd') : null,
 				end_date: formState.values.end_date ? DateTime.fromJSDate(formState.values.end_date).startOf('day').toFormat('yyyyMMdd') : null,
+				start_date: formState.values.start_date ? DateTime.fromJSDate(formState.values.start_date).startOf('day').toFormat('yyyyMMdd') : null,
 			};
-			await API({ service: 'archives', resourceId: itemId, operation: 'edit', method: 'PUT', body: parsedFormValues });
+			await API({ body: parsedFormValues, method: 'PUT', operation: 'edit', resourceId: itemId, service: 'archives' });
 			allItemsMutate();
 			formState.resetDirty();
-			setItemState((prev) => ({ ...prev, is_saving: false }));
-		} catch (error) {
+			setItemState(prev => ({ ...prev, is_saving: false }));
+		}
+		catch (error) {
 			console.log(error);
-			setItemState((prev) => ({ ...prev, is_saving: false, is_error_saving: error }));
+			setItemState(prev => ({ ...prev, is_error_saving: error, is_saving: false }));
 		}
 	}, [allItemsMutate, formState, itemId]);
 
 	const lockItem = useCallback(async () => {
 		try {
-			await API({ service: 'archives', resourceId: itemId, operation: 'lock', method: 'PUT' });
+			await API({ method: 'PUT', operation: 'lock', resourceId: itemId, service: 'archives' });
 			allItemsMutate();
-		} catch (error) {
+		}
+		catch (error) {
 			allItemsMutate();
 			console.log(error);
-			setItemState((prev) => ({ ...prev, is_error: error }));
+			setItemState(prev => ({ ...prev, is_error: error }));
 		}
 	}, [allItemsMutate, itemId]);
 
 	const deleteItem = useCallback(async () => {
 		try {
-			setItemState((prev) => ({ ...prev, is_loading: true, is_error: false }));
-			await API({ service: 'archives', resourceId: itemId, operation: 'delete', method: 'DELETE' });
-			setItemState((prev) => ({ ...prev, is_loading: false, is_error: false }));
+			setItemState(prev => ({ ...prev, is_error: false, is_loading: true }));
+			await API({ method: 'DELETE', operation: 'delete', resourceId: itemId, service: 'archives' });
+			setItemState(prev => ({ ...prev, is_error: false, is_loading: false }));
 			allItemsMutate();
 			formState.resetDirty();
-		} catch (error) {
+		}
+		catch (error) {
 			allItemsMutate();
 			console.log(error);
-			setItemState((prev) => ({ ...prev, is_loading: false, is_error: error }));
+			setItemState(prev => ({ ...prev, is_error: error, is_loading: false }));
 		}
 	}, [allItemsMutate, formState, itemId]);
 
 	const toggleEditMode = useCallback(() => {
-		setItemState((prev) => ({ ...prev, is_edit_mode: !prev.is_edit_mode }));
+		setItemState(prev => ({ ...prev, is_edit_mode: !prev.is_edit_mode }));
 	}, []);
 
 	//
@@ -147,18 +150,18 @@ export function ArchivesExplorerItemContextProvider({ itemId, itemData, children
 
 	const contextObject = useMemo(
 		() => ({
-			//
-			item: itemState,
+			deleteItem: deleteItem,
 			form: formState,
 			//
-			item_id: itemId,
+			item: itemState,
 			item_data: itemData,
 			//
-			validateItem: validateItem,
-			saveItem: saveItem,
+			item_id: itemId,
 			lockItem: lockItem,
-			deleteItem: deleteItem,
+			saveItem: saveItem,
 			toggleEditMode: toggleEditMode,
+			//
+			validateItem: validateItem,
 			//
 		}),
 		[itemState, formState, itemId, itemData, validateItem, saveItem, lockItem, deleteItem, toggleEditMode],

@@ -11,7 +11,7 @@ import { LinesExplorerContextProvider } from '@/contexts/LinesExplorerContext';
 
 export default function LinesExplorer({ children }) {
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'navigate' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'navigate', scope: 'lines' }]} redirect>
 			<LinesExplorerContextProvider>
 				<TwoUnevenColumns first={<LinesExplorerList />} second={children} />
 			</LinesExplorerContextProvider>

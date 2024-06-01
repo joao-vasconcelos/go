@@ -2,15 +2,15 @@
 
 /* * */
 
-import 'dayjs/locale/pt';
-import { SWRConfig } from 'swr';
-import { SessionProvider } from 'next-auth/react';
-import { MantineProvider } from '@mantine/core';
-import { MapProvider } from 'react-map-gl/maplibre';
-import { Notifications } from '@mantine/notifications';
-import { ModalsProvider } from '@mantine/modals';
-import { DatesProvider } from '@mantine/dates';
 import { theme } from '@/styles/theme';
+import { MantineProvider } from '@mantine/core';
+import { DatesProvider } from '@mantine/dates';
+import { ModalsProvider } from '@mantine/modals';
+import { Notifications } from '@mantine/notifications';
+import 'dayjs/locale/pt';
+import { SessionProvider } from 'next-auth/react';
+import { MapProvider } from 'react-map-gl/maplibre';
+import { SWRConfig } from 'swr';
 
 /* * */
 
@@ -21,8 +21,6 @@ export default function Providers({ children, session }) {
 	// A. Setup SWR
 
 	const swrOptions = {
-		refreshInterval: 30000,
-		revalidateOnMount: true,
 		fetcher: async (...args) => {
 			const res = await fetch(...args);
 			if (!res.ok) {
@@ -34,17 +32,19 @@ export default function Providers({ children, session }) {
 			}
 			return res.json();
 		},
+		refreshInterval: 30000,
+		revalidateOnMount: true,
 	};
 
 	//
 	// B. Render components
 
 	return (
-		<SessionProvider session={session} refetchInterval={5}>
+		<SessionProvider refetchInterval={5} session={session}>
 			<SWRConfig value={swrOptions}>
 				<MapProvider>
-					<MantineProvider theme={theme} defaultColorScheme="auto">
-						<DatesProvider settings={{ locale: 'pt', consistentWeeks: true }}>
+					<MantineProvider defaultColorScheme="auto" theme={theme}>
+						<DatesProvider settings={{ consistentWeeks: true, locale: 'pt' }}>
 							<Notifications />
 							<ModalsProvider>{children}</ModalsProvider>
 						</DatesProvider>

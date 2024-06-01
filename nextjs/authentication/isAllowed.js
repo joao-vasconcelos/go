@@ -2,7 +2,6 @@
 
 const examplePermissions = [
 	{
-		scope: 'stops',
 		action: 'view',
 		fields: [
 			{
@@ -10,6 +9,7 @@ const examplePermissions = [
 				values: ['001', '002'],
 			},
 		],
+		scope: 'stops',
 	},
 ];
 
@@ -63,7 +63,8 @@ export default function isAllowed(session, permissions, options = { handleError:
 		return true;
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		if (!options.handleError) throw error;
 		return false;
 	}

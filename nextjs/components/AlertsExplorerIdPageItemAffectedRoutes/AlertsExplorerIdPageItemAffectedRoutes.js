@@ -2,17 +2,18 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useMemo } from 'react';
-import { useTranslations } from 'next-intl';
-import { ActionIcon, Button, MultiSelect, Select, Tooltip } from '@mantine/core';
+import AlertsExplorerIdPageItemAffectedRoutesRouteStops from '@/components/AlertsExplorerIdPageItemAffectedRoutesRouteStops/AlertsExplorerIdPageItemAffectedRoutesRouteStops';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import Standout from '@/components/Standout/Standout';
 import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
 import { AlertAffectedRouteDefault } from '@/schemas/Alert/default';
+import { ActionIcon, Button, MultiSelect, Select, Tooltip } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
-import Standout from '@/components/Standout/Standout';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+import useSWR from 'swr';
+
 import styles from './AlertsExplorerIdPageItemAffectedRoutes.module.css';
-import AlertsExplorerIdPageItemAffectedRoutesRouteStops from '@/components/AlertsExplorerIdPageItemAffectedRoutesRouteStops/AlertsExplorerIdPageItemAffectedRoutesRouteStops';
 
 /* * */
 
@@ -36,7 +37,7 @@ export default function AlertsExplorerIdPageItemAffectedRoutes() {
 	const availableLiveRoutes = useMemo(() => {
 		if (!allLiveRoutesData) return [];
 		return allLiveRoutesData.map((item) => {
-			return { value: item.id, label: `[${item.id}] ${item.long_name}` };
+			return { label: `[${item.id}] ${item.long_name}`, value: item.id };
 		});
 	}, [allLiveRoutesData]);
 
@@ -56,36 +57,39 @@ export default function AlertsExplorerIdPageItemAffectedRoutes() {
 
 	return (
 		<div className={styles.container}>
-			{alertsExplorerContext.form.values.affected_routes.length > 0 ?
-				alertsExplorerContext.form.values.affected_routes.map((affectedRoute, affectedRouteIndex) => <Standout
-					key={affectedRouteIndex}
-					title={t('form.affected_routes.label')}
-					icon={
-						<Tooltip label={t('operations.remove.label')} withArrow>
-							<ActionIcon variant="subtle" color="gray" size="sm" onClick={() => handleRemoveAffectedRoute(affectedRouteIndex)} disabled={alertsExplorerContext.page.is_read_only}>
-								<IconTrash size={18} />
-							</ActionIcon>
-						</Tooltip>
-					}
-				>
-					<Select
-						placeholder={t('form.affected_routes.placeholder')}
-						nothingFoundMessage={t('form.affected_routes.nothingFound')}
-						{...alertsExplorerContext.form.getInputProps(`affected_routes.${affectedRouteIndex}.route_id`)}
-						limit={100}
-						data={availableLiveRoutes}
-						readOnly={alertsExplorerContext.page.is_read_only}
-						searchable
-						clearable
-						w="100%"
-					/>
-					<AlertsExplorerIdPageItemAffectedRoutesRouteStops affectedRouteIndex={affectedRouteIndex} />
-				</Standout>) :
-				<Standout>
-					<NoDataLabel text={t('form.affected_routes.no_data')} />
-				</Standout>
-			}
-			<Button variant="light" onClick={handleInsertAffectedRoute} disabled={alertsExplorerContext.page.is_read_only}>
+			{alertsExplorerContext.form.values.affected_routes.length > 0
+				? alertsExplorerContext.form.values.affected_routes.map((affectedRoute, affectedRouteIndex) => (
+					<Standout
+						key={affectedRouteIndex}
+						title={t('form.affected_routes.label')}
+						icon={(
+							<Tooltip label={t('operations.remove.label')} withArrow>
+								<ActionIcon color="gray" disabled={alertsExplorerContext.page.is_read_only} onClick={() => handleRemoveAffectedRoute(affectedRouteIndex)} size="sm" variant="subtle">
+									<IconTrash size={18} />
+								</ActionIcon>
+							</Tooltip>
+						)}
+					>
+						<Select
+							nothingFoundMessage={t('form.affected_routes.nothingFound')}
+							placeholder={t('form.affected_routes.placeholder')}
+							{...alertsExplorerContext.form.getInputProps(`affected_routes.${affectedRouteIndex}.route_id`)}
+							data={availableLiveRoutes}
+							limit={100}
+							readOnly={alertsExplorerContext.page.is_read_only}
+							w="100%"
+							clearable
+							searchable
+						/>
+						<AlertsExplorerIdPageItemAffectedRoutesRouteStops affectedRouteIndex={affectedRouteIndex} />
+					</Standout>
+				))
+				: (
+					<Standout>
+						<NoDataLabel text={t('form.affected_routes.no_data')} />
+					</Standout>
+				)}
+			<Button disabled={alertsExplorerContext.page.is_read_only} onClick={handleInsertAffectedRoute} variant="light">
 				{t('operations.insert.label')}
 			</Button>
 		</div>

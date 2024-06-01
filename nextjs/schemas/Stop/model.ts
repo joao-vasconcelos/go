@@ -1,7 +1,7 @@
 /* * */
 
-import mongoose from 'mongoose';
 import { StopOptions, StopPropertyDockingBayType, StopPropertyHasAbusiveParking, StopPropertyHasBench, StopPropertyHasCrossing, StopPropertyHasElectricity, StopPropertyHasFlag, StopPropertyHasFlatAccess, StopPropertyHasH2oaSignage, StopPropertyHasLighting, StopPropertyHasMupi, StopPropertyHasNetworkMap, StopPropertyHasPipAudio, StopPropertyHasPipRealtime, StopPropertyHasPipStatic, StopPropertyHasPole, StopPropertyHasSchedules, StopPropertyHasShelter, StopPropertyHasSidewalk, StopPropertyHasTactileAccess, StopPropertyHasTactileSchedules, StopPropertyHasTrashBin, StopPropertyHasWideAccess, StopPropertyOperationalStatus, StopPropertyWheelchairBoarding } from '@/schemas/Stop/options';
+import mongoose from 'mongoose';
 
 /* * */
 
@@ -13,304 +13,219 @@ export const StopSchema = new mongoose.Schema(
      */
 
 		code: {
-			type: String,
 			maxlength: 6,
+			type: String,
 			unique: true,
 		},
-		name: {
+		docking_bay_type: {
+			default: StopPropertyDockingBayType.Unknown,
+			maxlength: 50,
 			type: String,
-			maxlength: StopOptions.max_stop_name_length,
 		},
-		name_new: {
-			type: String,
-			maxlength: StopOptions.max_stop_name_length,
-		},
-		short_name: {
-			type: String,
-			maxlength: StopOptions.max_stop_short_name_length,
-		},
-		short_name_auto: {
-			type: Boolean,
-			default: true,
-		},
-		tts_name: {
-			type: String,
-			maxlength: 500,
-		},
-		latitude: {
-			type: Number,
-			required: true,
-		},
-		longitude: {
-			type: Number,
-			required: true,
-		},
-		platform_code: {
-			type: String,
+		flag_maintainer: {
 			maxlength: 100,
-		},
-		parent_station: {
 			type: String,
-			maxlength: 6,
+		},
+		has_abusive_parking: {
+			default: StopPropertyHasAbusiveParking.Unknown,
+			maxlength: 50,
+			type: String,
+		},
+		has_bench: {
+			default: StopPropertyHasBench.Unknown,
+			maxlength: 50,
+			type: String,
+		},
+		has_cover: {
+			default: StopPropertyHasShelter.Unknown,
+			maxlength: 50,
+			type: String,
+		},
+		has_crossing: {
+			default: StopPropertyHasCrossing.Unknown,
+			maxlength: 50,
+			type: String,
+		},
+		has_electricity: {
+			default: StopPropertyHasElectricity.Unknown,
+			maxlength: 50,
+			type: String,
+		},
+		has_flag: {
+			default: StopPropertyHasFlag.Unknown,
+			maxlength: 50,
+			type: String,
+		},
+		has_flat_access: {
+			default: StopPropertyHasFlatAccess.Unknown,
+			maxlength: 50,
+			type: String,
 		},
 
 		/*
 		* OPERATION
 		*/
 
-		operational_status: {
+		has_h2oa_signage: {
+			default: StopPropertyHasH2oaSignage.Unknown,
+			maxlength: 50,
 			type: String,
-			maxlength: 25,
-			default: StopPropertyOperationalStatus.Active,
 		},
-		zones: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Zone',
-			},
-		],
+		has_lighting: {
+			default: StopPropertyHasLighting.Unknown,
+			maxlength: 50,
+			type: String,
+		},
 
 		/*
      * ADMINISTRATIVE
      */
 
-		municipality: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Municipality',
-		},
-		parish: {
+		has_mupi: {
+			default: StopPropertyHasMupi.Unknown,
+			maxlength: 50,
 			type: String,
-			maxlength: 100,
 		},
-		locality: {
+		has_network_map: {
+			default: StopPropertyHasNetworkMap.Unknown,
+			maxlength: 50,
 			type: String,
-			maxlength: 100,
 		},
-		jurisdiction: {
+		has_pip_audio: {
+			default: StopPropertyHasPipAudio.Unknown,
+			maxlength: 50,
 			type: String,
-			maxlength: 100,
+		},
+		has_pip_realtime: {
+			default: StopPropertyHasPipRealtime.Unknown,
+			maxlength: 50,
+			type: String,
 		},
 
 		/*
      * INFRASTRUCTURE
      */
 
-		has_pole: {
-			type: String,
+		has_pip_static: {
+			default: StopPropertyHasPipStatic.Unknown,
 			maxlength: 50,
-			default: StopPropertyHasPole.Unknown,
+			type: String,
 		},
-		has_cover: {
-			type: String,
+		has_pole: {
+			default: StopPropertyHasPole.Unknown,
 			maxlength: 50,
-			default: StopPropertyHasShelter.Unknown,
+			type: String,
+		},
+		has_schedules: {
+			default: StopPropertyHasSchedules.Unknown,
+			maxlength: 50,
+			type: String,
 		},
 		has_shelter: {
-			type: String,
-			maxlength: 50,
 			default: StopPropertyHasShelter.Unknown,
-		},
-		shelter_code: {
-			type: String,
-			maxlength: 100,
-		},
-		shelter_maintainer: {
-			type: String,
-			maxlength: 100,
-		},
-		has_mupi: {
-			type: String,
 			maxlength: 50,
-			default: StopPropertyHasMupi.Unknown,
-		},
-		has_bench: {
 			type: String,
+		},
+		has_sidewalk: {
+			default: StopPropertyHasSidewalk.Unknown,
 			maxlength: 50,
-			default: StopPropertyHasBench.Unknown,
+			type: String,
+		},
+		has_tactile_access: {
+			default: StopPropertyHasTactileAccess.Unknown,
+			maxlength: 50,
+			type: String,
+		},
+		has_tactile_schedules: {
+			default: StopPropertyHasTactileSchedules.Unknown,
+			maxlength: 50,
+			type: String,
 		},
 		has_trash_bin: {
-			type: String,
-			maxlength: 50,
 			default: StopPropertyHasTrashBin.Unknown,
-		},
-		has_lighting: {
-			type: String,
 			maxlength: 50,
-			default: StopPropertyHasLighting.Unknown,
-		},
-		has_electricity: {
 			type: String,
+		},
+		has_wide_access: {
+			default: StopPropertyHasWideAccess.Unknown,
 			maxlength: 50,
-			default: StopPropertyHasElectricity.Unknown,
-		},
-		docking_bay_type: {
 			type: String,
-			maxlength: 50,
-			default: StopPropertyDockingBayType.Unknown,
 		},
-		last_infrastructure_maintenance: {
-			type: String,
+		is_locked: {
+			type: Boolean,
+		},
+		jurisdiction: {
 			maxlength: 100,
-		},
-		last_infrastructure_check: {
 			type: String,
+		},
+		last_accessibility_check: {
 			maxlength: 100,
+			type: String,
+		},
+		last_accessibility_maintenance: {
+			maxlength: 100,
+			type: String,
 		},
 
 		/*
      * PUBLIC INFORMATION
      */
 
-		has_flag: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasFlag.Unknown,
-		},
-		flag_maintainer: {
-			type: String,
+		last_flag_check: {
 			maxlength: 100,
-		},
-		has_pip_static: {
 			type: String,
-			maxlength: 50,
-			default: StopPropertyHasPipStatic.Unknown,
-		},
-		has_pip_audio: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasPipAudio.Unknown,
-		},
-		pip_audio_code: {
-			type: String,
-			maxlength: 100,
-		},
-		has_pip_realtime: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasPipRealtime.Unknown,
-		},
-		pip_realtime_code: {
-			type: String,
-			maxlength: 100,
-		},
-		has_h2oa_signage: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasH2oaSignage.Unknown,
-		},
-		has_schedules: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasSchedules.Unknown,
-		},
-		has_tactile_schedules: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasTactileSchedules.Unknown,
-		},
-		has_network_map: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasNetworkMap.Unknown,
-		},
-		last_schedules_maintenance: {
-			type: String,
-			maxlength: 100,
-		},
-		last_schedules_check: {
-			type: String,
-			maxlength: 100,
 		},
 		last_flag_maintenance: {
-			type: String,
 			maxlength: 100,
-		},
-		last_flag_check: {
 			type: String,
+		},
+		last_infrastructure_check: {
 			maxlength: 100,
-		},
-
-		/*
-     * ACCESSIBILITY
-     */
-
-		has_sidewalk: {
 			type: String,
-			maxlength: 50,
-			default: StopPropertyHasSidewalk.Unknown,
 		},
-		sidewalk_type: {
-			type: String,
+		last_infrastructure_maintenance: {
 			maxlength: 100,
-		},
-		has_crossing: {
 			type: String,
-			maxlength: 50,
-			default: StopPropertyHasCrossing.Unknown,
 		},
-		has_flat_access: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasFlatAccess.Unknown,
-		},
-		has_wide_access: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasWideAccess.Unknown,
-		},
-		has_tactile_access: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasTactileAccess.Unknown,
-		},
-		has_abusive_parking: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasAbusiveParking.Unknown,
-		},
-		wheelchair_boarding: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyWheelchairBoarding.Unknown,
-		},
-		last_accessibility_maintenance: {
-			type: String,
+		last_schedules_check: {
 			maxlength: 100,
-		},
-		last_accessibility_check: {
 			type: String,
+		},
+		last_schedules_maintenance: {
 			maxlength: 100,
+			type: String,
 		},
-
-		/*
-     * SERVICES
-     */
-
-		near_health_clinic: {
-			type: Boolean,
+		latitude: {
+			required: true,
+			type: Number,
 		},
-		near_hospital: {
-			type: Boolean,
+		locality: {
+			maxlength: 100,
+			type: String,
 		},
-		near_university: {
-			type: Boolean,
+		longitude: {
+			required: true,
+			type: Number,
 		},
-		near_school: {
-			type: Boolean,
+		media: [
+			{
+				ref: 'Media',
+				type: mongoose.Schema.Types.ObjectId,
+			},
+		],
+		municipality: {
+			ref: 'Municipality',
+			type: mongoose.Schema.Types.ObjectId,
 		},
-		near_police_station: {
-			type: Boolean,
+		name: {
+			maxlength: StopOptions.max_stop_name_length,
+			type: String,
 		},
-		near_fire_station: {
-			type: Boolean,
+		name_new: {
+			maxlength: StopOptions.max_stop_name_length,
+			type: String,
 		},
-		near_shopping: {
-			type: Boolean,
-		},
-		near_historic_building: {
-			type: Boolean,
-		},
-		near_transit_office: {
+		near_airport: {
 			type: Boolean,
 		},
 		near_beach: {
@@ -318,61 +233,146 @@ export const StopSchema = new mongoose.Schema(
 		},
 
 		/*
-     * CONNECTIONS
+     * ACCESSIBILITY
      */
 
-		near_subway: {
-			type: Boolean,
-		},
-		near_light_rail: {
-			type: Boolean,
-		},
-		near_train: {
-			type: Boolean,
-		},
-		near_boat: {
-			type: Boolean,
-		},
-		near_airport: {
+		near_bike_parking: {
 			type: Boolean,
 		},
 		near_bike_sharing: {
 			type: Boolean,
 		},
-		near_bike_parking: {
+		near_boat: {
 			type: Boolean,
 		},
 		near_car_parking: {
 			type: Boolean,
+		},
+		near_fire_station: {
+			type: Boolean,
+		},
+		near_health_clinic: {
+			type: Boolean,
+		},
+		near_historic_building: {
+			type: Boolean,
+		},
+		near_hospital: {
+			type: Boolean,
+		},
+		near_light_rail: {
+			type: Boolean,
+		},
+		near_police_station: {
+			type: Boolean,
+		},
+
+		/*
+     * SERVICES
+     */
+
+		near_school: {
+			type: Boolean,
+		},
+		near_shopping: {
+			type: Boolean,
+		},
+		near_subway: {
+			type: Boolean,
+		},
+		near_train: {
+			type: Boolean,
+		},
+		near_transit_office: {
+			type: Boolean,
+		},
+		near_university: {
+			type: Boolean,
+		},
+		notes: {
+			maxlength: 10000,
+			type: String,
+		},
+		operational_status: {
+			default: StopPropertyOperationalStatus.Active,
+			maxlength: 25,
+			type: String,
+		},
+		parent_station: {
+			maxlength: 6,
+			type: String,
+		},
+		parish: {
+			maxlength: 100,
+			type: String,
+		},
+
+		/*
+     * CONNECTIONS
+     */
+
+		pip_audio_code: {
+			maxlength: 100,
+			type: String,
+		},
+		pip_realtime_code: {
+			maxlength: 100,
+			type: String,
+		},
+		platform_code: {
+			maxlength: 100,
+			type: String,
+		},
+		shelter_code: {
+			maxlength: 100,
+			type: String,
+		},
+		shelter_maintainer: {
+			maxlength: 100,
+			type: String,
+		},
+		short_name: {
+			maxlength: StopOptions.max_stop_short_name_length,
+			type: String,
+		},
+		short_name_auto: {
+			default: true,
+			type: Boolean,
+		},
+		sidewalk_type: {
+			maxlength: 100,
+			type: String,
 		},
 
 		/*
      * MEDIA
      */
 
-		media: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Media',
-			},
-		],
+		tts_name: {
+			maxlength: 500,
+			type: String,
+		},
 
 		/*
      * USER NOTES
      */
 
-		notes: {
+		wheelchair_boarding: {
+			default: StopPropertyWheelchairBoarding.Unknown,
+			maxlength: 50,
 			type: String,
-			maxlength: 10000,
 		},
 
 		/*
      * LOCK STATUS
      */
 
-		is_locked: {
-			type: Boolean,
-		},
+		zones: [
+			{
+				ref: 'Zone',
+				type: mongoose.Schema.Types.ObjectId,
+			},
+		],
 
 		//
 	},

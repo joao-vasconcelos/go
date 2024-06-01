@@ -2,40 +2,40 @@
 
 export const AuditTripDefault = {
 	//
-	code: '20240101|41|WHFY|1001_0_1|ESC_SAB|0700',
-	//
-	status: 'waiting',
-	is_locked: false,
-	//
-	plan_id: 'WHFY',
-	plan_start_date: '2024-01-01',
-	plan_end_date: '2024-01-31',
-	//
 	agency_id: '41',
 	//
-	line_id: 'WHFY|1001',
-	line_short_name: '',
-	line_long_name: '',
-	//
-	route_id: 'WHFY|1001_0',
-	route_short_name: '',
-	route_long_name: '',
-	//
-	pattern_id: 'WHFY|1001_0_1',
-	pattern_headsign: 'Loures (Circular)',
-	trip_id: 'WHFY|1001_0_1|ESC_SAB|0700',
+	analysis: [],
+	analysis_timestamp: '',
 	//
 	calendar_id: 'WHFY|ESC_SAB',
 	//
-	operational_day: '20240101',
+	code: '20240101|41|WHFY|1001_0_1|ESC_SAB|0700',
 	//
 	color: '',
-	text_color: '',
+	is_locked: false,
+	//
+	line_id: 'WHFY|1001',
+	line_long_name: '',
+	line_short_name: '',
+	//
+	operational_day: '20240101',
 	//
 	parse_timestamp: '',
-	analysis_timestamp: '',
+	pattern_headsign: 'Loures (Circular)',
 	//
-	analysis: [],
+	pattern_id: 'WHFY|1001_0_1',
+	plan_end_date: '2024-01-31',
+	//
+	plan_id: 'WHFY',
+	plan_start_date: '2024-01-01',
+	//
+	route_id: 'WHFY|1001_0',
+	route_long_name: '',
+	route_short_name: '',
+	//
+	status: 'waiting',
+	text_color: '',
+	trip_id: 'WHFY|1001_0_1|ESC_SAB|0700',
 	//
 	user_notes: '',
 	//
@@ -46,10 +46,10 @@ export const AuditTripDefault = {
 export const AuditTripAnalysisDefault = {
 	//
 	code: 'FOLLOWS_SHAPE_PATH',
-	version: '2023.01.01',
 	//
 	result: 'OK' || 'ERROR' || null,
 	//
 	timestamp: '',
+	version: '2023.01.01',
 	//
 };

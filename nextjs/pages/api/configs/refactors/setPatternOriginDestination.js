@@ -1,9 +1,10 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import routesOriginsDestinations from './routes-origins.json';
 import { PatternModel } from '@/schemas/Pattern/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+
+import routesOriginsDestinations from './routes-origins.json';
 
 /* * */
 
@@ -22,7 +23,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -31,8 +33,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -54,17 +57,19 @@ export default async function handler(req, res) {
 			const patternDirection = patternData.code.substring(patternData.code.length - 1, patternData.code.length);
 
 			//
-			const routeOriginDestinationData = routesOriginsDestinations.find((p) => p.route_id === routeId);
+			const routeOriginDestinationData = routesOriginsDestinations.find(p => p.route_id === routeId);
 
 			if (!routeOriginDestinationData) continue;
 
 			if (patternDirection === '1') {
 				patternData.origin = routeOriginDestinationData.origin;
 				patternData.destination = routeOriginDestinationData.destination;
-			} else if (patternDirection === '2') {
+			}
+			else if (patternDirection === '2') {
 				patternData.destination = routeOriginDestinationData.origin;
 				patternData.origin = routeOriginDestinationData.destination;
-			} else if (patternDirection === '3') {
+			}
+			else if (patternDirection === '3') {
 				patternData.destination = routeOriginDestinationData.origin;
 				patternData.origin = routeOriginDestinationData.origin;
 			}
@@ -77,7 +82,8 @@ export default async function handler(req, res) {
 		}
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Import Error' });
 	}

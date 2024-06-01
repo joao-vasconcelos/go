@@ -2,11 +2,11 @@
 
 /* * */
 
-import { useState } from 'react';
-import { IconUpload, IconFileZip, IconX } from '@tabler/icons-react';
 import { Group, Text } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
+import { IconFileZip, IconUpload, IconX } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 /* * */
 
@@ -30,14 +30,15 @@ export default function GTFSParser({ onParse }) {
 	const handleUpload = async (files) => {
 		try {
 			setIsUploading(true);
-			const formData = new FormData;
+			const formData = new FormData();
 			formData.append('file', files[0]);
-			const res = await fetch('/api/parse/gtfs', { method: 'POST', body: formData });
+			const res = await fetch('/api/parse/gtfs', { body: formData, method: 'POST' });
 			const data = await res.json();
 			onParse(data);
 			setIsUploading(false);
 			setHasUploadError(false);
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(error);
 			setIsUploading(false);
 		}
@@ -47,7 +48,7 @@ export default function GTFSParser({ onParse }) {
 	// C. Render components
 
 	return (
-		<Dropzone loading={isUploading} onDrop={handleUpload} maxSize={MAX_FILE_SIZE} accept={[MIME_TYPES.zip]}>
+		<Dropzone accept={[MIME_TYPES.zip]} loading={isUploading} maxSize={MAX_FILE_SIZE} onDrop={handleUpload}>
 			<Dropzone.Accept>
 				<Group position="center" spacing="xl" style={{ height: 100, pointerEvents: 'none' }}>
 					<IconUpload size="3.2rem" stroke={1.5} />
@@ -71,7 +72,7 @@ export default function GTFSParser({ onParse }) {
 					<IconFileZip size={50} stroke={1.5} />
 					<div>
 						<Text size="xl">{t('idle.title')}</Text>
-						<Text size="sm">{t('idle.description', { max_file_size_value: 5, max_file_size_unit: 'MB' })}</Text>
+						<Text size="sm">{t('idle.description', { max_file_size_unit: 'MB', max_file_size_value: 5 })}</Text>
 					</div>
 				</Group>
 			</Dropzone.Idle>

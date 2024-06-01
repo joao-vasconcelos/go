@@ -1,7 +1,7 @@
 /* * */
 
-import { useTranslations } from 'next-intl';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -16,7 +16,7 @@ export default function UsersExplorerPage() {
 	//
 	// B. Render components
 
-	return <NoDataLabel fill text={t('no_data')} />;
+	return <NoDataLabel text={t('no_data')} fill />;
 
 	//
 }

@@ -2,10 +2,10 @@
 
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { LineModel } from '@/schemas/Line/model';
-import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
+import { RouteModel } from '@/schemas/Route/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -23,7 +23,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -32,8 +33,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'lines', action: 'lock' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'PUT', permissions: [{ action: 'lock', scope: 'lines' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -44,7 +46,8 @@ export default async function handler(req, res) {
 	try {
 		lineDocument = await LineModel.findOne({ _id: { $eq: req.query._id } });
 		if (!lineDocument) return await res.status(404).json({ message: `Line with _id "${req.query._id}" not found.` });
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Line not found.' });
 	}
@@ -53,8 +56,9 @@ export default async function handler(req, res) {
 	// Check for valid permissions on the current document context
 
 	try {
-		isAllowed(sessionData, [{ scope: 'lines', action: 'lock', fields: [{ key: 'agencies', values: [lineDocument.agency] }] }]);
-	} catch (error) {
+		isAllowed(sessionData, [{ action: 'lock', fields: [{ key: 'agencies', values: [lineDocument.agency] }], scope: 'lines' }]);
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
 	}
@@ -72,7 +76,8 @@ export default async function handler(req, res) {
 		}
 		await lineDocument.save();
 		return await res.status(200).json(lineDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot update this Line or its associated Routes and Patterns.' });
 	}

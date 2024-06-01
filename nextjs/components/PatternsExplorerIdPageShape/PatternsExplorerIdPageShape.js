@@ -2,15 +2,15 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
-import { useMemo } from 'react';
-import { SimpleGrid } from '@mantine/core';
+import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
+import PatternsExplorerIdPageShapeMap from '@/components/PatternsExplorerIdPageShapeMap/PatternsExplorerIdPageShapeMap';
+import StatCard from '@/components/StatCard/StatCard';
 import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
 import { usePatternsExplorerContext } from '@/contexts/PatternsExplorerContext';
-import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
-import StatCard from '@/components/StatCard/StatCard';
-import PatternsExplorerIdPageShapeMap from '@/components/PatternsExplorerIdPageShapeMap/PatternsExplorerIdPageShapeMap';
+import { SimpleGrid } from '@mantine/core';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+import useSWR from 'swr';
 
 /* * */
 

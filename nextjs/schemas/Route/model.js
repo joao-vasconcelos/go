@@ -10,32 +10,32 @@ import mongoose from 'mongoose';
 export const RouteSchema = new mongoose.Schema(
 	{
 		code: {
-			type: String,
 			maxlength: 15,
+			type: String,
 			unique: true,
 		},
-		name: {
-			type: String,
-			maxlength: 150,
-		},
-		path_type: {
-			type: String,
-			maxlength: 2,
-			default: '1',
-		},
-		parent_line: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Line',
-		},
-		patterns: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Pattern',
-			},
-		],
 		is_locked: {
 			type: Boolean,
 		},
+		name: {
+			maxlength: 150,
+			type: String,
+		},
+		parent_line: {
+			ref: 'Line',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+		path_type: {
+			default: '1',
+			maxlength: 2,
+			type: String,
+		},
+		patterns: [
+			{
+				ref: 'Pattern',
+				type: mongoose.Schema.Types.ObjectId,
+			},
+		],
 	},
 	{ timestamps: true },
 );

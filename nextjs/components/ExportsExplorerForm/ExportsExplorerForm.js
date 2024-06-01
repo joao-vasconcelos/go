@@ -2,21 +2,20 @@
 
 /* * */
 
-import Pannel from '@/components/Pannel/Pannel';
-import { useTranslations } from 'next-intl';
-import { ExportOptions } from '@/schemas/Export/options';
-import { useSession } from 'next-auth/react';
 import isAllowed from '@/authentication/isAllowed';
-import { Select, Button, Divider, Switch } from '@mantine/core';
-import { Section } from '@/components/Layouts/Layouts';
-import { useMemo } from 'react';
-
-import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
-import ExportsExplorerFormHeader from '@/components/ExportsExplorerFormHeader/ExportsExplorerFormHeader';
-import ExportsExplorerFormIntro from '@/components/ExportsExplorerFormIntro/ExportsExplorerFormIntro';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ExportsExplorerFormGtfsReferenceV29 from '@/components/ExportsExplorerFormGtfsReferenceV29/ExportsExplorerFormGtfsReferenceV29';
 import ExportsExplorerFormGtfsRegionalMergeV1 from '@/components/ExportsExplorerFormGtfsRegionalMergeV1/ExportsExplorerFormGtfsRegionalMergeV1';
+import ExportsExplorerFormHeader from '@/components/ExportsExplorerFormHeader/ExportsExplorerFormHeader';
+import ExportsExplorerFormIntro from '@/components/ExportsExplorerFormIntro/ExportsExplorerFormIntro';
+import { Section } from '@/components/Layouts/Layouts';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import Pannel from '@/components/Pannel/Pannel';
+import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
+import { ExportOptions } from '@/schemas/Export/options';
+import { Button, Divider, Select, Switch } from '@mantine/core';
+import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
 /* * */
 
@@ -38,7 +37,7 @@ export default function ExportsExplorerForm() {
 
 	const availableExportKinds = useMemo(() => {
 		if (!ExportOptions.kind) return [];
-		return ExportOptions.kind.filter((item) => isAllowed(sessionData, [{ scope: 'exports', action: 'create', fields: [{ key: 'kind', values: [item] }] }], { handleError: true })).map((item) => ({ value: item, label: exportOptionsTranslations(`kind.${item}.label`) }));
+		return ExportOptions.kind.filter(item => isAllowed(sessionData, [{ action: 'create', fields: [{ key: 'kind', values: [item] }], scope: 'exports' }], { handleError: true })).map(item => ({ label: exportOptionsTranslations(`kind.${item}.label`), value: item }));
 	}, [exportOptionsTranslations, sessionData]);
 
 	//
@@ -51,7 +50,7 @@ export default function ExportsExplorerForm() {
 			</Section>
 			<Divider />
 			<Section>
-				<Select label={t('form.kind.label')} description={t('form.kind.description')} placeholder={t('form.kind.placeholder')} nothingFoundMessage={t('form.kind.nothingFound')} data={availableExportKinds} {...exportsExplorerContext.form_main.getInputProps('kind')} searchable clearable />
+				<Select data={availableExportKinds} description={t('form.kind.description')} label={t('form.kind.label')} nothingFoundMessage={t('form.kind.nothingFound')} placeholder={t('form.kind.placeholder')} {...exportsExplorerContext.form_main.getInputProps('kind')} clearable searchable />
 			</Section>
 
 			<Divider />
@@ -63,11 +62,11 @@ export default function ExportsExplorerForm() {
 
 			<Divider />
 			<Section>
-				<Switch label={t('form.notify_user.label')} description={t('form.notify_user.description')} {...exportsExplorerContext.form_main.getInputProps('notify_user', { type: 'checkbox' })} />
+				<Switch description={t('form.notify_user.description')} label={t('form.notify_user.label')} {...exportsExplorerContext.form_main.getInputProps('notify_user', { type: 'checkbox' })} />
 			</Section>
 			<Divider />
 			<Section>
-				<Button onClick={exportsExplorerContext.startExport} loading={exportsExplorerContext.form.is_loading} disabled={!exportsExplorerContext.form.is_valid}>
+				<Button disabled={!exportsExplorerContext.form.is_valid} loading={exportsExplorerContext.form.is_loading} onClick={exportsExplorerContext.startExport}>
 					{t('operations.start.label')}
 				</Button>
 			</Section>

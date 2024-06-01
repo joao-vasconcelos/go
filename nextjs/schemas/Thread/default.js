@@ -6,10 +6,10 @@
 /* * */
 /* A. Default Values */
 export const Default = {
-	subject: '',
-	owner: '',
-	status: 'open',
-	theme: '',
 	associated_lines: [],
 	associated_stops: [],
+	owner: '',
+	status: 'open',
+	subject: '',
+	theme: '',
 };

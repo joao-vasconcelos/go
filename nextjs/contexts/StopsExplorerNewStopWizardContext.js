@@ -2,13 +2,13 @@
 
 /* * */
 
-import useSWR from 'swr';
-import * as turf from '@turf/turf';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { StopOptions } from '@/schemas/Stop/options';
-import { useRouter } from 'next/navigation';
-import API from '@/services/API';
 import StopsExplorerNewStopWizard from '@/components/StopsExplorerNewStopWizard/StopsExplorerNewStopWizard';
+import { StopOptions } from '@/schemas/Stop/options';
+import API from '@/services/API';
+import * as turf from '@turf/turf';
+import { useRouter } from 'next/navigation';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -16,13 +16,13 @@ import StopsExplorerNewStopWizard from '@/components/StopsExplorerNewStopWizard/
 // SETUP INITIAL STATE
 
 const initialWizardState = {
+	current_step: 0,
+	is_error: false,
+	is_loading: false,
 	//
 	is_open: false,
-	is_loading: false,
-	is_error: false,
 	//
 	max_step: 3, // Zero-based + the Completed step
-	current_step: 0,
 	//
 	step_0_complete: false,
 	step_1_complete: false,
@@ -31,13 +31,13 @@ const initialWizardState = {
 const initialNewStopState = {
 	// Step 0
 	latitude: null,
+	locality: '',
 	longitude: null,
 	municipality: null,
 	// Step 1
 	name: '',
 	short_name: '',
 	tts_name: '',
-	locality: '',
 	//
 };
 
@@ -87,8 +87,8 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
 		const newStopHasValidLongitude = newStopState.longitude ? true : false;
 		const newStopHasValidMunicipality = newStopState.municipality ? true : false;
 		// Save validity check
-		if (newStopHasValidLatitude && newStopHasValidLongitude && newStopHasValidMunicipality) setWizardState((prev) => ({ ...prev, step_0_complete: true }));
-		else setWizardState((prev) => ({ ...prev, step_0_complete: false }));
+		if (newStopHasValidLatitude && newStopHasValidLongitude && newStopHasValidMunicipality) setWizardState(prev => ({ ...prev, step_0_complete: true }));
+		else setWizardState(prev => ({ ...prev, step_0_complete: false }));
 		//
 	}, [newStopState.latitude, newStopState.longitude, newStopState.municipality]);
 
@@ -97,8 +97,8 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
 		const newStopHasValidName = newStopState.name.length >= StopOptions.min_stop_name_length && newStopState.name.length <= StopOptions.max_stop_name_length ? true : false;
 		const newStopHasValidShortName = newStopState.short_name.length <= StopOptions.max_stop_short_name_length ? true : false;
 		// Save validity check
-		if (newStopHasValidName && newStopHasValidShortName) setWizardState((prev) => ({ ...prev, step_1_complete: true }));
-		else setWizardState((prev) => ({ ...prev, step_1_complete: false }));
+		if (newStopHasValidName && newStopHasValidShortName) setWizardState(prev => ({ ...prev, step_1_complete: true }));
+		else setWizardState(prev => ({ ...prev, step_1_complete: false }));
 		//
 	}, [newStopState.name, newStopState.short_name.length]);
 
@@ -107,7 +107,7 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
 
 	const openWizard = useCallback(() => {
 		setNewStopState(initialNewStopState);
-		setWizardState((prev) => ({ ...prev, is_open: true }));
+		setWizardState(prev => ({ ...prev, is_open: true }));
 	}, []);
 
 	const closeWizard = useCallback(() => {
@@ -151,7 +151,7 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
 				//
 			}
 			// Set new stop info
-			setNewStopState((prev) => ({ ...prev, latitude: sixDigitsLatitude, longitude: sixDigitsLongitude, municipality: municipalityDataForThisStop }));
+			setNewStopState(prev => ({ ...prev, latitude: sixDigitsLatitude, longitude: sixDigitsLongitude, municipality: municipalityDataForThisStop }));
 		},
 		[allMunicipalitiesData],
 	);
@@ -163,12 +163,12 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
 		let shortenedStopName = parsedStopName;
 		// Shorten the stop name
 		StopOptions.name_abbreviations
-			.filter((abbreviation) => abbreviation.enabled)
+			.filter(abbreviation => abbreviation.enabled)
 			.forEach((abbreviation) => {
 				shortenedStopName = shortenedStopName.replace(abbreviation.phrase, abbreviation.replacement);
 			});
 		// Set new stop info
-		setNewStopState((prev) => ({ ...prev, name: parsedStopName, short_name: shortenedStopName }));
+		setNewStopState(prev => ({ ...prev, name: parsedStopName, short_name: shortenedStopName }));
 	}, []);
 
 	const setNewStopLocality = useCallback((locality) => {
@@ -177,20 +177,21 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
 		// Remove double spaces
 		parsedStopLocality = parsedStopLocality.replace(/\s\s+/g, ' ');
 		// Set new stop info
-		setNewStopState((prev) => ({ ...prev, locality: parsedStopLocality }));
+		setNewStopState(prev => ({ ...prev, locality: parsedStopLocality }));
 	}, []);
 
 	const confirmNewStopCreation = useCallback(async () => {
 		try {
-			setWizardState((prev) => ({ ...prev, is_loading: true }));
-			const response = await API({ service: 'stops', operation: 'create', method: 'POST', body: newStopState });
-			setWizardState((prev) => ({ ...prev, is_loading: false }));
+			setWizardState(prev => ({ ...prev, is_loading: true }));
+			const response = await API({ body: newStopState, method: 'POST', operation: 'create', service: 'stops' });
+			setWizardState(prev => ({ ...prev, is_loading: false }));
 			setNewStopId(response._id);
 			router.push(`/stops/${response._id}`);
 			advanceWizardToNextStep();
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(error);
-			setWizardState((prev) => ({ ...prev, is_loading: false, is_error: error.message }));
+			setWizardState(prev => ({ ...prev, is_error: error.message, is_loading: false }));
 		}
 	}, [advanceWizardToNextStep, newStopState, router]);
 
@@ -203,21 +204,21 @@ export function StopsExplorerNewStopWizardContextProvider({ children }) {
 
 	const contextObject = useMemo(
 		() => ({
-			//
-			wizard: wizardState,
-			openWizard: openWizard,
-			closeWizard: closeWizard,
-			returnWizardToPreviousStep: returnWizardToPreviousStep,
 			advanceWizardToNextStep: advanceWizardToNextStep,
-			goToNewStop: goToNewStop,
+			closeWizard: closeWizard,
 			confirmNewStopCreation: confirmNewStopCreation,
+			goToNewStop: goToNewStop,
 			//
 			newStop: newStopState,
-			setNewStopCoordinates: setNewStopCoordinates,
-			setNewStopName: setNewStopName,
-			setNewStopLocality: setNewStopLocality,
 			//
 			newStopId: newStopId,
+			openWizard: openWizard,
+			returnWizardToPreviousStep: returnWizardToPreviousStep,
+			setNewStopCoordinates: setNewStopCoordinates,
+			setNewStopLocality: setNewStopLocality,
+			setNewStopName: setNewStopName,
+			//
+			wizard: wizardState,
 		}),
 		[wizardState, openWizard, closeWizard, returnWizardToPreviousStep, advanceWizardToNextStep, goToNewStop, confirmNewStopCreation, newStopState, setNewStopCoordinates, setNewStopName, setNewStopLocality, newStopId],
 	);

@@ -2,12 +2,12 @@
 
 /* * */
 
-import Text from '@/components/Text/Text';
-import { ActionIcon } from '@mantine/core';
-import { useTranslations } from 'next-intl';
-import { useReportsExplorerRealtimeContext } from '@/contexts/ReportsExplorerRealtimeContext';
-import { IconChevronLeft } from '@tabler/icons-react';
 import ListHeader from '@/components/ListHeader/ListHeader';
+import Text from '@/components/Text/Text';
+import { useReportsExplorerRealtimeContext } from '@/contexts/ReportsExplorerRealtimeContext';
+import { ActionIcon } from '@mantine/core';
+import { IconChevronLeft } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -25,7 +25,7 @@ export default function ReportsExplorerRealtimeResultTripDetailHeader() {
 
 	return (
 		<ListHeader>
-			<ActionIcon size="lg" onClick={reportsExplorerRealtimeContext.clearTripId} variant="subtle" color="gray">
+			<ActionIcon color="gray" onClick={reportsExplorerRealtimeContext.clearTripId} size="lg" variant="subtle">
 				<IconChevronLeft size="20px" />
 			</ActionIcon>
 			<Text size="h2" full>

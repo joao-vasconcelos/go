@@ -5,38 +5,38 @@ import mongoose from 'mongoose';
 /* * */
 
 export const TagSchema = new mongoose.Schema({
-	//
-	created_by: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
+	color: {
+		default: '#5aaf00',
+		maxlength: 50,
+		type: String,
 	},
 	created_at: {
-		type: Date,
 		default: Date.now,
+		type: Date,
 	},
 	//
-	label: {
-		type: String,
-		maxlength: 20,
-		unique: true,
+	created_by: {
+		ref: 'User',
+		type: mongoose.Schema.Types.ObjectId,
 	},
 	description: {
-		type: String,
 		maxlength: 500,
-	},
-	color: {
 		type: String,
-		maxlength: 50,
-		default: '#5aaf00',
-	},
-	text_color: {
-		type: String,
-		maxlength: 50,
-		default: '#ffffff',
 	},
 	//
 	is_locked: {
 		type: Boolean,
+	},
+	//
+	label: {
+		maxlength: 20,
+		type: String,
+		unique: true,
+	},
+	text_color: {
+		default: '#ffffff',
+		maxlength: 50,
+		type: String,
 	},
 	//
 });

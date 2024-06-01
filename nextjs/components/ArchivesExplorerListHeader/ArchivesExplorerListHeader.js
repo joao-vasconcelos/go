@@ -2,17 +2,17 @@
 
 /* * */
 
-import { useState } from 'react';
-import useSWR from 'swr';
-import API from '@/services/API';
-import { Button } from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
-import notify from '@/services/notify';
-import { useTranslations } from 'next-intl';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import ListHeader from '@/components/ListHeader/ListHeader';
 import SearchField from '@/components/SearchField/SearchField';
 import { useArchivesExplorerContext } from '@/contexts/ArchivesExplorerContext';
-import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import API from '@/services/API';
+import notify from '@/services/notify';
+import { Button } from '@mantine/core';
+import { IconPlus } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -38,11 +38,12 @@ export default function ArchivesExplorerListHeader() {
 		try {
 			setIsCreating(true);
 			notify('new', 'loading', t('operations.create.loading'));
-			await API({ service: 'archives', operation: 'create', method: 'GET' });
+			await API({ method: 'GET', operation: 'create', service: 'archives' });
 			allArchivesMutate();
 			notify('new', 'success', t('operations.create.success'));
 			setIsCreating(false);
-		} catch (error) {
+		}
+		catch (error) {
 			notify('new', 'error', error.message || t('operations.create.error'));
 			setIsCreating(false);
 			console.log(error);
@@ -54,14 +55,14 @@ export default function ArchivesExplorerListHeader() {
 
 	return (
 		<ListHeader>
-			<AppAuthenticationCheck permissions={[{ scope: 'archives', action: 'create' }]}>
+			<AppAuthenticationCheck permissions={[{ action: 'create', scope: 'archives' }]}>
 				<div>
-					<Button variant="light" color="gray" leftSection={<IconPlus size={20} />} loading={allArchivesLoading || isCreating} onClick={handleCreate}>
+					<Button color="gray" leftSection={<IconPlus size={20} />} loading={allArchivesLoading || isCreating} onClick={handleCreate} variant="light">
 						{t('operations.create.title')}
 					</Button>
 				</div>
 			</AppAuthenticationCheck>
-			<SearchField query={archivesExplorerContext.list.search_query} onChange={archivesExplorerContext.updateSearchQuery} />
+			<SearchField onChange={archivesExplorerContext.updateSearchQuery} query={archivesExplorerContext.list.search_query} />
 		</ListHeader>
 	);
 

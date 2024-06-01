@@ -2,17 +2,17 @@
 
 /* * */
 
-import Text from '@/components/Text/Text';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
 import AutoSave from '@/components/AutoSave/AutoSave';
+import { LinesExplorerLine } from '@/components/LinesExplorerLine/LinesExplorerLine';
+import ListHeader from '@/components/ListHeader/ListHeader';
+import Text from '@/components/Text/Text';
+import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
-import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
-import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
-import ListHeader from '@/components/ListHeader/ListHeader';
-import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
-import { LinesExplorerLine } from '@/components/LinesExplorerLine/LinesExplorerLine';
 
 /* * */
 
@@ -30,22 +30,23 @@ export default function LinesExplorerIdPageHeader() {
 
 	const handleDelete = async () => {
 		openConfirmModal({
-			title: <Text size="h2">{t('operations.delete.title')}</Text>,
 			centered: true,
-			closeOnClickOutside: true,
 			children: <Text size="h3">{t('operations.delete.description')}</Text>,
-			labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
+			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
+			labels: { cancel: t('operations.delete.cancel'), confirm: t('operations.delete.confirm') },
 			onConfirm: async () => {
 				try {
 					notify(linesExplorerContext.item_id, 'loading', t('operations.delete.loading'));
 					await linesExplorerContext.deleteItem();
 					notify(linesExplorerContext.item_id, 'success', t('operations.delete.success'));
-				} catch (error) {
+				}
+				catch (error) {
 					console.log(error);
 					notify(linesExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
 				}
 			},
+			title: <Text size="h2">{t('operations.delete.title')}</Text>,
 		});
 	};
 
@@ -55,26 +56,27 @@ export default function LinesExplorerIdPageHeader() {
 	return (
 		<ListHeader>
 			<AutoSave
-				isValid={linesExplorerContext.form.isValid()}
 				isDirty={linesExplorerContext.form.isDirty()}
-				onValidate={linesExplorerContext.validateItem}
-				isErrorValidating={linesExplorerContext.page.is_error}
 				isErrorSaving={linesExplorerContext.page.is_error_saving}
+				isErrorValidating={linesExplorerContext.page.is_error}
 				isSaving={linesExplorerContext.page.is_saving}
-				onSave={linesExplorerContext.saveItem}
+				isValid={linesExplorerContext.form.isValid()}
 				onClose={linesExplorerContext.closeItem}
+				onSave={linesExplorerContext.saveItem}
+				onValidate={linesExplorerContext.validateItem}
 			/>
-			{linesExplorerContext.item_data?.name ?
-				<LinesExplorerLine lineId={linesExplorerContext.item_id} withLink={false} /> :
-				<Text size="h1" style={!linesExplorerContext.form.values.name && 'untitled'} full>
-					{t('untitled')}
-				</Text>
-			}
-			<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'lock' }]}>
+			{linesExplorerContext.item_data?.name
+				? <LinesExplorerLine lineId={linesExplorerContext.item_id} withLink={false} />
+				: (
+					<Text size="h1" style={!linesExplorerContext.form.values.name && 'untitled'} full>
+						{t('untitled')}
+					</Text>
+				)}
+			<AppAuthenticationCheck permissions={[{ action: 'lock', scope: 'lines' }]}>
 				<AppButtonLock isLocked={linesExplorerContext.item_data?.is_locked} onClick={linesExplorerContext.lockItem} />
 			</AppAuthenticationCheck>
-			<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'delete' }]}>
-				<AppButtonDelete onClick={handleDelete} disabled={linesExplorerContext.page.is_read_only} />
+			<AppAuthenticationCheck permissions={[{ action: 'delete', scope: 'lines' }]}>
+				<AppButtonDelete disabled={linesExplorerContext.page.is_read_only} onClick={handleDelete} />
 			</AppAuthenticationCheck>
 		</ListHeader>
 	);

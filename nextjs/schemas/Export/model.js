@@ -5,17 +5,22 @@ import mongoose from 'mongoose';
 /* * */
 
 export const ExportSchema = new mongoose.Schema({
-	kind: {
-		type: String,
-		maxlength: 50,
-	},
-	status: {
-		type: String,
-		maxlength: 50,
+	createdAt: {
+		default: Date.now,
+		expires: 14400, // Auto remove document after x seconds have passed from createdAt value
+		type: Date,
 	},
 	exported_by: {
-		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
+		type: mongoose.Schema.Types.ObjectId,
+	},
+	filename: {
+		maxlength: 50,
+		type: String,
+	},
+	kind: {
+		maxlength: 50,
+		type: String,
 	},
 	notify_user: {
 		type: Boolean,
@@ -26,18 +31,13 @@ export const ExportSchema = new mongoose.Schema({
 	progress_total: {
 		type: Number,
 	},
-	filename: {
-		type: String,
+	status: {
 		maxlength: 50,
+		type: String,
 	},
 	workdir: {
-		type: String,
 		maxlength: 200,
-	},
-	createdAt: {
-		type: Date,
-		default: Date.now,
-		expires: 14400, // Auto remove document after x seconds have passed from createdAt value
+		type: String,
 	},
 });
 

@@ -7,9 +7,9 @@
 /* A. Default Values */
 export const CalendarDefault = {
 	code: '',
-	numeric_code: 0,
-	name: '',
-	description: '',
 	dates: [],
+	description: '',
 	is_locked: false,
+	name: '',
+	numeric_code: 0,
 };

@@ -1,33 +1,33 @@
 'use client';
 
-import useSWR from 'swr';
-import { useState } from 'react';
-import { useParams } from 'next/navigation';
-import { useRouter } from '@/translations/navigation';
-import { useForm, yupResolver } from '@mantine/form';
-import API from '@/services/API';
-import { CalendarValidation } from '@/schemas/Calendar/validation';
-import { CalendarDefault } from '@/schemas/Calendar/default';
-import { Tooltip, SimpleGrid, TextInput, ActionIcon, Divider, NumberInput, Button, Group } from '@mantine/core';
-import { IconTrash } from '@tabler/icons-react';
-import Pannel from '@/components/Pannel/Pannel';
-import { Section } from '@/components/Layouts/Layouts';
-import Text from '@/components/Text/Text';
+import isAllowed from '@/authentication/isAllowed';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import LockButton from '@/components/AppButtonLock/AppButtonLock';
+import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import AutoSave from '@/components/AutoSave/AutoSave';
-import notify from '@/services/notify';
-import { openConfirmModal } from '@mantine/modals';
-import { useTranslations } from 'next-intl';
+import CalendarPatternsView from '@/components/CalendarPatternsView/CalendarPatternsView';
 import HCalendar from '@/components/HCalendar/HCalendar';
 import HCalendarToggle from '@/components/HCalendarToggle/HCalendarToggle';
-import { useSession } from 'next-auth/react';
-import isAllowed from '@/authentication/isAllowed';
-import LockButton from '@/components/AppButtonLock/AppButtonLock';
-import populate from '@/services/populate';
-import CalendarPatternsView from '@/components/CalendarPatternsView/CalendarPatternsView';
+import { Section } from '@/components/Layouts/Layouts';
 import ListHeader from '@/components/ListHeader/ListHeader';
-import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
+import Pannel from '@/components/Pannel/Pannel';
+import Text from '@/components/Text/Text';
+import { CalendarDefault } from '@/schemas/Calendar/default';
+import { CalendarValidation } from '@/schemas/Calendar/validation';
+import API from '@/services/API';
 import calculateDateDayType from '@/services/calculateDateDayType';
+import notify from '@/services/notify';
+import populate from '@/services/populate';
+import { useRouter } from '@/translations/navigation';
+import { ActionIcon, Button, Divider, NumberInput, SimpleGrid, TextInput, Tooltip } from '@mantine/core';
+import { useForm, yupResolver } from '@mantine/form';
+import { openConfirmModal } from '@mantine/modals';
+import { IconTrash } from '@tabler/icons-react';
+import { useParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import useSWR from 'swr';
 
 export default function Page() {
 	//
@@ -49,7 +49,7 @@ export default function Page() {
 	// B. Fetch data
 
 	const { mutate: allCalendarsMutate } = useSWR('/api/calendars');
-	const { data: calendarData, error: calendarError, isLoading: calendarLoading, mutate: calendarMutate } = useSWR(calendar_id && `/api/calendars/${calendar_id}`, { onSuccess: (data) => keepFormUpdated(data) });
+	const { data: calendarData, error: calendarError, isLoading: calendarLoading, mutate: calendarMutate } = useSWR(calendar_id && `/api/calendars/${calendar_id}`, { onSuccess: data => keepFormUpdated(data) });
 	const { data: allDatesData } = useSWR('/api/dates');
 	const { data: allCalendarAssociatedPatternsData, isLoading: allCalendarAssociatedPatternsLoading } = useSWR(calendar_id && `/api/calendars/${calendar_id}/associatedPatterns`);
 
@@ -57,11 +57,11 @@ export default function Page() {
 	// C. Setup form
 
 	const form = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: populate(CalendarDefault, calendarData),
+		validate: yupResolver(CalendarValidation),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(CalendarValidation),
-		initialValues: populate(CalendarDefault, calendarData),
 	});
 
 	const keepFormUpdated = (data) => {
@@ -75,7 +75,7 @@ export default function Page() {
 	//
 	// D. Setup readonly
 
-	const isReadOnly = !isAllowed(sessionData, [{ scope: 'calendars', action: 'edit' }], { handleError: true }) || calendarData?.is_locked;
+	const isReadOnly = !isAllowed(sessionData, [{ action: 'edit', scope: 'calendars' }], { handleError: true }) || calendarData?.is_locked;
 
 	//
 	// E. Handle actions
@@ -91,14 +91,15 @@ export default function Page() {
 	const handleSave = async () => {
 		try {
 			setIsSaving(true);
-			await API({ service: 'calendars', resourceId: calendar_id, operation: 'edit', method: 'PUT', body: form.values });
+			await API({ body: form.values, method: 'PUT', operation: 'edit', resourceId: calendar_id, service: 'calendars' });
 			calendarMutate();
 			allCalendarsMutate();
 			form.resetDirty();
 			setIsSaving(false);
 			setIsLocking(false);
 			setHasErrorSaving(false);
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(error);
 			setIsSaving(false);
 			setIsLocking(false);
@@ -109,10 +110,11 @@ export default function Page() {
 	const handleLock = async () => {
 		try {
 			setIsLocking(true);
-			await API({ service: 'calendars', resourceId: calendar_id, operation: 'lock', method: 'PUT' });
+			await API({ method: 'PUT', operation: 'lock', resourceId: calendar_id, service: 'calendars' });
 			calendarMutate();
 			setIsLocking(false);
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(error);
 			calendarMutate();
 			setIsLocking(false);
@@ -121,36 +123,38 @@ export default function Page() {
 
 	const handleDelete = async () => {
 		openConfirmModal({
-			title: <Text size="h2">{t('operations.delete.title')}</Text>,
 			centered: true,
-			closeOnClickOutside: true,
 			children: <Text size="h3">{t('operations.delete.description')}</Text>,
-			labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
+			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
+			labels: { cancel: t('operations.delete.cancel'), confirm: t('operations.delete.confirm') },
 			onConfirm: async () => {
 				try {
 					setIsDeleting(true);
 					notify(calendar_id, 'loading', t('operations.delete.loading'));
-					await API({ service: 'calendars', resourceId: calendar_id, operation: 'delete', method: 'DELETE' });
+					await API({ method: 'DELETE', operation: 'delete', resourceId: calendar_id, service: 'calendars' });
 					allCalendarsMutate();
 					router.push('/calendars');
 					notify(calendar_id, 'success', t('operations.delete.success'));
 					setIsDeleting(false);
-				} catch (error) {
+				}
+				catch (error) {
 					console.log(error);
 					setIsDeleting(false);
 					notify(calendar_id, 'error', error.message || t('operations.delete.error'));
 				}
 			},
+			title: <Text size="h2">{t('operations.delete.title')}</Text>,
 		});
 	};
 
 	const handleToggleDate = (dateObj) => {
 		if (form.values.dates.includes(dateObj.date)) {
 			// Date string is present in the array, so remove the object
-			const newArray = form.values.dates.filter((date) => date !== dateObj.date);
+			const newArray = form.values.dates.filter(date => date !== dateObj.date);
 			form.setFieldValue('dates', newArray);
-		} else {
+		}
+		else {
 			// Date string is not present in the array, so add a new object
 			form.setFieldValue('dates', [...form.values.dates, dateObj.date]);
 		}
@@ -158,126 +162,127 @@ export default function Page() {
 
 	const handleMultiToggleDates = (selectedDates) => {
 		//
-		const arrayOfSelectedDates = selectedDates.map((dateObj) => dateObj.date);
+		const arrayOfSelectedDates = selectedDates.map(dateObj => dateObj.date);
 		//
-		const datesThatAreNotYetSelected = arrayOfSelectedDates.filter((date) => !form.values.dates.includes(date));
-		const datesThatAreAlreadySelected = form.values.dates.filter((date) => arrayOfSelectedDates.includes(date));
+		const datesThatAreNotYetSelected = arrayOfSelectedDates.filter(date => !form.values.dates.includes(date));
+		const datesThatAreAlreadySelected = form.values.dates.filter(date => arrayOfSelectedDates.includes(date));
 		//
 		if (datesThatAreNotYetSelected.length >= datesThatAreAlreadySelected.length) {
 			// Include all the dates that were not yet selected
 			form.setFieldValue('dates', [...form.values.dates, ...datesThatAreNotYetSelected]);
-		} else {
+		}
+		else {
 			// Remove all the dates that were not yet selected
-			const newDatesArray = form.values.dates.filter((date) => !arrayOfSelectedDates.includes(date));
+			const newDatesArray = form.values.dates.filter(date => !arrayOfSelectedDates.includes(date));
 			form.setFieldValue('dates', newDatesArray);
 		}
 	};
 
 	const handleTurnOnDayTypeOne = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '1').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '1').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+		matchingDates.forEach(date => uniqueSetOfDates.add(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOffDayTypeOne = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '1').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '1').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+		matchingDates.forEach(date => uniqueSetOfDates.delete(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOnDayTypeTwo = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '2').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '2').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+		matchingDates.forEach(date => uniqueSetOfDates.add(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOffDayTypeTwo = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '2').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '2').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+		matchingDates.forEach(date => uniqueSetOfDates.delete(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOnDayTypeThree = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '3').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '3').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+		matchingDates.forEach(date => uniqueSetOfDates.add(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOffDayTypeThree = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '3').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => calculateDateDayType(dateObj.date, dateObj.is_holiday) === '3').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+		matchingDates.forEach(date => uniqueSetOfDates.delete(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOnPeriodOne = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '1').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => dateObj.period === '1').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+		matchingDates.forEach(date => uniqueSetOfDates.add(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOffPeriodOne = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '1').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => dateObj.period === '1').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+		matchingDates.forEach(date => uniqueSetOfDates.delete(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOnPeriodTwo = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '2').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => dateObj.period === '2').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+		matchingDates.forEach(date => uniqueSetOfDates.add(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOffPeriodTwo = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '2').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => dateObj.period === '2').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+		matchingDates.forEach(date => uniqueSetOfDates.delete(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOnPeriodThree = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '3').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => dateObj.period === '3').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.add(date));
+		matchingDates.forEach(date => uniqueSetOfDates.add(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
 	const handleTurnOffPeriodThree = () => {
 		if (!allDatesData) return;
-		const matchingDates = allDatesData.filter((dateObj) => dateObj.period === '3').map((dateObj) => dateObj.date);
+		const matchingDates = allDatesData.filter(dateObj => dateObj.period === '3').map(dateObj => dateObj.date);
 		if (!matchingDates.length) return;
 		const uniqueSetOfDates = new Set(form.values.dates);
-		matchingDates.forEach((date) => uniqueSetOfDates.delete(date));
+		matchingDates.forEach(date => uniqueSetOfDates.delete(date));
 		form.setFieldValue('dates', [...uniqueSetOfDates]);
 	};
 
@@ -294,37 +299,37 @@ export default function Page() {
 	return (
 		<Pannel
 			loading={calendarLoading || isDeleting}
-			header={
+			header={(
 				<ListHeader>
 					<AutoSave
-						isValid={form.isValid()}
 						isDirty={form.isDirty()}
-						isLoading={calendarLoading}
-						isErrorValidating={calendarError}
-						isSaving={isSaving}
 						isErrorSaving={hasErrorSaving}
-						onValidate={() => handleValidate()}
-						onSave={async () => await handleSave()}
+						isErrorValidating={calendarError}
+						isLoading={calendarLoading}
+						isSaving={isSaving}
+						isValid={form.isValid()}
 						onClose={async () => await handleClose()}
+						onSave={async () => await handleSave()}
+						onValidate={() => handleValidate()}
 					/>
 					<Text size="h1" style={!form.values.name && 'untitled'} full>
 						{form.values.name || t('untitled')}
 					</Text>
-					<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'view' }]}>
+					<AppAuthenticationCheck permissions={[{ action: 'view', scope: 'lines' }]}>
 						<CalendarPatternsView calendar_id={calendar_id} />
 					</AppAuthenticationCheck>
-					<AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'lock' }]}>
-						<LockButton isLocked={calendarData?.is_locked} onClick={handleLock} loading={isLocking} />
+					<AppAuthenticationCheck permissions={[{ action: 'lock', scope: 'calendars' }]}>
+						<LockButton isLocked={calendarData?.is_locked} loading={isLocking} onClick={handleLock} />
 					</AppAuthenticationCheck>
-					<AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'delete' }]}>
-						<Tooltip label={t('operations.delete.title')} color="red" position="bottom" withArrow disabled={calendarData?.is_locked || allCalendarAssociatedPatternsData?.length > 0}>
-							<ActionIcon color="red" variant="light" size="lg" onClick={handleDelete} loading={calendarLoading || allCalendarAssociatedPatternsLoading} disabled={calendarData?.is_locked || allCalendarAssociatedPatternsData?.length > 0}>
+					<AppAuthenticationCheck permissions={[{ action: 'delete', scope: 'calendars' }]}>
+						<Tooltip color="red" disabled={calendarData?.is_locked || allCalendarAssociatedPatternsData?.length > 0} label={t('operations.delete.title')} position="bottom" withArrow>
+							<ActionIcon color="red" disabled={calendarData?.is_locked || allCalendarAssociatedPatternsData?.length > 0} loading={calendarLoading || allCalendarAssociatedPatternsLoading} onClick={handleDelete} size="lg" variant="light">
 								<IconTrash size={20} />
 							</ActionIcon>
 						</Tooltip>
 					</AppAuthenticationCheck>
 				</ListHeader>
-			}
+			)}
 		>
 			<form onSubmit={form.onSubmit(async () => await handleSave())}>
 				<Section>
@@ -334,7 +339,7 @@ export default function Page() {
 					</div>
 					<SimpleGrid cols={4}>
 						<TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...form.getInputProps('code')} readOnly={isReadOnly} />
-						<NumberInput label={t('form.numeric_code.label')} placeholder={t('form.numeric_code.placeholder')} {...form.getInputProps('numeric_code')} readOnly={isReadOnly} min={0} />
+						<NumberInput label={t('form.numeric_code.label')} placeholder={t('form.numeric_code.placeholder')} {...form.getInputProps('numeric_code')} min={0} readOnly={isReadOnly} />
 					</SimpleGrid>
 					<SimpleGrid cols={2}>
 						<TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...form.getInputProps('name')} readOnly={isReadOnly} />
@@ -345,59 +350,59 @@ export default function Page() {
 				<AppLayoutSection>
 					<SimpleGrid cols={3}>
 						<Button.Group>
-							<Button w="100%" variant="default" onClick={handleTurnOnDayTypeOne}>
-                Ligar Dias Úteis
+							<Button onClick={handleTurnOnDayTypeOne} variant="default" w="100%">
+								Ligar Dias Úteis
 							</Button>
-							<Button w="100%" variant="default" onClick={handleTurnOffDayTypeOne}>
-                Desligar Dias Úteis
-							</Button>
-						</Button.Group>
-						<Button.Group>
-							<Button w="100%" variant="default" onClick={handleTurnOnDayTypeTwo}>
-                Ligar Sábados
-							</Button>
-							<Button w="100%" variant="default" onClick={handleTurnOffDayTypeTwo}>
-                Desligar Sábados
+							<Button onClick={handleTurnOffDayTypeOne} variant="default" w="100%">
+								Desligar Dias Úteis
 							</Button>
 						</Button.Group>
 						<Button.Group>
-							<Button w="100%" variant="default" onClick={handleTurnOnDayTypeThree}>
-                Ligar Domingos e Feriados
+							<Button onClick={handleTurnOnDayTypeTwo} variant="default" w="100%">
+								Ligar Sábados
 							</Button>
-							<Button w="100%" variant="default" onClick={handleTurnOffDayTypeThree}>
-                Desligar Domingos e Feriados
+							<Button onClick={handleTurnOffDayTypeTwo} variant="default" w="100%">
+								Desligar Sábados
+							</Button>
+						</Button.Group>
+						<Button.Group>
+							<Button onClick={handleTurnOnDayTypeThree} variant="default" w="100%">
+								Ligar Domingos e Feriados
+							</Button>
+							<Button onClick={handleTurnOffDayTypeThree} variant="default" w="100%">
+								Desligar Domingos e Feriados
 							</Button>
 						</Button.Group>
 					</SimpleGrid>
 					<SimpleGrid cols={3}>
 						<Button.Group>
-							<Button w="100%" variant="default" onClick={handleTurnOnPeriodOne}>
-                Ligar Escolar
+							<Button onClick={handleTurnOnPeriodOne} variant="default" w="100%">
+								Ligar Escolar
 							</Button>
-							<Button w="100%" variant="default" onClick={handleTurnOffPeriodOne}>
-                Desligar Escolar
-							</Button>
-						</Button.Group>
-						<Button.Group>
-							<Button w="100%" variant="default" onClick={handleTurnOnPeriodTwo}>
-                Ligar Férias
-							</Button>
-							<Button w="100%" variant="default" onClick={handleTurnOffPeriodTwo}>
-                Desligar Férias
+							<Button onClick={handleTurnOffPeriodOne} variant="default" w="100%">
+								Desligar Escolar
 							</Button>
 						</Button.Group>
 						<Button.Group>
-							<Button w="100%" variant="default" onClick={handleTurnOnPeriodThree}>
-                Ligar Verão
+							<Button onClick={handleTurnOnPeriodTwo} variant="default" w="100%">
+								Ligar Férias
 							</Button>
-							<Button w="100%" variant="default" onClick={handleTurnOffPeriodThree}>
-                Desligar Verão
+							<Button onClick={handleTurnOffPeriodTwo} variant="default" w="100%">
+								Desligar Férias
+							</Button>
+						</Button.Group>
+						<Button.Group>
+							<Button onClick={handleTurnOnPeriodThree} variant="default" w="100%">
+								Ligar Verão
+							</Button>
+							<Button onClick={handleTurnOffPeriodThree} variant="default" w="100%">
+								Desligar Verão
 							</Button>
 						</Button.Group>
 					</SimpleGrid>
 				</AppLayoutSection>
 				<Divider />
-				<HCalendar availableDates={allDatesData} renderCardComponent={renderDateCardComponent} onMultiSelect={handleMultiToggleDates} />
+				<HCalendar availableDates={allDatesData} onMultiSelect={handleMultiToggleDates} renderCardComponent={renderDateCardComponent} />
 			</form>
 		</Pannel>
 	);

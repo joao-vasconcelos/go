@@ -2,9 +2,9 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
 import ListFooter from '@/components/ListFooter/ListFooter';
+import { useLinesExplorerContext } from '@/contexts/LinesExplorerContext';
+import { useTranslations } from 'next-intl';
 
 /* * */
 

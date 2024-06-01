@@ -12,7 +12,7 @@ import { StopsExplorerNewStopWizardContextProvider } from '@/contexts/StopsExplo
 
 export default function StopsExplorer({ children }) {
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'navigate' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'navigate', scope: 'stops' }]} redirect>
 			<StopsExplorerContextProvider>
 				<StopsExplorerNewStopWizardContextProvider>
 					<TwoUnevenColumns first={<StopsExplorerList />} second={children} />

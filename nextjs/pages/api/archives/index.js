@@ -1,8 +1,8 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { ArchiveModel } from '@/schemas/Archive/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -19,7 +19,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -28,8 +29,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'archives', action: 'view' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'view', scope: 'archives' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -39,7 +41,8 @@ export default async function handler(req, res) {
 
 	try {
 		await ArchiveModel.syncIndexes();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot sync indexes.' });
 	}
@@ -48,9 +51,10 @@ export default async function handler(req, res) {
 	// List all documents
 
 	try {
-		const allDocuments = await ArchiveModel.find();//.sort({ agency: 1, start_date: -1 }); //.find({ agency: { $in: [...sessionData.user.permissions.archives.view.fields.agency, null, undefined] } });
+		const allDocuments = await ArchiveModel.find();// .sort({ agency: 1, start_date: -1 }); //.find({ agency: { $in: [...sessionData.user.permissions.archives.view.fields.agency, null, undefined] } });
 		return await res.status(200).send(allDocuments);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot list Archives.' });
 	}

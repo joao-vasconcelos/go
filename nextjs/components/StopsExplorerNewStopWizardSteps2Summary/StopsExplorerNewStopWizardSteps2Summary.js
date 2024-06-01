@@ -2,9 +2,10 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import styles from './StopsExplorerNewStopWizardSteps2Summary.module.css';
 import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
+import { useTranslations } from 'next-intl';
+
+import styles from './StopsExplorerNewStopWizardSteps2Summary.module.css';
 
 /* * */
 

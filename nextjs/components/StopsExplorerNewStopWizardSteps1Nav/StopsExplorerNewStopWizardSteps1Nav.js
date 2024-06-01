@@ -2,10 +2,11 @@
 
 /* * */
 
+import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
 import { Button } from '@mantine/core';
 import { useTranslations } from 'next-intl';
+
 import styles from './StopsExplorerNewStopWizardSteps1Nav.module.css';
-import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
 
 /* * */
 
@@ -23,10 +24,10 @@ export default function StopsExplorerNewStopWizardSteps1Nav() {
 
 	return (
 		<div className={styles.container}>
-			<Button variant="light" onClick={stopsExplorerNewStopWizardContext.returnWizardToPreviousStep}>
+			<Button onClick={stopsExplorerNewStopWizardContext.returnWizardToPreviousStep} variant="light">
 				{t('previous_step.label')}
 			</Button>
-			<Button onClick={stopsExplorerNewStopWizardContext.advanceWizardToNextStep} variant="filled" disabled={!stopsExplorerNewStopWizardContext.wizard.step_1_complete}>
+			<Button disabled={!stopsExplorerNewStopWizardContext.wizard.step_1_complete} onClick={stopsExplorerNewStopWizardContext.advanceWizardToNextStep} variant="filled">
 				{t('next_step.label')}
 			</Button>
 		</div>

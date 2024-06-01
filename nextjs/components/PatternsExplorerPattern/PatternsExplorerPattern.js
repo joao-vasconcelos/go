@@ -2,17 +2,18 @@
 
 /* * */
 
-import useSWR from 'swr';
-import styles from './PatternsExplorerPattern.module.css';
-import { useTranslations } from 'next-intl';
-import { IconChevronRight } from '@tabler/icons-react';
+import Loader from '@/components/Loader/Loader';
 import Text from '@/components/Text/Text';
 import { useRouter } from '@/translations/navigation';
-import Loader from '@/components/Loader/Loader';
+import { IconChevronRight } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+import useSWR from 'swr';
+
+import styles from './PatternsExplorerPattern.module.css';
 
 /* * */
 
-export default function PatternsExplorerPattern({ patternId, openInNewTab = false }) {
+export default function PatternsExplorerPattern({ openInNewTab = false, patternId }) {
 	//
 
 	//
@@ -39,21 +40,25 @@ export default function PatternsExplorerPattern({ patternId, openInNewTab = fals
 	//
 	// D. Render components
 
-	return patternData ?
-		<div className={styles.container} onClick={handleClick}>
-			<div className={styles.routeInfo}>
-				<Text size="subtitle" style="muted">
-					{patternData.code || '...'}
-				</Text>
-				<Text size="title" style={!patternData.headsign && 'untitled'}>
-					{patternData.headsign ? patternData.headsign : t('untitled')}
-				</Text>
+	return patternData
+		? (
+			<div className={styles.container} onClick={handleClick}>
+				<div className={styles.routeInfo}>
+					<Text size="subtitle" style="muted">
+						{patternData.code || '...'}
+					</Text>
+					<Text size="title" style={!patternData.headsign && 'untitled'}>
+						{patternData.headsign ? patternData.headsign : t('untitled')}
+					</Text>
+				</div>
+				<IconChevronRight size="20px" />
 			</div>
-			<IconChevronRight size="20px" />
-		</div> :
-		<div className={styles.loading}>
-			<Loader visible />
-		</div>
+		)
+		: (
+			<div className={styles.loading}>
+				<Loader visible />
+			</div>
+		)
 	;
 
 	//

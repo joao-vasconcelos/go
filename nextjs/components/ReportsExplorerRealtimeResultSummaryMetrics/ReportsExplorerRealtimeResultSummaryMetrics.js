@@ -2,11 +2,11 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { SimpleGrid } from '@mantine/core';
-import StatCard from '@/components/StatCard/StatCard';
 import { Section } from '@/components/Layouts/Layouts';
+import StatCard from '@/components/StatCard/StatCard';
 import { useReportsExplorerRealtimeContext } from '@/contexts/ReportsExplorerRealtimeContext';
+import { SimpleGrid } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
 /* * */
@@ -29,7 +29,7 @@ export default function ReportsExplorerRealtimeResultSummaryMetrics() {
 		// Setup a new variable to hold the count total
 		let eventsCount = 0;
 		// Count the events for each trip
-		reportsExplorerRealtimeContext.request.summary.forEach((trip) => eventsCount += trip.positions.length);
+		reportsExplorerRealtimeContext.request.summary.forEach(trip => eventsCount += trip.positions.length);
 		// Return the result
 		return eventsCount;
 		//
@@ -41,8 +41,8 @@ export default function ReportsExplorerRealtimeResultSummaryMetrics() {
 	return (
 		<Section>
 			<SimpleGrid cols={2}>
-				<StatCard title={t('total_events.title')} value={totalEventsMetricData} displayValue={totalEventsMetricData} />
-				<StatCard title={t('total_trips.title')} value={reportsExplorerRealtimeContext.request.summary.length} displayValue={reportsExplorerRealtimeContext.request.summary.length} />
+				<StatCard displayValue={totalEventsMetricData} title={t('total_events.title')} value={totalEventsMetricData} />
+				<StatCard displayValue={reportsExplorerRealtimeContext.request.summary.length} title={t('total_trips.title')} value={reportsExplorerRealtimeContext.request.summary.length} />
 			</SimpleGrid>
 		</Section>
 	);

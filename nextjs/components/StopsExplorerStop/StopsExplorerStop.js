@@ -2,9 +2,10 @@
 
 /* * */
 
-import useSWR from 'swr';
-import styles from './StopsExplorerStop.module.css';
 import Loader from '@/components/Loader/Loader';
+import useSWR from 'swr';
+
+import styles from './StopsExplorerStop.module.css';
 
 /* * */
 
@@ -26,12 +27,14 @@ export function StopsExplorerStop({ stopId }) {
 	//
 	// C. Render components
 
-	return stopData ?
-		<div className={styles.container} onClick={handleOpenStop}>
-			<div className={styles.badge}>#{stopData.code}</div>
-			<div className={styles.name}>{stopData.name}</div>
-		</div> :
-		<Loader size={10} visible />
+	return stopData
+		? (
+			<div className={styles.container} onClick={handleOpenStop}>
+				<div className={styles.badge}>#{stopData.code}</div>
+				<div className={styles.name}>{stopData.name}</div>
+			</div>
+		)
+		: <Loader size={10} visible />
 	;
 
 	//

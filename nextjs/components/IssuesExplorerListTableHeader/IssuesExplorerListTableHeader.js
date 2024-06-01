@@ -4,6 +4,7 @@
 
 import { Table } from '@mantine/core';
 import { useTranslations } from 'next-intl';
+
 import styles from './IssuesExplorerListTableHeader.module.css';
 
 /* * */

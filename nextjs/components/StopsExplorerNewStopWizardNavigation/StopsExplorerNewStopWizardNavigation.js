@@ -2,10 +2,11 @@
 
 /* * */
 
+import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
 import { Button } from '@mantine/core';
 import { useTranslations } from 'next-intl';
+
 import styles from './StopsExplorerNewStopWizardNavigation.module.css';
-import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
 
 /* * */
 
@@ -24,7 +25,7 @@ export default function StopsExplorerNewStopWizardNavigation({ onClose }) {
 	if (stopsExplorerNewStopWizardContext.wizard.current_step === 0) {
 		return (
 			<div className={styles.twoColumnRow}>
-				<Button variant="light" color="red" onClick={onClose}>
+				<Button color="red" onClick={onClose} variant="light">
 					{t('cancel.label')}
 				</Button>
 				<Button onClick={stopsExplorerNewStopWizardContext.advanceWizardToNextStep} variant="filled">
@@ -37,7 +38,7 @@ export default function StopsExplorerNewStopWizardNavigation({ onClose }) {
 	if (stopsExplorerNewStopWizardContext.wizard.current_step > 0 && stopsExplorerNewStopWizardContext.wizard.current_step < stopsExplorerNewStopWizardContext.wizard.max_step - 1) {
 		return (
 			<div className={styles.twoColumnRow}>
-				<Button variant="light" onClick={stopsExplorerNewStopWizardContext.returnWizardToPreviousStep}>
+				<Button onClick={stopsExplorerNewStopWizardContext.returnWizardToPreviousStep} variant="light">
 					{t('previous_step.label')}
 				</Button>
 				<Button onClick={stopsExplorerNewStopWizardContext.advanceWizardToNextStep} variant="filled">
@@ -50,7 +51,7 @@ export default function StopsExplorerNewStopWizardNavigation({ onClose }) {
 	if (stopsExplorerNewStopWizardContext.wizard.current_step === stopsExplorerNewStopWizardContext.wizard.max_step - 1) {
 		return (
 			<div className={styles.twoColumnRow}>
-				<Button variant="light" onClick={stopsExplorerNewStopWizardContext.returnWizardToPreviousStep}>
+				<Button onClick={stopsExplorerNewStopWizardContext.returnWizardToPreviousStep} variant="light">
 					{t('previous_step.label')}
 				</Button>
 				<Button color="green" onClick={stopsExplorerNewStopWizardContext.advanceWizardToNextStep}>
@@ -63,7 +64,7 @@ export default function StopsExplorerNewStopWizardNavigation({ onClose }) {
 	if (stopsExplorerNewStopWizardContext.wizard.current_step === stopsExplorerNewStopWizardContext.wizard.max_step) {
 		return (
 			<div className={styles.oneColumnRow}>
-				<Button variant="light" onClick={stopsExplorerNewStopWizardContext.goToNewStop}>
+				<Button onClick={stopsExplorerNewStopWizardContext.goToNewStop} variant="light">
 					{t('close.label')}
 				</Button>
 			</div>

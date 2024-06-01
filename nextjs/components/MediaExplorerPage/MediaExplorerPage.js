@@ -1,6 +1,7 @@
 /* * */
 
 import { useTranslations } from 'next-intl';
+
 import MediaExplorerMediaUpload from '../MediaExplorerMediaUpload/MediaExplorerMediaUpload';
 
 /* * */

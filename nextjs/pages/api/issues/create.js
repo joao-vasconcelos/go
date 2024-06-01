@@ -1,11 +1,11 @@
 /* * */
 
-import mongodb from '@/services/OFFERMANAGERDB';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import generator from '@/services/generator';
 import { IssueDefault } from '@/schemas/Issue/default';
 import { IssueModel } from '@/schemas/Issue/model';
+import mongodb from '@/services/OFFERMANAGERDB';
+import generator from '@/services/generator';
 
 /* * */
 
@@ -30,8 +30,9 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-		isAllowed(sessionData, [{ scope: 'issues', action: 'create' }]);
-	} catch (error) {
+		isAllowed(sessionData, [{ action: 'create', scope: 'issues' }]);
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
 	}
@@ -41,7 +42,8 @@ export default async function handler(req, res) {
 
 	try {
 		await mongodb.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'MongoDB connection error.' });
 	}
@@ -50,13 +52,14 @@ export default async function handler(req, res) {
 	// Save a new document with default values
 
 	try {
-		const newDocument = { ...IssueDefault, code: generator({ length: 4, type: 'numeric' }), created_at: (new Date).toISOString(), created_by: sessionData.user._id };
+		const newDocument = { ...IssueDefault, code: generator({ length: 4, type: 'numeric' }), created_at: (new Date()).toISOString(), created_by: sessionData.user._id };
 		while (await IssueModel.exists({ code: newDocument.code })) {
 			newDocument.code = generator({ length: 4, type: 'numeric' });
 		}
 		const createdDocument = await IssueModel(newDocument).save();
 		return await res.status(201).json(createdDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot create this Issue.' });
 	}

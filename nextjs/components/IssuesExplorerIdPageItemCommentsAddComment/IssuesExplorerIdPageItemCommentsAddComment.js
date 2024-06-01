@@ -2,11 +2,12 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
-import styles from './IssuesExplorerIdPageItemCommentsAddComment.module.css';
 import { Button, Textarea } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+
+import styles from './IssuesExplorerIdPageItemCommentsAddComment.module.css';
 
 /* * */
 
@@ -33,7 +34,7 @@ export default function IssuesExplorerIdPageItemCommentsAddComment() {
 
 	return (
 		<div className={styles.container}>
-			<Textarea label={t('form.text.label')} placeholder={t('form.text.placeholder')} w="100%" value={commentText} onChange={({ currentTarget }) => setCommentText(currentTarget.value)} />
+			<Textarea label={t('form.text.label')} onChange={({ currentTarget }) => setCommentText(currentTarget.value)} placeholder={t('form.text.placeholder')} value={commentText} w="100%" />
 			<Button onClick={handleAddComment}>{t('form.submit.label')}</Button>
 		</div>
 	);

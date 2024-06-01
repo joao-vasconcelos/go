@@ -1,16 +1,17 @@
-import styles from './MessageWriter.module.css';
+import { ActionIcon, Select, SimpleGrid, TextInput, Textarea, Tooltip } from '@mantine/core';
+import { useForm, yupResolver } from '@mantine/form';
+import { IconArrowBigUpFilled, IconPaperclip } from '@tabler/icons-react';
+import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
-import { Tooltip, Select, SimpleGrid, TextInput, ActionIcon, Textarea } from '@mantine/core';
-import { IconPaperclip, IconArrowBigUpFilled } from '@tabler/icons-react';
-import { useTranslations } from 'next-intl';
-import { useForm, yupResolver } from '@mantine/form';
-import API from '../../services/API';
-import { Validation as MessageValidation } from '../../schemas/Message/validation';
+
 import { Default as MessageDefault } from '../../schemas/Message/default';
-import { useSession } from 'next-auth/react';
+import { Validation as MessageValidation } from '../../schemas/Message/validation';
+import API from '../../services/API';
 import notify from '../../services/notify';
 import Loader from '../Loader/Loader';
+import styles from './MessageWriter.module.css';
 
 export default function MessageWriter({ thread_id }) {
 	//
@@ -28,8 +29,8 @@ export default function MessageWriter({ thread_id }) {
 
 	const form = useForm({
 		clearInputErrorOnChange: true,
-		validate: yupResolver(MessageValidation),
 		initialValues: MessageDefault,
+		validate: yupResolver(MessageValidation),
 	});
 
 	//
@@ -41,11 +42,12 @@ export default function MessageWriter({ thread_id }) {
 			setIsSending(true);
 			form.setFieldValue('thread_id', thread_id);
 			form.setFieldValue('sent_by', sessionData.user._id);
-			await API({ service: 'messages', operation: 'create', method: 'POST', body: form });
+			await API({ body: form, method: 'POST', operation: 'create', service: 'messages' });
 			mutate(`/api/threads/${thread_id}`);
 			form.reset();
 			setIsSending(false);
-		} catch (error) {
+		}
+		catch (error) {
 			notify('new', 'error', error.message || t('operations.create.error'));
 			setIsSending(false);
 			console.log(error);
@@ -57,7 +59,7 @@ export default function MessageWriter({ thread_id }) {
 			<div className={styles.attach}>
 				<IconPaperclip size={18} />
 			</div>
-			<Textarea placeholder={t('messages.content.placeholder')} {...form.getInputProps('content')} w="100%" minRows={1} maxRows={5} autosize />
+			<Textarea placeholder={t('messages.content.placeholder')} {...form.getInputProps('content')} maxRows={5} minRows={1} w="100%" autosize />
 			<div className={`${styles.send} ${!form.isValid() && styles.disabled}`} onClick={handleSend}>
 				{isSending ? <Loader visible /> : <IconArrowBigUpFilled size={14} />}
 			</div>

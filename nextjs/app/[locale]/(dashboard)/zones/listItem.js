@@ -1,9 +1,9 @@
-import { useParams } from 'next/navigation';
-import { useRouter } from '@/translations/navigation';
-import { useTranslations } from 'next-intl';
+import Badge from '@/components/Badge/Badge';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import Text from '@/components/Text/Text';
-import Badge from '@/components/Badge/Badge';
+import { useRouter } from '@/translations/navigation';
+import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function ListItem({ _id, code, name }) {
 	//
@@ -18,7 +18,7 @@ export default function ListItem({ _id, code, name }) {
 	};
 
 	return (
-		<BaseListItem onClick={handleClick} isSelected={zone_id === _id} withChevron>
+		<BaseListItem isSelected={zone_id === _id} onClick={handleClick} withChevron>
 			<Text size="title" style={!name && 'untitled'}>
 				{name || t('untitled')}
 			</Text>

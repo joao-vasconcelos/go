@@ -2,15 +2,15 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
-import Pannel from '@/components/Pannel/Pannel';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ListFooter from '@/components/ListFooter/ListFooter';
-import MediaExplorerListItem from '@/components/MediaExplorerListItem/MediaExplorerListItem';
-import MediaExplorerListHeader from '@/components/MediaExplorerListHeader/MediaExplorerListHeader';
 import MediaExplorerListFooter from '@/components/MediaExplorerListFooter/MediaExplorerListFooter';
+import MediaExplorerListHeader from '@/components/MediaExplorerListHeader/MediaExplorerListHeader';
+import MediaExplorerListItem from '@/components/MediaExplorerListItem/MediaExplorerListItem';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import Pannel from '@/components/Pannel/Pannel';
 import { useMediaExplorerContext } from '@/contexts/MediaExplorerContext';
+import { useTranslations } from 'next-intl';
+import useSWR from 'swr';
 
 /* * */
 
@@ -32,8 +32,8 @@ export default function MediaExplorerList() {
 	// C. Render data
 
 	return (
-		<Pannel loading={allMediaLoading} validating={allMediaValidating} error={allMediaError} header={<MediaExplorerListHeader />} footer={<MediaExplorerListFooter />}>
-			{mediaExplorerContext.list.items.length > 0 ? mediaExplorerContext.list.items.map((item) => <MediaExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		<Pannel error={allMediaError} footer={<MediaExplorerListFooter />} header={<MediaExplorerListHeader />} loading={allMediaLoading} validating={allMediaValidating}>
+			{mediaExplorerContext.list.items.length > 0 ? mediaExplorerContext.list.items.map(item => <MediaExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
 		</Pannel>
 	);
 

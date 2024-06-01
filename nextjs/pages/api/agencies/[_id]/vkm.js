@@ -1,15 +1,15 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import calculateDateDayType from '@/services/calculateDateDayType';
-import { DateTime } from 'luxon';
 import { AgencyModel } from '@/schemas/Agency/model';
-import { LineModel } from '@/schemas/Line/model';
-import { DateModel } from '@/schemas/Date/model';
-import { RouteModel } from '@/schemas/Route/model';
-import { PatternModel } from '@/schemas/Pattern/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
+import { DateModel } from '@/schemas/Date/model';
+import { LineModel } from '@/schemas/Line/model';
+import { PatternModel } from '@/schemas/Pattern/model';
+import { RouteModel } from '@/schemas/Route/model';
+import calculateDateDayType from '@/services/calculateDateDayType';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import { DateTime } from 'luxon';
 
 /* * */
 
@@ -29,7 +29,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -38,8 +39,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'agencies', action: 'view' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'POST', permissions: [{ action: 'view', scope: 'agencies' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -49,7 +51,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = await JSON.parse(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		await res.status(500).json({ message: 'JSON parse error.' });
 		return;
@@ -63,7 +66,8 @@ export default async function handler(req, res) {
 		for (const dateData of allDates) {
 			allDatesMap[dateData.date] = dateData;
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Could not fetch all Dates.' });
 	}
@@ -73,7 +77,8 @@ export default async function handler(req, res) {
 
 	try {
 		agencyData = await AgencyModel.findOne({ _id: { $eq: req.query._id } }).lean();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Could not fetch Agency.' });
 	}
@@ -85,18 +90,19 @@ export default async function handler(req, res) {
 		allLinesData = await LineModel.find({ agency: { $eq: req.query._id } }, { select: 'routes' })
 			.populate({
 				path: 'routes',
-				select: 'patterns',
 				populate: {
 					path: 'patterns',
-					select: 'code shape.extension shape.points.shape_dist_traveled path.distance_delta schedules.calendars_on schedules.calendars_off',
 					populate: {
 						path: 'schedules.calendars_on schedules.calendars_off',
 						select: 'code dates',
 					},
+					select: 'code shape.extension shape.points.shape_dist_traveled path.distance_delta schedules.calendars_on schedules.calendars_off',
 				},
+				select: 'patterns',
 			})
 			.lean();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot fetch Lines for this Agency.' });
 	}
@@ -177,7 +183,7 @@ export default async function handler(req, res) {
 								// If the source is 'shape' get the max shape_dist_traveled
 								if (req.body.extension_source === 'shape') shapeExtension = patternData.shape.points[patternData.shape.points.length - 1].shape_dist_traveled;
 								// If the source is 'stop_times' sum all segments between each stop
-								else if (req.body.extension_source === 'stop_times') patternData.path.forEach((stopPath) => shapeExtension += Number(stopPath.distance_delta));
+								else if (req.body.extension_source === 'stop_times') patternData.path.forEach(stopPath => shapeExtension += Number(stopPath.distance_delta));
 								// If the source is 'go' use the TurfJS uniformization
 								else if (req.body.extension_source === 'go') shapeExtension = patternData.shape.extension;
 
@@ -227,45 +233,46 @@ export default async function handler(req, res) {
 
 		return await res.status(200).json({
 			//
+			day_type_one: vehicleDistanceInMetersForDayTypeOne / 1000,
+			day_type_three: vehicleDistanceInMetersForDayTypeThree / 1000,
+			day_type_two: vehicleDistanceInMetersForDayTypeTwo / 1000,
+			//
 			inputs: {
-				calculation_method: req.body.calculation_method,
-				start_date: startDateString,
-				end_date: endDateString,
-				price_per_km: agencyData.price_per_km,
-				total_vkm_per_year: agencyData.total_vkm_per_year,
 				agency_id: agencyData._id,
 				agency_name: agencyData.name,
+				calculation_method: req.body.calculation_method,
+				end_date: endDateString,
+				price_per_km: agencyData.price_per_km,
+				start_date: startDateString,
+				total_vkm_per_year: agencyData.total_vkm_per_year,
 			},
+			//
+			period_one: vehicleDistanceInMetersForPeriodOne / 1000,
+			//
+			period_one_and_day_type_one: vehicleDistanceInMetersForPeriodOneAndDayTypeOne / 1000,
+			period_one_and_day_type_three: vehicleDistanceInMetersForPeriodOneAndDayTypeThree / 1000,
+			period_one_and_day_type_two: vehicleDistanceInMetersForPeriodOneAndDayTypeTwo / 1000,
+			period_three: vehicleDistanceInMetersForPeriodThree / 1000,
+			//
+			period_three_and_day_type_one: vehicleDistanceInMetersForPeriodThreeAndDayTypeOne / 1000,
+			period_three_and_day_type_three: vehicleDistanceInMetersForPeriodThreeAndDayTypeThree / 1000,
+			period_three_and_day_type_two: vehicleDistanceInMetersForPeriodThreeAndDayTypeTwo / 1000,
+			period_two: vehicleDistanceInMetersForPeriodTwo / 1000,
+			//
+			period_two_and_day_type_one: vehicleDistanceInMetersForPeriodTwoAndDayTypeOne / 1000,
+			period_two_and_day_type_three: vehicleDistanceInMetersForPeriodTwoAndDayTypeThree / 1000,
+			period_two_and_day_type_two: vehicleDistanceInMetersForPeriodTwoAndDayTypeTwo / 1000,
 			//
 			total_from_distance: vehicleDistanceInKilometersTotal,
 			total_from_shape: 0,
 			total_in_euros: vehicleDistanceInKilometersTotal * agencyData.price_per_km,
 			total_relative_to_contract: agencyData.total_vkm_per_year ? vehicleDistanceInKilometersTotal / agencyData.total_vkm_per_year : 0,
 			//
-			period_one: vehicleDistanceInMetersForPeriodOne / 1000,
-			period_two: vehicleDistanceInMetersForPeriodTwo / 1000,
-			period_three: vehicleDistanceInMetersForPeriodThree / 1000,
-			//
-			day_type_one: vehicleDistanceInMetersForDayTypeOne / 1000,
-			day_type_two: vehicleDistanceInMetersForDayTypeTwo / 1000,
-			day_type_three: vehicleDistanceInMetersForDayTypeThree / 1000,
-			//
-			period_one_and_day_type_one: vehicleDistanceInMetersForPeriodOneAndDayTypeOne / 1000,
-			period_one_and_day_type_two: vehicleDistanceInMetersForPeriodOneAndDayTypeTwo / 1000,
-			period_one_and_day_type_three: vehicleDistanceInMetersForPeriodOneAndDayTypeThree / 1000,
-			//
-			period_two_and_day_type_one: vehicleDistanceInMetersForPeriodTwoAndDayTypeOne / 1000,
-			period_two_and_day_type_two: vehicleDistanceInMetersForPeriodTwoAndDayTypeTwo / 1000,
-			period_two_and_day_type_three: vehicleDistanceInMetersForPeriodTwoAndDayTypeThree / 1000,
-			//
-			period_three_and_day_type_one: vehicleDistanceInMetersForPeriodThreeAndDayTypeOne / 1000,
-			period_three_and_day_type_two: vehicleDistanceInMetersForPeriodThreeAndDayTypeTwo / 1000,
-			period_three_and_day_type_three: vehicleDistanceInMetersForPeriodThreeAndDayTypeThree / 1000,
-			//
 		});
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: error.message || 'Cannot calculate VKm for this Agency.' });
 	}

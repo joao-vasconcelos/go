@@ -2,15 +2,16 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import styles from './PatternsExplorerIdPagePresets.module.css';
-import { Text, NumberInput, Button } from '@mantine/core';
-import { IconClockPause, IconPlayerTrackNext } from '@tabler/icons-react';
-import { openConfirmModal } from '@mantine/modals';
-import calculateTravelTime from '@/services/calculateTravelTime';
-import notify from '@/services/notify';
-import formatSecondsToTime from '@/services/formatSecondsToTime';
 import { usePatternsExplorerContext } from '@/contexts/PatternsExplorerContext';
+import calculateTravelTime from '@/services/calculateTravelTime';
+import formatSecondsToTime from '@/services/formatSecondsToTime';
+import notify from '@/services/notify';
+import { Button, NumberInput, Text } from '@mantine/core';
+import { openConfirmModal } from '@mantine/modals';
+import { IconClockPause, IconPlayerTrackNext } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+
+import styles from './PatternsExplorerIdPagePresets.module.css';
 
 /* * */
 
@@ -28,12 +29,11 @@ export function PatternsExplorerIdPagePresetsVelocity() {
 
 	const handleUpdateAll = () => {
 		openConfirmModal({
-			title: <Text size="h2">{t('modal.title')}</Text>,
 			centered: true,
-			closeOnClickOutside: true,
 			children: <Text size="h3">{t('modal.description')}</Text>,
-			labels: { confirm: t('modal.confirm'), cancel: t('modal.cancel') },
+			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
+			labels: { cancel: t('modal.cancel'), confirm: t('modal.confirm') },
 			onConfirm: async () => {
 				notify('update-preset-velocity', 'loading', t('notification.loading'));
 				const presetValue = patternsExplorerContext.form.values.presets.velocity;
@@ -44,6 +44,7 @@ export function PatternsExplorerIdPagePresetsVelocity() {
 				}
 				notify('update-preset-velocity', 'success', t('notification.success', { value: `${presetValue} km/h` }));
 			},
+			title: <Text size="h2">{t('modal.title')}</Text>,
 		});
 	};
 
@@ -52,8 +53,8 @@ export function PatternsExplorerIdPagePresetsVelocity() {
 
 	return (
 		<div className={styles.presetCard}>
-			<NumberInput label={t('label')} placeholder={t('placeholder')} defaultValue={20} min={0} step={1} suffix={' km/h'} leftSection={<IconPlayerTrackNext size={18} />} {...patternsExplorerContext.form.getInputProps(`presets.velocity`)} readOnly={patternsExplorerContext.page.is_read_only} />
-			<Button onClick={handleUpdateAll} variant="default" disabled={patternsExplorerContext.page.is_read_only}>
+			<NumberInput defaultValue={20} label={t('label')} leftSection={<IconPlayerTrackNext size={18} />} min={0} placeholder={t('placeholder')} step={1} suffix=" km/h" {...patternsExplorerContext.form.getInputProps(`presets.velocity`)} readOnly={patternsExplorerContext.page.is_read_only} />
+			<Button disabled={patternsExplorerContext.page.is_read_only} onClick={handleUpdateAll} variant="default">
 				{t('apply')}
 			</Button>
 		</div>
@@ -78,12 +79,11 @@ export function PatternsExplorerIdPagePresetsDwellTime() {
 
 	const handleUpdateAll = () => {
 		openConfirmModal({
-			title: <Text size="h2">{t('modal.title')}</Text>,
 			centered: true,
-			closeOnClickOutside: true,
 			children: <Text size="h3">{t('modal.description')}</Text>,
-			labels: { confirm: t('modal.confirm'), cancel: t('modal.cancel') },
+			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
+			labels: { cancel: t('modal.cancel'), confirm: t('modal.confirm') },
 			onConfirm: async () => {
 				notify('update-preset-dwell_time', 'loading', t('notification.success'));
 				const presetValue = patternsExplorerContext.form.values.presets.dwell_time;
@@ -92,6 +92,7 @@ export function PatternsExplorerIdPagePresetsDwellTime() {
 				}
 				notify('update-preset-dwell_time', 'success', t('notification.success', { value: formatSecondsToTime(presetValue) }));
 			},
+			title: <Text size="h2">{t('modal.title')}</Text>,
 		});
 	};
 
@@ -100,8 +101,8 @@ export function PatternsExplorerIdPagePresetsDwellTime() {
 
 	return (
 		<div className={styles.presetCard}>
-			<NumberInput label={t('label')} placeholder={t('placeholder')} defaultValue={30} min={0} max={900} step={10} leftSection={<IconClockPause size={20} />} suffix={' seg'} {...patternsExplorerContext.form.getInputProps(`presets.dwell_time`)} readOnly={patternsExplorerContext.page.is_read_only} />
-			<Button onClick={handleUpdateAll} variant="default" disabled={patternsExplorerContext.page.is_read_only}>
+			<NumberInput defaultValue={30} label={t('label')} leftSection={<IconClockPause size={20} />} max={900} min={0} placeholder={t('placeholder')} step={10} suffix=" seg" {...patternsExplorerContext.form.getInputProps(`presets.dwell_time`)} readOnly={patternsExplorerContext.page.is_read_only} />
+			<Button disabled={patternsExplorerContext.page.is_read_only} onClick={handleUpdateAll} variant="default">
 				{t('apply')}
 			</Button>
 		</div>

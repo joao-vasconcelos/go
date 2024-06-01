@@ -1,7 +1,7 @@
 /* * */
 
-import { notFound } from 'next/navigation';
 import { availableFormats, availableLocales } from '@/translations/config';
+import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 
 /* * */
@@ -14,7 +14,7 @@ export default function Layout({ children, params: { locale } }) {
 	const messages = useMessages();
 
 	return (
-		<NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Lisbon" now={Date.now()} formats={availableFormats}>
+		<NextIntlClientProvider formats={availableFormats} locale={locale} messages={messages} now={Date.now()} timeZone="Europe/Lisbon">
 			{children}
 		</NextIntlClientProvider>
 	);

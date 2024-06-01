@@ -2,13 +2,13 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
+import Pannel from '@/components/Pannel/Pannel';
+import UsersExplorerIdPageDetails from '@/components/UsersExplorerIdPageDetails/UsersExplorerIdPageDetails';
+import UsersExplorerIdPageHeader from '@/components/UsersExplorerIdPageHeader/UsersExplorerIdPageHeader';
+import UsersExplorerIdPagePermissions from '@/components/UsersExplorerIdPagePermissions/UsersExplorerIdPagePermissions';
 import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
 import { Divider } from '@mantine/core';
-import Pannel from '@/components/Pannel/Pannel';
-import UsersExplorerIdPageHeader from '@/components/UsersExplorerIdPageHeader/UsersExplorerIdPageHeader';
-import UsersExplorerIdPageDetails from '@/components/UsersExplorerIdPageDetails/UsersExplorerIdPageDetails';
-import UsersExplorerIdPagePermissions from '@/components/UsersExplorerIdPagePermissions/UsersExplorerIdPagePermissions';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -25,7 +25,7 @@ export default function UsersExplorerIdPage() {
 	// B. Render components
 
 	return (
-		<Pannel loading={usersExplorerContext.page.is_loading} header={<UsersExplorerIdPageHeader />}>
+		<Pannel header={<UsersExplorerIdPageHeader />} loading={usersExplorerContext.page.is_loading}>
 			<UsersExplorerIdPageDetails />
 			<Divider />
 			<UsersExplorerIdPagePermissions />

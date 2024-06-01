@@ -1,11 +1,11 @@
 /* * */
 
-import { Divider } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
-import ReportsExplorerRealtimeResultSummaryHeader from '@/components/ReportsExplorerRealtimeResultSummaryHeader/ReportsExplorerRealtimeResultSummaryHeader';
 import ReportsExplorerRealtimeResultSummaryDescription from '@/components/ReportsExplorerRealtimeResultSummaryDescription/ReportsExplorerRealtimeResultSummaryDescription';
+import ReportsExplorerRealtimeResultSummaryHeader from '@/components/ReportsExplorerRealtimeResultSummaryHeader/ReportsExplorerRealtimeResultSummaryHeader';
 import ReportsExplorerRealtimeResultSummaryMetrics from '@/components/ReportsExplorerRealtimeResultSummaryMetrics/ReportsExplorerRealtimeResultSummaryMetrics';
 import ReportsExplorerRealtimeResultSummaryTable from '@/components/ReportsExplorerRealtimeResultSummaryTable/ReportsExplorerRealtimeResultSummaryTable';
+import { Divider } from '@mantine/core';
 
 /* * */
 

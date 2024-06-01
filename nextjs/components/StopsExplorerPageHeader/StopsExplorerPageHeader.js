@@ -2,14 +2,14 @@
 
 /* * */
 
-import { useMap } from 'react-map-gl/maplibre';
-import { IconArrowsMinimize, IconBrandGoogleMaps } from '@tabler/icons-react';
-import { Tooltip, ActionIcon, SegmentedControl } from '@mantine/core';
+import ListHeader from '@/components/ListHeader/ListHeader';
 import OSMMapDefaults from '@/components/OSMMap/OSMMap.config';
 import Text from '@/components/Text/Text';
-import { useTranslations } from 'next-intl';
-import ListHeader from '@/components/ListHeader/ListHeader';
 import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
+import { ActionIcon, SegmentedControl, Tooltip } from '@mantine/core';
+import { IconArrowsMinimize, IconBrandGoogleMaps } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+import { useMap } from 'react-map-gl/maplibre';
 
 /* * */
 
@@ -42,7 +42,7 @@ export default function StopsExplorerPageHeader() {
 	return (
 		<ListHeader>
 			<Tooltip label={t('operations.recenter.title')} position="bottom" withArrow>
-				<ActionIcon color="gray" variant="light" size="lg" onClick={handleMapReCenter}>
+				<ActionIcon color="gray" onClick={handleMapReCenter} size="lg" variant="light">
 					<IconArrowsMinimize size="20px" />
 				</ActionIcon>
 			</Tooltip>
@@ -50,14 +50,14 @@ export default function StopsExplorerPageHeader() {
 				{t('title')}
 			</Text>
 			<Tooltip label={t('operations.gmaps.title')} position="bottom" withArrow>
-				<ActionIcon color="gray" variant="light" size="lg" onClick={handleOpenInGoogleMaps}>
+				<ActionIcon color="gray" onClick={handleOpenInGoogleMaps} size="lg" variant="light">
 					<IconBrandGoogleMaps size="20px" />
 				</ActionIcon>
 			</Tooltip>
 			<div>
 				<SegmentedControl
-					value={stopsExplorerContext.map.style}
 					onChange={stopsExplorerContext.updateMapStyle}
+					value={stopsExplorerContext.map.style}
 					data={[
 						{ label: 'Mapa', value: 'map' },
 						{ label: 'Satélite', value: 'satellite' },

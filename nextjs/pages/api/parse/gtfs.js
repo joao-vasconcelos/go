@@ -44,60 +44,62 @@ export default async function parseGTFS(req, res) {
 			for (const zipEntry of zipEntries) {
 				//
 				if (zipEntry.entryName === 'routes.txt') {
-					const jsonData = Papa.parse(zipEntry.getData().toString('utf8'), { header: true, skipEmptyLines: true, dynamicTyping: false });
+					const jsonData = Papa.parse(zipEntry.getData().toString('utf8'), { dynamicTyping: false, header: true, skipEmptyLines: true });
 					gtfsRoutes = jsonData.data;
 				}
 				//
 				if (zipEntry.entryName === 'trips.txt') {
-					const jsonData = Papa.parse(zipEntry.getData().toString('utf8'), { header: true, skipEmptyLines: true, dynamicTyping: false });
-					const jsonDataDeduped = jsonData.data.filter((arr, index, self) => index === self.findIndex((t) => t.route_id === arr.route_id && t.direction_id === arr.direction_id && t.shape_id === arr.shape_id));
+					const jsonData = Papa.parse(zipEntry.getData().toString('utf8'), { dynamicTyping: false, header: true, skipEmptyLines: true });
+					const jsonDataDeduped = jsonData.data.filter((arr, index, self) => index === self.findIndex(t => t.route_id === arr.route_id && t.direction_id === arr.direction_id && t.shape_id === arr.shape_id));
 					gtfsTrips = jsonDataDeduped;
 				}
 				//
 				if (zipEntry.entryName === 'stop_times.txt') {
-					const jsonData = Papa.parse(zipEntry.getData().toString('utf8'), { header: true, skipEmptyLines: true, dynamicTyping: false });
+					const jsonData = Papa.parse(zipEntry.getData().toString('utf8'), { dynamicTyping: false, header: true, skipEmptyLines: true });
 					jsonData.data.forEach((stopTimesData) => {
 						const tripId = stopTimesData.trip_id;
 						const pathSequence = {
-							stop_id: stopTimesData.stop_id,
-							stop_sequence: stopTimesData.stop_sequence,
 							arrival_time: stopTimesData.arrival_time,
 							departure_time: stopTimesData.departure_time,
 							shape_dist_traveled: stopTimesData.shape_dist_traveled,
+							stop_id: stopTimesData.stop_id,
+							stop_sequence: stopTimesData.stop_sequence,
 						};
 
-						const existingStopTime = gtfsStopTimes.find((stopTimes) => stopTimes.trip_id === tripId);
+						const existingStopTime = gtfsStopTimes.find(stopTimes => stopTimes.trip_id === tripId);
 
 						if (existingStopTime) {
 							existingStopTime.path.push(pathSequence);
-						} else {
+						}
+						else {
 							gtfsStopTimes.push({
-								trip_id: tripId,
 								path: [pathSequence],
+								trip_id: tripId,
 							});
 						}
 					});
 				}
 				//
 				if (zipEntry.entryName === 'shapes.txt') {
-					const jsonData = Papa.parse(zipEntry.getData().toString('utf8'), { header: true, skipEmptyLines: true, dynamicTyping: false });
+					const jsonData = Papa.parse(zipEntry.getData().toString('utf8'), { dynamicTyping: false, header: true, skipEmptyLines: true });
 					jsonData.data.forEach((shapeData) => {
 						const shapeId = shapeData.shape_id;
 						const point = {
+							shape_dist_traveled: shapeData.shape_dist_traveled,
 							shape_pt_lat: shapeData.shape_pt_lat,
 							shape_pt_lon: shapeData.shape_pt_lon,
 							shape_pt_sequence: shapeData.shape_pt_sequence,
-							shape_dist_traveled: shapeData.shape_dist_traveled,
 						};
 
-						const existingShape = gtfsShapes.find((shape) => shape.shape_id === shapeId);
+						const existingShape = gtfsShapes.find(shape => shape.shape_id === shapeId);
 
 						if (existingShape) {
 							existingShape.points.push(point);
-						} else {
+						}
+						else {
 							gtfsShapes.push({
-								shape_id: shapeId,
 								points: [point],
+								shape_id: shapeId,
 							});
 						}
 					});
@@ -117,22 +119,22 @@ export default async function parseGTFS(req, res) {
 					let trip = gtfsTrips[j];
 					if (trip.route_id === route.route_id) {
 						// Find the shape associated with the trip
-						let shape = gtfsShapes.find((shape) => shape.shape_id === trip.shape_id);
+						let shape = gtfsShapes.find(shape => shape.shape_id === trip.shape_id);
 						// Sort the shape points
 						shape.points = shape.points.sort((a, b) => a.shape_pt_sequence > b.shape_pt_sequence);
 						// Find the path associated with the trip
-						let stopTime = gtfsStopTimes.find((stopTime) => stopTime.trip_id === trip.trip_id);
+						let stopTime = gtfsStopTimes.find(stopTime => stopTime.trip_id === trip.trip_id);
 						// Convert the shapes into meters, if they are in km (by checking the last point of the shape)
 						const lastShapePoint = shape.points[shape.points.length - 1];
 						if (Number(lastShapePoint.shape_dist_traveled) < 1000) {
-							shape.points = shape.points.map((point) => ({ ...point, shape_dist_traveled: point.shape_dist_traveled * 1000 }));
-							stopTime.path = stopTime.path.map((st) => ({ ...st, shape_dist_traveled: st.shape_dist_traveled * 1000 }));
+							shape.points = shape.points.map(point => ({ ...point, shape_dist_traveled: point.shape_dist_traveled * 1000 }));
+							stopTime.path = stopTime.path.map(st => ({ ...st, shape_dist_traveled: st.shape_dist_traveled * 1000 }));
 						}
 						// Create a new trip object with shape information
 						let tripWithShape = {
 							...trip,
-							shape: shape,
 							path: stopTime.path,
+							shape: shape,
 						};
 						trips.push(tripWithShape);
 					}
@@ -149,7 +151,8 @@ export default async function parseGTFS(req, res) {
 
 			return res.status(200).json(gtfsFinal);
 		});
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'MongoDB connection error.' });
 	}

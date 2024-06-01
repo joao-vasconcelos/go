@@ -1,10 +1,10 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import generator from '@/services/generator';
 import { ArchiveDefault } from '@/schemas/Archive/default';
 import { ArchiveModel } from '@/schemas/Archive/model';
+import generator from '@/services/generator';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -21,7 +21,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -30,8 +31,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'archives', action: 'create' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'create', scope: 'archives' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -46,7 +48,8 @@ export default async function handler(req, res) {
 		}
 		const createdDocument = await ArchiveModel(newDocument).save();
 		return await res.status(201).json(createdDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot create this Archive.' });
 	}

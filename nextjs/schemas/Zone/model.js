@@ -6,25 +6,9 @@ import mongoose from 'mongoose';
 
 export const ZoneSchema = new mongoose.Schema(
 	{
-		code: {
-			type: String,
-			maxlength: 30,
-			unique: true,
-		},
-		name: {
-			type: String,
-			maxlength: 50,
-		},
-		fill_color: {
-			type: String,
-			maxlength: 7,
-		},
-		fill_opacity: {
-			type: Number,
-		},
 		border_color: {
-			type: String,
 			maxlength: 7,
+			type: String,
 		},
 		border_opacity: {
 			type: Number,
@@ -32,23 +16,39 @@ export const ZoneSchema = new mongoose.Schema(
 		border_width: {
 			type: Number,
 		},
+		code: {
+			maxlength: 30,
+			type: String,
+			unique: true,
+		},
+		fill_color: {
+			maxlength: 7,
+			type: String,
+		},
+		fill_opacity: {
+			type: Number,
+		},
 		geojson: {
-			type: {
-				type: String,
-				maxlength: 100,
-				default: 'Feature',
-			},
 			geometry: {
-				type: {
-					type: String,
-					maxlength: 100,
-					default: 'Polygon',
-				},
 				coordinates: [mongoose.Schema.Types.Mixed],
+				type: {
+					default: 'Polygon',
+					maxlength: 100,
+					type: String,
+				},
+			},
+			type: {
+				default: 'Feature',
+				maxlength: 100,
+				type: String,
 			},
 		},
 		is_locked: {
 			type: Boolean,
+		},
+		name: {
+			maxlength: 50,
+			type: String,
 		},
 	},
 	{ timestamps: true },

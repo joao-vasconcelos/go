@@ -2,15 +2,16 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import styles from './PatternsExplorerIdPageSchedules.module.css';
-import { PatternScheduleDefault } from '@/schemas/Pattern/default';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import { ActionIcon, MultiSelect, Tooltip, TextInput, Button } from '@mantine/core';
-import { IconClockPlay, IconCalendarCheck, IconBackspace, IconCalendarX, IconPlus, IconAB2 } from '@tabler/icons-react';
-import { openConfirmModal } from '@mantine/modals';
 import Text from '@/components/Text/Text';
 import { usePatternsExplorerContext } from '@/contexts/PatternsExplorerContext';
+import { PatternScheduleDefault } from '@/schemas/Pattern/default';
+import { ActionIcon, Button, MultiSelect, TextInput, Tooltip } from '@mantine/core';
+import { openConfirmModal } from '@mantine/modals';
+import { IconAB2, IconBackspace, IconCalendarCheck, IconCalendarX, IconClockPlay, IconPlus } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+
+import styles from './PatternsExplorerIdPageSchedules.module.css';
 
 /* * */
 
@@ -70,7 +71,7 @@ function PatternsExplorerIdPageSchedulesStartTimeColumn({ rowIndex }) {
 	return (
 		<div className={styles.column}>
 			<Tooltip label={t('description')} position="bottom" withArrow>
-				<TextInput aria-label={t('label')} placeholder={t('placeholder')} leftSection={<IconClockPlay size={18} />} {...patternsExplorerContext.form.getInputProps(`schedules.${rowIndex}.start_time`)} onChange={handleUpdateStartTime} readOnly={patternsExplorerContext.page.is_read_only} w={'100%'} />
+				<TextInput aria-label={t('label')} leftSection={<IconClockPlay size={18} />} placeholder={t('placeholder')} {...patternsExplorerContext.form.getInputProps(`schedules.${rowIndex}.start_time`)} onChange={handleUpdateStartTime} readOnly={patternsExplorerContext.page.is_read_only} w="100%" />
 			</Tooltip>
 		</div>
 	);
@@ -96,15 +97,15 @@ function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ rowIndex }) {
 		<div className={styles.column}>
 			<MultiSelect
 				aria-label={t('label')}
-				placeholder={t('placeholder')}
 				nothingFoundMessage={t('nothingFound')}
+				placeholder={t('placeholder')}
 				{...patternsExplorerContext.form.getInputProps(`schedules.${rowIndex}.calendars_on`)}
 				data={patternsExplorerContext.data.all_calendars_data}
 				leftSection={<IconCalendarCheck size={20} />}
-				readOnly={patternsExplorerContext.page.is_read_only}
-				searchable
 				limit={5}
-				w={'100%'}
+				readOnly={patternsExplorerContext.page.is_read_only}
+				w="100%"
+				searchable
 			/>
 		</div>
 	);
@@ -130,15 +131,15 @@ function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ rowIndex }) {
 		<div className={styles.column}>
 			<MultiSelect
 				aria-label={t('label')}
-				placeholder={t('placeholder')}
 				nothingFoundMessage={t('nothingFound')}
+				placeholder={t('placeholder')}
 				{...patternsExplorerContext.form.getInputProps(`schedules.${rowIndex}.calendars_off`)}
 				data={patternsExplorerContext.data.all_calendars_data}
 				leftSection={<IconCalendarX size={20} />}
-				readOnly={patternsExplorerContext.page.is_read_only}
-				searchable
 				limit={5}
-				w={'100%'}
+				readOnly={patternsExplorerContext.page.is_read_only}
+				w="100%"
+				searchable
 			/>
 		</div>
 	);
@@ -162,15 +163,15 @@ function PatternsExplorerIdPageSchedulesRemoveTripColumn({ rowIndex }) {
 
 	const handleRemoveTrip = () => {
 		openConfirmModal({
-			title: <Text size="h2">{t('modal.title')}</Text>,
 			centered: true,
-			closeOnClickOutside: true,
 			children: <Text size="h3">{t('modal.description')}</Text>,
-			labels: { confirm: t('modal.confirm'), cancel: t('modal.cancel') },
+			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
+			labels: { cancel: t('modal.cancel'), confirm: t('modal.confirm') },
 			onConfirm: async () => {
 				patternsExplorerContext.form.removeListItem('schedules', rowIndex);
 			},
+			title: <Text size="h2">{t('modal.title')}</Text>,
 		});
 	};
 
@@ -179,9 +180,9 @@ function PatternsExplorerIdPageSchedulesRemoveTripColumn({ rowIndex }) {
 
 	return (
 		<div className={`${styles.column} ${styles.hend}`}>
-			<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'edit' }]}>
+			<AppAuthenticationCheck permissions={[{ action: 'edit', scope: 'lines' }]}>
 				<Tooltip label={t('description')} position="bottom" withArrow>
-					<ActionIcon size="lg" variant="subtle" color="red" onClick={handleRemoveTrip} disabled={patternsExplorerContext.page.is_read_only}>
+					<ActionIcon color="red" disabled={patternsExplorerContext.page.is_read_only} onClick={handleRemoveTrip} size="lg" variant="subtle">
 						<IconBackspace size={20} />
 					</ActionIcon>
 				</Tooltip>
@@ -227,8 +228,8 @@ function PatternsExplorerIdPageSchedulesAddTrip() {
 	// C. Render components
 
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'edit' }]}>
-			<Button leftSection={<IconPlus size={16} />} variant="default" size="xs" onClick={handleAddTrip} disabled={patternsExplorerContext.page.is_read_only}>
+		<AppAuthenticationCheck permissions={[{ action: 'edit', scope: 'lines' }]}>
+			<Button disabled={patternsExplorerContext.page.is_read_only} leftSection={<IconPlus size={16} />} onClick={handleAddTrip} size="xs" variant="default">
 				{t('label')}
 			</Button>
 		</AppAuthenticationCheck>
@@ -261,8 +262,8 @@ function PatternsExplorerIdPageSchedulesSortTrips() {
 	// C. Render components
 
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'edit' }]}>
-			<Button leftSection={<IconAB2 size={16} />} variant="default" size="xs" onClick={handleSortTrips} disabled={patternsExplorerContext.page.is_read_only}>
+		<AppAuthenticationCheck permissions={[{ action: 'edit', scope: 'lines' }]}>
+			<Button disabled={patternsExplorerContext.page.is_read_only} leftSection={<IconAB2 size={16} />} onClick={handleSortTrips} size="xs" variant="default">
 				{t('label')}
 			</Button>
 		</AppAuthenticationCheck>

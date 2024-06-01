@@ -1,12 +1,12 @@
 /* * */
 
-import { Divider } from '@mantine/core';
 import Pannel from '@/components/Pannel/Pannel';
-import ReportsExplorerRevenueResultSummaryHeader from '@/components/ReportsExplorerRevenueResultSummaryHeader/ReportsExplorerRevenueResultSummaryHeader';
 import ReportsExplorerRevenueResultSummaryDescription from '@/components/ReportsExplorerRevenueResultSummaryDescription/ReportsExplorerRevenueResultSummaryDescription';
+import ReportsExplorerRevenueResultSummaryFrequent from '@/components/ReportsExplorerRevenueResultSummaryFrequent/ReportsExplorerRevenueResultSummaryFrequent';
+import ReportsExplorerRevenueResultSummaryHeader from '@/components/ReportsExplorerRevenueResultSummaryHeader/ReportsExplorerRevenueResultSummaryHeader';
 import ReportsExplorerRevenueResultSummaryOnboard from '@/components/ReportsExplorerRevenueResultSummaryOnboard/ReportsExplorerRevenueResultSummaryOnboard';
 import ReportsExplorerRevenueResultSummaryPrepaid from '@/components/ReportsExplorerRevenueResultSummaryPrepaid/ReportsExplorerRevenueResultSummaryPrepaid';
-import ReportsExplorerRevenueResultSummaryFrequent from '@/components/ReportsExplorerRevenueResultSummaryFrequent/ReportsExplorerRevenueResultSummaryFrequent';
+import { Divider } from '@mantine/core';
 
 /* * */
 

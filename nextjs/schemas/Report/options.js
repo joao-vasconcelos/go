@@ -7,18 +7,6 @@ export const ReportOptions = {
    * KIND
    */
 
-	kind: ['revenue', 'realtime', 'sla'],
-
-	/*
-   * APEX TRANSACTION VALID STATUS
-   */
-
-	apex_transaction_valid_status: [0, 4, 5, 6],
-
-	/*
-   * APEX TRANSACTION ONBOARD PRODUCT IDS
-   */
-
 	apex_transaction_onboard_product_ids: [
 		'id-prod-tarifa-local',
 		'id-prod-tarifa-local-mini-42',
@@ -41,10 +29,22 @@ export const ReportOptions = {
 	],
 
 	/*
-   * APEX TRANSACTION PREPAID PRODUCT IDS
+   * APEX TRANSACTION VALID STATUS
    */
 
 	apex_transaction_prepaid_product_ids: ['id-prod-zapping'],
+
+	/*
+   * APEX TRANSACTION ONBOARD PRODUCT IDS
+   */
+
+	apex_transaction_valid_status: [0, 4, 5, 6],
+
+	/*
+   * APEX TRANSACTION PREPAID PRODUCT IDS
+   */
+
+	kind: ['revenue', 'realtime', 'sla'],
 
 	//
 };

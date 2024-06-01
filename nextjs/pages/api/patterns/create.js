@@ -1,11 +1,11 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import generator from '@/services/generator';
 import { PatternDefault } from '@/schemas/Pattern/default';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { RouteModel } from '@/schemas/Route/model';
+import generator from '@/services/generator';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -22,7 +22,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -31,8 +32,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'lines', action: 'edit' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'POST', permissions: [{ action: 'edit', scope: 'lines' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -42,7 +44,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = await JSON.parse(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		await res.status(500).json({ message: 'JSON parse error.' });
 		return;
@@ -60,10 +63,11 @@ export default async function handler(req, res) {
 			newPatternCode = `${parentRouteDocument.code}_${generator({ length: 2, type: 'numeric' })}`;
 		}
 		// Create the new Route document
-		const newPattern = { ...PatternDefault, code: newPatternCode, parent_line: parentRouteDocument.parent_line, parent_route: parentRouteDocument._id, direction: req.body.direction };
+		const newPattern = { ...PatternDefault, code: newPatternCode, direction: req.body.direction, parent_line: parentRouteDocument.parent_line, parent_route: parentRouteDocument._id };
 		const createdDocument = await PatternModel(newPattern).save();
 		return await res.status(201).json(createdDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot create this Pattern.' });
 	}

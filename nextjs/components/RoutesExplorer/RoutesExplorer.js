@@ -9,7 +9,7 @@ import { RoutesExplorerContextProvider } from '@/contexts/RoutesExplorerContext'
 
 export default function RoutesExplorer({ children }) {
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'navigate' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'navigate', scope: 'lines' }]} redirect>
 			<RoutesExplorerContextProvider>{children}</RoutesExplorerContextProvider>
 		</AppAuthenticationCheck>
 	);

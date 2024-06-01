@@ -2,9 +2,9 @@
 
 /* * */
 
-import useSWR from 'swr';
 import doSearch from '@/services/doSearch';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -21,9 +21,9 @@ const initialListState = {
 	is_error: false,
 	is_loading: false,
 	//
-	search_query: '',
-	//
 	items: [],
+	//
+	search_query: '',
 	//
 };
 
@@ -59,7 +59,7 @@ export function ArchivesExplorerContextProvider({ children }) {
 			else return collator.compare(b.start_date, a.start_date);
 		});
 		// Update state
-		setListState((prev) => ({ ...prev, items: sortedItems }));
+		setListState(prev => ({ ...prev, items: sortedItems }));
 		//
 	}, [allItemsData, listState.search_query]);
 
@@ -67,11 +67,11 @@ export function ArchivesExplorerContextProvider({ children }) {
 	// F. Setup actions
 
 	const updateSearchQuery = useCallback((value) => {
-		setListState((prev) => ({ ...prev, search_query: value }));
+		setListState(prev => ({ ...prev, search_query: value }));
 	}, []);
 
 	const clearSearchQuery = useCallback(() => {
-		setListState((prev) => ({ ...prev, search_query: '' }));
+		setListState(prev => ({ ...prev, search_query: '' }));
 	}, []);
 
 	//
@@ -79,11 +79,11 @@ export function ArchivesExplorerContextProvider({ children }) {
 
 	const contextObject = useMemo(
 		() => ({
+			clearSearchQuery: clearSearchQuery,
 			//
 			list: listState,
 			//
 			updateSearchQuery: updateSearchQuery,
-			clearSearchQuery: clearSearchQuery,
 			//
 		}),
 		[listState, updateSearchQuery, clearSearchQuery],

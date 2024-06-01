@@ -2,12 +2,12 @@
 
 /* * */
 
-import useSWR from 'swr';
 import OSMMap from '@/components/OSMMap/OSMMap';
-import { useEffect, useMemo, useState } from 'react';
-import { SegmentedControl, Switch } from '@mantine/core';
-import { Layer, Source, useMap } from 'react-map-gl/maplibre';
 import { useReportsExplorerRealtimeContext } from '@/contexts/ReportsExplorerRealtimeContext';
+import { SegmentedControl, Switch } from '@mantine/core';
+import { useEffect, useMemo, useState } from 'react';
+import { Layer, Source, useMap } from 'react-map-gl/maplibre';
+import useSWR from 'swr';
 
 /* * */
 
@@ -46,18 +46,17 @@ export default function ReportsExplorerRealtimeResultTripDetailMap() {
 	const allTripEventsAsPointsMapData = useMemo(() => {
 		// Create a GeoJSON object
 		const geoJSON = {
-			type: 'FeatureCollection',
 			features: [],
+			type: 'FeatureCollection',
 		};
 		if (reportsExplorerRealtimeContext.selectedTrip.positions?.length > 1) {
 			const sortedPositions = reportsExplorerRealtimeContext.selectedTrip.positions.sort((a, b) => Number(a[reportsExplorerRealtimeContext.form.event_order_type]) - Number(b[reportsExplorerRealtimeContext.form.event_order_type]));
 			const clippedPositions = sortedPositions.slice(0, reportsExplorerRealtimeContext.selectedTrip.event_animation_index);
 			for (const [index, positionData] of clippedPositions.entries()) {
 				geoJSON.features.push({
-					type: 'Feature',
 					geometry: {
-						type: 'Point',
 						coordinates: [positionData.lon, positionData.lat],
+						type: 'Point',
 					},
 					properties: {
 						index: index + 1,
@@ -67,6 +66,7 @@ export default function ReportsExplorerRealtimeResultTripDetailMap() {
 						latitude: positionData.lat,
 						longitude: positionData.lon,
 					},
+					type: 'Feature',
 				});
 			}
 		}
@@ -76,12 +76,12 @@ export default function ReportsExplorerRealtimeResultTripDetailMap() {
 	const allTripEventsAsShapeMapData = useMemo(() => {
 		// Create a GeoJSON object
 		const geoJSON = {
-			type: 'Feature',
-			properties: {},
 			geometry: {
-				type: 'LineString',
 				coordinates: [],
+				type: 'LineString',
 			},
+			properties: {},
+			type: 'Feature',
 		};
 		if (reportsExplorerRealtimeContext.selectedTrip.positions?.length > 1) {
 			const sortedPositions = reportsExplorerRealtimeContext.selectedTrip.positions.sort((a, b) => Number(a[reportsExplorerRealtimeContext.form.event_order_type]) - Number(b[reportsExplorerRealtimeContext.form.event_order_type]));
@@ -99,26 +99,26 @@ export default function ReportsExplorerRealtimeResultTripDetailMap() {
 	return (
 		<div style={{ height: 500, minHeight: 500 }}>
 			<OSMMap
-				id="realtimeExplorerResultTripDetailMap"
 				height={500}
-				scrollZoom={allowScrollOnMap}
+				id="realtimeExplorerResultTripDetailMap"
 				mapStyle={mapStyle}
-				toolbar={
+				scrollZoom={allowScrollOnMap}
+				toolbar={(
 					<>
 						<SegmentedControl
-							value={mapStyle}
 							onChange={setMapStyle}
 							size="xs"
+							value={mapStyle}
 							data={[
 								{ label: 'Map', value: 'map' },
 								{ label: 'Satellite', value: 'satellite' },
 							]}
 						/>
-						<Switch size="xs" label={'Show Zones'} defaultChecked={showAllZonesOnMap} value={showAllZonesOnMap} onChange={(event) => setShowAllZonesOnMap(event.currentTarget.checked)} />
-						<Switch size="xs" label={'Show All Stops'} defaultChecked={showAllStopsOnMap} value={showAllStopsOnMap} onChange={(event) => setShowAllStopsOnMap(event.currentTarget.checked)} />
-						<Switch size="xs" label={'Allow Scroll'} defaultChecked={allowScrollOnMap} value={allowScrollOnMap} onChange={(event) => setAllowScrollOnMap(event.currentTarget.checked)} />
+						<Switch defaultChecked={showAllZonesOnMap} label="Show Zones" onChange={event => setShowAllZonesOnMap(event.currentTarget.checked)} size="xs" value={showAllZonesOnMap} />
+						<Switch defaultChecked={showAllStopsOnMap} label="Show All Stops" onChange={event => setShowAllStopsOnMap(event.currentTarget.checked)} size="xs" value={showAllStopsOnMap} />
+						<Switch defaultChecked={allowScrollOnMap} label="Allow Scroll" onChange={event => setAllowScrollOnMap(event.currentTarget.checked)} size="xs" value={allowScrollOnMap} />
 					</>
-				}
+				)}
 			>
 				{/* {allZonesMapData && showAllZonesOnMap && (
           <Source id="all-zones" type="geojson" data={allZonesMapData}>
@@ -132,88 +132,91 @@ export default function ReportsExplorerRealtimeResultTripDetailMap() {
             <Layer id="all-stops" type="circle" source="all-stops" paint={{ 'circle-color': 'rgba(255,220,0,0.75)', 'circle-radius': 2, 'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(0,0,0,0.5)' }} />
           </Source>
         )} */}
-				{shapeData?.geojson &&
-          <Source id="planned-shape" type="geojson" data={shapeData.geojson}>
-          	<Layer
-          		id="planned-shape-direction"
-          		type="symbol"
-          		source="planned-shape"
-          		layout={{
-          			'icon-allow-overlap': true,
-          			'icon-ignore-placement': true,
-          			'icon-anchor': 'center',
-          			'symbol-placement': 'line',
-          			'icon-image': 'shape-arrow-direction',
-          			'icon-size': ['interpolate', ['linear', 0.5], ['zoom'], 10, 0.1, 20, 0.2],
-          			'symbol-spacing': ['interpolate', ['linear'], ['zoom'], 10, 2, 20, 30],
-          			'icon-offset': [0, 0],
-          			'icon-rotate': 90,
-          		}}
-          		paint={{
-          			'icon-color': '#ffffff',
-          			'icon-opacity': 0.8,
-          		}}
-          	/>
-          	<Layer
-          		id="planned-shape-line"
-          		type="line"
-          		source="planned-shape"
-          		beforeId="planned-shape-direction"
-          		layout={{
-          			'line-join': 'round',
-          			'line-cap': 'round',
-          		}}
-          		paint={{
-          			'line-color': patternData?.color || '#000000',
-          			'line-width': ['interpolate', ['linear'], ['zoom'], 10, 4, 20, 12],
-          		}}
-          	/>
-          </Source>
-				}
-				{allTripEventsAsShapeMapData &&
-          <Source id="trip-events" type="geojson" data={allTripEventsAsShapeMapData}>
-          	<Layer
-          		id="trip-events-direction"
-          		type="symbol"
-          		source="trip-events"
-          		layout={{
-          			'icon-allow-overlap': true,
-          			'icon-ignore-placement': true,
-          			'icon-anchor': 'center',
-          			'symbol-placement': 'line',
-          			'icon-image': 'shape-arrow-direction',
-          			'icon-size': ['interpolate', ['linear', 0.5], ['zoom'], 10, 0.1, 20, 0.2],
-          			'symbol-spacing': ['interpolate', ['linear'], ['zoom'], 10, 2, 20, 30],
-          			'icon-offset': [0, 0],
-          			'icon-rotate': 90,
-          		}}
-          		paint={{
-          			'icon-color': '#ffffff',
-          			'icon-opacity': 0.8,
-          		}}
-          	/>
-          	<Layer
-          		id="trip-events-line"
-          		type="line"
-          		source="trip-events"
-          		beforeId="trip-events-direction"
-          		layout={{
-          			'line-join': 'round',
-          			'line-cap': 'round',
-          		}}
-          		paint={{
-          			// 'line-color': typologyData ? typologyData.color : '#000000',
-          			'line-width': ['interpolate', ['linear'], ['zoom'], 10, 4, 20, 12],
-          		}}
-          	/>
-          </Source>
-				}
-				{allTripEventsAsPointsMapData &&
-          <Source id="trip-raw-events" type="geojson" data={allTripEventsAsPointsMapData}>
-          	<Layer id="trip-raw-event-circle" type="circle" source="trip-raw-events" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 8, 'circle-stroke-width': 1, 'circle-stroke-color': '#000000' }} />
-          	<Layer id="trip-raw-event-label" type="symbol" source="trip-raw-events" layout={{ 'text-field': ['get', 'index'], 'text-offset': [0, 0], 'text-anchor': 'center', 'text-size': 10 }} />
-          </Source>
-				}
+				{shapeData?.geojson
+				&& (
+					<Source data={shapeData.geojson} id="planned-shape" type="geojson">
+						<Layer
+							id="planned-shape-direction"
+							source="planned-shape"
+							type="symbol"
+							layout={{
+								'icon-allow-overlap': true,
+								'icon-anchor': 'center',
+								'icon-ignore-placement': true,
+								'icon-image': 'shape-arrow-direction',
+								'icon-offset': [0, 0],
+								'icon-rotate': 90,
+								'icon-size': ['interpolate', ['linear', 0.5], ['zoom'], 10, 0.1, 20, 0.2],
+								'symbol-placement': 'line',
+								'symbol-spacing': ['interpolate', ['linear'], ['zoom'], 10, 2, 20, 30],
+							}}
+							paint={{
+								'icon-color': '#ffffff',
+								'icon-opacity': 0.8,
+							}}
+						/>
+						<Layer
+							beforeId="planned-shape-direction"
+							id="planned-shape-line"
+							source="planned-shape"
+							type="line"
+							layout={{
+								'line-cap': 'round',
+								'line-join': 'round',
+							}}
+							paint={{
+								'line-color': patternData?.color || '#000000',
+								'line-width': ['interpolate', ['linear'], ['zoom'], 10, 4, 20, 12],
+							}}
+						/>
+					</Source>
+				)}
+				{allTripEventsAsShapeMapData
+				&& (
+					<Source data={allTripEventsAsShapeMapData} id="trip-events" type="geojson">
+						<Layer
+							id="trip-events-direction"
+							source="trip-events"
+							type="symbol"
+							layout={{
+								'icon-allow-overlap': true,
+								'icon-anchor': 'center',
+								'icon-ignore-placement': true,
+								'icon-image': 'shape-arrow-direction',
+								'icon-offset': [0, 0],
+								'icon-rotate': 90,
+								'icon-size': ['interpolate', ['linear', 0.5], ['zoom'], 10, 0.1, 20, 0.2],
+								'symbol-placement': 'line',
+								'symbol-spacing': ['interpolate', ['linear'], ['zoom'], 10, 2, 20, 30],
+							}}
+							paint={{
+								'icon-color': '#ffffff',
+								'icon-opacity': 0.8,
+							}}
+						/>
+						<Layer
+							beforeId="trip-events-direction"
+							id="trip-events-line"
+							source="trip-events"
+							type="line"
+							layout={{
+								'line-cap': 'round',
+								'line-join': 'round',
+							}}
+							paint={{
+								// 'line-color': typologyData ? typologyData.color : '#000000',
+								'line-width': ['interpolate', ['linear'], ['zoom'], 10, 4, 20, 12],
+							}}
+						/>
+					</Source>
+				)}
+				{allTripEventsAsPointsMapData
+				&& (
+					<Source data={allTripEventsAsPointsMapData} id="trip-raw-events" type="geojson">
+						<Layer id="trip-raw-event-circle" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 8, 'circle-stroke-color': '#000000', 'circle-stroke-width': 1 }} source="trip-raw-events" type="circle" />
+						<Layer id="trip-raw-event-label" layout={{ 'text-anchor': 'center', 'text-field': ['get', 'index'], 'text-offset': [0, 0], 'text-size': 10 }} source="trip-raw-events" type="symbol" />
+					</Source>
+				)}
 			</OSMMap>
 		</div>
 	);

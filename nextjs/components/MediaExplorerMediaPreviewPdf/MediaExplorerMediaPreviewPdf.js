@@ -2,8 +2,9 @@
 
 /* * */
 
-import styles from './MediaExplorerMediaPreviewPdf.module.css';
 import { IconFileTypePdf } from '@tabler/icons-react';
+
+import styles from './MediaExplorerMediaPreviewPdf.module.css';
 
 /* * */
 

@@ -7,9 +7,9 @@
 /* A. Default Values */
 export const RouteDefault = {
 	code: '',
-	name: '',
-	path_type: '1',
-	parent_line: null,
-	patterns: [],
 	is_locked: false,
+	name: '',
+	parent_line: null,
+	path_type: '1',
+	patterns: [],
 };

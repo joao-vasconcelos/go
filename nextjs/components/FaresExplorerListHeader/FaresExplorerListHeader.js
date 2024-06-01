@@ -2,18 +2,18 @@
 
 /* * */
 
-import { useState } from 'react';
-import { useRouter } from '@/translations/navigation';
-import useSWR from 'swr';
-import API from '@/services/API';
-import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots, IconFileDownload } from '@tabler/icons-react';
-import notify from '@/services/notify';
-import { useTranslations } from 'next-intl';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import ListHeader from '@/components/ListHeader/ListHeader';
 import SearchField from '@/components/SearchField/SearchField';
 import { useFaresExplorerContext } from '@/contexts/FaresExplorerContext';
-import ListHeader from '@/components/ListHeader/ListHeader';
+import API from '@/services/API';
+import notify from '@/services/notify';
+import { useRouter } from '@/translations/navigation';
+import { ActionIcon, Menu } from '@mantine/core';
+import { IconCirclePlus, IconDots, IconFileDownload } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -40,12 +40,13 @@ export default function FaresExplorerListHeader() {
 		try {
 			setIsCreating(true);
 			notify('new', 'loading', t('operations.create.loading'));
-			const response = await API({ service: 'fares', operation: 'create', method: 'GET' });
+			const response = await API({ method: 'GET', operation: 'create', service: 'fares' });
 			allFaresMutate();
 			router.push(`/fares/${response._id}`);
 			notify('new', 'success', t('operations.create.success'));
 			setIsCreating(false);
-		} catch (error) {
+		}
+		catch (error) {
 			notify('new', 'error', error.message || t('operations.create.error'));
 			setIsCreating(false);
 			console.log(error);
@@ -57,25 +58,25 @@ export default function FaresExplorerListHeader() {
 
 	return (
 		<ListHeader>
-			<SearchField query={faresExplorerContext.list.search_query} onChange={faresExplorerContext.updateSearchQuery} />
-			<Menu shadow="md" position="bottom-end">
+			<SearchField onChange={faresExplorerContext.updateSearchQuery} query={faresExplorerContext.list.search_query} />
+			<Menu position="bottom-end" shadow="md">
 				<Menu.Target>
-					<ActionIcon variant="light" size="lg" color="gray" loading={allFaresLoading || isCreating}>
+					<ActionIcon color="gray" loading={allFaresLoading || isCreating} size="lg" variant="light">
 						<IconDots size={20} />
 					</ActionIcon>
 				</Menu.Target>
 				<Menu.Dropdown>
-					<AppAuthenticationCheck permissions={[{ scope: 'fares', action: 'create' }]}>
+					<AppAuthenticationCheck permissions={[{ action: 'create', scope: 'fares' }]}>
 						<Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
 							{t('operations.create.title')}
 						</Menu.Item>
 					</AppAuthenticationCheck>
-					<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
+					<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]}>
 						<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={faresExplorerContext.exportAttributesAsFile}>
 							{t('operations.export_attributes.title')}
 						</Menu.Item>
 					</AppAuthenticationCheck>
-					<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
+					<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]}>
 						<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={faresExplorerContext.exportRulesAsFile}>
 							{t('operations.export_rules.title')}
 						</Menu.Item>

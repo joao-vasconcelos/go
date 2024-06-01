@@ -5,42 +5,42 @@ import { IssueOptions } from './options';
 /* * */
 
 export const IssueDefault = {
+	assigned_to: null,
 	//
 	code: '',
 	//
+	comments: [],
+	created_at: new Date(),
+	//
 	created_by: null,
-	created_at: new Date,
-	//
-	title: '',
-	summary: '',
-	tags: [],
-	//
-	status: IssueOptions.status[0],
-	priority: IssueOptions.priority[0],
 	due_date: '',
-	assigned_to: null,
 	//
-	related_lines: [],
-	related_stops: [],
-	related_reports: [],
-	related_issues: [],
+	is_locked: false,
 	//
 	media: [],
 	//
-	comments: [],
-	//
 	milestones: [],
+	priority: IssueOptions.priority[0],
+	related_issues: [],
 	//
-	is_locked: false,
+	related_lines: [],
+	related_reports: [],
+	related_stops: [],
+	//
+	status: IssueOptions.status[0],
+	summary: '',
+	tags: [],
+	//
+	title: '',
 	//
 };
 
 /* * */
 
 export const DefaultCommment = {
+	created_at: new Date(),
 	//
 	created_by: null,
-	created_at: new Date,
 	text: '',
 	//
 };
@@ -48,9 +48,9 @@ export const DefaultCommment = {
 /* * */
 
 export const DefaultMilestone = {
+	created_at: new Date(),
 	//
 	created_by: null,
-	created_at: new Date,
 	type: '',
 	value: null,
 	//

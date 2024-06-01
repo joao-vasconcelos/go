@@ -2,12 +2,12 @@
 
 /* * */
 
-import { useMemo } from 'react';
-import { Source, Layer } from 'react-map-gl/maplibre';
 import OSMMap from '@/components/OSMMap/OSMMap';
 import Pannel from '@/components/Pannel/Pannel';
-import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 import StopsExplorerPageHeader from '@/components/StopsExplorerPageHeader/StopsExplorerPageHeader';
+import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
+import { useMemo } from 'react';
+import { Layer, Source } from 'react-map-gl/maplibre';
 
 /* * */
 
@@ -32,26 +32,26 @@ export default function StopsExplorerPage() {
 	const mapData = useMemo(() => {
 		// Create a GeoJSON object
 		const geoJSON = {
-			type: 'FeatureCollection',
 			features: [],
+			type: 'FeatureCollection',
 		};
 
 		// Loop through each stop in the collection and setup the feature to the GeoJSON object.
 		if (stopsExplorerContext.list.items) {
 			for (const stop of stopsExplorerContext.list.items) {
 				geoJSON.features.push({
-					type: 'Feature',
 					geometry: {
-						type: 'Point',
 						coordinates: [parseFloat(stop.longitude), parseFloat(stop.latitude)],
+						type: 'Point',
 					},
 					properties: {
 						_id: stop._id,
 						code: stop.code,
-						name: stop.name,
 						latitude: stop.latitude,
 						longitude: stop.longitude,
+						name: stop.name,
 					},
+					type: 'Feature',
 				});
 			}
 		}
@@ -65,9 +65,9 @@ export default function StopsExplorerPage() {
 
 	return (
 		<Pannel header={<StopsExplorerPageHeader />}>
-			<OSMMap id="allStopsMap" mapStyle={stopsExplorerContext.map.style} onClick={handleMapClick} interactiveLayerIds={['all-stops']}>
-				<Source id="all-stops" type="geojson" data={mapData}>
-					<Layer id="all-stops" type="circle" source="all-stops" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
+			<OSMMap id="allStopsMap" interactiveLayerIds={['all-stops']} mapStyle={stopsExplorerContext.map.style} onClick={handleMapClick}>
+				<Source data={mapData} id="all-stops" type="geojson">
+					<Layer id="all-stops" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-color': '#000000', 'circle-stroke-width': 2 }} source="all-stops" type="circle" />
 				</Source>
 			</OSMMap>
 		</Pannel>

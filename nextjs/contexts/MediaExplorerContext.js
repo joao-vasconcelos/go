@@ -2,18 +2,18 @@
 
 /* * */
 
-import useSWR from 'swr';
-import doSearch from '@/services/doSearch';
-import { useRouter } from '@/translations/navigation';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import isAllowed from '@/authentication/isAllowed';
-import { useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
-import { useForm, yupResolver } from '@mantine/form';
-import { MediaValidation } from '@/schemas/Media/validation';
 import { MediaDefault } from '@/schemas/Media/default';
-import populate from '@/services/populate';
+import { MediaValidation } from '@/schemas/Media/validation';
 import API from '@/services/API';
+import doSearch from '@/services/doSearch';
+import populate from '@/services/populate';
+import { useRouter } from '@/translations/navigation';
+import { useForm, yupResolver } from '@mantine/form';
+import { useParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -30,20 +30,20 @@ const initialListState = {
 	is_error: false,
 	is_loading: false,
 	//
-	search_query: '',
-	//
 	items: [],
+	//
+	search_query: '',
 	//
 };
 
 const initialPageState = {
 	//
 	is_error: false,
-	is_loading: false,
-	is_saving: false,
 	is_error_saving: false,
+	is_loading: false,
 	//
 	is_read_only: false,
+	is_saving: false,
 	//
 };
 
@@ -68,11 +68,11 @@ export function MediaExplorerContextProvider({ children }) {
 	// C. Setup form
 
 	const formState = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: MediaDefault,
+		validate: yupResolver(MediaValidation),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(MediaValidation),
-		initialValues: MediaDefault,
 	});
 
 	//
@@ -86,7 +86,7 @@ export function MediaExplorerContextProvider({ children }) {
 	// E. Transform data
 
 	useEffect(() => {
-		setPageState((prev) => ({ ...prev, is_loading: itemLoading }));
+		setPageState(prev => ({ ...prev, is_loading: itemLoading }));
 	}, [itemLoading]);
 
 	useEffect(() => {
@@ -95,15 +95,15 @@ export function MediaExplorerContextProvider({ children }) {
 		// Filter items based on search query
 		const filteredItems = doSearch(listState.search_query, allItemsData, { keys: ['name', 'code'] });
 		// Update state
-		setListState((prev) => ({ ...prev, items: filteredItems }));
+		setListState(prev => ({ ...prev, items: filteredItems }));
 		//
 	}, [allItemsData, listState.search_query]);
 
 	useEffect(() => {
 		// Check if the use is allowed to edit the current page
-		const isReadOnly = !isAllowed(sessionData, [{ scope: 'media', action: 'edit' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving;
+		const isReadOnly = !isAllowed(sessionData, [{ action: 'edit', scope: 'media' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving;
 		// Update state
-		setPageState((prev) => ({ ...prev, is_read_only: isReadOnly }));
+		setPageState(prev => ({ ...prev, is_read_only: isReadOnly }));
 		//
 	}, [itemData?.is_locked, pageState.is_saving, sessionData]);
 
@@ -122,11 +122,11 @@ export function MediaExplorerContextProvider({ children }) {
 	// F. Setup actions
 
 	const updateSearchQuery = useCallback((value) => {
-		setListState((prev) => ({ ...prev, search_query: value }));
+		setListState(prev => ({ ...prev, search_query: value }));
 	}, []);
 
 	const clearSearchQuery = useCallback(() => {
-		setListState((prev) => ({ ...prev, search_query: '' }));
+		setListState(prev => ({ ...prev, search_query: '' }));
 	}, []);
 
 	const validateItem = useCallback(async () => {
@@ -135,43 +135,46 @@ export function MediaExplorerContextProvider({ children }) {
 
 	const saveItem = useCallback(async () => {
 		try {
-			setPageState((prev) => ({ ...prev, is_saving: true, is_error_saving: false }));
-			await API({ service: 'media', resourceId: itemId, operation: 'edit', method: 'PUT', body: formState.values });
+			setPageState(prev => ({ ...prev, is_error_saving: false, is_saving: true }));
+			await API({ body: formState.values, method: 'PUT', operation: 'edit', resourceId: itemId, service: 'media' });
 			itemMutate(formState.values);
 			allItemsMutate();
 			formState.resetDirty();
-			setPageState((prev) => ({ ...prev, is_saving: false }));
-		} catch (error) {
+			setPageState(prev => ({ ...prev, is_saving: false }));
+		}
+		catch (error) {
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: err }));
+			setPageState(prev => ({ ...prev, is_error_saving: error, is_saving: false }));
 		}
 	}, [allItemsMutate, formState, itemId, itemMutate]);
 
 	const lockItem = useCallback(async () => {
 		try {
-			await API({ service: 'media', resourceId: itemId, operation: 'lock', method: 'PUT' });
+			await API({ method: 'PUT', operation: 'lock', resourceId: itemId, service: 'media' });
 			itemMutate();
 			allItemsMutate();
-		} catch (error) {
+		}
+		catch (error) {
 			itemMutate();
 			allItemsMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: err }));
+			setPageState(prev => ({ ...prev, is_error: error }));
 		}
 	}, [allItemsMutate, itemId, itemMutate]);
 
 	const deleteItem = useCallback(async () => {
 		try {
-			setPageState((prev) => ({ ...prev, is_error: false }));
-			await API({ service: 'media', resourceId: itemId, operation: 'delete', method: 'DELETE' });
+			setPageState(prev => ({ ...prev, is_error: false }));
+			await API({ method: 'DELETE', operation: 'delete', resourceId: itemId, service: 'media' });
 			router.push('/media');
 			allItemsMutate();
 			formState.resetDirty();
-		} catch (error) {
+		}
+		catch (error) {
 			itemMutate();
 			allItemsMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: err }));
+			setPageState(prev => ({ ...prev, is_error: error }));
 		}
 	}, [allItemsMutate, formState, itemId, itemMutate, router]);
 
@@ -184,22 +187,22 @@ export function MediaExplorerContextProvider({ children }) {
 
 	const contextObject = useMemo(
 		() => ({
-			//
-			list: listState,
-			page: pageState,
+			clearSearchQuery: clearSearchQuery,
+			closeItem: closeItem,
+			deleteItem: deleteItem,
 			form: formState,
-			//
-			item_id: itemId,
 			item_data: itemData,
 			//
+			item_id: itemId,
+			//
+			list: listState,
+			lockItem: lockItem,
+			page: pageState,
+			saveItem: saveItem,
+			//
 			updateSearchQuery: updateSearchQuery,
-			clearSearchQuery: clearSearchQuery,
 			//
 			validateItem: validateItem,
-			saveItem: saveItem,
-			lockItem: lockItem,
-			deleteItem: deleteItem,
-			closeItem: closeItem,
 			//
 		}),
 		[listState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, validateItem, saveItem, lockItem, deleteItem, closeItem],

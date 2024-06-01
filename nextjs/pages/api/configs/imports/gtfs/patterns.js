@@ -1,12 +1,12 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import generate from '@/services/generator';
-import { RouteModel } from '@/schemas/Route/model';
-import { PatternModel } from '@/schemas/Pattern/model';
-import { StopModel } from '@/schemas/Stop/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
+import { PatternModel } from '@/schemas/Pattern/model';
+import { RouteModel } from '@/schemas/Route/model';
+import { StopModel } from '@/schemas/Stop/model';
+import generate from '@/services/generator';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -25,7 +25,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -34,8 +35,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -45,7 +47,8 @@ export default async function handler(req, res) {
 
 	try {
 		await PatternModel.syncIndexes();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot sync indexes.' });
 	}
@@ -112,7 +115,7 @@ export default async function handler(req, res) {
 
 				// 6.2.4.3.
 				// Parse the Shape to match GO schema
-				const shapeForThisPattern = { extension: shapeApi.extension, points: [], geojson: shapeApi.geojson };
+				const shapeForThisPattern = { extension: shapeApi.extension, geojson: shapeApi.geojson, points: [] };
 				shapeForThisPattern.points = shapeApi.points.map((point) => {
 					return { ...point, shape_dist_traveled: Number(point.shape_dist_traveled) * metersOrKm };
 				});
@@ -181,13 +184,13 @@ export default async function handler(req, res) {
 					// 6.2.4.5.6.
 					// Save this segment to the temporary variable
 					pathForThisPattern.push({
-						stop: associatedStopDocument._id,
-						allow_pickup: true,
 						allow_drop_off: true,
-						distance_delta: parseInt(distanceDelta),
-						default_velocity: parseInt(velocityInThisSegment),
-						default_travel_time: parseInt(travelTimeInThisSegmentInSeconds),
+						allow_pickup: true,
 						default_dwell_time: 30,
+						default_travel_time: parseInt(travelTimeInThisSegmentInSeconds),
+						default_velocity: parseInt(velocityInThisSegment),
+						distance_delta: parseInt(distanceDelta),
+						stop: associatedStopDocument._id,
 						zones: associatedStopDocument.zones,
 					});
 
@@ -232,24 +235,24 @@ export default async function handler(req, res) {
 						while (await CalendarModel.exists({ code: newCalendarCode })) {
 							newCalendarCode = generate(4);
 						}
-						matchingCalendar = await CalendarModel.findOneAndUpdate({ code: newCalendarCode }, { code: newCalendarCode, dates: tripApi.dates }, { upsert: true, new: true });
+						matchingCalendar = await CalendarModel.findOneAndUpdate({ code: newCalendarCode }, { code: newCalendarCode, dates: tripApi.dates }, { new: true, upsert: true });
 					}
 
 					// 6.2.4.8.5.
 					// Save this schedule to the temporary variable
 					schedulesForThisPattern.push({
-						start_time: tripApi.schedule[0].arrival_time_operation.substring(0, 5),
-						calendars_on: [matchingCalendar._id],
-						calendars_off: [],
 						calendar_desc: tripApi.calendar_desc,
+						calendars_off: [],
+						calendars_on: [matchingCalendar._id],
+						path_overrides: [],
+						start_time: tripApi.schedule[0].arrival_time_operation.substring(0, 5),
 						vehicle_features: {
-							type: 0,
-							propulsion: 0,
 							allow_bicycles: true,
 							passenger_counting: true,
+							propulsion: 0,
+							type: 0,
 							video_surveillance: true,
 						},
-						path_overrides: [],
 					});
 
 					//
@@ -262,16 +265,16 @@ export default async function handler(req, res) {
 				// Parse the pattern object to match GO schema
 				const patternObject = {
 					code: directionApi.pattern_id,
-					parent_route: route?._id,
 					direction: Number(directionApi.direction_id),
 					headsign: directionApi.headsign,
-					shape: shapeForThisPattern,
+					parent_route: route?._id,
 					path: pathForThisPattern,
-					schedules: schedulesForThisPattern,
 					presets: {
-						velocity: parseInt(averageVelocity || 20),
 						dwell_time: 30,
+						velocity: parseInt(averageVelocity || 20),
 					},
+					schedules: schedulesForThisPattern,
+					shape: shapeForThisPattern,
 				};
 
 				// Skip if pattern is locked
@@ -303,15 +306,12 @@ export default async function handler(req, res) {
 			console.log(`⤷ Updated Route ${route.code}`);
 			console.log();
 
-			// 6.2.6.
-			// Wait for 250 miliseconds to ensure no rate limits are hit
-			await delay(250);
-
 			//
 		}
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Import Error' });
 	}

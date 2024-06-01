@@ -2,13 +2,14 @@
 
 /* * */
 
-import { useState } from 'react';
 import { IconCaretDownFilled, IconCaretLeftFilled } from '@tabler/icons-react';
+import { useState } from 'react';
+
 import styles from './Standout.module.css';
 
 /* * */
 
-export default function Standout({ icon, title = '', description = '', collapsible = false, defaultOpen = true, children }) {
+export default function Standout({ children, collapsible = false, defaultOpen = true, description = '', icon, title = '' }) {
 	//
 
 	//
@@ -20,7 +21,7 @@ export default function Standout({ icon, title = '', description = '', collapsib
 	// B. Handle actions
 
 	const handleToggle = () => {
-		if (collapsible) setIsOpen((prev) => !prev);
+		if (collapsible) setIsOpen(prev => !prev);
 	};
 
 	//
@@ -28,21 +29,23 @@ export default function Standout({ icon, title = '', description = '', collapsib
 
 	return (
 		<div className={`${styles.container} ${collapsible && styles.collapsible} ${isOpen && styles.isOpen}`}>
-			{(icon || title || collapsible) &&
-        <div className={styles.header} onClick={handleToggle}>
-        	<div className={styles.leftSection}>
-        		{icon && icon}
-        		{title && <h4 className={styles.title}>{title}</h4>}
-        	</div>
-        	<div className={styles.rightSection}>{collapsible && <div className={styles.toggleIcon}>{isOpen ? <IconCaretDownFilled size={18} /> : <IconCaretLeftFilled size={18} />}</div>}</div>
-        </div>
-			}
-			{(description || children) && isOpen &&
-        <div className={styles.content}>
-        	{description && <p className={styles.description}>{description}</p>}
-        	{children && <div className={styles.children}>{children}</div>}
-        </div>
-			}
+			{(icon || title || collapsible)
+			&& (
+				<div className={styles.header} onClick={handleToggle}>
+					<div className={styles.leftSection}>
+						{icon && icon}
+						{title && <h4 className={styles.title}>{title}</h4>}
+					</div>
+					<div className={styles.rightSection}>{collapsible && <div className={styles.toggleIcon}>{isOpen ? <IconCaretDownFilled size={18} /> : <IconCaretLeftFilled size={18} />}</div>}</div>
+				</div>
+			)}
+			{(description || children) && isOpen
+			&& (
+				<div className={styles.content}>
+					{description && <p className={styles.description}>{description}</p>}
+					{children && <div className={styles.children}>{children}</div>}
+				</div>
+			)}
 		</div>
 	);
 

@@ -2,12 +2,13 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
-import styles from './PatternsExplorerIdPageConfigs.module.css';
-import { Select } from '@mantine/core';
 import { usePatternsExplorerContext } from '@/contexts/PatternsExplorerContext';
+import { Select } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
+import useSWR from 'swr';
+
+import styles from './PatternsExplorerIdPageConfigs.module.css';
 
 /* * */
 
@@ -30,7 +31,7 @@ export default function PatternsExplorerIdPageConfigs() {
 
 	const allLinesDataFormatted = useMemo(() => {
 		if (!allLinesData) return [];
-		return allLinesData.map((item) => ({ value: item._id, label: `[${item.code}] ${item.name}` }));
+		return allLinesData.map(item => ({ label: `[${item.code}] ${item.name}`, value: item._id }));
 	}, [allLinesData]);
 
 	//
@@ -38,7 +39,7 @@ export default function PatternsExplorerIdPageConfigs() {
 
 	return (
 		<div className={styles.container}>
-			<Select label={t('parent_line.label')} description={t('parent_line.description')} placeholder={t('parent_line.placeholder')} nothingFoundMessage={t('parent_line.nothingFound')} {...patternsExplorerContext.form.getInputProps('parent_line')} data={allLinesDataFormatted} searchable />
+			<Select description={t('parent_line.description')} label={t('parent_line.label')} nothingFoundMessage={t('parent_line.nothingFound')} placeholder={t('parent_line.placeholder')} {...patternsExplorerContext.form.getInputProps('parent_line')} data={allLinesDataFormatted} searchable />
 		</div>
 	);
 

@@ -2,14 +2,15 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import buildGoogleMapsUrl from '@/services/buildGoogleMapsUrl';
-import styles from './StopsExplorerNewStopWizardSteps0Info.module.css';
-import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import { IconBrandGoogleMaps, IconCopy, IconMapShare, IconWorldLatitude, IconWorldLongitude } from '@tabler/icons-react';
+import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
+import buildGoogleMapsUrl from '@/services/buildGoogleMapsUrl';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { useClipboard } from '@mantine/hooks';
+import { IconBrandGoogleMaps, IconCopy, IconMapShare, IconWorldLatitude, IconWorldLongitude } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+
+import styles from './StopsExplorerNewStopWizardSteps0Info.module.css';
 
 /* * */
 
@@ -41,12 +42,12 @@ export default function StopsExplorerNewStopWizardSteps0Info() {
 	};
 
 	const handleOpenInGoogleMaps = () => {
-		const streetViewUrl = buildGoogleMapsUrl({ type: 'streetview', latitude: stopsExplorerNewStopWizardContext.newStop.latitude, longitude: stopsExplorerNewStopWizardContext.newStop.longitude });
+		const streetViewUrl = buildGoogleMapsUrl({ latitude: stopsExplorerNewStopWizardContext.newStop.latitude, longitude: stopsExplorerNewStopWizardContext.newStop.longitude, type: 'streetview' });
 		window.open(streetViewUrl, '_blank', 'noopener,noreferrer');
 	};
 
 	const handleOpenInStreetView = () => {
-		const streetViewUrl = buildGoogleMapsUrl({ type: 'streetview', latitude: stopsExplorerNewStopWizardContext.newStop.latitude, longitude: stopsExplorerNewStopWizardContext.newStop.longitude });
+		const streetViewUrl = buildGoogleMapsUrl({ latitude: stopsExplorerNewStopWizardContext.newStop.latitude, longitude: stopsExplorerNewStopWizardContext.newStop.longitude, type: 'streetview' });
 		window.open(streetViewUrl, '_blank', 'noopener,noreferrer');
 	};
 
@@ -63,23 +64,24 @@ export default function StopsExplorerNewStopWizardSteps0Info() {
 
 	return (
 		<div className={styles.container}>
-			{stopsExplorerNewStopWizardContext.newStop.municipality ?
-				<div className={styles.municipality}>
-					<span className={styles.municipalityPrefix}>#{stopsExplorerNewStopWizardContext.newStop.municipality?.prefix}</span>
-					<span className={styles.municipalityName}>{stopsExplorerNewStopWizardContext.newStop.municipality?.name}</span>
-				</div> :
-				<div className={styles.invalidMunicipality}>{t('invalid_municipality')}</div>
-			}
+			{stopsExplorerNewStopWizardContext.newStop.municipality
+				? (
+					<div className={styles.municipality}>
+						<span className={styles.municipalityPrefix}>#{stopsExplorerNewStopWizardContext.newStop.municipality?.prefix}</span>
+						<span className={styles.municipalityName}>{stopsExplorerNewStopWizardContext.newStop.municipality?.name}</span>
+					</div>
+				)
+				: <div className={styles.invalidMunicipality}>{t('invalid_municipality')}</div>}
 			<div className={styles.coordinates}>
 				<div className={styles.coordinatesValue} onClick={handleCopyLatitude}>
 					<Tooltip label={t('coordinates.latitude.label')} withArrow>
-						<IconWorldLatitude size={20} opacity={0.25} />
+						<IconWorldLatitude opacity={0.25} size={20} />
 					</Tooltip>
 					{latitudeClipboard.copied ? t('coordinates.latitude.copied') : stopsExplorerNewStopWizardContext.newStop.latitude.toFixed(6)}
 				</div>
 				<div className={styles.coordinatesValue} onClick={handleCopyLongitude}>
 					<Tooltip label={t('coordinates.longitude.label')} withArrow>
-						<IconWorldLongitude size={20} opacity={0.25} />
+						<IconWorldLongitude opacity={0.25} size={20} />
 					</Tooltip>
 					{longitudeClipboard.copied ? t('coordinates.longitude.copied') : stopsExplorerNewStopWizardContext.newStop.longitude.toFixed(6)}
 				</div>

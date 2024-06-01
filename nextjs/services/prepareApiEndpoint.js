@@ -1,11 +1,11 @@
 /* * */
 
-import mongodb from '@/services/OFFERMANAGERDB';
 import isAllowed from '@/authentication/isAllowed';
+import mongodb from '@/services/OFFERMANAGERDB';
 
 /* * */
 
-export default async function prepareApiEndpoint({ request, method = 'GET', session, permissions }) {
+export default async function prepareApiEndpoint({ method = 'GET', permissions, request, session }) {
 	//
 
 	// 1.
@@ -20,7 +20,8 @@ export default async function prepareApiEndpoint({ request, method = 'GET', sess
 
 	try {
 		isAllowed(session, permissions);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		throw new Error('Could not verify Authentication.');
 	}
@@ -30,7 +31,8 @@ export default async function prepareApiEndpoint({ request, method = 'GET', sess
 
 	try {
 		await mongodb.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		throw new Error('Could not connect to MongoDB.');
 	}

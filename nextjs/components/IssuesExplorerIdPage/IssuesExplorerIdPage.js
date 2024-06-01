@@ -2,21 +2,22 @@
 
 /* * */
 
-import Pannel from '@/components/Pannel/Pannel';
-import { Section } from '@/components/Layouts/Layouts';
-import { useTranslations } from 'next-intl';
-import { Divider } from '@mantine/core';
-import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
-import styles from './IssuesExplorerIdPage.module.css';
 import IssuesExplorerIdPageHeader from '@/components/IssuesExplorerIdPageHeader/IssuesExplorerIdPageHeader';
-import IssuesExplorerIdPageItemTitle from '@/components/IssuesExplorerIdPageItemTitle/IssuesExplorerIdPageItemTitle';
-import IssuesExplorerIdPageItemTags from '@/components/IssuesExplorerIdPageItemTags/IssuesExplorerIdPageItemTags';
-import IssuesExplorerIdPageItemMilestones from '@/components/IssuesExplorerIdPageItemMilestones/IssuesExplorerIdPageItemMilestones';
 import IssuesExplorerIdPageItemComments from '@/components/IssuesExplorerIdPageItemComments/IssuesExplorerIdPageItemComments';
-import IssuesExplorerIdPageItemMedia from '@/components/IssuesExplorerIdPageItemMedia/IssuesExplorerIdPageItemMedia';
-import IssuesExplorerIdPageItemLines from '@/components/IssuesExplorerIdPageItemLines/IssuesExplorerIdPageItemLines';
-import IssuesExplorerIdPageItemStops from '@/components/IssuesExplorerIdPageItemStops/IssuesExplorerIdPageItemStops';
 import IssuesExplorerIdPageItemIssues from '@/components/IssuesExplorerIdPageItemIssues/IssuesExplorerIdPageItemIssues';
+import IssuesExplorerIdPageItemLines from '@/components/IssuesExplorerIdPageItemLines/IssuesExplorerIdPageItemLines';
+import IssuesExplorerIdPageItemMedia from '@/components/IssuesExplorerIdPageItemMedia/IssuesExplorerIdPageItemMedia';
+import IssuesExplorerIdPageItemMilestones from '@/components/IssuesExplorerIdPageItemMilestones/IssuesExplorerIdPageItemMilestones';
+import IssuesExplorerIdPageItemStops from '@/components/IssuesExplorerIdPageItemStops/IssuesExplorerIdPageItemStops';
+import IssuesExplorerIdPageItemTags from '@/components/IssuesExplorerIdPageItemTags/IssuesExplorerIdPageItemTags';
+import IssuesExplorerIdPageItemTitle from '@/components/IssuesExplorerIdPageItemTitle/IssuesExplorerIdPageItemTitle';
+import { Section } from '@/components/Layouts/Layouts';
+import Pannel from '@/components/Pannel/Pannel';
+import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
+import { Divider } from '@mantine/core';
+import { useTranslations } from 'next-intl';
+
+import styles from './IssuesExplorerIdPage.module.css';
 
 /* * */
 
@@ -33,7 +34,7 @@ export default function IssuesExplorerIdPage() {
 	// B. Render components
 
 	return (
-		<Pannel loading={issuesExplorerContext.page.is_loading} header={<IssuesExplorerIdPageHeader />}>
+		<Pannel header={<IssuesExplorerIdPageHeader />} loading={issuesExplorerContext.page.is_loading}>
 			<Section>
 				<IssuesExplorerIdPageItemTitle />
 				<IssuesExplorerIdPageItemTags />

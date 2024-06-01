@@ -1,8 +1,8 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { StopModel } from '@/schemas/Stop/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -19,7 +19,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -28,8 +29,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'stops', action: 'lock' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'PUT', permissions: [{ action: 'lock', scope: 'stops' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -42,7 +44,8 @@ export default async function handler(req, res) {
 		if (!foundDocument) return await res.status(404).json({ message: `Stop with _id "${req.query._id}" not found.` });
 		const updatedDocument = await StopModel.updateOne({ _id: { $eq: foundDocument._id } }, { is_locked: !foundDocument.is_locked }, { new: true });
 		return await res.status(200).json(updatedDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot lock or unlock this Stop.' });
 	}

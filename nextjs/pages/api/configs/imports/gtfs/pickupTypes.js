@@ -1,11 +1,11 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { StopModel } from '@/schemas/Stop/model';
-import Papa from 'papaparse';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import fs from 'fs';
+import Papa from 'papaparse';
 
 /* * */
 
@@ -24,7 +24,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -33,8 +34,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -44,7 +46,8 @@ export default async function handler(req, res) {
 
 	try {
 		await PatternModel.syncIndexes();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot sync indexes.' });
 	}
@@ -58,9 +61,9 @@ export default async function handler(req, res) {
 		const pickupTypesRaw = fs.readFileSync('/app/pages/api/configs/imports/pickupTypes_a3.txt', { encoding: 'utf8' });
 		// const pickupTypesRaw = fs.readFileSync('./pages/api/configs/imports/pickupTypes_a3.txt', { encoding: 'utf8' });
 
-		const parsedpickupTypes = Papa.parse(pickupTypesRaw, { header: true, delimiter: ',' });
+		const parsedpickupTypes = Papa.parse(pickupTypesRaw, { delimiter: ',', header: true });
 
-		const doubleCheckThesePatterns = new Set;
+		const doubleCheckThesePatterns = new Set();
 
 		//
 
@@ -79,7 +82,7 @@ export default async function handler(req, res) {
 
 			const patternData = await PatternModel.findOne({ code: patternSummaryData.code }).populate('path.stop');
 
-			const afetacaoForThisPattern = parsedpickupTypes.data.filter((aft) => aft.trip_id.substring(0, 8) === patternData.code);
+			const afetacaoForThisPattern = parsedpickupTypes.data.filter(aft => aft.trip_id.substring(0, 8) === patternData.code);
 			if (!afetacaoForThisPattern) {
 				console.error(`PATTERN NOT FOUND IN PICKUP_TYPES.CSV: ${patternData.code}`);
 				continue;
@@ -113,7 +116,8 @@ export default async function handler(req, res) {
 		console.table(Array.from(doubleCheckThesePatterns));
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Import Error' });
 	}

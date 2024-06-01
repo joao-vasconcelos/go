@@ -1,19 +1,20 @@
 /* * */
 
-import calculateDateDayType from '../../services/calculateDateDayType';
-import { ExportModel } from '@/schemas/Export/model';
-import { LineModel } from '@/schemas/Line/model';
-import { FareModel } from '@/schemas/Fare/model';
-import { TypologyModel } from '@/schemas/Typology/model';
-import { RouteModel } from '@/schemas/Route/model';
-import { PatternModel } from '@/schemas/Pattern/model';
-import { MunicipalityModel } from '@/schemas/Municipality/model';
-import { ZoneModel } from '@/schemas/Zone/model';
-import { StopModel } from '@/schemas/Stop/model';
-import { DateModel } from '@/schemas/Date/model';
-import { CalendarModel } from '@/schemas/Calendar/model';
 import { AgencyModel } from '@/schemas/Agency/model';
+import { CalendarModel } from '@/schemas/Calendar/model';
+import { DateModel } from '@/schemas/Date/model';
+import { ExportModel } from '@/schemas/Export/model';
+import { FareModel } from '@/schemas/Fare/model';
+import { LineModel } from '@/schemas/Line/model';
+import { MunicipalityModel } from '@/schemas/Municipality/model';
+import { PatternModel } from '@/schemas/Pattern/model';
+import { RouteModel } from '@/schemas/Route/model';
+import { StopModel } from '@/schemas/Stop/model';
+import { TypologyModel } from '@/schemas/Typology/model';
+import { ZoneModel } from '@/schemas/Zone/model';
 import CSVWRITER from '@/services/CSVWRITER';
+
+import calculateDateDayType from '../../services/calculateDateDayType';
 
 /* * */
 /* EXPORT GTFS V29 */
@@ -31,7 +32,8 @@ import CSVWRITER from '@/services/CSVWRITER';
 async function update(exportDocument, updates) {
 	try {
 		await ExportModel.updateOne({ _id: exportDocument._id }, updates);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at update(${exportDocument}, ${updates})`, error);
 		throw new Error(`Error at update(${exportDocument}, ${updates})`);
 	}
@@ -61,7 +63,8 @@ function incrementTime(timeString, increment) {
 		// Format the new time string
 		return `${padZero(newHours)}:${padZero(newMinutes)}:${padZero(newSeconds)}`;
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at incrementTime(${timeString}, ${increment})`, error);
 		throw new Error(`Error at incrementTime(${timeString}, ${increment})`);
 	}
@@ -89,7 +92,7 @@ function padZero(num) {
 /* Output the current date and time in the format YYYYMMDDHHMM. */
 /* For example, if the current date is July 3, 2023, at 9:30 AM, the output will be 202307030930. */
 function today() {
-	let currentDate = new Date;
+	let currentDate = new Date();
 	let year = currentDate.getFullYear();
 	let month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
 	let day = currentDate.getDate().toString().padStart(2, '0');
@@ -110,16 +113,17 @@ function today() {
 function parseAgency(agencyData) {
 	try {
 		return {
-			agency_id: agencyData.code,
-			agency_name: 'Carris Metropolitana', // || agencyData.name,
-			agency_url: 'https://www.carrismetropolitana.pt', // || agencyData.url,
-			agency_timezone: 'Europe/Lisbon', // || agencyData.timezone,
-			agency_lang: 'pt', // || agencyData.lang,
-			agency_phone: '210410400', // || agencyData.phone,
-			agency_fare_url: agencyData.fare_url,
 			agency_email: agencyData.email,
+			agency_fare_url: agencyData.fare_url,
+			agency_id: agencyData.code,
+			agency_lang: 'pt', // || agencyData.lang,
+			agency_name: 'Carris Metropolitana', // || agencyData.name,
+			agency_phone: '210410400', // || agencyData.phone,
+			agency_timezone: 'Europe/Lisbon', // || agencyData.timezone,
+			agency_url: 'https://www.carrismetropolitana.pt', // || agencyData.url,
 		};
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at parseAgency(${agencyData})`, error);
 		throw new Error(`Error at parseAgency(${agencyData})`);
 	}
@@ -136,16 +140,17 @@ function parseAgency(agencyData) {
 function parseFeedInfo(agencyData, options) {
 	try {
 		return {
-			feed_publisher_name: agencyData.name,
-			feed_publisher_url: agencyData.url,
-			feed_lang: 'pt',
 			default_lang: 'en',
 			feed_contact_url: 'https://github.com/carrismetropolitana/gtfs',
-			feed_version: today(),
-			feed_start_date: options.feed_start_date,
 			feed_end_date: options.feed_end_date,
+			feed_lang: 'pt',
+			feed_publisher_name: agencyData.name,
+			feed_publisher_url: agencyData.url,
+			feed_start_date: options.feed_start_date,
+			feed_version: today(),
 		};
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at parseFeedInfo(${agencyData}, ${options})`, error);
 		throw new Error(`Error at parseFeedInfo(${agencyData}, ${options})`);
 	}
@@ -162,24 +167,25 @@ function parseFeedInfo(agencyData, options) {
 function parseRoute(agencyData, lineData, typologyData, routeData) {
 	try {
 		return {
-			line_id: lineData.code,
-			line_short_name: lineData.short_name.replace(/  +/g, ' ').trim(),
-			line_long_name: lineData.name.replaceAll(',', '').replace(/  +/g, ' ').trim(),
-			line_type: getLineType(typologyData.code),
-			route_id: routeData.code,
 			agency_id: agencyData.code,
-			route_origin: routeData.patterns[0]?.origin || '',
-			route_destination: routeData.patterns[0]?.destination || '',
-			route_short_name: lineData.short_name.replace(/  +/g, ' ').trim(),
-			route_long_name: routeData.name.replaceAll(',', '').replace(/  +/g, ' ').trim(),
-			route_type: lineData.transport_type,
-			path_type: routeData.path_type,
 			circular: lineData.circular ? 1 : 0,
-			school: lineData.school ? 1 : 0,
+			line_id: lineData.code,
+			line_long_name: lineData.name.replaceAll(',', '').replace(/  +/g, ' ').trim(),
+			line_short_name: lineData.short_name.replace(/  +/g, ' ').trim(),
+			line_type: getLineType(typologyData.code),
+			path_type: routeData.path_type,
 			route_color: typologyData.color.slice(1),
+			route_destination: routeData.patterns[0]?.destination || '',
+			route_id: routeData.code,
+			route_long_name: routeData.name.replaceAll(',', '').replace(/  +/g, ' ').trim(),
+			route_origin: routeData.patterns[0]?.origin || '',
+			route_short_name: lineData.short_name.replace(/  +/g, ' ').trim(),
 			route_text_color: typologyData.text_color.slice(1),
+			route_type: lineData.transport_type,
+			school: lineData.school ? 1 : 0,
 		};
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at parseRoute(${agencyData}, ${lineData}, ${typologyData}, ${routeData})`, error);
 		throw new Error(`Error at parseRoute(${agencyData}, ${lineData}, ${typologyData}, ${routeData})`);
 	}
@@ -197,10 +203,11 @@ function parseFareRule(agencyData, routeData, fareData) {
 	try {
 		return {
 			agency_id: agencyData.code,
-			route_id: routeData.code,
 			fare_id: fareData.code,
+			route_id: routeData.code,
 		};
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at parseFareRule(${agencyData}, ${routeData}, ${fareData})`, error);
 		throw new Error(`Error at parseFareRule(${agencyData}, ${routeData}, ${fareData})`);
 	}
@@ -218,13 +225,14 @@ function parseFare(agencyData, fareData) {
 	try {
 		return {
 			agency_id: agencyData.code,
-			fare_id: fareData.code,
-			price: fareData.price,
 			currency_type: fareData.currency_type,
+			fare_id: fareData.code,
 			payment_method: fareData.payment_method,
+			price: fareData.price,
 			transfers: fareData.transfers,
 		};
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at parseFare(${agencyData}, ${fareData})`, error);
 		throw new Error(`Error at parseFare(${agencyData}, ${fareData})`);
 	}
@@ -240,18 +248,18 @@ function parseFare(agencyData, fareData) {
 /* For a given typology code return the corresponding type key */
 function getLineType(typologyCode) {
 	switch (typologyCode) {
-	case 'PROXIMA':
-		return 1;
-	case 'LONGA':
-		return 2;
-	case 'RAPIDA':
-		return 3;
-	case 'INTER-REG':
-		return 4;
-	case 'MAR':
-		return 5;
-	default:
-		return 0;
+		case 'PROXIMA':
+			return 1;
+		case 'LONGA':
+			return 2;
+		case 'RAPIDA':
+			return 3;
+		case 'INTER-REG':
+			return 4;
+		case 'MAR':
+			return 5;
+		default:
+			return 0;
 	}
 }
 
@@ -273,31 +281,32 @@ async function parseZoning(agencyData, lineData, patternData, exportOptions) {
 			const stopData = await StopModel.findOne({ _id: pathData.stop }, 'code name zones');
 			const allZonesData = await ZoneModel.find({ _id: pathData.zones }, 'code name');
 			// Prepare zones in the file format
-			let formattedZoneNames = allZonesData.map((zone) => zone.name).join('|');
-			let formattedZoneCodes = allZonesData.map((zone) => zone.code).join('|');
+			let formattedZoneNames = allZonesData.map(zone => zone.name).join('|');
+			let formattedZoneCodes = allZonesData.map(zone => zone.code).join('|');
 			// Prepare fares in the file format
-			let formattedOnboardFares = lineData.onboard_fares.map((onboardFare) => onboardFare.code).join('|');
+			let formattedOnboardFares = lineData.onboard_fares.map(onboardFare => onboardFare.code).join('|');
 			// Write the afetacao.txt entry for this path
 			parsedZoning.push({
-				operator_id: agencyData.code,
-				line_id: lineData.code,
-				pattern_id: patternData.code,
-				stop_sequence: pathIndex + exportOptions.stop_sequence_start,
-				stop_id: stopData.code,
-				stop_name: stopData.name || '',
-				line_type: lineData.typology.code || '',
-				accepted_zone_names: formattedZoneNames,
 				accepted_zone_codes: formattedZoneCodes,
+				accepted_zone_names: formattedZoneNames,
+				interchange: lineData.interchange || '0',
+				line_id: lineData.code,
+				line_type: lineData.typology.code || '',
 				onboard_fares: formattedOnboardFares,
+				operator_id: agencyData.code,
+				pattern_id: patternData.code,
 				prepaid_fare: lineData.prepaid_fare?.code || '',
 				prepaid_fare_price: lineData.prepaid_fare?.price || '0',
-				interchange: lineData.interchange || '0',
+				stop_id: stopData.code,
+				stop_name: stopData.name || '',
+				stop_sequence: pathIndex + exportOptions.stop_sequence_start,
 			});
 
 			// End of afetacao loop
 		}
 		return parsedZoning;
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at parseZoning(${lineData}, ${patternData}, ${exportOptions})`, error);
 		throw new Error(`Error at parseZoning(${lineData}, ${patternData}, ${exportOptions})`);
 	}
@@ -321,15 +330,16 @@ function parseShape(gtfsShapeId, shapeData) {
 			const shapeDistTraveled = parseFloat(((shapePoint.shape_dist_traveled || 0) / 1000).toFixed(6));
 			// Build shape point
 			parsedShape.push({
+				shape_dist_traveled: shapeDistTraveled,
 				shape_id: gtfsShapeId,
-				shape_pt_sequence: shapePoint.shape_pt_sequence,
 				shape_pt_lat: shapePtLat,
 				shape_pt_lon: shapePtLon,
-				shape_dist_traveled: shapeDistTraveled,
+				shape_pt_sequence: shapePoint.shape_pt_sequence,
 			});
 		}
 		return parsedShape;
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at parseShape(${gtfsShapeId}, ${shapeData})`, error);
 		throw new Error(`Error at parseShape(${gtfsShapeId}, ${shapeData})`);
 	}
@@ -357,19 +367,20 @@ async function parseCalendar(calendarCode, calendarDates) {
 			const dayType = calculateDateDayType(calendarDate, dateData.is_holiday);
 			// Build the date entry
 			parsedCalendar.push({
-				service_id: calendarCode,
+				date: calendarDate,
+				day_type: dayType,
+				exception_type: 1,
 				holiday: dateData.is_holiday ? 1 : 0,
 				period: dateData.period,
-				day_type: dayType,
-				date: calendarDate,
-				exception_type: 1,
+				service_id: calendarCode,
 			});
 			//
 		}
 		// Return this calendar
 		return parsedCalendar;
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at parseCalendar(${calendarCode}, ${calendarDates.length})`, error);
 		throw new Error(`Error at parseCalendar(${calendarCode}, ${calendarDates.length})`);
 	}
@@ -386,40 +397,41 @@ async function parseCalendar(calendarCode, calendarDates) {
 function parseStop(stopData, municipalityData) {
 	try {
 		return {
+			bench: '',
+			entrance_restriction: '',
+			equipment: '',
+			exit_restriction: '',
+			level_id: '',
+			location_type: '',
+			municipality: municipalityData.code || '',
+			network_map: '',
+			observations: '',
+			parent_station: '',
+			platform_code: '',
+			preservation_state: '',
+			real_time_information: '',
+			region: municipalityData.region || '',
+			schedule: '',
+			shelter: '',
+			signalling: '',
+			slot: '',
+			stop_code: stopData.code,
+			stop_desc: '',
 			stop_id: stopData.code,
 			stop_id_stepp: '0',
-			stop_code: stopData.code,
-			stop_name: stopData.name,
-			stop_desc: '',
-			stop_remarks: '',
 			stop_lat: stopData.latitude,
 			stop_lon: stopData.longitude,
+			stop_name: stopData.name,
+			stop_remarks: '',
+			stop_timezone: '',
+			stop_url: '',
+			tariff: '',
+			wheelchair_boarding: '',
 			zone_id: '',
 			zone_shift: '',
-			stop_url: '',
-			location_type: '',
-			parent_station: '',
-			stop_timezone: '',
-			wheelchair_boarding: '',
-			level_id: '',
-			platform_code: '',
-			entrance_restriction: '',
-			exit_restriction: '',
-			slot: '',
-			signalling: '',
-			shelter: '',
-			bench: '',
-			network_map: '',
-			schedule: '',
-			real_time_information: '',
-			tariff: '',
-			preservation_state: '',
-			equipment: '',
-			observations: '',
-			region: municipalityData.region || '',
-			municipality: municipalityData.code || '',
 		};
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at parseStop(${stopData}, ${municipalityData})`, error);
 		throw new Error(`Error at parseStop(${stopData}, ${municipalityData})`);
 	}
@@ -464,9 +476,9 @@ export default async function exportGtfsV29(progress, exportOptions) {
 	// In order to build stops.txt, shapes.txt and calendar_dates.txt it is necessary
 	// to initiate these variables outside all loops that hold the _ids
 	// of the objects that are referenced in the other objects (trips, patterns)
-	const referencedFareCodes = new Set;
-	const referencedStopCodes = new Set;
-	const referencedCalendarCodes = new Set;
+	const referencedFareCodes = new Set();
+	const referencedStopCodes = new Set();
+	const referencedCalendarCodes = new Set();
 
 	// 1.
 	// Retrieve the requested agency object
@@ -507,7 +519,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 		// 3.2.
 		// Get typology associated with this line
 		const typologyData = lineData.typology; // await TypologyModel.findOne({ _id: lineData.typology });
-		if (!typologyData) throw new Error({ code: 5102, short_message: 'Typology not found.', references: { line_code: lineData.code } });
+		if (!typologyData) throw new Error({ code: 5102, references: { line_code: lineData.code }, short_message: 'Typology not found.' });
 
 		// 3.3.
 		// Loop on all the routes for this line
@@ -732,15 +744,15 @@ export default async function exportGtfsV29(progress, exportOptions) {
 							// 3.3.3.4.1.15.9.
 							// Write the stop_times.txt entry for this stop_time
 							parsedStopTimes.push({
-								trip_id: thisTripCode,
 								arrival_time: currentArrivalTime,
 								departure_time: departureTime,
+								drop_off_type: pathData.allow_drop_off ? 0 : 1,
+								pickup_type: pathData.allow_pickup ? 0 : 1,
+								shape_dist_traveled: currentShapeDistTraveled,
 								stop_id: pathData.stop.code,
 								stop_sequence: currentStopSequence,
-								pickup_type: pathData.allow_pickup ? 0 : 1,
-								drop_off_type: pathData.allow_drop_off ? 0 : 1,
-								shape_dist_traveled: currentShapeDistTraveled,
 								timepoint: 1,
+								trip_id: thisTripCode,
 							});
 
 							// 3.3.3.4.1.15.10.
@@ -766,15 +778,15 @@ export default async function exportGtfsV29(progress, exportOptions) {
 						// 3.3.3.4.1.18.
 						// Write the trips.txt entry for this trip
 						await tripsCsvWriter.write(progress.workdir, 'trips.txt', {
-							route_id: routeData.code,
+							calendar_desc: resultingCalendarDescription.replaceAll(',', '').replace(/  +/g, ' ').trim(),
+							direction_id: patternIndex,
 							pattern_id: patternData.code,
 							pattern_short_name: patternData.headsign.replaceAll(',', '').replace(/  +/g, ' ').trim(),
+							route_id: routeData.code,
 							service_id: resultingCalendarCode,
-							trip_id: thisTripCode,
-							trip_headsign: patternData.headsign.replaceAll(',', '').replace(/  +/g, ' ').trim(),
-							direction_id: patternIndex,
 							shape_id: thisShapeCode,
-							calendar_desc: resultingCalendarDescription.replaceAll(',', '').replace(/  +/g, ' ').trim(),
+							trip_headsign: patternData.headsign.replaceAll(',', '').replace(/  +/g, ' ').trim(),
+							trip_id: thisTripCode,
 						});
 
 						// 3.3.3.4.1.19.

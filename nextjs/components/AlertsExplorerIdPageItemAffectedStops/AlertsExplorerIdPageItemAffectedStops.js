@@ -2,17 +2,18 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useMemo } from 'react';
-import { useTranslations } from 'next-intl';
-import { ActionIcon, Button, Select, Tooltip } from '@mantine/core';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import Standout from '@/components/Standout/Standout';
 import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
 import { AlertAffectedStopDefault } from '@/schemas/Alert/default';
+import { ActionIcon, Button, Select, Tooltip } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
-import styles from './AlertsExplorerIdPageItemAffectedStops.module.css';
-import Standout from '@/components/Standout/Standout';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+import useSWR from 'swr';
+
 import AlertsExplorerIdPageItemAffectedStopsStopRoutes from '../AlertsExplorerIdPageItemAffectedStopsStopRoutes/AlertsExplorerIdPageItemAffectedStopsStopRoutes';
+import styles from './AlertsExplorerIdPageItemAffectedStops.module.css';
 
 /* * */
 
@@ -36,7 +37,7 @@ export default function AlertsExplorerIdPageItemAffectedStops() {
 	const availableLiveStops = useMemo(() => {
 		if (!allLiveStopsData) return [];
 		return allLiveStopsData.map((item) => {
-			return { value: item.id, label: `[${item.id}] ${item.name}` };
+			return { label: `[${item.id}] ${item.name}`, value: item.id };
 		});
 	}, [allLiveStopsData]);
 
@@ -57,36 +58,39 @@ export default function AlertsExplorerIdPageItemAffectedStops() {
 
 	return (
 		<div className={styles.container}>
-			{alertsExplorerContext.form.values.affected_stops.length > 0 ?
-				alertsExplorerContext.form.values.affected_stops.map((affectedStop, affectedStopIndex) => <Standout
-					key={affectedStopIndex}
-					title={t('title')}
-					icon={
-						<Tooltip label={t('operations.remove.label')} withArrow>
-							<ActionIcon variant="subtle" color="gray" size="sm" onClick={() => handleRemoveAffectedStop(affectedStopIndex)} disabled={alertsExplorerContext.page.is_read_only}>
-								<IconTrash size={18} />
-							</ActionIcon>
-						</Tooltip>
-					}
-				>
-					<Select
-						placeholder={t('form.affected_stops.placeholder')}
-						nothingFoundMessage={t('form.affected_stops.nothingFound')}
-						{...alertsExplorerContext.form.getInputProps(`affected_stops.${affectedStopIndex}.stop_id`)}
-						limit={100}
-						data={availableLiveStops}
-						readOnly={alertsExplorerContext.page.is_read_only}
-						searchable
-						clearable
-						w="100%"
-					/>
-					<AlertsExplorerIdPageItemAffectedStopsStopRoutes affectedStopIndex={affectedStopIndex} />
-				</Standout>) :
-				<Standout>
-					<NoDataLabel text={t('no_data')} />
-				</Standout>
-			}
-			<Button variant="light" onClick={handleInsertAffectedStop} disabled={alertsExplorerContext.page.is_read_only}>
+			{alertsExplorerContext.form.values.affected_stops.length > 0
+				? alertsExplorerContext.form.values.affected_stops.map((affectedStop, affectedStopIndex) => (
+					<Standout
+						key={affectedStopIndex}
+						title={t('title')}
+						icon={(
+							<Tooltip label={t('operations.remove.label')} withArrow>
+								<ActionIcon color="gray" disabled={alertsExplorerContext.page.is_read_only} onClick={() => handleRemoveAffectedStop(affectedStopIndex)} size="sm" variant="subtle">
+									<IconTrash size={18} />
+								</ActionIcon>
+							</Tooltip>
+						)}
+					>
+						<Select
+							nothingFoundMessage={t('form.affected_stops.nothingFound')}
+							placeholder={t('form.affected_stops.placeholder')}
+							{...alertsExplorerContext.form.getInputProps(`affected_stops.${affectedStopIndex}.stop_id`)}
+							data={availableLiveStops}
+							limit={100}
+							readOnly={alertsExplorerContext.page.is_read_only}
+							w="100%"
+							clearable
+							searchable
+						/>
+						<AlertsExplorerIdPageItemAffectedStopsStopRoutes affectedStopIndex={affectedStopIndex} />
+					</Standout>
+				))
+				: (
+					<Standout>
+						<NoDataLabel text={t('no_data')} />
+					</Standout>
+				)}
+			<Button disabled={alertsExplorerContext.page.is_read_only} onClick={handleInsertAffectedStop} variant="light">
 				{t('operations.insert.label')}
 			</Button>
 		</div>

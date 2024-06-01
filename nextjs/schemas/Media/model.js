@@ -5,44 +5,44 @@ import mongoose from 'mongoose';
 /* * */
 
 export const MediaSchema = new mongoose.Schema({
+	created_at: {
+		default: Date.now,
+		type: Date,
+	},
 	//
 	created_by: {
-		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
-	},
-	created_at: {
-		type: Date,
-		default: Date.now,
-	},
-	//
-	title: {
-		type: String,
-		maxlength: 50,
+		type: mongoose.Schema.Types.ObjectId,
 	},
 	description: {
-		type: String,
 		maxlength: 500,
-	},
-	//
-	storage_scope: {
 		type: String,
+	},
+	file_extension: {
+		maxlength: 6,
+		type: String,
+	},
+	file_mime_type: {
 		maxlength: 50,
+		type: String,
 	},
 	//
 	file_size: {
 		type: Number,
 	},
-	file_mime_type: {
-		type: String,
-		maxlength: 50,
-	},
-	file_extension: {
-		type: String,
-		maxlength: 6,
-	},
 	//
 	is_locked: {
 		type: Boolean,
+	},
+	//
+	storage_scope: {
+		maxlength: 50,
+		type: String,
+	},
+	//
+	title: {
+		maxlength: 50,
+		type: String,
 	},
 	//
 });

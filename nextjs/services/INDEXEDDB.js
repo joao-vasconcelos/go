@@ -13,25 +13,70 @@ class INDEXEDDB {
 
 	objectStores = {
 		vehicleEvents: {
+			indexes: [
+				{ keyPath: 'millis', name: 'millis', options: { unique: false } },
+				{ keyPath: 'line_id', name: 'line_id', options: { unique: false } },
+				{ keyPath: 'route_id', name: 'route_id', options: { unique: false } },
+				{ keyPath: 'pattern_id', name: 'pattern_id', options: { unique: false } },
+				{ keyPath: 'trip_id', name: 'trip_id', options: { unique: false } },
+				{ keyPath: 'stop_id', name: 'stop_id', options: { unique: false } },
+				{ keyPath: 'vehicle_id', name: 'vehicle_id', options: { unique: false } },
+				{ keyPath: 'driver_id', name: 'driver_id', options: { unique: false } },
+				{ keyPath: 'operator_event_id', name: 'operator_event_id', options: { unique: false } },
+				{ keyPath: 'operation_plan_id', name: 'operation_plan_id', options: { unique: false } },
+			],
 			name: 'vehicleEvents',
 			options: { keyPath: '_id' },
-			indexes: [
-				{ name: 'millis', keyPath: 'millis', options: { unique: false } },
-				{ name: 'line_id', keyPath: 'line_id', options: { unique: false } },
-				{ name: 'route_id', keyPath: 'route_id', options: { unique: false } },
-				{ name: 'pattern_id', keyPath: 'pattern_id', options: { unique: false } },
-				{ name: 'trip_id', keyPath: 'trip_id', options: { unique: false } },
-				{ name: 'stop_id', keyPath: 'stop_id', options: { unique: false } },
-				{ name: 'vehicle_id', keyPath: 'vehicle_id', options: { unique: false } },
-				{ name: 'driver_id', keyPath: 'driver_id', options: { unique: false } },
-				{ name: 'operator_event_id', keyPath: 'operator_event_id', options: { unique: false } },
-				{ name: 'operation_plan_id', keyPath: 'operation_plan_id', options: { unique: false } },
-			],
 		},
 	};
 
 	constructor() {
 		this.connectionVersion = Date.now();
+	}
+
+	async addRowTo(objectStoreData, newRowData) {
+		if (!this.connection) await this.init();
+		return new Promise((resolve, reject) => {
+			if (!this.connection) resolve(false);
+			const transactionRequest = this.connection.transaction(objectStoreData.name, 'readwrite');
+			const objectStore = transactionRequest.objectStore(objectStoreData.name);
+			const objectStoreOperationRequest = objectStore.add(newRowData);
+			objectStoreOperationRequest.onsuccess = () => resolve(objectStoreOperationRequest.result);
+			objectStoreOperationRequest.onerror = () => reject(objectStoreOperationRequest.error);
+		});
+	}
+
+	async clearAllRowsFrom(objectStoreData) {
+		if (!this.connection) await this.init();
+		return new Promise((resolve, reject) => {
+			const transactionRequest = this.connection.transaction(objectStoreData.name, 'readwrite');
+			const objectStore = transactionRequest.objectStore(objectStoreData.name);
+			const objectStoreOperationRequest = objectStore.clear();
+			objectStoreOperationRequest.onsuccess = () => resolve(objectStoreOperationRequest.result);
+			objectStoreOperationRequest.onerror = () => reject(objectStoreOperationRequest.error);
+		});
+	}
+
+	async countAllRowsFrom(objectStoreData) {
+		if (!this.connection) await this.init();
+		return new Promise((resolve, reject) => {
+			const transactionRequest = this.connection.transaction(objectStoreData.name, 'readonly');
+			const objectStore = transactionRequest.objectStore(objectStoreData.name);
+			const objectStoreOperationRequest = objectStore.count();
+			objectStoreOperationRequest.onsuccess = () => resolve(objectStoreOperationRequest.result);
+			objectStoreOperationRequest.onerror = () => reject(objectStoreOperationRequest.error);
+		});
+	}
+
+	async getAllRowsFrom(objectStoreData) {
+		if (!this.connection) await this.init();
+		return new Promise((resolve, reject) => {
+			const transactionRequest = this.connection.transaction(objectStoreData.name, 'readonly');
+			const objectStore = transactionRequest.objectStore(objectStoreData.name);
+			const objectStoreOperationRequest = objectStore.getAll();
+			objectStoreOperationRequest.onsuccess = () => resolve(objectStoreOperationRequest.result);
+			objectStoreOperationRequest.onerror = () => reject(objectStoreOperationRequest.error);
+		});
 	}
 
 	async init() {
@@ -75,52 +120,7 @@ class INDEXEDDB {
 		});
 	}
 
-	async addRowTo(objectStoreData, newRowData) {
-		if (!this.connection) await this.init();
-		return new Promise((resolve, reject) => {
-			if (!this.connection) resolve(false);
-			const transactionRequest = this.connection.transaction(objectStoreData.name, 'readwrite');
-			const objectStore = transactionRequest.objectStore(objectStoreData.name);
-			const objectStoreOperationRequest = objectStore.add(newRowData);
-			objectStoreOperationRequest.onsuccess = () => resolve(objectStoreOperationRequest.result);
-			objectStoreOperationRequest.onerror = () => reject(objectStoreOperationRequest.error);
-		});
-	}
-
-	async getAllRowsFrom(objectStoreData) {
-		if (!this.connection) await this.init();
-		return new Promise((resolve, reject) => {
-			const transactionRequest = this.connection.transaction(objectStoreData.name, 'readonly');
-			const objectStore = transactionRequest.objectStore(objectStoreData.name);
-			const objectStoreOperationRequest = objectStore.getAll();
-			objectStoreOperationRequest.onsuccess = () => resolve(objectStoreOperationRequest.result);
-			objectStoreOperationRequest.onerror = () => reject(objectStoreOperationRequest.error);
-		});
-	}
-
-	async countAllRowsFrom(objectStoreData) {
-		if (!this.connection) await this.init();
-		return new Promise((resolve, reject) => {
-			const transactionRequest = this.connection.transaction(objectStoreData.name, 'readonly');
-			const objectStore = transactionRequest.objectStore(objectStoreData.name);
-			const objectStoreOperationRequest = objectStore.count();
-			objectStoreOperationRequest.onsuccess = () => resolve(objectStoreOperationRequest.result);
-			objectStoreOperationRequest.onerror = () => reject(objectStoreOperationRequest.error);
-		});
-	}
-
-	async clearAllRowsFrom(objectStoreData) {
-		if (!this.connection) await this.init();
-		return new Promise((resolve, reject) => {
-			const transactionRequest = this.connection.transaction(objectStoreData.name, 'readwrite');
-			const objectStore = transactionRequest.objectStore(objectStoreData.name);
-			const objectStoreOperationRequest = objectStore.clear();
-			objectStoreOperationRequest.onsuccess = () => resolve(objectStoreOperationRequest.result);
-			objectStoreOperationRequest.onerror = () => reject(objectStoreOperationRequest.error);
-		});
-	}
-
-	async iterateOnIndexFrom(objectStoreData, indexName, callback = () => {}) {
+	async iterateOnIndexFrom(objectStoreData, indexName, callback = () => null) {
 		console.log('this.connection', this.connection);
 		if (!this.connection) await this.init();
 		return new Promise((resolve, reject) => {
@@ -136,7 +136,8 @@ class INDEXEDDB {
 					const primaryKey = indexCursor.primaryKey;
 					callback(indexKey, primaryKey, value);
 					indexCursor.continue();
-				} else {
+				}
+				else {
 					resolve(true);
 					console.log('Entries all displayed.');
 				}
@@ -145,7 +146,7 @@ class INDEXEDDB {
 		});
 	}
 
-	//   async iterateOnValuesFrom(objectStoreData, indexName, callback = () => {}) {
+	//   async iterateOnValuesFrom(objectStoreData, indexName, callback = () => null) {
 	//     if (!this.connection) await this.init();
 	//     return new Promise((resolve, reject) => {
 	//       const transactionRequest = this.connection.transaction(objectStoreData.name, 'readwrite');
@@ -169,7 +170,7 @@ class INDEXEDDB {
 
 /* * */
 
-const indexeddb = new INDEXEDDB;
+const indexeddb = new INDEXEDDB();
 
 /* * */
 

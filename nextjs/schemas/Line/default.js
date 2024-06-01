@@ -1,18 +1,18 @@
 /* * */
 
 export const LineDefault = {
+	agency: null,
+	circular: false,
 	code: '',
+	continuous: false,
+	interchange: '0',
+	is_locked: false,
 	name: '',
+	onboard_fares: [],
+	prepaid_fare: null,
+	routes: [],
+	school: false,
 	short_name: '',
 	transport_type: '3', // bus
-	circular: false,
-	school: false,
-	continuous: false,
 	typology: null,
-	prepaid_fare: null,
-	onboard_fares: [],
-	interchange: '0',
-	agency: null,
-	routes: [],
-	is_locked: false,
 };

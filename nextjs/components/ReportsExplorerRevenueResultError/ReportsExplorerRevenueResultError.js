@@ -2,8 +2,8 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import { useTranslations } from 'next-intl';
 
 /* * */
 

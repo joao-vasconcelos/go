@@ -9,30 +9,30 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
 	{
-		thread_id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Thread',
-		},
 		content: {
-			type: String,
 			maxlength: 5000,
-		},
-		sent_by: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+			type: String,
 		},
 		files: [
 			{
 				filename: {
-					type: String,
 					maxlength: 100,
+					type: String,
 				},
 				url: {
-					type: String,
 					maxlength: 5000,
+					type: String,
 				},
 			},
 		],
+		sent_by: {
+			ref: 'User',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+		thread_id: {
+			ref: 'Thread',
+			type: mongoose.Schema.Types.ObjectId,
+		},
 	},
 	{ timestamps: true },
 );

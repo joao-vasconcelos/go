@@ -1,11 +1,12 @@
 /* * */
 
-import styles from './GlobalCheckboxCard.module.css';
 import { Checkbox } from '@mantine/core';
+
+import styles from './GlobalCheckboxCard.module.css';
 
 /* * */
 
-export default function GlobalCheckboxCard({ label = '', description = '', value = false, onChange = () => {}, readOnly = false, disabled = false, children }) {
+export default function GlobalCheckboxCard({ children, description = '', disabled = false, label = '', onChange = () => null, readOnly = false, value = false }) {
 	//
 
 	//
@@ -22,15 +23,16 @@ export default function GlobalCheckboxCard({ label = '', description = '', value
 	return (
 		<div>
 			<div className={`${styles.container} ${value && styles.checked} ${readOnly && styles.readOnly} ${disabled && styles.disabled}`} onClick={handleToggle}>
-				<Checkbox checked={value} onChange={() => {}} size="md" readOnly={readOnly} disabled={disabled} />
+				<Checkbox checked={value} disabled={disabled} onChange={() => null} readOnly={readOnly} size="md" />
 				<div className={styles.innerWrapper}>
 					<p className={styles.label}>{label}</p>
 					{description && <p className={styles.description}>{description}</p>}
-					{children &&
-            <div className={styles.childrenWrapper} onClick={(e) => e.stopPropagation()}>
-            	{children}
-            </div>
-					}
+					{children
+					&& (
+						<div className={styles.childrenWrapper} onClick={e => e.stopPropagation()}>
+							{children}
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

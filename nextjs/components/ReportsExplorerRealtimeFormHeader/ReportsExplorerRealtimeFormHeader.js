@@ -1,9 +1,9 @@
 /* * */
 
-import { useTranslations } from 'next-intl';
-import Text from '@/components/Text/Text';
-import ListHeader from '@/components/ListHeader/ListHeader';
 import AppButtonBack from '@/components/AppButtonBack/AppButtonBack';
+import ListHeader from '@/components/ListHeader/ListHeader';
+import Text from '@/components/Text/Text';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -20,7 +20,7 @@ export default function ReportsExplorerRealtimeFormHeader() {
 
 	return (
 		<ListHeader>
-			<AppButtonBack href={'/reports'} />
+			<AppButtonBack href="/reports" />
 			<Text size="h1" full>
 				{t('title')}
 			</Text>

@@ -1,9 +1,9 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { PatternModel } from '@/schemas/Pattern/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
+import { PatternModel } from '@/schemas/Pattern/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -22,7 +22,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -31,8 +32,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -66,8 +68,8 @@ export default async function handler(req, res) {
 				// const scheduleStartTimeInt = parseInt(scheduleData.start_time.split(':').join(''));
 
 				// Create a temporary variable
-				const addedCalendarsOn = new Set;
-				const addedCalendarsOff = new Set;
+				const addedCalendarsOn = new Set();
+				const addedCalendarsOff = new Set();
 
 				// Get info for each associated calendar_on of this schedule
 				const allCalendarsOnData = [];
@@ -87,8 +89,8 @@ export default async function handler(req, res) {
 
 				// Check if this schedule has the following calendars
 
-				const hasCalendarEscDu = allCalendarsOnData.findIndex((c) => c.code === 'ESC_DU') >= 0;
-				const hasCalendarEscSab = allCalendarsOnData.findIndex((c) => c.code === 'ESC_SAB') >= 0;
+				const hasCalendarEscDu = allCalendarsOnData.findIndex(c => c.code === 'ESC_DU') >= 0;
+				const hasCalendarEscSab = allCalendarsOnData.findIndex(c => c.code === 'ESC_SAB') >= 0;
 
 				/* * * * * * * * * */
 
@@ -141,7 +143,8 @@ export default async function handler(req, res) {
 		}
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Import Error' });
 	}

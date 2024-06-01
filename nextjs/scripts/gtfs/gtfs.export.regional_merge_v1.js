@@ -1,21 +1,21 @@
 /* * */
 
-import fs from 'fs';
-import { ExportModel } from '@/schemas/Export/model';
 import { ArchiveModel } from '@/schemas/Archive/model';
-import { MediaModel } from '@/schemas/Media/model';
-import STORAGE from '@/services/STORAGE';
 import { ArchiveOptions } from '@/schemas/Archive/options';
-import { DateTime } from 'luxon';
-import { parse as csvParser } from 'csv-parse';
-import CSVWRITER from '@/services/CSVWRITER';
-import extract from 'extract-zip';
-import stopsExportDefault from '@/scripts/stops/stops.export.default';
+import { ExportModel } from '@/schemas/Export/model';
+import { MediaModel } from '@/schemas/Media/model';
+import datesExportDefault from '@/scripts/dates/dates.export.default';
 import faresExportAttributes from '@/scripts/fares/fares.export.attributes';
 import faresExportRules from '@/scripts/fares/fares.export.rules';
 import municipalitiesExportDefault from '@/scripts/municipalities/municipalities.export.default';
-import datesExportDefault from '@/scripts/dates/dates.export.default';
 import periodsExportDefault from '@/scripts/periods/periods.export.default';
+import stopsExportDefault from '@/scripts/stops/stops.export.default';
+import CSVWRITER from '@/services/CSVWRITER';
+import STORAGE from '@/services/STORAGE';
+import { parse as csvParser } from 'csv-parse';
+import extract from 'extract-zip';
+import fs from 'fs';
+import { DateTime } from 'luxon';
 
 /* * */
 
@@ -32,7 +32,8 @@ const setDirectoryPermissions = (dirPath, mode = 0o666) => {
 		const filePath = `${dirPath}/${file.name}`;
 		if (file.isDirectory()) {
 			setDirectoryPermissions(filePath, mode);
-		} else {
+		}
+		else {
 			fs.chmodSync(filePath, mode);
 		}
 	}
@@ -49,7 +50,8 @@ const setDirectoryPermissions = (dirPath, mode = 0o666) => {
 async function update(exportDocument, updates) {
 	try {
 		await ExportModel.updateOne({ _id: exportDocument._id }, updates);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at update(${exportDocument}, ${updates})`, error);
 		throw new Error(`Error at update(${exportDocument}, ${updates})`);
 	}
@@ -61,7 +63,7 @@ async function update(exportDocument, updates) {
 //
 
 async function parseCsvFile(filePath, rowParser = async () => null) {
-	const parser = csvParser({ columns: true, trim: true, skip_empty_lines: true, bom: true, record_delimiter: ['\n', '\r', '\r\n'] });
+	const parser = csvParser({ bom: true, columns: true, record_delimiter: ['\n', '\r', '\r\n'], skip_empty_lines: true, trim: true });
 	const fileStream = fs.createReadStream(filePath);
 	const stream = fileStream.pipe(parser);
 	for await (const rowData of stream) {
@@ -79,7 +81,7 @@ async function parseCsvFile(filePath, rowParser = async () => null) {
 /* Output the current date and time in the format YYYYMMDDHHMM. */
 /* For example, if the current date is July 3, 2023, at 9:30 AM, the output will be 202307030930. */
 function today() {
-	let currentDate = new Date;
+	let currentDate = new Date();
 	let year = currentDate.getFullYear();
 	let month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
 	let day = currentDate.getDate().toString().padStart(2, '0');
@@ -109,14 +111,14 @@ async function getMediaFilePath(mediaId) {
 
 function getAgencyData() {
 	return {
-		agency_id: 'CM',
-		agency_name: 'Carris Metropolitana',
-		agency_url: 'https://www.carrismetropolitana.pt',
-		agency_timezone: 'Europe/Lisbon',
-		agency_lang: 'pt',
-		agency_phone: '210410400',
-		agency_fare_url: 'https://www.carrismetropolitana.pt/tarifarios/',
 		agency_email: 'contacto@carrismetropolitana.pt',
+		agency_fare_url: 'https://www.carrismetropolitana.pt/tarifarios/',
+		agency_id: 'CM',
+		agency_lang: 'pt',
+		agency_name: 'Carris Metropolitana',
+		agency_phone: '210410400',
+		agency_timezone: 'Europe/Lisbon',
+		agency_url: 'https://www.carrismetropolitana.pt',
 	};
 }
 
@@ -125,16 +127,17 @@ function getAgencyData() {
 function getFeedInfoData(startDateString, endDateString) {
 	try {
 		return {
-			feed_publisher_name: 'Carris Metropolitana',
-			feed_publisher_url: 'https://carrismetropolitana.pt',
-			feed_lang: 'pt',
 			default_lang: 'en',
 			feed_contact_url: 'https://github.com/carrismetropolitana/gtfs',
-			feed_version: today(),
-			feed_start_date: startDateString,
 			feed_end_date: endDateString,
+			feed_lang: 'pt',
+			feed_publisher_name: 'Carris Metropolitana',
+			feed_publisher_url: 'https://carrismetropolitana.pt',
+			feed_start_date: startDateString,
+			feed_version: today(),
 		};
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(`Error at getFeedInfoData()`, error);
 		throw new Error(`Error at getFeedInfoData()`);
 	}
@@ -177,7 +180,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// 3.
 	// Setup map variables to keep track of the entities included in the final plan.
 
-	const routesMarkedForFinalExport = new Map;
+	const routesMarkedForFinalExport = new Map();
 
 	// 4.
 	// Fetch all active archives from the database
@@ -198,11 +201,11 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		// 5.1.
 		// Setup variables to keep track of referenced entities in this archive
 
-		const referencedCalendarDates = new Set;
-		const referencedTrips = new Set;
-		const referencedShapes = new Set;
-		const referencedRoutes = new Set;
-		const referencedStops = new Set;
+		const referencedCalendarDates = new Set();
+		const referencedTrips = new Set();
+		const referencedShapes = new Set();
+		const referencedRoutes = new Set();
+		const referencedStops = new Set();
 
 		// 5.2.
 		// Find out if this plan should be included in the final export, and if it is the main, currently active, plan.
@@ -258,7 +261,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 					// Skip if this row's date is after the archive's end date
 					if (data.date > archiveData.end_date) return;
 					//
-				} else {
+				}
+				else {
 					// For all other archives, also look at start_date
 					// Skip if this row's date is before the archive's start date or after the archive's end date
 					if (data.date < archiveData.start_date || data.date > archiveData.end_date) return;
@@ -267,11 +271,11 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				// Format the exported row. Be very explicit to ensure the same number and order of columns.
 				const exportedRowData = {
 					date: data.date,
-					service_id: `${data.service_id}_${archiveData.code}`,
-					period: data.period,
 					day_type: data.day_type,
-					holiday: data.holiday,
 					exception_type: data.exception_type,
+					holiday: data.holiday,
+					period: data.period,
+					service_id: `${data.service_id}_${archiveData.code}`,
 				};
 				// Include this date in the final export and save a reference to the current service_id
 				await fileWriter.write(exportDocument.workdir, 'calendar_dates.txt', exportedRowData);
@@ -287,7 +291,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			console.log(`> Done with calendar_dates.txt of archive ${archiveData.code}`);
 
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			console.log('Error processing calendar_dates.txt file.', error);
 			throw new Error('Error processing calendar_dates.txt file.');
 		}
@@ -310,14 +315,14 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				if (!referencedCalendarDates.has(data.service_id)) return;
 				// Format the exported row. Be very explicit to ensure the same number and order of columns.
 				const exportedRowData = {
-					route_id: data.route_id,
-					pattern_id: data.pattern_id,
-					service_id: `${data.service_id}_${archiveData.code}`,
-					trip_id: `${data.trip_id}_${archiveData.code}`,
-					trip_headsign: data.trip_headsign,
-					direction_id: data.direction_id,
-					shape_id: `${data.shape_id}_${archiveData.code}`,
 					calendar_desc: data.calendar_desc,
+					direction_id: data.direction_id,
+					pattern_id: data.pattern_id,
+					route_id: data.route_id,
+					service_id: `${data.service_id}_${archiveData.code}`,
+					shape_id: `${data.shape_id}_${archiveData.code}`,
+					trip_headsign: data.trip_headsign,
+					trip_id: `${data.trip_id}_${archiveData.code}`,
 				};
 				// Include this trip in the final export
 				await fileWriter.write(exportDocument.workdir, 'trips.txt', exportedRowData);
@@ -336,7 +341,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			console.log(`> Done with trips.txt of archive ${archiveData.code}`);
 
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			console.log('Error processing trips.txt file.', error);
 			throw new Error('Error processing trips.txt file.');
 		}
@@ -358,15 +364,15 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				if (!referencedTrips.has(data.trip_id)) return;
 				// Format the exported row. Be very explicit to ensure the same number and order of columns.
 				const exportedRowData = {
-					trip_id: `${data.trip_id}_${archiveData.code}`,
 					arrival_time: data.arrival_time,
 					departure_time: data.departure_time,
+					drop_off_type: '0', // data.drop_off_type,
+					pickup_type: '0', // data.pickup_type,
+					shape_dist_traveled: data.shape_dist_traveled,
 					stop_id: data.stop_id,
 					stop_sequence: data.stop_sequence,
-					pickup_type: '0', //data.pickup_type,
-					drop_off_type: '0', //data.drop_off_type,
-					shape_dist_traveled: data.shape_dist_traveled,
 					timepoint: data.timepoint,
+					trip_id: `${data.trip_id}_${archiveData.code}`,
 				};
 				// Include this trip in the final export and save a reference to the current trip_id
 				await fileWriter.write(exportDocument.workdir, 'stop_times.txt', exportedRowData);
@@ -382,7 +388,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			console.log(`> Done with stop_times.txt of archive ${archiveData.code}`);
 
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			console.log('Error processing stop_times.txt file.', error);
 			throw new Error('Error processing stop_times.txt file.');
 		}
@@ -404,11 +411,11 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				if (!referencedShapes.has(data.shape_id)) return;
 				// Format the exported row. Be very explicit to ensure the same number and order of columns.
 				const exportedRowData = {
+					shape_dist_traveled: data.shape_dist_traveled,
 					shape_id: `${data.shape_id}_${archiveData.code}`,
-					shape_pt_sequence: data.shape_pt_sequence,
 					shape_pt_lat: data.shape_pt_lat,
 					shape_pt_lon: data.shape_pt_lon,
-					shape_dist_traveled: data.shape_dist_traveled,
+					shape_pt_sequence: data.shape_pt_sequence,
 				};
 				// Include this trip in the final export and save a reference to the current trip_id
 				await fileWriter.write(exportDocument.workdir, 'shapes.txt', exportedRowData);
@@ -423,7 +430,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			console.log(`> Done with shapes.txt of archive ${archiveData.code}`);
 
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			console.log('Error processing shapes.txt file.', error);
 			throw new Error('Error processing shapes.txt file.');
 		}
@@ -453,20 +461,20 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				if (!referencedRoutes.has(data.route_id)) return;
 				// Format the exported row. Be very explicit to ensure the same number and order of columns.
 				const exportedRowData = {
-					line_id: data.line_id,
-					line_short_name: data.line_short_name,
-					line_long_name: data.line_long_name,
-					line_type: data.line_type,
-					route_id: data.route_id,
 					agency_id: agencyData.agency_id,
-					route_short_name: data.route_short_name,
-					route_long_name: data.route_long_name,
-					route_type: data.route_type,
-					path_type: data.path_type,
 					circular: data.circular,
-					school: data.school,
+					line_id: data.line_id,
+					line_long_name: data.line_long_name,
+					line_short_name: data.line_short_name,
+					line_type: data.line_type,
+					path_type: data.path_type,
 					route_color: data.route_color,
+					route_id: data.route_id,
+					route_long_name: data.route_long_name,
+					route_short_name: data.route_short_name,
 					route_text_color: data.route_text_color,
+					route_type: data.route_type,
+					school: data.school,
 				};
 				// Save or replace this route if this is the main export,
 				// or save it if this route was not yet found in previous archives.
@@ -486,7 +494,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			console.log(`> Done with routes.txt of archive ${archiveData.code}`);
 
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			console.log('Error processing routes.txt file.', error);
 			throw new Error('Error processing routes.txt file.');
 		}
@@ -498,10 +507,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			//
 
 			const exportedRowData = {
-				archive_id: archiveData.code,
-				operator_id: archiveData.agency?.code || 'N/A',
-				archive_start_date: archiveData.start_date,
 				archive_end_date: archiveData.end_date,
+				archive_id: archiveData.code,
+				archive_start_date: archiveData.start_date,
+				operator_id: archiveData.agency?.code || 'N/A',
 			};
 
 			await fileWriter.write(exportDocument.workdir, 'archives.txt', exportedRowData);
@@ -509,7 +518,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			console.log(`> Done with archives.txt entry for archive ${archiveData.code}`);
 
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			console.log('Error processing archives.txt file.', error);
 			throw new Error('Error processing archives.txt file.');
 		}
@@ -532,12 +542,12 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// 8.
 	// Export fare rules and fare attributes files
 
-	const lineCodesMarkedForFinalExport = Array.from(new Set(Array.from(routesMarkedForFinalExport.values()).map((item) => item.line_id)));
-	const routeCodesMarkedForFinalExport = Array.from(new Set(Array.from(routesMarkedForFinalExport.values()).map((item) => item.route_id)));
+	const lineCodesMarkedForFinalExport = Array.from(new Set(Array.from(routesMarkedForFinalExport.values()).map(item => item.line_id)));
+	const routeCodesMarkedForFinalExport = Array.from(new Set(Array.from(routesMarkedForFinalExport.values()).map(item => item.route_id)));
 	const allFareRulesExportData = await faresExportRules({ line_codes: lineCodesMarkedForFinalExport, route_codes: routeCodesMarkedForFinalExport });
 	await fileWriter.write(exportDocument.workdir, 'fare_rules.txt', allFareRulesExportData);
 
-	const fareCodesMarkedForFinalExport = Array.from(new Set(Array.from(allFareRulesExportData.values()).map((item) => item.fare_id)));
+	const fareCodesMarkedForFinalExport = Array.from(new Set(Array.from(allFareRulesExportData.values()).map(item => item.fare_id)));
 	const allFareAttributesExportData = await faresExportAttributes({ fare_codes: fareCodesMarkedForFinalExport });
 	await fileWriter.write(exportDocument.workdir, 'fare_attributes.txt', allFareAttributesExportData);
 

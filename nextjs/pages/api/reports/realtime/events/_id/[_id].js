@@ -1,7 +1,7 @@
 /* * */
 
-import PCGIDB from '@/services/PCGIDB';
 import getSession from '@/authentication/getSession';
+import PCGIDB from '@/services/PCGIDB';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { ObjectId } from 'mongodb';
 
@@ -20,7 +20,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -29,8 +30,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['realtime'] }] }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'view', fields: [{ key: 'kind', values: ['realtime'] }], scope: 'reports' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -40,7 +42,8 @@ export default async function handler(req, res) {
 
 	try {
 		await PCGIDB.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Could not connect to PCGIDB.' });
 	}
@@ -51,7 +54,8 @@ export default async function handler(req, res) {
 	try {
 		const foundDocument = await PCGIDB.VehicleEvents.findOne({ _id: { $eq: PCGIDB.toObjectId(req.query._id) } });
 		return await res.status(200).json(foundDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot list VehicleEvents.' });
 	}

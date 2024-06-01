@@ -2,14 +2,14 @@
 
 /* * */
 
-import pjson from 'package.json';
-import { useRouter } from 'next/navigation';
-import { useLocale, useTranslations } from 'next-intl';
-import { usePathname } from '@/translations/navigation';
-import { Menu, ActionIcon } from '@mantine/core';
-import { IconSettings, IconLanguage, IconLogin } from '@tabler/icons-react';
 import { availableLocales } from '@/translations/config';
+import { usePathname } from '@/translations/navigation';
+import { ActionIcon, Menu } from '@mantine/core';
+import { IconLanguage, IconLogin, IconSettings } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
+import { useLocale, useTranslations } from 'next-intl';
+import pjson from 'package.json';
 
 /* * */
 
@@ -42,17 +42,19 @@ export default function AppOptions() {
 	return (
 		<Menu offset={15} position="bottom-end" shadow="lg">
 			<Menu.Target>
-				<ActionIcon variant="subtle" color="gray" size="lg">
+				<ActionIcon color="gray" size="lg" variant="subtle">
 					<IconSettings size={20} />
 				</ActionIcon>
 			</Menu.Target>
 			<Menu.Dropdown>
 				<Menu.Label>{t('language.label')}</Menu.Label>
-				{availableLocales.map((availableLocale) => <Menu.Item key={availableLocale} icon={<IconLanguage size={20} />} onClick={() => handleLocaleSwitch(availableLocale)} disabled={locale === availableLocale}>
-					{t(`language.locale.${availableLocale}`)}
-				</Menu.Item>)}
+				{availableLocales.map(availableLocale => (
+					<Menu.Item key={availableLocale} disabled={locale === availableLocale} icon={<IconLanguage size={20} />} onClick={() => handleLocaleSwitch(availableLocale)}>
+						{t(`language.locale.${availableLocale}`)}
+					</Menu.Item>
+				))}
 				<Menu.Divider />
-				<Menu.Item icon={<IconLogin size={20} />} color="red" onClick={handleLogout}>
+				<Menu.Item color="red" icon={<IconLogin size={20} />} onClick={handleLogout}>
 					{t('auth.logout')}
 				</Menu.Item>
 				<Menu.Divider />

@@ -1,10 +1,10 @@
 /* * */
 
-import fs from 'fs';
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { ExportModel } from '@/schemas/Export/model';
 import STORAGE from '@/services/STORAGE';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import fs from 'fs';
 
 /* * */
 
@@ -21,7 +21,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -30,8 +31,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'exports', action: 'view' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'view', scope: 'exports' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -71,7 +73,7 @@ export default async function handler(req, res) {
 
 		// 4.7.
 		// Filter Export documents to keep only the ones that are not errors
-		const validExportDocumentIds = allDocuments.map((item) => String(item._id)); // .filter((item) => item.status !== 5)
+		const validExportDocumentIds = allDocuments.map(item => String(item._id)); // .filter((item) => item.status !== 5)
 
 		// 4.8.
 		// Compare the existing files with each document
@@ -80,11 +82,12 @@ export default async function handler(req, res) {
 			// Skip if the object matches a document in the database
 			if (validExportDocumentIds.includes(savedExport.name)) continue;
 			// Remove the object otherwise
-			fs.rmSync(`${workdir}/${savedExport.name}`, { recursive: true, force: true });
+			fs.rmSync(`${workdir}/${savedExport.name}`, { force: true, recursive: true });
 		}
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot list Exports.' });
 	}

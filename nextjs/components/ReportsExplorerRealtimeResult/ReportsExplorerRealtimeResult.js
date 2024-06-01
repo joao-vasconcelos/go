@@ -2,13 +2,13 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { useReportsExplorerRealtimeContext } from '@/contexts/ReportsExplorerRealtimeContext';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import ReportsExplorerRealtimeResultLoading from '@/components/ReportsExplorerRealtimeResultLoading/ReportsExplorerRealtimeResultLoading';
 import ReportsExplorerRealtimeResultError from '@/components/ReportsExplorerRealtimeResultError/ReportsExplorerRealtimeResultError';
+import ReportsExplorerRealtimeResultLoading from '@/components/ReportsExplorerRealtimeResultLoading/ReportsExplorerRealtimeResultLoading';
 import ReportsExplorerRealtimeResultSummary from '@/components/ReportsExplorerRealtimeResultSummary/ReportsExplorerRealtimeResultSummary';
 import ReportsExplorerRealtimeResultTripDetail from '@/components/ReportsExplorerRealtimeResultTripDetail/ReportsExplorerRealtimeResultTripDetail';
+import { useReportsExplorerRealtimeContext } from '@/contexts/ReportsExplorerRealtimeContext';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -26,13 +26,17 @@ export default function ReportsExplorerRealtimeResult() {
 
 	if (reportsExplorerRealtimeContext.request.is_error) {
 		return <ReportsExplorerRealtimeResultError />;
-	} else if (reportsExplorerRealtimeContext.request.is_loading) {
+	}
+	else if (reportsExplorerRealtimeContext.request.is_loading) {
 		return <ReportsExplorerRealtimeResultLoading />;
-	} else if (reportsExplorerRealtimeContext.selectedTrip.trip_id) {
+	}
+	else if (reportsExplorerRealtimeContext.selectedTrip.trip_id) {
 		return <ReportsExplorerRealtimeResultTripDetail />;
-	} else if (reportsExplorerRealtimeContext.request.summary?.length > 0) {
+	}
+	else if (reportsExplorerRealtimeContext.request.summary?.length > 0) {
 		return <ReportsExplorerRealtimeResultSummary />;
-	} else {
+	}
+	else {
 		return <NoDataLabel text={t('no_data')} fill />;
 	}
 

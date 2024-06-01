@@ -2,16 +2,17 @@
 
 /* * */
 
-import { useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
 import { Section } from '@/components/Layouts/Layouts';
-import { IconJson, IconSearch, IconX } from '@tabler/icons-react';
-import { ActionIcon, Button, Divider, Modal, SimpleGrid, Table, TextInput } from '@mantine/core';
-import { useReportsExplorerRealtimeContext } from '@/contexts/ReportsExplorerRealtimeContext';
-import styles from './ReportsExplorerRealtimeResultTripDetailEventsTable.module.css';
-import { CodeHighlightTabs } from '@mantine/code-highlight';
-import useSWR from 'swr';
 import Loader from '@/components/Loader/Loader';
+import { useReportsExplorerRealtimeContext } from '@/contexts/ReportsExplorerRealtimeContext';
+import { CodeHighlightTabs } from '@mantine/code-highlight';
+import { ActionIcon, Button, Divider, Modal, SimpleGrid, Table, TextInput } from '@mantine/core';
+import { IconJson, IconSearch, IconX } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+import { useMemo, useState } from 'react';
+import useSWR from 'swr';
+
+import styles from './ReportsExplorerRealtimeResultTripDetailEventsTable.module.css';
 
 /* * */
 
@@ -45,7 +46,7 @@ export default function ReportsExplorerRealtimeResultTripDetailEventsTable() {
 		// uniformize the search query
 		const query = searchQuery.toLowerCase().trim();
 		// Filter the table data by the search query
-		return clippedPositions.filter((item) => Object.values(item).join(' ').toLowerCase().includes(query));
+		return clippedPositions.filter(item => Object.values(item).join(' ').toLowerCase().includes(query));
 		//
 	}, [reportsExplorerRealtimeContext.selectedTrip.positions, reportsExplorerRealtimeContext.selectedTrip.event_animation_index, reportsExplorerRealtimeContext.form.event_order_type, searchQuery]);
 
@@ -73,49 +74,54 @@ export default function ReportsExplorerRealtimeResultTripDetailEventsTable() {
 
 	return (
 		<Section>
-			<Modal opened={selectedEventId} onClose={handleClearSelectedEvent} size="auto" withCloseButton={false} padding={0}>
-				{selectedEventData ?
-					<>
+			<Modal onClose={handleClearSelectedEvent} opened={selectedEventId} padding={0} size="auto" withCloseButton={false}>
+				{selectedEventData
+					? (
+						<>
+							<Section>
+								<SimpleGrid cols={1}>
+									<Table withColumnBorders withTableBorder>
+										<Table.Tbody>
+											<Table.Tr>
+												<Table.Td>TML Event ID</Table.Td>
+												<Table.Td>{selectedEventData._id}</Table.Td>
+											</Table.Tr>
+											<Table.Tr>
+												<Table.Td>Operator Event ID</Table.Td>
+												<Table.Td>{selectedEventData.content.entity[0]._id}</Table.Td>
+											</Table.Tr>
+										</Table.Tbody>
+									</Table>
+								</SimpleGrid>
+								<SimpleGrid cols={2}>
+									<Button color="gray" variant="light">
+										tbd
+									</Button>
+								</SimpleGrid>
+							</Section>
+							<Divider />
+							<CodeHighlightTabs code={[{ code: JSON.stringify(selectedEventData, null, '  '), fileName: `${selectedEventData._id}.json`, icon: <IconJson size={15} />, language: 'json' }]} />
+						</>
+					)
+					: (
 						<Section>
-							<SimpleGrid cols={1}>
-								<Table withTableBorder withColumnBorders>
-									<Table.Tbody>
-										<Table.Tr>
-											<Table.Td>TML Event ID</Table.Td>
-											<Table.Td>{selectedEventData._id}</Table.Td>
-										</Table.Tr>
-										<Table.Tr>
-											<Table.Td>Operator Event ID</Table.Td>
-											<Table.Td>{selectedEventData.content.entity[0]._id}</Table.Td>
-										</Table.Tr>
-									</Table.Tbody>
-								</Table>
-							</SimpleGrid>
-							<SimpleGrid cols={2}>
-								<Button variant="light" color="gray">
-                  tbd
-								</Button>
-							</SimpleGrid>
+							<Loader fill visible />
 						</Section>
-						<Divider />
-						<CodeHighlightTabs code={[{ fileName: `${selectedEventData._id}.json`, code: JSON.stringify(selectedEventData, null, '  '), language: 'json', icon: <IconJson size={15} /> }]} />
-					</> :
-					<Section>
-						<Loader visible fill />
-					</Section>
-				}
+					)}
 			</Modal>
 			<SimpleGrid cols={1}>
 				<TextInput
-					placeholder={t('search.placeholder')}
 					leftSection={<IconSearch size={20} />}
-					value={searchQuery}
 					onChange={handleTableSearchQueryChange}
+					placeholder={t('search.placeholder')}
+					value={searchQuery}
 					rightSection={
-						searchQuery.length > 0 &&
-              <ActionIcon onClick={handleClearSearchChange} variant="subtle" color="gray">
-              	<IconX size={20} />
-              </ActionIcon>
+						searchQuery.length > 0
+						&& (
+							<ActionIcon color="gray" onClick={handleClearSearchChange} variant="subtle">
+								<IconX size={20} />
+							</ActionIcon>
+						)
 
 					}
 				/>
@@ -132,15 +138,17 @@ export default function ReportsExplorerRealtimeResultTripDetailEventsTable() {
 						</Table.Tr>
 					</Table.Thead>
 					<Table.Tbody>
-						{tableDataFiltered.map((row) => <Table.Tr key={row.tml_event_id} onClick={() => handleSelectEvent(row)} className={styles.tableRow}>
-							<Table.Td>{row.tml_event_id}</Table.Td>
-							<Table.Td>{row.operator_event_id}</Table.Td>
-							<Table.Td>{row.vehicle_timestamp}</Table.Td>
-							<Table.Td>{row.header_timestamp}</Table.Td>
-							<Table.Td>{row.insert_timestamp}</Table.Td>
-							<Table.Td>{row.insert_timestamp - (row.vehicle_timestamp * 1000)} ms</Table.Td>
-							<Table.Td>{row.stop_id}</Table.Td>
-						</Table.Tr>)}
+						{tableDataFiltered.map(row => (
+							<Table.Tr key={row.tml_event_id} className={styles.tableRow} onClick={() => handleSelectEvent(row)}>
+								<Table.Td>{row.tml_event_id}</Table.Td>
+								<Table.Td>{row.operator_event_id}</Table.Td>
+								<Table.Td>{row.vehicle_timestamp}</Table.Td>
+								<Table.Td>{row.header_timestamp}</Table.Td>
+								<Table.Td>{row.insert_timestamp}</Table.Td>
+								<Table.Td>{row.insert_timestamp - (row.vehicle_timestamp * 1000)} ms</Table.Td>
+								<Table.Td>{row.stop_id}</Table.Td>
+							</Table.Tr>
+						))}
 					</Table.Tbody>
 				</Table>
 			</SimpleGrid>

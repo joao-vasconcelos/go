@@ -1,11 +1,12 @@
 /* * */
 
 import { useTranslations } from 'next-intl';
+
 import styles from './NoDataLabel.module.css';
 
 /* * */
 
-export default function NoDataLabel({ text, fill = false }) {
+export default function NoDataLabel({ fill = false, text }) {
 	//
 
 	//

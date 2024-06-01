@@ -1,12 +1,13 @@
 /* * */
 
-import styles from './ReportsExplorer.module.css';
-import { OneFullColumn } from '@/components/Layouts/Layouts';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import { useTranslations } from 'next-intl';
-import { ReportOptions } from '@/schemas/Report/options';
+import { OneFullColumn } from '@/components/Layouts/Layouts';
 import ReportsExplorerItem from '@/components/ReportsExplorerItem/ReportsExplorerItem';
+import { ReportOptions } from '@/schemas/Report/options';
 import { IconArrowsShuffle, IconCoinEuro, IconFlagQuestion } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+
+import styles from './ReportsExplorer.module.css';
 
 /* * */
 
@@ -22,8 +23,8 @@ export default function ReportsExplorer() {
 	// B. Transform data
 
 	const reportIcons = {
-		revenue: <IconCoinEuro size={50} />,
 		realtime: <IconArrowsShuffle size={50} />,
+		revenue: <IconCoinEuro size={50} />,
 		sla: <IconFlagQuestion size={50} />,
 	};
 
@@ -31,9 +32,9 @@ export default function ReportsExplorer() {
 	// C. Render components
 
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'reports', action: 'view' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'view', scope: 'reports' }]} redirect>
 			<OneFullColumn
-				first={<div className={styles.container}>{ReportOptions.kind && ReportOptions.kind.map((item) => <ReportsExplorerItem key={item} id={item} icon={reportIcons[item]} title={reportOptionsLabels(`kind.${item}.label`)} description={reportOptionsLabels(`kind.${item}.description`)} />)}</div>}
+				first={<div className={styles.container}>{ReportOptions.kind && ReportOptions.kind.map(item => <ReportsExplorerItem key={item} description={reportOptionsLabels(`kind.${item}.description`)} icon={reportIcons[item]} id={item} title={reportOptionsLabels(`kind.${item}.label`)} />)}</div>}
 			/>
 		</AppAuthenticationCheck>
 	);

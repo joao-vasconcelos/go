@@ -1,9 +1,9 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { StopModel, DeletedStopModel } from '@/schemas/Stop/model';
 import { PatternModel } from '@/schemas/Pattern/model';
+import { DeletedStopModel, StopModel } from '@/schemas/Stop/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -21,7 +21,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -30,8 +31,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'DELETE', session: sessionData, permissions: [{ scope: 'stops', action: 'view' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'DELETE', permissions: [{ action: 'view', scope: 'stops' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -42,7 +44,8 @@ export default async function handler(req, res) {
 	try {
 		const foundAssociatedDocuments = await PatternModel.find({ 'path.stop': { $eq: req.query._id } }, '_id code headsign parent_route');
 		if (foundAssociatedDocuments.length > 0) return await res.status(404).json({ message: 'Stop is still associated with Patterns.' });
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot fetch associated Patterns for this Stop.' });
 	}
@@ -53,7 +56,8 @@ export default async function handler(req, res) {
 	try {
 		foundDocument = await StopModel.findOne({ _id: { $eq: req.query._id } });
 		if (!foundDocument) return await res.status(404).json({ message: `Stop with _id "${req.query._id}" not found.` });
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Stop not found.' });
 	}
@@ -69,8 +73,9 @@ export default async function handler(req, res) {
 	// Create this document in the Deleted Stops collection
 
 	try {
-		await DeletedStopModel({ code: foundDocument.code, name: foundDocument.name, latitude: foundDocument.latitude, longitude: foundDocument.longitude }).save();
-	} catch (error) {
+		await DeletedStopModel({ code: foundDocument.code, latitude: foundDocument.latitude, longitude: foundDocument.longitude, name: foundDocument.name }).save();
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Could not save this stop to the Deleted Stops collection.' });
 	}
@@ -81,7 +86,8 @@ export default async function handler(req, res) {
 	try {
 		const deletedDocument = await StopModel.findOneAndDelete({ _id: { $eq: req.query._id } });
 		return await res.status(200).send(deletedDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot delete this Stop.' });
 	}

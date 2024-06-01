@@ -6,37 +6,9 @@ import mongoose from 'mongoose';
 
 export const MunicipalitySchema = new mongoose.Schema(
 	{
-		code: {
-			type: String,
-			maxlength: 4,
-			unique: true,
-		},
-		prefix: {
-			type: String,
-			maxlength: 2,
-		},
-		name: {
-			type: String,
-			maxlength: 50,
-		},
-		district: {
-			type: String,
-			maxlength: 2,
-		},
-		region: {
-			type: String,
-			maxlength: 5,
-		},
-		fill_color: {
-			type: String,
-			maxlength: 7,
-		},
-		fill_opacity: {
-			type: Number,
-		},
 		border_color: {
-			type: String,
 			maxlength: 7,
+			type: String,
 		},
 		border_opacity: {
 			type: Number,
@@ -44,23 +16,51 @@ export const MunicipalitySchema = new mongoose.Schema(
 		border_width: {
 			type: Number,
 		},
+		code: {
+			maxlength: 4,
+			type: String,
+			unique: true,
+		},
+		district: {
+			maxlength: 2,
+			type: String,
+		},
+		fill_color: {
+			maxlength: 7,
+			type: String,
+		},
+		fill_opacity: {
+			type: Number,
+		},
 		geojson: {
-			type: {
-				type: String,
-				maxlength: 100,
-				default: 'Feature',
-			},
 			geometry: {
-				type: {
-					type: String,
-					maxlength: 100,
-					default: 'Polygon',
-				},
 				coordinates: [mongoose.Schema.Types.Mixed],
+				type: {
+					default: 'Polygon',
+					maxlength: 100,
+					type: String,
+				},
+			},
+			type: {
+				default: 'Feature',
+				maxlength: 100,
+				type: String,
 			},
 		},
 		is_locked: {
 			type: Boolean,
+		},
+		name: {
+			maxlength: 50,
+			type: String,
+		},
+		prefix: {
+			maxlength: 2,
+			type: String,
+		},
+		region: {
+			maxlength: 5,
+			type: String,
 		},
 	},
 	{ timestamps: true },

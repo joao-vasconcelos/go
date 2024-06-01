@@ -1,23 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from '@/translations/navigation';
-import useSearch from '@/hooks/useSearch';
-import useSWR from 'swr';
-import API from '@/services/API';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import ErrorDisplay from '@/components/ErrorDisplay';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
+import ListFooter from '@/components/ListFooter/ListFooter';
+import ListHeader from '@/components/ListHeader/ListHeader';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import Pannel from '@/components/Pannel/Pannel';
-import ListItem from './listItem';
+import SearchField from '@/components/SearchField/SearchField';
+import useSearch from '@/hooks/useSearch';
+import API from '@/services/API';
+import notify from '@/services/notify';
+import { useRouter } from '@/translations/navigation';
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots } from '@tabler/icons-react';
-import notify from '@/services/notify';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import ErrorDisplay from '@/components/ErrorDisplay';
 import { useTranslations } from 'next-intl';
-import ListFooter from '@/components/ListFooter/ListFooter';
-import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import SearchField from '@/components/SearchField/SearchField';
-import ListHeader from '@/components/ListHeader/ListHeader';
+import { useState } from 'react';
+import useSWR from 'swr';
+
+import ListItem from './listItem';
 
 export default function Layout({ children }) {
 	//
@@ -47,12 +48,13 @@ export default function Layout({ children }) {
 		try {
 			setIsCreating(true);
 			notify('new', 'loading', t('operations.create.loading'));
-			const response = await API({ service: 'agencies', operation: 'create', method: 'GET' });
+			const response = await API({ method: 'GET', operation: 'create', service: 'agencies' });
 			allAgenciesMutate();
 			router.push(`/agencies/${response._id}`);
 			notify('new', 'success', t('operations.create.success'));
 			setIsCreating(false);
-		} catch (error) {
+		}
+		catch (error) {
 			notify('new', 'error', error.message || t('operations.create.error'));
 			setIsCreating(false);
 			console.log(error);
@@ -63,22 +65,24 @@ export default function Layout({ children }) {
 	// D. Render data
 
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'agencies', action: 'navigate' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'navigate', scope: 'agencies' }]} redirect>
 			<TwoUnevenColumns
-				first={
+				second={children}
+				first={(
 					<Pannel
+						footer={filteredAgenciesData && <ListFooter>{t('list.footer', { count: filteredAgenciesData.length })}</ListFooter>}
 						loading={allAgenciesLoading}
-						header={
+						header={(
 							<ListHeader>
-								<SearchField query={searchQuery} onChange={setSearchQuery} />
-								<Menu shadow="md" position="bottom-end">
+								<SearchField onChange={setSearchQuery} query={searchQuery} />
+								<Menu position="bottom-end" shadow="md">
 									<Menu.Target>
-										<ActionIcon variant="light" size="lg" color="gray" loading={allAgenciesLoading || isCreating}>
+										<ActionIcon color="gray" loading={allAgenciesLoading || isCreating} size="lg" variant="light">
 											<IconDots size={20} />
 										</ActionIcon>
 									</Menu.Target>
 									<Menu.Dropdown>
-										<AppAuthenticationCheck permissions={[{ scope: 'agencies', action: 'create' }]}>
+										<AppAuthenticationCheck permissions={[{ action: 'create', scope: 'agencies' }]}>
 											<Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
 												{t('operations.create.title')}
 											</Menu.Item>
@@ -86,14 +90,12 @@ export default function Layout({ children }) {
 									</Menu.Dropdown>
 								</Menu>
 							</ListHeader>
-						}
-						footer={filteredAgenciesData && <ListFooter>{t('list.footer', { count: filteredAgenciesData.length })}</ListFooter>}
+						)}
 					>
 						<ErrorDisplay error={allAgenciesError} loading={allAgenciesValidating} />
-						{filteredAgenciesData && filteredAgenciesData.length > 0 ? filteredAgenciesData.map((item) => <ListItem key={item._id} _id={item._id} name={item.name} />) : <NoDataLabel />}
+						{filteredAgenciesData && filteredAgenciesData.length > 0 ? filteredAgenciesData.map(item => <ListItem key={item._id} _id={item._id} name={item.name} />) : <NoDataLabel />}
 					</Pannel>
-				}
-				second={children}
+				)}
 			/>
 		</AppAuthenticationCheck>
 	);

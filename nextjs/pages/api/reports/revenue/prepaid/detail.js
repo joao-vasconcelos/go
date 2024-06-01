@@ -1,13 +1,13 @@
 /* * */
 
-import fs from 'fs';
 import getSession from '@/authentication/getSession';
+import { ReportOptions } from '@/schemas/Report/options';
 import CSVWRITER from '@/services/CSVWRITER';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import PCGIDB from '@/services/PCGIDB';
 import STORAGE from '@/services/STORAGE';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import fs from 'fs';
 import { DateTime } from 'luxon';
-import { ReportOptions } from '@/schemas/Report/options';
 
 /* * */
 
@@ -28,7 +28,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -37,8 +38,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'reports', action: 'download', fields: [{ key: 'kind', values: ['revenue'] }] }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'POST', permissions: [{ action: 'download', fields: [{ key: 'kind', values: ['revenue'] }], scope: 'reports' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -48,7 +50,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = await JSON.parse(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'JSON parse error.' });
 	}
@@ -60,9 +63,10 @@ export default async function handler(req, res) {
 	let endDateFormatted;
 
 	try {
-		startDateFormatted = DateTime.fromFormat(req.body.start_date, 'yyyyMMdd').startOf('day').set({ hour: 4, minute: 0, second: 0 }).toFormat("yyyy-MM-dd'T'HH:mm:ss");
-		endDateFormatted = DateTime.fromFormat(req.body.end_date, 'yyyyMMdd').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59, second: 59 }).toFormat("yyyy-MM-dd'T'HH:mm:ss");
-	} catch (error) {
+		startDateFormatted = DateTime.fromFormat(req.body.start_date, 'yyyyMMdd').startOf('day').set({ hour: 4, minute: 0, second: 0 }).toFormat('yyyy-MM-dd\'T\'HH:mm:ss');
+		endDateFormatted = DateTime.fromFormat(req.body.end_date, 'yyyyMMdd').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59, second: 59 }).toFormat('yyyy-MM-dd\'T\'HH:mm:ss');
+	}
+	catch (error) {
 		console.log('Error parsing dates:', error);
 		return await res.status(500).json({ message: 'Error formatting date boundaries.' });
 	}
@@ -72,7 +76,8 @@ export default async function handler(req, res) {
 
 	try {
 		await PCGIDB.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log('Error connecting to PCGIDB:', error);
 		return await res.status(500).json({ message: 'Could not connect to PCGIDB.' });
 	}
@@ -86,7 +91,8 @@ export default async function handler(req, res) {
 	try {
 		workdir = STORAGE.setupWorkdir('reports');
 		csvWriter = new CSVWRITER('reports_sales_zapping_detail');
-	} catch (error) {
+	}
+	catch (error) {
 		console.log('Error setting up workdir and csvWriter:', error);
 	}
 
@@ -97,12 +103,12 @@ export default async function handler(req, res) {
 		// Setup database query stream
 		const queryStream = PCGIDB.ValidationEntity.find(
 			{
+				'transaction.operatorLongID': { $eq: req.body.agency_code },
+				'transaction.productLongID': { $in: ReportOptions.apex_transaction_prepaid_product_ids },
 				'transaction.transactionDate': {
 					$gte: startDateFormatted,
 					$lte: endDateFormatted,
 				},
-				'transaction.operatorLongID': { $eq: req.body.agency_code },
-				'transaction.productLongID': { $in: ReportOptions.apex_transaction_prepaid_product_ids },
 				'transaction.validationStatus': { $in: ReportOptions.apex_transaction_valid_status },
 			},
 			{ allowDiskUse: true, maxTimeMS: 999000 },
@@ -111,15 +117,16 @@ export default async function handler(req, res) {
 		for await (const doc of queryStream) {
 			await csvWriter.write(workdir, 'report.csv', {
 				_id: doc._id,
-				type: 'prepaid',
-				transactionId: doc.transaction?.transactionId || 'N/A',
 				operatorLongID: doc.transaction?.operatorLongID || 'N/A',
-				transactionDate: doc.transaction?.transactionDate || 'N/A',
 				productLongID: doc.transaction?.productLongID || 'N/A',
+				transactionDate: doc.transaction?.transactionDate || 'N/A',
+				transactionId: doc.transaction?.transactionId || 'N/A',
+				type: 'prepaid',
 				unitsQuantity: doc.transaction?.unitsQuantity,
 			});
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		console.log('Error searching database:', error);
 		return await res.status(500).json({ message: error.message || 'Cannot list VehicleEvents.' });
 	}
@@ -129,9 +136,10 @@ export default async function handler(req, res) {
 
 	try {
 		await csvWriter.flush();
-		await res.writeHead(200, { 'Content-Type': 'application/zip', 'Content-Disposition': `attachment; filename=report.csv` });
+		await res.writeHead(200, { 'Content-Disposition': `attachment; filename=report.csv`, 'Content-Type': 'application/zip' });
 		fs.createReadStream(`${workdir}/report.csv`).pipe(res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log('Error sending response to client:', error);
 		return await res.status(500).json({ message: error.message || 'Cannot list VehicleEvents.' });
 	}

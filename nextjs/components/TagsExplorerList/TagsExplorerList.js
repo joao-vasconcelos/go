@@ -2,15 +2,15 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
-import Pannel from '@/components/Pannel/Pannel';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ListFooter from '@/components/ListFooter/ListFooter';
-import TagsExplorerListItem from '@/components/TagsExplorerListItem/TagsExplorerListItem';
-import TagsExplorerListHeader from '@/components/TagsExplorerListHeader/TagsExplorerListHeader';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import Pannel from '@/components/Pannel/Pannel';
 import TagsExplorerListFooter from '@/components/TagsExplorerListFooter/TagsExplorerListFooter';
+import TagsExplorerListHeader from '@/components/TagsExplorerListHeader/TagsExplorerListHeader';
+import TagsExplorerListItem from '@/components/TagsExplorerListItem/TagsExplorerListItem';
 import { useTagsExplorerContext } from '@/contexts/TagsExplorerContext';
+import { useTranslations } from 'next-intl';
+import useSWR from 'swr';
 
 /* * */
 
@@ -32,8 +32,8 @@ export default function TagsExplorerList() {
 	// C. Render data
 
 	return (
-		<Pannel loading={allTagsLoading} validating={allTagsValidating} error={allTagsError} header={<TagsExplorerListHeader />} footer={<TagsExplorerListFooter />}>
-			{tagsExplorerContext.list.items.length > 0 ? tagsExplorerContext.list.items.map((item) => <TagsExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		<Pannel error={allTagsError} footer={<TagsExplorerListFooter />} header={<TagsExplorerListHeader />} loading={allTagsLoading} validating={allTagsValidating}>
+			{tagsExplorerContext.list.items.length > 0 ? tagsExplorerContext.list.items.map(item => <TagsExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
 		</Pannel>
 	);
 

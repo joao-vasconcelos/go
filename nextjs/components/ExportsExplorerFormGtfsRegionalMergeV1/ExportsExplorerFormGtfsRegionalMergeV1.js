@@ -2,10 +2,10 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
 import { Section } from '@/components/Layouts/Layouts';
-import { DatePickerInput } from '@mantine/dates';
 import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
+import { DatePickerInput } from '@mantine/dates';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -25,8 +25,8 @@ export default function ExportsExplorerFormGtfsRegionalMergeV1() {
 		<>
 			<Section>
 				<DatePickerInput
-					label={t('form.active_date.label')}
 					description={t('form.active_date.description')}
+					label={t('form.active_date.label')}
 					placeholder={t('form.active_date.placeholder')}
 					{...exportsExplorerContext.form_regional_merge_v1.getInputProps('active_date')}
 					dropdownType="modal"

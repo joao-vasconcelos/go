@@ -2,10 +2,10 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { SimpleGrid, TextInput } from '@mantine/core';
-import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
+import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
+import { SimpleGrid, TextInput } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -22,7 +22,7 @@ export default function UsersExplorerIdPageDetails() {
 	// B. Render components
 
 	return (
-		<AppLayoutSection title={t('title')} description={t('description')}>
+		<AppLayoutSection description={t('description')} title={t('title')}>
 			<SimpleGrid cols={1}>
 				<TextInput label={t('form.name.label')} placeholder={t('form.name.placeholder')} {...usersExplorerContext.form.getInputProps('name')} readOnly={usersExplorerContext.page.is_read_only} />
 			</SimpleGrid>

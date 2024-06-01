@@ -1,9 +1,10 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import patternVelocities from './patterns_velocities.json';
 import { PatternModel } from '@/schemas/Pattern/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+
+import patternVelocities from './patterns_velocities.json';
 
 /* * */
 
@@ -22,7 +23,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -31,8 +33,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -53,7 +56,7 @@ export default async function handler(req, res) {
 			const patternData = await PatternModel.findOne({ code: patternCode.code });
 
 			//
-			const presetVelocity = patternVelocities.find((p) => p.pattern_id === patternData.code);
+			const presetVelocity = patternVelocities.find(p => p.pattern_id === patternData.code);
 			//
 			const velocityToUpdate = presetVelocity?.velocity ? presetVelocity.velocity : 20;
 
@@ -65,8 +68,8 @@ export default async function handler(req, res) {
 				//
 				updatedPath.push({
 					...path,
-					default_velocity: velocityToUpdate,
 					default_travel_time: calculateTravelTime(path.distance_delta, velocityToUpdate),
+					default_velocity: velocityToUpdate,
 				});
 				//
 			}
@@ -84,7 +87,8 @@ export default async function handler(req, res) {
 		}
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Import Error' });
 	}

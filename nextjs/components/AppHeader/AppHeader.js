@@ -3,9 +3,10 @@
 /* * */
 
 import { useSession } from 'next-auth/react';
-import styles from './AppHeader.module.css';
-import AppOptions from '../AppOptions/AppOptions';
 import { useState } from 'react';
+
+import AppOptions from '../AppOptions/AppOptions';
+import styles from './AppHeader.module.css';
 
 /* * */
 

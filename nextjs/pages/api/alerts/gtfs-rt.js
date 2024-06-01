@@ -1,7 +1,7 @@
 /* * */
 
-import mongodb from '@/services/OFFERMANAGERDB';
 import { AlertModel } from '@/schemas/Alert/model';
+import mongodb from '@/services/OFFERMANAGERDB';
 import { DateTime } from 'luxon';
 
 /* * */
@@ -29,7 +29,8 @@ export default async function handler(req, res) {
 
 	try {
 		await mongodb.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: 'Could not connect to MongoDB.' });
 	}
@@ -43,8 +44,8 @@ export default async function handler(req, res) {
 
 		//
 		const allCurrentAlerts = allPublishedAlerts.filter((item) => {
-			const startIsBeforeNow = new Date(item.publish_start) <= new Date;
-			const endIsAfterNow = item.publish_end ? new Date(item.publish_end) >= new Date : true;
+			const startIsBeforeNow = new Date(item.publish_start) <= new Date();
+			const endIsAfterNow = item.publish_end ? new Date(item.publish_end) >= new Date() : true;
 			return startIsBeforeNow && endIsAfterNow;
 		});
 
@@ -56,25 +57,51 @@ export default async function handler(req, res) {
 		//
 
 		const gtfsRtServiceAlertsFeed = {
+			entity: [],
 			header: {
 				gtfsRealtimeVersion: '2.0',
 				incrementality: 'FULL_DATASET',
 				timestamp: DateTime.now().toUnixInteger(),
 			},
-			entity: [],
 		};
 
 		gtfsRtServiceAlertsFeed.entity = allCurrentAlerts.map((item) => {
 			//
 			const parsedAlert = {
-				id: item.code,
 				alert: {
 					activePeriod: [
 						{
-							start: DateTime.fromJSDate(item.active_period_start).toUnixInteger(),
 							end: item.active_period_end ? DateTime.fromISO(item.active_period_end).toUnixInteger() : undefined,
+							start: DateTime.fromJSDate(item.active_period_start).toUnixInteger(),
 						},
 					],
+					cause: item.cause,
+					descriptionText: {
+						translation: [
+							{
+								language: 'pt',
+								text: item.description,
+							},
+						],
+					},
+					effect: item.effect,
+					headerText: {
+						translation: [
+							{
+								language: 'pt',
+								text: item.title,
+							},
+						],
+					},
+					image: {
+						localizedImage: [
+							{
+								language: 'pt',
+								mediaType: '',
+								url: '',
+							},
+						],
+					},
 					informedEntity: [
 						{
 							routeId: '2310_0',
@@ -101,8 +128,6 @@ export default async function handler(req, res) {
 							routeId: '2927_0',
 						},
 					],
-					cause: item.cause,
-					effect: item.effect,
 					url: {
 						translation: [
 							{
@@ -111,52 +136,28 @@ export default async function handler(req, res) {
 							},
 						],
 					},
-					headerText: {
-						translation: [
-							{
-								language: 'pt',
-								text: item.title,
-							},
-						],
-					},
-					descriptionText: {
-						translation: [
-							{
-								language: 'pt',
-								text: item.description,
-							},
-						],
-					},
-					image: {
-						localizedImage: [
-							{
-								language: 'pt',
-								mediaType: '',
-								url: '',
-							},
-						],
-					},
 				},
+				id: item.code,
 			};
 			//
 			switch (item.type) {
-			case 'select_stops':
-				parsedAlert.alert.informedEntity = item.affected_stops.flatMap(({ stop_id, specific_routes }) => {
-					if (!specific_routes?.length) return [{ stop_id: stop_id }];
-					return specific_routes.map((route_id) => ({ stop_id: stop_id, route_id: route_id }));
-				});
-				break;
-			case 'select_routes':
-				parsedAlert.alert.informedEntity = item.affected_routes.flatMap(({ route_id, specific_stops }) => {
-					if (!specific_stops?.length) return [{ route_id: route_id }];
-					return specific_stops.map((stop_id) => ({ route_id: route_id, stop_id: stop_id }));
-				});
-				break;
-			case 'select_agencies':
-				parsedAlert.alert.informedEntity = item.affected_agencies.map(({ agency_id }) => ({ agency_id: agency_id }));
-				break;
-			default:
-				break;
+				case 'select_stops':
+					parsedAlert.alert.informedEntity = item.affected_stops.flatMap(({ specific_routes, stop_id }) => {
+						if (!specific_routes?.length) return [{ stop_id: stop_id }];
+						return specific_routes.map(route_id => ({ route_id: route_id, stop_id: stop_id }));
+					});
+					break;
+				case 'select_routes':
+					parsedAlert.alert.informedEntity = item.affected_routes.flatMap(({ route_id, specific_stops }) => {
+						if (!specific_stops?.length) return [{ route_id: route_id }];
+						return specific_stops.map(stop_id => ({ route_id: route_id, stop_id: stop_id }));
+					});
+					break;
+				case 'select_agencies':
+					parsedAlert.alert.informedEntity = item.affected_agencies.map(({ agency_id }) => ({ agency_id: agency_id }));
+					break;
+				default:
+					break;
 			}
 			//
 			return parsedAlert;
@@ -164,7 +165,8 @@ export default async function handler(req, res) {
 		});
 
 		return await res.status(200).send(gtfsRtServiceAlertsFeed);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot list Alerts.' });
 	}

@@ -2,10 +2,10 @@
 
 /* * */
 
-import { useParams } from 'next/navigation';
-import { useRouter } from '@/translations/navigation';
-import { LinesExplorerLine } from '@/components/LinesExplorerLine/LinesExplorerLine';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
+import { LinesExplorerLine } from '@/components/LinesExplorerLine/LinesExplorerLine';
+import { useRouter } from '@/translations/navigation';
+import { useParams } from 'next/navigation';
 
 /* * */
 
@@ -30,7 +30,7 @@ export default function LinesExplorerListItem({ item }) {
 	// C. Render components
 
 	return (
-		<BaseListItem onClick={handleClick} isSelected={line_id === item._id} withChevron>
+		<BaseListItem isSelected={line_id === item._id} onClick={handleClick} withChevron>
 			<LinesExplorerLine withLineData={item} withLink={false} />
 		</BaseListItem>
 	);

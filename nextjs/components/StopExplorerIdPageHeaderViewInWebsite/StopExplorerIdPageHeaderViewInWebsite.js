@@ -2,10 +2,10 @@
 
 /* * */
 
+import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { IconWorldUpload } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
-import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 
 /* * */
 
@@ -23,7 +23,7 @@ export default function StopExplorerIdPageHeaderViewInWebsite() {
 
 	return (
 		<Tooltip label={t('label')} position="bottom" withArrow>
-			<ActionIcon color="blue" variant="subtle" size="lg" onClick={stopsExplorerContext.openInWebsite} loading={stopsExplorerContext.page.is_loading}>
+			<ActionIcon color="blue" loading={stopsExplorerContext.page.is_loading} onClick={stopsExplorerContext.openInWebsite} size="lg" variant="subtle">
 				<IconWorldUpload size={20} />
 			</ActionIcon>
 		</Tooltip>

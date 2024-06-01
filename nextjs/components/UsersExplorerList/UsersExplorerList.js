@@ -2,13 +2,13 @@
 
 /* * */
 
-import useSWR from 'swr';
-import Pannel from '@/components/Pannel/Pannel';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import UsersExplorerListItem from '@/components/UsersExplorerListItem/UsersExplorerListItem';
-import UsersExplorerListHeader from '@/components/UsersExplorerListHeader/UsersExplorerListHeader';
+import Pannel from '@/components/Pannel/Pannel';
 import UsersExplorerListFooter from '@/components/UsersExplorerListFooter/UsersExplorerListFooter';
+import UsersExplorerListHeader from '@/components/UsersExplorerListHeader/UsersExplorerListHeader';
+import UsersExplorerListItem from '@/components/UsersExplorerListItem/UsersExplorerListItem';
 import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
+import useSWR from 'swr';
 
 /* * */
 
@@ -29,8 +29,8 @@ export default function UsersExplorerList() {
 	// C. Render data
 
 	return (
-		<Pannel loading={allUsersLoading} validating={allUsersValidating} error={allUsersError} header={<UsersExplorerListHeader />} footer={<UsersExplorerListFooter />}>
-			{usersExplorerContext.list.items.length > 0 ? usersExplorerContext.list.items.map((item) => <UsersExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		<Pannel error={allUsersError} footer={<UsersExplorerListFooter />} header={<UsersExplorerListHeader />} loading={allUsersLoading} validating={allUsersValidating}>
+			{usersExplorerContext.list.items.length > 0 ? usersExplorerContext.list.items.map(item => <UsersExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
 		</Pannel>
 	);
 

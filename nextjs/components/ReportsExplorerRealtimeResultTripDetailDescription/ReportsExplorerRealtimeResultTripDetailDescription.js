@@ -2,8 +2,8 @@
 
 /* * */
 
-import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
+import Text from '@/components/Text/Text';
 import { useTranslations } from 'next-intl';
 
 /* * */
@@ -21,7 +21,7 @@ export default function ReportsExplorerRealtimeResultTripDetailDescription() {
 
 	return (
 		<Section>
-			<Text size="h4" color="muted">
+			<Text color="muted" size="h4">
 				{t('summary')}
 			</Text>
 		</Section>

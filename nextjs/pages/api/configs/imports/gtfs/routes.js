@@ -1,8 +1,8 @@
 /* * */
 
-import { RouteModel } from '@/schemas/Route/model';
-import { LineModel } from '@/schemas/Line/model';
 import getSession from '@/authentication/getSession';
+import { LineModel } from '@/schemas/Line/model';
+import { RouteModel } from '@/schemas/Route/model';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
@@ -22,7 +22,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -31,8 +32,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -42,7 +44,8 @@ export default async function handler(req, res) {
 
 	try {
 		await RouteModel.syncIndexes();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot sync indexes.' });
 	}
@@ -94,8 +97,8 @@ export default async function handler(req, res) {
 				const parsedRoute = {
 					code: routeApi.id,
 					name: routeApi.long_name,
-					path_type: 1,
 					parent_line: lineData._id,
+					path_type: 1,
 					patterns: [],
 				};
 				// Save the route to the database
@@ -120,15 +123,12 @@ export default async function handler(req, res) {
 			console.log(`⤷ Updated Line ${lineData.code}`);
 			console.log();
 
-			// 6.2.7.
-			// Wait for 150 miliseconds to ensure no rate limits are hit
-			await delay(150);
-
 			//
 		}
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Import Error' });
 	}

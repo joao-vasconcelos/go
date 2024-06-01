@@ -1,11 +1,11 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
+import { MediaDefault } from '@/schemas/Media/default';
+import { MediaModel } from '@/schemas/Media/model';
+import STORAGE from '@/services/STORAGE';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import Formidable from 'formidable';
-import STORAGE from '@/services/STORAGE';
-import { MediaModel } from '@/schemas/Media/model';
-import { MediaDefault } from '@/schemas/Media/default';
 
 /* * */
 
@@ -28,7 +28,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -37,8 +38,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'media', action: 'create' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'POST', permissions: [{ action: 'create', scope: 'media' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -52,7 +54,8 @@ export default async function handler(req, res) {
 		// Parse the FormData request
 		[formFields, formFiles] = await form.parse(req);
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: error.message || 'Could not parse form data.' });
 	}
@@ -68,7 +71,8 @@ export default async function handler(req, res) {
 		// Check if file is present
 		if (formFiles.file.length !== 1) throw new Error('File is required.');
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: error.message || 'Could not validate form data.' });
 	}
@@ -84,17 +88,17 @@ export default async function handler(req, res) {
 			//
 			...MediaDefault,
 			//
-			created_at: (new Date).toISOString(),
+			created_at: (new Date()).toISOString(),
 			created_by: sessionData.user._id,
-			//
-			title: formFields.title[0],
 			description: formFields.description?.length > 0 ? formFields.description[0] : '',
+			file_extension: STORAGE.getFileExtension(formFiles.file[0].originalFilename),
+			file_mime_type: formFiles.file[0].mimetype,
+			//
+			file_size: formFiles.file[0].size,
 			//
 			storage_scope: formFields.storage_scope[0],
 			//
-			file_size: formFiles.file[0].size,
-			file_mime_type: formFiles.file[0].mimetype,
-			file_extension: STORAGE.getFileExtension(formFiles.file[0].originalFilename),
+			title: formFields.title[0],
 			//
 		};
 
@@ -107,7 +111,8 @@ export default async function handler(req, res) {
 		// Return the response to the caller
 		return await res.status(201).json(createdDocument);
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Could not save file to disk.' });
 	}

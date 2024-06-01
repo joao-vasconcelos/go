@@ -10,32 +10,32 @@ import mongoose from 'mongoose';
 export const CalendarSchema = new mongoose.Schema(
 	{
 		code: {
-			type: String,
 			maxlength: 100,
-			unique: true,
-		},
-		numeric_code: {
-			type: Number,
-			min: 0,
-			max: 99999,
-			unique: true,
-		},
-		name: {
 			type: String,
-			maxlength: 250,
-		},
-		description: {
-			type: String,
-			maxlength: 250,
+			unique: true,
 		},
 		dates: [
 			{
-				type: String,
 				maxlength: 8,
+				type: String,
 			},
 		],
+		description: {
+			maxlength: 250,
+			type: String,
+		},
 		is_locked: {
 			type: Boolean,
+		},
+		name: {
+			maxlength: 250,
+			type: String,
+		},
+		numeric_code: {
+			max: 99999,
+			min: 0,
+			type: Number,
+			unique: true,
 		},
 	},
 	{ timestamps: true },

@@ -1,23 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import useSearch from '@/hooks/useSearch';
-import useSWR from 'swr';
-import API from '@/services/API';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import ErrorDisplay from '@/components/ErrorDisplay';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
+import ListFooter from '@/components/ListFooter/ListFooter';
+import ListHeader from '@/components/ListHeader/ListHeader';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import Pannel from '@/components/Pannel/Pannel';
-import ListItem from './listItem';
+import SearchField from '@/components/SearchField/SearchField';
+import useSearch from '@/hooks/useSearch';
+import API from '@/services/API';
+import notify from '@/services/notify';
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconCirclePlus, IconDots } from '@tabler/icons-react';
-import notify from '@/services/notify';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import ErrorDisplay from '@/components/ErrorDisplay';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import ListFooter from '@/components/ListFooter/ListFooter';
-import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import SearchField from '@/components/SearchField/SearchField';
-import ListHeader from '@/components/ListHeader/ListHeader';
+import { useState } from 'react';
+import useSWR from 'swr';
+
+import ListItem from './listItem';
 
 export default function Layout({ children }) {
 	//
@@ -48,12 +49,13 @@ export default function Layout({ children }) {
 		try {
 			setIsCreating(true);
 			notify('new', 'loading', t('operations.create.loading'));
-			const response = await API({ service: 'zones', operation: 'create', method: 'GET' });
+			const response = await API({ method: 'GET', operation: 'create', service: 'zones' });
 			allZonesMutate();
 			router.push(`/zones/${response._id}`);
 			notify('new', 'success', t('operations.create.success'));
 			setIsCreating(false);
-		} catch (error) {
+		}
+		catch (error) {
 			notify('new', 'error', error.message || t('operations.create.error'));
 			setIsCreating(false);
 			console.log(error);
@@ -64,22 +66,24 @@ export default function Layout({ children }) {
 	// D. Render data
 
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'zones', action: 'navigate' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'navigate', scope: 'zones' }]} redirect>
 			<TwoUnevenColumns
-				first={
+				second={children}
+				first={(
 					<Pannel
+						footer={filteredZonesData && <ListFooter>{t('list.footer', { count: filteredZonesData.length })}</ListFooter>}
 						loading={allZonesLoading}
-						header={
+						header={(
 							<ListHeader>
-								<SearchField query={searchQuery} onChange={setSearchQuery} />
-								<Menu shadow="md" position="bottom-end">
+								<SearchField onChange={setSearchQuery} query={searchQuery} />
+								<Menu position="bottom-end" shadow="md">
 									<Menu.Target>
-										<ActionIcon variant="light" size="lg" color="gray" loading={allZonesLoading || isCreating}>
+										<ActionIcon color="gray" loading={allZonesLoading || isCreating} size="lg" variant="light">
 											<IconDots size={20} />
 										</ActionIcon>
 									</Menu.Target>
 									<Menu.Dropdown>
-										<AppAuthenticationCheck permissions={[{ scope: 'zones', action: 'create' }]}>
+										<AppAuthenticationCheck permissions={[{ action: 'create', scope: 'zones' }]}>
 											<Menu.Item icon={<IconCirclePlus size={20} />} onClick={handleCreate}>
 												{t('operations.create.title')}
 											</Menu.Item>
@@ -87,14 +91,12 @@ export default function Layout({ children }) {
 									</Menu.Dropdown>
 								</Menu>
 							</ListHeader>
-						}
-						footer={filteredZonesData && <ListFooter>{t('list.footer', { count: filteredZonesData.length })}</ListFooter>}
+						)}
 					>
 						<ErrorDisplay error={allZonesError} loading={allZonesValidating} />
-						{filteredZonesData && filteredZonesData.length > 0 ? filteredZonesData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} />) : <NoDataLabel />}
+						{filteredZonesData && filteredZonesData.length > 0 ? filteredZonesData.map(item => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} />) : <NoDataLabel />}
 					</Pannel>
-				}
-				second={children}
+				)}
 			/>
 		</AppAuthenticationCheck>
 	);

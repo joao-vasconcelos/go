@@ -1,9 +1,9 @@
 /* * */
 
-import Text from '@/components/Text/Text';
-import { useTranslations } from 'next-intl';
 import ListHeader from '@/components/ListHeader/ListHeader';
+import Text from '@/components/Text/Text';
 import { IconCloudPlus } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
 
 /* * */
 

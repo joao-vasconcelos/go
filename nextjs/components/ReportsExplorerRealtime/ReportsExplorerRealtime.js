@@ -2,9 +2,9 @@
 
 /* * */
 
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
 import ReportsExplorerRealtimeForm from '@/components/ReportsExplorerRealtimeForm/ReportsExplorerRealtimeForm';
-import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import ReportsExplorerRealtimeResult from '@/components/ReportsExplorerRealtimeResult/ReportsExplorerRealtimeResult';
 import { ReportsExplorerRealtimeContextProvider } from '@/contexts/ReportsExplorerRealtimeContext';
 
@@ -12,7 +12,7 @@ import { ReportsExplorerRealtimeContextProvider } from '@/contexts/ReportsExplor
 
 export default function ReportsExplorerRealtime() {
 	return (
-		<AppAuthenticationCheck permission={[{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['realtime'] }] }]} redirect>
+		<AppAuthenticationCheck permission={[{ action: 'view', fields: [{ key: 'kind', values: ['realtime'] }], scope: 'reports' }]} redirect>
 			<ReportsExplorerRealtimeContextProvider>
 				<TwoUnevenColumns first={<ReportsExplorerRealtimeForm />} second={<ReportsExplorerRealtimeResult />} />
 			</ReportsExplorerRealtimeContextProvider>

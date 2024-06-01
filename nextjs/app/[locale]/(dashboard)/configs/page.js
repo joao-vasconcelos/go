@@ -2,16 +2,16 @@
 
 /* * */
 
-import { useState } from 'react';
-import API from '@/services/API';
-import { SimpleGrid, Button } from '@mantine/core';
-import Pannel from '@/components/Pannel/Pannel';
-import Text from '@/components/Text/Text';
-import notify from '@/services/notify';
-import { openConfirmModal } from '@mantine/modals';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import Pannel from '@/components/Pannel/Pannel';
+import Text from '@/components/Text/Text';
+import API from '@/services/API';
+import notify from '@/services/notify';
+import { Button, SimpleGrid } from '@mantine/core';
+import { openConfirmModal } from '@mantine/modals';
+import { useState } from 'react';
 
 /* * */
 
@@ -28,25 +28,26 @@ export default function Page() {
 
 	const handleResetTripAnalysis = async () => {
 		openConfirmModal({
-			title: <Text size="h2">Reset All Trip Analysis?</Text>,
 			centered: true,
-			closeOnClickOutside: true,
 			children: <Text size="h3">Are you sure?</Text>,
-			labels: { confirm: 'Yes, Reset All Trip Analysis', cancel: 'Cancel' },
+			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Reset All Trip Analysis' },
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
 					notify('resetAllTripAnalysis', 'loading', 'Loading');
-					await API({ service: 'configs/refactors/resetAllTripAnalysis', method: 'GET' });
+					await API({ method: 'GET', service: 'configs/refactors/resetAllTripAnalysis' });
 					notify('resetAllTripAnalysis', 'success', 'success');
 					setIsImporting(false);
-				} catch (error) {
+				}
+				catch (error) {
 					console.log(error);
 					notify('resetAllTripAnalysis', 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
+			title: <Text size="h2">Reset All Trip Analysis?</Text>,
 		});
 	};
 
@@ -102,13 +103,13 @@ export default function Page() {
 	// C. Render components
 
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]} redirect>
 			<Pannel>
 				<AppLayoutSection>
 					<NoDataLabel text="No operations available" />
 					<SimpleGrid cols={3}>
-						<Button onClick={handleResetTripAnalysis} color="red" loading={isImporting}>
-              Reset All Trip Analysis
+						<Button color="red" loading={isImporting} onClick={handleResetTripAnalysis}>
+							Reset All Trip Analysis
 						</Button>
 						{/* <Button onClick={handleModifyOfferForSpecialCalendars} color="red" loading={isImporting}>
               Modify Offer for Special Calendars

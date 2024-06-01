@@ -1,8 +1,8 @@
 /* * */
 
-import { DataTable } from 'mantine-datatable';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import { useReportsExplorerSlaContext } from '@/contexts/ReportsExplorerSlaContext';
+import { DataTable } from 'mantine-datatable';
 import { useRouter } from 'next/navigation';
 
 /* * */
@@ -32,15 +32,16 @@ export default function ReportsExplorerSlaList() {
 
 	return (
 		<DataTable
-			striped
-			highlightOnHover
-			textSelectionDisabled
-			page={reportsExplorerSlaContext.form.table_current_page}
-			onPageChange={reportsExplorerSlaContext.handleTablePageChange}
+			emptyState={<NoDataLabel />}
 			fetching={reportsExplorerSlaContext.form.is_loading}
-			totalRecords={reportsExplorerSlaContext.form.list_data.length}
+			idAccessor="code"
+			onPageChange={reportsExplorerSlaContext.handleTablePageChange}
+			onRowClick={handleRowClick}
+			page={reportsExplorerSlaContext.form.table_current_page}
+			records={reportsExplorerSlaContext.form.list_data}
 			recordsPerPage={10}
 			recordsPerPageOptions={PAGE_SIZES}
+			totalRecords={reportsExplorerSlaContext.form.list_data.length}
 			columns={[
 				{ accessor: 'archive_id' },
 				{ accessor: 'agency_id' },
@@ -49,10 +50,9 @@ export default function ReportsExplorerSlaList() {
 				{ accessor: 'status' },
 				{ accessor: 'trip_id' },
 			]}
-			records={reportsExplorerSlaContext.form.list_data}
-			emptyState={<NoDataLabel/>}
-			onRowClick={handleRowClick}
-			idAccessor="code"
+			highlightOnHover
+			striped
+			textSelectionDisabled
 		/>
 	);
 

@@ -1,8 +1,8 @@
 /* * */
 
 import { Section } from '@/components/Layouts/Layouts';
-import ReportsExplorerRealtimeResultTripDetailToolsOrdering from '@/components/ReportsExplorerRealtimeResultTripDetailToolsOrdering/ReportsExplorerRealtimeResultTripDetailToolsOrdering';
 import ReportsExplorerRealtimeResultTripDetailToolsAnimation from '@/components/ReportsExplorerRealtimeResultTripDetailToolsAnimation/ReportsExplorerRealtimeResultTripDetailToolsAnimation';
+import ReportsExplorerRealtimeResultTripDetailToolsOrdering from '@/components/ReportsExplorerRealtimeResultTripDetailToolsOrdering/ReportsExplorerRealtimeResultTripDetailToolsOrdering';
 
 /* * */
 

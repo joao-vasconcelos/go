@@ -8,5 +8,5 @@ export default function Page() {
 
 	const t = useTranslations('zones');
 
-	return <NoDataLabel fill text={t('list.no_selection')} />;
+	return <NoDataLabel text={t('list.no_selection')} fill />;
 }

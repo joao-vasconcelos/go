@@ -1,18 +1,18 @@
 /* * */
 
+import { CalendarModel } from '@/schemas/Calendar/model';
+import { DateModel } from '@/schemas/Date/model';
+import { ExportModel } from '@/schemas/Export/model';
+import { FareModel } from '@/schemas/Fare/model';
+import { LineModel } from '@/schemas/Line/model';
+import { MunicipalityModel } from '@/schemas/Municipality/model';
+import { PatternModel } from '@/schemas/Pattern/model';
+import { RouteModel } from '@/schemas/Route/model';
+import { StopModel } from '@/schemas/Stop/model';
+import { TypologyModel } from '@/schemas/Typology/model';
+import { ZoneModel } from '@/schemas/Zone/model';
 import dayjs from 'dayjs';
 import * as fs from 'fs';
-import { ExportModel } from '@/schemas/Export/model';
-import { LineModel } from '@/schemas/Line/model';
-import { FareModel } from '@/schemas/Fare/model';
-import { TypologyModel } from '@/schemas/Typology/model';
-import { RouteModel } from '@/schemas/Route/model';
-import { MunicipalityModel } from '@/schemas/Municipality/model';
-import { ZoneModel } from '@/schemas/Zone/model';
-import { PatternModel } from '@/schemas/Pattern/model';
-import { StopModel } from '@/schemas/Stop/model';
-import { DateModel } from '@/schemas/Date/model';
-import { CalendarModel } from '@/schemas/Calendar/model';
 
 /* * */
 /* EXPORT NETEX V1 */
@@ -99,7 +99,7 @@ function padZero(num) {
 /* Output the current date and time in the format YYYYMMDDHHMM. */
 /* For example, if the current date is July 3, 2023, at 9:30 AM, the output will be 202307030930. */
 function today() {
-	let currentDate = new Date;
+	let currentDate = new Date();
 	let year = currentDate.getFullYear();
 	let month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
 	let day = currentDate.getDate().toString().padStart(2, '0');
@@ -119,14 +119,14 @@ function today() {
 /* Build an agency object entry */
 function parseAgency(agencyData) {
 	return {
-		agency_id: agencyData.code,
-		agency_name: 'Carris Metropolitana' || agencyData.name,
-		agency_url: 'https://www.carrismetropolitana.pt' || agencyData.url,
-		agency_timezone: 'Europe/Lisbon' || agencyData.timezone,
-		agency_lang: 'pt' || agencyData.lang,
-		agency_phone: '210410400' || agencyData.phone,
-		agency_fare_url: agencyData.fare_url,
 		agency_email: agencyData.email,
+		agency_fare_url: agencyData.fare_url,
+		agency_id: agencyData.code,
+		agency_lang: 'pt' || agencyData.lang,
+		agency_name: 'Carris Metropolitana' || agencyData.name,
+		agency_phone: '210410400' || agencyData.phone,
+		agency_timezone: 'Europe/Lisbon' || agencyData.timezone,
+		agency_url: 'https://www.carrismetropolitana.pt' || agencyData.url,
 	};
 }
 
@@ -140,14 +140,14 @@ function parseAgency(agencyData) {
 /* Build an agency object entry */
 function parseFeedInfo(agencyData, options) {
 	return {
-		feed_publisher_name: agencyData.name,
-		feed_publisher_url: agencyData.url,
-		feed_lang: 'pt',
 		default_lang: 'en',
 		feed_contact_url: 'https://github.com/carrismetropolitana/gtfs',
-		feed_version: today(),
-		feed_start_date: options.feed_start_date,
 		feed_end_date: options.feed_end_date,
+		feed_lang: 'pt',
+		feed_publisher_name: agencyData.name,
+		feed_publisher_url: agencyData.url,
+		feed_start_date: options.feed_start_date,
+		feed_version: today(),
 	};
 }
 
@@ -161,22 +161,22 @@ function parseFeedInfo(agencyData, options) {
 /* Build a route object entry */
 function parseRoute(agencyData, lineData, typologyData, routeData) {
 	return {
-		line_id: lineData.code,
-		line_short_name: lineData.short_name,
-		line_long_name: lineData.name.replaceAll(',', ''),
-		line_type: getLineType(typologyData.code),
-		route_id: routeData.code,
 		agency_id: agencyData.code,
-		route_origin: 'line-origin',
-		route_destination: 'line-destination',
-		route_short_name: lineData.short_name,
-		route_long_name: routeData.name.replaceAll(',', ''),
-		route_type: 3,
-		path_type: 1,
 		circular: lineData.circular ? 1 : 0,
-		school: lineData.school ? 1 : 0,
+		line_id: lineData.code,
+		line_long_name: lineData.name.replaceAll(',', ''),
+		line_short_name: lineData.short_name,
+		line_type: getLineType(typologyData.code),
+		path_type: 1,
 		route_color: typologyData.color.slice(1),
+		route_destination: 'line-destination',
+		route_id: routeData.code,
+		route_long_name: routeData.name.replaceAll(',', ''),
+		route_origin: 'line-origin',
+		route_short_name: lineData.short_name,
 		route_text_color: typologyData.text_color.slice(1),
+		route_type: 3,
+		school: lineData.school ? 1 : 0,
 	};
 }
 
@@ -191,8 +191,8 @@ function parseRoute(agencyData, lineData, typologyData, routeData) {
 function parseFareRule(agencyData, routeData, fareData) {
 	return {
 		agency_id: agencyData.code,
-		route_id: routeData.code,
 		fare_id: fareData.code,
+		route_id: routeData.code,
 	};
 }
 
@@ -207,10 +207,10 @@ function parseFareRule(agencyData, routeData, fareData) {
 function parseFare(agencyData, fareData) {
 	return {
 		agency_id: agencyData.code,
-		fare_id: fareData.code,
-		price: fareData.price,
 		currency_type: fareData.currency_type,
+		fare_id: fareData.code,
 		payment_method: fareData.payment_method,
+		price: fareData.price,
 		transfers: fareData.transfers,
 	};
 }
@@ -225,18 +225,18 @@ function parseFare(agencyData, fareData) {
 /* For a given typology code return the corresponding type key */
 function getLineType(typologyCode) {
 	switch (typologyCode) {
-	case 'PROXIMA':
-		return 1;
-	case 'LONGA':
-		return 2;
-	case 'RAPIDA':
-		return 3;
-	case 'INTER-REG':
-		return 4;
-	case 'MAR':
-		return 5;
-	default:
-		return 0;
+		case 'PROXIMA':
+			return 1;
+		case 'LONGA':
+			return 2;
+		case 'RAPIDA':
+			return 3;
+		case 'INTER-REG':
+			return 4;
+		case 'MAR':
+			return 5;
+		default:
+			return 0;
 	}
 }
 
@@ -258,20 +258,20 @@ async function parseZoning(lineData, patternData, exportOptions) {
 		const municipalityData = await MunicipalityModel.findOne({ _id: stopData.municipality }, 'code name');
 		const allZonesData = await ZoneModel.find({ _id: pathData.zones }, 'code name');
 		// Prepare zones in the file format
-		let formattedZones = allZonesData.filter((zone) => zone.code !== 'AML').map((zone) => zone.code);
+		let formattedZones = allZonesData.filter(zone => zone.code !== 'AML').map(zone => zone.code);
 		if (formattedZones.length === 0) formattedZones = '0';
 		else formattedZones = formattedZones.join('-');
 		// Write the afetacao.txt entry for this path
 		parsedZoning.push({
-			line_id: lineData.code,
-			pattern_id: patternData.code,
-			stop_sequence: pathIndex + exportOptions.stop_sequence_start,
-			stop_id: stopData.code,
-			stop_name: stopData.name || '',
-			stop_lat: stopData.latitude || '0',
-			stop_lon: stopData.longitude || '0',
-			'Localizacao Paragem Municipios v2': municipalityData.name,
 			'Aceitacao passes municipais': formattedZones,
+			'Localizacao Paragem Municipios v2': municipalityData.name,
+			'line_id': lineData.code,
+			'pattern_id': patternData.code,
+			'stop_id': stopData.code,
+			'stop_lat': stopData.latitude || '0',
+			'stop_lon': stopData.longitude || '0',
+			'stop_name': stopData.name || '',
+			'stop_sequence': pathIndex + exportOptions.stop_sequence_start,
 		});
 
 		// End of afetacao loop
@@ -296,11 +296,11 @@ function parseShape(gtfsShapeId, shapeData) {
 		const shapeDistTraveled = parseFloat(((shapePoint.shape_dist_traveled || 0) / 1000).toFixed(15));
 		// Build shape point
 		parsedShape.push({
+			shape_dist_traveled: shapeDistTraveled,
 			shape_id: gtfsShapeId,
-			shape_pt_sequence: shapePoint.shape_pt_sequence,
 			shape_pt_lat: shapePtLat,
 			shape_pt_lon: shapePtLon,
-			shape_dist_traveled: shapeDistTraveled,
+			shape_pt_sequence: shapePoint.shape_pt_sequence,
 		});
 	}
 	return parsedShape;
@@ -334,12 +334,12 @@ async function parseCalendar(calendarData, startDate, endDate, shouldConcatenate
 		let dayType = getDayType(calendarDate, calendarData.is_holiday);
 		// Build the date entry
 		parsedCalendar.push({
-			service_id: calendarData.code,
+			date: calendarDate,
+			day_type: dayType,
+			exception_type: 1,
 			holiday: calendarData.is_holiday ? 1 : 0,
 			period: dateData.period,
-			day_type: dayType,
-			date: calendarDate,
-			exception_type: 1,
+			service_id: calendarData.code,
 		});
 		//
 	}
@@ -385,38 +385,38 @@ function parseStop(stopData, municipalityData) {
 	let xmlTextData = '<StopPlace version="1" id="NSR:StopPlace:10000000">';
 
 	return {
+		bench: '',
+		entrance_restriction: '',
+		equipment: '',
+		exit_restriction: '',
+		level_id: '',
+		location_type: '',
+		municipality: municipalityData.code || '',
+		network_map: '',
+		observations: '',
+		parent_station: '',
+		platform_code: '',
+		preservation_state: '',
+		real_time_information: '',
+		region: municipalityData.region || '',
+		schedule: '',
+		shelter: '',
+		signalling: '',
+		slot: '',
+		stop_code: stopData.code,
+		stop_desc: '',
 		stop_id: stopData.code,
 		stop_id_stepp: '0',
-		stop_code: stopData.code,
-		stop_name: stopData.name,
-		stop_desc: '',
-		stop_remarks: '',
 		stop_lat: stopData.latitude,
 		stop_lon: stopData.longitude,
+		stop_name: stopData.name,
+		stop_remarks: '',
+		stop_timezone: '',
+		stop_url: '',
+		tariff: '',
+		wheelchair_boarding: '',
 		zone_id: '',
 		zone_shift: '',
-		stop_url: '',
-		location_type: '',
-		parent_station: '',
-		stop_timezone: '',
-		wheelchair_boarding: '',
-		level_id: '',
-		platform_code: '',
-		entrance_restriction: '',
-		exit_restriction: '',
-		slot: '',
-		signalling: '',
-		shelter: '',
-		bench: '',
-		network_map: '',
-		schedule: '',
-		real_time_information: '',
-		tariff: '',
-		preservation_state: '',
-		equipment: '',
-		observations: '',
-		region: municipalityData.region || '',
-		municipality: municipalityData.code || '',
 	};
 }
 
@@ -433,15 +433,15 @@ export default async function exportNetexV1(progress, agencyData, exportOptions)
 
 	// 0.
 	// Update progress
-	await update(progress, { status: 1, progress_current: 1, progress_total: 7 });
+	await update(progress, { progress_current: 1, progress_total: 7, status: 1 });
 
 	// 0.1.
 	// In order to build stops.txt, shapes.txt and calendar_dates.txt it is necessary
 	// to initiate these variables outside all loops that hold the _ids
 	// of the objects that are referenced in the other objects (trips, patterns)
-	const referencedFareCodes = new Set;
-	const referencedStopCodes = new Set;
-	const referencedCalendarCodes = new Set;
+	const referencedFareCodes = new Set();
+	const referencedStopCodes = new Set();
+	const referencedCalendarCodes = new Set();
 
 	// 1.
 	// Retrieve the requested agency object
@@ -481,12 +481,12 @@ export default async function exportNetexV1(progress, agencyData, exportOptions)
 		// 3.2.
 		// Get fare associated with this line
 		const fareData = await FareModel.findOne({ _id: lineData.fare });
-		if (!fareData) throw new Error({ code: 5102, short_message: 'Fare not found.', references: { line_code: lineData.code } });
+		if (!fareData) throw new Error({ code: 5102, references: { line_code: lineData.code }, short_message: 'Fare not found.' });
 
 		// 3.3.
 		// Get typology associated with this line
 		const typologyData = await TypologyModel.findOne({ _id: lineData.typology });
-		if (!typologyData) throw new Error({ code: 5102, short_message: 'Typology not found.', references: { line_code: lineData.code } });
+		if (!typologyData) throw new Error({ code: 5102, references: { line_code: lineData.code }, short_message: 'Typology not found.' });
 
 		// 3.4.
 		// Loop on all the routes for this line
@@ -637,15 +637,15 @@ export default async function exportNetexV1(progress, agencyData, exportOptions)
 							// 3.4.3.4.1.9.9.
 							// Write the stop_times.txt entry for this stop_time
 							parsedStopTimes.push({
-								trip_id: thisTripCode,
 								arrival_time: currentArrivalTime,
 								departure_time: departureTime,
+								drop_off_type: pathData.allow_drop_off ? 0 : 1,
+								pickup_type: pathData.allow_pickup ? 0 : 1,
+								shape_dist_traveled: currentShapeDistTraveled,
 								stop_id: stopData.code,
 								stop_sequence: currentStopSequence,
-								pickup_type: pathData.allow_pickup ? 0 : 1,
-								drop_off_type: pathData.allow_drop_off ? 0 : 1,
-								shape_dist_traveled: currentShapeDistTraveled,
 								timepoint: 1,
+								trip_id: thisTripCode,
 							});
 
 							// 3.4.3.4.1.9.10.
@@ -738,7 +738,7 @@ export default async function exportNetexV1(progress, agencyData, exportOptions)
 
 	// 4.
 	// Update progress
-	await update(progress, { status: 1, progress_current: 4, progress_total: 7 });
+	await update(progress, { progress_current: 4, progress_total: 7, status: 1 });
 
 	// 4.1.
 	// Fetch the referenced calendars and write the calendar_dates.txt file
@@ -750,7 +750,7 @@ export default async function exportNetexV1(progress, agencyData, exportOptions)
 
 	// 5.
 	// Update progress
-	await update(progress, { status: 1, progress_current: 5, progress_total: 7 });
+	await update(progress, { progress_current: 5, progress_total: 7, status: 1 });
 
 	// 5.1.
 	// Fetch the referenced stops and write the stops.txt file
@@ -805,7 +805,7 @@ export default async function exportNetexV1(progress, agencyData, exportOptions)
 
 	// 6.
 	// Update progress
-	await update(progress, { status: 1, progress_current: 6, progress_total: 7 });
+	await update(progress, { progress_current: 6, progress_total: 7, status: 1 });
 
 	// 6.1.
 	// Fetch the referenced fares and write the fare_attributes.txt file
@@ -817,7 +817,7 @@ export default async function exportNetexV1(progress, agencyData, exportOptions)
 
 	// 7.
 	// Update progress
-	await update(progress, { status: 1, progress_current: 7, progress_total: 7 });
+	await update(progress, { progress_current: 7, progress_total: 7, status: 1 });
 
 	// 7.1.
 	// Create the feed_info file

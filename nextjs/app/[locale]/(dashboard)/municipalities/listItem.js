@@ -1,12 +1,12 @@
-import { useParams } from 'next/navigation';
-import { useRouter } from '@/translations/navigation';
-import { useTranslations } from 'next-intl';
+import Badge from '@/components/Badge/Badge';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import Text from '@/components/Text/Text';
-import Badge from '@/components/Badge/Badge';
+import { useRouter } from '@/translations/navigation';
 import { Group } from '@mantine/core';
+import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
-export default function ListItem({ _id, code, name, district, region }) {
+export default function ListItem({ _id, code, district, name, region }) {
 	//
 
 	const router = useRouter();
@@ -19,7 +19,7 @@ export default function ListItem({ _id, code, name, district, region }) {
 	};
 
 	return (
-		<BaseListItem onClick={handleClick} isSelected={municipality_id === _id} withChevron>
+		<BaseListItem isSelected={municipality_id === _id} onClick={handleClick} withChevron>
 			<Text size="title" style={!name && 'untitled'}>
 				{name || t('untitled')}
 			</Text>

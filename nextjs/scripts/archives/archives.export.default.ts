@@ -17,10 +17,10 @@ export default async function archivesExportDefault() {
 
 	const allArchivesDataFormatted = allArchivesData.map((item) => {
 		return {
-			archive_id: item.code,
-			operator_id: item.agency?.code || 'N/A',
-			archive_start_date: item.start_date,
 			archive_end_date: item.end_date,
+			archive_id: item.code,
+			archive_start_date: item.start_date,
+			operator_id: item.agency?.code || 'N/A',
 		};
 	});
 

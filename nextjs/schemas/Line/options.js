@@ -19,7 +19,7 @@ export const LineOptions = {
    * 12 - Monorail. Railway in which the track consists of a single rail or a beam.
    */
 
-	transport_type: ['0', '1', '2', '3', '4', '5', '6', '7', '11', '12'],
+	interchange: ['0', '1', '2'],
 
 	/*
    * APEX INTERCHANGE MODE
@@ -29,7 +29,7 @@ export const LineOptions = {
    * 2 - Validation transfers should be configured in APEX configuration files
    */
 
-	interchange: ['0', '1', '2'],
+	transport_type: ['0', '1', '2', '3', '4', '5', '6', '7', '11', '12'],
 
 	//
 };

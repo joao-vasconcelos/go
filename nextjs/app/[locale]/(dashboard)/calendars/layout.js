@@ -1,23 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import useSWR from 'swr';
-import API from '@/services/API';
-import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
-import Pannel from '@/components/Pannel/Pannel';
-import ListItem from './listItem';
-import { ActionIcon, Menu } from '@mantine/core';
-import { IconCirclePlus, IconDots, IconDownload } from '@tabler/icons-react';
-import notify from '@/services/notify';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import ErrorDisplay from '@/components/ErrorDisplay';
-import { useTranslations } from 'next-intl';
-import ListFooter from '@/components/ListFooter/ListFooter';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import ErrorDisplay from '@/components/ErrorDisplay';
+import { TwoUnevenColumns } from '@/components/Layouts/Layouts';
+import ListFooter from '@/components/ListFooter/ListFooter';
+import ListHeader from '@/components/ListHeader/ListHeader';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import Pannel from '@/components/Pannel/Pannel';
 import SearchField from '@/components/SearchField/SearchField';
 import useSearch from '@/hooks/useSearch';
-import ListHeader from '@/components/ListHeader/ListHeader';
+import API from '@/services/API';
+import notify from '@/services/notify';
+import { ActionIcon, Menu } from '@mantine/core';
+import { IconCirclePlus, IconDots, IconDownload } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import useSWR from 'swr';
+
+import ListItem from './listItem';
 
 export default function Layout({ children }) {
 	//
@@ -47,12 +48,13 @@ export default function Layout({ children }) {
 		try {
 			setIsCreating(true);
 			notify('new', 'loading', t('operations.create.loading'));
-			const response = await API({ service: 'calendars', operation: 'create', method: 'GET' });
+			const response = await API({ method: 'GET', operation: 'create', service: 'calendars' });
 			allCalendarsMutate();
 			router.push(`/calendars/${response._id}`);
 			notify('new', 'success', t('operations.create.success'));
 			setIsCreating(false);
-		} catch (error) {
+		}
+		catch (error) {
 			notify('new', 'error', error.message || t('operations.create.error'));
 			setIsCreating(false);
 			console.log(error);
@@ -63,7 +65,7 @@ export default function Layout({ children }) {
 		try {
 			setIsCreating(true);
 			notify('export_dates', 'loading', t('operations.export_dates.loading'));
-			const responseBlob = await API({ service: 'calendars', operation: 'export/dates', method: 'GET', parseType: 'blob' });
+			const responseBlob = await API({ method: 'GET', operation: 'export/dates', parseType: 'blob', service: 'calendars' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			const htmlAnchorElement = document.createElement('a');
 			htmlAnchorElement.href = objectURL;
@@ -72,7 +74,8 @@ export default function Layout({ children }) {
 			htmlAnchorElement.click();
 			notify('export_dates', 'success', t('operations.export_dates.success'));
 			setIsCreating(false);
-		} catch (error) {
+		}
+		catch (error) {
 			notify('export_dates', 'error', error.message || t('operations.export_dates.error'));
 			setIsCreating(false);
 			console.log(error);
@@ -83,7 +86,7 @@ export default function Layout({ children }) {
 		try {
 			setIsCreating(true);
 			notify('export_dates', 'loading', t('operations.export_periods.loading'));
-			const responseBlob = await API({ service: 'calendars', operation: 'export/periods', method: 'GET', parseType: 'blob' });
+			const responseBlob = await API({ method: 'GET', operation: 'export/periods', parseType: 'blob', service: 'calendars' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			const htmlAnchorElement = document.createElement('a');
 			htmlAnchorElement.href = objectURL;
@@ -92,7 +95,8 @@ export default function Layout({ children }) {
 			htmlAnchorElement.click();
 			notify('export_periods', 'success', t('operations.export_periods.success'));
 			setIsCreating(false);
-		} catch (error) {
+		}
+		catch (error) {
 			notify('export_periods', 'error', error.message || t('operations.export_periods.error'));
 			setIsCreating(false);
 			console.log(error);
@@ -103,17 +107,19 @@ export default function Layout({ children }) {
 	// D. Render data
 
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'navigate' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'navigate', scope: 'calendars' }]} redirect>
 			<TwoUnevenColumns
-				first={
+				second={children}
+				first={(
 					<Pannel
+						footer={filteredCalendarsData && <ListFooter>{t('list.footer', { count: filteredCalendarsData.length })}</ListFooter>}
 						loading={allCalendarsLoading}
-						header={
+						header={(
 							<ListHeader>
-								<SearchField query={searchQuery} onChange={setSearchQuery} />
-								<Menu shadow="md" position="bottom-end">
+								<SearchField onChange={setSearchQuery} query={searchQuery} />
+								<Menu position="bottom-end" shadow="md">
 									<Menu.Target>
-										<ActionIcon variant="light" size="lg" color="gray" loading={allCalendarsLoading || isCreating}>
+										<ActionIcon color="gray" loading={allCalendarsLoading || isCreating} size="lg" variant="light">
 											<IconDots size={20} />
 										</ActionIcon>
 									</Menu.Target>
@@ -121,12 +127,12 @@ export default function Layout({ children }) {
 										<Menu.Item leftSection={<IconCirclePlus size={20} />} onClick={handleCreate}>
 											{t('operations.create.title')}
 										</Menu.Item>
-										<AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'export_dates' }]}>
+										<AppAuthenticationCheck permissions={[{ action: 'export_dates', scope: 'calendars' }]}>
 											<Menu.Item leftSection={<IconDownload size={20} />} onClick={handleExportDates}>
 												{t('operations.export_dates.title')}
 											</Menu.Item>
 										</AppAuthenticationCheck>
-										<AppAuthenticationCheck permissions={[{ scope: 'calendars', action: 'export_dates' }]}>
+										<AppAuthenticationCheck permissions={[{ action: 'export_dates', scope: 'calendars' }]}>
 											<Menu.Item leftSection={<IconDownload size={20} />} onClick={handleExportPeriods}>
 												{t('operations.export_periods.title')}
 											</Menu.Item>
@@ -134,14 +140,12 @@ export default function Layout({ children }) {
 									</Menu.Dropdown>
 								</Menu>
 							</ListHeader>
-						}
-						footer={filteredCalendarsData && <ListFooter>{t('list.footer', { count: filteredCalendarsData.length })}</ListFooter>}
+						)}
 					>
 						<ErrorDisplay error={allCalendarsError} loading={allCalendarsValidating} />
-						{filteredCalendarsData && filteredCalendarsData.length > 0 ? filteredCalendarsData.map((item) => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} />) : <NoDataLabel />}
+						{filteredCalendarsData && filteredCalendarsData.length > 0 ? filteredCalendarsData.map(item => <ListItem key={item._id} _id={item._id} code={item.code} name={item.name} />) : <NoDataLabel />}
 					</Pannel>
-				}
-				second={children}
+				)}
 			/>
 		</AppAuthenticationCheck>
 	);

@@ -3,15 +3,15 @@
 /* * */
 
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import ArchivesExplorerList from '@/components/ArchivesExplorerList/ArchivesExplorerList';
 import { OneFullColumn } from '@/components/Layouts/Layouts';
 import { ArchivesExplorerContextProvider } from '@/contexts/ArchivesExplorerContext';
-import ArchivesExplorerList from '@/components/ArchivesExplorerList/ArchivesExplorerList';
 
 /* * */
 
 export default function ArchivesExplorer() {
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'archives', action: 'navigate' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'navigate', scope: 'archives' }]} redirect>
 			<ArchivesExplorerContextProvider>
 				<OneFullColumn first={<ArchivesExplorerList />} />
 			</ArchivesExplorerContextProvider>

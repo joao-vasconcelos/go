@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 /* * */
 
-export default function AppButtonLock({ isLocked, onClick, disabled }) {
+export default function AppButtonLock({ disabled, isLocked, onClick }) {
 	//
 
 	//
@@ -32,7 +32,7 @@ export default function AppButtonLock({ isLocked, onClick, disabled }) {
 
 	if (isLoading || (isLocked !== true && isLocked !== false)) {
 		return (
-			<ActionIcon variant="light" size="lg" loading>
+			<ActionIcon size="lg" variant="light" loading>
 				<IconCircleDotted size={20} />
 			</ActionIcon>
 		);
@@ -40,8 +40,8 @@ export default function AppButtonLock({ isLocked, onClick, disabled }) {
 
 	if (isLocked === true) {
 		return (
-			<Tooltip label={t('locked')} color="teal" position="bottom" disabled={disabled} withArrow>
-				<ActionIcon color="teal" variant="light" size="lg" onClick={handleClick} disabled={disabled}>
+			<Tooltip color="teal" disabled={disabled} label={t('locked')} position="bottom" withArrow>
+				<ActionIcon color="teal" disabled={disabled} onClick={handleClick} size="lg" variant="light">
 					<IconLock size={20} />
 				</ActionIcon>
 			</Tooltip>
@@ -50,8 +50,8 @@ export default function AppButtonLock({ isLocked, onClick, disabled }) {
 
 	if (isLocked === false) {
 		return (
-			<Tooltip label={t('unlocked')} position="bottom" disabled={disabled} withArrow>
-				<ActionIcon color="blue" variant="subtle" size="lg" onClick={handleClick} disabled={disabled}>
+			<Tooltip disabled={disabled} label={t('unlocked')} position="bottom" withArrow>
+				<ActionIcon color="blue" disabled={disabled} onClick={handleClick} size="lg" variant="subtle">
 					<IconLockOpen size={20} />
 				</ActionIcon>
 			</Tooltip>

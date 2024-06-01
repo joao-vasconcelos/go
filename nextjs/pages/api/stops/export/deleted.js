@@ -1,9 +1,9 @@
 /* * */
 
-import Papa from 'papaparse';
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { DeletedStopModel } from '@/schemas/Stop/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import Papa from 'papaparse';
 
 /* * */
 
@@ -21,7 +21,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -30,8 +31,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'stops', action: 'export' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'export', scope: 'stops' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -43,7 +45,8 @@ export default async function handler(req, res) {
 		foundDocuments = await DeletedStopModel.find();
 		const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
 		foundDocuments = foundDocuments.sort((a, b) => collator.compare(a.code, b.code));
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot list Deleted Stops.' });
 	}
@@ -52,13 +55,14 @@ export default async function handler(req, res) {
 	// Prepare the fields that are to be exported
 
 	try {
-		foundDocuments = foundDocuments.map((document) => ({
+		foundDocuments = foundDocuments.map(document => ({
 			stop_id: document.code,
-			stop_name: document.name,
 			stop_lat: document.latitude,
 			stop_lon: document.longitude,
+			stop_name: document.name,
 		}));
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot list Deleted Stops.' });
 	}
@@ -67,9 +71,10 @@ export default async function handler(req, res) {
 	// Read the previously zipped archive from the filesystem and pipe it to the response.
 
 	try {
-		const parsedCsvData = Papa.unparse(foundDocuments, { skipEmptyLines: 'greedy', newline: '\n', header: true });
-		await res.writeHead(200, { 'Content-Type': 'text/csv', 'Content-Disposition': `attachment; filename=stops.txt` }).send(parsedCsvData);
-	} catch (error) {
+		const parsedCsvData = Papa.unparse(foundDocuments, { header: true, newline: '\n', skipEmptyLines: 'greedy' });
+		await res.writeHead(200, { 'Content-Disposition': `attachment; filename=stops.txt`, 'Content-Type': 'text/csv' }).send(parsedCsvData);
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot create CSV from found documents.' });
 	}

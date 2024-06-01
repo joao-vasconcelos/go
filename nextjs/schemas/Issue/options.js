@@ -7,25 +7,25 @@ export const IssueOptions = {
    * STORAGE SCOPE
    */
 
-	storage_scope: 'issues',
+	milestone_type: ['tag_added', 'issue_created', 'issue_status_changed', 'issue_closed', 'issue_updated', 'issue_commented', 'issue_assigned', 'issue_unassigned', 'issue_due_date_changed'],
 
 	/*
    * STATUS
    */
 
-	status: ['draft', 'open', 'in_progress', 'on_hold', 'closed'],
+	priority: ['urgent', 'important', 'moderate'],
 
 	/*
    * PRIORITY
    */
 
-	priority: ['urgent', 'important', 'moderate'],
+	status: ['draft', 'open', 'in_progress', 'on_hold', 'closed'],
 
 	/*
    * MILESTONE TYPES
    */
 
-	milestone_type: ['tag_added', 'issue_created', 'issue_status_changed', 'issue_closed', 'issue_updated', 'issue_commented', 'issue_assigned', 'issue_unassigned', 'issue_due_date_changed'],
+	storage_scope: 'issues',
 
 	//
 };

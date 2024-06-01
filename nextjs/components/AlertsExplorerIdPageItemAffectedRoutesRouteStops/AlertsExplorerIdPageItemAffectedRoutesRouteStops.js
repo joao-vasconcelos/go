@@ -2,12 +2,12 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useMemo } from 'react';
-import { useTranslations } from 'next-intl';
-import { MultiSelect, SimpleGrid } from '@mantine/core';
-import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
 import Standout from '@/components/Standout/Standout';
+import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
+import { MultiSelect, SimpleGrid } from '@mantine/core';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -36,7 +36,7 @@ export default function AlertsExplorerIdPageItemAffectedRoutesRouteStops({ affec
 				return stopRoutes.has(alertsExplorerContext.form.values.affected_routes[affectedRouteIndex].route_id);
 			})
 			.map((item) => {
-				return { value: item.id, label: `[${item.id}] ${item.name}` };
+				return { label: `[${item.id}] ${item.name}`, value: item.id };
 			});
 	}, [affectedRouteIndex, alertsExplorerContext.form.values.affected_routes, allLiveStopsData]);
 
@@ -47,16 +47,16 @@ export default function AlertsExplorerIdPageItemAffectedRoutesRouteStops({ affec
 		<SimpleGrid>
 			<Standout title={t('form.route_stops.label')}>
 				<MultiSelect
-					placeholder={t('form.route_stops.placeholder')}
 					nothingFoundMessage={t('form.route_stops.nothingFound')}
+					placeholder={t('form.route_stops.placeholder')}
 					{...alertsExplorerContext.form.getInputProps(`affected_routes.${affectedRouteIndex}.specific_stops`)}
-					limit={100}
 					data={availableLiveRouteStops}
-					readOnly={alertsExplorerContext.page.is_read_only}
 					disabled={!alertsExplorerContext.form.values.affected_routes[affectedRouteIndex].route_id}
-					searchable
-					clearable
+					limit={100}
+					readOnly={alertsExplorerContext.page.is_read_only}
 					w="100%"
+					clearable
+					searchable
 				/>
 			</Standout>
 		</SimpleGrid>

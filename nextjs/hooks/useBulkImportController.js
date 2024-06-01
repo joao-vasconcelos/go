@@ -8,79 +8,79 @@ const UPLOAD_ERROR = 'UPLOAD_ERROR';
 
 const initialState = {
 	allRows: [],
-	pendingRows: [],
+	currentStatus: 'idle',
 	currentlyUploadingRow: null,
 	isUploading: false,
+	pendingRows: [],
 	uploadedRows: [],
-	currentStatus: 'idle',
 };
 
 const reducer = (state, action) => {
 	switch (action.type) {
 	//
-	case 'load':
-		return {
-			...state,
-			currentStatus: LOADED,
-			allRows: action.allRows,
-		};
+		case 'load':
+			return {
+				...state,
+				allRows: action.allRows,
+				currentStatus: LOADED,
+			};
 
-		//
-		//
-		//
+			//
+			//
+			//
 
-	case 'upload-bulk-init':
-		return {
-			...state,
-			currentStatus: INIT,
-			pendingRows: action.pendingRows,
-		};
+		case 'upload-bulk-init':
+			return {
+				...state,
+				currentStatus: INIT,
+				pendingRows: action.pendingRows,
+			};
 
-	case 'upload-single-init':
-		return {
-			...state,
-			pendingRows: [...state.pendingRows, action.row],
-		};
+		case 'upload-single-init':
+			return {
+				...state,
+				pendingRows: [...state.pendingRows, action.row],
+			};
 
-		//
-		//
-		//
+			//
+			//
+			//
 
-	case 'upload-next':
-		return {
-			...state,
-			currentStatus: UPLOADING,
-			currentlyUploadingRow: action.nextRow,
-		};
+		case 'upload-next':
+			return {
+				...state,
+				currentStatus: UPLOADING,
+				currentlyUploadingRow: action.nextRow,
+			};
 
-		//
-		//
-		//
+			//
+			//
+			//
 
-	case 'upload-done':
-		return {
-			...state,
-			currentlyUploadingRow: null,
-			pendingRows: state.pendingRows.slice(1),
-			uploadedRows: [...state.uploadedRows, state.currentlyUploadingRow],
-		};
+		case 'upload-done':
+			return {
+				...state,
+				currentlyUploadingRow: null,
+				pendingRows: state.pendingRows.slice(1),
+				uploadedRows: [...state.uploadedRows, state.currentlyUploadingRow],
+			};
 
-		//
-		//
-		//
+			//
+			//
+			//
 
-	case 'set-upload-error':
-		return { ...state, uploadError: action.error, currentStatus: UPLOAD_ERROR };
+		case 'set-upload-error':
+			return { ...state, currentStatus: UPLOAD_ERROR, uploadError: action.error };
 
-		//
-		//
-		//
+			//
+			//
+			//
 
-	case 'reset':
-		return initialState;
+		case 'reset':
+			return initialState;
 
-	default:
-		return state;
+		default:
+			return state;
     //
 	}
 };
@@ -93,20 +93,20 @@ const useBulkImportController = (dataUploader) => {
 	//
 	const onReceiveData = (parsedData) => {
 		const parsedRows = parsedData.map((item, index) => {
-			return { row_id: `row-${index}`, item: item };
+			return { item: item, row_id: `row-${index}` };
 		});
-		dispatch({ type: 'load', allRows: parsedRows });
+		dispatch({ allRows: parsedRows, type: 'load' });
 	};
 
 	//
 	const onUploadBulkInit = (checkedRowsIndexes) => {
-		const pendingRows = state.allRows.filter((row) => checkedRowsIndexes.includes(row.row_id));
-		dispatch({ type: 'upload-bulk-init', pendingRows: pendingRows });
+		const pendingRows = state.allRows.filter(row => checkedRowsIndexes.includes(row.row_id));
+		dispatch({ pendingRows: pendingRows, type: 'upload-bulk-init' });
 	};
 
 	//
 	const onUploadSingleInit = (row) => {
-		dispatch({ type: 'upload-single-init', row: row });
+		dispatch({ row: row, type: 'upload-single-init' });
 	};
 
 	//
@@ -118,7 +118,7 @@ const useBulkImportController = (dataUploader) => {
 	// Sets the currentlyUploadingRow shape when it detects that its ready to go
 	useEffect(() => {
 		if (state.pendingRows.length && state.currentlyUploadingRow == null) {
-			dispatch({ type: 'upload-next', nextRow: state.pendingRows[0] });
+			dispatch({ nextRow: state.pendingRows[0], type: 'upload-next' });
 		}
 	}, [state.currentlyUploadingRow, state.pendingRows]);
 
@@ -130,22 +130,23 @@ const useBulkImportController = (dataUploader) => {
 				try {
 					await dataUploader(state.currentlyUploadingRow.item);
 					dispatch({ type: 'upload-done' });
-				} catch (error) {
+				}
+				catch (error) {
 					console.error(error);
-					dispatch({ type: 'set-upload-error', error });
+					dispatch({ error, type: 'set-upload-error' });
 				}
 			}
 		}
 		fetchData();
 	}, [dataUploader, state.currentlyUploadingRow, state.pendingRows]);
-	useEffect(() => {}, [state.currentlyUploadingRow, state.pendingRows]);
+	useEffect(() => null, [state.currentlyUploadingRow, state.pendingRows]);
 
 	return {
 		...state,
 		onReceiveData,
+		onReset,
 		onUploadBulkInit,
 		onUploadSingleInit,
-		onReset,
 	};
 };
 

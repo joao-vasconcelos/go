@@ -2,13 +2,13 @@
 
 /* * */
 
-import { useParams } from 'next/navigation';
-import { useRouter } from '@/translations/navigation';
-import { useTranslations } from 'next-intl';
+import Badge from '@/components/Badge/Badge';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import Text from '@/components/Text/Text';
-import Badge from '@/components/Badge/Badge';
+import { useRouter } from '@/translations/navigation';
 import { Group } from '@mantine/core';
+import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -34,7 +34,7 @@ export default function StopsExplorerListItem({ item, style }) {
 	// C. Render components
 
 	return (
-		<BaseListItem onClick={handleClick} isSelected={stop_id === item._id} style={style} withChevron>
+		<BaseListItem isSelected={stop_id === item._id} onClick={handleClick} style={style} withChevron>
 			<Text size="title" style={!item.name && 'untitled'}>
 				{item.name || t('untitled')}
 			</Text>

@@ -2,9 +2,9 @@
 
 /* * */
 
-import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/translations/navigation';
 import { Button, SimpleGrid, Text } from '@mantine/core';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 /* * */
@@ -24,14 +24,14 @@ export default function AppAuthenticationLoginError() {
 
 	const getErrorMessage = () => {
 		switch (searchParams.get('error')) {
-		case 'Configuration':
-			return t('error_type.configuration');
-		case 'AccessDenied':
-			return t('error_type.access_denied');
-		case 'Verification':
-			return t('error_type.verification');
-		default:
-			return t('error_type.unknown');
+			case 'Configuration':
+				return t('error_type.configuration');
+			case 'AccessDenied':
+				return t('error_type.access_denied');
+			case 'Verification':
+				return t('error_type.verification');
+			default:
+				return t('error_type.unknown');
 		}
 	};
 
@@ -47,10 +47,10 @@ export default function AppAuthenticationLoginError() {
 
 	return (
 		<SimpleGrid>
-			<Text c="red" align="center" fw="bold" lh={1.2}>
+			<Text align="center" c="red" fw="bold" lh={1.2}>
 				{getErrorMessage()}
 			</Text>
-			<Button fullWidth variant="light" onClick={handleSignInRetry}>
+			<Button onClick={handleSignInRetry} variant="light" fullWidth>
 				{t('retry.label')}
 			</Button>
 		</SimpleGrid>

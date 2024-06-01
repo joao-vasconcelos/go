@@ -44,23 +44,27 @@ export default function ReportsExplorerRealtimeResultTripDetailToolsAnimation() 
 	// C. Handle actions
 
 	const handleToggleAnimation = () => {
-		setIsPlaying((prev) => !prev);
+		setIsPlaying(prev => !prev);
 	};
 
 	//
 	// D. Render components
 
 	return (
-		<Standout icon={<IconKeyframes size={20} />} title={t('title')} description={t('description')} collapsible defaultOpen={false}>
+		<Standout defaultOpen={false} description={t('description')} icon={<IconKeyframes size={20} />} title={t('title')} collapsible>
 			<SimpleGrid cols={2} style={{ alignSelf: 'flex-start' }}>
-				<Button size="xs" variant="light" color={isPlaying ? 'orange' : 'gray'} onClick={handleToggleAnimation} leftSection={isPlaying ? <IconPlayerPause size={20} /> : <IconPlayerPlay size={20} />}>
+				<Button color={isPlaying ? 'orange' : 'gray'} leftSection={isPlaying ? <IconPlayerPause size={20} /> : <IconPlayerPlay size={20} />} onClick={handleToggleAnimation} size="xs" variant="light">
 					{isPlaying ? t('actions.pause') : t('actions.play')}
 				</Button>
 			</SimpleGrid>
 			<Slider
 				color={isPlaying ? 'orange' : 'gray'}
-				value={reportsExplorerRealtimeContext.selectedTrip.event_animation_index}
+				defaultValue={reportsExplorerRealtimeContext.selectedTrip.positions?.length}
+				disabled={!reportsExplorerRealtimeContext.selectedTrip.positions?.length}
+				max={reportsExplorerRealtimeContext.selectedTrip.positions?.length}
 				onChange={reportsExplorerRealtimeContext.updateEventAnimationIndex}
+				step={1}
+				value={reportsExplorerRealtimeContext.selectedTrip.event_animation_index}
 				marks={[
 					{ value: 0 },
 					{ value: reportsExplorerRealtimeContext.selectedTrip.positions?.length * 0.25 },
@@ -68,10 +72,6 @@ export default function ReportsExplorerRealtimeResultTripDetailToolsAnimation() 
 					{ value: reportsExplorerRealtimeContext.selectedTrip.positions?.length * 0.75 },
 					{ value: reportsExplorerRealtimeContext.selectedTrip.positions?.length },
 				]}
-				step={1}
-				defaultValue={reportsExplorerRealtimeContext.selectedTrip.positions?.length}
-				max={reportsExplorerRealtimeContext.selectedTrip.positions?.length}
-				disabled={!reportsExplorerRealtimeContext.selectedTrip.positions?.length}
 			/>
 		</Standout>
 	);

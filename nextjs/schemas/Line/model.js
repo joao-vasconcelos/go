@@ -6,63 +6,63 @@ import mongoose from 'mongoose';
 
 export const LineSchema = new mongoose.Schema(
 	{
-		code: {
-			type: String,
-			maxlength: 5,
-			unique: true,
-		},
-		name: {
-			type: String,
-			maxlength: 150,
-		},
-		short_name: {
-			type: String,
-			maxlength: 5,
-		},
-		transport_type: {
-			type: String,
-			maxlength: 2,
+		agency: {
+			ref: 'Agency',
+			type: mongoose.Schema.Types.ObjectId,
 		},
 		circular: {
 			type: Boolean,
 		},
-		school: {
-			type: Boolean,
+		code: {
+			maxlength: 5,
+			type: String,
+			unique: true,
 		},
 		continuous: {
 			type: Boolean,
 		},
-		typology: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Typology',
+		interchange: {
+			default: '0',
+			maxlength: 1,
+			type: String,
 		},
-		prepaid_fare: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Fare',
+		is_locked: {
+			type: Boolean,
+		},
+		name: {
+			maxlength: 150,
+			type: String,
 		},
 		onboard_fares: [
 			{
-				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Fare',
+				type: mongoose.Schema.Types.ObjectId,
 			},
 		],
-		interchange: {
-			type: String,
-			maxlength: 1,
-			default: '0',
-		},
-		agency: {
+		prepaid_fare: {
+			ref: 'Fare',
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Agency',
 		},
 		routes: [
 			{
-				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Route',
+				type: mongoose.Schema.Types.ObjectId,
 			},
 		],
-		is_locked: {
+		school: {
 			type: Boolean,
+		},
+		short_name: {
+			maxlength: 5,
+			type: String,
+		},
+		transport_type: {
+			maxlength: 2,
+			type: String,
+		},
+		typology: {
+			ref: 'Typology',
+			type: mongoose.Schema.Types.ObjectId,
 		},
 	},
 	{ timestamps: true },

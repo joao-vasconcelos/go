@@ -2,13 +2,13 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import GlobalCheckboxCard from '@/components/GlobalCheckboxCard/GlobalCheckboxCard';
-import { MultiSelect, SimpleGrid } from '@mantine/core';
-import { useMemo } from 'react';
+import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
 import { ReportOptions } from '@/schemas/Report/options';
+import { MultiSelect, SimpleGrid } from '@mantine/core';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
 /* * */
 
@@ -26,11 +26,11 @@ export default function UsersExplorerIdPagePermissionsReports() {
 	// B. Transform data
 
 	const availableReportKinds = useMemo(() => {
-		return ReportOptions.kind?.length > 0 ?
-			ReportOptions.kind.map((item) => {
-				return { value: item, label: reportOptionsLabels(`kind.${item}.label`) };
-			}) :
-			[];
+		return ReportOptions.kind?.length > 0
+			? ReportOptions.kind.map((item) => {
+				return { label: reportOptionsLabels(`kind.${item}.label`), value: item };
+			})
+			: [];
 	}, [reportOptionsLabels]);
 
 	//
@@ -39,42 +39,42 @@ export default function UsersExplorerIdPagePermissionsReports() {
 	return (
 		<AppLayoutSection>
 			<SimpleGrid cols={1}>
-				<GlobalCheckboxCard label={t('view.label')} description={t('view.description')} {...usersExplorerContext.form.getInputProps('permissions.reports.view.is_allowed')} readOnly={usersExplorerContext.page.is_read_only}>
+				<GlobalCheckboxCard description={t('view.description')} label={t('view.label')} {...usersExplorerContext.form.getInputProps('permissions.reports.view.is_allowed')} readOnly={usersExplorerContext.page.is_read_only}>
 					<MultiSelect
 						label={t('view.fields.kind.label')}
-						placeholder={t('view.fields.kind.placeholder')}
 						nothingFoundMessage={t('view.fields.kind.nothingFound')}
+						placeholder={t('view.fields.kind.placeholder')}
 						{...usersExplorerContext.form.getInputProps('permissions.reports.view.fields.kind')}
 						data={availableReportKinds}
-						readOnly={usersExplorerContext.page.is_read_only}
 						disabled={!usersExplorerContext.form.values.permissions.reports.view.is_allowed}
+						readOnly={usersExplorerContext.page.is_read_only}
 						searchable
 					/>
 				</GlobalCheckboxCard>
 				<GlobalCheckboxCard
-					label={t('download.label')}
 					description={t('download.description')}
+					label={t('download.label')}
 					{...usersExplorerContext.form.getInputProps('permissions.reports.download.is_allowed')}
-					readOnly={usersExplorerContext.page.is_read_only}
 					disabled={!usersExplorerContext.form.values.permissions.reports.view.is_allowed}
+					readOnly={usersExplorerContext.page.is_read_only}
 				>
 					<MultiSelect
 						label={t('download.fields.kind.label')}
-						placeholder={t('download.fields.kind.placeholder')}
 						nothingFoundMessage={t('download.fields.kind.nothingFound')}
+						placeholder={t('download.fields.kind.placeholder')}
 						{...usersExplorerContext.form.getInputProps('permissions.reports.download.fields.kind')}
 						data={availableReportKinds}
-						readOnly={usersExplorerContext.page.is_read_only}
 						disabled={!usersExplorerContext.form.values.permissions.reports.view.is_allowed}
+						readOnly={usersExplorerContext.page.is_read_only}
 						searchable
 					/>
 				</GlobalCheckboxCard>
 				<GlobalCheckboxCard
-					label={t('navigate.label')}
 					description={t('navigate.description')}
+					label={t('navigate.label')}
 					{...usersExplorerContext.form.getInputProps('permissions.reports.navigate.is_allowed')}
-					readOnly={usersExplorerContext.page.is_read_only}
 					disabled={!usersExplorerContext.form.values.permissions.reports.view.is_allowed}
+					readOnly={usersExplorerContext.page.is_read_only}
 				/>
 			</SimpleGrid>
 		</AppLayoutSection>

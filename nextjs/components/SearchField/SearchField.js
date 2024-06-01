@@ -1,9 +1,10 @@
-import styles from './SearchField.module.css';
 import { ActionIcon, TextInput } from '@mantine/core';
 import { IconSearch, IconX } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 
-export default function SearchField({ query, onChange, placeholder }) {
+import styles from './SearchField.module.css';
+
+export default function SearchField({ onChange, placeholder, query }) {
 	//
 
 	const t = useTranslations('SearchField');
@@ -19,15 +20,17 @@ export default function SearchField({ query, onChange, placeholder }) {
 	return (
 		<div className={styles.container}>
 			<TextInput
-				value={query}
-				placeholder={placeholder || t('placeholder')}
 				icon={<IconSearch size={16} />}
 				onChange={handleChange}
+				placeholder={placeholder || t('placeholder')}
+				value={query}
 				rightSection={
-					query &&
-            <ActionIcon variant="subtle" onClick={handleClear}>
-            	<IconX size={16} />
-            </ActionIcon>
+					query
+					&& (
+						<ActionIcon onClick={handleClear} variant="subtle">
+							<IconX size={16} />
+						</ActionIcon>
+					)
 
 				}
 			/>

@@ -2,10 +2,11 @@
 
 /* * */
 
-// import { useTranslations } from 'next-intl';
-import styles from './ArchivesExplorerListItemHeaderLockedUnlocked.module.css';
 import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
 import { IconLock, IconLockOpen2 } from '@tabler/icons-react';
+
+// import { useTranslations } from 'next-intl';
+import styles from './ArchivesExplorerListItemHeaderLockedUnlocked.module.css';
 
 /* * */
 

@@ -1,9 +1,9 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { ReportOptions } from '@/schemas/Report/options';
 import PCGIDB from '@/services/PCGIDB';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { DateTime } from 'luxon';
 
 /* * */
@@ -21,7 +21,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -30,8 +31,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['revenue'] }] }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'POST', permissions: [{ action: 'view', fields: [{ key: 'kind', values: ['revenue'] }], scope: 'reports' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -41,7 +43,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = await JSON.parse(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'JSON parse error.' });
 	}
@@ -53,9 +56,10 @@ export default async function handler(req, res) {
 	let endDateFormatted;
 
 	try {
-		startDateFormatted = DateTime.fromFormat(req.body.start_date, 'yyyyMMdd').startOf('day').set({ hour: 4, minute: 0, second: 0 }).toFormat("yyyy-MM-dd'T'HH:mm:ss");
-		endDateFormatted = DateTime.fromFormat(req.body.end_date, 'yyyyMMdd').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59, second: 59 }).toFormat("yyyy-MM-dd'T'HH:mm:ss");
-	} catch (error) {
+		startDateFormatted = DateTime.fromFormat(req.body.start_date, 'yyyyMMdd').startOf('day').set({ hour: 4, minute: 0, second: 0 }).toFormat('yyyy-MM-dd\'T\'HH:mm:ss');
+		endDateFormatted = DateTime.fromFormat(req.body.end_date, 'yyyyMMdd').plus({ days: 1 }).startOf('day').set({ hour: 3, minute: 59, second: 59 }).toFormat('yyyy-MM-dd\'T\'HH:mm:ss');
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Error formatting date boundaries.' });
 	}
@@ -65,7 +69,8 @@ export default async function handler(req, res) {
 
 	try {
 		await PCGIDB.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Could not connect to PCGIDB.' });
 	}
@@ -77,12 +82,12 @@ export default async function handler(req, res) {
 
 	const matchClause = {
 		$match: {
+			'transaction.operatorLongID': { $eq: req.body.agency_code },
+			'transaction.productLongID': { $in: ReportOptions.apex_transaction_prepaid_product_ids },
 			'transaction.transactionDate': {
 				$gte: startDateFormatted,
 				$lte: endDateFormatted,
 			},
-			'transaction.operatorLongID': { $eq: req.body.agency_code },
-			'transaction.productLongID': { $in: ReportOptions.apex_transaction_prepaid_product_ids },
 			'transaction.validationStatus': { $in: ReportOptions.apex_transaction_valid_status },
 		},
 	};
@@ -91,10 +96,9 @@ export default async function handler(req, res) {
 		$group: {
 			//
 			_id: '$transaction.unitsQuantity',
-			//
-			sales_qty: {
+			cashbacks_euro: {
 				$sum: {
-					$cond: [{ $gte: ['$transaction.unitsQuantity', 0] }, 1, 0],
+					$cond: [{ $lt: ['$transaction.unitsQuantity', 0] }, '$transaction.unitsQuantity', 0],
 				},
 			},
 			cashbacks_qty: {
@@ -102,21 +106,22 @@ export default async function handler(req, res) {
 					$cond: [{ $lt: ['$transaction.unitsQuantity', 0] }, 1, 0],
 				},
 			},
-			transactions_qty: { $sum: 1 },
 			//
 			sales_euro: {
 				$sum: {
 					$cond: [{ $gte: ['$transaction.unitsQuantity', 0] }, '$transaction.unitsQuantity', 0],
 				},
 			},
-			cashbacks_euro: {
+			//
+			sales_qty: {
 				$sum: {
-					$cond: [{ $lt: ['$transaction.unitsQuantity', 0] }, '$transaction.unitsQuantity', 0],
+					$cond: [{ $gte: ['$transaction.unitsQuantity', 0] }, 1, 0],
 				},
 			},
 			transactions_euro: {
 				$sum: '$transaction.unitsQuantity',
 			},
+			transactions_qty: { $sum: 1 },
 			//
 		},
 	};
@@ -124,13 +129,13 @@ export default async function handler(req, res) {
 	const projectClause = {
 		$project: {
 			_id: 0,
-			product_id: '$_id',
-			sales_qty: 1,
-			cashbacks_qty: 1,
-			transactions_qty: 1,
-			sales_euro: 1,
 			cashbacks_euro: 1,
+			cashbacks_qty: 1,
+			product_id: '$_id',
+			sales_euro: 1,
+			sales_qty: 1,
 			transactions_euro: 1,
+			transactions_qty: 1,
 		},
 	};
 
@@ -140,7 +145,8 @@ export default async function handler(req, res) {
 	try {
 		console.log('Searching validations...');
 		result = await PCGIDB.ValidationEntity.aggregate([matchClause, groupClause, projectClause], { allowDiskUse: true, maxTimeMS: 900000 }).toArray();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: error.message || 'Cannot search for APEX Transactions.' });
 	}
@@ -150,7 +156,8 @@ export default async function handler(req, res) {
 
 	try {
 		res.send(result);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: error.message || 'Error sending response to client.' });
 	}

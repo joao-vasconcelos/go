@@ -11,7 +11,7 @@ import { UsersExplorerContextProvider } from '@/contexts/UsersExplorerContext';
 
 export default function UsersExplorer({ children }) {
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'users', action: 'navigate' }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'navigate', scope: 'users' }]} redirect>
 			<UsersExplorerContextProvider>
 				<TwoUnevenColumns first={<UsersExplorerList />} second={children} />
 			</UsersExplorerContextProvider>

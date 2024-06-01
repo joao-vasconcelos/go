@@ -2,14 +2,15 @@
 
 /* * */
 
-import styles from './PanelError.module.css';
+import { Alert, Button, SimpleGrid, Text } from '@mantine/core';
+import { IconAlertTriangleFilled, IconRotate } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
-import { Button, Alert, Text, SimpleGrid } from '@mantine/core';
-import { IconRotate, IconAlertTriangleFilled } from '@tabler/icons-react';
+
+import styles from './PanelError.module.css';
 
 /* * */
 
-export default function PanelError({ message, description, loading, disabled, onRetry }) {
+export default function PanelError({ description, disabled, loading, message, onRetry }) {
 	//
 
 	//
@@ -22,14 +23,15 @@ export default function PanelError({ message, description, loading, disabled, on
 
 	return (
 		<div className={styles.container}>
-			<Alert icon={<IconAlertTriangleFilled size={20} />} title={message} color="red">
+			<Alert color="red" icon={<IconAlertTriangleFilled size={20} />} title={message}>
 				<SimpleGrid>
 					{description && <p className={styles.description}>{description}</p>}
-					{onRetry &&
-            <Button variant="default" color="red" leftSection={<IconRotate />} disabled={disabled} loading={loading} onClick={onRetry}>
-            	{loading ? t('retrying') : t('retry')}
-            </Button>
-					}
+					{onRetry
+					&& (
+						<Button color="red" disabled={disabled} leftSection={<IconRotate />} loading={loading} onClick={onRetry} variant="default">
+							{loading ? t('retrying') : t('retry')}
+						</Button>
+					)}
 				</SimpleGrid>
 			</Alert>
 		</div>

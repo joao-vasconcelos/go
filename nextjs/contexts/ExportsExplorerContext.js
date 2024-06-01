@@ -2,13 +2,13 @@
 
 /* * */
 
-import useSWR from 'swr';
-import API from '@/services/API';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { ExportFormDefault, ExportFormDefaultGtfsV29, ExportFormDefaultNetexV1, ExportFormDefaultRegionalMergeV1 } from '@/schemas/Export/default';
 import { ExportFormValidation, ExportFormValidationGtfsV29, ExportFormValidationNetexV1, ExportFormValidationRegionalMergeV1 } from '@/schemas/Export/validation';
+import API from '@/services/API';
 import { useForm, yupResolver } from '@mantine/form';
 import { DateTime } from 'luxon';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -27,11 +27,11 @@ const initialListState = {
 };
 
 const initialFormState = {
+	is_error: false,
 	//
 	is_loading: false,
-	is_valid: false,
-	is_error: false,
 	is_read_only: false,
+	is_valid: false,
 	//
 };
 
@@ -50,35 +50,35 @@ export function ExportsExplorerContextProvider({ children }) {
 	// C. Setup forms
 
 	const formStateMain = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: ExportFormDefault,
+		validate: yupResolver(ExportFormValidation),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(ExportFormValidation),
-		initialValues: ExportFormDefault,
 	});
 
 	const formStateGtfsV29 = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: ExportFormDefaultGtfsV29,
+		validate: yupResolver(ExportFormValidationGtfsV29),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(ExportFormValidationGtfsV29),
-		initialValues: ExportFormDefaultGtfsV29,
 	});
 
 	const formStateNetexV1 = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: ExportFormDefaultNetexV1,
+		validate: yupResolver(ExportFormValidationNetexV1),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(ExportFormValidationNetexV1),
-		initialValues: ExportFormDefaultNetexV1,
 	});
 
 	const formStateRegionalMergeV1 = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: ExportFormDefaultRegionalMergeV1,
+		validate: yupResolver(ExportFormValidationRegionalMergeV1),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(ExportFormValidationRegionalMergeV1),
-		initialValues: ExportFormDefaultRegionalMergeV1,
 	});
 
 	//
@@ -90,7 +90,7 @@ export function ExportsExplorerContextProvider({ children }) {
 	// F. Setup actions
 
 	useEffect(() => {
-		setFormState((prev) => ({ ...prev, is_valid: true }));
+		setFormState(prev => ({ ...prev, is_valid: true }));
 		if (formStateMain.values.kind === 'regional_merge_v1') formStateMain.setFieldValue('notify_user', false);
 		// // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formStateMain.values.kind]);
@@ -101,38 +101,38 @@ export function ExportsExplorerContextProvider({ children }) {
 	const handleStartExport = useCallback(async () => {
 		try {
 			// Update interface
-			setFormState((prev) => ({ ...prev, is_loading: true, is_read_only: true }));
+			setFormState(prev => ({ ...prev, is_loading: true, is_read_only: true }));
 			// Setup request body based on export kind
 			const formStateMainValues = formStateMain.getValues();
 			//
 			let requestBody = {};
 			switch (formStateMainValues.kind) {
-			case 'gtfs_v29':
-				requestBody = {
-					...formStateMainValues,
-					...formStateGtfsV29.values,
-					feed_start_date: DateTime.fromJSDate(formStateGtfsV29.values.feed_start_date).toFormat('yyyyMMdd'),
-					feed_end_date: DateTime.fromJSDate(formStateGtfsV29.values.feed_end_date).toFormat('yyyyMMdd'),
-					calendars_clip_start_date: formStateGtfsV29.values.calendars_clip_start_date ? DateTime.fromJSDate(formStateGtfsV29.values.calendars_clip_start_date).toFormat('yyyyMMdd') : null,
-					calendars_clip_end_date: formStateGtfsV29.values.calendars_clip_end_date ? DateTime.fromJSDate(formStateGtfsV29.values.calendars_clip_end_date).toFormat('yyyyMMdd') : null,
-				};
-				break;
-			case 'netex_v1':
-				requestBody = {
-					...formStateMainValues,
-					...formStateNetexV1.values,
-				};
-				break;
-			case 'regional_merge_v1':
-				requestBody = {
-					...formStateMainValues,
-					...formStateRegionalMergeV1.values,
-					active_date: DateTime.fromJSDate(formStateRegionalMergeV1.values.active_date).toFormat('yyyyMMdd'),
-				};
-				break;
+				case 'gtfs_v29':
+					requestBody = {
+						...formStateMainValues,
+						...formStateGtfsV29.values,
+						calendars_clip_end_date: formStateGtfsV29.values.calendars_clip_end_date ? DateTime.fromJSDate(formStateGtfsV29.values.calendars_clip_end_date).toFormat('yyyyMMdd') : null,
+						calendars_clip_start_date: formStateGtfsV29.values.calendars_clip_start_date ? DateTime.fromJSDate(formStateGtfsV29.values.calendars_clip_start_date).toFormat('yyyyMMdd') : null,
+						feed_end_date: DateTime.fromJSDate(formStateGtfsV29.values.feed_end_date).toFormat('yyyyMMdd'),
+						feed_start_date: DateTime.fromJSDate(formStateGtfsV29.values.feed_start_date).toFormat('yyyyMMdd'),
+					};
+					break;
+				case 'netex_v1':
+					requestBody = {
+						...formStateMainValues,
+						...formStateNetexV1.values,
+					};
+					break;
+				case 'regional_merge_v1':
+					requestBody = {
+						...formStateMainValues,
+						...formStateRegionalMergeV1.values,
+						active_date: DateTime.fromJSDate(formStateRegionalMergeV1.values.active_date).toFormat('yyyyMMdd'),
+					};
+					break;
 			}
 			// Perform the API call
-			await API({ service: 'exports', operation: 'create', method: 'POST', body: requestBody });
+			await API({ body: requestBody, method: 'POST', operation: 'create', service: 'exports' });
 			// Mutate results
 			allExportsMutate();
 			// Reset form
@@ -143,9 +143,10 @@ export function ExportsExplorerContextProvider({ children }) {
 			// Update interface
 			setFormState(initialFormState);
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(error);
-			setFormState((prev) => ({ ...prev, is_loading: false, is_read_only: false, is_error: true }));
+			setFormState(prev => ({ ...prev, is_error: true, is_loading: false, is_read_only: false }));
 		}
 	}, [allExportsMutate, formStateGtfsV29, formStateMain, formStateNetexV1, formStateRegionalMergeV1]);
 
@@ -156,10 +157,10 @@ export function ExportsExplorerContextProvider({ children }) {
 		() => ({
 			//
 			form: formState,
+			form_gtfs_v29: formStateGtfsV29,
 			//
 			form_main: formStateMain,
 			form_main_values: formStateMainValuesState,
-			form_gtfs_v29: formStateGtfsV29,
 			form_netex_v1: formStateNetexV1,
 			form_regional_merge_v1: formStateRegionalMergeV1,
 			//

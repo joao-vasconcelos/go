@@ -2,14 +2,14 @@
 
 /* * */
 
-import { useSession } from 'next-auth/react';
-import { useRouter } from '@/translations/navigation';
-import { useEffect, useMemo } from 'react';
 import isAllowed from '@/authentication/isAllowed';
+import { useRouter } from '@/translations/navigation';
+import { useSession } from 'next-auth/react';
+import { useEffect, useMemo } from 'react';
 
 /* * */
 
-export default function AppAuthenticationCheck({ permissions = [], redirect = false, children }) {
+export default function AppAuthenticationCheck({ children, permissions = [], redirect = false }) {
 	//
 
 	//

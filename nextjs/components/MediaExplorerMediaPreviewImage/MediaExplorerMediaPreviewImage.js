@@ -2,11 +2,12 @@
 
 /* * */
 
-import API from '@/services/API';
-import Image from 'next/image';
-import { Modal } from '@mantine/core';
-import { useEffect, useState } from 'react';
 import Loader from '@/components/Loader/Loader';
+import API from '@/services/API';
+import { Modal } from '@mantine/core';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+
 import styles from './MediaExplorerMediaPreviewImage.module.css';
 
 /* * */
@@ -27,10 +28,11 @@ export default function MediaExplorerMediaPreviewImage({ mediaData }) {
 		(async () => {
 			try {
 				if (!mediaData || !mediaData.file_mime_type.includes('image')) return;
-				const result = await API({ service: 'media', resourceId: mediaData._id, operation: 'preview', method: 'GET', parseType: 'blob' });
+				const result = await API({ method: 'GET', operation: 'preview', parseType: 'blob', resourceId: mediaData._id, service: 'media' });
 				const url = URL.createObjectURL(result);
 				setPreviewUrl(url);
-			} catch (error) {
+			}
+			catch (error) {
 				console.log(error);
 			}
 		})();
@@ -41,19 +43,22 @@ export default function MediaExplorerMediaPreviewImage({ mediaData }) {
 
 	return (
 		<>
-			<Modal opened={modalIsOpen} onClose={() => setModalIsOpen(false)} size="80%" withCloseButton={false} padding={0}>
+			<Modal onClose={() => setModalIsOpen(false)} opened={modalIsOpen} padding={0} size="80%" withCloseButton={false}>
 				<div className={styles.modalPreview}>
-					<Image src={previewUrl} alt={mediaData.title} sizes="500px" fill style={{ objectFit: 'contain' }} />
+					<Image alt={mediaData.title} sizes="500px" src={previewUrl} style={{ objectFit: 'contain' }} fill />
 				</div>
 			</Modal>
-			{previewUrl ?
-				<div className={styles.container} onClick={() => setModalIsOpen(true)}>
-					<Image src={previewUrl} alt={mediaData.title} sizes="500px" fill style={{ objectFit: 'cover' }} />{' '}
-				</div> :
-				<div className={styles.container} style={{ cursor: 'progress' }}>
-					<Loader size={20} visible />
-				</div>
-			}
+			{previewUrl
+				? (
+					<div className={styles.container} onClick={() => setModalIsOpen(true)}>
+						<Image alt={mediaData.title} sizes="500px" src={previewUrl} style={{ objectFit: 'cover' }} fill />{' '}
+					</div>
+				)
+				: (
+					<div className={styles.container} style={{ cursor: 'progress' }}>
+						<Loader size={20} visible />
+					</div>
+				)}
 		</>
 	);
 

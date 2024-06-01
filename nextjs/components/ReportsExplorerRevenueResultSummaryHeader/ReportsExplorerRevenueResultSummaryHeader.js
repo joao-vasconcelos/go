@@ -2,12 +2,12 @@
 
 /* * */
 
-import Text from '@/components/Text/Text';
-import { IconX } from '@tabler/icons-react';
-import { ActionIcon } from '@mantine/core';
-import { useTranslations } from 'next-intl';
-import { useReportsExplorerRevenueContext } from '@/contexts/ReportsExplorerRevenueContext';
 import ListHeader from '@/components/ListHeader/ListHeader';
+import Text from '@/components/Text/Text';
+import { useReportsExplorerRevenueContext } from '@/contexts/ReportsExplorerRevenueContext';
+import { ActionIcon } from '@mantine/core';
+import { IconX } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -25,7 +25,7 @@ export default function ReportsExplorerRevenueResultSummaryHeader() {
 
 	return (
 		<ListHeader>
-			<ActionIcon size="lg" onClick={reportsExplorerSalesContext.clearAllData} variant="subtle" color="gray">
+			<ActionIcon color="gray" onClick={reportsExplorerSalesContext.clearAllData} size="lg" variant="subtle">
 				<IconX size="20px" />
 			</ActionIcon>
 			<Text size="h2" full>

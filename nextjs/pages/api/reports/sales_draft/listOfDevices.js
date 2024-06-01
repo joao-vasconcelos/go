@@ -1,5 +1,5 @@
 const result = {
-	'query': [
+	query: [
 		{
 			$group: {
 				_id: null,
@@ -15,7 +15,7 @@ const result = {
 			},
 		},
 	],
-	'uniqueDeviceIDs': [
+	uniqueDeviceIDs: [
 		'sibelius_35400000085',
 		'10673',
 		'803edee8-04e7-46b0-ab9b-de8ce8ad6f67',

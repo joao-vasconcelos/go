@@ -2,11 +2,11 @@
 
 export const TypologyDefault = {
 	code: '',
+	color: '#000000',
+	default_onboard_fares: [],
+	default_prepaid_fare: null,
+	is_locked: false,
 	name: '',
 	short_name: '',
-	color: '#000000',
 	text_color: '#FFFFFF',
-	default_prepaid_fare: null,
-	default_onboard_fares: [],
-	is_locked: false,
 };

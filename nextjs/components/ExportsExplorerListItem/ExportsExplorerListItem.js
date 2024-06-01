@@ -2,15 +2,16 @@
 
 /* * */
 
-import useSWR from 'swr';
-import API from '@/services/API';
 import Loader from '@/components/Loader/Loader';
-import { IconFileAlert, IconFileDownload, IconTrash } from '@tabler/icons-react';
-import { useTranslations, useFormatter, useNow } from 'next-intl';
-import styles from './ExportsExplorerListItem.module.css';
-import { openConfirmModal } from '@mantine/modals';
+import API from '@/services/API';
 import { Text } from '@mantine/core';
+import { openConfirmModal } from '@mantine/modals';
+import { IconFileAlert, IconFileDownload, IconTrash } from '@tabler/icons-react';
+import { useFormatter, useNow, useTranslations } from 'next-intl';
 import { useState } from 'react';
+import useSWR from 'swr';
+
+import styles from './ExportsExplorerListItem.module.css';
 
 /* * */
 
@@ -37,30 +38,31 @@ export default function ExportsExplorerListItem({ item }) {
 
 	const handleDeleteExport = async () => {
 		openConfirmModal({
-			title: t('operations.delete.title'),
-			size: 'lg',
 			centered: true,
-			closeOnClickOutside: true,
 			children: <Text size="sm">{t('operations.delete.description')}</Text>,
-			labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
+			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
+			labels: { cancel: t('operations.delete.cancel'), confirm: t('operations.delete.confirm') },
 			onConfirm: async () => {
 				try {
 					setIsDeleting(true);
-					await API({ service: 'exports', resourceId: item._id, operation: 'delete', method: 'DELETE' });
+					await API({ method: 'DELETE', operation: 'delete', resourceId: item._id, service: 'exports' });
 					allExportsMutate();
-				} catch (error) {
+				}
+				catch (error) {
 					console.log(error);
 					setIsDeleting(false);
 				}
 			},
+			size: 'lg',
+			title: t('operations.delete.title'),
 		});
 	};
 
 	const handleExportDownload = async () => {
 		try {
 			setIsDownloading(true);
-			const archiveBlob = await API({ service: 'exports', resourceId: item._id, operation: 'download', method: 'GET', parseType: 'blob' });
+			const archiveBlob = await API({ method: 'GET', operation: 'download', parseType: 'blob', resourceId: item._id, service: 'exports' });
 			const objectURL = URL.createObjectURL(archiveBlob);
 			const zipDownload = document.createElement('a');
 			zipDownload.href = objectURL;
@@ -68,7 +70,8 @@ export default function ExportsExplorerListItem({ item }) {
 			document.body.appendChild(zipDownload);
 			zipDownload.click();
 			setIsDownloading(false);
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(error);
 			setIsDownloading(false);
 		}

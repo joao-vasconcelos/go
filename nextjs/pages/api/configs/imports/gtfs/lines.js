@@ -1,11 +1,11 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { AgencyModel } from '@/schemas/Agency/model';
-import { TypologyModel } from '@/schemas/Typology/model';
 import { FareModel } from '@/schemas/Fare/model';
 import { LineModel } from '@/schemas/Line/model';
+import { TypologyModel } from '@/schemas/Typology/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -24,7 +24,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -33,8 +34,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -44,7 +46,8 @@ export default async function handler(req, res) {
 
 	try {
 		await LineModel.syncIndexes();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot sync indexes.' });
 	}
@@ -100,17 +103,17 @@ export default async function handler(req, res) {
 			// 6.2.4.
 			// Format line to match GO schema
 			const parsedLine = {
-				code: lineApi.id,
-				name: lineApi.long_name,
-				short_name: lineApi.short_name,
+				agency: agencyDocument?._id || null,
 				circular: false,
-				school: false,
+				code: lineApi.id,
 				continuous: false,
+				fare: fareDocument?._id || null,
+				name: lineApi.long_name,
+				routes: [],
+				school: false,
+				short_name: lineApi.short_name,
 				transport_type: 3,
 				typology: typologyDocument?._id || null,
-				fare: fareDocument?._id || null,
-				agency: agencyDocument?._id || null,
-				routes: [],
 			};
 
 			// 6.2.5.
@@ -125,7 +128,8 @@ export default async function handler(req, res) {
 		}
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Import Error' });
 	}

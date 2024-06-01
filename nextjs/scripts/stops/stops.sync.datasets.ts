@@ -1,8 +1,8 @@
 /* * */
 
-import tts from '@carrismetropolitana/tts';
 import { StopModel } from '@/schemas/Stop/model';
 import TIMETRACKER from '@/services/TIMETRACKER';
+import tts from '@carrismetropolitana/tts';
 
 /* * */
 
@@ -12,7 +12,7 @@ export default async function stopsSyncDatasets() {
 	// 1.
 	// Log the start of the operation
 
-	const globalTimer = new TIMETRACKER;
+	const globalTimer = new TIMETRACKER();
 
 	console.log('⤷ Sync Stops with Datasets API');
 
@@ -26,11 +26,11 @@ export default async function stopsSyncDatasets() {
 
 	const allDatasetsFacilitiesEncmResponse = await fetch('https://api.carrismetropolitana.pt/datasets/facilities/encm');
 	const allDatasetsFacilitiesEncmData = await allDatasetsFacilitiesEncmResponse.json();
-	const allDatasetsFacilitiesEncmSet = new Set(allDatasetsFacilitiesEncmData.flatMap((item) => item.stops));
+	const allDatasetsFacilitiesEncmSet = new Set(allDatasetsFacilitiesEncmData.flatMap(item => item.stops));
 
 	const allDatasetsFacilitiesSchoolsResponse = await fetch('https://api.carrismetropolitana.pt/datasets/facilities/schools');
 	const allDatasetsFacilitiesSchoolsData = await allDatasetsFacilitiesSchoolsResponse.json();
-	const allDatasetsFacilitiesSchoolsSet = new Set(allDatasetsFacilitiesSchoolsData.flatMap((item) => item.stops));
+	const allDatasetsFacilitiesSchoolsSet = new Set(allDatasetsFacilitiesSchoolsData.flatMap(item => item.stops));
 
 	// const allDatasetsFacilitiesBeachesResponse = await fetch('https://api.carrismetropolitana.pt/datasets/facilities/beaches');
 	// const allDatasetsFacilitiesBeachesData = await allDatasetsFacilitiesBeachesResponse.json();
@@ -38,19 +38,19 @@ export default async function stopsSyncDatasets() {
 
 	const allDatasetsConnectionsBoatStationsResponse = await fetch('https://api.carrismetropolitana.pt/datasets/connections/boat_stations');
 	const allDatasetsConnectionsBoatStationsData = await allDatasetsConnectionsBoatStationsResponse.json();
-	const allDatasetsConnectionsBoatStationsSet = new Set(allDatasetsConnectionsBoatStationsData.flatMap((item) => item.stops));
+	const allDatasetsConnectionsBoatStationsSet = new Set(allDatasetsConnectionsBoatStationsData.flatMap(item => item.stops));
 
 	const allDatasetsConnectionsLightRailStationsResponse = await fetch('https://api.carrismetropolitana.pt/datasets/connections/light_rail_stations');
 	const allDatasetsConnectionsLightRailStationsData = await allDatasetsConnectionsLightRailStationsResponse.json();
-	const allDatasetsConnectionsLightRailStationsSet = new Set(allDatasetsConnectionsLightRailStationsData.flatMap((item) => item.stops));
+	const allDatasetsConnectionsLightRailStationsSet = new Set(allDatasetsConnectionsLightRailStationsData.flatMap(item => item.stops));
 
 	const allDatasetsConnectionsSubwayStationsResponse = await fetch('https://api.carrismetropolitana.pt/datasets/connections/subway_stations');
 	const allDatasetsConnectionsSubwayStationsData = await allDatasetsConnectionsSubwayStationsResponse.json();
-	const allDatasetsConnectionsSubwayStationsSet = new Set(allDatasetsConnectionsSubwayStationsData.flatMap((item) => item.stops));
+	const allDatasetsConnectionsSubwayStationsSet = new Set(allDatasetsConnectionsSubwayStationsData.flatMap(item => item.stops));
 
 	const allDatasetsConnectionsTrainStationsResponse = await fetch('https://api.carrismetropolitana.pt/datasets/connections/train_stations');
 	const allDatasetsConnectionsTrainStationsData = await allDatasetsConnectionsTrainStationsResponse.json();
-	const allDatasetsConnectionsTrainStationsSet = new Set(allDatasetsConnectionsTrainStationsData.flatMap((item) => item.stops));
+	const allDatasetsConnectionsTrainStationsSet = new Set(allDatasetsConnectionsTrainStationsData.flatMap(item => item.stops));
 
 	// 4.
 	// Iterate through each available stop
@@ -67,14 +67,14 @@ export default async function stopsSyncDatasets() {
 		stopData.near_train = allDatasetsConnectionsTrainStationsSet.has(stopData.code) ? true : false;
 		//
 		const stopModalConnections = {
-			subway: stopData.near_subway,
-			light_rail: stopData.near_light_rail,
-			train: stopData.near_train,
-			boat: stopData.near_boat,
 			airport: stopData.near_airport,
-			bike_sharing: stopData.near_bike_sharing,
 			bike_parking: stopData.near_bike_parking,
+			bike_sharing: stopData.near_bike_sharing,
+			boat: stopData.near_boat,
 			car_parking: stopData.near_car_parking,
+			light_rail: stopData.near_light_rail,
+			subway: stopData.near_subway,
+			train: stopData.near_train,
 		};
 		//
 		stopData.tts_name = tts.makeText(stopData.name, stopModalConnections).trim();

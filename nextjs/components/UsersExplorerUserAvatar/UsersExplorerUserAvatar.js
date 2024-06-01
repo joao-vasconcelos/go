@@ -1,6 +1,7 @@
 /* * */
 
 import { Avatar } from '@mantine/core';
+
 import styles from './UsersExplorerUserAvatar.module.css';
 
 /* * */

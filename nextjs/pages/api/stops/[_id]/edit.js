@@ -1,9 +1,9 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { StopValidation } from '@/schemas/Stop/validation';
 import { DeletedStopModel, StopModel } from '@/schemas/Stop/model';
+import { StopValidation } from '@/schemas/Stop/validation';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -21,7 +21,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -30,8 +31,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'stops', action: 'view' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'PUT', permissions: [{ action: 'view', scope: 'stops' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -41,7 +43,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = await JSON.parse(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		await res.status(500).json({ message: 'JSON parse error.' });
 		return;
@@ -52,7 +55,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = StopValidation.cast(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: JSON.parse(error.message)[0].message });
 	}
@@ -63,7 +67,8 @@ export default async function handler(req, res) {
 	try {
 		foundDocument = await StopModel.findOne({ _id: { $eq: req.query._id } });
 		if (!foundDocument) return await res.status(404).json({ message: `Stop with _id "${req.query._id}" not found.` });
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Stop not found.' });
 	}
@@ -89,7 +94,8 @@ export default async function handler(req, res) {
 		if (foundDeletedDocumentWithStopCode) {
 			throw new Error('A Deleted Stop with the same "code" was found. You have to use a different code.');
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(409).json({ message: error.message });
 	}
@@ -101,7 +107,8 @@ export default async function handler(req, res) {
 		const editedDocument = await StopModel.replaceOne({ _id: { $eq: req.query._id } }, req.body, { new: true });
 		if (!editedDocument) return await res.status(404).json({ message: `Stop with _id "${req.query._id}" not found.` });
 		return await res.status(200).json(editedDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot update this Stop.' });
 	}

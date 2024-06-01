@@ -1,10 +1,10 @@
 /* * */
 
-import mongodb from '@/services/OFFERMANAGERDB';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import { RouteModel } from '@/schemas/Route/model';
 import { PatternModel } from '@/schemas/Pattern/model';
+import { RouteModel } from '@/schemas/Route/model';
+import mongodb from '@/services/OFFERMANAGERDB';
 
 /* * */
 
@@ -30,8 +30,9 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-		isAllowed(sessionData, [{ scope: 'lines', action: 'lock' }]);
-	} catch (error) {
+		isAllowed(sessionData, [{ action: 'lock', scope: 'lines' }]);
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
 	}
@@ -41,7 +42,8 @@ export default async function handler(req, res) {
 
 	try {
 		await mongodb.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'MongoDB connection error.' });
 	}
@@ -52,7 +54,8 @@ export default async function handler(req, res) {
 	try {
 		patternDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } });
 		if (!patternDocument) return await res.status(404).json({ message: `Pattern with _id "${req.query._id}" not found.` });
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Pattern not found.' });
 	}
@@ -64,7 +67,8 @@ export default async function handler(req, res) {
 		const routeDocument = await RouteModel.findOne({ _id: { $eq: patternDocument.parent_route } });
 		if (!routeDocument) return await res.status(404).json({ message: `Route with _id: ${patternDocument.parent_route} not found.` });
 		if (routeDocument.is_locked) return await res.status(423).json({ message: 'Parent Route is locked.' });
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Error retrieving parent Route for this Pattern.' });
 	}
@@ -76,7 +80,8 @@ export default async function handler(req, res) {
 		patternDocument.is_locked = !patternDocument.is_locked;
 		await patternDocument.save();
 		return await res.status(200).json(patternDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot update this Pattern.' });
 	}

@@ -2,9 +2,9 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { useFaresExplorerContext } from '@/contexts/FaresExplorerContext';
 import ListFooter from '@/components/ListFooter/ListFooter';
+import { useFaresExplorerContext } from '@/contexts/FaresExplorerContext';
+import { useTranslations } from 'next-intl';
 
 /* * */
 

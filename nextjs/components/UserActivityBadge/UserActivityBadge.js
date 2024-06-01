@@ -1,6 +1,7 @@
-import styles from './UserActivityBadge.module.css';
-import { useTranslations, useFormatter, useNow } from 'next-intl';
+import { useFormatter, useNow, useTranslations } from 'next-intl';
+
 import Text from '../Text/Text';
+import styles from './UserActivityBadge.module.css';
 
 export default function UserActivityBadge({ last_active }) {
 	//

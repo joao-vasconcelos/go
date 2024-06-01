@@ -2,11 +2,11 @@
 
 export const FareDefault = {
 	code: '',
-	name: '',
-	short_name: '',
-	price: 0,
 	currency_type: 'EUR',
-	payment_method: '0',
-	transfers: '0',
 	is_locked: false,
+	name: '',
+	payment_method: '0',
+	price: 0,
+	short_name: '',
+	transfers: '0',
 };

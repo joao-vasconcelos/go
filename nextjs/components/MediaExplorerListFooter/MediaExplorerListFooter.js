@@ -2,9 +2,9 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { useMediaExplorerContext } from '@/contexts/MediaExplorerContext';
 import ListFooter from '@/components/ListFooter/ListFooter';
+import { useMediaExplorerContext } from '@/contexts/MediaExplorerContext';
+import { useTranslations } from 'next-intl';
 
 /* * */
 

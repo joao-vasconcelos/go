@@ -1,15 +1,15 @@
 /* * */
 
 export const TagDefault = {
-	//
-	created_by: '',
+	color: '#5aaf00',
 	created_at: '',
 	//
-	label: '',
+	created_by: '',
 	description: '',
-	color: '#5aaf00',
-	text_color: '#ffffff',
 	//
 	is_locked: false,
+	//
+	label: '',
+	text_color: '#ffffff',
 	//
 };

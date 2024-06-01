@@ -2,10 +2,10 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import GlobalCheckboxCard from '@/components/GlobalCheckboxCard/GlobalCheckboxCard';
+import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -23,7 +23,7 @@ export default function UsersExplorerIdPagePermissionsConfigs() {
 
 	return (
 		<AppLayoutSection>
-			<GlobalCheckboxCard label={t('admin.label')} description={t('admin.description')} {...usersExplorerContext.form.getInputProps('permissions.configs.admin.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />
+			<GlobalCheckboxCard description={t('admin.description')} label={t('admin.label')} {...usersExplorerContext.form.getInputProps('permissions.configs.admin.is_allowed')} readOnly={usersExplorerContext.page.is_read_only} />
 		</AppLayoutSection>
 	);
 }

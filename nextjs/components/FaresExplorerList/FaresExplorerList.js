@@ -2,13 +2,13 @@
 
 /* * */
 
-import useSWR from 'swr';
-import Pannel from '@/components/Pannel/Pannel';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import FaresExplorerListItem from '@/components/FaresExplorerListItem/FaresExplorerListItem';
-import FaresExplorerListHeader from '@/components/FaresExplorerListHeader/FaresExplorerListHeader';
 import FaresExplorerListFooter from '@/components/FaresExplorerListFooter/FaresExplorerListFooter';
+import FaresExplorerListHeader from '@/components/FaresExplorerListHeader/FaresExplorerListHeader';
+import FaresExplorerListItem from '@/components/FaresExplorerListItem/FaresExplorerListItem';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import Pannel from '@/components/Pannel/Pannel';
 import { useFaresExplorerContext } from '@/contexts/FaresExplorerContext';
+import useSWR from 'swr';
 
 /* * */
 
@@ -29,8 +29,8 @@ export default function FaresExplorerList() {
 	// C. Render data
 
 	return (
-		<Pannel loading={allFaresLoading} validating={allFaresValidating} error={allFaresError} header={<FaresExplorerListHeader />} footer={<FaresExplorerListFooter />}>
-			{faresExplorerContext.list.items.length > 0 ? faresExplorerContext.list.items.map((item) => <FaresExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		<Pannel error={allFaresError} footer={<FaresExplorerListFooter />} header={<FaresExplorerListHeader />} loading={allFaresLoading} validating={allFaresValidating}>
+			{faresExplorerContext.list.items.length > 0 ? faresExplorerContext.list.items.map(item => <FaresExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
 		</Pannel>
 	);
 

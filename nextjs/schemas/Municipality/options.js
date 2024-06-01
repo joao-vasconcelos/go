@@ -8,9 +8,9 @@ export const MunicipalityOptions = {
    */
 
 	district: [
-		{ value: '07', label: 'Évora' },
-		{ value: '11', label: 'Lisboa' },
-		{ value: '15', label: 'Setúbal' },
+		{ label: 'Évora', value: '07' },
+		{ label: 'Lisboa', value: '11' },
+		{ label: 'Setúbal', value: '15' },
 	],
 
 	/*
@@ -18,9 +18,9 @@ export const MunicipalityOptions = {
    */
 
 	region: [
-		{ value: 'PT170', label: 'AML' },
-		{ value: 'PT16B', label: 'Oeste' },
-		{ value: 'PT187', label: 'Alentejo Central' },
+		{ label: 'AML', value: 'PT170' },
+		{ label: 'Oeste', value: 'PT16B' },
+		{ label: 'Alentejo Central', value: 'PT187' },
 	],
 
 	//

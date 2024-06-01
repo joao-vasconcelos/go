@@ -7,50 +7,50 @@ import mongoose from 'mongoose';
 export const AgencySchema = new mongoose.Schema(
 	{
 		code: {
-			type: String,
 			maxlength: 10,
+			type: String,
 			unique: true,
 		},
-		name: {
-			type: String,
-			maxlength: 50,
-		},
-		timezone: {
-			type: String,
-			maxlength: 50,
-		},
-		lang: {
-			type: String,
-			maxlength: 50,
-		},
-		phone: {
-			type: String,
-			maxlength: 50,
-		},
 		email: {
-			type: String,
 			maxlength: 50,
-		},
-		url: {
 			type: String,
-			maxlength: 50,
 		},
 		fare_url: {
-			type: String,
 			maxlength: 50,
+			type: String,
+		},
+		is_locked: {
+			type: Boolean,
+		},
+		lang: {
+			maxlength: 50,
+			type: String,
+		},
+		name: {
+			maxlength: 50,
+			type: String,
 		},
 		operation_start_date: {
-			type: String,
 			maxlength: 8,
+			type: String,
+		},
+		phone: {
+			maxlength: 50,
+			type: String,
 		},
 		price_per_km: {
 			type: Number,
 		},
+		timezone: {
+			maxlength: 50,
+			type: String,
+		},
 		total_vkm_per_year: {
 			type: Number,
 		},
-		is_locked: {
-			type: Boolean,
+		url: {
+			maxlength: 50,
+			type: String,
 		},
 	},
 	{ timestamps: true },

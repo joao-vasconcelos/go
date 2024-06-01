@@ -11,12 +11,12 @@ export default function generator({ length = 2, type = 'alphanumeric' }) {
 	let allowedCharacters;
 
 	switch (type) {
-	case 'numeric':
-		allowedCharacters = numericSet;
-		break;
-	default:
-		allowedCharacters = alphanumericSet;
-		break;
+		case 'numeric':
+			allowedCharacters = numericSet;
+			break;
+		default:
+			allowedCharacters = alphanumericSet;
+			break;
 	}
 
 	let result = '';

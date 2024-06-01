@@ -8,314 +8,314 @@ export const AuditTripSchema = new mongoose.Schema(
 	{
 		//
 		code: {
+			maxlength: 100,
 			// Code is = date|trip_id (unique trip_id)
 			type: String,
-			maxlength: 100,
 			unique: true,
 		},
-		//
-		status: {
+		docking_bay_type: {
+			maxlength: 2,
 			type: String,
+		},
+		flag_maintainer: {
+			maxlength: 2,
+			type: String,
+		},
+		has_abusive_parking: {
 			maxlength: 100,
-		},
-		//
-		trip_id: {
 			type: String,
+		},
+		has_audio_stop_info: {
 			maxlength: 100,
-		},
-		//
-		name: {
 			type: String,
+		},
+		has_bench: {
+			maxlength: 2,
+			type: String,
+		},
+		has_crossing: {
 			maxlength: 100,
-		},
-		name_new: {
 			type: String,
+		},
+		has_electricity: {
+			maxlength: 2,
+			type: String,
+		},
+		// Public Information
+		has_flag: {
+			maxlength: 2,
+			type: String,
+		},
+		has_h2oa_signage: {
 			maxlength: 100,
-		},
-		short_name: {
 			type: String,
+		},
+		has_lighting: {
+			maxlength: 2,
+			type: String,
+		},
+		has_mupi: {
+			maxlength: 2,
+			type: String,
+		},
+		has_network_map: {
 			maxlength: 100,
-		},
-		short_name_auto: {
-			type: Boolean,
-			default: true,
-		},
-		tts_name: {
 			type: String,
-			maxlength: 500,
-		},
-		latitude: {
-			type: Number,
-			required: true,
-		},
-		longitude: {
-			type: Number,
-			required: true,
-		},
-		platform_code: {
-			type: String,
-			maxlength: 100,
-		},
-		parent_station: {
-			type: String,
-			maxlength: 6,
-		},
-		operational_status: {
-			type: String,
-			maxlength: 25,
 		},
 
-		// Operation
-		zones: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Zone',
-			},
-		],
-
-		// Administrative
-		municipality: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Municipality',
-		},
-		parish_code: {
-			type: String,
+		has_pip_realtime: {
 			maxlength: 100,
-		},
-		parish_name: {
 			type: String,
-			maxlength: 100,
-		},
-		locality: {
-			type: String,
-			maxlength: 100,
-		},
-		jurisdiction: {
-			type: String,
-			maxlength: 100,
 		},
 
 		// Infrastructure
 		has_pole: {
-			type: String,
-			maxlength: 2,
 			default: '0',
-		},
-		has_shelter: {
-			type: String,
 			maxlength: 2,
-			default: '0',
-		},
-		shelter_code: {
 			type: String,
-			maxlength: 100,
-		},
-		shelter_maintainer: {
-			type: String,
-			maxlength: 100,
-		},
-		has_mupi: {
-			type: String,
-			maxlength: 2,
-		},
-		has_bench: {
-			type: String,
-			maxlength: 2,
-		},
-		has_trash_bin: {
-			type: String,
-			maxlength: 2,
-		},
-		has_lighting: {
-			type: String,
-			maxlength: 2,
-		},
-		has_electricity: {
-			type: String,
-			maxlength: 2,
-		},
-		docking_bay_type: {
-			type: String,
-			maxlength: 2,
-		},
-		last_infrastructure_maintenance: {
-			type: String,
-			maxlength: 100,
-		},
-		last_infrastructure_check: {
-			type: String,
-			maxlength: 100,
-		},
-
-		// Public Information
-		has_flag: {
-			type: String,
-			maxlength: 2,
-		},
-		flag_maintainer: {
-			type: String,
-			maxlength: 2,
 		},
 		has_pole_frame: {
-			type: String,
 			maxlength: 2,
-		},
-		shelter_frame_area_cm: {
 			type: String,
-			maxlength: 100,
-		},
-		has_pip_realtime: {
-			type: String,
-			maxlength: 100,
-		},
-		pip_real_time_code: {
-			type: String,
-			maxlength: 100,
-		},
-		has_h2oa_signage: {
-			type: String,
-			maxlength: 100,
 		},
 		has_schedules: {
-			type: String,
 			maxlength: 100,
-		},
-		has_network_map: {
 			type: String,
-			maxlength: 100,
 		},
-		last_schedules_maintenance: {
+		has_shelter: {
+			default: '0',
+			maxlength: 2,
 			type: String,
-			maxlength: 100,
 		},
-		last_schedules_check: {
-			type: String,
-			maxlength: 100,
-		},
-		last_flag_maintenance: {
-			type: String,
-			maxlength: 100,
-		},
-		last_flag_check: {
-			type: String,
-			maxlength: 100,
-		},
-
 		// Accessibility
 		has_sidewalk: {
-			type: String,
 			maxlength: 100,
+			type: String,
 		},
-		sidewalk_type: {
-			type: String,
+
+		has_tactile_access: {
 			maxlength: 100,
+			type: String,
 		},
 		has_tactile_schedules: {
-			type: String,
 			maxlength: 100,
+			type: String,
 		},
-		stop_access_type: {
+		has_trash_bin: {
+			maxlength: 2,
 			type: String,
-			maxlength: 100,
 		},
-		has_crossing: {
-			type: String,
-			maxlength: 100,
+		// Lock
+		is_locked: {
+			type: Boolean,
 		},
-		has_tactile_access: {
-			type: String,
+		jurisdiction: {
 			maxlength: 100,
-		},
-		has_abusive_parking: {
 			type: String,
-			maxlength: 100,
-		},
-		has_audio_stop_info: {
-			type: String,
-			maxlength: 100,
-		},
-		wheelchair_boarding: {
-			type: String,
-			maxlength: 100,
 		},
 		last_accessibility_check: {
-			type: String,
 			maxlength: 100,
+			type: String,
+		},
+		last_flag_check: {
+			maxlength: 100,
+			type: String,
+		},
+		last_flag_maintenance: {
+			maxlength: 100,
+			type: String,
+		},
+		last_infrastructure_check: {
+			maxlength: 100,
+			type: String,
+		},
+		last_infrastructure_maintenance: {
+			maxlength: 100,
+			type: String,
+		},
+		last_schedules_check: {
+			maxlength: 100,
+			type: String,
+		},
+		last_schedules_maintenance: {
+			maxlength: 100,
+			type: String,
+		},
+
+		latitude: {
+			required: true,
+			type: Number,
+		},
+		locality: {
+			maxlength: 100,
+			type: String,
+		},
+		longitude: {
+			required: true,
+			type: Number,
+		},
+		// Media
+		media: [
+			{
+				ref: 'Media',
+				type: mongoose.Schema.Types.ObjectId,
+			},
+		],
+		// Administrative
+		municipality: {
+			ref: 'Municipality',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+		//
+		name: {
+			maxlength: 100,
+			type: String,
+		},
+		name_new: {
+			maxlength: 100,
+			type: String,
+		},
+		near_airport: {
+			type: Boolean,
+		},
+		near_bike_parking: {
+			type: Boolean,
+		},
+		near_bike_sharing: {
+			type: Boolean,
+		},
+		near_boat: {
+			type: Boolean,
+		},
+		near_car_parking: {
+			type: Boolean,
+		},
+		near_fire_station: {
+			type: Boolean,
 		},
 
 		// Services
 		near_health_clinic: {
 			type: Boolean,
 		},
+		near_historic_building: {
+			type: Boolean,
+		},
 		near_hospital: {
 			type: Boolean,
 		},
-		near_university: {
-			type: Boolean,
-		},
-		near_school: {
+		near_light_rail: {
 			type: Boolean,
 		},
 		near_police_station: {
 			type: Boolean,
 		},
-		near_fire_station: {
+		near_school: {
 			type: Boolean,
 		},
 		near_shopping: {
 			type: Boolean,
 		},
-		near_historic_building: {
+		// Intermodal Connections
+		near_subway: {
+			type: Boolean,
+		},
+		near_train: {
 			type: Boolean,
 		},
 		near_transit_office: {
 			type: Boolean,
 		},
 
-		// Intermodal Connections
-		near_subway: {
+		near_university: {
 			type: Boolean,
 		},
-		near_light_rail: {
-			type: Boolean,
-		},
-		near_train: {
-			type: Boolean,
-		},
-		near_boat: {
-			type: Boolean,
-		},
-		near_airport: {
-			type: Boolean,
-		},
-		near_bike_sharing: {
-			type: Boolean,
-		},
-		near_bike_parking: {
-			type: Boolean,
-		},
-		near_car_parking: {
-			type: Boolean,
-		},
-
-		// Media
-		media: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Media',
-			},
-		],
-
 		// Comments
 		notes: {
-			type: String,
 			maxlength: 10000,
+			type: String,
+		},
+		operational_status: {
+			maxlength: 25,
+			type: String,
+		},
+		parent_station: {
+			maxlength: 6,
+			type: String,
+		},
+		parish_code: {
+			maxlength: 100,
+			type: String,
+		},
+		parish_name: {
+			maxlength: 100,
+			type: String,
+		},
+		pip_real_time_code: {
+			maxlength: 100,
+			type: String,
+		},
+		platform_code: {
+			maxlength: 100,
+			type: String,
+		},
+		shelter_code: {
+			maxlength: 100,
+			type: String,
 		},
 
-		// Lock
-		is_locked: {
+		shelter_frame_area_cm: {
+			maxlength: 100,
+			type: String,
+		},
+		shelter_maintainer: {
+			maxlength: 100,
+			type: String,
+		},
+		short_name: {
+			maxlength: 100,
+			type: String,
+		},
+		short_name_auto: {
+			default: true,
 			type: Boolean,
 		},
+		sidewalk_type: {
+			maxlength: 100,
+			type: String,
+		},
+		//
+		status: {
+			maxlength: 100,
+			type: String,
+		},
+		stop_access_type: {
+			maxlength: 100,
+			type: String,
+		},
+		//
+		trip_id: {
+			maxlength: 100,
+			type: String,
+		},
+
+		tts_name: {
+			maxlength: 500,
+			type: String,
+		},
+
+		wheelchair_boarding: {
+			maxlength: 100,
+			type: String,
+		},
+
+		// Operation
+		zones: [
+			{
+				ref: 'Zone',
+				type: mongoose.Schema.Types.ObjectId,
+			},
+		],
 
 		//
 	},
@@ -329,10 +329,10 @@ export const StopModel = mongoose?.models?.Stop || mongoose.model('Stop', StopSc
 /* * */
 
 export const DeletedStopSchema = new mongoose.Schema({
-	code: { type: String, maxlength: 6, unique: true },
-	name: { type: String, maxlength: 500 },
-	latitude: { type: Number, required: true },
-	longitude: { type: Number, required: true },
+	code: { maxlength: 6, type: String, unique: true },
+	latitude: { required: true, type: Number },
+	longitude: { required: true, type: Number },
+	name: { maxlength: 500, type: String },
 });
 
 /* * */

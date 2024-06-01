@@ -2,8 +2,8 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
 import { Anchor, Avatar, Group, Stack, Text } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -25,20 +25,20 @@ export default function UsersExplorerUserPopover({ userData }) {
 					{userData.name.substring(0, 2)}
 				</Avatar>
 				<Stack gap={5}>
-					<Text size="sm" fw={700} style={{ lineHeight: 1 }}>
+					<Text fw={700} size="sm" style={{ lineHeight: 1 }}>
 						{userData.name}
 					</Text>
-					<Anchor href={`mailto:${userData.email}`} c="dimmed" size="xs" style={{ lineHeight: 1 }}>
+					<Anchor c="dimmed" href={`mailto:${userData.email}`} size="xs" style={{ lineHeight: 1 }}>
 						{userData.email}
 					</Anchor>
 				</Stack>
 			</Group>
-			<Text size="sm" mt="md">
-        Customizable React components and hooks library with focus on usability, accessibility and developer experience
+			<Text mt="md" size="sm">
+				Customizable React components and hooks library with focus on usability, accessibility and developer experience
 			</Text>
-			<Group mt="md" gap="xl">
+			<Group gap="xl" mt="md">
 				<Text size="sm">
-          Última atividade <b>{userData.last_active}</b>
+					Última atividade <b>{userData.last_active}</b>
 				</Text>
 			</Group>
 		</>

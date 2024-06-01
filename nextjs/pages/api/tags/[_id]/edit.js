@@ -1,10 +1,10 @@
 /* * */
 
-import mongodb from '@/services/OFFERMANAGERDB';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import { TagValidation } from '@/schemas/Tag/validation';
 import { TagModel } from '@/schemas/Tag/model';
+import { TagValidation } from '@/schemas/Tag/validation';
+import mongodb from '@/services/OFFERMANAGERDB';
 
 /* * */
 
@@ -30,8 +30,9 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-		isAllowed(sessionData, [{ scope: 'tags', action: 'edit' }]);
-	} catch (error) {
+		isAllowed(sessionData, [{ action: 'edit', scope: 'tags' }]);
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
 	}
@@ -41,7 +42,8 @@ export default async function handler(req, res) {
 
 	try {
 		await mongodb.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'MongoDB connection error.' });
 	}
@@ -51,7 +53,8 @@ export default async function handler(req, res) {
 
 	try {
 		await TagModel.syncIndexes();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot sync indexes.' });
 	}
@@ -61,7 +64,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = await JSON.parse(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		await res.status(500).json({ message: 'JSON parse error.' });
 		return;
@@ -72,7 +76,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = TagValidation.cast(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: JSON.parse(error.message)[0].message });
 	}
@@ -83,7 +88,8 @@ export default async function handler(req, res) {
 	try {
 		foundDocument = await TagModel.findOne({ _id: { $eq: req.query._id } });
 		if (!foundDocument) return await res.status(404).json({ message: `Tag with _id "${req.query._id}" not found.` });
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Tag not found.' });
 	}
@@ -104,7 +110,8 @@ export default async function handler(req, res) {
 		if (foundDocumentWithTagCode && foundDocumentWithTagCode._id != req.query._id) {
 			throw new Error('An Tag with the same "label" already exists.');
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(409).json({ message: error.message });
 	}
@@ -116,7 +123,8 @@ export default async function handler(req, res) {
 		const editedDocument = await TagModel.replaceOne({ _id: { $eq: req.query._id } }, req.body, { new: true });
 		if (!editedDocument) return await res.status(404).json({ message: `Tag with _id "${req.query._id}" not found.` });
 		return await res.status(200).json(editedDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot update this Tag.' });
 	}

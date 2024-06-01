@@ -2,15 +2,15 @@
 
 /* * */
 
-import useSWR from 'swr';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import ListHeader from '@/components/ListHeader/ListHeader';
+import SearchField from '@/components/SearchField/SearchField';
+import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
+import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconDots, IconFileDownload, IconPlus, IconRefresh } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
-import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
-import SearchField from '@/components/SearchField/SearchField';
-import ListHeader from '@/components/ListHeader/ListHeader';
-import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
-import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
+import useSWR from 'swr';
 
 /* * */
 
@@ -34,37 +34,37 @@ export default function StopsExplorerListHeader() {
 
 	return (
 		<ListHeader>
-			<SearchField query={stopsExplorerContext.list.search_query} onChange={stopsExplorerContext.updateSearchQuery} />
-			<Menu shadow="md" position="bottom-end">
+			<SearchField onChange={stopsExplorerContext.updateSearchQuery} query={stopsExplorerContext.list.search_query} />
+			<Menu position="bottom-end" shadow="md">
 				<Menu.Target>
-					<ActionIcon variant="light" size="lg" color="gray" loading={allStopsLoading}>
+					<ActionIcon color="gray" loading={allStopsLoading} size="lg" variant="light">
 						<IconDots size={20} />
 					</ActionIcon>
 				</Menu.Target>
 				<Menu.Dropdown>
-					<AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'create' }]}>
+					<AppAuthenticationCheck permissions={[{ action: 'create', scope: 'stops' }]}>
 						<Menu.Item leftSection={<IconPlus size={20} />} onClick={stopsExplorerNewStopWizardContext.openWizard}>
 							{t('operations.create.title')}
 						</Menu.Item>
 					</AppAuthenticationCheck>
 					<Menu.Divider />
-					<AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'export' }]}>
+					<AppAuthenticationCheck permissions={[{ action: 'export', scope: 'stops' }]}>
 						<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={stopsExplorerContext.exportAsFile}>
 							{t('operations.export.title')}
 						</Menu.Item>
 					</AppAuthenticationCheck>
-					<AppAuthenticationCheck permissions={[{ scope: 'stops', action: 'export' }]}>
+					<AppAuthenticationCheck permissions={[{ action: 'export', scope: 'stops' }]}>
 						<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={stopsExplorerContext.exportDeletedAsFile}>
 							{t('operations.export_deleted.title')}
 						</Menu.Item>
 					</AppAuthenticationCheck>
 					<Menu.Divider />
-					<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
+					<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]}>
 						<Menu.Item leftSection={<IconRefresh size={20} />} onClick={stopsExplorerContext.syncWithDatasets}>
 							{t('operations.sync_datasets.title')}
 						</Menu.Item>
 					</AppAuthenticationCheck>
-					<AppAuthenticationCheck permissions={[{ scope: 'configs', action: 'admin' }]}>
+					<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]}>
 						<Menu.Item leftSection={<IconRefresh size={20} />} onClick={stopsExplorerContext.syncWithIntermodal}>
 							{t('operations.sync_intermodal.title')}
 						</Menu.Item>

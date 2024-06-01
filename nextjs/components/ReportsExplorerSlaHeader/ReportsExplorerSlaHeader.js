@@ -1,12 +1,13 @@
 /* * */
 
-import { useTranslations } from 'next-intl';
-import Text from '@/components/Text/Text';
-import styles from './ReportsExplorerSlaHeader.module.css';
-import ListHeader from '@/components/ListHeader/ListHeader';
 import AppButtonBack from '@/components/AppButtonBack/AppButtonBack';
+import ListHeader from '@/components/ListHeader/ListHeader';
 import ReportsExplorerSlaHeaderToolbar from '@/components/ReportsExplorerSlaHeaderToolbar/ReportsExplorerSlaHeaderToolbar';
+import Text from '@/components/Text/Text';
 import { Divider } from '@mantine/core';
+import { useTranslations } from 'next-intl';
+
+import styles from './ReportsExplorerSlaHeader.module.css';
 
 /* * */
 
@@ -24,12 +25,12 @@ export default function ReportsExplorerSlaHeader() {
 	return (
 		<div className={styles.container}>
 			<ListHeader>
-				<AppButtonBack href={'/reports'} />
+				<AppButtonBack href="/reports" />
 				<Text size="h1" full>
 					{t('title')}
 				</Text>
 			</ListHeader>
-			<Divider/>
+			<Divider />
 			<ReportsExplorerSlaHeaderToolbar />
 		</div>
 	);

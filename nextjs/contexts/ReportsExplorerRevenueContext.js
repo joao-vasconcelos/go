@@ -2,12 +2,12 @@
 
 /* * */
 
+import { ReportRevenueDefault, ReportRevenueMultipliersDefault } from '@/schemas/Report/Revenue/default';
+import { ReportRevenueMultipliersValidation, ReportRevenueValidation } from '@/schemas/Report/Revenue/validation';
 import API from '@/services/API';
 import parseDate from '@/services/parseDate';
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { ReportRevenueDefault, ReportRevenueMultipliersDefault } from '@/schemas/Report/Revenue/default';
-import { ReportRevenueValidation, ReportRevenueMultipliersValidation } from '@/schemas/Report/Revenue/validation';
 import { useForm, yupResolver } from '@mantine/form';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 /* * */
 
@@ -16,25 +16,25 @@ import { useForm, yupResolver } from '@mantine/form';
 
 const initialRequestState = {
 	//
-	is_loading: false,
-	is_success: false,
+	agency_code: null,
+	end_date: null,
 	is_error: false,
 	//
-	agency_code: null,
+	is_loading: false,
+	is_success: false,
 	start_date: null,
-	end_date: null,
+	summary_frequent: null,
 	//
 	summary_onboard: null,
 	summary_prepaid: null,
-	summary_frequent: null,
 	//
 };
 
 const initialDetailsState = {
+	is_error: false,
 	//
 	is_loading: false,
 	is_success: false,
-	is_error: false,
 	//
 };
 
@@ -72,19 +72,19 @@ export function ReportsExplorerRevenueContextProvider({ children }) {
 	// C. Setup form
 
 	const formState = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: ReportRevenueDefault,
+		validate: yupResolver(ReportRevenueValidation),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(ReportRevenueValidation),
-		initialValues: ReportRevenueDefault,
 	});
 
 	const multipliersState = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: ReportRevenueMultipliersDefault,
+		validate: yupResolver(ReportRevenueMultipliersValidation),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(ReportRevenueMultipliersValidation),
-		initialValues: ReportRevenueMultipliersDefault,
 	});
 
 	//
@@ -99,8 +99,8 @@ export function ReportsExplorerRevenueContextProvider({ children }) {
 		// Parse request body
 		return {
 			agency_code: formState.values.agency_code,
-			start_date: parseDate(formState.values.start_date),
 			end_date: parseDate(formState.values.end_date),
+			start_date: parseDate(formState.values.start_date),
 		};
 	}, [formState.values.agency_code, formState.values.end_date, formState.values.start_date]);
 
@@ -114,66 +114,70 @@ export function ReportsExplorerRevenueContextProvider({ children }) {
 			const requestBody = getRequestBodyFormatted();
 			// Fetch the trips summary
 			const reportValues = await Promise.all([
-				API({ service: 'reports/revenue/onboard', operation: 'summary', method: 'POST', body: requestBody }),
-				API({ service: 'reports/revenue/prepaid', operation: 'summary', method: 'POST', body: requestBody }),
-				API({ service: 'reports/revenue/frequent', operation: 'summary', method: 'POST', body: requestBody }),
+				API({ body: requestBody, method: 'POST', operation: 'summary', service: 'reports/revenue/onboard' }),
+				API({ body: requestBody, method: 'POST', operation: 'summary', service: 'reports/revenue/prepaid' }),
+				API({ body: requestBody, method: 'POST', operation: 'summary', service: 'reports/revenue/frequent' }),
 			]);
 			// Update state to indicate progress
-			setRequestState({ ...initialRequestState, is_success: true, summary_onboard: reportValues[0], summary_prepaid: reportValues[1], summary_frequent: reportValues[2] });
+			setRequestState({ ...initialRequestState, is_success: true, summary_frequent: reportValues[2], summary_onboard: reportValues[0], summary_prepaid: reportValues[1] });
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			setRequestState({ ...initialRequestState, is_error: error.message });
 		}
 	}, [formState.values.agency_code, formState.values.end_date, formState.values.start_date, getRequestBodyFormatted]);
 
 	const downloadOnboardDetail = useCallback(async () => {
 		try {
-			setDetailsState((prev) => ({ ...prev, is_loading: true, is_error: false }));
+			setDetailsState(prev => ({ ...prev, is_error: false, is_loading: true }));
 			const requestBody = getRequestBodyFormatted();
-			const responseBlob = await API({ service: 'reports/revenue/onboard', operation: 'detail', method: 'POST', body: requestBody, parseType: 'blob' });
+			const responseBlob = await API({ body: requestBody, method: 'POST', operation: 'detail', parseType: 'blob', service: 'reports/revenue/onboard' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			const zipDownload = document.createElement('a');
 			zipDownload.href = objectURL;
 			zipDownload.download = 'report.csv';
 			document.body.appendChild(zipDownload);
 			zipDownload.click();
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: false }));
-		} catch (error) {
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: error.message }));
+			setDetailsState(prev => ({ ...prev, is_error: false, is_loading: false }));
+		}
+		catch (error) {
+			setDetailsState(prev => ({ ...prev, is_error: error.message, is_loading: false }));
 		}
 	}, [getRequestBodyFormatted]);
 
 	const downloadPrepaidDetail = useCallback(async () => {
 		try {
-			setDetailsState((prev) => ({ ...prev, is_loading: true, is_error: false }));
+			setDetailsState(prev => ({ ...prev, is_error: false, is_loading: true }));
 			const requestBody = getRequestBodyFormatted();
-			const responseBlob = await API({ service: 'reports/revenue/prepaid', operation: 'detail', method: 'POST', body: requestBody, parseType: 'blob' });
+			const responseBlob = await API({ body: requestBody, method: 'POST', operation: 'detail', parseType: 'blob', service: 'reports/revenue/prepaid' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			const zipDownload = document.createElement('a');
 			zipDownload.href = objectURL;
 			zipDownload.download = 'report.csv';
 			document.body.appendChild(zipDownload);
 			zipDownload.click();
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: false }));
-		} catch (error) {
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: error.message }));
+			setDetailsState(prev => ({ ...prev, is_error: false, is_loading: false }));
+		}
+		catch (error) {
+			setDetailsState(prev => ({ ...prev, is_error: error.message, is_loading: false }));
 		}
 	}, [getRequestBodyFormatted]);
 
 	const downloadFrequentDetail = useCallback(async () => {
 		try {
-			setDetailsState((prev) => ({ ...prev, is_loading: true, is_error: false }));
+			setDetailsState(prev => ({ ...prev, is_error: false, is_loading: true }));
 			const requestBody = getRequestBodyFormatted();
-			const responseBlob = await API({ service: 'reports/revenue/frequent', operation: 'detail', method: 'POST', body: requestBody, parseType: 'blob' });
+			const responseBlob = await API({ body: requestBody, method: 'POST', operation: 'detail', parseType: 'blob', service: 'reports/revenue/frequent' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			const zipDownload = document.createElement('a');
 			zipDownload.href = objectURL;
 			zipDownload.download = 'report.csv';
 			document.body.appendChild(zipDownload);
 			zipDownload.click();
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: false }));
-		} catch (error) {
-			setDetailsState((prev) => ({ ...prev, is_loading: false, is_error: error.message }));
+			setDetailsState(prev => ({ ...prev, is_error: false, is_loading: false }));
+		}
+		catch (error) {
+			setDetailsState(prev => ({ ...prev, is_error: error.message, is_loading: false }));
 		}
 	}, [getRequestBodyFormatted]);
 
@@ -183,20 +187,20 @@ export function ReportsExplorerRevenueContextProvider({ children }) {
 	const contextObject = useMemo(
 		() => ({
 			//
-			form: formState,
-			request: requestState,
-			multipliers: multipliersState,
-			details: detailsState,
-			//
 			clearAllData: clearAllData,
-			//
-			getRequestBodyFormatted: getRequestBodyFormatted,
-			//
-			fetchSummaries: fetchSummaries,
+			details: detailsState,
+			downloadFrequentDetail: downloadFrequentDetail,
 			//
 			downloadOnboardDetail: downloadOnboardDetail,
 			downloadPrepaidDetail: downloadPrepaidDetail,
-			downloadFrequentDetail: downloadFrequentDetail,
+			//
+			fetchSummaries: fetchSummaries,
+			//
+			form: formState,
+			//
+			getRequestBodyFormatted: getRequestBodyFormatted,
+			multipliers: multipliersState,
+			request: requestState,
 			//
 		}),
 		[formState, requestState, multipliersState, detailsState, clearAllData, getRequestBodyFormatted, fetchSummaries, downloadOnboardDetail, downloadPrepaidDetail, downloadFrequentDetail],

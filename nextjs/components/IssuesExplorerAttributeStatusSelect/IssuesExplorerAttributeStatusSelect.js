@@ -2,17 +2,18 @@
 
 /* * */
 
-import { useMemo } from 'react';
+import IssuesExplorerAttributeStatus from '@/components/IssuesExplorerAttributeStatus/IssuesExplorerAttributeStatus';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import { IssueOptions } from '@/schemas/Issue/options';
 import { Box, Combobox, useCombobox } from '@mantine/core';
 import { IconCircle, IconCircleCheckFilled } from '@tabler/icons-react';
-import IssuesExplorerAttributeStatus from '@/components/IssuesExplorerAttributeStatus/IssuesExplorerAttributeStatus';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import { useMemo } from 'react';
+
 import styles from './IssuesExplorerAttributeStatusSelect.module.css';
 
 /* * */
 
-export default function IssuesExplorerAttributeStatusSelect({ value, onChange }) {
+export default function IssuesExplorerAttributeStatusSelect({ onChange, value }) {
 	//
 
 	//
@@ -27,7 +28,7 @@ export default function IssuesExplorerAttributeStatusSelect({ value, onChange })
 		// Exit if no data is available
 		if (!IssueOptions.status) return [];
 		// For each status check if it associated with the current issue or not
-		return IssueOptions.status.map((item) => ({ value: item, is_selected: value === item }));
+		return IssueOptions.status.map(item => ({ is_selected: value === item, value: item }));
 		//
 	}, [value]);
 
@@ -43,20 +44,21 @@ export default function IssuesExplorerAttributeStatusSelect({ value, onChange })
 	// D. Render components
 
 	return (
-		<Combobox store={combobox} onOptionSubmit={handleOptionSubmit} withinPortal={false} position="bottom-start" shadow="md" withArrow>
+		<Combobox onOptionSubmit={handleOptionSubmit} position="bottom-start" shadow="md" store={combobox} withinPortal={false} withArrow>
 			<Combobox.Target>
-				<Box onClick={combobox.toggleDropdown} className={styles.target}>
+				<Box className={styles.target} onClick={combobox.toggleDropdown}>
 					<IssuesExplorerAttributeStatus value={value} />
 				</Box>
 			</Combobox.Target>
 			<Combobox.Dropdown className={styles.dropdown}>
-				{allStatusDataFormatted.length > 0 ?
-					allStatusDataFormatted.map((itemData) => <Combobox.Option key={itemData.value} value={itemData.value} className={styles.option}>
-						{itemData.is_selected ? <IconCircleCheckFilled size={18} /> : <IconCircle size={18} />}
-						<IssuesExplorerAttributeStatus value={itemData.value} />
-					</Combobox.Option>) :
-					<NoDataLabel fill />
-				}
+				{allStatusDataFormatted.length > 0
+					? allStatusDataFormatted.map(itemData => (
+						<Combobox.Option key={itemData.value} className={styles.option} value={itemData.value}>
+							{itemData.is_selected ? <IconCircleCheckFilled size={18} /> : <IconCircle size={18} />}
+							<IssuesExplorerAttributeStatus value={itemData.value} />
+						</Combobox.Option>
+					))
+					: <NoDataLabel fill />}
 			</Combobox.Dropdown>
 		</Combobox>
 	);

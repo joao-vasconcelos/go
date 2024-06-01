@@ -2,11 +2,12 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
-import styles from './StopsExplorerNewStopWizardSteps3Summary.module.css';
-import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
 import Loader from '@/components/Loader/Loader';
+import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
+import { useTranslations } from 'next-intl';
+import useSWR from 'swr';
+
+import styles from './StopsExplorerNewStopWizardSteps3Summary.module.css';
 
 /* * */
 

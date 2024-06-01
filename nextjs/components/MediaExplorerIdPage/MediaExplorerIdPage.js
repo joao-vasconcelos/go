@@ -2,13 +2,13 @@
 
 /* * */
 
+import { Section } from '@/components/Layouts/Layouts';
+import MediaExplorerIdPageHeader from '@/components/MediaExplorerIdPageHeader/MediaExplorerIdPageHeader';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
-import { Section } from '@/components/Layouts/Layouts';
-import { useTranslations } from 'next-intl';
-import { SimpleGrid, TextInput, Divider, ColorInput } from '@mantine/core';
 import { useMediaExplorerContext } from '@/contexts/MediaExplorerContext';
-import MediaExplorerIdPageHeader from '@/components/MediaExplorerIdPageHeader/MediaExplorerIdPageHeader';
+import { ColorInput, Divider, SimpleGrid, TextInput } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -25,7 +25,7 @@ export default function MediaExplorerIdPage() {
 	// B. Render components
 
 	return (
-		<Pannel loading={mediaExplorerContext.page.is_loading} header={<MediaExplorerIdPageHeader />}>
+		<Pannel header={<MediaExplorerIdPageHeader />} loading={mediaExplorerContext.page.is_loading}>
 			<Section>
 				<div>
 					<Text size="h2">{t('sections.config.title')}</Text>

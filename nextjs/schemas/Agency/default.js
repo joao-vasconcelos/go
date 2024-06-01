@@ -2,15 +2,15 @@
 
 export const AgencyDefault = {
 	code: '',
-	name: '',
-	timezone: '',
-	lang: '',
-	phone: '',
 	email: '',
-	url: '',
 	fare_url: '',
-	operation_start_date: null,
-	price_per_km: 0,
-	total_vkm_per_year: 0,
 	is_locked: false,
+	lang: '',
+	name: '',
+	operation_start_date: null,
+	phone: '',
+	price_per_km: 0,
+	timezone: '',
+	total_vkm_per_year: 0,
+	url: '',
 };

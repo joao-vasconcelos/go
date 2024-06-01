@@ -3,11 +3,12 @@
 import { Box, Tooltip } from '@mantine/core';
 import { IconClock } from '@tabler/icons-react';
 import { useFormatter, useNow } from 'next-intl';
+
 import styles from './GlobalDateFormatter.module.css';
 
 /* * */
 
-export default function GlobalDateFormatter({ value, icon }) {
+export default function GlobalDateFormatter({ icon, value }) {
 	//
 
 	//

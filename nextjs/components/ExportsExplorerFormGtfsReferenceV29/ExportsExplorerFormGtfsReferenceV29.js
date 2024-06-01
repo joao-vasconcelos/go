@@ -2,14 +2,14 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
-import { SimpleGrid, Select, MultiSelect, Divider, Switch, NumberInput } from '@mantine/core';
 import { Section } from '@/components/Layouts/Layouts';
-import { useMemo } from 'react';
+import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
+import { Divider, MultiSelect, NumberInput, Select, SimpleGrid, Switch } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { DateTime } from 'luxon';
-import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -33,19 +33,19 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 
 	const availableAgencies = useMemo(() => {
 		if (!allAgenciesData) return [];
-		return allAgenciesData.map((agency) => ({ value: agency._id, label: agency.name || '-' }));
+		return allAgenciesData.map(agency => ({ label: agency.name || '-', value: agency._id }));
 	}, [allAgenciesData]);
 
 	const availableLinesToInclude = useMemo(() => {
 		if (!allLinesData && !exportsExplorerContext.form_gtfs_v29.values.agency_id) return [];
-		const filteredLinesBySelectedAgency = allLinesData.filter((item) => item.agency === exportsExplorerContext.form_gtfs_v29.values.agency_id);
-		return filteredLinesBySelectedAgency.map((item) => ({ value: item._id, label: `(${item.short_name}) ${item.name}` }));
+		const filteredLinesBySelectedAgency = allLinesData.filter(item => item.agency === exportsExplorerContext.form_gtfs_v29.values.agency_id);
+		return filteredLinesBySelectedAgency.map(item => ({ label: `(${item.short_name}) ${item.name}`, value: item._id }));
 	}, [allLinesData, exportsExplorerContext.form_gtfs_v29.values.agency_id]);
 
 	const availableLinesToExclude = useMemo(() => {
 		if (!allLinesData || !exportsExplorerContext.form_gtfs_v29.values.agency_id) return [];
-		const filteredLinesBySelectedAgency = allLinesData.filter((item) => item.agency === exportsExplorerContext.form_gtfs_v29.values.agency_id);
-		return filteredLinesBySelectedAgency.map((item) => ({ value: item._id, label: `(${item.short_name}) ${item.name}` }));
+		const filteredLinesBySelectedAgency = allLinesData.filter(item => item.agency === exportsExplorerContext.form_gtfs_v29.values.agency_id);
+		return filteredLinesBySelectedAgency.map(item => ({ label: `(${item.short_name}) ${item.name}`, value: item._id }));
 	}, [allLinesData, exportsExplorerContext.form_gtfs_v29.values.agency_id]);
 
 	//
@@ -58,7 +58,7 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 		const firstDayOfNextMonth = DateTime.now().plus({ months: 1 }).startOf('month');
 		exportsExplorerContext.form_gtfs_v29.setFieldValue('feed_start_date', firstDayOfNextMonth.toJSDate());
 		// Get the selected agency data
-		const agencyData = allAgenciesData.find((agency) => agency._id === agencyId);
+		const agencyData = allAgenciesData.find(agency => agency._id === agencyId);
 		// Exit if no agency found or agency has not set an operation start date
 		if (!agencyData || !agencyData.operation_start_date) return;
 		// Setup variables to hold the start and end dates of the current operational year
@@ -69,14 +69,15 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 		// If now is before the start date of the operationation if it was this year...
 		if (agencyId === '645d7f204ef63aec14fbf22a') {
 			// If A4 then start the next month until the end of the contract
-			const endOfContractStartDate = DateTime.now().set({ year: 2029, month: 12, day: 31 }).endOf('month');
-			const nextMonthStartDatePlusOneYear = firstDayOfNextMonth.plus({ year: 1, day: -1 }).endOf('month');
+			const endOfContractStartDate = DateTime.now().set({ day: 31, month: 12, year: 2029 }).endOf('month');
+			const nextMonthStartDatePlusOneYear = firstDayOfNextMonth.plus({ day: -1, year: 1 }).endOf('month');
 			// Set the corresponding fields
 			exportsExplorerContext.form_gtfs_v29.setFieldValue('calendars_clip_start_date', firstDayOfNextMonth.toJSDate());
 			exportsExplorerContext.form_gtfs_v29.setFieldValue('calendars_clip_end_date', endOfContractStartDate.toJSDate());
 			exportsExplorerContext.form_gtfs_v29.setFieldValue('feed_end_date', nextMonthStartDatePlusOneYear.toJSDate());
 			exportsExplorerContext.form_gtfs_v29.setFieldValue('numeric_calendar_codes', true);
-		} else if (DateTime.now() < operationStartDate.set({ year: DateTime.now().year })) {
+		}
+		else if (DateTime.now() < operationStartDate.set({ year: DateTime.now().year })) {
 			// ...then it means the current operation year started last year
 			currentOperationYearStartDate = operationStartDate.set({ year: DateTime.now().year - 1 });
 			currentOperationYearEndDate = currentOperationYearStartDate.plus({ year: 1 }).minus({ day: 1 });
@@ -85,7 +86,8 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 			exportsExplorerContext.form_gtfs_v29.setFieldValue('calendars_clip_end_date', currentOperationYearEndDate.toJSDate());
 			exportsExplorerContext.form_gtfs_v29.setFieldValue('feed_end_date', currentOperationYearEndDate.toJSDate());
 			//
-		} else {
+		}
+		else {
 			// ...else it means the current operation year is in the current year
 			currentOperationYearStartDate = operationStartDate.set({ year: DateTime.now().year });
 			currentOperationYearEndDate = currentOperationYearStartDate.plus({ year: 1 }).minus({ day: 1 });
@@ -107,15 +109,15 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 		<>
 			<Section>
 				<Select
-					label={t('form.agencies.label')}
-					description={t('form.agencies.description')}
-					placeholder={t('form.agencies.placeholder')}
-					nothingFoundMessage={t('form.agencies.nothingFound')}
 					data={availableAgencies}
+					description={t('form.agencies.description')}
+					label={t('form.agencies.label')}
+					nothingFoundMessage={t('form.agencies.nothingFound')}
+					placeholder={t('form.agencies.placeholder')}
 					{...exportsExplorerContext.form_gtfs_v29.getInputProps('agency_id')}
 					onChange={handleSelectAgency}
-					searchable
 					clearable
+					searchable
 				/>
 			</Section>
 
@@ -123,26 +125,26 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 
 			<Section>
 				<MultiSelect
-					label={t('form.lines_include.label')}
-					placeholder={t('form.lines_include.placeholder')}
-					description={t('form.lines_include.description')}
-					nothingFoundMessage={t('form.lines_include.nothingFound')}
 					data={availableLinesToInclude}
+					description={t('form.lines_include.description')}
+					label={t('form.lines_include.label')}
+					nothingFoundMessage={t('form.lines_include.nothingFound')}
+					placeholder={t('form.lines_include.placeholder')}
 					{...exportsExplorerContext.form_gtfs_v29.getInputProps('lines_include')}
 					disabled={!exportsExplorerContext.form_gtfs_v29.values.agency_id || exportsExplorerContext.form_gtfs_v29.values.lines_exclude.length > 0}
-					searchable
 					clearable
+					searchable
 				/>
 				<MultiSelect
-					label={t('form.lines_exclude.label')}
-					placeholder={t('form.lines_exclude.placeholder')}
-					description={t('form.lines_exclude.description')}
-					nothingFoundMessage={t('form.lines_exclude.nothingFound')}
 					data={availableLinesToExclude}
+					description={t('form.lines_exclude.description')}
+					label={t('form.lines_exclude.label')}
+					nothingFoundMessage={t('form.lines_exclude.nothingFound')}
+					placeholder={t('form.lines_exclude.placeholder')}
 					{...exportsExplorerContext.form_gtfs_v29.getInputProps('lines_exclude')}
 					disabled={!exportsExplorerContext.form_gtfs_v29.values.agency_id || exportsExplorerContext.form_gtfs_v29.values.lines_include.length > 0}
-					searchable
 					clearable
+					searchable
 				/>
 			</Section>
 
@@ -151,8 +153,8 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 			<Section>
 				<SimpleGrid cols={2}>
 					<DatePickerInput
-						label={t('form.feed_start_date.label')}
 						description={t('form.feed_start_date.description')}
+						label={t('form.feed_start_date.label')}
 						placeholder={t('form.feed_start_date.placeholder')}
 						{...exportsExplorerContext.form_gtfs_v29.getInputProps('feed_start_date')}
 						disabled={!exportsExplorerContext.form_gtfs_v29.values.agency_id}
@@ -160,13 +162,13 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 						clearable
 					/>
 					<DatePickerInput
-						label={t('form.feed_end_date.label')}
 						description={t('form.feed_end_date.description')}
+						label={t('form.feed_end_date.label')}
 						placeholder={t('form.feed_end_date.placeholder')}
 						{...exportsExplorerContext.form_gtfs_v29.getInputProps('feed_end_date')}
 						disabled={!exportsExplorerContext.form_gtfs_v29.values.feed_start_date}
-						minDate={exportsExplorerContext.form_gtfs_v29.values.feed_start_date}
 						dropdownType="modal"
+						minDate={exportsExplorerContext.form_gtfs_v29.values.feed_start_date}
 						clearable
 					/>
 				</SimpleGrid>
@@ -177,35 +179,36 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 			<Section>
 				<SimpleGrid cols={1}>
 					<Switch
-						label={t('form.clip_calendars.label')}
 						description={t('form.clip_calendars.description')}
+						label={t('form.clip_calendars.label')}
 						{...exportsExplorerContext.form_gtfs_v29.getInputProps('clip_calendars', { type: 'checkbox' })}
 						disabled={!exportsExplorerContext.form_gtfs_v29.values.agency_id || !exportsExplorerContext.form_gtfs_v29.values.feed_start_date || !exportsExplorerContext.form_gtfs_v29.values.feed_end_date}
 					/>
 				</SimpleGrid>
-				{exportsExplorerContext.form_gtfs_v29.values.clip_calendars &&
-          <SimpleGrid cols={2}>
-          	<DatePickerInput
-          		label={t('form.calendars_clip_start_date.label')}
-          		description={t('form.calendars_clip_start_date.description')}
-          		placeholder={t('form.calendars_clip_start_date.placeholder')}
-          		{...exportsExplorerContext.form_gtfs_v29.getInputProps('calendars_clip_start_date')}
-          		disabled={!exportsExplorerContext.form_gtfs_v29.values.agency_id}
-          		dropdownType="modal"
-          		clearable
-          	/>
-          	<DatePickerInput
-          		label={t('form.calendars_clip_end_date.label')}
-          		description={t('form.calendars_clip_end_date.description')}
-          		placeholder={t('form.calendars_clip_end_date.placeholder')}
-          		{...exportsExplorerContext.form_gtfs_v29.getInputProps('calendars_clip_end_date')}
-          		disabled={!exportsExplorerContext.form_gtfs_v29.values.calendars_clip_start_date}
-          		minDate={exportsExplorerContext.form_gtfs_v29.values.calendars_clip_start_date}
-          		dropdownType="modal"
-          		clearable
-          	/>
-          </SimpleGrid>
-				}
+				{exportsExplorerContext.form_gtfs_v29.values.clip_calendars
+				&& (
+					<SimpleGrid cols={2}>
+						<DatePickerInput
+							description={t('form.calendars_clip_start_date.description')}
+							label={t('form.calendars_clip_start_date.label')}
+							placeholder={t('form.calendars_clip_start_date.placeholder')}
+							{...exportsExplorerContext.form_gtfs_v29.getInputProps('calendars_clip_start_date')}
+							disabled={!exportsExplorerContext.form_gtfs_v29.values.agency_id}
+							dropdownType="modal"
+							clearable
+						/>
+						<DatePickerInput
+							description={t('form.calendars_clip_end_date.description')}
+							label={t('form.calendars_clip_end_date.label')}
+							placeholder={t('form.calendars_clip_end_date.placeholder')}
+							{...exportsExplorerContext.form_gtfs_v29.getInputProps('calendars_clip_end_date')}
+							disabled={!exportsExplorerContext.form_gtfs_v29.values.calendars_clip_start_date}
+							dropdownType="modal"
+							minDate={exportsExplorerContext.form_gtfs_v29.values.calendars_clip_start_date}
+							clearable
+						/>
+					</SimpleGrid>
+				)}
 			</Section>
 
 			<Divider />
@@ -213,8 +216,8 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 			<Section>
 				<SimpleGrid cols={1}>
 					<Switch
-						label={t('form.numeric_calendar_codes.label')}
 						description={t('form.numeric_calendar_codes.description')}
+						label={t('form.numeric_calendar_codes.label')}
 						{...exportsExplorerContext.form_gtfs_v29.getInputProps('numeric_calendar_codes', { type: 'checkbox' })}
 						disabled={!exportsExplorerContext.form_gtfs_v29.values.agency_id || !exportsExplorerContext.form_gtfs_v29.values.feed_start_date || !exportsExplorerContext.form_gtfs_v29.values.feed_end_date}
 					/>
@@ -226,8 +229,8 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 			<Section>
 				<SimpleGrid cols={1}>
 					<NumberInput
-						label={t('form.stop_sequence_start.label')}
 						description={t('form.stop_sequence_start.description')}
+						label={t('form.stop_sequence_start.label')}
 						placeholder={t('form.stop_sequence_start.placeholder')}
 						{...exportsExplorerContext.form_gtfs_v29.getInputProps('stop_sequence_start')}
 						disabled={!exportsExplorerContext.form_gtfs_v29.values.agency_id || !exportsExplorerContext.form_gtfs_v29.values.feed_start_date || !exportsExplorerContext.form_gtfs_v29.values.feed_end_date}

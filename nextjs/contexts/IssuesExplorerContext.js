@@ -2,18 +2,18 @@
 
 /* * */
 
-import useSWR from 'swr';
-import doSearch from '@/services/doSearch';
-import { useRouter } from '@/translations/navigation';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import isAllowed from '@/authentication/isAllowed';
-import { useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
-import { useForm, yupResolver } from '@mantine/form';
+import { DefaultCommment, DefaultMilestone, IssueDefault } from '@/schemas/Issue/default';
 import { IssueValidation } from '@/schemas/Issue/validation';
-import { IssueDefault, DefaultMilestone, DefaultCommment } from '@/schemas/Issue/default';
-import populate from '@/services/populate';
 import API from '@/services/API';
+import doSearch from '@/services/doSearch';
+import populate from '@/services/populate';
+import { useRouter } from '@/translations/navigation';
+import { useForm, yupResolver } from '@mantine/form';
+import { useParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -26,44 +26,44 @@ export function useIssuesExplorerContext() {
 /* * */
 
 const initialListState = {
+	available_assigned_to: [],
+	available_created_by: [],
+	available_lines: [],
+	available_priority: [],
+	available_reports: [],
+	//
+	available_status: [],
+	available_stops: [],
+	available_tags: [],
+	filter_assigned_to: null,
+	filter_created_by: null,
+	filter_lines: null,
+	filter_priority: null,
+	filter_reports: null,
+	//
+	filter_status: null,
+	filter_stops: null,
+	filter_tags: null,
 	//
 	is_error: false,
 	is_loading: false,
 	//
+	items: [],
+	//
 	search_query: '',
 	//
 	sort_key: '',
-	//
-	filter_status: null,
-	filter_priority: null,
-	filter_tags: null,
-	filter_lines: null,
-	filter_stops: null,
-	filter_reports: null,
-	filter_created_by: null,
-	filter_assigned_to: null,
-	//
-	items: [],
-	//
-	available_status: [],
-	available_priority: [],
-	available_tags: [],
-	available_lines: [],
-	available_stops: [],
-	available_reports: [],
-	available_created_by: [],
-	available_assigned_to: [],
 	//
 };
 
 const initialPageState = {
 	//
 	is_error: false,
-	is_loading: false,
-	is_saving: false,
 	is_error_saving: false,
+	is_loading: false,
 	//
 	is_read_only: false,
+	is_saving: false,
 	//
 };
 
@@ -88,11 +88,11 @@ export function IssuesExplorerContextProvider({ children }) {
 	// C. Setup form
 
 	const formState = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: IssueDefault,
+		validate: yupResolver(IssueValidation),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(IssueValidation),
-		initialValues: IssueDefault,
 	});
 
 	//
@@ -106,7 +106,7 @@ export function IssuesExplorerContextProvider({ children }) {
 	// E. Transform data
 
 	useEffect(() => {
-		setPageState((prev) => ({ ...prev, is_loading: itemLoading }));
+		setPageState(prev => ({ ...prev, is_loading: itemLoading }));
 	}, [itemLoading]);
 
 	useEffect(() => {
@@ -115,25 +115,25 @@ export function IssuesExplorerContextProvider({ children }) {
 		// Create a variable to hold the filtered items
 		let filteredItems = allItemsData;
 		// Filter items based on selected status
-		if (listState.filter_status) filteredItems = filteredItems.filter((item) => item.status === listState.filter_status);
+		if (listState.filter_status) filteredItems = filteredItems.filter(item => item.status === listState.filter_status);
 		// Filter items based on selected priority
-		if (listState.filter_priority) filteredItems = filteredItems.filter((item) => item.priority === listState.filter_priority);
+		if (listState.filter_priority) filteredItems = filteredItems.filter(item => item.priority === listState.filter_priority);
 		// Filter items based on selected tag
-		if (listState.filter_tags) filteredItems = filteredItems.filter((item) => item.tags.includes(listState.filter_tags));
+		if (listState.filter_tags) filteredItems = filteredItems.filter(item => item.tags.includes(listState.filter_tags));
 		// Filter items based on selected created_by
-		if (listState.filter_created_by) filteredItems = filteredItems.filter((item) => item.created_by === listState.filter_created_by);
+		if (listState.filter_created_by) filteredItems = filteredItems.filter(item => item.created_by === listState.filter_created_by);
 		// Filter items based on search query
 		filteredItems = doSearch(listState.search_query, filteredItems, { keys: ['code', 'title', 'summary'] });
 		// Update state
-		setListState((prev) => ({ ...prev, items: filteredItems }));
+		setListState(prev => ({ ...prev, items: filteredItems }));
 		//
 	}, [allItemsData, listState.filter_status, listState.filter_priority, listState.search_query, listState.filter_tags, listState.filter_created_by]);
 
 	useEffect(() => {
 		// Check if the use is allowed to edit the current page
-		const isReadOnly = !isAllowed(sessionData, [{ scope: 'issues', action: 'edit' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving;
+		const isReadOnly = !isAllowed(sessionData, [{ action: 'edit', scope: 'issues' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving;
 		// Update state
-		setPageState((prev) => ({ ...prev, is_read_only: isReadOnly }));
+		setPageState(prev => ({ ...prev, is_read_only: isReadOnly }));
 		//
 	}, [itemData?.is_locked, pageState.is_saving, sessionData]);
 
@@ -149,64 +149,64 @@ export function IssuesExplorerContextProvider({ children }) {
 	}, [formState.isDirty(), itemData]);
 
 	useEffect(() => {
-		if (!allItemsData) return setListState((prev) => ({ ...prev, available_status: [] }));
-		const allValues = allItemsData.map((item) => item.status);
+		if (!allItemsData) return setListState(prev => ({ ...prev, available_status: [] }));
+		const allValues = allItemsData.map(item => item.status);
 		const allUniqueValues = new Set(allValues);
-		setListState((prev) => ({ ...prev, available_status: Array.from(allUniqueValues) }));
+		setListState(prev => ({ ...prev, available_status: Array.from(allUniqueValues) }));
 	}, [allItemsData]);
 
 	useEffect(() => {
-		if (!allItemsData) return setListState((prev) => ({ ...prev, available_priority: [] }));
-		const allValues = allItemsData.map((item) => item.priority);
+		if (!allItemsData) return setListState(prev => ({ ...prev, available_priority: [] }));
+		const allValues = allItemsData.map(item => item.priority);
 		const allUniqueValues = new Set(allValues);
-		setListState((prev) => ({ ...prev, available_priority: Array.from(allUniqueValues) }));
+		setListState(prev => ({ ...prev, available_priority: Array.from(allUniqueValues) }));
 	}, [allItemsData]);
 
 	useEffect(() => {
-		if (!allItemsData) return setListState((prev) => ({ ...prev, available_lines: [] }));
-		const allValues = allItemsData.flatMap((item) => item.related_lines);
+		if (!allItemsData) return setListState(prev => ({ ...prev, available_lines: [] }));
+		const allValues = allItemsData.flatMap(item => item.related_lines);
 		const allUniqueValues = new Set(allValues);
-		setListState((prev) => ({ ...prev, available_lines: Array.from(allUniqueValues) }));
+		setListState(prev => ({ ...prev, available_lines: Array.from(allUniqueValues) }));
 	}, [allItemsData]);
 
 	useEffect(() => {
-		if (!allItemsData) return setListState((prev) => ({ ...prev, available_stops: [] }));
-		const allValues = allItemsData.flatMap((item) => item.related_stops);
+		if (!allItemsData) return setListState(prev => ({ ...prev, available_stops: [] }));
+		const allValues = allItemsData.flatMap(item => item.related_stops);
 		const allUniqueValues = new Set(allValues);
-		setListState((prev) => ({ ...prev, available_stops: Array.from(allUniqueValues) }));
+		setListState(prev => ({ ...prev, available_stops: Array.from(allUniqueValues) }));
 	}, [allItemsData]);
 
 	useEffect(() => {
-		if (!allItemsData) return setListState((prev) => ({ ...prev, available_tags: [] }));
-		const allValues = allItemsData.flatMap((item) => item.tags);
+		if (!allItemsData) return setListState(prev => ({ ...prev, available_tags: [] }));
+		const allValues = allItemsData.flatMap(item => item.tags);
 		const allUniqueValues = new Set(allValues);
-		setListState((prev) => ({ ...prev, available_tags: Array.from(allUniqueValues) }));
+		setListState(prev => ({ ...prev, available_tags: Array.from(allUniqueValues) }));
 	}, [allItemsData]);
 
 	useEffect(() => {
-		if (!allItemsData) return setListState((prev) => ({ ...prev, available_created_by: [] }));
-		const allValues = allItemsData.map((item) => item.created_by);
+		if (!allItemsData) return setListState(prev => ({ ...prev, available_created_by: [] }));
+		const allValues = allItemsData.map(item => item.created_by);
 		const allUniqueValues = new Set(allValues);
-		setListState((prev) => ({ ...prev, available_created_by: Array.from(allUniqueValues) }));
+		setListState(prev => ({ ...prev, available_created_by: Array.from(allUniqueValues) }));
 	}, [allItemsData]);
 
 	//
 	// F. Setup actions
 
 	const updateSearchQuery = useCallback((value) => {
-		setListState((prev) => ({ ...prev, search_query: value }));
+		setListState(prev => ({ ...prev, search_query: value }));
 	}, []);
 
 	const clearSearchQuery = useCallback(() => {
-		setListState((prev) => ({ ...prev, search_query: '' }));
+		setListState(prev => ({ ...prev, search_query: '' }));
 	}, []);
 
 	const updateSortKey = useCallback((value) => {
-		setListState((prev) => ({ ...prev, sort_key: value }));
+		setListState(prev => ({ ...prev, sort_key: value }));
 	}, []);
 
 	const clearSortKey = useCallback(() => {
-		setListState((prev) => ({ ...prev, sort_key: '' }));
+		setListState(prev => ({ ...prev, sort_key: '' }));
 	}, []);
 
 	const updateFilterStatus = useCallback((value) => {
@@ -264,43 +264,46 @@ export function IssuesExplorerContextProvider({ children }) {
 
 	const saveItem = useCallback(async () => {
 		try {
-			setPageState((prev) => ({ ...prev, is_saving: true, is_error_saving: false }));
-			await API({ service: 'issues', resourceId: itemId, operation: 'edit', method: 'PUT', body: formState.values });
+			setPageState(prev => ({ ...prev, is_error_saving: false, is_saving: true }));
+			await API({ body: formState.values, method: 'PUT', operation: 'edit', resourceId: itemId, service: 'issues' });
 			itemMutate(formState.values);
 			allItemsMutate();
 			formState.resetDirty();
-			setPageState((prev) => ({ ...prev, is_saving: false }));
-		} catch (error) {
+			setPageState(prev => ({ ...prev, is_saving: false }));
+		}
+		catch (error) {
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: err }));
+			setPageState(prev => ({ ...prev, is_error_saving: error, is_saving: false }));
 		}
 	}, [allItemsMutate, formState, itemId, itemMutate]);
 
 	const lockItem = useCallback(async () => {
 		try {
-			await API({ service: 'issues', resourceId: itemId, operation: 'lock', method: 'PUT' });
+			await API({ method: 'PUT', operation: 'lock', resourceId: itemId, service: 'issues' });
 			itemMutate();
 			allItemsMutate();
-		} catch (error) {
+		}
+		catch (error) {
 			itemMutate();
 			allItemsMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: err }));
+			setPageState(prev => ({ ...prev, is_error: error }));
 		}
 	}, [allItemsMutate, itemId, itemMutate]);
 
 	const deleteItem = useCallback(async () => {
 		try {
-			setPageState((prev) => ({ ...prev, is_error: false }));
-			await API({ service: 'issues', resourceId: itemId, operation: 'delete', method: 'DELETE' });
+			setPageState(prev => ({ ...prev, is_error: false }));
+			await API({ method: 'DELETE', operation: 'delete', resourceId: itemId, service: 'issues' });
 			router.push('/issues');
 			allItemsMutate();
 			formState.resetDirty();
-		} catch (error) {
+		}
+		catch (error) {
 			itemMutate();
 			allItemsMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: err }));
+			setPageState(prev => ({ ...prev, is_error: error }));
 		}
 	}, [allItemsMutate, formState, itemId, itemMutate, router]);
 
@@ -324,7 +327,8 @@ export function IssuesExplorerContextProvider({ children }) {
 				// Remove the tag and a milestone
 				addMilestone('tag_added', tagId);
 				uniqueSetOfTags.delete(tagId);
-			} else {
+			}
+			else {
 				// Add the tag and a milestone
 				addMilestone('tag_removed', tagId);
 				uniqueSetOfTags.add(tagId);
@@ -343,7 +347,8 @@ export function IssuesExplorerContextProvider({ children }) {
 				// Remove the line and a milestone
 				addMilestone('line_added', lineId);
 				uniqueSetOfLines.delete(lineId);
-			} else {
+			}
+			else {
 				// Add the line and a milestone
 				addMilestone('line_removed', lineId);
 				uniqueSetOfLines.add(lineId);
@@ -362,7 +367,8 @@ export function IssuesExplorerContextProvider({ children }) {
 				// Remove the stop and a milestone
 				addMilestone('stop_added', stopId);
 				uniqueSetOfStops.delete(stopId);
-			} else {
+			}
+			else {
 				// Add the stop and a milestone
 				addMilestone('stop_removed', stopId);
 				uniqueSetOfStops.add(stopId);
@@ -381,7 +387,8 @@ export function IssuesExplorerContextProvider({ children }) {
 				// Remove the issue and a milestone
 				addMilestone('issue_added', issueId);
 				uniqueSetOfIssues.delete(issueId);
-			} else {
+			}
+			else {
 				// Add the issue and a milestone
 				addMilestone('issue_removed', issueId);
 				uniqueSetOfIssues.add(issueId);
@@ -404,37 +411,37 @@ export function IssuesExplorerContextProvider({ children }) {
 
 	const contextObject = useMemo(
 		() => ({
-			//
-			list: listState,
-			page: pageState,
-			form: formState,
-			//
-			item_id: itemId,
-			item_data: itemData,
-			//
-			updateSearchQuery: updateSearchQuery,
-			clearSearchQuery: clearSearchQuery,
-			updateSortKey: updateSortKey,
-			clearSortKey: clearSortKey,
-			updateFilterStatus: updateFilterStatus,
-			updateFilterPriority: updateFilterPriority,
-			updateFilterLines: updateFilterLines,
-			updateFilterStops: updateFilterStops,
-			updateFilterTags: updateFilterTags,
-			updateFilterCreatedBy: updateFilterCreatedBy,
-			updateFilterAssignedTo: updateFilterAssignedTo,
-			//
-			validateItem: validateItem,
-			saveItem: saveItem,
-			lockItem: lockItem,
-			deleteItem: deleteItem,
-			closeItem: closeItem,
+			addComment: addComment,
 			//
 			addTag: addTag,
+			clearSearchQuery: clearSearchQuery,
+			clearSortKey: clearSortKey,
+			closeItem: closeItem,
+			deleteItem: deleteItem,
+			form: formState,
+			item_data: itemData,
+			//
+			item_id: itemId,
+			//
+			list: listState,
+			lockItem: lockItem,
+			page: pageState,
+			saveItem: saveItem,
+			toggleRelatedIssue: toggleRelatedIssue,
 			toggleRelatedLine: toggleRelatedLine,
 			toggleRelatedStop: toggleRelatedStop,
-			toggleRelatedIssue: toggleRelatedIssue,
-			addComment: addComment,
+			updateFilterAssignedTo: updateFilterAssignedTo,
+			updateFilterCreatedBy: updateFilterCreatedBy,
+			updateFilterLines: updateFilterLines,
+			updateFilterPriority: updateFilterPriority,
+			updateFilterStatus: updateFilterStatus,
+			updateFilterStops: updateFilterStops,
+			updateFilterTags: updateFilterTags,
+			//
+			updateSearchQuery: updateSearchQuery,
+			updateSortKey: updateSortKey,
+			//
+			validateItem: validateItem,
 			//
 		}),
 		[

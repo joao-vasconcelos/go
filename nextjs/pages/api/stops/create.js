@@ -1,13 +1,13 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import generator from '@/services/generator';
-import * as turf from '@turf/turf';
 import { StopDefault } from '@/schemas/Stop/default';
+import { DeletedStopModel, StopModel } from '@/schemas/Stop/model';
 import { StopValidation } from '@/schemas/Stop/validation';
-import { StopModel, DeletedStopModel } from '@/schemas/Stop/model';
 import { ZoneModel } from '@/schemas/Zone/model';
+import generator from '@/services/generator';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import * as turf from '@turf/turf';
 
 /* * */
 
@@ -24,7 +24,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -33,8 +34,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'stops', action: 'create' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'POST', permissions: [{ action: 'create', scope: 'stops' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -44,7 +46,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = await JSON.parse(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'JSON parse error.' });
 	}
@@ -54,7 +57,8 @@ export default async function handler(req, res) {
 
 	try {
 		// req.body = StopValidation.cast(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message });
 	}
@@ -75,7 +79,8 @@ export default async function handler(req, res) {
 			if (isStopInThisZone) zoneIdsForThisStop.push(zoneData._id);
 			//
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		await res.status(500).json({ message: 'Error setting zones.' });
 	}
@@ -85,7 +90,7 @@ export default async function handler(req, res) {
 
 	try {
 		// Create a new document for this stop
-		let newDocument = { ...StopDefault, ...req.body, zones: zoneIdsForThisStop, code: `${req.body.municipality.prefix}${generator({ length: 4, type: 'numeric' })}`, municipality: req.body.municipality._id };
+		let newDocument = { ...StopDefault, ...req.body, code: `${req.body.municipality.prefix}${generator({ length: 4, type: 'numeric' })}`, municipality: req.body.municipality._id, zones: zoneIdsForThisStop };
 		newDocument = StopValidation.cast(newDocument);
 		// The values that need to be unique are ['code'].
 		while (await StopModel.exists({ code: newDocument.code }) || await DeletedStopModel.exists({ code: newDocument.code })) {
@@ -93,7 +98,8 @@ export default async function handler(req, res) {
 		}
 		const createdDocument = await StopModel(newDocument).save();
 		return await res.status(201).json(createdDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(409).json({ message: error.message });
 	}

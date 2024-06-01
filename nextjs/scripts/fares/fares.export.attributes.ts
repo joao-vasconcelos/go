@@ -5,9 +5,9 @@ import { FareModel } from '@/schemas/Fare/model';
 /* * */
 
 interface FaresExportAttributesOptions {
-	fare_ids?: string[];
-	fare_codes?: string[];
-	forced_agency_id?: string;
+	fare_codes?: string[]
+	fare_ids?: string[]
+	forced_agency_id?: string
 }
 
 /* * */
@@ -38,30 +38,30 @@ export default async function faresExportAttributes(options: FaresExportAttribut
 
 		let thisFarePaymentMethod = '';
 		switch (item.payment_method) {
-		default:
-		case '0': // ONBOARD
-			thisFarePaymentMethod = '0';
-			break;
-		case '1': // PREPAID
-			thisFarePaymentMethod = '1';
-			break;
+			default:
+			case '0': // ONBOARD
+				thisFarePaymentMethod = '0';
+				break;
+			case '1': // PREPAID
+				thisFarePaymentMethod = '1';
+				break;
 		}
 
 		let thisFareTransfers = '';
 		switch (item.transfers) {
-		case '0': // No transfers permitted on this fare.
-			thisFareTransfers = '0';
-			break;
-		case '1': // Riders may transfer once.
-			thisFareTransfers = '1';
-			break;
-		case '2': // Riders may transfer twice.
-			thisFareTransfers = '2';
-			break;
-		default:
-		case 'unlimited': // empty - Unlimited transfers are permitted.
-			thisFareTransfers = '';
-			break;
+			case '0': // No transfers permitted on this fare.
+				thisFareTransfers = '0';
+				break;
+			case '1': // Riders may transfer once.
+				thisFareTransfers = '1';
+				break;
+			case '2': // Riders may transfer twice.
+				thisFareTransfers = '2';
+				break;
+			default:
+			case 'unlimited': // empty - Unlimited transfers are permitted.
+				thisFareTransfers = '';
+				break;
 		}
 
 		// 3.3.
@@ -70,10 +70,10 @@ export default async function faresExportAttributes(options: FaresExportAttribut
 		if (options?.forced_agency_id) {
 			return {
 				agency_id: options.forced_agency_id,
-				fare_id: item.code,
-				price: item.price,
 				currency_type: item.currency_type,
+				fare_id: item.code,
 				payment_method: thisFarePaymentMethod,
+				price: item.price,
 				transfers: thisFareTransfers,
 			};
 		}
@@ -82,10 +82,10 @@ export default async function faresExportAttributes(options: FaresExportAttribut
 		// Build the final fare object
 
 		return {
-			fare_id: item.code,
-			price: item.price,
 			currency_type: item.currency_type,
+			fare_id: item.code,
 			payment_method: thisFarePaymentMethod,
+			price: item.price,
 			transfers: thisFareTransfers,
 		};
 

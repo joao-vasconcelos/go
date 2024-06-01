@@ -2,10 +2,10 @@
 
 /* * */
 
-import { useMemo } from 'react';
-import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
-import { Source, Layer, useMap } from 'react-map-gl/maplibre';
 import OSMMap from '@/components/OSMMap/OSMMap';
+import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
+import { useMemo } from 'react';
+import { Layer, Source, useMap } from 'react-map-gl/maplibre';
 
 /* * */
 
@@ -24,22 +24,22 @@ export default function StopsExplorerIdPageMap() {
 	const mapData = useMemo(() => {
 		// Create a GeoJSON object
 		const geoJSON = {
-			type: 'Feature',
 			geometry: {},
 			properties: {},
+			type: 'Feature',
 		};
 
 		// Loop through each stop in the collection and setup the feature to the GeoJSON object.
 		if (stopsExplorerContext.form.values.latitude && stopsExplorerContext.form.values.longitude) {
 			geoJSON.geometry = {
-				type: 'Point',
 				coordinates: [parseFloat(stopsExplorerContext.form.values.longitude), parseFloat(stopsExplorerContext.form.values.latitude)],
+				type: 'Point',
 			};
 			geoJSON.properties = {
 				code: stopsExplorerContext.form.values.code,
-				name: stopsExplorerContext.form.values.name,
 				latitude: stopsExplorerContext.form.values.latitude,
 				longitude: stopsExplorerContext.form.values.longitude,
+				name: stopsExplorerContext.form.values.name,
 			};
 			singleStopMap?.flyTo({
 				center: geoJSON.geometry.coordinates,
@@ -57,9 +57,9 @@ export default function StopsExplorerIdPageMap() {
 
 	return (
 		<div style={{ height: 400, minHeight: 400 }}>
-			<OSMMap id="singleStopMap" scrollZoom={false} interactiveLayerIds={['stop']}>
-				<Source id="stop" type="geojson" data={mapData}>
-					<Layer id="stop" type="circle" source="stop" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-width': 2, 'circle-stroke-color': '#000000' }} />
+			<OSMMap id="singleStopMap" interactiveLayerIds={['stop']} scrollZoom={false}>
+				<Source data={mapData} id="stop" type="geojson">
+					<Layer id="stop" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 6, 'circle-stroke-color': '#000000', 'circle-stroke-width': 2 }} source="stop" type="circle" />
 				</Source>
 			</OSMMap>
 		</div>

@@ -1,11 +1,11 @@
 /* * */
 
-import mongodb from '@/services/OFFERMANAGERDB';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import generator from '@/services/generator';
 import { TagDefault } from '@/schemas/Tag/default';
 import { TagModel } from '@/schemas/Tag/model';
+import mongodb from '@/services/OFFERMANAGERDB';
+import generator from '@/services/generator';
 
 /* * */
 
@@ -30,8 +30,9 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-		isAllowed(sessionData, [{ scope: 'tags', action: 'create' }]);
-	} catch (error) {
+		isAllowed(sessionData, [{ action: 'create', scope: 'tags' }]);
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
 	}
@@ -41,7 +42,8 @@ export default async function handler(req, res) {
 
 	try {
 		await mongodb.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'MongoDB connection error.' });
 	}
@@ -50,13 +52,14 @@ export default async function handler(req, res) {
 	// Save a new document with default values
 
 	try {
-		const newDocument = { ...TagDefault, label: generator({ length: 5 }), created_at: (new Date).toISOString(), created_by: sessionData.user._id };
+		const newDocument = { ...TagDefault, created_at: (new Date()).toISOString(), created_by: sessionData.user._id, label: generator({ length: 5 }) };
 		while (await TagModel.exists({ label: newDocument.label })) {
 			newDocument.label = generator({ length: 5 });
 		}
 		const createdDocument = await TagModel(newDocument).save();
 		return await res.status(201).json(createdDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot create this Tag.' });
 	}

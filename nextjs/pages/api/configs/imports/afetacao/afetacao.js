@@ -1,12 +1,12 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { StopModel } from '@/schemas/Stop/model';
 import { ZoneModel } from '@/schemas/Zone/model';
-import Papa from 'papaparse';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import fs from 'fs';
+import Papa from 'papaparse';
 
 /* * */
 
@@ -25,7 +25,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -34,8 +35,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -45,7 +47,8 @@ export default async function handler(req, res) {
 
 	try {
 		await PatternModel.syncIndexes();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot sync indexes.' });
 	}
@@ -59,9 +62,9 @@ export default async function handler(req, res) {
 		const afetacaoRaw = fs.readFileSync('/app/pages/api/configs/imports/afetacao_a2.csv', { encoding: 'utf8' });
 		// const afetacaoRaw = fs.readFileSync('./pages/api/configs/imports/afetacao_a2.csv', { encoding: 'utf8' });
 
-		const parsedAfetacao = Papa.parse(afetacaoRaw, { header: true, delimiter: ';' });
+		const parsedAfetacao = Papa.parse(afetacaoRaw, { delimiter: ';', header: true });
 
-		const doubleCheckThesePatterns = new Set;
+		const doubleCheckThesePatterns = new Set();
 
 		const amlZoneData = await ZoneModel.findOne({ code: 'id-zone-multi-aml' });
 
@@ -85,7 +88,7 @@ export default async function handler(req, res) {
 
 			const patternData = await PatternModel.findOne({ code: patternSummaryData.code }).populate('path.stop');
 
-			const afetacaoForThisPattern = parsedAfetacao.data.filter((aft) => aft.pattern_id === patternData.code);
+			const afetacaoForThisPattern = parsedAfetacao.data.filter(aft => aft.pattern_id === patternData.code);
 			if (!afetacaoForThisPattern) {
 				console.error(`PATTERN NOT FOUND IN AFETACAO.CSV: ${patternData.code}`);
 				continue;
@@ -95,7 +98,7 @@ export default async function handler(req, res) {
 				//
 				const matchingPathValues = afetacaoForThisPattern.find((aft) => {
 					const fixedStopId = aft.stop_id.length < 6 ? `0${aft.stop_id}` : aft.stop_id;
-					return fixedStopId === pathData.stop.code; //&& aft.stop_sequence === String(pathIndex + 1);
+					return fixedStopId === pathData.stop.code; // && aft.stop_sequence === String(pathIndex + 1);
 				});
 
 				const zonesForThisStop = matchingPathValues?.zones.split('-');
@@ -105,7 +108,7 @@ export default async function handler(req, res) {
 					continue;
 				}
 
-				let zoneIdsForThisPathSegment = new Set;
+				let zoneIdsForThisPathSegment = new Set();
 				for (const zoneName of zonesForThisStop) {
 					const zoneData = await ZoneModel.findOne({ name: zoneName });
 					if (zoneData) zoneIdsForThisPathSegment.add(zoneData._id);
@@ -133,7 +136,8 @@ export default async function handler(req, res) {
 		console.table(Array.from(doubleCheckThesePatterns));
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Import Error' });
 	}

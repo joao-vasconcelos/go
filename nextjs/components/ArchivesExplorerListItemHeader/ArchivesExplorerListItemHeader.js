@@ -2,16 +2,17 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useMemo } from 'react';
-import { useTranslations } from 'next-intl';
-import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
-import { IconArrowRight } from '@tabler/icons-react';
-import ArchivesExplorerListItemHeaderStatus from '@/components/ArchivesExplorerListItemHeaderStatus/ArchivesExplorerListItemHeaderStatus';
 import ArchivesExplorerListItemHeaderLockedUnlocked from '@/components/ArchivesExplorerListItemHeaderLockedUnlocked/ArchivesExplorerListItemHeaderLockedUnlocked';
 import ArchivesExplorerListItemHeaderSlaManagerFeederStatus from '@/components/ArchivesExplorerListItemHeaderSlaManagerFeederStatus/ArchivesExplorerListItemHeaderSlaManagerFeederStatus';
-import styles from './ArchivesExplorerListItemHeader.module.css';
+import ArchivesExplorerListItemHeaderStatus from '@/components/ArchivesExplorerListItemHeaderStatus/ArchivesExplorerListItemHeaderStatus';
+import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
+import { IconArrowRight } from '@tabler/icons-react';
 import { DateTime } from 'luxon';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+import useSWR from 'swr';
+
+import styles from './ArchivesExplorerListItemHeader.module.css';
 
 /* * */
 
@@ -44,7 +45,7 @@ export default function ArchivesExplorerListItemHeader() {
 
 	const agencyDataFormatted = useMemo(() => {
 		if (!allAgenciesData) return '•••';
-		return allAgenciesData.find((item) => item._id === archivesExplorerItemContext.item_data.agency)?.name ?? '•••';
+		return allAgenciesData.find(item => item._id === archivesExplorerItemContext.item_data.agency)?.name ?? '•••';
 	}, [allAgenciesData, archivesExplorerItemContext.item_data.agency]);
 
 	//

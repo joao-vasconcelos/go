@@ -6,47 +6,47 @@ import mongoose from 'mongoose';
 
 export const ArchiveSchema = new mongoose.Schema(
 	{
-		code: {
-			type: String,
-			maxlength: 10,
-			unique: true,
-		},
-		status: {
-			type: String,
-			maxlength: 50,
-		},
 		agency: {
-			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Agency',
-		},
-		start_date: {
-			type: String,
-			maxlength: 8,
-		},
-		end_date: {
-			type: String,
-			maxlength: 8,
-		},
-		reference_plan: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Media',
-		},
-		offer_plan: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Media',
-		},
-		operation_plan: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Media',
 		},
 		apex_files: {
-			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Media',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+		code: {
+			maxlength: 10,
+			type: String,
+			unique: true,
+		},
+		end_date: {
+			maxlength: 8,
+			type: String,
 		},
 		is_locked: {
 			type: Boolean,
 		},
+		offer_plan: {
+			ref: 'Media',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+		operation_plan: {
+			ref: 'Media',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+		reference_plan: {
+			ref: 'Media',
+			type: mongoose.Schema.Types.ObjectId,
+		},
 		slamanager_feeder_status: {
+			type: String,
+		},
+		start_date: {
+			maxlength: 8,
+			type: String,
+		},
+		status: {
+			maxlength: 50,
 			type: String,
 		},
 	},

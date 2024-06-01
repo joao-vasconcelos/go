@@ -2,9 +2,9 @@
 
 /* * */
 
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import { OneFullColumn } from '@/components/Layouts/Layouts';
 import Pannel from '@/components/Pannel/Pannel';
-import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import ReportsExplorerSlaHeader from '@/components/ReportsExplorerSlaHeader/ReportsExplorerSlaHeader';
 import ReportsExplorerSlaList from '@/components/ReportsExplorerSlaList/ReportsExplorerSlaList';
 import { ReportsExplorerSlaContextProvider } from '@/contexts/ReportsExplorerSlaContext';
@@ -13,9 +13,9 @@ import { ReportsExplorerSlaContextProvider } from '@/contexts/ReportsExplorerSla
 
 export default function ReportsExplorerSla() {
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'reports', action: 'view', fields: [{ key: 'kind', values: ['sla'] }] }]} redirect>
+		<AppAuthenticationCheck permissions={[{ action: 'view', fields: [{ key: 'kind', values: ['sla'] }], scope: 'reports' }]} redirect>
 			<ReportsExplorerSlaContextProvider>
-				<OneFullColumn first={<Pannel header={<ReportsExplorerSlaHeader/>}><ReportsExplorerSlaList/></Pannel>} />
+				<OneFullColumn first={<Pannel header={<ReportsExplorerSlaHeader />}><ReportsExplorerSlaList /></Pannel>} />
 			</ReportsExplorerSlaContextProvider>
 		</AppAuthenticationCheck>
 	);

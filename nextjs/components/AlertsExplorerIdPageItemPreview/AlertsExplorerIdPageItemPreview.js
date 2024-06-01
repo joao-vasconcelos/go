@@ -2,8 +2,9 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
 import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
+import { useTranslations } from 'next-intl';
+
 import styles from './AlertsExplorerIdPageItemPreview.module.css';
 
 /* * */

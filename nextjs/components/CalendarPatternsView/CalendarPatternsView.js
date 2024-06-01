@@ -2,13 +2,13 @@
 
 /* * */
 
-import useSWR from 'swr';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import PatternsExplorerPattern from '@/components/PatternsExplorerPattern/PatternsExplorerPattern';
 import { ActionIcon, Modal, Tooltip } from '@mantine/core';
 import { IconEye } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import PatternsExplorerPattern from '@/components/PatternsExplorerPattern/PatternsExplorerPattern';
+import useSWR from 'swr';
 
 /* * */
 
@@ -41,11 +41,11 @@ export default function CalendarPatternsView({ calendar_id }) {
 
 	return (
 		<>
-			<Modal opened={isModalOpen} onClose={() => setIsModalOpen(!isModalOpen)} title={t('title')}>
-				{allCalendarAssociatedPatternsDataSorted.length > 0 ? allCalendarAssociatedPatternsDataSorted.map((item) => <PatternsExplorerPattern key={item._id} patternId={item._id} openInNewTab />) : <NoDataLabel text="No Patterns Found" />}
+			<Modal onClose={() => setIsModalOpen(!isModalOpen)} opened={isModalOpen} title={t('title')}>
+				{allCalendarAssociatedPatternsDataSorted.length > 0 ? allCalendarAssociatedPatternsDataSorted.map(item => <PatternsExplorerPattern key={item._id} patternId={item._id} openInNewTab />) : <NoDataLabel text="No Patterns Found" />}
 			</Modal>
 			<Tooltip label={t('label')} position="bottom" withArrow>
-				<ActionIcon color="blue" variant="subtle" size="lg" onClick={() => setIsModalOpen(!isModalOpen)} loading={allCalendarAssociatedPatternsLoading}>
+				<ActionIcon color="blue" loading={allCalendarAssociatedPatternsLoading} onClick={() => setIsModalOpen(!isModalOpen)} size="lg" variant="subtle">
 					<IconEye size={20} />
 				</ActionIcon>
 			</Tooltip>

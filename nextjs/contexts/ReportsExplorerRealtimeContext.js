@@ -15,22 +15,22 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 const initialFormState = {
 	//
 	agency_code: null,
+	event_order_type: 'insert_timestamp',
 	operation_day: null,
 	//
 	table_search_query: '',
 	//
 	time_distribution_graph_timeframe: '30',
 	time_distribution_graph_type: 'line',
-	event_order_type: 'insert_timestamp',
 	//
 };
 
 const initialRequestState = {
 	//
-	is_loading: false,
+	agency_code: null,
 	is_error: false,
 	//
-	agency_code: null,
+	is_loading: false,
 	operation_day: null,
 	//
 	summary: null,
@@ -39,19 +39,19 @@ const initialRequestState = {
 
 const initialSelectedTripState = {
 	//
-	trip_id: null,
-	//
-	line_id: null,
-	route_id: null,
-	pattern_id: null,
-	//
 	agency_code: null,
 	//
-	schedule_relationship: null,
+	event_animation_index: null,
 	//
 	found_vehicles: null,
 	//
-	event_animation_index: null,
+	line_id: null,
+	pattern_id: null,
+	route_id: null,
+	//
+	schedule_relationship: null,
+	//
+	trip_id: null,
 	//
 };
 
@@ -90,47 +90,47 @@ export function ReportsExplorerRealtimeContextProvider({ children }) {
 	// C. Setup actions
 
 	const selectOperationDay = useCallback((operationDay) => {
-		setFormState((prev) => ({ ...prev, operation_day: operationDay }));
-		setRequestState((prev) => ({ ...prev, is_error: false }));
+		setFormState(prev => ({ ...prev, operation_day: operationDay }));
+		setRequestState(prev => ({ ...prev, is_error: false }));
 	}, []);
 
 	const clearOperationDay = useCallback(() => {
-		setFormState((prev) => ({ ...prev, operation_day: null }));
-		setRequestState((prev) => ({ ...prev, is_error: false }));
+		setFormState(prev => ({ ...prev, operation_day: null }));
+		setRequestState(prev => ({ ...prev, is_error: false }));
 	}, []);
 
 	const selectAgencyId = useCallback((agencyId) => {
-		setFormState((prev) => ({ ...prev, agency_code: agencyId }));
-		setRequestState((prev) => ({ ...prev, is_error: false }));
+		setFormState(prev => ({ ...prev, agency_code: agencyId }));
+		setRequestState(prev => ({ ...prev, is_error: false }));
 	}, []);
 
 	const clearAgencyId = useCallback(() => {
-		setFormState((prev) => ({ ...prev, agency_code: null }));
-		setRequestState((prev) => ({ ...prev, is_error: false }));
+		setFormState(prev => ({ ...prev, agency_code: null }));
+		setRequestState(prev => ({ ...prev, is_error: false }));
 	}, []);
 
 	const updateTableSearchQuery = useCallback((value) => {
-		setFormState((prev) => ({ ...prev, table_search_query: value }));
+		setFormState(prev => ({ ...prev, table_search_query: value }));
 	}, []);
 
 	const clearTableSearchQuery = useCallback(() => {
-		setFormState((prev) => ({ ...prev, table_search_query: '' }));
+		setFormState(prev => ({ ...prev, table_search_query: '' }));
 	}, []);
 
 	const updateTimeDistributionGraphTimeframe = useCallback((value) => {
-		setFormState((prev) => ({ ...prev, time_distribution_graph_timeframe: value }));
+		setFormState(prev => ({ ...prev, time_distribution_graph_timeframe: value }));
 	}, []);
 
 	const updateTimeDistributionGraphType = useCallback((value) => {
-		setFormState((prev) => ({ ...prev, time_distribution_graph_type: value }));
+		setFormState(prev => ({ ...prev, time_distribution_graph_type: value }));
 	}, []);
 
 	const updateEventOrderType = useCallback((value) => {
-		setFormState((prev) => ({ ...prev, event_order_type: value }));
+		setFormState(prev => ({ ...prev, event_order_type: value }));
 	}, []);
 
 	const updateEventAnimationIndex = useCallback((value) => {
-		setSelectedTripState((prev) => ({ ...prev, event_animation_index: value }));
+		setSelectedTripState(prev => ({ ...prev, event_animation_index: value }));
 	}, []);
 
 	const selectTripId = useCallback(
@@ -138,7 +138,7 @@ export function ReportsExplorerRealtimeContextProvider({ children }) {
 			// Check if there are parsed unique trips
 			if (!requestState.summary) return;
 			// Retrieve the desired trip from the list of unique trips
-			const foundTripData = requestState.summary.find((trip) => trip.trip_id === tripId);
+			const foundTripData = requestState.summary.find(trip => trip.trip_id === tripId);
 			// Return early if no trip is found
 			if (!foundTripData) return;
 			// Set the selected trip state
@@ -162,17 +162,17 @@ export function ReportsExplorerRealtimeContextProvider({ children }) {
 			// Return empty if filters are empty
 			if (!formState.agency_code || !formState.operation_day) return;
 			// Update state to include request details
-			setRequestState({ ...initialRequestState, is_loading: true, is_error: false, agency_code: formState.agency_code, operation_day: formState.operation_day, summary: [] });
+			setRequestState({ ...initialRequestState, agency_code: formState.agency_code, is_error: false, is_loading: true, operation_day: formState.operation_day, summary: [] });
 			// Fetch the trips summary
-			const summaryResponse = await API({ service: 'reports/realtime', operation: 'summary', method: 'POST', body: { agency_code: formState.agency_code, operation_day: parseDate(formState.operation_day) }, parseType: 'raw' });
+			const summaryResponse = await API({ body: { agency_code: formState.agency_code, operation_day: parseDate(formState.operation_day) }, method: 'POST', operation: 'summary', parseType: 'raw', service: 'reports/realtime' });
 			// Setup the JSON parser to handle streaming response in the following pattern: [ {•••}, {•••}, {•••}, ... ]
-			const jsonStreamParser = new JSONParser({ stringBufferSize: undefined, paths: ['$.*'], keepStack: false });
+			const jsonStreamParser = new JSONParser({ keepStack: false, paths: ['$.*'], stringBufferSize: undefined });
 			// Set what happens when a new value is parsed
-			jsonStreamParser.onValue = async ({ value, stack }) => {
+			jsonStreamParser.onValue = async ({ stack, value }) => {
 				// Only procceed if value is a complete object
 				if (stack > 0) return;
 				// Update the state summary to save the streamed events
-				setRequestState((prev) => ({ ...prev, summary: [...prev.summary, value] }));
+				setRequestState(prev => ({ ...prev, summary: [...prev.summary, value] }));
 			};
 			// Get response Reader object
 			const reader = summaryResponse.body.getReader(TextDecoderStream);
@@ -183,11 +183,12 @@ export function ReportsExplorerRealtimeContextProvider({ children }) {
 				jsonStreamParser.write(value);
 			}
 			// Update state to indicate progress
-			setRequestState((prev) => ({ ...prev, is_loading: false }));
+			setRequestState(prev => ({ ...prev, is_loading: false }));
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			// Update state to indicate progress
-			setRequestState((prev) => ({ ...prev, is_loading: false, is_error: error.message, summary: null }));
+			setRequestState(prev => ({ ...prev, is_error: error.message, is_loading: false, summary: null }));
 		}
 	}, [formState.agency_code, formState.operation_day]);
 
@@ -196,31 +197,31 @@ export function ReportsExplorerRealtimeContextProvider({ children }) {
 
 	const contextObject = useMemo(
 		() => ({
-			//
-			form: formState,
-			request: requestState,
-			selectedTrip: selectedTripState,
-			//
-			clearAllData: clearAllData,
-			//
-			selectOperationDay: selectOperationDay,
-			clearOperationDay: clearOperationDay,
-			//
-			selectAgencyId: selectAgencyId,
 			clearAgencyId: clearAgencyId,
 			//
-			updateTableSearchQuery: updateTableSearchQuery,
+			clearAllData: clearAllData,
+			clearOperationDay: clearOperationDay,
 			clearTableSearchQuery: clearTableSearchQuery,
-			//
-			updateTimeDistributionGraphTimeframe: updateTimeDistributionGraphTimeframe,
-			updateTimeDistributionGraphType: updateTimeDistributionGraphType,
-			updateEventOrderType: updateEventOrderType,
-			updateEventAnimationIndex: updateEventAnimationIndex,
+			clearTripId: clearTripId,
 			//
 			fetchEvents: fetchEvents,
 			//
+			form: formState,
+			request: requestState,
+			//
+			selectAgencyId: selectAgencyId,
+			//
+			selectOperationDay: selectOperationDay,
+			//
 			selectTripId: selectTripId,
-			clearTripId: clearTripId,
+			selectedTrip: selectedTripState,
+			updateEventAnimationIndex: updateEventAnimationIndex,
+			updateEventOrderType: updateEventOrderType,
+			//
+			updateTableSearchQuery: updateTableSearchQuery,
+			//
+			updateTimeDistributionGraphTimeframe: updateTimeDistributionGraphTimeframe,
+			updateTimeDistributionGraphType: updateTimeDistributionGraphType,
 			//
 		}),
 		[

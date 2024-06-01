@@ -2,13 +2,14 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { IconPencil, IconBroadcast, IconBolt, IconHandStop, IconDiscountCheck, IconTag, IconTrash } from '@tabler/icons-react';
-import styles from './IssuesExplorerAttributeComment.module.css';
 import { ActionIcon, Divider, Timeline } from '@mantine/core';
-import UsersExplorerUser from '../UsersExplorerUser/UsersExplorerUser';
-import TagsExplorerTag from '../TagsExplorerTag/TagsExplorerTag';
+import { IconBolt, IconBroadcast, IconDiscountCheck, IconHandStop, IconPencil, IconTag, IconTrash } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+
 import GlobalAuthorTimestamp from '../GlobalAuthorTimestamp/GlobalAuthorTimestamp';
+import TagsExplorerTag from '../TagsExplorerTag/TagsExplorerTag';
+import UsersExplorerUser from '../UsersExplorerUser/UsersExplorerUser';
+import styles from './IssuesExplorerAttributeComment.module.css';
 
 /* * */
 
@@ -27,14 +28,15 @@ export default function IssuesExplorerAttributeComment({ commentData, onDelete, 
 		<div className={styles.container}>
 			<div className={styles.commentHeader}>
 				<div className={styles.leftSide}>
-					<GlobalAuthorTimestamp userId={commentData.created_by} timestamp={commentData.created_at} actionVerb={t('action_verb')} />
+					<GlobalAuthorTimestamp actionVerb={t('action_verb')} timestamp={commentData.created_at} userId={commentData.created_by} />
 				</div>
 				<div className={styles.rightSide}>
-					{!readOnly &&
-            <ActionIcon size="sm" variant="subtle" color="gray" onClick={onDelete}>
-            	<IconTrash size={15} />
-            </ActionIcon>
-					}
+					{!readOnly
+					&& (
+						<ActionIcon color="gray" onClick={onDelete} size="sm" variant="subtle">
+							<IconTrash size={15} />
+						</ActionIcon>
+					)}
 				</div>
 			</div>
 			<div className={styles.commentText}>{commentData.text}</div>

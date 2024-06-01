@@ -2,13 +2,13 @@
 
 /* * */
 
-import useSWR from 'swr';
-import Pannel from '@/components/Pannel/Pannel';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
-import TypologiesExplorerListItem from '@/components/TypologiesExplorerListItem/TypologiesExplorerListItem';
-import TypologiesExplorerListHeader from '@/components/TypologiesExplorerListHeader/TypologiesExplorerListHeader';
+import Pannel from '@/components/Pannel/Pannel';
 import TypologiesExplorerListFooter from '@/components/TypologiesExplorerListFooter/TypologiesExplorerListFooter';
+import TypologiesExplorerListHeader from '@/components/TypologiesExplorerListHeader/TypologiesExplorerListHeader';
+import TypologiesExplorerListItem from '@/components/TypologiesExplorerListItem/TypologiesExplorerListItem';
 import { useTypologiesExplorerContext } from '@/contexts/TypologiesExplorerContext';
+import useSWR from 'swr';
 
 /* * */
 
@@ -29,8 +29,8 @@ export default function TypologiesExplorerList() {
 	// C. Render data
 
 	return (
-		<Pannel loading={allTypologiesLoading} validating={allTypologiesValidating} error={allTypologiesError} header={<TypologiesExplorerListHeader />} footer={<TypologiesExplorerListFooter />}>
-			{typologiesExplorerContext.list.items.length > 0 ? typologiesExplorerContext.list.items.map((item) => <TypologiesExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
+		<Pannel error={allTypologiesError} footer={<TypologiesExplorerListFooter />} header={<TypologiesExplorerListHeader />} loading={allTypologiesLoading} validating={allTypologiesValidating}>
+			{typologiesExplorerContext.list.items.length > 0 ? typologiesExplorerContext.list.items.map(item => <TypologiesExplorerListItem key={item._id} item={item} />) : <NoDataLabel />}
 		</Pannel>
 	);
 

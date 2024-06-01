@@ -2,14 +2,15 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useMemo, useState } from 'react';
-import { ActionIcon, Button, Select } from '@mantine/core';
-import { useTranslations } from 'next-intl';
 import { useIssuesExplorerContext } from '@/contexts/IssuesExplorerContext';
-import styles from './IssuesExplorerIdPageItemLines.module.css';
-import { LinesExplorerLine } from '../LinesExplorerLine/LinesExplorerLine';
+import { ActionIcon, Button, Select } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+import { useMemo, useState } from 'react';
+import useSWR from 'swr';
+
+import { LinesExplorerLine } from '../LinesExplorerLine/LinesExplorerLine';
+import styles from './IssuesExplorerIdPageItemLines.module.css';
 
 /* * */
 
@@ -36,7 +37,7 @@ export default function IssuesExplorerIdPageItemLines() {
 		// Exit if no data is available
 		if (!allLinesData) return [];
 		// For each line check if it related with the current issue or not
-		return allLinesData.map((line) => ({ value: line._id, label: `[${line.short_name}] ${line.name}` }));
+		return allLinesData.map(line => ({ label: `[${line.short_name}] ${line.name}`, value: line._id }));
 		//
 	}, [allLinesData]);
 
@@ -58,35 +59,39 @@ export default function IssuesExplorerIdPageItemLines() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.list}>
-				{issuesExplorerContext.form.values.related_lines.length > 0 &&
-          issuesExplorerContext.form.values.related_lines.map((lineId) => <div key={lineId} className={styles.itemWrapper}>
-          		<LinesExplorerLine lineId={lineId} />
-          		{!issuesExplorerContext.page.is_read_only &&
-                <ActionIcon onClick={() => handleRemoveRelatedLine(lineId)} variant="light" color="red">
-                	<IconTrash size={20} />
-                </ActionIcon>
-          		}
-          	</div>)}
+				{issuesExplorerContext.form.values.related_lines.length > 0
+				&& issuesExplorerContext.form.values.related_lines.map(lineId => (
+					<div key={lineId} className={styles.itemWrapper}>
+						<LinesExplorerLine lineId={lineId} />
+						{!issuesExplorerContext.page.is_read_only
+						&& (
+							<ActionIcon color="red" onClick={() => handleRemoveRelatedLine(lineId)} variant="light">
+								<IconTrash size={20} />
+							</ActionIcon>
+						)}
+					</div>
+				))}
 			</div>
-			{!issuesExplorerContext.page.is_read_only &&
-        <>
-        	<Select
-        		label={t('related_lines.label')}
-        		placeholder={t('related_lines.placeholder')}
-        		nothingFoundMessage={t('related_lines.nothingFound')}
-        		data={allLinesDataFormatted}
-        		value={selectedLineId}
-        		onChange={setSelectedLineId}
-        		limit={100}
-        		w="100%"
-        		readOnly={issuesExplorerContext.page.is_read_only}
-        		searchable
-        	/>
-        	<Button onClick={handleAddRelatedLine} disabled={!selectedLineId || issuesExplorerContext.page.is_read_only}>
-            Add Related Line
-        	</Button>
-        </>
-			}
+			{!issuesExplorerContext.page.is_read_only
+			&& (
+				<>
+					<Select
+						data={allLinesDataFormatted}
+						label={t('related_lines.label')}
+						limit={100}
+						nothingFoundMessage={t('related_lines.nothingFound')}
+						onChange={setSelectedLineId}
+						placeholder={t('related_lines.placeholder')}
+						readOnly={issuesExplorerContext.page.is_read_only}
+						value={selectedLineId}
+						w="100%"
+						searchable
+					/>
+					<Button disabled={!selectedLineId || issuesExplorerContext.page.is_read_only} onClick={handleAddRelatedLine}>
+						Add Related Line
+					</Button>
+				</>
+			)}
 		</div>
 	);
 }

@@ -5,46 +5,46 @@ import { AlertOptions } from './options';
 /* * */
 
 export const AlertDefault = {
-	//
-	code: '',
-	//
-	created_by: null,
-	created_at: new Date,
-	//
-	title: '',
-	description: '',
-	tags: [],
-	//
-	status: 'draft',
-	publish_start: new Date,
-	publish_end: null,
-	//
-	active_period_start: null,
 	active_period_end: null,
 	//
+	active_period_start: null,
+	affected_agencies: [],
+	affected_municipalities: [],
+	affected_routes: [],
+	//
+	affected_stops: [],
+	//
 	cause: null,
+	//
+	code: '',
+	created_at: new Date(),
+	//
+	created_by: null,
+	description: '',
 	effect: null,
+	//
+	is_locked: false,
+	media: null,
+	publish_end: null,
+	publish_start: new Date(),
+	//
+	status: 'draft',
+	tags: [],
+	//
+	title: '',
 	//
 	type: AlertOptions.type[0],
 	//
-	affected_stops: [],
-	affected_routes: [],
-	affected_agencies: [],
-	affected_municipalities: [],
-	//
 	url: '',
-	media: null,
-	//
-	is_locked: false,
 	//
 };
 
 /* * */
 
 export const AlertAffectedStopDefault = {
+	specific_routes: [],
 	//
 	stop_id: null,
-	specific_routes: [],
 	//
 };
 

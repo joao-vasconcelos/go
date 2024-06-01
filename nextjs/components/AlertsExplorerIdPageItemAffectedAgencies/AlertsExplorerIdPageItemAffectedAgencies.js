@@ -2,14 +2,15 @@
 
 /* * */
 
-import { useMemo } from 'react';
-import { useTranslations } from 'next-intl';
-import { ActionIcon, Button, Select, Tooltip } from '@mantine/core';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import Standout from '@/components/Standout/Standout';
 import { useAlertsExplorerContext } from '@/contexts/AlertsExplorerContext';
 import { AlertAffectedAgencyDefault } from '@/schemas/Alert/default';
+import { ActionIcon, Button, Select, Tooltip } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
-import Standout from '@/components/Standout/Standout';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+
 import styles from './AlertsExplorerIdPageItemAffectedAgencies.module.css';
 
 /* * */
@@ -27,7 +28,7 @@ export default function AlertsExplorerIdPageItemAffectedAgencies() {
 	// B. Transform data
 
 	const availableLiveAgencys = useMemo(() => {
-		return [{ value: 'CM', label: 'Carris Metropolitana' }];
+		return [{ label: 'Carris Metropolitana', value: 'CM' }];
 	}, []);
 
 	//
@@ -47,35 +48,38 @@ export default function AlertsExplorerIdPageItemAffectedAgencies() {
 
 	return (
 		<div className={styles.container}>
-			{alertsExplorerContext.form.values.affected_agencies.length > 0 ?
-				alertsExplorerContext.form.values.affected_agencies.map((affectedAgency, index) => <Standout
-					key={index}
-					title={t('title')}
-					icon={
-						<Tooltip label={t('operations.remove.label')} withArrow>
-							<ActionIcon variant="subtle" color="gray" size="sm" onClick={() => handleRemoveAffectedAgency(index)} disabled={alertsExplorerContext.page.is_read_only}>
-								<IconTrash size={18} />
-							</ActionIcon>
-						</Tooltip>
-					}
-				>
-					<Select
-						placeholder={t('form.affected_agencies.placeholder')}
-						nothingFoundMessage={t('form.affected_agencies.nothingFound')}
-						{...alertsExplorerContext.form.getInputProps(`affected_agencies.${index}.agency_id`)}
-						limit={100}
-						data={availableLiveAgencys}
-						readOnly={alertsExplorerContext.page.is_read_only}
-						searchable
-						clearable
-						w="100%"
-					/>
-				</Standout>) :
-				<Standout>
-					<NoDataLabel text={t('no_data')} />
-				</Standout>
-			}
-			<Button variant="light" onClick={handleInsertAffectedAgency} disabled={alertsExplorerContext.page.is_read_only}>
+			{alertsExplorerContext.form.values.affected_agencies.length > 0
+				? alertsExplorerContext.form.values.affected_agencies.map((affectedAgency, index) => (
+					<Standout
+						key={index}
+						title={t('title')}
+						icon={(
+							<Tooltip label={t('operations.remove.label')} withArrow>
+								<ActionIcon color="gray" disabled={alertsExplorerContext.page.is_read_only} onClick={() => handleRemoveAffectedAgency(index)} size="sm" variant="subtle">
+									<IconTrash size={18} />
+								</ActionIcon>
+							</Tooltip>
+						)}
+					>
+						<Select
+							nothingFoundMessage={t('form.affected_agencies.nothingFound')}
+							placeholder={t('form.affected_agencies.placeholder')}
+							{...alertsExplorerContext.form.getInputProps(`affected_agencies.${index}.agency_id`)}
+							data={availableLiveAgencys}
+							limit={100}
+							readOnly={alertsExplorerContext.page.is_read_only}
+							w="100%"
+							clearable
+							searchable
+						/>
+					</Standout>
+				))
+				: (
+					<Standout>
+						<NoDataLabel text={t('no_data')} />
+					</Standout>
+				)}
+			<Button disabled={alertsExplorerContext.page.is_read_only} onClick={handleInsertAffectedAgency} variant="light">
 				{t('operations.insert.label')}
 			</Button>
 		</div>

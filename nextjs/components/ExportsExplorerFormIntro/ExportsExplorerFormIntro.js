@@ -17,7 +17,7 @@ export default function ExportsExplorerFormIntro() {
 	// B. Render components
 
 	return (
-		<Text size="h4" color="muted">
+		<Text color="muted" size="h4">
 			{t('description')}
 		</Text>
 	);

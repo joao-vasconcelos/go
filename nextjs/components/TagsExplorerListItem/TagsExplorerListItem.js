@@ -2,10 +2,10 @@
 
 /* * */
 
-import { useParams } from 'next/navigation';
-import { useRouter } from '@/translations/navigation';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
 import TagsExplorerTag from '@/components/TagsExplorerTag/TagsExplorerTag';
+import { useRouter } from '@/translations/navigation';
+import { useParams } from 'next/navigation';
 
 /* * */
 
@@ -30,7 +30,7 @@ export default function TagsExplorerListItem({ item }) {
 	// C. Render components
 
 	return (
-		<BaseListItem onClick={handleClick} isSelected={tag_id === item._id} withChevron>
+		<BaseListItem isSelected={tag_id === item._id} onClick={handleClick} withChevron>
 			<TagsExplorerTag tagId={item._id} withHoverCard={false} />
 		</BaseListItem>
 	);

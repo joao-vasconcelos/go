@@ -2,11 +2,12 @@
 
 /* * */
 
-import styles from './StopsExplorerNewStopWizardSteps0.module.css';
-import StopsExplorerNewStopWizardSteps0Toolbar from '@/components/StopsExplorerNewStopWizardSteps0Toolbar/StopsExplorerNewStopWizardSteps0Toolbar';
+import StopsExplorerNewStopWizardSteps0Info from '@/components/StopsExplorerNewStopWizardSteps0Info/StopsExplorerNewStopWizardSteps0Info';
 import StopsExplorerNewStopWizardSteps0Map from '@/components/StopsExplorerNewStopWizardSteps0Map/StopsExplorerNewStopWizardSteps0Map';
 import StopsExplorerNewStopWizardSteps0Nav from '@/components/StopsExplorerNewStopWizardSteps0Nav/StopsExplorerNewStopWizardSteps0Nav';
-import StopsExplorerNewStopWizardSteps0Info from '@/components/StopsExplorerNewStopWizardSteps0Info/StopsExplorerNewStopWizardSteps0Info';
+import StopsExplorerNewStopWizardSteps0Toolbar from '@/components/StopsExplorerNewStopWizardSteps0Toolbar/StopsExplorerNewStopWizardSteps0Toolbar';
+
+import styles from './StopsExplorerNewStopWizardSteps0.module.css';
 
 /* * */
 

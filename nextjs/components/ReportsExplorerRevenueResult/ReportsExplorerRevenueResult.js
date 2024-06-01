@@ -2,12 +2,12 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import { useReportsExplorerRevenueContext } from '@/contexts/ReportsExplorerRevenueContext';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import ReportsExplorerRevenueResultError from '@/components/ReportsExplorerRevenueResultError/ReportsExplorerRevenueResultError';
 import ReportsExplorerRevenueResultLoading from '@/components/ReportsExplorerRevenueResultLoading/ReportsExplorerRevenueResultLoading';
 import ReportsExplorerRevenueResultSummary from '@/components/ReportsExplorerRevenueResultSummary/ReportsExplorerRevenueResultSummary';
+import { useReportsExplorerRevenueContext } from '@/contexts/ReportsExplorerRevenueContext';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -25,11 +25,14 @@ export default function ReportsExplorerRevenueResult() {
 
 	if (reportsExplorerSalesContext.request.is_error) {
 		return <ReportsExplorerRevenueResultError />;
-	} else if (reportsExplorerSalesContext.request.is_loading) {
+	}
+	else if (reportsExplorerSalesContext.request.is_loading) {
 		return <ReportsExplorerRevenueResultLoading />;
-	} else if (reportsExplorerSalesContext.request.is_success) {
+	}
+	else if (reportsExplorerSalesContext.request.is_success) {
 		return <ReportsExplorerRevenueResultSummary />;
-	} else {
+	}
+	else {
 		return <NoDataLabel text={t('no_data')} fill />;
 	}
 

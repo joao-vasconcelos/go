@@ -2,18 +2,19 @@
 
 /* * */
 
-import useSWR from 'swr';
-import { useMemo } from 'react';
-import { useTranslations } from 'next-intl';
-import styles from './PatternsExplorerIdPagePath.module.css';
-import { IconSortAscendingNumbers, IconArrowBarUp, IconArrowBarToDown } from '@tabler/icons-react';
-import { Checkbox, Tooltip, NumberInput, MultiSelect, ActionIcon, TextInput } from '@mantine/core';
-import { IconX, IconClockPause, IconEqual, IconPlayerTrackNext, IconArrowAutofitContent, IconClockHour4, IconTicket, IconRotate2 } from '@tabler/icons-react';
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import Loader from '@/components/Loader/Loader';
+import { usePatternsExplorerContext } from '@/contexts/PatternsExplorerContext';
 import calculateTravelTime from '@/services/calculateTravelTime';
 import formatSecondsToTime from '@/services/formatSecondsToTime';
-import { usePatternsExplorerContext } from '@/contexts/PatternsExplorerContext';
+import { ActionIcon, Checkbox, MultiSelect, NumberInput, TextInput, Tooltip } from '@mantine/core';
+import { IconArrowBarToDown, IconArrowBarUp, IconSortAscendingNumbers } from '@tabler/icons-react';
+import { IconArrowAutofitContent, IconClockHour4, IconClockPause, IconEqual, IconPlayerTrackNext, IconRotate2, IconTicket, IconX } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+import useSWR from 'swr';
+
+import styles from './PatternsExplorerIdPagePath.module.css';
 
 /* * */
 
@@ -70,14 +71,15 @@ function PatternsExplorerIdPagePathStopColumn({ rowIndex }) {
 
 	return (
 		<div className={styles.column}>
-			{stopData ?
-				<div className={styles.sequenceStop} onClick={handleOpenStop}>
-					<div className={styles.sequenceStopName}>{stopData.name}</div>
-					{stopLocationInfo && <div className={styles.stopLocationInfo}>{stopLocationInfo}</div>}
-					<div className={styles.sequenceStopId}>#{stopData.code}</div>
-				</div> :
-				<Loader size={20} visible />
-			}
+			{stopData
+				? (
+					<div className={styles.sequenceStop} onClick={handleOpenStop}>
+						<div className={styles.sequenceStopName}>{stopData.name}</div>
+						{stopLocationInfo && <div className={styles.stopLocationInfo}>{stopLocationInfo}</div>}
+						<div className={styles.sequenceStopId}>#{stopData.code}</div>
+					</div>
+				)
+				: <Loader size={20} visible />}
 		</div>
 	);
 
@@ -168,7 +170,7 @@ function PatternsExplorerIdPagePathDistanceDeltaColumn({ rowIndex }) {
 	return (
 		<div className={styles.column}>
 			<Tooltip label={t('description')} position="bottom" withArrow>
-				<TextInput aria-label={t('label')} placeholder={t('placeholder')} value={distanceDeltaFormatted} leftSection={<IconArrowAutofitContent size={20} />} disabled={rowIndex === 0} readOnly />
+				<TextInput aria-label={t('label')} disabled={rowIndex === 0} leftSection={<IconArrowAutofitContent size={20} />} placeholder={t('placeholder')} value={distanceDeltaFormatted} readOnly />
 			</Tooltip>
 		</div>
 	);
@@ -213,15 +215,15 @@ function PatternsExplorerIdPagePathVelocityColumn({ rowIndex }) {
 			<Tooltip label={t('description')} position="bottom" withArrow>
 				<NumberInput
 					aria-label={t('label')}
-					placeholder={t('placeholder')}
 					defaultValue={20}
-					min={0}
-					step={1}
-					suffix={' km/h'}
 					leftSection={<IconPlayerTrackNext size={18} />}
+					min={0}
+					placeholder={t('placeholder')}
+					step={1}
+					suffix=" km/h"
 					{...patternsExplorerContext.form.getInputProps(`path.${rowIndex}.default_velocity`)}
-					onChange={handleUpdateVelocity}
 					disabled={rowIndex === 0}
+					onChange={handleUpdateVelocity}
 					readOnly={patternsExplorerContext.page.is_read_only}
 				/>
 			</Tooltip>
@@ -265,7 +267,7 @@ function PatternsExplorerIdPagePathTravelTimeColumn({ rowIndex }) {
 	return (
 		<div className={styles.column}>
 			<Tooltip label={t('description')} position="bottom" width={350} multiline withArrow>
-				<TextInput aria-label={t('label')} placeholder={t('placeholder')} leftSection={<IconClockHour4 size={18} />} value={travelTimeFormatted} disabled={rowIndex === 0} readOnly />
+				<TextInput aria-label={t('label')} disabled={rowIndex === 0} leftSection={<IconClockHour4 size={18} />} placeholder={t('placeholder')} value={travelTimeFormatted} readOnly />
 			</Tooltip>
 		</div>
 	);
@@ -292,12 +294,12 @@ function PatternsExplorerIdPagePathDwellTimeColumn({ rowIndex }) {
 			<Tooltip label={t('description')} position="bottom" width={350} multiline withArrow>
 				<NumberInput
 					aria-label={t('label')}
-					placeholder={t('placeholder')}
 					defaultValue={30}
-					min={0}
-					max={900}
-					step={10}
 					leftSection={<IconClockPause size={20} />}
+					max={900}
+					min={0}
+					placeholder={t('placeholder')}
+					step={10}
 					suffix=" seg"
 					{...patternsExplorerContext.form.getInputProps(`path.${rowIndex}.default_dwell_time`)}
 					readOnly={patternsExplorerContext.page.is_read_only}
@@ -341,21 +343,21 @@ function PatternsExplorerIdPagePathZonesColumn({ rowIndex }) {
 		<div className={styles.column}>
 			<MultiSelect
 				aria-label={t('label')}
-				placeholder={t('placeholder')}
 				nothingFoundMessage={t('nothingFound')}
+				placeholder={t('placeholder')}
 				{...patternsExplorerContext.form.getInputProps(`path.${rowIndex}.zones`)}
 				data={patternsExplorerContext.data.all_zones_data}
+				readOnly={patternsExplorerContext.page.is_read_only}
 				rightSection={<IconTicket size={20} />}
-				leftSection={
-					<AppAuthenticationCheck permissions={[{ scope: 'lines', action: 'edit' }]}>
-						<ActionIcon onClick={handleResetZones} loading={stopLoading} disabled={!stopData || patternsExplorerContext.page.is_read_only} variant="subtle" color="gray">
+				w="100%"
+				leftSection={(
+					<AppAuthenticationCheck permissions={[{ action: 'edit', scope: 'lines' }]}>
+						<ActionIcon color="gray" disabled={!stopData || patternsExplorerContext.page.is_read_only} loading={stopLoading} onClick={handleResetZones} variant="subtle">
 							<IconRotate2 size={20} />
 						</ActionIcon>
 					</AppAuthenticationCheck>
-				}
-				readOnly={patternsExplorerContext.page.is_read_only}
+				)}
 				searchable
-				w="100%"
 			/>
 		</div>
 	);

@@ -2,13 +2,13 @@
 
 /* * */
 
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
-import { TextInput, Button, SimpleGrid } from '@mantine/core';
-import { useForm, yupResolver } from '@mantine/form';
 import { EmailDefault } from '@/schemas/Email/default';
 import { EmailValidation } from '@/schemas/Email/validation';
+import { Button, SimpleGrid, TextInput } from '@mantine/core';
+import { useForm, yupResolver } from '@mantine/form';
+import { signIn } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 /* * */
 
@@ -26,8 +26,8 @@ export default function AppAuthenticationLogin() {
 
 	const form = useForm({
 		clearInputErrorOnChange: true,
-		validate: yupResolver(EmailValidation),
 		initialValues: EmailDefault,
+		validate: yupResolver(EmailValidation),
 	});
 
 	//
@@ -35,7 +35,7 @@ export default function AppAuthenticationLogin() {
 
 	const handleSignIn = async () => {
 		setIsLoading(true);
-		signIn('email', { email: form.values.email, callbackUrl: '/' });
+		signIn('email', { callbackUrl: '/', email: form.values.email });
 	};
 
 	//
@@ -45,7 +45,7 @@ export default function AppAuthenticationLogin() {
 		<form onSubmit={form.onSubmit(handleSignIn)}>
 			<SimpleGrid>
 				<TextInput aria-label={t('email.label')} placeholder={t('email.placeholder')} {...form.getInputProps('email')} disabled={isLoading} />
-				<Button type={'submit'} fullWidth loading={isLoading}>
+				<Button loading={isLoading} type="submit" fullWidth>
 					{t('login.label')}
 				</Button>
 			</SimpleGrid>

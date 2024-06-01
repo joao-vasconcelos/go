@@ -2,13 +2,13 @@
 
 /* * */
 
-import Pannel from '@/components/Pannel/Pannel';
-import Text from '@/components/Text/Text';
 import { Section } from '@/components/Layouts/Layouts';
-import { useTranslations } from 'next-intl';
-import { SimpleGrid, TextInput, Divider, ColorInput } from '@mantine/core';
-import { useTagsExplorerContext } from '@/contexts/TagsExplorerContext';
+import Pannel from '@/components/Pannel/Pannel';
 import TagsExplorerIdPageHeader from '@/components/TagsExplorerIdPageHeader/TagsExplorerIdPageHeader';
+import Text from '@/components/Text/Text';
+import { useTagsExplorerContext } from '@/contexts/TagsExplorerContext';
+import { ColorInput, Divider, SimpleGrid, TextInput } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -25,7 +25,7 @@ export default function TagsExplorerIdPage() {
 	// B. Render components
 
 	return (
-		<Pannel loading={tagsExplorerContext.page.is_loading} header={<TagsExplorerIdPageHeader />}>
+		<Pannel header={<TagsExplorerIdPageHeader />} loading={tagsExplorerContext.page.is_loading}>
 			<Section>
 				<div>
 					<Text size="h2">{t('sections.config.title')}</Text>

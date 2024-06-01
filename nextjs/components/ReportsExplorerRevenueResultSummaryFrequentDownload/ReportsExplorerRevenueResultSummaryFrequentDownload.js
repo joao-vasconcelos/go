@@ -2,11 +2,11 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import { useReportsExplorerRevenueContext } from '@/contexts/ReportsExplorerRevenueContext';
 import { Alert, Button, Tooltip } from '@mantine/core';
 import { IconListNumbers, IconMoodAnnoyed } from '@tabler/icons-react';
-import { useReportsExplorerRevenueContext } from '@/contexts/ReportsExplorerRevenueContext';
-import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import { useTranslations } from 'next-intl';
 
 /* * */
 
@@ -23,19 +23,20 @@ export default function ReportsExplorerRevenueResultSummaryFrequentDownload() {
 	// B. Render components
 
 	return (
-		<AppAuthenticationCheck permissions={[{ scope: 'reports', action: 'download', fields: [{ key: 'kind', values: ['revenue'] }] }]}>
+		<AppAuthenticationCheck permissions={[{ action: 'download', fields: [{ key: 'kind', values: ['revenue'] }], scope: 'reports' }]}>
 			<div>
 				<Tooltip label={reportsExplorerSalesContext.details.is_loading ? t('is_loading') : t('description')} position="bottom" withArrow>
-					<Button onClick={reportsExplorerSalesContext.downloadPrepaidDetail} leftSection={<IconListNumbers size={18} />} loading={reportsExplorerSalesContext.details.is_loading} variant="light" size="xs" color="grape">
+					<Button color="grape" leftSection={<IconListNumbers size={18} />} loading={reportsExplorerSalesContext.details.is_loading} onClick={reportsExplorerSalesContext.downloadPrepaidDetail} size="xs" variant="light">
 						{t('label')}
 					</Button>
 				</Tooltip>
 			</div>
-			{reportsExplorerSalesContext.details.is_error &&
-        <Alert icon={<IconMoodAnnoyed size={20} />} title={t('is_error.title')} color="red">
-        	{t('is_error.description', { errorMessage: reportsExplorerSalesContext.details.is_error })}
-        </Alert>
-			}
+			{reportsExplorerSalesContext.details.is_error
+			&& (
+				<Alert color="red" icon={<IconMoodAnnoyed size={20} />} title={t('is_error.title')}>
+					{t('is_error.description', { errorMessage: reportsExplorerSalesContext.details.is_error })}
+				</Alert>
+			)}
 		</AppAuthenticationCheck>
 	);
 

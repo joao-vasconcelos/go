@@ -1,12 +1,12 @@
 /* * */
 
-import * as turf from '@turf/turf';
-import calculateTravelTime from '@/services/calculateTravelTime';
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { PatternShapeDefault, PatternPathDefault } from '@/schemas/Pattern/default';
+import { PatternPathDefault, PatternShapeDefault } from '@/schemas/Pattern/default';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { StopModel } from '@/schemas/Stop/model';
+import calculateTravelTime from '@/services/calculateTravelTime';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import * as turf from '@turf/turf';
 
 /* * */
 
@@ -24,7 +24,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -33,8 +34,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'PUT', session: sessionData, permissions: [{ scope: 'lines', action: 'edit' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'PUT', permissions: [{ action: 'edit', scope: 'lines' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -44,7 +46,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = await JSON.parse(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		await res.status(500).json({ message: 'JSON parse error.' });
 		return;
@@ -56,7 +59,8 @@ export default async function handler(req, res) {
 	try {
 		patternDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } }).populate('path.stop');
 		if (!patternDocument) return await res.status(404).json({ message: 'Could not find requested Pattern in database.' });
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		await res.status(500).json({ message: 'Error fetching pattern from database.' });
 		return;
@@ -72,20 +76,23 @@ export default async function handler(req, res) {
 			// Sort points to match sequence
 			patternDocument.shape.points = req.body.shape.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence);
 			// Create geojson feature using turf
-			patternDocument.shape.geojson = turf.lineString(patternDocument.shape.points.map((point) => [parseFloat(point.shape_pt_lon), parseFloat(point.shape_pt_lat)]));
+			patternDocument.shape.geojson = turf.lineString(patternDocument.shape.points.map(point => [parseFloat(point.shape_pt_lon), parseFloat(point.shape_pt_lat)]));
 			// Calculate shape extension from geojson feature
 			const extensionInKilometers = turf.length(patternDocument.shape.geojson, { units: 'kilometers' });
 			const extensionInMeters = extensionInKilometers * 1000;
 			patternDocument.shape.extension = parseInt(extensionInMeters);
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(error);
 			return await res.status(500).json({ message: 'Could not handle points in Shape.' });
 		}
-	} else {
+	}
+	else {
 		try {
 			// Reset geojson and extension if shape has no points
 			patternDocument.shape = { ...PatternShapeDefault };
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(error);
 			return await res.status(500).json({ message: 'Could not handle no points in Shape.' });
 		}
@@ -108,7 +115,7 @@ export default async function handler(req, res) {
 			// Throw an error if no stop is found
 			if (!associatedStopDocument) throw Error(`The stop "${pathItem.stop_id}" does not exist in GO.`);
 			// Get original path stop from non-modified document
-			const originalPathStop = patternDocument.path.find((item) => item.stop?.id === associatedStopDocument?.id);
+			const originalPathStop = patternDocument.path.find(item => item.stop?.id === associatedStopDocument?.id);
 			// Calculate distance delta
 			const distanceDelta = pathIndex === 0 ? 0 : parseInt(pathItem.shape_dist_traveled) - prevDistance;
 			prevDistance = parseInt(pathItem.shape_dist_traveled);
@@ -118,22 +125,23 @@ export default async function handler(req, res) {
 			formattedPath.push({
 				// Include the defaults
 				...PatternPathDefault,
+				allow_drop_off: originalPathStop?.allow_drop_off || PatternPathDefault.allow_drop_off,
+				allow_pickup: originalPathStop?.allow_pickup || PatternPathDefault.allow_pickup,
+				default_dwell_time: originalPathStop?.default_dwell_time || patternDocument.presets.dwell_time || PatternPathDefault.default_dwell_time,
 				// Replace defaults with geographical data specific to the updated pattern
 				default_travel_time: travelTime,
-				distance_delta: distanceDelta,
-				stop: associatedStopDocument._id,
 				// Replace defaults with original data, if path stop is available; otherwise use presets or defaults
 				default_velocity: originalPathStop?.default_velocity || patternDocument.presets.velocity || PatternPathDefault.default_velocity,
-				default_dwell_time: originalPathStop?.default_dwell_time || patternDocument.presets.dwell_time || PatternPathDefault.default_dwell_time,
+				distance_delta: distanceDelta,
+				stop: associatedStopDocument._id,
 				zones: originalPathStop?.zones || associatedStopDocument.zones,
-				allow_pickup: originalPathStop?.allow_pickup || PatternPathDefault.allow_pickup,
-				allow_drop_off: originalPathStop?.allow_drop_off || PatternPathDefault.allow_drop_off,
 			});
 		}
 		//
 		patternDocument.path = formattedPath;
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: error.message || 'Error processing path.' });
 	}
@@ -146,7 +154,8 @@ export default async function handler(req, res) {
 		patternDocument.save();
 		// Return updated document
 		return await res.status(200).json(patternDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot update this Pattern.' });
 	}

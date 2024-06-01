@@ -2,9 +2,9 @@
 
 /* * */
 
-import { useParams } from 'next/navigation';
-import { useRouter } from '@/translations/navigation';
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
+import { useRouter } from '@/translations/navigation';
+import { useParams } from 'next/navigation';
 
 /* * */
 
@@ -29,7 +29,7 @@ export default function AlertsExplorerListItem({ item }) {
 	// C. Render components
 
 	return (
-		<BaseListItem onClick={handleClick} isSelected={alert_id === item._id} withChevron>
+		<BaseListItem isSelected={alert_id === item._id} onClick={handleClick} withChevron>
 			<p>{item.title}</p>
 		</BaseListItem>
 	);

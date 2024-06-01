@@ -2,18 +2,18 @@
 
 /* * */
 
-import useSWR from 'swr';
-import doSearch from '@/services/doSearch';
-import { useRouter } from '@/translations/navigation';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import isAllowed from '@/authentication/isAllowed';
-import { useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
-import { useForm, yupResolver } from '@mantine/form';
-import { FareValidation } from '@/schemas/Fare/validation';
 import { FareDefault } from '@/schemas/Fare/default';
-import populate from '@/services/populate';
+import { FareValidation } from '@/schemas/Fare/validation';
 import API from '@/services/API';
+import doSearch from '@/services/doSearch';
+import populate from '@/services/populate';
+import { useRouter } from '@/translations/navigation';
+import { useForm, yupResolver } from '@mantine/form';
+import { useParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -30,20 +30,20 @@ const initialListState = {
 	is_error: false,
 	is_loading: false,
 	//
-	search_query: '',
-	//
 	items: [],
+	//
+	search_query: '',
 	//
 };
 
 const initialPageState = {
 	//
 	is_error: false,
-	is_loading: false,
-	is_saving: false,
 	is_error_saving: false,
+	is_loading: false,
 	//
 	is_read_only: false,
+	is_saving: false,
 	//
 };
 
@@ -68,11 +68,11 @@ export function FaresExplorerContextProvider({ children }) {
 	// C. Setup form
 
 	const formState = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: FareDefault,
+		validate: yupResolver(FareValidation),
 		validateInputOnBlur: true,
 		validateInputOnChange: true,
-		clearInputErrorOnChange: true,
-		validate: yupResolver(FareValidation),
-		initialValues: FareDefault,
 	});
 
 	//
@@ -86,7 +86,7 @@ export function FaresExplorerContextProvider({ children }) {
 	// E. Transform data
 
 	useEffect(() => {
-		setPageState((prev) => ({ ...prev, is_loading: itemLoading }));
+		setPageState(prev => ({ ...prev, is_loading: itemLoading }));
 	}, [itemLoading]);
 
 	useEffect(() => {
@@ -95,15 +95,15 @@ export function FaresExplorerContextProvider({ children }) {
 		// Filter items based on search query
 		const filteredItems = doSearch(listState.search_query, allItemsData, { keys: ['name', 'code'] });
 		// Update state
-		setListState((prev) => ({ ...prev, items: filteredItems }));
+		setListState(prev => ({ ...prev, items: filteredItems }));
 		//
 	}, [allItemsData, listState.search_query]);
 
 	useEffect(() => {
 		// Check if the use is allowed to edit the current page
-		const isReadOnly = !isAllowed(sessionData, [{ scope: 'fares', action: 'edit' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving;
+		const isReadOnly = !isAllowed(sessionData, [{ action: 'edit', scope: 'fares' }], { handleError: true }) || itemData?.is_locked || pageState.is_saving;
 		// Update state
-		setPageState((prev) => ({ ...prev, is_read_only: isReadOnly }));
+		setPageState(prev => ({ ...prev, is_read_only: isReadOnly }));
 		//
 	}, [itemData?.is_locked, pageState.is_saving, sessionData]);
 
@@ -122,11 +122,11 @@ export function FaresExplorerContextProvider({ children }) {
 	// F. Setup actions
 
 	const updateSearchQuery = useCallback((value) => {
-		setListState((prev) => ({ ...prev, search_query: value }));
+		setListState(prev => ({ ...prev, search_query: value }));
 	}, []);
 
 	const clearSearchQuery = useCallback(() => {
-		setListState((prev) => ({ ...prev, search_query: '' }));
+		setListState(prev => ({ ...prev, search_query: '' }));
 	}, []);
 
 	const validateItem = useCallback(async () => {
@@ -135,43 +135,46 @@ export function FaresExplorerContextProvider({ children }) {
 
 	const saveItem = useCallback(async () => {
 		try {
-			setPageState((prev) => ({ ...prev, is_saving: true, is_error_saving: false }));
-			await API({ service: 'fares', resourceId: itemId, operation: 'edit', method: 'PUT', body: formState.values });
+			setPageState(prev => ({ ...prev, is_error_saving: false, is_saving: true }));
+			await API({ body: formState.values, method: 'PUT', operation: 'edit', resourceId: itemId, service: 'fares' });
 			itemMutate(formState.values);
 			allItemsMutate();
 			formState.resetDirty();
-			setPageState((prev) => ({ ...prev, is_saving: false }));
-		} catch (error) {
+			setPageState(prev => ({ ...prev, is_saving: false }));
+		}
+		catch (error) {
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_saving: false, is_error_saving: error }));
+			setPageState(prev => ({ ...prev, is_error_saving: error, is_saving: false }));
 		}
 	}, [allItemsMutate, formState, itemId, itemMutate]);
 
 	const lockItem = useCallback(async () => {
 		try {
-			await API({ service: 'fares', resourceId: itemId, operation: 'lock', method: 'PUT' });
+			await API({ method: 'PUT', operation: 'lock', resourceId: itemId, service: 'fares' });
 			itemMutate();
 			allItemsMutate();
-		} catch (error) {
+		}
+		catch (error) {
 			itemMutate();
 			allItemsMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: error }));
+			setPageState(prev => ({ ...prev, is_error: error }));
 		}
 	}, [allItemsMutate, itemId, itemMutate]);
 
 	const deleteItem = useCallback(async () => {
 		try {
-			setPageState((prev) => ({ ...prev, is_error: false }));
-			await API({ service: 'fares', resourceId: itemId, operation: 'delete', method: 'DELETE' });
+			setPageState(prev => ({ ...prev, is_error: false }));
+			await API({ method: 'DELETE', operation: 'delete', resourceId: itemId, service: 'fares' });
 			router.push('/fares');
 			allItemsMutate();
 			formState.resetDirty();
-		} catch (error) {
+		}
+		catch (error) {
 			itemMutate();
 			allItemsMutate();
 			console.log(error);
-			setPageState((prev) => ({ ...prev, is_error: error }));
+			setPageState(prev => ({ ...prev, is_error: error }));
 		}
 	}, [allItemsMutate, formState, itemId, itemMutate, router]);
 
@@ -181,9 +184,9 @@ export function FaresExplorerContextProvider({ children }) {
 
 	const exportAttributesAsFile = useCallback(async () => {
 		try {
-			setListState((prev) => ({ ...prev, is_loading: true }));
-			setPageState((prev) => ({ ...prev, is_loading: true }));
-			const responseBlob = await API({ service: 'fares', operation: 'export/attributes', method: 'GET', parseType: 'blob' });
+			setListState(prev => ({ ...prev, is_loading: true }));
+			setPageState(prev => ({ ...prev, is_loading: true }));
+			const responseBlob = await API({ method: 'GET', operation: 'export/attributes', parseType: 'blob', service: 'fares' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			// eslint-disable-next-line no-undef
 			const htmlAnchorElement = document.createElement('a');
@@ -192,20 +195,21 @@ export function FaresExplorerContextProvider({ children }) {
 			// eslint-disable-next-line no-undef
 			document.body.appendChild(htmlAnchorElement);
 			htmlAnchorElement.click();
-			setListState((prev) => ({ ...prev, is_loading: false }));
-			setPageState((prev) => ({ ...prev, is_loading: false }));
-		} catch (error) {
+			setListState(prev => ({ ...prev, is_loading: false }));
+			setPageState(prev => ({ ...prev, is_loading: false }));
+		}
+		catch (error) {
 			console.log(error);
-			setListState((prev) => ({ ...prev, is_loading: false }));
-			setPageState((prev) => ({ ...prev, is_loading: false }));
+			setListState(prev => ({ ...prev, is_loading: false }));
+			setPageState(prev => ({ ...prev, is_loading: false }));
 		}
 	}, []);
 
 	const exportRulesAsFile = useCallback(async () => {
 		try {
-			setListState((prev) => ({ ...prev, is_loading: true }));
-			setPageState((prev) => ({ ...prev, is_loading: true }));
-			const responseBlob = await API({ service: 'fares', operation: 'export/rules', method: 'GET', parseType: 'blob' });
+			setListState(prev => ({ ...prev, is_loading: true }));
+			setPageState(prev => ({ ...prev, is_loading: true }));
+			const responseBlob = await API({ method: 'GET', operation: 'export/rules', parseType: 'blob', service: 'fares' });
 			const objectURL = URL.createObjectURL(responseBlob);
 			// eslint-disable-next-line no-undef
 			const htmlAnchorElement = document.createElement('a');
@@ -214,12 +218,13 @@ export function FaresExplorerContextProvider({ children }) {
 			// eslint-disable-next-line no-undef
 			document.body.appendChild(htmlAnchorElement);
 			htmlAnchorElement.click();
-			setListState((prev) => ({ ...prev, is_loading: false }));
-			setPageState((prev) => ({ ...prev, is_loading: false }));
-		} catch (error) {
+			setListState(prev => ({ ...prev, is_loading: false }));
+			setPageState(prev => ({ ...prev, is_loading: false }));
+		}
+		catch (error) {
 			console.log(error);
-			setListState((prev) => ({ ...prev, is_loading: false }));
-			setPageState((prev) => ({ ...prev, is_loading: false }));
+			setListState(prev => ({ ...prev, is_loading: false }));
+			setPageState(prev => ({ ...prev, is_loading: false }));
 		}
 	}, []);
 
@@ -228,25 +233,25 @@ export function FaresExplorerContextProvider({ children }) {
 
 	const contextObject = useMemo(
 		() => ({
-			//
-			list: listState,
-			page: pageState,
-			form: formState,
-			//
-			item_id: itemId,
-			item_data: itemData,
-			//
-			updateSearchQuery: updateSearchQuery,
 			clearSearchQuery: clearSearchQuery,
-			//
-			validateItem: validateItem,
-			saveItem: saveItem,
-			lockItem: lockItem,
-			deleteItem: deleteItem,
 			closeItem: closeItem,
+			deleteItem: deleteItem,
 			//
 			exportAttributesAsFile: exportAttributesAsFile,
 			exportRulesAsFile: exportRulesAsFile,
+			form: formState,
+			item_data: itemData,
+			//
+			item_id: itemId,
+			//
+			list: listState,
+			lockItem: lockItem,
+			page: pageState,
+			saveItem: saveItem,
+			//
+			updateSearchQuery: updateSearchQuery,
+			//
+			validateItem: validateItem,
 			//
 		}),
 		[listState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, validateItem, saveItem, lockItem, deleteItem, closeItem, exportAttributesAsFile, exportRulesAsFile],

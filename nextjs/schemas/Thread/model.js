@@ -9,34 +9,34 @@ import mongoose from 'mongoose';
 /* A. Mongoose Schema */
 export const Schema = new mongoose.Schema(
 	{
-		subject: {
-			type: String,
-			maxlength: 100,
-		},
-		owner: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-		},
-		status: {
-			type: String,
-			maxlength: 50,
-		},
-		theme: {
-			type: String,
-			maxlength: 50,
-		},
 		associated_lines: [
 			{
-				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Line',
+				type: mongoose.Schema.Types.ObjectId,
 			},
 		],
 		associated_stops: [
 			{
-				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Stop',
+				type: mongoose.Schema.Types.ObjectId,
 			},
 		],
+		owner: {
+			ref: 'User',
+			type: mongoose.Schema.Types.ObjectId,
+		},
+		status: {
+			maxlength: 50,
+			type: String,
+		},
+		subject: {
+			maxlength: 100,
+			type: String,
+		},
+		theme: {
+			maxlength: 50,
+			type: String,
+		},
 	},
 	{
 		timestamps: true,
@@ -44,9 +44,9 @@ export const Schema = new mongoose.Schema(
 		virtuals: {
 			messages: {
 				options: {
-					ref: 'Message',
-					localField: '_id',
 					foreignField: 'thread_id',
+					localField: '_id',
+					ref: 'Message',
 				},
 			},
 		},

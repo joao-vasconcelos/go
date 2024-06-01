@@ -1,9 +1,9 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { PatternModel } from '@/schemas/Pattern/model';
 import { CalendarModel } from '@/schemas/Calendar/model';
+import { PatternModel } from '@/schemas/Pattern/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
@@ -22,7 +22,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -31,8 +32,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -53,7 +55,7 @@ export default async function handler(req, res) {
 			},
 		}, '_id code');
 
-		const allCalendarIdsToRemove = new Set(allCalendarCodes.map((item) => String(item._id)));
+		const allCalendarIdsToRemove = new Set(allCalendarCodes.map(item => String(item._id)));
 
 		const allPatternCodesWithSpecialCalendarsOn = await PatternModel.find({ 'schedules.calendars_on': { $in: Array.from(allCalendarIdsToRemove) } }, '_id code');
 		const allPatternCodesWithSpecialCalendarsOff = await PatternModel.find({ 'schedules.calendars_off': { $in: Array.from(allCalendarIdsToRemove) } }, '_id code');
@@ -76,8 +78,8 @@ export default async function handler(req, res) {
 				//
 
 				// Create a temporary variable
-				const calendarsOnForThisSchedule = new Set(scheduleData.calendars_on.map((item) => String(item)));
-				const calendarsOffForThisSchedule = new Set(scheduleData.calendars_off.map((item) => String(item)));
+				const calendarsOnForThisSchedule = new Set(scheduleData.calendars_on.map(item => String(item)));
+				const calendarsOffForThisSchedule = new Set(scheduleData.calendars_off.map(item => String(item)));
 
 				for (const calendarIdToRemove of allCalendarIdsToRemove.values()) {
 					calendarsOnForThisSchedule.delete(calendarIdToRemove);
@@ -105,7 +107,8 @@ export default async function handler(req, res) {
 		}
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Import Error' });
 	}

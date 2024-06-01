@@ -2,11 +2,12 @@
 
 /* * */
 
-import { Button } from '@mantine/core';
-import { useTranslations } from 'next-intl';
-import styles from './StopsExplorerNewStopWizardSteps2Nav.module.css';
 import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
+import { Button } from '@mantine/core';
 import { IconMapPlus } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
+
+import styles from './StopsExplorerNewStopWizardSteps2Nav.module.css';
 
 /* * */
 
@@ -24,10 +25,10 @@ export default function StopsExplorerNewStopWizardSteps2Nav() {
 
 	return (
 		<div className={styles.container}>
-			<Button variant="light" onClick={stopsExplorerNewStopWizardContext.returnWizardToPreviousStep} disabled={stopsExplorerNewStopWizardContext.wizard.is_loading}>
+			<Button disabled={stopsExplorerNewStopWizardContext.wizard.is_loading} onClick={stopsExplorerNewStopWizardContext.returnWizardToPreviousStep} variant="light">
 				{t('previous_step.label')}
 			</Button>
-			<Button onClick={stopsExplorerNewStopWizardContext.confirmNewStopCreation} leftSection={<IconMapPlus size={18} />} loading={stopsExplorerNewStopWizardContext.wizard.is_loading} variant="filled" color="green">
+			<Button color="green" leftSection={<IconMapPlus size={18} />} loading={stopsExplorerNewStopWizardContext.wizard.is_loading} onClick={stopsExplorerNewStopWizardContext.confirmNewStopCreation} variant="filled">
 				{t('create.label')}
 			</Button>
 		</div>

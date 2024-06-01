@@ -4,7 +4,7 @@ import useBulkImportController from '../../hooks/useBulkImportController';
 import BulkImportFileSelect from '../BulkImportFileSelect/BulkImportFileSelect';
 import BulkImportTable from '../BulkImportTable/BulkImportTable';
 
-export default function BulkImport({ filesParser, dataUploader }) {
+export default function BulkImport({ dataUploader, filesParser }) {
 	//
 
 	//

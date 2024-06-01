@@ -7,21 +7,21 @@ import mongoose from 'mongoose';
 export const DateSchema = new mongoose.Schema(
 	{
 		date: {
-			type: String,
 			maxlength: 8,
+			type: String,
 			unique: true,
 		},
-		period: {
-			type: String,
-			maxlength: 1,
-		},
 		is_holiday: {
-			type: Boolean,
 			default: false,
+			type: Boolean,
 		},
 		notes: {
-			type: String,
 			maxlength: 5000,
+			type: String,
+		},
+		period: {
+			maxlength: 1,
+			type: String,
 		},
 	},
 	{ timestamps: true },

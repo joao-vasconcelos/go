@@ -6,38 +6,38 @@ import mongoose from 'mongoose';
 export const TypologySchema = new mongoose.Schema(
 	{
 		code: {
-			type: String,
 			maxlength: 10,
+			type: String,
 			unique: true,
 		},
-		name: {
-			type: String,
-			maxlength: 50,
-		},
-		short_name: {
-			type: String,
-			maxlength: 50,
-		},
 		color: {
-			type: String,
 			maxlength: 7,
-		},
-		text_color: {
 			type: String,
-			maxlength: 7,
-		},
-		default_prepaid_fare: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Fare',
 		},
 		default_onboard_fares: [
 			{
-				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Fare',
+				type: mongoose.Schema.Types.ObjectId,
 			},
 		],
+		default_prepaid_fare: {
+			ref: 'Fare',
+			type: mongoose.Schema.Types.ObjectId,
+		},
 		is_locked: {
 			type: Boolean,
+		},
+		name: {
+			maxlength: 50,
+			type: String,
+		},
+		short_name: {
+			maxlength: 50,
+			type: String,
+		},
+		text_color: {
+			maxlength: 7,
+			type: String,
 		},
 	},
 	{ timestamps: true },

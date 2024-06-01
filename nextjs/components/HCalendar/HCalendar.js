@@ -1,12 +1,13 @@
 'use client';
 
-import { useMemo } from 'react';
-import styles from './HCalendar.module.css';
-import dayjs from 'dayjs';
-import HCalendarSpacer from '@/components/HCalendarSpacer/HCalendarSpacer';
 import HCalendarPlaceholder from '@/components/HCalendarPlaceholder/HCalendarPlaceholder';
+import HCalendarSpacer from '@/components/HCalendarSpacer/HCalendarSpacer';
+import dayjs from 'dayjs';
+import { useMemo } from 'react';
 
-export default function HCalendar({ availableDates, renderCardComponent, onMultiSelect }) {
+import styles from './HCalendar.module.css';
+
+export default function HCalendar({ availableDates, onMultiSelect, renderCardComponent }) {
 	//
 
 	//
@@ -36,10 +37,10 @@ export default function HCalendar({ availableDates, renderCardComponent, onMulti
 		for (let i = 0; i < allPlaceholderDatesInRange.length; i++) {
 			const placeholderDate = allPlaceholderDatesInRange[i];
 			// Find the corresponding object in arrayB
-			const actualDateObject = availableDates.find((dateObject) => dateObject.date === placeholderDate);
+			const actualDateObject = availableDates.find(dateObject => dateObject.date === placeholderDate);
 			// If the object exists, assign its properties to the date in arrayA
 			if (actualDateObject) allPlaceholderDatesInRange[i] = { ...actualDateObject, card_type: 'date' };
-			else allPlaceholderDatesInRange[i] = { date: placeholderDate, card_type: 'placeholder' };
+			else allPlaceholderDatesInRange[i] = { card_type: 'placeholder', date: placeholderDate };
 		}
 
 		// 5. Now that we have a complete set of dates, we can organize them by month
@@ -48,9 +49,9 @@ export default function HCalendar({ availableDates, renderCardComponent, onMulti
 			const monthSortKey = dayjs(dateItem.date, 'YYYYMMDD').format('YYYYMM');
 			const monthNumber = dayjs(dateItem.date, 'YYYYMMDD').month();
 			const monthName = dayjs(dateItem.date, 'YYYYMMDD').format('MMM YYYY');
-			const monthIndex = acc.findIndex((month) => month.sort_key === monthSortKey);
+			const monthIndex = acc.findIndex(month => month.sort_key === monthSortKey);
 			// Month doesn't exist in the array yet, create a new month object
-			if (monthIndex === -1) acc.push({ sort_key: monthSortKey, month_number: monthNumber, month_name: monthName, days: [dateItem] });
+			if (monthIndex === -1) acc.push({ days: [dateItem], month_name: monthName, month_number: monthNumber, sort_key: monthSortKey });
 			// Month already exists in the array, add the date object to its days array
 			else acc[monthIndex].days.push(dateItem);
 			// Return the updated accumulator
@@ -65,8 +66,8 @@ export default function HCalendar({ availableDates, renderCardComponent, onMulti
 			const firstDayOfThisMonthWeekdayType = dayjs(sortedDays[0].date).day();
 			const numberOfSpacersToAddForAlignment = firstDayOfThisMonthWeekdayType === 0 ? 6 : firstDayOfThisMonthWeekdayType - 1;
 			const spacersToAddForAlignment = Array.from({ length: numberOfSpacersToAddForAlignment }, (_, i) => ({
-				date: i,
 				card_type: 'spacer',
+				date: i,
 			}));
 			// Return this months formatted dates
 			return { ...month, days: [...spacersToAddForAlignment, ...sortedDays] };
@@ -132,11 +133,13 @@ export default function HCalendar({ availableDates, renderCardComponent, onMulti
 		return (
 			<div className={styles.tableHeaderRow}>
 				<div className={styles.tableHeaderCell} onClick={handleReferenceClick}>
-          Mês
+					Mês
 				</div>
-				{headerCells.map((weekdayString, index) => <div key={index} className={styles.tableHeaderCell} onClick={() => handleDayTypeClick(index)}>
-					{weekdayString}
-				</div>)}
+				{headerCells.map((weekdayString, index) => (
+					<div key={index} className={styles.tableHeaderCell} onClick={() => handleDayTypeClick(index)}>
+						{weekdayString}
+					</div>
+				))}
 			</div>
 		);
 	};
@@ -145,26 +148,28 @@ export default function HCalendar({ availableDates, renderCardComponent, onMulti
 		<div className={styles.container}>
 			<CalendarHeader />
 			<div className={styles.tableBody}>
-				{allDatesFormatted &&
-          allDatesFormatted.map((month, index) => <div key={month.sort_key}>
-          		<div className={styles.tableBodyRow}>
-          			<div className={`${styles.tableBodyCell} ${styles.monthCell}`} onClick={() => handleMonthClick(month)}>
-          				{month.month_name}
-          			</div>
-          			{month.days.map((dateObj) => {
-          				switch (dateObj.card_type) {
-          				default:
-          				case 'spacer':
-          					return <HCalendarSpacer key={dateObj.date} />;
-          				case 'placeholder':
-          					return <HCalendarPlaceholder key={dateObj.date} date={dateObj.date} />;
-          				case 'date':
-          					return renderCardComponent({ key: dateObj.date, date: dateObj.date, dateObj: dateObj });
-          				}
-          			})}
-          		</div>
-          		{month.month_number === 11 && index < allDatesFormatted.length - 1 && <div className={styles.lastMonthOfYear} />}
-          	</div>)}
+				{allDatesFormatted
+				&& allDatesFormatted.map((month, index) => (
+					<div key={month.sort_key}>
+						<div className={styles.tableBodyRow}>
+							<div className={`${styles.tableBodyCell} ${styles.monthCell}`} onClick={() => handleMonthClick(month)}>
+								{month.month_name}
+							</div>
+							{month.days.map((dateObj) => {
+								switch (dateObj.card_type) {
+									default:
+									case 'spacer':
+										return <HCalendarSpacer key={dateObj.date} />;
+									case 'placeholder':
+										return <HCalendarPlaceholder key={dateObj.date} date={dateObj.date} />;
+									case 'date':
+										return renderCardComponent({ date: dateObj.date, dateObj: dateObj, key: dateObj.date });
+								}
+							})}
+						</div>
+						{month.month_number === 11 && index < allDatesFormatted.length - 1 && <div className={styles.lastMonthOfYear} />}
+					</div>
+				))}
 			</div>
 		</div>
 	);

@@ -1,19 +1,20 @@
 'use client';
 
-import { Button, Alert, Text, SimpleGrid } from '@mantine/core';
-import { IconRotate, IconAlertTriangleFilled } from '@tabler/icons-react';
+import { Alert, Button, SimpleGrid, Text } from '@mantine/core';
+import { IconAlertTriangleFilled, IconRotate } from '@tabler/icons-react';
 
-export default function ErrorDisplay({ error, loading, disabled, onTryAgain }) {
+export default function ErrorDisplay({ disabled, error, loading, onTryAgain }) {
 	if (error) {
 		return (
-			<Alert icon={<IconAlertTriangleFilled size={'20px'} />} title={error.message} color="red">
+			<Alert color="red" icon={<IconAlertTriangleFilled size="20px" />} title={error.message}>
 				<SimpleGrid>
 					{error.description && <Text>{error.description}</Text>}
-					{onTryAgain &&
-            <Button variant="default" color="red" leftSection={<IconRotate />} disabled={disabled} loading={loading} onClick={onTryAgain}>
-            	{loading ? 'Retrying...' : 'Try Again'}
-            </Button>
-					}
+					{onTryAgain
+					&& (
+						<Button color="red" disabled={disabled} leftSection={<IconRotate />} loading={loading} onClick={onTryAgain} variant="default">
+							{loading ? 'Retrying...' : 'Try Again'}
+						</Button>
+					)}
 				</SimpleGrid>
 			</Alert>
 		);

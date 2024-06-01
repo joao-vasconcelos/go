@@ -1,9 +1,9 @@
 /* * */
 
-import mongodb from '@/services/OFFERMANAGERDB';
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
 import { MediaModel } from '@/schemas/Media/model';
+import mongodb from '@/services/OFFERMANAGERDB';
 
 /* * */
 
@@ -28,8 +28,9 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-		isAllowed(sessionData, [{ scope: 'media', action: 'view' }]);
-	} catch (error) {
+		isAllowed(sessionData, [{ action: 'view', scope: 'media' }]);
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
 	}
@@ -39,7 +40,8 @@ export default async function handler(req, res) {
 
 	try {
 		await mongodb.connect();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'MongoDB connection error.' });
 	}
@@ -51,7 +53,8 @@ export default async function handler(req, res) {
 		const foundDocument = await MediaModel.findOne({ _id: { $eq: req.query._id } });
 		if (!foundDocument) return await res.status(404).json({ message: `Media with _id "${req.query._id}" not found.` });
 		return await res.status(200).json(foundDocument);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot fetch this Media.' });
 	}

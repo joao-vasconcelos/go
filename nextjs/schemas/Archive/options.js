@@ -7,7 +7,7 @@ export const ArchiveOptions = {
    * STORAGE SCOPE
    */
 
-	storage_scope: 'archives',
+	slamanager_feeder_status: ['pending', 'processed', 'error'],
 
 	/*
    * STATUS
@@ -19,7 +19,7 @@ export const ArchiveOptions = {
    * SLAMANAGER FEEDER STATUS
    */
 
-	slamanager_feeder_status: ['pending', 'processed', 'error'],
+	storage_scope: 'archives',
 
 	//
 };

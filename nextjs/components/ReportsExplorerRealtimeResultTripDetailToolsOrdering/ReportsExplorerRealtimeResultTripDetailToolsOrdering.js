@@ -23,16 +23,16 @@ export default function ReportsExplorerRealtimeResultTripDetailToolsOrdering() {
 	// B. Render components
 
 	return (
-		<Standout icon={<IconSortAscendingNumbers size={20} />} title={t('title')} description={t('description')} collapsible defaultOpen={false}>
+		<Standout defaultOpen={false} description={t('description')} icon={<IconSortAscendingNumbers size={20} />} title={t('title')} collapsible>
 			<SegmentedControl
-				value={reportsExplorerRealtimeContext.form.event_order_type}
 				onChange={reportsExplorerRealtimeContext.updateEventOrderType}
+				style={{ alignSelf: 'flex-start' }}
+				value={reportsExplorerRealtimeContext.form.event_order_type}
 				data={[
 					{ label: t('event_order_type.insert_timestamp'), value: 'insert_timestamp' },
 					{ label: t('event_order_type.header_timestamp'), value: 'header_timestamp' },
 					{ label: t('event_order_type.vehicle_timestamp'), value: 'vehicle_timestamp' },
 				]}
-				style={{ alignSelf: 'flex-start' }}
 			/>
 		</Standout>
 	);

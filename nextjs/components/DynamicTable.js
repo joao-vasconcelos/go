@@ -1,19 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { styled } from '@stitches/react';
-import { Table, Group, TextInput, Loader } from '@mantine/core';
+import { Group, Loader, Table, TextInput } from '@mantine/core';
 import { keys } from '@mantine/utils';
-import { IconSearch, IconSelector, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
+import { styled } from '@stitches/react';
+import { IconChevronDown, IconChevronUp, IconSearch, IconSelector } from '@tabler/icons-react';
+import { useEffect, useState } from 'react';
 
 const TableHeaderColumn = styled('th', {
-	cursor: 'pointer',
-	backgroundColor: '$gray1',
 	'&:hover': {
-		color: '$gray12',
 		backgroundColor: '$gray3',
+		color: '$gray12',
 	},
-	variants: {
+	'backgroundColor': '$gray1',
+	'cursor': 'pointer',
+	'variants': {
 		isSorted: {
 			true: {
 				color: '$info5 !important',
@@ -23,28 +23,28 @@ const TableHeaderColumn = styled('th', {
 });
 
 const TableBodyRow = styled('tr', {
-	cursor: 'pointer',
-	backgroundColor: '$gray0',
-	'&:hover': {
-		color: '$info5',
-		backgroundColor: '$info1',
-	},
 	'& td': {
 		padding: '$sm !important',
 	},
 	'& td:first-child': {
 		fontWeight: '$bold',
 	},
+	'&:hover': {
+		backgroundColor: '$info1',
+		color: '$info5',
+	},
+	'backgroundColor': '$gray0',
+	'cursor': 'pointer',
 });
 
 const NoData = styled('td', {
+	backgroundColor: '$gray0',
+	color: '$gray5',
 	fontSize: '$lg !important',
 	fontWeight: '$medium',
-	textTransform: 'uppercase',
-	color: '$gray5',
-	textAlign: 'center',
 	padding: '$lg !important',
-	backgroundColor: '$gray0',
+	textAlign: 'center',
+	textTransform: 'uppercase',
 });
 
 //
@@ -83,7 +83,8 @@ export default function DynamicTable(props) {
 			if (reversedSort) {
 				return collator.compare(b[sortKey], a[sortKey]);
 				// return String(b[sortKey]).localeCompare(String(a[sortKey]));
-			} else {
+			}
+			else {
 				return collator.compare(a[sortKey], b[sortKey]);
 				// return String(a[sortKey]).localeCompare(String(b[sortKey]));
 			}
@@ -109,41 +110,48 @@ export default function DynamicTable(props) {
 
 	return (
 		<>
-			<TextInput placeholder={props.searchFieldPlaceholder} icon={<IconSearch />} value={searchQuery} onChange={handleSearchQueryChange} />
+			<TextInput icon={<IconSearch />} onChange={handleSearchQueryChange} placeholder={props.searchFieldPlaceholder} value={searchQuery} />
 			<Table withBorder>
 				<thead>
 					<tr>
-						{props.columns.map((col, index) => <TableHeaderColumn key={index} isSorted={sortKey === col.key} onClick={() => handleSortChange(col.key)}>
-							<Group position="apart">
-								{col.label}
-								{sortKey === col.key ? reverseSortDirection ? <IconChevronUp /> : <IconChevronDown /> : <IconSelector />}
-							</Group>
-						</TableHeaderColumn>)}
+						{props.columns.map((col, index) => (
+							<TableHeaderColumn key={index} isSorted={sortKey === col.key} onClick={() => handleSortChange(col.key)}>
+								<Group position="apart">
+									{col.label}
+									{sortKey === col.key ? reverseSortDirection ? <IconChevronUp /> : <IconChevronDown /> : <IconSelector />}
+								</Group>
+							</TableHeaderColumn>
+						))}
 					</tr>
 				</thead>
 				<tbody>
-					{props.isLoading ?
-						<tr>
-							<NoData colSpan={props.columns.length}>
-								<Group position={'center'}>
-									<Loader color="gray" size="xs" />
-                  Loading...
-								</Group>
-							</NoData>
-						</tr> :
-						formattedData?.length ?
-							formattedData.map((row, index) => <TableBodyRow
-								key={index}
-								onClick={() => {
-									if (props.onRowClick) props.onRowClick(row);
-								}}
-							>
-								{props.columns.map((col, index) => <td key={index}>{row[col.key] || '-'}</td>)}
-							</TableBodyRow>) :
+					{props.isLoading
+						? (
 							<tr>
-								<NoData colSpan={props.columns.length}>Sem Informação</NoData>
+								<NoData colSpan={props.columns.length}>
+									<Group position="center">
+										<Loader color="gray" size="xs" />
+										Loading...
+									</Group>
+								</NoData>
 							</tr>
-					}
+						)
+						: formattedData?.length
+							? formattedData.map((row, index) => (
+								<TableBodyRow
+									key={index}
+									onClick={() => {
+										if (props.onRowClick) props.onRowClick(row);
+									}}
+								>
+									{props.columns.map((col, index) => <td key={index}>{row[col.key] || '-'}</td>)}
+								</TableBodyRow>
+							))
+							: (
+								<tr>
+									<NoData colSpan={props.columns.length}>Sem Informação</NoData>
+								</tr>
+							)}
 				</tbody>
 			</Table>
 		</>

@@ -1,16 +1,16 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import { MunicipalityModel } from '@/schemas/Municipality/model';
 import { PatternModel } from '@/schemas/Pattern/model';
 import { StopModel } from '@/schemas/Stop/model';
-import * as turf from '@turf/turf';
-import { ZoneModel } from '@/schemas/Zone/model';
-import Papa from 'papaparse';
-import fs from 'fs';
 import { StopOptions } from '@/schemas/Stop/options';
-import { MunicipalityModel } from '@/schemas/Municipality/model';
+import { ZoneModel } from '@/schemas/Zone/model';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import tts from '@carrismetropolitana/tts';
+import * as turf from '@turf/turf';
+import fs from 'fs';
+import Papa from 'papaparse';
 
 /* * */
 
@@ -29,7 +29,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -38,8 +39,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'GET', session: sessionData, permissions: [{ scope: 'configs', action: 'admin' }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -49,7 +51,8 @@ export default async function handler(req, res) {
 
 	try {
 		await PatternModel.syncIndexes();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Cannot sync indexes.' });
 	}
@@ -68,12 +71,12 @@ export default async function handler(req, res) {
 		// 6.3.
 		// Build a hash map of the Municipalities array
 		const allMunicipalitiesMap = {};
-		allMunicipalities.forEach((municipality) => allMunicipalitiesMap[municipality.code] = municipality);
+		allMunicipalities.forEach(municipality => allMunicipalitiesMap[municipality.code] = municipality);
 
 		const deletedStopsRaw = fs.readFileSync('/app/pages/api/configs/imports/all_stops.csv', { encoding: 'utf8' });
 		// const deletedStopsRaw = fs.readFileSync('./pages/api/configs/imports/all_stops.csv', { encoding: 'utf8' });
 
-		const parsedAllStops = Papa.parse(deletedStopsRaw, { header: true, delimiter: ',' });
+		const parsedAllStops = Papa.parse(deletedStopsRaw, { delimiter: ',', header: true });
 
 		// 5.2.
 		// Iterate through each available line
@@ -107,13 +110,14 @@ export default async function handler(req, res) {
 				let shortenedStopName = parsedStopData.name_new;
 				// Shorten the stop name
 				StopOptions.name_abbreviations
-					.filter((abbreviation) => abbreviation.enabled)
+					.filter(abbreviation => abbreviation.enabled)
 					.forEach((abbreviation) => {
 						shortenedStopName = shortenedStopName.replace(abbreviation.phrase, abbreviation.replacement);
 					});
 				// Save the new name
 				parsedStopData.short_name = shortenedStopName;
-			} else {
+			}
+			else {
 				parsedStopData.name_new = 'a definir';
 				parsedStopData.short_name = 'a definir';
 			}
@@ -166,12 +170,13 @@ export default async function handler(req, res) {
 		// 6.5.
 		// Delete all Stops not present in the current update
 		console.log('⤷ Deleting stale stops...');
-		const thisBatchStopCodes = parsedAllStops.data.map((parsedStopData) => parsedStopData.stop_id);
+		const thisBatchStopCodes = parsedAllStops.data.map(parsedStopData => parsedStopData.stop_id);
 		const deletedStaleStops = await StopModel.deleteMany({ code: { $nin: thisBatchStopCodes } });
 		console.log(`⤷ Deleted ${deletedStaleStops.deletedCount} stale stops.`);
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Import Error' });
 	}

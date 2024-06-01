@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+
 import styles from './HCalendarPlaceholder.module.css';
 
 export default function HCalendarPlaceholder({ date }) {

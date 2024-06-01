@@ -2,11 +2,12 @@
 
 /* * */
 
-import useSWR from 'swr';
+import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
 import { Button } from '@mantine/core';
 import { useTranslations } from 'next-intl';
+import useSWR from 'swr';
+
 import styles from './StopsExplorerNewStopWizardSteps3Nav.module.css';
-import { useStopsExplorerNewStopWizardContext } from '@/contexts/StopsExplorerNewStopWizardContext';
 
 /* * */
 
@@ -30,7 +31,7 @@ export default function StopsExplorerNewStopWizardSteps3Nav() {
 
 	return (
 		<div className={styles.container}>
-			<Button onClick={stopsExplorerNewStopWizardContext.goToNewStop} loading={newStopLoading || municipalityLoading} variant="filled">
+			<Button loading={newStopLoading || municipalityLoading} onClick={stopsExplorerNewStopWizardContext.goToNewStop} variant="filled">
 				{t('close.label')}
 			</Button>
 		</div>

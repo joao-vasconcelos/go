@@ -2,18 +2,19 @@
 
 /* * */
 
-import Text from '@/components/Text/Text';
+import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
+import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
 import AutoSave from '@/components/AutoSave/AutoSave';
+import ListHeader from '@/components/ListHeader/ListHeader';
+import Text from '@/components/Text/Text';
+import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser';
+import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
 import notify from '@/services/notify';
 import { openConfirmModal } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
-import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
-import AppButtonDelete from '@/components/AppButtonDelete/AppButtonDelete';
-import ListHeader from '@/components/ListHeader/ListHeader';
-import { useUsersExplorerContext } from '@/contexts/UsersExplorerContext';
-import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser';
+
 import styles from './UsersExplorerIdPageHeader.module.css';
-import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 
 /* * */
 
@@ -31,22 +32,23 @@ export default function UsersExplorerIdPageHeader() {
 
 	const handleDelete = async () => {
 		openConfirmModal({
-			title: <Text size="h2">{t('operations.delete.title')}</Text>,
 			centered: true,
-			closeOnClickOutside: true,
 			children: <Text size="h3">{t('operations.delete.description')}</Text>,
-			labels: { confirm: t('operations.delete.confirm'), cancel: t('operations.delete.cancel') },
+			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
+			labels: { cancel: t('operations.delete.cancel'), confirm: t('operations.delete.confirm') },
 			onConfirm: async () => {
 				try {
 					notify(usersExplorerContext.item_id, 'loading', t('operations.delete.loading'));
 					await usersExplorerContext.deleteItem();
 					notify(usersExplorerContext.item_id, 'success', t('operations.delete.success'));
-				} catch (error) {
+				}
+				catch (error) {
 					console.log(error);
 					notify(usersExplorerContext.item_id, 'error', error.message || t('operations.delete.error'));
 				}
 			},
+			title: <Text size="h2">{t('operations.delete.title')}</Text>,
 		});
 	};
 
@@ -56,27 +58,28 @@ export default function UsersExplorerIdPageHeader() {
 	return (
 		<ListHeader>
 			<AutoSave
-				isValid={usersExplorerContext.form.isValid()}
 				isDirty={usersExplorerContext.form.isDirty()}
-				onValidate={usersExplorerContext.validateItem}
-				isErrorValidating={usersExplorerContext.page.is_error}
 				isErrorSaving={usersExplorerContext.page.is_error_saving}
+				isErrorValidating={usersExplorerContext.page.is_error}
 				isSaving={usersExplorerContext.page.is_saving}
-				onSave={usersExplorerContext.saveItem}
+				isValid={usersExplorerContext.form.isValid()}
 				onClose={usersExplorerContext.closeItem}
+				onSave={usersExplorerContext.saveItem}
+				onValidate={usersExplorerContext.validateItem}
 			/>
-			{usersExplorerContext.form.values.name ?
-				<UsersExplorerUser userId={usersExplorerContext.item_id} type="full" /> :
-				<Text size="h1" style="untitled" full>
-					{t('untitled')}
-				</Text>
-			}
+			{usersExplorerContext.form.values.name
+				? <UsersExplorerUser type="full" userId={usersExplorerContext.item_id} />
+				: (
+					<Text size="h1" style="untitled" full>
+						{t('untitled')}
+					</Text>
+				)}
 			<div className={styles.spacer} />
-			<AppAuthenticationCheck permissions={[{ scope: 'users', action: 'lock' }]}>
+			<AppAuthenticationCheck permissions={[{ action: 'lock', scope: 'users' }]}>
 				<AppButtonLock isLocked={usersExplorerContext.item_data?.is_locked} onClick={usersExplorerContext.lockItem} />
 			</AppAuthenticationCheck>
-			<AppAuthenticationCheck permissions={[{ scope: 'users', action: 'delete' }]}>
-				<AppButtonDelete onClick={handleDelete} disabled={usersExplorerContext.page.is_read_only} />
+			<AppAuthenticationCheck permissions={[{ action: 'delete', scope: 'users' }]}>
+				<AppButtonDelete disabled={usersExplorerContext.page.is_read_only} onClick={handleDelete} />
 			</AppAuthenticationCheck>
 		</ListHeader>
 	);

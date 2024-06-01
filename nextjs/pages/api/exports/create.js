@@ -1,19 +1,19 @@
 /* * */
 
-import fs from 'fs';
-import path from 'path';
-import isAllowed from '@/authentication/isAllowed';
 import getSession from '@/authentication/getSession';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import isAllowed from '@/authentication/isAllowed';
+import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportDefault } from '@/schemas/Export/default';
 import { ExportModel } from '@/schemas/Export/model';
-import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportOptions } from '@/schemas/Export/options';
 import gtfsExportReferenceV29 from '@/scripts/gtfs/gtfs.export.reference_v29';
-import netexExportV1 from '@/scripts/netex/netex.export.v1';
 import gtfsExportRegionalMergeV1 from '@/scripts/gtfs/gtfs.export.regional_merge_v1';
+import netexExportV1 from '@/scripts/netex/netex.export.v1';
 import SMTP from '@/services/SMTP';
 import STORAGE from '@/services/STORAGE';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import fs from 'fs';
+import path from 'path';
 import yazl from 'yazl';
 
 /* * */
@@ -34,7 +34,8 @@ export default async function handler(req, res) {
 
 	try {
 		req.body = await JSON.parse(req.body);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log('error1', error);
 		return await res.status(500).json({ message: 'JSON parse error.' });
 	}
@@ -44,7 +45,8 @@ export default async function handler(req, res) {
 
 	try {
 		sessionData = await getSession(req, res);
-	} catch (error) {
+	}
+	catch (error) {
 		console.log('error2', error);
 		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
@@ -53,8 +55,9 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ request: req, method: 'POST', session: sessionData, permissions: [{ scope: 'exports', action: 'create', fields: [{ key: 'kind', values: [req.body.kind] }] }] });
-	} catch (error) {
+		await prepareApiEndpoint({ method: 'POST', permissions: [{ action: 'create', fields: [{ key: 'kind', values: [req.body.kind] }], scope: 'exports' }], request: req, session: sessionData });
+	}
+	catch (error) {
 		console.log('error3', error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
@@ -72,20 +75,21 @@ export default async function handler(req, res) {
 		switch (req.body.kind) {
 		// 5.2.1.
 		// For 'gtfs_v29' the only requirement is the agency_id
-		case 'gtfs_v29':
-			isAllowed(sessionData, [{ scope: 'exports', action: 'create', fields: [{ key: 'agency', values: [req.body.agency_id] }] }]);
-			break;
+			case 'gtfs_v29':
+				isAllowed(sessionData, [{ action: 'create', fields: [{ key: 'agency', values: [req.body.agency_id] }], scope: 'exports' }]);
+				break;
 			// 5.2.2.
 			// For 'netex_v1' the only requirement is the agency_id
-		case 'netex_v1':
-			isAllowed(sessionData, [{ scope: 'exports', action: 'create', fields: [{ key: 'agency', values: [req.body.agency_id] }] }]);
-			break;
+			case 'netex_v1':
+				isAllowed(sessionData, [{ action: 'create', fields: [{ key: 'agency', values: [req.body.agency_id] }], scope: 'exports' }]);
+				break;
 			// 5.2.3.
 			// For 'regional_merge_v1' there are no specific requirements
-		case 'regional_merge_v1':
-			break;
+			case 'regional_merge_v1':
+				break;
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		console.log('error3', error);
 		return await res.status(400).json({ message: error.message || 'Could not verify specific export kind permissions.' });
 	}
@@ -96,7 +100,8 @@ export default async function handler(req, res) {
 
 	try {
 		await ExportModel.syncIndexes();
-	} catch (error) {
+	}
+	catch (error) {
 		console.log('error4', error);
 		return await res.status(500).json({ message: 'Cannot sync indexes.' });
 	}
@@ -113,8 +118,8 @@ export default async function handler(req, res) {
 		// This will generate a new _id for the operation.
 		exportDocument = new ExportModel({
 			...ExportDefault,
-			kind: req.body.kind,
 			exported_by: sessionData.user._id,
+			kind: req.body.kind,
 			notify_user: req.body.notify_user ? true : false,
 		});
 
@@ -123,34 +128,36 @@ export default async function handler(req, res) {
 		switch (exportDocument.kind) {
 		// 7.2.1.
 		// For GTFS v29 the name consists of the agency code, the version and the export date.
-		case 'gtfs_v29':
-			try {
-				const agencyData = await AgencyModel.findOne({ _id: { $eq: req.body.agency_id } });
-				if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
-				exportDocument.filename = `GTFS_${agencyData.code}_REF_v29_${today()}.zip`;
-				break;
-			} catch (error) {
-				console.log('error5', error);
-				return await res.status(500).json({ message: 'Error fetching Agency data.' });
-			}
+			case 'gtfs_v29':
+				try {
+					const agencyData = await AgencyModel.findOne({ _id: { $eq: req.body.agency_id } });
+					if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
+					exportDocument.filename = `GTFS_${agencyData.code}_REF_v29_${today()}.zip`;
+					break;
+				}
+				catch (error) {
+					console.log('error5', error);
+					return await res.status(500).json({ message: 'Error fetching Agency data.' });
+				}
 			// 7.2.2.
 			// For NETEX v1 the name consists of the agency code, the version and the export date.
-		case 'netex_v1':
-			try {
-				const agencyData = await AgencyModel.findOne({ _id: { $eq: req.body.agency_id } });
-				if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
-				exportDocument.filename = `NETEX_${agencyData.code}_v1_${today()}.zip`;
-				break;
-			} catch (error) {
-				console.log('error5', error);
-				return await res.status(500).json({ message: 'Error fetching Agency data.' });
-			}
+			case 'netex_v1':
+				try {
+					const agencyData = await AgencyModel.findOne({ _id: { $eq: req.body.agency_id } });
+					if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
+					exportDocument.filename = `NETEX_${agencyData.code}_v1_${today()}.zip`;
+					break;
+				}
+				catch (error) {
+					console.log('error5', error);
+					return await res.status(500).json({ message: 'Error fetching Agency data.' });
+				}
 			// 7.2.3.
 			// For REGIONAL MERGE v1 the name consists of the version and the export date.
-		case 'regional_merge_v1':
-			exportDocument.filename = `GTFS_REGIONAL_MERGE_v1_${today()}.zip`;
-			exportDocument.notify_user = false;
-			break;
+			case 'regional_merge_v1':
+				exportDocument.filename = `GTFS_REGIONAL_MERGE_v1_${today()}.zip`;
+				exportDocument.notify_user = false;
+				break;
 		}
 
 		// 7.3.
@@ -167,7 +174,8 @@ export default async function handler(req, res) {
 		await res.status(201).json(exportDocument);
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log('error6', error);
 		return await res.status(500).json({ message: 'Could not create Export summary.' });
 	}
@@ -188,27 +196,27 @@ export default async function handler(req, res) {
 		// Initiate the main export operation
 		switch (exportDocument.kind) {
 		// 8.2.1.
-		case 'gtfs_v29':
-			await gtfsExportReferenceV29(exportDocument, req.body);
-			await update(exportDocument, { progress_current: 1, progress_total: 2 });
-			break;
+			case 'gtfs_v29':
+				await gtfsExportReferenceV29(exportDocument, req.body);
+				await update(exportDocument, { progress_current: 1, progress_total: 2 });
+				break;
 			// 8.2.2.
-		case 'netex_v1':
-			await netexExportV1(exportDocument, req.body);
-			await update(exportDocument, { progress_current: 1, progress_total: 2 });
-			break;
+			case 'netex_v1':
+				await netexExportV1(exportDocument, req.body);
+				await update(exportDocument, { progress_current: 1, progress_total: 2 });
+				break;
 			// 8.2.2.
-		case 'regional_merge_v1':
-			await gtfsExportRegionalMergeV1(exportDocument, req.body);
-			await update(exportDocument, { progress_current: 1, progress_total: 2 });
-			break;
+			case 'regional_merge_v1':
+				await gtfsExportRegionalMergeV1(exportDocument, req.body);
+				await update(exportDocument, { progress_current: 1, progress_total: 2 });
+				break;
 		}
 
 		// 8.3.
 		// Zip the workdir folder that contains the generated files.
 		// Name the resulting archive with the _id of this Export.
 
-		const outputZip = new yazl.ZipFile;
+		const outputZip = new yazl.ZipFile();
 
 		await new Promise((resolve, _) => {
 			const outputDirContents = fs.readdirSync(exportDocument.workdir, { withFileTypes: true });
@@ -229,24 +237,25 @@ export default async function handler(req, res) {
 		// Send an email to the user using the email address of the user who requested the export.
 		if (exportDocument.notify_user === true && sessionData.user?.email) {
 			await SMTP.sendMail({
+				attachments: [{ content: outputZipBuffer, contentType: 'application/zip', filename: exportDocument.filename }],
 				from: process.env.EMAIL_FROM,
-				to: sessionData.user.email,
-				subject: '✅ Exportação Concluída',
 				html: `Por favor verifique o ficheiro em anexo. A exportação também está disponível no GO durante as próximas 4 horas. <pre>${exportDocument}</pre>`,
-				attachments: [{ filename: exportDocument.filename, content: outputZipBuffer, contentType: 'application/zip' }],
+				subject: '✅ Exportação Concluída',
+				to: sessionData.user.email,
 			});
 		}
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log('error7', error);
 		await update(exportDocument, { status: 'ERROR' });
 		if (exportDocument.notify_user && sessionData.user?.email) {
 			await SMTP.sendMail({
 				from: process.env.EMAIL_FROM,
-				to: sessionData.user.email,
-				subject: '❤️‍🩹 Ocorreu um erro na Exportação',
 				html: `Infelizmente ocorreu um erro na exportação. A mensagem de erro foi: <pre>${error.message}</pre> As opções de exportação foram: <pre>${exportDocument}</pre>`,
+				subject: '❤️‍🩹 Ocorreu um erro na Exportação',
+				to: sessionData.user.email,
 			});
 		}
 	}
@@ -280,7 +289,7 @@ function getWorkdir(exportId) {
 	// Use the 'tmp' folder as the working directory
 	const workdir = `${storagedir}/${exportId}`;
 	// Out of an abundance of caution, delete the directory and all its contents if it already exists
-	if (fs.existsSync(workdir)) fs.rmSync(workdir, { recursive: true, force: true });
+	if (fs.existsSync(workdir)) fs.rmSync(workdir, { force: true, recursive: true });
 	// Create a fresh empty directory in the given path
 	fs.mkdirSync(workdir, { recursive: true });
 	// Return workdir to the caller
@@ -298,7 +307,7 @@ function getWorkdir(exportId) {
 /* Output the current date and time in the format YYYYMMDDHHMM. */
 /* For example, if the current date is July 3, 2023, at 9:30 AM, the output will be 202307030930. */
 function today() {
-	let currentDate = new Date;
+	let currentDate = new Date();
 	let year = currentDate.getFullYear();
 	let month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
 	let day = currentDate.getDate().toString().padStart(2, '0');

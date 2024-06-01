@@ -2,12 +2,12 @@
 
 /* * */
 
-import { ArchiveOptions } from '@/schemas/Archive/options';
-import MediaExplorerMediaUpload from '@/components/MediaExplorerMediaUpload/MediaExplorerMediaUpload';
-import MediaExplorerMedia from '@/components/MediaExplorerMedia/MediaExplorerMedia';
-import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
 import ArchivesExplorerListItemFilesWrapper from '@/components/ArchivesExplorerListItemFilesWrapper/ArchivesExplorerListItemFilesWrapper';
+import MediaExplorerMedia from '@/components/MediaExplorerMedia/MediaExplorerMedia';
+import MediaExplorerMediaUpload from '@/components/MediaExplorerMediaUpload/MediaExplorerMediaUpload';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
+import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
+import { ArchiveOptions } from '@/schemas/Archive/options';
 import { useTranslations } from 'next-intl';
 
 /* * */
@@ -55,7 +55,7 @@ export default function ArchivesExplorerListItemFilesOffer() {
 
 	return (
 		<ArchivesExplorerListItemFilesWrapper title={t('title')}>
-			<MediaExplorerMediaUpload storageScope={ArchiveOptions.storage_scope} onUploadComplete={handleUploadComplete} />
+			<MediaExplorerMediaUpload onUploadComplete={handleUploadComplete} storageScope={ArchiveOptions.storage_scope} />
 		</ArchivesExplorerListItemFilesWrapper>
 	);
 

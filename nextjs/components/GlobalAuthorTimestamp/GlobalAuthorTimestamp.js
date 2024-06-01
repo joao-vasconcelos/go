@@ -2,13 +2,14 @@
 
 /* * */
 
-import { useTranslations } from 'next-intl';
-import styles from './GlobalAuthorTimestamp.module.css';
 import UsersExplorerUser from '@/components/UsersExplorerUser/UsersExplorerUser';
+import { useTranslations } from 'next-intl';
+
+import styles from './GlobalAuthorTimestamp.module.css';
 
 /* * */
 
-export default function GlobalAuthorTimestamp({ userId, timestamp, actionVerb }) {
+export default function GlobalAuthorTimestamp({ actionVerb, timestamp, userId }) {
 	//
 
 	//
@@ -21,8 +22,8 @@ export default function GlobalAuthorTimestamp({ userId, timestamp, actionVerb })
 
 	return (
 		<div className={styles.container}>
-			<UsersExplorerUser userId={userId} type="simple" />
-			<p className={styles.timestamp}>{t('timestamp', { verb: actionVerb, timestamp: new Date(timestamp) })}</p>
+			<UsersExplorerUser type="simple" userId={userId} />
+			<p className={styles.timestamp}>{t('timestamp', { timestamp: new Date(timestamp), verb: actionVerb })}</p>
 		</div>
 	);
 

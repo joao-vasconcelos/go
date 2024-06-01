@@ -2,13 +2,14 @@
 
 /* * */
 
-import { useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from '@/translations/navigation';
 import { CMLogo } from '@/components/AppLogos/AppLogos';
 import Loader from '@/components/Loader/Loader';
+import { useRouter } from '@/translations/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import appBackground from 'public/background.jpg';
+import { useEffect } from 'react';
+
 import styles from './AppAuthentication.module.css';
 
 /* * */
@@ -46,7 +47,7 @@ export default function AppAuthentication({ children }) {
 				<div className={styles.logoWrapper}>
 					<CMLogo />
 				</div>
-				<div className={styles.formWrapper}>{status === 'unauthenticated' ? children : <Loader visible fill />}</div>
+				<div className={styles.formWrapper}>{status === 'unauthenticated' ? children : <Loader fill visible />}</div>
 			</div>
 		</div>
 	);

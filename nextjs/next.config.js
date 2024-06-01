@@ -10,9 +10,9 @@ module.exports = withNextIntl({
 	async redirects() {
 		return [
 			{
-				source: '/dashboard',
 				destination: '/',
 				permanent: true,
+				source: '/dashboard',
 			},
 		];
 	},
