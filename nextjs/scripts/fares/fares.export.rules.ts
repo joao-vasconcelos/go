@@ -60,14 +60,23 @@ export default async function faresExportRules(options: FaresExportRulesOptions)
 				}
 			}
 
+			if (options?.forced_agency_id) {
+				allFareRulesDataFormatted.push({
+					agency_id: options.forced_agency_id,
+					fare_id: lineData.prepaid_fare.code,
+					route_id: routeData.code,
+				});
+			}
+			else {
+				allFareRulesDataFormatted.push({
+					fare_id: lineData.prepaid_fare.code,
+					route_id: routeData.code,
+				});
+			}
+
 			for (const onboardFareData of lineData.onboard_fares) {
 				//
 				if (options?.forced_agency_id) {
-					allFareRulesDataFormatted.push({
-						agency_id: options.forced_agency_id,
-						fare_id: lineData.prepaid_fare.code,
-						route_id: routeData.code,
-					});
 					allFareRulesDataFormatted.push({
 						agency_id: options.forced_agency_id,
 						fare_id: onboardFareData.code,
@@ -75,10 +84,6 @@ export default async function faresExportRules(options: FaresExportRulesOptions)
 					});
 				}
 				else {
-					allFareRulesDataFormatted.push({
-						fare_id: lineData.prepaid_fare.code,
-						route_id: routeData.code,
-					});
 					allFareRulesDataFormatted.push({
 						fare_id: onboardFareData.code,
 						route_id: routeData.code,
