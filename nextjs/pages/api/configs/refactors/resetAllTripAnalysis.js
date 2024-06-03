@@ -1,7 +1,7 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import { ArchiveModel } from '@/models/ArchiveModel';
+import { ArchiveModel } from '@/schemas/ArchiveModel';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
