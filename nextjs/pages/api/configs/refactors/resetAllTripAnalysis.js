@@ -1,6 +1,7 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
+import { ArchiveModel } from '@/models/ArchiveModel';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
@@ -43,6 +44,8 @@ export default async function handler(req, res) {
 
 	try {
 		//
+
+		await ArchiveModel.updateMany({}, { $set: { slamanager_feeder_status: 'pending' } });
 
 		await SLAMANAGERDB.connect();
 
