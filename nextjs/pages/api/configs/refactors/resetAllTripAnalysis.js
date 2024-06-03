@@ -45,7 +45,7 @@ export default async function handler(req, res) {
 	try {
 		//
 
-		await ArchiveModel.updateMany({}, { $set: { slamanager_feeder_status: 'pending' } });
+		await ArchiveModel.updateMany({}, { $set: { status: 'disabled' } });
 
 		await SLAMANAGERDB.connect();
 

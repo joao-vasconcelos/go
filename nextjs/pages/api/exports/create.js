@@ -218,7 +218,7 @@ export default async function handler(req, res) {
 
 		const outputZip = new yazl.ZipFile();
 
-		await new Promise((resolve, _) => {
+		await new Promise((resolve) => {
 			const outputDirContents = fs.readdirSync(exportDocument.workdir, { withFileTypes: true });
 			outputDirContents.forEach((outputDirFile) => {
 				outputZip.addFile(path.resolve(`${exportDocument.workdir}/${outputDirFile.name}`), outputDirFile.name);
