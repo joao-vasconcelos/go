@@ -1,14 +1,14 @@
 /* * */
 
+import crypto from 'crypto';
+import { parse as csvParser } from 'csv-parse';
+import extract from 'extract-zip';
 import fs from 'fs';
+
+import DBWRITER from './services/DBWRITER';
 import OFFERMANAGERDB from './services/OFFERMANAGERDB';
 import SLAMANAGERDB from './services/SLAMANAGERDB';
 import TIMETRACKER from './services/TIMETRACKER';
-import DBWRITER from './services/DBWRITER';
-import { DateTime } from 'luxon';
-import { parse as csvParser } from 'csv-parse';
-import crypto from 'crypto';
-import extract from 'extract-zip';
 
 /* * */
 
@@ -25,7 +25,8 @@ const setDirectoryPermissions = (dirPath, mode = 0o666) => {
 		const filePath = `${dirPath}/${file.name}`;
 		if (file.isDirectory()) {
 			setDirectoryPermissions(filePath, mode);
-		} else {
+		}
+		else {
 			fs.chmodSync(filePath, mode);
 		}
 	}
@@ -39,11 +40,11 @@ export default async () => {
 	try {
 		console.log();
 		console.log('------------------------');
-		console.log((new Date).toISOString());
+		console.log((new Date()).toISOString());
 		console.log('------------------------');
 		console.log();
 
-		const globalTimer = new TIMETRACKER;
+		const globalTimer = new TIMETRACKER();
 		console.log('Starting...');
 
 		// 1.
@@ -65,15 +66,15 @@ export default async () => {
 		// 3.
 		// Setup variables to keep track of created IDs
 
-		const parsedArchiveCodes = new Set;
-		const createdHashedTripCodes = new Set;
-		const createdHashedShapeCodes = new Set;
-		const createdTripAnalysisCodes = new Set;
+		const parsedArchiveCodes = new Set();
+		const createdHashedTripCodes = new Set();
+		const createdHashedShapeCodes = new Set();
+		const createdTripAnalysisCodes = new Set();
 
 		// 4.
 		// Get all archives (GTFS plans) from GO database, and iterate on each one
 
-		const allArchivesData = await OFFERMANAGERDB.Archive.find({ status: 'active', slamanager_feeder_status: 'pending' }).toArray();
+		const allArchivesData = await OFFERMANAGERDB.Archive.find({ slamanager_feeder_status: 'pending', status: 'active' }).toArray();
 
 		console.log(`→ Found ${allArchivesData.length} archives to process...`);
 
@@ -89,16 +90,16 @@ export default async () => {
 				// 4.2.
 				// Setup variables to save formatted entities found in this archive
 
-				const savedCalendarDates = new Map;
-				const savedTrips = new Map;
-				const savedStops = new Map;
-				const savedRoutes = new Map;
-				const savedShapes = new Map;
-				const savedStopTimes = new Map;
+				const savedCalendarDates = new Map();
+				const savedTrips = new Map();
+				const savedStops = new Map();
+				const savedRoutes = new Map();
+				const savedShapes = new Map();
+				const savedStopTimes = new Map();
 
-				const referencedStops = new Set;
-				const referencedShapes = new Set;
-				const referencedRoutes = new Set;
+				const referencedStops = new Set();
+				const referencedShapes = new Set();
+				const referencedRoutes = new Set();
 
 				// 4.3.
 				// Get the associated start and end dates for this archive.
@@ -107,7 +108,7 @@ export default async () => {
 				// valid on a different month. The validity dates will be used to clip the calendars and only saved the actual part
 				// of the plan that was actually active in that period.
 
-				const startDateString = '20240501'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
+				const startDateString = '20240101'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
 				const endDateString = '20240531'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
 
 				// 4.4.
@@ -156,7 +157,8 @@ export default async () => {
 						if (savedCalendar) {
 							// If this service_id was previously saved, add the current date to it
 							savedCalendarDates.set(data.service_id, Array.from(new Set([...savedCalendar, data.date])));
-						} else {
+						}
+						else {
 							// If this is the first time we're seeing this service_id, initiate the dates array with the current date
 							savedCalendarDates.set(data.service_id, [data.date]);
 						}
@@ -171,7 +173,8 @@ export default async () => {
 					console.log(`✔︎ Finished processing "calendar_dates.txt" of archive "${archiveData.code}".`);
 
 					//
-				} catch (error) {
+				}
+				catch (error) {
 					console.log('✖︎ Error processing "calendar_dates.txt" file.', error);
 					throw new Error('✖︎ Error processing "calendar_dates.txt" file.');
 				}
@@ -196,12 +199,12 @@ export default async () => {
 						if (!savedCalendarDates.has(data.service_id)) return;
 						// Format the exported row. Only include the minimum required to prevent memory bloat later on.
 						const parsedRowData = {
-							trip_id: data.trip_id,
-							trip_headsign: data.trip_headsign,
-							route_id: data.route_id,
 							pattern_id: data.pattern_id,
+							route_id: data.route_id,
 							service_id: data.service_id,
 							shape_id: data.shape_id,
+							trip_headsign: data.trip_headsign,
+							trip_id: data.trip_id,
 						};
 						// Save this trip for later
 						savedTrips.set(data.trip_id, parsedRowData);
@@ -219,7 +222,8 @@ export default async () => {
 					console.log(`✔︎ Finished processing "trips.txt" of archive "${archiveData.code}".`);
 
 					//
-				} catch (error) {
+				}
+				catch (error) {
 					console.log('✖︎ Error processing "trips.txt" file.', error);
 					throw new Error('✖︎ Error processing "trips.txt" file.');
 				}
@@ -242,15 +246,15 @@ export default async () => {
 						if (!referencedRoutes.has(data.route_id)) return;
 						// Format the exported row
 						const parsedRowData = {
-							route_id: data.route_id,
-							route_short_name: data.route_short_name,
-							route_long_name: data.route_long_name,
-							route_color: data.route_color,
-							route_text_color: data.route_text_color,
-							line_id: data.line_id,
-							line_short_name: data.line_short_name,
-							line_long_name: data.line_long_name,
 							agency_id: data.agency_id,
+							line_id: data.line_id,
+							line_long_name: data.line_long_name,
+							line_short_name: data.line_short_name,
+							route_color: data.route_color,
+							route_id: data.route_id,
+							route_long_name: data.route_long_name,
+							route_short_name: data.route_short_name,
+							route_text_color: data.route_text_color,
 						};
 						//
 						savedRoutes.set(data.route_id, parsedRowData);
@@ -265,7 +269,8 @@ export default async () => {
 					console.log(`✔︎ Finished processing "routes.txt" of archive "${archiveData.code}".`);
 
 					//
-				} catch (error) {
+				}
+				catch (error) {
 					console.log('✖︎ Error processing "routes.txt" file.', error);
 					throw new Error('✖︎ Error processing "routes.txt" file.');
 				}
@@ -288,9 +293,9 @@ export default async () => {
 						if (!referencedShapes.has(data.shape_id)) return;
 						//
 						const thisShapeRowPoint = {
-							shape_pt_sequence: Number(data.shape_pt_sequence),
 							shape_pt_lat: data.shape_pt_lat,
 							shape_pt_lon: data.shape_pt_lon,
+							shape_pt_sequence: Number(data.shape_pt_sequence),
 						};
 						// Get the previously saved shape
 						const savedShape = savedShapes.has(data.shape_id);
@@ -298,7 +303,8 @@ export default async () => {
 						if (savedShape) {
 							// If this shape_id was previously saved, add the current point to it
 							savedShapes.get(data.shape_id).push(thisShapeRowPoint);
-						} else {
+						}
+						else {
 							// If this is the first time we're seeing this shape_id, initiate the points array with the current point
 							savedShapes.set(data.shape_id, [thisShapeRowPoint]);
 						}
@@ -313,7 +319,8 @@ export default async () => {
 					console.log(`✔︎ Finished processing "shapes.txt" of archive "${archiveData.code}".`);
 
 					//
-				} catch (error) {
+				}
+				catch (error) {
 					console.log('✖︎ Error processing "shapes.txt" file.', error);
 					throw new Error('✖︎ Error processing "shapes.txt" file.');
 				}
@@ -352,7 +359,8 @@ export default async () => {
 					console.log(`✔︎ Finished processing "stops.txt" of archive "${archiveData.code}".`);
 
 					//
-				} catch (error) {
+				}
+				catch (error) {
 					console.log('✖︎ Error processing "stops.txt" file.', error);
 					throw new Error('✖︎ Error processing "stops.txt" file.');
 				}
@@ -381,15 +389,15 @@ export default async () => {
 						if (!stopData) return;
 						//
 						const parsedRowData = {
+							arrival_time: data.arrival_time,
+							departure_time: data.departure_time,
+							drop_off_type: data.drop_off_type,
+							pickup_type: data.pickup_type,
 							stop_id: data.stop_id,
 							stop_lat: stopData.stop_lat,
 							stop_lon: stopData.stop_lon,
 							stop_name: stopData.stop_name,
-							arrival_time: data.arrival_time,
-							departure_time: data.departure_time,
 							stop_sequence: Number(data.stop_sequence),
-							pickup_type: data.pickup_type,
-							drop_off_type: data.drop_off_type,
 							timepoint: data.timepoint,
 						};
 						//
@@ -397,7 +405,8 @@ export default async () => {
 						//
 						if (savedStopTime) {
 							savedStopTimes.get(data.trip_id).push(parsedRowData);
-						} else {
+						}
+						else {
 							savedStopTimes.set(data.trip_id, [parsedRowData]);
 						}
 						//
@@ -413,7 +422,8 @@ export default async () => {
 					console.log(`✔︎ Finished processing "stop_times.txt" of archive "${archiveData.code}".`);
 
 					//
-				} catch (error) {
+				}
+				catch (error) {
 					console.log('✖︎ Error processing "stop_times.txt" file.', error);
 					throw new Error('✖︎ Error processing "stop_times.txt" file.');
 				}
@@ -444,19 +454,19 @@ export default async () => {
 							agency_id: routeData.agency_id,
 							//
 							line_id: routeData.line_id,
-							line_short_name: routeData.line_short_name,
 							line_long_name: routeData.line_long_name,
-							//
-							route_id: tripData.route_id,
-							route_short_name: routeData.route_short_name,
-							route_long_name: routeData.route_long_name,
-							route_color: routeData.route_color,
-							route_text_color: routeData.route_text_color,
-							//
-							pattern_id: tripData.pattern_id,
-							trip_headsign: tripData.trip_headsign,
+							line_short_name: routeData.line_short_name,
 							//
 							path: stopTimesData?.sort((a, b) => a.stop_sequence - b.stop_sequence),
+							//
+							pattern_id: tripData.pattern_id,
+							route_color: routeData.route_color,
+							//
+							route_id: tripData.route_id,
+							route_long_name: routeData.route_long_name,
+							route_short_name: routeData.route_short_name,
+							route_text_color: routeData.route_text_color,
+							trip_headsign: tripData.trip_headsign,
 							//
 						};
 
@@ -466,7 +476,7 @@ export default async () => {
 
 						hashedTripData.code = crypto.createHash('sha256').update(JSON.stringify(hashedTripData)).digest('hex');
 						const currentHashedTripAlreadyExists = await SLAMANAGERDB.HashedTrip.findOne({ code: hashedTripData.code });
-						if (!currentHashedTripAlreadyExists) await hashedTripsDbWritter.write(hashedTripData, { upsert: true, filter: { code: hashedTripData.code } });
+						if (!currentHashedTripAlreadyExists) await hashedTripsDbWritter.write(hashedTripData, { filter: { code: hashedTripData.code }, upsert: true });
 						createdHashedTripCodes.add(hashedTripData.code);
 
 						// 4.13.4.
@@ -474,8 +484,8 @@ export default async () => {
 
 						const hashedShapeData = {
 							agency_id: routeData.agency_id,
-							shape_id: tripData.shape_id,
 							points: shapeData?.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence),
+							shape_id: tripData.shape_id,
 						};
 
 						// 4.13.5.
@@ -484,7 +494,7 @@ export default async () => {
 
 						hashedShapeData.code = crypto.createHash('sha256').update(JSON.stringify(hashedShapeData)).digest('hex');
 						const currentHashedShapeAlreadyExists = await SLAMANAGERDB.HashedShape.findOne({ code: hashedShapeData.code });
-						if (!currentHashedShapeAlreadyExists) await hashedShapesDbWritter.write(hashedShapeData, { upsert: true, filter: { code: hashedShapeData.code } });
+						if (!currentHashedShapeAlreadyExists) await hashedShapesDbWritter.write(hashedShapeData, { filter: { code: hashedShapeData.code }, upsert: true });
 						createdHashedShapeCodes.add(hashedShapeData.code);
 
 						// 4.13.6.
@@ -493,27 +503,27 @@ export default async () => {
 						for (const calendarDate of calendarDatesData) {
 							//
 							const tripAnalysisData = {
-								//
-								code: `${archiveData.code}-${routeData.agency_id}-${calendarDate}-${tripData.trip_id}`,
-								//
-								status: 'pending',
-								//
-								archive_id: archiveData.code,
 								agency_id: routeData.agency_id,
-								operational_day: calendarDate,
-								line_id: routeData.line_id,
-								route_id: routeData.route_id,
-								pattern_id: tripData.pattern_id,
-								trip_id: tripData.trip_id,
-								service_id: tripData.service_id,
-								//
-								hashed_trip_code: hashedTripData.code,
-								hashed_shape_code: hashedShapeData.code,
-								//
-								parse_timestamp: new Date,
-								analysis_timestamp: null,
 								//
 								analysis: [],
+								analysis_timestamp: null,
+								//
+								archive_id: archiveData.code,
+								//
+								code: `${archiveData.code}-${routeData.agency_id}-${calendarDate}-${tripData.trip_id}`,
+								hashed_shape_code: hashedShapeData.code,
+								//
+								hashed_trip_code: hashedTripData.code,
+								line_id: routeData.line_id,
+								operational_day: calendarDate,
+								//
+								parse_timestamp: new Date(),
+								pattern_id: tripData.pattern_id,
+								route_id: routeData.route_id,
+								service_id: tripData.service_id,
+								//
+								status: 'pending',
+								trip_id: tripData.trip_id,
 								//
 								user_notes: '',
 								//
@@ -521,14 +531,14 @@ export default async () => {
 							//
 							const tripAnalysisOptions = {
 								//
-								write_mode: 'replace',
-								//
-								upsert: true,
-								//
 								filter: {
 									code: tripAnalysisData.code,
 									// status: 'pending',
 								},
+								//
+								upsert: true,
+								//
+								write_mode: 'replace',
 								//
 							};
 							//
@@ -552,7 +562,8 @@ export default async () => {
 					await tripAnalysisDbWritter.flush();
 
 					//
-				} catch (error) {
+				}
+				catch (error) {
 					console.log('✖︎ Error transforming or saving shapes to database.', error);
 					throw new Error('✖︎ Error transforming or saving shapes to database.');
 				}
@@ -568,7 +579,8 @@ export default async () => {
 				console.log(`✔︎ Finished processing archive ${archiveData.code}`);
 				console.log();
 				console.log('- - - - - - - - - - - - - - - - - - - - -');
-			} catch (error) {
+			}
+			catch (error) {
 				console.log(`✖︎ Error processing archive ${archiveData.code}`, error);
 				await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'error' } });
 			}
@@ -606,7 +618,8 @@ export default async () => {
 		console.log();
 
 		//
-	} catch (err) {
+	}
+	catch (err) {
 		console.log('✖︎ An error occurred. Halting execution.', err);
 		console.log('✖︎ Retrying in 10 seconds...');
 		setTimeout(() => {
@@ -620,7 +633,7 @@ export default async () => {
 /* * */
 
 async function parseCsvFile(filePath, rowParser = async () => null) {
-	const parser = csvParser({ columns: true, trim: true, skip_empty_lines: true, bom: true, record_delimiter: ['\n', '\r', '\r\n'] });
+	const parser = csvParser({ bom: true, columns: true, record_delimiter: ['\n', '\r', '\r\n'], skip_empty_lines: true, trim: true });
 	const fileStream = fs.createReadStream(filePath);
 	const stream = fileStream.pipe(parser);
 	for await (const rowData of stream) {
