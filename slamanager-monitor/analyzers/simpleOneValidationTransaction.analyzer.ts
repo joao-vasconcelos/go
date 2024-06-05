@@ -24,30 +24,31 @@ export default (analysisData: AnalysisData) => {
 		if (analysisData.validation_transactions.length > 0) {
 			return {
 				code: 'SIMPLE_ONE_VALIDATION_TRANSACTION',
-				status: 'COMPLETE',
 				grade: 'PASS',
-				reason: 'FOUND_AT_LEAST_ONE_VALIDATION_TRANSACTION',
 				message: `Found ${analysisData.validation_transactions.length} Validation Transactions for this trip.`,
+				reason: 'FOUND_AT_LEAST_ONE_VALIDATION_TRANSACTION',
+				status: 'COMPLETE',
 			};
 		}
 
 		return {
 			code: 'SIMPLE_ONE_VALIDATION_TRANSACTION',
-			status: 'COMPLETE',
 			grade: 'FAIL',
-			reason: 'NO_VALIDATION_TRANSACTION_FOUND',
 			message: 'No Validation Transactions found for this trip.',
+			reason: 'NO_VALIDATION_TRANSACTION_FOUND',
+			status: 'COMPLETE',
 		};
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return {
 			code: 'SIMPLE_ONE_VALIDATION_TRANSACTION',
-			status: 'ERROR',
 			grade: null,
-			reason: null,
 			message: error.message,
+			reason: null,
+			status: 'ERROR',
 		};
 	}
 
