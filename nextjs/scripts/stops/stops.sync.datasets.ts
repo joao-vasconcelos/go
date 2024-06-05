@@ -1,6 +1,7 @@
 /* * */
 
 import { StopModel } from '@/schemas/Stop/model';
+import { StopPropertyOperationalStatus } from '@/schemas/Stop/options';
 import TIMETRACKER from '@/services/TIMETRACKER';
 import tts from '@carrismetropolitana/tts';
 
@@ -56,6 +57,12 @@ export default async function stopsSyncDatasets() {
 	// Iterate through each available stop
 
 	for (const stopData of allStopsData) {
+		//
+		if (stopData.operational_status === 'active') stopData.operational_status = StopPropertyOperationalStatus.Active;
+		if (stopData.operational_status === 'inactive') stopData.operational_status = StopPropertyOperationalStatus.Inactive;
+		if (stopData.operational_status === 'seasonal') stopData.operational_status = StopPropertyOperationalStatus.Seasonal;
+		if (stopData.operational_status === 'voided') stopData.operational_status = StopPropertyOperationalStatus.Voided;
+		if (stopData.operational_status === 'provisional') stopData.operational_status = StopPropertyOperationalStatus.Provisional;
 		//
 		stopData.near_transit_office = allDatasetsFacilitiesEncmSet.has(stopData.code) ? true : false;
 		stopData.near_school = allDatasetsFacilitiesSchoolsSet.has(stopData.code) ? true : false;
