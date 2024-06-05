@@ -25,7 +25,7 @@
     "@streamparser/json": "0.0.21",
     "@tabler/icons-react": "3.5.0",
     "@turf/turf": "6.5.0",
-    "adm-zip": "0.5.13",
+    "adm-zip": "0.5.14",
     "clsx": "2.1.1",
     "csv-parse": "5.5.6",
     "dayjs": "1.11.11",
@@ -34,7 +34,7 @@
     "inflected": "2.1.0",
     "JSONStream": "1.3.5",
     "luxon": "3.4.4",
-    "mantine-datatable": "7.9.1",
+    "mantine-datatable": "7.10.1",
     "maplibre-gl": "3.6.2",
     "mongodb": "6.7.0",
     "mongoose": "8.4.1",
@@ -56,8 +56,8 @@
     "yup": "1.4.0"
   },
   "devDependencies": {
-    "@carrismetropolitana/eslint": "2024.6.1717351375",
-    "@types/node": "20.14.0",
+    "@carrismetropolitana/eslint": "2024.6.1717588025",
+    "@types/node": "20.14.2",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "postcss": "8.4.38",
