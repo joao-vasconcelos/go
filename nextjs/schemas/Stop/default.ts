@@ -1,3 +1,5 @@
+/* eslint-disable perfectionist/sort-objects */
+
 /* * */
 
 import { StopPropertyDockingBayType, StopPropertyHasAbusiveParking, StopPropertyHasBench, StopPropertyHasCover, StopPropertyHasCrossing, StopPropertyHasElectricity, StopPropertyHasFlag, StopPropertyHasFlatAccess, StopPropertyHasH2oaSignage, StopPropertyHasLighting, StopPropertyHasMupi, StopPropertyHasNetworkMap, StopPropertyHasPipAudio, StopPropertyHasPipRealtime, StopPropertyHasPipStatic, StopPropertyHasPole, StopPropertyHasSchedules, StopPropertyHasShelter, StopPropertyHasSidewalk, StopPropertyHasTactileAccess, StopPropertyHasTactileSchedules, StopPropertyHasTrashBin, StopPropertyHasWideAccess, StopPropertyOperationalStatus, StopPropertyWheelchairBoarding } from '@/schemas/Stop/options';
@@ -11,130 +13,130 @@ export const StopDefault = {
    */
 
 	code: '',
-	docking_bay_type: StopPropertyDockingBayType.Unknown,
-	flag_maintainer: '',
-	has_abusive_parking: StopPropertyHasAbusiveParking.Unknown,
-	has_bench: StopPropertyHasBench.Unknown,
-	has_cover: StopPropertyHasCover.Unknown,
-	has_crossing: StopPropertyHasCrossing.Unknown,
-	has_electricity: StopPropertyHasElectricity.Unknown,
-	has_flag: StopPropertyHasFlag.Unknown,
-	has_flat_access: StopPropertyHasFlatAccess.Unknown,
+	name: '',
+	name_new: '',
+	short_name: '',
+	short_name_auto: true,
+	tts_name: '',
+	latitude: 0,
+	longitude: 0,
+	platform_code: '',
+	parent_station: '',
 
 	/*
 	* OPERATION
 	*/
 
-	has_h2oa_signage: StopPropertyHasH2oaSignage.Unknown,
-	has_lighting: StopPropertyHasLighting.Unknown,
+	operational_status: StopPropertyOperationalStatus.Active,
+	zones: [],
 
 	/*
    * ADMINISTRATIVE
    */
 
-	has_mupi: StopPropertyHasMupi.Unknown,
-	has_network_map: StopPropertyHasNetworkMap.Unknown,
-	has_pip_audio: StopPropertyHasPipAudio.Unknown,
-	has_pip_realtime: StopPropertyHasPipRealtime.Unknown,
+	municipality: null,
+	parish: '',
+	locality: '',
+	jurisdiction: '',
 
 	/*
    * INFRASTRUCTURE
    */
 
-	has_pip_static: StopPropertyHasPipStatic.Unknown,
 	has_pole: StopPropertyHasPole.Unknown,
-	has_schedules: StopPropertyHasSchedules.Unknown,
+	has_cover: StopPropertyHasCover.Unknown,
 	has_shelter: StopPropertyHasShelter.Unknown,
-	has_sidewalk: StopPropertyHasSidewalk.Unknown,
-	has_tactile_access: StopPropertyHasTactileAccess.Unknown,
-	has_tactile_schedules: StopPropertyHasTactileSchedules.Unknown,
+	shelter_code: '',
+	shelter_maintainer: '',
+	has_mupi: StopPropertyHasMupi.Unknown,
+	has_bench: StopPropertyHasBench.Unknown,
 	has_trash_bin: StopPropertyHasTrashBin.Unknown,
-	has_wide_access: StopPropertyHasWideAccess.Unknown,
-	is_locked: false,
-	jurisdiction: '',
-	last_accessibility_check: '',
-	last_accessibility_maintenance: '',
+	has_lighting: StopPropertyHasLighting.Unknown,
+	has_electricity: StopPropertyHasElectricity.Unknown,
+	docking_bay_type: StopPropertyDockingBayType.Unknown,
+	last_infrastructure_maintenance: null,
+	last_infrastructure_check: null,
 
 	/*
    * PUBLIC INFORMATION
    */
 
-	last_flag_check: '',
-	last_flag_maintenance: '',
-	last_infrastructure_check: null,
-	last_infrastructure_maintenance: null,
-	last_schedules_check: '',
+	has_flag: StopPropertyHasFlag.Unknown,
+	flag_maintainer: '',
+	has_pip_static: StopPropertyHasPipStatic.Unknown,
+	has_pip_audio: StopPropertyHasPipAudio.Unknown,
+	pip_audio_code: '',
+	has_pip_realtime: StopPropertyHasPipRealtime.Unknown,
+	pip_realtime_code: '',
+	has_h2oa_signage: StopPropertyHasH2oaSignage.Unknown,
+	has_schedules: StopPropertyHasSchedules.Unknown,
+	has_tactile_schedules: StopPropertyHasTactileSchedules.Unknown,
+	has_network_map: StopPropertyHasNetworkMap.Unknown,
 	last_schedules_maintenance: '',
-	latitude: 0,
-	locality: '',
-	longitude: 0,
-	media: [],
-	municipality: null,
-	name: '',
-	name_new: '',
-	near_airport: false,
-	near_beach: false,
+	last_schedules_check: '',
+	last_flag_maintenance: '',
+	last_flag_check: '',
 
 	/*
    * ACCESSIBILITY
    */
 
-	near_bike_parking: false,
-	near_bike_sharing: false,
-	near_boat: false,
-	near_car_parking: false,
-	near_fire_station: false,
-	near_health_clinic: false,
-	near_historic_building: false,
-	near_hospital: false,
-	near_light_rail: false,
-	near_police_station: false,
+	has_sidewalk: StopPropertyHasSidewalk.Unknown,
+	sidewalk_type: '',
+	has_crossing: StopPropertyHasCrossing.Unknown,
+	has_flat_access: StopPropertyHasFlatAccess.Unknown,
+	has_wide_access: StopPropertyHasWideAccess.Unknown,
+	has_tactile_access: StopPropertyHasTactileAccess.Unknown,
+	has_abusive_parking: StopPropertyHasAbusiveParking.Unknown,
+	wheelchair_boarding: StopPropertyWheelchairBoarding.Unknown,
+	last_accessibility_maintenance: '',
+	last_accessibility_check: '',
 
 	/*
    * SERVICES
    */
 
-	near_school: false,
-	near_shopping: false,
-	near_subway: false,
-	near_train: false,
-	near_transit_office: false,
+	near_health_clinic: false,
+	near_hospital: false,
 	near_university: false,
-	notes: '',
-	operational_status: StopPropertyOperationalStatus.Active,
-	parent_station: '',
-	parish: '',
+	near_school: false,
+	near_police_station: false,
+	near_fire_station: false,
+	near_shopping: false,
+	near_historic_building: false,
+	near_transit_office: false,
+	near_beach: false,
 
 	/*
    * CONNECTIONS
    */
 
-	pip_audio_code: '',
-	pip_realtime_code: '',
-	platform_code: '',
-	shelter_code: '',
-	shelter_maintainer: '',
-	short_name: '',
-	short_name_auto: true,
-	sidewalk_type: '',
+	near_subway: false,
+	near_light_rail: false,
+	near_train: false,
+	near_boat: false,
+	near_airport: false,
+	near_bike_sharing: false,
+	near_bike_parking: false,
+	near_car_parking: false,
 
 	/*
    * MEDIA
    */
 
-	tts_name: '',
+	media: [],
 
 	/*
    * USER NOTES
    */
 
-	wheelchair_boarding: StopPropertyWheelchairBoarding.Unknown,
+	notes: '',
 
 	/*
    * LOCK STATUS
    */
 
-	zones: [],
+	is_locked: false,
 
 	//
 };
