@@ -40,7 +40,7 @@ export default function Providers({ children, session }) {
 	// B. Render components
 
 	return (
-		<SessionProvider refetchInterval={5} session={session}>
+		<SessionProvider refetchInterval={30} session={session}>
 			<SWRConfig value={swrOptions}>
 				<MapProvider>
 					<MantineProvider defaultColorScheme="auto" theme={theme}>

@@ -1,3 +1,5 @@
+/* eslint-disable perfectionist/sort-objects */
+
 /* * */
 
 import { AnalysisData } from '@/types/analysisData';
@@ -21,7 +23,7 @@ export default (analysisData: AnalysisData) => {
 		// 1.
 		// Initiate a Set
 
-		const foundDriverIds = new Set;
+		const foundDriverIds = new Set();
 
 		// 2.
 		// Test for how many driver IDs are found
@@ -59,7 +61,8 @@ export default (analysisData: AnalysisData) => {
 		};
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return {
 			code: 'AT_MOST_TWO_DRIVER_IDS',

@@ -1,3 +1,5 @@
+/* eslint-disable perfectionist/sort-objects */
+
 /* * */
 
 import { AnalysisData } from '@/types/analysisData';
@@ -46,11 +48,12 @@ export default (analysisData: AnalysisData) => {
 			status: 'COMPLETE',
 			grade: 'FAIL',
 			reason: `FOUND_ONLY_${analysisData.vehicle_events.length}_VEHICLE_EVENTS`,
-			message: 'No Vehicle Events or Validation Transactions found for this trip.',
+			message: `Found ${analysisData.vehicle_events.length} Vehicle Events for this trip.`,
 		};
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return {
 			code: 'LESS_THAN_TEN_VEHICLE_EVENTS',

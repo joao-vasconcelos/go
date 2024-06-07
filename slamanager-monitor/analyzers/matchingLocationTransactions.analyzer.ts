@@ -1,3 +1,5 @@
+/* eslint-disable perfectionist/sort-objects */
+
 /* * */
 
 import { AnalysisData } from '@/types/analysisData';
@@ -21,8 +23,8 @@ export default (analysisData: AnalysisData) => {
 		// 1.
 		// Initiate Sets
 
-		const pathStopIds = new Set;
-		const locationTransactionsStopIds = new Set;
+		const pathStopIds = new Set();
+		const locationTransactionsStopIds = new Set();
 
 		// 2.
 		// Save references to all stops for each source type
@@ -38,7 +40,7 @@ export default (analysisData: AnalysisData) => {
 		// 3.
 		// Check if all locationTransactionsStopIds are available in pathStopIds
 
-		const missingStopIds = new Set;
+		const missingStopIds = new Set();
 
 		for (const pathStopId of pathStopIds.values()) {
 			if (!locationTransactionsStopIds.has(pathStopId)) {
@@ -68,7 +70,8 @@ export default (analysisData: AnalysisData) => {
 		};
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return {
 			code: 'MATCHING_LOCATION_TRANSACTIONS',
