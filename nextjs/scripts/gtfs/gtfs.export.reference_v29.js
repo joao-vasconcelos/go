@@ -542,7 +542,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 
 			// 3.3.3.
 			// Iterate on all the patterns for the given route
-			patternLoop: for (const [patternIndex, patternData] of routeData.patterns.entries()) {
+			patternLoop: for (const patternData of routeData.patterns) {
 				//
 				// 3.3.3.0.
 				// Check if there is a pattern here
@@ -779,7 +779,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 						// Write the trips.txt entry for this trip
 						await tripsCsvWriter.write(progress.workdir, 'trips.txt', {
 							calendar_desc: resultingCalendarDescription.replaceAll(',', '').replace(/  +/g, ' ').trim(),
-							direction_id: patternIndex,
+							direction_id: patternData.direction,
 							pattern_id: patternData.code,
 							pattern_short_name: patternData.headsign.replaceAll(',', '').replace(/  +/g, ' ').trim(),
 							route_id: routeData.code,
