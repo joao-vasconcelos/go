@@ -51,29 +51,30 @@ export default function Page() {
 		});
 	};
 
-	// const handleModifyOfferForSpecialCalendars = async () => {
-	// 	openConfirmModal({
-	// 		title: <Text size="h2">Modify Offer for Special Calendars?</Text>,
-	// 		centered: true,
-	// 		closeOnClickOutside: true,
-	// 		children: <Text size="h3">Are you sure?</Text>,
-	// 		labels: { confirm: 'Yes, Modify Offer for Special Calendars', cancel: 'Cancel' },
-	// 		confirmProps: { color: 'red' },
-	// 		onConfirm: async () => {
-	// 			try {
-	// 				setIsImporting(true);
-	// 				notify('modifyOfferForSpecialCalendars', 'loading', 'Loading');
-	// 				await API({ service: 'configs/refactors/modifyOfferForSpecialCalendars', method: 'GET' });
-	// 				notify('modifyOfferForSpecialCalendars', 'success', 'success');
-	// 				setIsImporting(false);
-	// 			} catch (error) {
-	// 				console.log(error);
-	// 				notify('modifyOfferForSpecialCalendars', 'error', error.message || 'Error');
-	// 				setIsImporting(false);
-	// 			}
-	// 		},
-	// 	});
-	// };
+	const handleSetPatternDirection = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Set Pattern Direction' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('setPatternDirection', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'configs/refactors/setPatternDirection' });
+					notify('setPatternDirection', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('setPatternDirection', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Set Pattern Direction?</Text>,
+		});
+	};
 
 	// const handleRemoveSpecialCalendars = async () => {
 	// 	openConfirmModal({
@@ -111,9 +112,9 @@ export default function Page() {
 						<Button color="red" loading={isImporting} onClick={handleResetTripAnalysis}>
 							Reset All Trip Analysis
 						</Button>
-						{/* <Button onClick={handleModifyOfferForSpecialCalendars} color="red" loading={isImporting}>
-              Modify Offer for Special Calendars
-						</Button> */}
+						<Button color="red" loading={isImporting} onClick={handleSetPatternDirection}>
+							Set Pattern Direction
+						</Button>
 						{/* <Button onClick={handleRemoveSpecialCalendars} color="red" loading={isImporting}>
 							Remove Special Calendars
 						</Button> */}

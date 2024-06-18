@@ -15,6 +15,10 @@ export const PatternSchema = new mongoose.Schema(
 			maxlength: 100,
 			type: String,
 		},
+		direction: {
+			maxlength: 50,
+			type: String,
+		},
 		headsign: {
 			maxlength: 100,
 			type: String,

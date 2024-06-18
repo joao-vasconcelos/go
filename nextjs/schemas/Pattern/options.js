@@ -4,22 +4,16 @@ export const PatternOptions = {
 	//
 
 	/*
-   * VEHICLE TYPE
+   * DIRECTION
    *
-   * 0 - Any Vehicle Type
-   * 1 - Urban Mini
-   * 2 - Urban Midi
-   * 3 - Urban Standard
-   * 4 - Urban Articulated
-   * 5 - Inter-urban Standard
-   * 6 - Inter-urban Articulated
-   * 7 - Touristic
+   * 0 - Up
+   * 1 - Down
    */
 
-	vehicle_propulsion: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+	direction: ['0', '1'],
 
 	/*
-   * PROPULSION
+   * VEHICLE PROPULSION
    *
    * 0 - Any Propulsion Type
    * 1 - Gasoline
@@ -30,6 +24,21 @@ export const PatternOptions = {
    * 6 - Electricity
    * 7 - Hybrid
    * 8 - Natural Gas
+   */
+
+	vehicle_propulsion: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+
+	/*
+   * VEHICLE TYPE
+   *
+   * 0 - Any Vehicle Type
+   * 1 - Urban Mini
+   * 2 - Urban Midi
+   * 3 - Urban Standard
+   * 4 - Urban Articulated
+   * 5 - Inter-urban Standard
+   * 6 - Inter-urban Articulated
+   * 7 - Touristic
    */
 
 	vehicle_type: ['0', '1', '2', '3', '4', '5', '6', '7'],

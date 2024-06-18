@@ -4,6 +4,7 @@
 
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import Pannel from '@/components/Pannel/Pannel';
+import PatternsExplorerIdPageConfigs from '@/components/PatternsExplorerIdPageConfigs/PatternsExplorerIdPageConfigs';
 import PatternsExplorerIdPageHeader from '@/components/PatternsExplorerIdPageHeader/PatternsExplorerIdPageHeader';
 import PatternsExplorerIdPageImport from '@/components/PatternsExplorerIdPageImport/PatternsExplorerIdPageImport';
 import PatternsExplorerIdPagePath from '@/components/PatternsExplorerIdPagePath/PatternsExplorerIdPagePath';
@@ -11,10 +12,11 @@ import PatternsExplorerIdPagePresets from '@/components/PatternsExplorerIdPagePr
 import PatternsExplorerIdPageSchedules from '@/components/PatternsExplorerIdPageSchedules/PatternsExplorerIdPageSchedules';
 import PatternsExplorerIdPageShape from '@/components/PatternsExplorerIdPageShape/PatternsExplorerIdPageShape';
 import { usePatternsExplorerContext } from '@/contexts/PatternsExplorerContext';
-import { Divider, SimpleGrid, TextInput } from '@mantine/core';
+import { Divider, Select, SimpleGrid, TextInput } from '@mantine/core';
 import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
-import PatternsExplorerIdPageConfigs from '../PatternsExplorerIdPageConfigs/PatternsExplorerIdPageConfigs';
+import { PatternOptions } from '../../schemas/Pattern/options';
 import styles from './PatternsExplorerIdPage.module.css';
 
 /* * */
@@ -26,10 +28,22 @@ export default function PatternsExplorerIdPage() {
 	// A. Setup variables
 
 	const t = useTranslations('PatternsExplorerIdPage');
+	const patternOptionsLabels = useTranslations('PatternOptions');
 	const patternsExplorerContext = usePatternsExplorerContext();
 
 	//
-	// B. Render components
+	// B. Transform data
+
+	const directionOptionsFormatted = useMemo(() => {
+		if (!PatternOptions.direction.length) return [];
+		return PatternOptions.direction.map(value => ({
+			label: patternOptionsLabels(`direction.${value}.label`),
+			value: value,
+		}));
+	}, []);
+
+	//
+	// C. Render components
 
 	return (
 		<Pannel header={<PatternsExplorerIdPageHeader />} loading={patternsExplorerContext.page.is_loading}>
@@ -37,9 +51,10 @@ export default function PatternsExplorerIdPage() {
 				<SimpleGrid cols={4}>
 					<TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...patternsExplorerContext.form.getInputProps('code')} readOnly={patternsExplorerContext.page._is_read_only} />
 				</SimpleGrid>
-				<SimpleGrid cols={2}>
+				<SimpleGrid cols={3}>
 					<TextInput description={t('form.origin.description')} label={t('form.origin.label')} placeholder={t('form.origin.placeholder')} {...patternsExplorerContext.form.getInputProps('origin')} readOnly={patternsExplorerContext.page._is_read_only} />
 					<TextInput description={t('form.destination.description')} label={t('form.destination.label')} placeholder={t('form.destination.placeholder')} {...patternsExplorerContext.form.getInputProps('destination')} readOnly={patternsExplorerContext.page._is_read_only} />
+					<Select description={t('form.direction.description')} label={t('form.direction.label')} placeholder={t('form.direction.placeholder')} {...patternsExplorerContext.form.getInputProps('direction')} data={directionOptionsFormatted} readOnly={patternsExplorerContext.page._is_read_only} />
 				</SimpleGrid>
 				<SimpleGrid cols={1}>
 					<TextInput description={t('form.headsign.description')} label={t('form.headsign.label')} placeholder={t('form.headsign.placeholder')} {...patternsExplorerContext.form.getInputProps('headsign')} readOnly={patternsExplorerContext.page._is_read_only} />

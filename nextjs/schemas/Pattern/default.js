@@ -74,6 +74,7 @@ export const PatternScheduleDefault = {
 export const PatternDefault = {
 	code: '',
 	destination: '',
+	direction: '0',
 	headsign: '',
 	is_locked: false,
 	origin: '',

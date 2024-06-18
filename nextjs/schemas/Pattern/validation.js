@@ -18,6 +18,7 @@ export const PatternValidation = yup.object({
 		.max(50)
 		.matches(/^[a-zA-ZÀ-ÿ0-9()|ºª.'-\s]+$/)
 		.transform(value => value.replace(/  +/g, ' ').trim()),
+	direction: yup.string().required(),
 	headsign: yup
 		.string()
 		.required()

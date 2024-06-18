@@ -1,7 +1,7 @@
 {
   "name": "@joao-vasconcelos/go-slamanager-feeder",
   "type": "commonjs",
-  "version": "2024.06.05-1302",
+  "version": "2024.06.18-1056",
   "private": true,
   "main": "index.js",
   "scripts": {
