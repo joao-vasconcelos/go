@@ -40,6 +40,9 @@
   color: var(--color-reference-1);
   line-height: 1.2;
   letter-spacing: 0;
+	user-select: text;
+  -webkit-user-select: text;
+	cursor: text;
 }
 
 /* * */
@@ -51,4 +54,7 @@
   color: var(--color-reference-1);
   line-height: 1.4;
   letter-spacing: 0;
+	user-select: text;
+  -webkit-user-select: text;
+	cursor: text;
 }
