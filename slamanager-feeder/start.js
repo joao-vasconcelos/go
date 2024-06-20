@@ -108,8 +108,8 @@ export default async () => {
 				// valid on a different month. The validity dates will be used to clip the calendars and only saved the actual part
 				// of the plan that was actually active in that period.
 
-				const startDateString = '20240601'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
-				const endDateString = '20240610'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
+				const startDateString = '20240611'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
+				const endDateString = '20240619'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
 
 				// 4.4.
 				// Setup a temporary location to extract each GTFS archive
