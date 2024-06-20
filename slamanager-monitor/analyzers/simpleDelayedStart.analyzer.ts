@@ -36,30 +36,31 @@ export default (analysisData: AnalysisData) => {
 		if (analysisData.vehicle_events.length > 0 || analysisData.validation_transactions.length > 0) {
 			return {
 				code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_',
-				status: 'COMPLETE',
 				grade: 'PASS',
-				reason: 'FOUND_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION',
 				message: `Found ${analysisData.vehicle_events.length} Vehicle Events and ${analysisData.validation_transactions.length} Validation Transactions for this trip.`,
+				reason: 'FOUND_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION',
+				status: 'COMPLETE',
 			};
 		}
 
 		return {
 			code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_',
-			status: 'COMPLETE',
 			grade: 'FAIL',
-			reason: 'NO_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_FOUND',
 			message: 'No Vehicle Events or Validation Transactions found for this trip.',
+			reason: 'NO_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_FOUND',
+			status: 'COMPLETE',
 		};
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return {
 			code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_',
-			status: 'ERROR',
 			grade: null,
-			reason: null,
 			message: error.message,
+			reason: null,
+			status: 'ERROR',
 		};
 	}
 

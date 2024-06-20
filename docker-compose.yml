@@ -6,6 +6,7 @@ volumes:
   certbotdata:
   offermanagerdbdata:
   slamanagerdbdata:
+  slamanagerqueuedbdata:
 
 secrets:
   pcgidbkey:
@@ -98,6 +99,22 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
+  slamanagerqueuedb:
+    image: redis:alpine
+    restart: unless-stopped
+    mem_limit: 2g
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - slamanagerqueuedbdata:/data
+    environment:
+      - REDIS_ARGS=--save 5 1
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
   backupd:
     image: ghcr.io/joao-vasconcelos/go-backupd:production
     restart: unless-stopped
@@ -144,8 +161,6 @@ services:
       - ./storage/:/app/storage
     env_file:
       - .env.production
-    secrets:
-      - pcgidbkey
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -158,8 +173,20 @@ services:
       options:
         max-size: '1m'
         max-file: '1'
-    volumes:
-      - ./storage/:/app/storage
+    env_file:
+      - .env.production
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  slamanager-queuer:
+    image: ghcr.io/joao-vasconcelos/go-slamanager-queuer:production
+    restart: unless-stopped
+    mem_limit: 2g
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
     env_file:
       - .env.production
     secrets:

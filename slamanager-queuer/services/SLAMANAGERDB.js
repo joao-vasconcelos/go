@@ -46,11 +46,11 @@ class SLAMANAGERDB {
 			// Setup MongoDB connection options
 
 			const mongoClientOptions = {
+				minPoolSize: 2,
+				maxPoolSize: 200,
+				directConnection: true,
 				// readPreference: 'secondaryPreferred',
 				connectTimeoutMS: 5000,
-				directConnection: true,
-				maxPoolSize: 200,
-				minPoolSize: 2,
 				serverSelectionTimeoutMS: 5000,
 			};
 
@@ -64,11 +64,9 @@ class SLAMANAGERDB {
 
 			if (this.mongoClientConnectionInstance && this.mongoClientConnectionInstance.topology && this.mongoClientConnectionInstance.topology.isConnected()) {
 				mongoClientInstance = this.mongoClientConnectionInstance;
-			}
-			else if (global._mongoClientConnectionInstance && global._mongoClientConnectionInstance.topology && global._mongoClientConnectionInstance.topology.isConnected()) {
+			} else if (global._mongoClientConnectionInstance && global._mongoClientConnectionInstance.topology && global._mongoClientConnectionInstance.topology.isConnected()) {
 				mongoClientInstance = global._mongoClientConnectionInstance;
-			}
-			else {
+			} else {
 				mongoClientInstance = await MongoClient.connect(process.env.SLAMANAGERDB_MONGODB_URI, mongoClientOptions);
 			}
 
@@ -120,15 +118,13 @@ class SLAMANAGERDB {
 			this.mongoClientConnectionRetries = 0;
 
 			//
-		}
-		catch (error) {
+		} catch (error) {
 			this.mongoClientConnectionRetries++;
 			if (this.mongoClientConnectionRetries < MAX_CONNECTION_RETRIES) {
 				console.error(`✖︎ SLAMANAGERDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.mongoClientConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
 				await this.reset();
 				await this.connect();
-			}
-			else {
+			} else {
 				console.error('✖︎ SLAMANAGERDB: Error creating MongoDB Client instance:', error);
 				await this.reset();
 			}
@@ -165,4 +161,4 @@ class SLAMANAGERDB {
 
 /* * */
 
-module.exports = new SLAMANAGERDB();
+export default new SLAMANAGERDB;

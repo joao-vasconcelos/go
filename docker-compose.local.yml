@@ -5,6 +5,7 @@ name: go-local
 volumes:
   offermanagerdbdata:
   slamanagerdbdata:
+  slamanagerqueuedbdata:
 
 services:
   #
@@ -44,6 +45,24 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=slamanagerdbuser
       - MONGO_INITDB_ROOT_PASSWORD=slamanagerdbpassword
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  slamanagerqueuedb:
+    image: redis:alpine
+    restart: unless-stopped
+    mem_limit: 2g
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    # ports:
+    #   - 37012:27017
+    volumes:
+      - slamanagerqueuedbdata:/data
+    environment:
+      - REDIS_ARGS=--save 5 1
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

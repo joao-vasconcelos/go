@@ -1,21 +1,20 @@
 /* * */
 
-import { AnalysisData } from '@/types/analysisData';
-import { DateTime } from 'luxon';
-
 import PCGIDB from './services/PCGIDB';
 import SLAMANAGERDB from './services/SLAMANAGERDB';
 import TIMETRACKER from './services/TIMETRACKER';
+import { AnalysisData } from '@/types/analysisData';
+import { DateTime } from 'luxon';
 
 /* * */
 
+import simpleOneVehicleEventOrValidationTransactionAnalyzer from '@/analyzers/simpleOneVehicleEventOrValidationTransaction.analyzer';
+import simpleOneValidationTransactionAnalyzer from '@/analyzers/simpleOneValidationTransaction.analyzer';
+import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEvents.analyzer';
+import lessThanTenVehicleEventsAnalyzer from '@/analyzers/lessThanTenVehicleEvents.analyzer';
 import atMostTwoDriverIdsAnalyzer from '@/analyzers/atMostTwoDriverIds.analyzer';
 import atMostTwoVehicleIdsAnalyzer from '@/analyzers/atMostTwoVehicleIds.analyzer';
-import lessThanTenVehicleEventsAnalyzer from '@/analyzers/lessThanTenVehicleEvents.analyzer';
 import matchingLocationTransactionsAnalyzer from '@/analyzers/matchingLocationTransactions.analyzer';
-import simpleOneValidationTransactionAnalyzer from '@/analyzers/simpleOneValidationTransaction.analyzer';
-import simpleOneVehicleEventOrValidationTransactionAnalyzer from '@/analyzers/simpleOneVehicleEventOrValidationTransaction.analyzer';
-import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEvents.analyzer';
 // import simpleDelayedStartAnalyzer from '@/analyzers/simpleDelayedStart.analyzer';
 
 /* * */
@@ -26,11 +25,11 @@ export default async () => {
 	try {
 		console.log();
 		console.log('------------------------');
-		console.log((new Date()).toISOString());
+		console.log((new Date).toISOString());
 		console.log('------------------------');
 		console.log();
 
-		const globalTimer = new TIMETRACKER();
+		const globalTimer = new TIMETRACKER;
 		console.log('Starting...');
 
 		// 1.
@@ -59,7 +58,7 @@ export default async () => {
 			console.log('----------------------------------------------------------');
 			console.log();
 
-			const operationalDayTimer = new TIMETRACKER();
+			const operationalDayTimer = new TIMETRACKER;
 
 			let passAnalysisTotalCount = 0;
 			let failAnalysisTotalCount = 0;
@@ -68,9 +67,9 @@ export default async () => {
 			// 3.1.
 			// Setup hashmap variables to hold PCGi data organized by trip_id
 
-			const allPcgiVehicleEventsIdsOrganizedByTripId = new Map();
-			const allPcgiValidationTransactionsIdsOrganizedByTripId = new Map();
-			const allPcgiLocationTransactionsIdsOrganizedByTripId = new Map();
+			const allPcgiVehicleEventsIdsOrganizedByTripId = new Map;
+			const allPcgiValidationTransactionsIdsOrganizedByTripId = new Map;
+			const allPcgiLocationTransactionsIdsOrganizedByTripId = new Map;
 
 			// 3.2.
 			// Convert operational day into required formats
@@ -81,13 +80,13 @@ export default async () => {
 			const operationalDayStartMillis = operationalDayStart.toMillis();
 			const operationalDayEndMillis = operationalDayEnd.toMillis();
 
-			const operationalDayStartString = operationalDayStart.toFormat('yyyy-LL-dd\'T\'HH\':\'mm\':\'ss');
-			const operationalDayEndString = operationalDayEnd.toFormat('yyyy-LL-dd\'T\'HH\':\'mm\':\'ss');
+			const operationalDayStartString = operationalDayStart.toFormat("yyyy-LL-dd'T'HH':'mm':'ss");
+			const operationalDayEndString = operationalDayEnd.toFormat("yyyy-LL-dd'T'HH':'mm':'ss");
 
 			// 3.3.
 			// Request PCGi data for the day and organize by trip_id
 
-			const pcgiDbTimer = new TIMETRACKER();
+			const pcgiDbTimer = new TIMETRACKER;
 
 			// For Vehicle Events
 
@@ -167,7 +166,7 @@ export default async () => {
 			// 3.4.
 			// Request SLAMANAGERDB for all pending trips for the current operational day
 
-			const allTripsData = await SLAMANAGERDB.TripAnalysis.find({ operational_day: operationalDay, status: 'pending' }).sort({ trip_id: 1 }).toArray();
+			const allTripsData = await SLAMANAGERDB.TripAnalysis.find({ status: 'pending', operational_day: operationalDay }).sort({ trip_id: 1 }).toArray();
 
 			// 3.5.
 			// Iterate on each trip
@@ -175,7 +174,7 @@ export default async () => {
 			for (const [tripIndex, tripData] of allTripsData.entries()) {
 				//
 
-				const tripAnalysisTimer = new TIMETRACKER();
+				const tripAnalysisTimer = new TIMETRACKER;
 
 				// 3.5.1.
 				// Get hashed path and shape for this trip
@@ -217,11 +216,11 @@ export default async () => {
 				// Build the analysis data, common to all analyzers
 
 				const analysisData: AnalysisData = {
-					hashed_shape: hashedShapeData,
 					hashed_trip: hashedTripData,
-					location_transactions: allPcgiLocationTransactionsData,
-					validation_transactions: allPcgiValidationTransactionsData,
+					hashed_shape: hashedShapeData,
 					vehicle_events: allPcgiVehicleEventsData,
+					validation_transactions: allPcgiValidationTransactionsData,
+					location_transactions: allPcgiLocationTransactionsData,
 				};
 
 				// 3.5.6.
@@ -254,13 +253,13 @@ export default async () => {
 				// 3.5.7.
 				// Count how many analysis passed and how many failed
 
-				const passAnalysisCount = tripData.analysis.filter(item => item.grade === 'PASS').map(item => item.code);
+				const passAnalysisCount = tripData.analysis.filter((item) => item.grade === 'PASS').map((item) => item.code);
 				passAnalysisTotalCount += passAnalysisCount.length;
 
-				const failAnalysisCount = tripData.analysis.filter(item => item.grade === 'FAIL').map(item => item.code);
+				const failAnalysisCount = tripData.analysis.filter((item) => item.grade === 'FAIL').map((item) => item.code);
 				failAnalysisTotalCount += failAnalysisCount.length;
 
-				const errorAnalysisCount = tripData.analysis.filter(item => item.grade === 'ERROR').map(item => item.code);
+				const errorAnalysisCount = tripData.analysis.filter((item) => item.grade === 'ERROR').map((item) => item.code);
 				errorAnalysisTotalCount += errorAnalysisCount.length;
 
 				// 3.5.8.
@@ -293,8 +292,7 @@ export default async () => {
 		console.log();
 
 		//
-	}
-	catch (err) {
+	} catch (err) {
 		console.log('An error occurred. Halting execution.', err);
 		console.log('Retrying in 10 seconds...');
 		setTimeout(() => {

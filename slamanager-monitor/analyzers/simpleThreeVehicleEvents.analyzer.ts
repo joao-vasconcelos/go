@@ -30,25 +30,25 @@ export default (analysisData: AnalysisData) => {
 		// 2.
 		// Initiate a Set for each segment
 
-		const firstStopIds = new Set;
-		const foundFirstStopIds = new Set;
+		const firstStopIds = new Set();
+		const foundFirstStopIds = new Set();
 
-		const middleStopIds = new Set;
-		const foundMiddleStopIds = new Set;
+		const middleStopIds = new Set();
+		const foundMiddleStopIds = new Set();
 
-		const lastStopIds = new Set;
-		const foundLastStopIds = new Set;
+		const lastStopIds = new Set();
+		const foundLastStopIds = new Set();
 
 		// 3.
 		// Get stops for each segment
 
 		// Get first three stops of trip
-		sortedTripPath.slice(0, 2).forEach((item) => firstStopIds.add(item.stop_id));
+		sortedTripPath.slice(0, 2).forEach(item => firstStopIds.add(item.stop_id));
 		// Get middle three stops of trip
 		const middlePathLength = Math.floor(sortedTripPath.length / 2);
-		sortedTripPath.slice(middlePathLength - 2, middlePathLength + 2).forEach((item) => middleStopIds.add(item.stop_id));
+		sortedTripPath.slice(middlePathLength - 2, middlePathLength + 2).forEach(item => middleStopIds.add(item.stop_id));
 		// Get last three stops of trip
-		sortedTripPath.slice(-2).forEach((item) => lastStopIds.add(item.stop_id));
+		sortedTripPath.slice(-2).forEach(item => lastStopIds.add(item.stop_id));
 
 		// 4.
 		// Test if at least one stop is found for each segment
@@ -71,50 +71,51 @@ export default (analysisData: AnalysisData) => {
 		if (!foundFirstStopIds.size) {
 			return {
 				code: 'SIMPLE_THREE_VEHICLE_EVENTS',
-				status: 'COMPLETE',
 				grade: 'FAIL',
-				reason: 'MISSING_FIRST_STOPS',
 				message: `None of the first ${firstStopIds.size} Stop IDs was found. [${Array.from(firstStopIds).join('|')}]`,
+				reason: 'MISSING_FIRST_STOPS',
+				status: 'COMPLETE',
 			};
 		}
 
 		if (!foundMiddleStopIds.size) {
 			return {
 				code: 'SIMPLE_THREE_VEHICLE_EVENTS',
-				status: 'COMPLETE',
 				grade: 'FAIL',
-				reason: 'MISSING_MIDDLE_STOPS',
 				message: `None of the middle ${middleStopIds.size} Stop IDs was found. [${Array.from(middleStopIds).join('|')}]`,
+				reason: 'MISSING_MIDDLE_STOPS',
+				status: 'COMPLETE',
 			};
 		}
 
 		if (!foundLastStopIds.size) {
 			return {
 				code: 'SIMPLE_THREE_VEHICLE_EVENTS',
-				status: 'COMPLETE',
 				grade: 'FAIL',
-				reason: 'MISSING_LAST_STOPS',
 				message: `None of the last ${lastStopIds.size} Stop IDs was found. [${Array.from(lastStopIds).join('|')}]`,
+				reason: 'MISSING_LAST_STOPS',
+				status: 'COMPLETE',
 			};
 		}
 
 		return {
 			code: 'SIMPLE_THREE_VEHICLE_EVENTS',
-			status: 'COMPLETE',
 			grade: 'PASS',
-			reason: 'ALL_STOPS_FOUND',
 			message: `Found at least one Stop ID for each section (first|middle|last). First: [${Array.from(foundFirstStopIds).join('|')}] | Middle: [${Array.from(foundMiddleStopIds).join('|')}] | Last: [${Array.from(foundLastStopIds).join('|')}]`,
+			reason: 'ALL_STOPS_FOUND',
+			status: 'COMPLETE',
 		};
 
 		//
-	} catch (error) {
+	}
+	catch (error) {
 		console.log(error);
 		return {
 			code: 'SIMPLE_THREE_VEHICLE_EVENTS',
-			status: 'ERROR',
 			grade: null,
-			reason: null,
 			message: error.message,
+			reason: null,
+			status: 'ERROR',
 		};
 	}
 

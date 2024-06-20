@@ -3,13 +3,13 @@
 class DBWRITER {
 	//
 
-	INSTANCE_NAME = 'Unnamed Instance';
-
-	MAX_BATCH_SIZE = 3000;
+	CURRENT_BATCH_DATA = [];
 
 	DB_COLLECTION = null;
 
-	CURRENT_BATCH_DATA = [];
+	INSTANCE_NAME = 'Unnamed Instance';
+
+	MAX_BATCH_SIZE = 3000;
 
 	/* * */
 
@@ -17,23 +17,6 @@ class DBWRITER {
 		if (instanceName) this.INSTANCE_NAME = instanceName;
 		if (collection) this.DB_COLLECTION = collection;
 		if (options.batch_size) this.MAX_BATCH_SIZE = options.batch_size;
-	}
-
-	/* * */
-
-	async write(data, options = {}) {
-		// Check if the batch is full
-		if (this.CURRENT_BATCH_DATA.length >= this.MAX_BATCH_SIZE) {
-			await this.flush();
-		}
-		// Add the data to the batch
-		if (Array.isArray(data)) {
-			const combinedDataWithOptions = data.map((item) => ({ data: item, options: options }));
-			this.CURRENT_BATCH_DATA = [...this.CURRENT_BATCH_DATA, ...combinedDataWithOptions];
-		} else {
-			this.CURRENT_BATCH_DATA.push({ data: data, options: options });
-		}
-		//
 	}
 
 	/* * */
@@ -48,23 +31,23 @@ class DBWRITER {
 
 			const writeOperations = this.CURRENT_BATCH_DATA.map((item) => {
 				switch (item.options?.write_mode) {
-				default:
-				case 'replace':
-					return {
-						replaceOne: {
-							filter: item.options.filter,
-							replacement: item.data,
-							upsert: item.options?.upsert ? true : false,
-						},
-					};
-				case 'update':
-					return {
-						updateOne: {
-							filter: item.options.filter,
-							update: item.data,
-							upsert: true,
-						},
-					};
+					default:
+					case 'replace':
+						return {
+							replaceOne: {
+								filter: item.options.filter,
+								replacement: item.data,
+								upsert: item.options?.upsert ? true : false,
+							},
+						};
+					case 'update':
+						return {
+							updateOne: {
+								filter: item.options.filter,
+								update: item.data,
+								upsert: true,
+							},
+						};
 				}
 			});
 
@@ -73,9 +56,28 @@ class DBWRITER {
 			this.CURRENT_BATCH_DATA = [];
 
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(`✖︎ Error at DBWRITER.flush(): ${error.message}`);
 		}
+	}
+
+	/* * */
+
+	async write(data, options = {}) {
+		// Check if the batch is full
+		if (this.CURRENT_BATCH_DATA.length >= this.MAX_BATCH_SIZE) {
+			await this.flush();
+		}
+		// Add the data to the batch
+		if (Array.isArray(data)) {
+			const combinedDataWithOptions = data.map(item => ({ data: item, options: options }));
+			this.CURRENT_BATCH_DATA = [...this.CURRENT_BATCH_DATA, ...combinedDataWithOptions];
+		}
+		else {
+			this.CURRENT_BATCH_DATA.push({ data: data, options: options });
+		}
+		//
 	}
 }
 

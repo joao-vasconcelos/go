@@ -1,9 +1,8 @@
 /* * */
 
 import 'dotenv/config';
-
-import { RUN_INTERVAL } from './config/settings';
 import start from './start';
+import { RUN_INTERVAL } from './config/settings';
 
 /* * */
 
