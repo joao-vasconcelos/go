@@ -2,8 +2,11 @@
 
 import 'dotenv/config';
 
-import { RUN_INTERVAL } from './config/settings';
 import start from './start';
+
+/* * */
+
+const RUN_INTERVAL = 60000; // 1 minute
 
 /* * */
 

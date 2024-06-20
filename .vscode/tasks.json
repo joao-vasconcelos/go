@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start Dashboard",
+      "label": "Start NextJS",
       "detail": "Start local development server with 'npm run dev'",
       "type": "npm",
       "script": "dev",

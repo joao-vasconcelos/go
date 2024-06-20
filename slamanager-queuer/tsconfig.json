@@ -9,7 +9,6 @@
       "@/config/*": ["config/*"],
       "@/modules/*": ["modules/*"],
       "@/services/*": ["services/*"],
-      "@/analyzers/*": ["analyzers/*"],
       "@/types/*": ["types/*"]
     },
     "allowJs": true,
