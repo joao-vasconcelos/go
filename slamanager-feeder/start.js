@@ -108,7 +108,7 @@ export default async () => {
 				// valid on a different month. The validity dates will be used to clip the calendars and only saved the actual part
 				// of the plan that was actually active in that period.
 
-				const startDateString = '20240611'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
+				const startDateString = '20240601'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
 				const endDateString = '20240619'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
 
 				// 4.4.
@@ -588,26 +588,26 @@ export default async () => {
 			//
 		}
 
-		console.log();
-		console.log('→ Deleting stale entries...');
+		// console.log();
+		// console.log('→ Deleting stale entries...');
 
-		const staleTripAnalysisCodes = [];
-		const existingTripAnalysisCodes = await SLAMANAGERDB.TripAnalysis.find({ archive_id: { $in: Array.from(parsedArchiveCodes) } }, 'code').stream();
-		for await (const existingTripAnalysisData of existingTripAnalysisCodes) {
-			if (!createdTripAnalysisCodes.has(existingTripAnalysisData.code)) staleTripAnalysisCodes.push(existingTripAnalysisData.code);
-		}
-		const deletedTripAnalysisEntries = await SLAMANAGERDB.TripAnalysis.deleteMany({ code: { $in: staleTripAnalysisCodes } });
+		// const staleTripAnalysisCodes = [];
+		// const existingTripAnalysisCodes = await SLAMANAGERDB.TripAnalysis.find({ archive_id: { $in: Array.from(parsedArchiveCodes) } }, 'code').stream();
+		// for await (const existingTripAnalysisData of existingTripAnalysisCodes) {
+		// 	if (!createdTripAnalysisCodes.has(existingTripAnalysisData.code)) staleTripAnalysisCodes.push(existingTripAnalysisData.code);
+		// }
+		// const deletedTripAnalysisEntries = await SLAMANAGERDB.TripAnalysis.deleteMany({ code: { $in: staleTripAnalysisCodes } });
 
-		//
-		const existingAndUsedHashedTripCodes = new Set(await SLAMANAGERDB.TripAnalysis.distinct('hashed_trip_code'));
-		const deletedHashedTripEntries = await SLAMANAGERDB.HashedTrip.deleteMany({ code: { $nin: Array.from(existingAndUsedHashedTripCodes) } });
+		// //
+		// const existingAndUsedHashedTripCodes = new Set(await SLAMANAGERDB.TripAnalysis.distinct('hashed_trip_code'));
+		// const deletedHashedTripEntries = await SLAMANAGERDB.HashedTrip.deleteMany({ code: { $nin: Array.from(existingAndUsedHashedTripCodes) } });
 
-		//
-		const existingAndUsedHashedShapeCodes = new Set(await SLAMANAGERDB.TripAnalysis.distinct('hashed_shape_code'));
-		const deletedHashedShapeEntries = await SLAMANAGERDB.HashedShape.deleteMany({ code: { $nin: Array.from(existingAndUsedHashedShapeCodes) } });
+		// //
+		// const existingAndUsedHashedShapeCodes = new Set(await SLAMANAGERDB.TripAnalysis.distinct('hashed_shape_code'));
+		// const deletedHashedShapeEntries = await SLAMANAGERDB.HashedShape.deleteMany({ code: { $nin: Array.from(existingAndUsedHashedShapeCodes) } });
 
-		console.log(`✔︎ Deleted stale entries: HashedTrip: ${deletedHashedTripEntries.deletedCount} | HashedShape: ${deletedHashedShapeEntries.deletedCount} | TripAnalysis: ${deletedTripAnalysisEntries.deletedCount}`);
-		console.log();
+		// console.log(`✔︎ Deleted stale entries: HashedTrip: ${deletedHashedTripEntries.deletedCount} | HashedShape: ${deletedHashedShapeEntries.deletedCount} | TripAnalysis: ${deletedTripAnalysisEntries.deletedCount}`);
+		// console.log();
 
 		//
 
