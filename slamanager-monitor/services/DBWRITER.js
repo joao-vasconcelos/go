@@ -1,5 +1,9 @@
 /* * */
 
+import TIMETRACKER from '@/services/TIMETRACKER.js';
+
+/* * */
+
 class DBWRITER {
 	//
 
@@ -9,7 +13,7 @@ class DBWRITER {
 
 	INSTANCE_NAME = 'Unnamed Instance';
 
-	MAX_BATCH_SIZE = 1000;
+	MAX_BATCH_SIZE = 3000;
 
 	/* * */
 
@@ -25,48 +29,62 @@ class DBWRITER {
 		try {
 			//
 
-			console.log(`> DBWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | DB Collection: ${this.DB_COLLECTION.collectionName}`);
+			const flushTimer = new TIMETRACKER();
 
-			const writeOperations = [];
+			if (this.CURRENT_BATCH_DATA.length === 0) return;
 
-			for (const dataObj of this.CURRENT_BATCH_DATA) {
-				const operation = {
-					replaceOne: {
-						filter: { code: dataObj.code },
-						replacement: dataObj,
-						upsert: true,
-					},
-				};
-				writeOperations.push(operation);
-			}
+			const writeOperations = this.CURRENT_BATCH_DATA.map((item) => {
+				switch (item.options?.write_mode) {
+					default:
+					case 'replace':
+						return {
+							replaceOne: {
+								filter: item.options.filter,
+								replacement: item.data,
+								upsert: item.options?.upsert ? true : false,
+							},
+						};
+					case 'update':
+						return {
+							updateOne: {
+								filter: item.options.filter,
+								update: item.data,
+								upsert: true,
+							},
+						};
+				}
+			});
 
 			await this.DB_COLLECTION.bulkWrite(writeOperations);
+
+			console.log(`→ DBWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | DB Collection: ${this.DB_COLLECTION.collectionName} (${flushTimer.get()})`);
 
 			this.CURRENT_BATCH_DATA = [];
 
 			//
 		}
 		catch (error) {
-			console.log(`Error at flush(): ${error.message}`);
+			console.log(`✖︎ Error at DBWRITER.flush(): ${error.message}`);
 		}
 	}
 
 	/* * */
 
-	async write(data) {
+	async write(data, options = {}) {
 		// Check if the batch is full
 		if (this.CURRENT_BATCH_DATA.length >= this.MAX_BATCH_SIZE) {
 			await this.flush();
 		}
 		// Add the data to the batch
 		if (Array.isArray(data)) {
-			this.CURRENT_BATCH_DATA = [...this.CURRENT_BATCH_DATA, ...data];
+			const combinedDataWithOptions = data.map(item => ({ data: item, options: options }));
+			this.CURRENT_BATCH_DATA = [...this.CURRENT_BATCH_DATA, ...combinedDataWithOptions];
 		}
 		else {
-			this.CURRENT_BATCH_DATA.push(data);
+			this.CURRENT_BATCH_DATA.push({ data: data, options: options });
 		}
 		//
 	}
 }
 
-module.exports = DBWRITER;
+export default DBWRITER;

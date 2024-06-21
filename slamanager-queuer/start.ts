@@ -32,7 +32,7 @@ export default async () => {
 		await SLAMANAGERQUEUEDB.connect();
 		await PCGIDB.connect();
 
-		const queueDataDbWritter = new DBWRITER('QueueData', SLAMANAGERQUEUEDB.QueueData);
+		const queueDataDbWritter = new DBWRITER('QueueData', SLAMANAGERQUEUEDB.QueueData, { batch_size: 10000 });
 
 		// 2.
 		// Get all operational days pending analysis
@@ -51,7 +51,6 @@ export default async () => {
 			console.log('----------------------------------------------------------');
 			console.log();
 
-			// 3.1.
 			// Convert operational day into required formats
 
 			const operationalDayStart = DateTime.fromFormat(operationalDay, 'yyyyMMdd').set({ hour: 4, minute: 0, second: 0 });
@@ -63,17 +62,18 @@ export default async () => {
 			const operationalDayStartString = operationalDayStart.toFormat('yyyy-LL-dd\'T\'HH\':\'mm\':\'ss');
 			const operationalDayEndString = operationalDayEnd.toFormat('yyyy-LL-dd\'T\'HH\':\'mm\':\'ss');
 
-			// 3.2.
 			// Request PCGi data for the current operational_day
 
 			const pcgiDbTimer = new TIMETRACKER();
 
+			//
 			// For Vehicle Events
 
+			console.log();
 			console.log(`→ Fetching PCGI Vehicle Events for "${operationalDay}"...`);
 
 			const pcgiVehicleEventsStream = PCGIDB.VehicleEvents
-				.find({ millis: { $gte: operationalDayStartMillis, $lte: operationalDayEndMillis } })
+				.find({ 'content.entity.vehicle.trip.tripId': { $exists: true }, 'millis': { $gte: operationalDayStartMillis, $lte: operationalDayEndMillis } })
 				.stream();
 
 			const pcgiVehicleEventsCounter = 0;
@@ -102,8 +102,10 @@ export default async () => {
 				//
 			}
 
+			//
 			// For Validation Transactions
 
+			console.log();
 			console.log(`→ Fetching PCGI Validation Transactions for "${operationalDay}"...`);
 
 			const pcgiValidationTransactionsStream = PCGIDB.ValidationEntity
@@ -136,8 +138,10 @@ export default async () => {
 				//
 			}
 
+			//
 			// For Location Transactions
 
+			console.log();
 			console.log(`→ Fetching PCGI Location Transactions for "${operationalDay}"...`);
 
 			const pcgiLocationTransactionsStream = PCGIDB.LocationEntity
@@ -172,14 +176,20 @@ export default async () => {
 
 			//
 
+			await queueDataDbWritter.flush();
+
+			//
+
+			await SLAMANAGERDB.TripAnalysis.updateMany({ operational_day: operationalDay, status: 'pending' }, { $set: { status: 'queued' } });
+
+			//
+
 			console.log();
-			console.log(`→ [${operationalDayIndex}/${allOperationalDays.length - 1}] PCGI Request for operational_day "${operationalDay}" (${pcgiDbTimer.get()}) | VehicleEvents: ${pcgiVehicleEventsCounter} | ValidationTransactions: ${pcgiValidationTransactionsCounter} | LocationTransactions: ${pcgiLocationTransactionsCounter}`);
+			console.log(`→ [${operationalDayIndex + 1}/${allOperationalDays.length}] PCGI Request for operational_day "${operationalDay}" (${pcgiDbTimer.get()}) | VehicleEvents: ${pcgiVehicleEventsCounter} | ValidationTransactions: ${pcgiValidationTransactionsCounter} | LocationTransactions: ${pcgiLocationTransactionsCounter}`);
 			console.log();
 
 			//
 		}
-
-		await queueDataDbWritter.flush();
 
 		//
 

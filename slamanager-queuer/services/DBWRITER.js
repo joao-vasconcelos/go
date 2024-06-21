@@ -1,5 +1,9 @@
 /* * */
 
+import TIMETRACKER from '@/services/TIMETRACKER.js';
+
+/* * */
+
 class DBWRITER {
 	//
 
@@ -25,7 +29,7 @@ class DBWRITER {
 		try {
 			//
 
-			console.log(`→ DBWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | DB Collection: ${this.DB_COLLECTION.collectionName}`);
+			const flushTimer = new TIMETRACKER();
 
 			if (this.CURRENT_BATCH_DATA.length === 0) return;
 
@@ -52,6 +56,8 @@ class DBWRITER {
 			});
 
 			await this.DB_COLLECTION.bulkWrite(writeOperations);
+
+			console.log(`→ DBWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | DB Collection: ${this.DB_COLLECTION.collectionName} (${flushTimer.get()})`);
 
 			this.CURRENT_BATCH_DATA = [];
 

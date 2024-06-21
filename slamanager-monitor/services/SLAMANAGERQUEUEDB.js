@@ -4,11 +4,11 @@ import { MongoClient } from 'mongodb';
 
 /* * */
 
-const MAX_CONNECTION_RETRIES = 3;
+const MAX_CONNECTION_RETRIES = 1;
 
 /* * */
 
-class OFFERMANAGERDB {
+class SLAMANAGERQUEUEDB {
 	//
 
 	constructor() {
@@ -26,13 +26,13 @@ class OFFERMANAGERDB {
 
 	async connect() {
 		try {
-			console.log('OFFERMANAGERDB: New connection request...');
+			console.log('→ SLAMANAGERQUEUEDB: New connection request...');
 
 			//
 			// If another connection request is already in progress, wait for it to complete
 
 			if (this.mongoClientConnecting) {
-				console.log('OFFERMANAGERDB: Waiting for MongoDB Client connection...');
+				console.log('→ SLAMANAGERQUEUEDB: Waiting for MongoDB Client connection...');
 				await this.waitForMongoClientConnection();
 				return;
 			}
@@ -69,7 +69,7 @@ class OFFERMANAGERDB {
 				mongoClientInstance = global._mongoClientConnectionInstance;
 			}
 			else {
-				mongoClientInstance = await MongoClient.connect(process.env.OFFERMANAGERDB_MONGODB_URI, mongoClientOptions);
+				mongoClientInstance = await MongoClient.connect(process.env.SLAMANAGERQUEUEDB_MONGODB_URI, mongoClientOptions);
 			}
 
 			//
@@ -80,8 +80,21 @@ class OFFERMANAGERDB {
 			//
 			// Setup collections
 
-			this.Archive = productionDatabase.collection('archives');
-			this.Media = productionDatabase.collection('media');
+			this.QueueData = productionDatabase.collection('QueueData');
+
+			//
+			// Setup indexes
+
+			this.QueueData.createIndex({ original_id: 1 });
+			this.QueueData.createIndex({ type: 1 });
+			this.QueueData.createIndex({ agency_id: 1 });
+			this.QueueData.createIndex({ line_id: 1 });
+			this.QueueData.createIndex({ route_id: 1 });
+			this.QueueData.createIndex({ pattern_id: 1 });
+			this.QueueData.createIndex({ trip_id: 1 });
+			this.QueueData.createIndex({ stop_id: 1 });
+			this.QueueData.createIndex({ operational_day: 1 });
+			this.QueueData.createIndex({ operational_day: 1, trip_id: 1 });
 
 			//
 			// Save the instance in memory
@@ -100,12 +113,12 @@ class OFFERMANAGERDB {
 		catch (error) {
 			this.mongoClientConnectionRetries++;
 			if (this.mongoClientConnectionRetries < MAX_CONNECTION_RETRIES) {
-				console.error(`OFFERMANAGERDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.mongoClientConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
+				console.error(`✖︎ SLAMANAGERQUEUEDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.mongoClientConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
 				await this.reset();
 				await this.connect();
 			}
 			else {
-				console.error('OFFERMANAGERDB: Error creating MongoDB Client instance:', error);
+				console.error('✖︎ SLAMANAGERQUEUEDB: Error creating MongoDB Client instance:', error);
 				await this.reset();
 			}
 		}
@@ -122,7 +135,7 @@ class OFFERMANAGERDB {
 		this.mongoClientConnecting = false;
 		this.mongoClientConnectionInstance = null;
 		global._mongoClientConnectionInstance = null;
-		console.log('OFFERMANAGERDB: Reset connection.');
+		console.log('→ SLAMANAGERQUEUEDB: Reset connection.');
 	}
 
 	async waitForMongoClientConnection() {
@@ -141,4 +154,4 @@ class OFFERMANAGERDB {
 
 /* * */
 
-module.exports = new OFFERMANAGERDB();
+export default new SLAMANAGERQUEUEDB();
