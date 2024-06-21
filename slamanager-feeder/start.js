@@ -1,14 +1,13 @@
 /* * */
 
+import DBWRITER from '@/services/DBWRITER.js';
+import OFFERMANAGERDB from '@/services/OFFERMANAGERDB.js';
+import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
+import TIMETRACKER from '@/services/TIMETRACKER.js';
 import crypto from 'crypto';
 import { parse as csvParser } from 'csv-parse';
 import extract from 'extract-zip';
 import fs from 'fs';
-
-import DBWRITER from './services/DBWRITER';
-import OFFERMANAGERDB from './services/OFFERMANAGERDB';
-import SLAMANAGERDB from './services/SLAMANAGERDB';
-import TIMETRACKER from './services/TIMETRACKER';
 
 /* * */
 

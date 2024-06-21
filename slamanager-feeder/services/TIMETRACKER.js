@@ -34,4 +34,4 @@ class TIMETRACKER {
 
 /* * */
 
-module.exports = TIMETRACKER;
+export default TIMETRACKER;

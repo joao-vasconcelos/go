@@ -1,22 +1,21 @@
 /* * */
 
-import { AnalysisData } from '@/types/analysisData';
+import PCGIDB from '@/services/PCGIDB.js';
+import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
+import TIMETRACKER from '@/services/TIMETRACKER.js';
+import { AnalysisData } from '@/types/analysisData.js';
 import { DateTime } from 'luxon';
-
-import PCGIDB from './services/PCGIDB';
-import SLAMANAGERDB from './services/SLAMANAGERDB';
-import TIMETRACKER from './services/TIMETRACKER';
 
 /* * */
 
-import atMostTwoDriverIdsAnalyzer from '@/analyzers/atMostTwoDriverIds.analyzer';
-import atMostTwoVehicleIdsAnalyzer from '@/analyzers/atMostTwoVehicleIds.analyzer';
-import lessThanTenVehicleEventsAnalyzer from '@/analyzers/lessThanTenVehicleEvents.analyzer';
-import matchingLocationTransactionsAnalyzer from '@/analyzers/matchingLocationTransactions.analyzer';
-import simpleOneValidationTransactionAnalyzer from '@/analyzers/simpleOneValidationTransaction.analyzer';
-import simpleOneVehicleEventOrValidationTransactionAnalyzer from '@/analyzers/simpleOneVehicleEventOrValidationTransaction.analyzer';
-import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEvents.analyzer';
-// import simpleDelayedStartAnalyzer from '@/analyzers/simpleDelayedStart.analyzer';
+import atMostTwoDriverIdsAnalyzer from '@/analyzers/atMostTwoDriverIds.analyzer.js';
+import atMostTwoVehicleIdsAnalyzer from '@/analyzers/atMostTwoVehicleIds.analyzer.js';
+import lessThanTenVehicleEventsAnalyzer from '@/analyzers/lessThanTenVehicleEvents.analyzer.js';
+import matchingLocationTransactionsAnalyzer from '@/analyzers/matchingLocationTransactions.analyzer.js';
+import simpleOneValidationTransactionAnalyzer from '@/analyzers/simpleOneValidationTransaction.analyzer.js';
+import simpleOneVehicleEventOrValidationTransactionAnalyzer from '@/analyzers/simpleOneVehicleEventOrValidationTransaction.analyzer.js';
+import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEvents.analyzer.js';
+// import simpleDelayedStartAnalyzer from '@/analyzers/simpleDelayedStart.analyzer.js';
 
 /* * */
 

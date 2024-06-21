@@ -1,6 +1,6 @@
 /* * */
 
-import { AnalysisData } from '@/types/analysisData';
+import { AnalysisData } from '@/types/analysisData.js';
 
 /* * */
 
