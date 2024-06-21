@@ -1,15 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "baseUrl": ".",
-    "rootDir": ".",
+    "target": "ESNext",
+    "baseUrl": "./",
+    "rootDir": "./",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "paths": {
-      "@/config/*": ["config/*"],
-      "@/modules/*": ["modules/*"],
       "@/services/*": ["services/*"],
-      "@/types/*": ["types/*"]
     },
     "allowJs": true,
     "outDir": "build",

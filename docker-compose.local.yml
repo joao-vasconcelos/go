@@ -50,35 +50,19 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
 
   slamanagerqueuedb:
-    image: redis:alpine
+    image: mongo
     restart: unless-stopped
-    mem_limit: 2g
     logging:
       options:
         max-size: '1m'
         max-file: '1'
-    # ports:
-    #   - 37012:27017
+    ports:
+      - 37013:27017
     volumes:
-      - slamanagerqueuedbdata:/data
+      - slamanagerqueuedbdata:/data/db
     environment:
-      - REDIS_ARGS=--save 5 1
-
-  # # # # # # # # # # # # # # # # # # # # #
-  # # # # # # # # # # # # # # # # # # # # #
-
-  # slamanager-feeder:
-  #   build: ./slamanager-feeder
-  #   restart: unless-stopped
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  #       max-file: '1'
-  #   volumes:
-  #     - ./storage/:/app/storage
-  #   env_file:
-  #     - .env.production
-  #   mem_limit: 2g
+      - MONGO_INITDB_ROOT_USERNAME=slamanagerqueuedbuser
+      - MONGO_INITDB_ROOT_PASSWORD=slamanagerqueuedbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

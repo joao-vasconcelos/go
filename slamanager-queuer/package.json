@@ -1,6 +1,6 @@
 {
   "name": "@joao-vasconcelos/go-slamanager-queuer",
-  "type": "commonjs",
+	"type": "module",
   "version": "2024.06.20-1907",
   "private": true,
   "main": "index.js",
@@ -19,9 +19,9 @@
     "redis": "4.6.14"
   },
   "devDependencies": {
-    "@carrismetropolitana/eslint": "2024.6.1717593318",
+		"@carrismetropolitana/eslint": "2024.6.1718978366",
     "@types/luxon": "3.4.2",
-    "@types/node": "20.14.6",
+    "@types/node": "20.14.7",
     "resolve-tspaths": "0.8.19",
     "typescript": "5.5.2"
   }

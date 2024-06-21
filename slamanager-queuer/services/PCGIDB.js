@@ -1,8 +1,8 @@
 /* * */
 
 import { readFileSync } from 'fs';
-import { createTunnel } from 'tunnel-ssh';
 import { MongoClient, ObjectId } from 'mongodb';
+import { createTunnel } from 'tunnel-ssh';
 
 /* * */
 
@@ -28,15 +28,6 @@ class PCGIDB {
 	/* * *
 	 * OBJECT ID
 	 * Convenience function to create a new ObjectId from a string
-	 */
-
-	toObjectId(string = '') {
-		return new ObjectId(string);
-	}
-
-	/* * *
-	 * CONNECT
-	 * This function sets up a MongoDB client instance with the necessary databases and collections.
 	 */
 
 	async connect() {
@@ -66,11 +57,11 @@ class PCGIDB {
 			// Setup MongoDB connection options
 
 			const mongoClientOptions = {
-				minPoolSize: 2,
-				maxPoolSize: 200,
-				directConnection: true,
-				readPreference: 'secondaryPreferred',
 				connectTimeoutMS: 5000,
+				directConnection: true,
+				maxPoolSize: 200,
+				minPoolSize: 2,
+				readPreference: 'secondaryPreferred',
 				serverSelectionTimeoutMS: 5000,
 			};
 
@@ -84,9 +75,11 @@ class PCGIDB {
 
 			if (this.mongoClientConnectionInstance && this.mongoClientConnectionInstance.topology && this.mongoClientConnectionInstance.topology.isConnected()) {
 				mongoClientInstance = this.mongoClientConnectionInstance;
-			} else if (global._mongoClientConnectionInstance && global._mongoClientConnectionInstance.topology && global._mongoClientConnectionInstance.topology.isConnected()) {
+			}
+			else if (global._mongoClientConnectionInstance && global._mongoClientConnectionInstance.topology && global._mongoClientConnectionInstance.topology.isConnected()) {
 				mongoClientInstance = global._mongoClientConnectionInstance;
-			} else {
+			}
+			else {
 				const mongoUser = process.env.PCGIDB_MONGODB_USERNAME;
 				const mongoPass = process.env.PCGIDB_MONGODB_PASSWORD;
 				const mongoLocalHost = '127.0.0.1';
@@ -122,19 +115,45 @@ class PCGIDB {
 			this.mongoClientConnectionRetries = 0;
 
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			this.mongoClientConnectionRetries++;
 			if (this.mongoClientConnectionRetries < MAX_CONNECTION_RETRIES) {
 				console.error(`PCGIDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.sshTunnelConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
 				await this.reset();
 				await this.connect();
-			} else {
+			}
+			else {
 				console.error('PCGIDB: Error creating MongoDB Client instance:', error);
 				await this.reset();
 			}
 		}
 
 		//
+	}
+
+	/* * *
+	 * CONNECT
+	 * This function sets up a MongoDB client instance with the necessary databases and collections.
+	 */
+
+	async reset() {
+		// Close SSH Tunnel connection
+		await this.sshTunnelConnectionInstance?.close();
+		await global._sshTunnelConnectionInstance?.close();
+		// Clear SSH Tunnel flags
+		this.sshTunnelConnecting = false;
+		this.sshTunnelConnectionInstance = null;
+		global._sshTunnelConnectionInstance = null;
+		// Close MongoDB connections
+		// await this.mongoClientConnectionInstance?.close();
+		// await global._mongoClientConnectionInstance?.close();
+		// Clear MongoDB flags
+		this.mongoClientConnecting = false;
+		this.mongoClientConnectionInstance = null;
+		global._mongoClientConnectionInstance = null;
+		//
+		console.log('PCGIDB: Reset all connections.');
 	}
 
 	/* * *
@@ -192,8 +211,8 @@ class PCGIDB {
 			const sshOptions = {
 				host: process.env.PCGIDB_SSH_HOST,
 				port: process.env.PCGIDB_SSH_PORT,
-				username: process.env.PCGIDB_SSH_USERNAME,
 				privateKey: readFileSync(process.env.PCGIDB_SSH_KEY_PATH),
+				username: process.env.PCGIDB_SSH_USERNAME,
 			};
 
 			const forwardOptions = {
@@ -218,13 +237,15 @@ class PCGIDB {
 			this.sshTunnelConnectionRetries = 0;
 
 			//
-		} catch (error) {
+		}
+		catch (error) {
 			this.sshTunnelConnectionRetries++;
 			if (this.sshTunnelConnectionRetries < MAX_CONNECTION_RETRIES) {
 				console.error(`PCGIDB: Error creating SSH Tunnel instance ["${error.message}"]. Retrying (${this.sshTunnelConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
 				await this.reset();
 				await this.connect();
-			} else {
+			}
+			else {
 				console.error('PCGIDB: Error creating SSH Tunnel instance:', error);
 				await this.reset();
 			}
@@ -238,40 +259,14 @@ class PCGIDB {
 	 * Resets all connections and flags
 	 */
 
-	async reset() {
-		// Close SSH Tunnel connection
-		await this.sshTunnelConnectionInstance?.close();
-		await global._sshTunnelConnectionInstance?.close();
-		// Clear SSH Tunnel flags
-		this.sshTunnelConnecting = false;
-		this.sshTunnelConnectionInstance = null;
-		global._sshTunnelConnectionInstance = null;
-		// Close MongoDB connections
-		// await this.mongoClientConnectionInstance?.close();
-		// await global._mongoClientConnectionInstance?.close();
-		// Clear MongoDB flags
-		this.mongoClientConnecting = false;
-		this.mongoClientConnectionInstance = null;
-		global._mongoClientConnectionInstance = null;
-		//
-		console.log('PCGIDB: Reset all connections.');
+	toObjectId(string = '') {
+		return new ObjectId(string);
 	}
 
 	/* * *
 	 * WAIT FOR AUTHENTICATION
 	 * Implements a mechanism that waits until authentication is complete
 	 */
-
-	async waitForSshTunnelConnection() {
-		return new Promise((resolve) => {
-			const interval = setInterval(() => {
-				if (!this.sshTunnelConnecting) {
-					clearInterval(interval);
-					resolve();
-				}
-			}, 100);
-		});
-	}
 
 	async waitForMongoClientConnection() {
 		return new Promise((resolve) => {
@@ -284,9 +279,20 @@ class PCGIDB {
 		});
 	}
 
+	async waitForSshTunnelConnection() {
+		return new Promise((resolve) => {
+			const interval = setInterval(() => {
+				if (!this.sshTunnelConnecting) {
+					clearInterval(interval);
+					resolve();
+				}
+			}, 100);
+		});
+	}
+
 	//
 }
 
 /* * */
 
-export default new PCGIDB;
+export default new PCGIDB();

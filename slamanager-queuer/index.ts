@@ -2,7 +2,7 @@
 
 import 'dotenv/config';
 
-import start from './start';
+import start from './start.js';
 
 /* * */
 
