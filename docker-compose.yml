@@ -100,7 +100,7 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
 
   slamanagerqueuedb:
-    image: redis:alpine
+    image: mongo
     restart: unless-stopped
     mem_limit: 2g
     logging:
@@ -108,9 +108,10 @@ services:
         max-size: '1m'
         max-file: '1'
     volumes:
-      - slamanagerqueuedbdata:/data
+      - slamanagerqueuedbdata:/data/db
     environment:
-      - REDIS_ARGS=--save 5 1
+      - MONGO_INITDB_ROOT_USERNAME=slamanagerqueuedbuser
+      - MONGO_INITDB_ROOT_PASSWORD=slamanagerqueuedbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
