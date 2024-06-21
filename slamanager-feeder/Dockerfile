@@ -7,6 +7,8 @@ COPY package.json ./
 RUN npm install \
     && npm cache clean --force
 
+RUN npx @carrismetropolitana/bumper bump
+
 COPY . .
 
 RUN ["npm", "run", "build"]
