@@ -21,8 +21,6 @@ COPY package.json ./
 RUN npm install \
     && npm cache clean --force
 
-RUN npx @carrismetropolitana/bumper bump
-
 
 # # # # # # # # #
 
@@ -36,6 +34,8 @@ WORKDIR /app
 
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
+
+RUN npx @carrismetropolitana/bumper bump
 
 RUN npm run build
 
