@@ -45,8 +45,6 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 
 	const defaultCsvWriter = new CSVWRITER('reports.sla.dump-default');
 
-	const tmpOutputFileName = 'SLA-dump-default.csv';
-
 	// 3.
 	// Parse each stop and format it according to the GTFS-TML specification
 
@@ -77,7 +75,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			tripAnalysisParsed[`${item.code}-message`] = item.message;
 		});
 
-		await defaultCsvWriter.write(progress.workdir, tmpOutputFileName, tripAnalysisParsed);
+		await defaultCsvWriter.write(progress.workdir, progress.filename, tripAnalysisParsed);
 
 		//
 	}

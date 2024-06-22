@@ -73,7 +73,7 @@ export default async () => {
 		// 4.
 		// Get all archives (GTFS plans) from GO database, and iterate on each one
 
-		const allArchivesData = await OFFERMANAGERDB.Archive.find({ slamanager_feeder_status: 'pending', status: 'active' }).toArray();
+		const allArchivesData = await OFFERMANAGERDB.Archive.find({ slamanager_feeder_status: { $in: ['pending', 'partial'] }, status: 'active' }).toArray();
 
 		console.log(`→ Found ${allArchivesData.length} archives to process...`);
 
