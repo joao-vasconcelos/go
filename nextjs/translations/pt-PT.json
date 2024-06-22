@@ -1267,6 +1267,10 @@
 			"regional_merge_v1": {
 				"label": "GTFS Unificado (v1)",
 				"description": "For testing."
+			},
+			"sla_default_v1": {
+				"label": "SLA Caracterização de Circulações (v1)",
+				"description": "For testing."
 			}
 		}
 	},
@@ -1283,6 +1287,10 @@
 			},
 			"regional_merge_v1": {
 				"label": "GTFS Unificado v1",
+				"description": "For A3 and A4."
+			},
+			"sla_default_v1": {
+				"label": "SLA Caracterização Circulações v1",
 				"description": "For A3 and A4."
 			}
 		},
@@ -1397,6 +1405,31 @@
 			"active_date": {
 				"label": "Data Principal de Exportação",
 				"description": "Os arquivos serão unificados para esta data, rejeitando ou aceitando os serviços de acordo com a sua validade nesta data.",
+				"placeholder": "Escolha uma data..."
+			}
+		}
+	},
+	"ExportsExplorerFormSlaDefaultV1": {
+		"operations": {
+			"start": {
+				"label": "Iniciar Exportação"
+			}
+		},
+		"form": {
+			"agencies": {
+				"label": "Selecione um Operador",
+				"description": "Selecione o operador para o qual pretende obter a caracterização de circulações.",
+				"placeholder": "Escolha uma opção...",
+				"nothingFound": "Nenhum Resultado Encontrado"
+			},
+			"start_date": {
+				"label": "Data de Início",
+				"description": "Recolher caracterização a partir deste dia operacional.",
+				"placeholder": "Escolha uma data..."
+			},
+			"end_date": {
+				"label": "Data de Fim",
+				"description": "Recolher caracterização até este dia operacional.",
 				"placeholder": "Escolha uma data..."
 			}
 		}

@@ -165,4 +165,4 @@ class SLAMANAGERDB {
 
 /* * */
 
-module.exports = new SLAMANAGERDB();
+export default new SLAMANAGERDB();

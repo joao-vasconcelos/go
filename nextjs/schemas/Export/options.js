@@ -13,20 +13,25 @@ export const ExportOptions = {
 	//
 
 	/*
-   * STORAGE SCOPE
+	* KIND
+	*/
+
+	kind: ['gtfs_v29', 'netex_v1', 'regional_merge_v1', 'sla_default_v1'],
+
+	/*
+   * STATUS
    */
 
-	kind: ['gtfs_v29', 'netex_v1', 'regional_merge_v1'],
 	status: ['WAITING', 'PROGRESS', 'COMPLETED', 'ERROR'],
 
 	/*
-   * KIND
+   * STORAGE SCOPE
    */
 
 	storage_scope: 'exports',
 
 	/*
-   * STATUS
+   * WORKDIR
    */
 
 	workdir: 'exports',

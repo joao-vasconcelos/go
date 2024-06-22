@@ -37,7 +37,7 @@ export default async () => {
 		// 2.
 		// Get all operational days pending analysis
 
-		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'pending' });
+		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'pending' }).sort({ operational_day: 1	});
 
 		console.log(`→ Found ${allOperationalDays.length} operational days pending analysis.`);
 
@@ -76,10 +76,12 @@ export default async () => {
 				.find({ 'content.entity.vehicle.trip.tripId': { $exists: true }, 'millis': { $gte: operationalDayStartMillis, $lte: operationalDayEndMillis } })
 				.stream();
 
-			const pcgiVehicleEventsCounter = 0;
+			let pcgiVehicleEventsCounter = 0;
 
 			for await (const vehicleEventData of pcgiVehicleEventsStream) {
 				//
+
+				pcgiVehicleEventsCounter++;
 
 				const parsedTimestamp = DateTime.fromSeconds(vehicleEventData.content.entity[0].vehicle.timestamp).toMillis();
 
@@ -112,10 +114,12 @@ export default async () => {
 				.find({ 'transaction.transactionDate': { $gte: operationalDayStartString, $lte: operationalDayEndString }, 'transaction.validationStatus': { $in: [0, 8] } })
 				.stream();
 
-			const pcgiValidationTransactionsCounter = 0;
+			let pcgiValidationTransactionsCounter = 0;
 
 			for await (const validationTransactionData of pcgiValidationTransactionsStream) {
 				//
+
+				pcgiValidationTransactionsCounter++;
 
 				const parsedTimestamp = DateTime.fromFormat(validationTransactionData.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis();
 
@@ -148,10 +152,12 @@ export default async () => {
 				.find({ 'transaction.transactionDate': { $gte: operationalDayStartString, $lte: operationalDayEndString } })
 				.stream();
 
-			const pcgiLocationTransactionsCounter = 0;
+			let pcgiLocationTransactionsCounter = 0;
 
 			for await (const locationTransactionData of pcgiLocationTransactionsStream) {
 				//
+
+				pcgiLocationTransactionsCounter++;
 
 				const parsedTimestamp = DateTime.fromFormat(locationTransactionData.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis();
 
@@ -185,7 +191,7 @@ export default async () => {
 			//
 
 			console.log();
-			console.log(`→ [${operationalDayIndex + 1}/${allOperationalDays.length}] PCGI Request for operational_day "${operationalDay}" (${pcgiDbTimer.get()}) | VehicleEvents: ${pcgiVehicleEventsCounter} | ValidationTransactions: ${pcgiValidationTransactionsCounter} | LocationTransactions: ${pcgiLocationTransactionsCounter}`);
+			console.log(`✓ [${operationalDayIndex + 1}/${allOperationalDays.length}] PCGI Request for operational_day "${operationalDay}" (${pcgiDbTimer.get()}) | VehicleEvents: ${pcgiVehicleEventsCounter} | ValidationTransactions: ${pcgiValidationTransactionsCounter} | LocationTransactions: ${pcgiLocationTransactionsCounter}`);
 			console.log();
 
 			//

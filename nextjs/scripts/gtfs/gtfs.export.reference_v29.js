@@ -13,8 +13,7 @@ import { StopModel } from '@/schemas/Stop/model';
 import { TypologyModel } from '@/schemas/Typology/model';
 import { ZoneModel } from '@/schemas/Zone/model';
 import CSVWRITER from '@/services/CSVWRITER';
-
-import calculateDateDayType from '../../services/calculateDateDayType';
+import calculateDateDayType from '@/services/calculateDateDayType';
 
 /* * */
 /* EXPORT GTFS V29 */

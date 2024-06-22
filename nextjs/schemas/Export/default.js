@@ -51,3 +51,11 @@ export const ExportFormDefaultNetexV1 = {
 export const ExportFormDefaultRegionalMergeV1 = {
 	active_date: new Date(),
 };
+
+/* * */
+
+export const ExportFormDefaultSlaDefaultV1 = {
+	agency_id: null,
+	end_date: null,
+	start_date: null,
+};
