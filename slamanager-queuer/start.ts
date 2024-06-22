@@ -37,7 +37,7 @@ export default async () => {
 		// 2.
 		// Get all operational days pending analysis
 
-		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'pending' }).sort({ operational_day: 1	});
+		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'pending' });
 
 		console.log(`→ Found ${allOperationalDays.length} operational days pending analysis.`);
 
