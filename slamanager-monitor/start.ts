@@ -18,6 +18,10 @@ import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEven
 
 /* * */
 
+const ANALYSIS_BATCH_SIZE = 1;
+
+/* * */
+
 export default async () => {
 	//
 
@@ -43,7 +47,7 @@ export default async () => {
 		// 2.
 		// Get all operational days pending analysis
 
-		const tripAnalysisBatch = await SLAMANAGERDB.TripAnalysis.find({ status: 'queued' }).sort({ trip_id: 1 }).limit(1000).toArray();
+		const tripAnalysisBatch = await SLAMANAGERDB.TripAnalysis.find({ status: 'queued' }).sort({ trip_id: 1 }).limit(ANALYSIS_BATCH_SIZE).toArray();
 
 		// 3.
 		// Iterate on each day
