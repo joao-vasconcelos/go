@@ -7,7 +7,7 @@ COPY package.json ./
 RUN npm install \
     && npm cache clean --force
 
-RUN npx @carrismetropolitana/bumper bump
+RUN npx @helperkits/bumper bump
 
 COPY . .
 
