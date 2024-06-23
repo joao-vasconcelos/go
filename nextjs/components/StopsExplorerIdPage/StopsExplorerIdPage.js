@@ -10,7 +10,7 @@ import StopsExplorerIdPageItemMedia from '@/components/StopsExplorerIdPageItemMe
 import StopsExplorerIdPageMap from '@/components/StopsExplorerIdPageMap/StopsExplorerIdPageMap';
 import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 import { StopOptions } from '@/schemas/Stop/options';
-import { ActionIcon, Divider, MultiSelect, NumberInput, Select, SimpleGrid, TextInput, Textarea, Tooltip } from '@mantine/core';
+import { ActionIcon, Autocomplete, Divider, MultiSelect, NumberInput, Select, SimpleGrid, TextInput, Textarea, Tooltip } from '@mantine/core';
 import { IconAB, IconABOff, IconVolume, IconWorldLatitude, IconWorldLongitude } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
@@ -33,6 +33,7 @@ export default function StopsExplorerIdPage() {
 
 	const { data: allMunicipalitiesData } = useSWR('/api/municipalities');
 	const { data: allZonesData } = useSWR('/api/zones');
+	const { data: allLocalitiesData } = useSWR('/api/stops/localities');
 
 	//
 	// C. Transform data
@@ -336,22 +337,22 @@ export default function StopsExplorerIdPage() {
 
 			<Divider />
 
-			<AppLayoutSection description={t('sections.zoning.description')} title={t('sections.zoning.title')}>
+			<AppLayoutSection description={t('sections.admin.description')} title={t('sections.admin.title')}>
+				<SimpleGrid cols={3}>
+					<Select label={t('form.municipality.label')} placeholder={t('form.municipality.placeholder')} {...stopsExplorerContext.form.getInputProps('municipality')} data={allMunicipalitiesDataFormatted} readOnly={stopsExplorerContext.page.is_read_only_location} />
+					<TextInput label={t('form.parish.label')} placeholder={t('form.parish.placeholder')} {...stopsExplorerContext.form.getInputProps('parish')} readOnly={stopsExplorerContext.page.is_read_only_location} />
+					<Autocomplete label={t('form.locality.label')} placeholder={t('form.locality.placeholder')} {...stopsExplorerContext.form.getInputProps('locality')} data={allLocalitiesData || []} readOnly={stopsExplorerContext.page.is_read_only_location} />
+				</SimpleGrid>
 				<SimpleGrid cols={1}>
-					<MultiSelect label={t('form.zones.label')} placeholder={t('form.zones.placeholder')} {...stopsExplorerContext.form.getInputProps('zones')} data={allZonesDataFormatted} readOnly={stopsExplorerContext.page.is_read_only_zones} />
+					<TextInput label={t('form.jurisdiction.label')} placeholder={t('form.jurisdiction.placeholder')} {...stopsExplorerContext.form.getInputProps('jurisdiction')} readOnly={stopsExplorerContext.page.is_read_only} />
 				</SimpleGrid>
 			</AppLayoutSection>
 
 			<Divider />
 
-			<AppLayoutSection description={t('sections.admin.description')} title={t('sections.admin.title')}>
-				<SimpleGrid cols={3}>
-					<Select label={t('form.municipality.label')} placeholder={t('form.municipality.placeholder')} {...stopsExplorerContext.form.getInputProps('municipality')} data={allMunicipalitiesDataFormatted} readOnly={stopsExplorerContext.page.is_read_only_location} />
-					<TextInput label={t('form.parish.label')} placeholder={t('form.parish.placeholder')} {...stopsExplorerContext.form.getInputProps('parish')} readOnly={stopsExplorerContext.page.is_read_only_location} />
-					<TextInput label={t('form.locality.label')} placeholder={t('form.locality.placeholder')} {...stopsExplorerContext.form.getInputProps('locality')} readOnly={stopsExplorerContext.page.is_read_only_location} />
-				</SimpleGrid>
+			<AppLayoutSection description={t('sections.zoning.description')} title={t('sections.zoning.title')}>
 				<SimpleGrid cols={1}>
-					<TextInput label={t('form.jurisdiction.label')} placeholder={t('form.jurisdiction.placeholder')} {...stopsExplorerContext.form.getInputProps('jurisdiction')} readOnly={stopsExplorerContext.page.is_read_only} />
+					<MultiSelect label={t('form.zones.label')} placeholder={t('form.zones.placeholder')} {...stopsExplorerContext.form.getInputProps('zones')} data={allZonesDataFormatted} readOnly={stopsExplorerContext.page.is_read_only_zones} />
 				</SimpleGrid>
 			</AppLayoutSection>
 
