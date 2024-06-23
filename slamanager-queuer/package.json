@@ -1,28 +1,28 @@
 {
-    "name": "@joao-vasconcelos/go-slamanager-queuer",
-    "type": "module",
-    "version": "1.0.0",
-    "private": true,
-    "main": "index.js",
-    "scripts": {
-        "start": "tsc && resolve-tspaths && node build/index.js",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
-        "build": "tsc && resolve-tspaths",
-        "watch": "tsc -w"
-    },
-    "dependencies": {
-        "dotenv": "16.4.5",
-        "luxon": "3.4.4",
-        "mongodb": "6.7.0",
-        "redis": "4.6.14",
-        "tunnel-ssh": "5.1.2"
-    },
-    "devDependencies": {
-        "@carrismetropolitana/eslint": "2024.6.1718984990",
-        "@types/luxon": "3.4.2",
-        "@types/node": "20.14.7",
-        "resolve-tspaths": "0.8.19",
-        "typescript": "5.5.2"
-    }
+	"name": "@joao-vasconcelos/go-slamanager-queuer",
+	"type": "module",
+	"version": "1.0.0",
+	"private": true,
+	"main": "index.js",
+	"scripts": {
+		"start": "tsc && resolve-tspaths && node build/index.js",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"build": "tsc && resolve-tspaths",
+		"watch": "tsc -w"
+	},
+	"dependencies": {
+		"dotenv": "16.4.5",
+		"luxon": "3.4.4",
+		"mongodb": "6.7.0",
+		"redis": "4.6.14",
+		"tunnel-ssh": "5.1.2"
+	},
+	"devDependencies": {
+		"@carrismetropolitana/eslint": "2024.6.1718984990",
+		"@types/luxon": "3.4.2",
+		"@types/node": "20.14.7",
+		"resolve-tspaths": "0.8.19",
+		"typescript": "5.5.2"
+	}
 }
