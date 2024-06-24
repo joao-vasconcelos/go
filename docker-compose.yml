@@ -176,6 +176,9 @@ services:
         max-file: '1'
     env_file:
       - .env.production
+    deploy:
+      mode: replicated
+      replicas: 3
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
