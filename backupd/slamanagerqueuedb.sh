@@ -12,12 +12,12 @@ files_to_keep=2
 
 # Backup the database to an archive
 echo "Starting backup for "$module"..."
-mongodump --uri="$SLAMANAGERDB_MONGODB_URI" --gzip --archive="/$directory/$module/go-backup-$module-$(date +\%Y\%m\%d\%H\%M\%S)"
+mongodump --uri="$SLAMANAGERQUEUEDB_MONGODB_URI" --gzip --archive="/$directory/$module/go-backup-$module-$(date +\%Y\%m\%d\%H\%M\%S)"
 echo "Backup complete!"
 
 # Restore the database from backup
 # echo "Starting restore..."
-# mongorestore --uri="$SLAMANAGERDB_MONGODB_URI" --drop --preserveUUID --gzip --archive="/$directory/$module/go-backup-slamanagerqueuedb-20240424180102"
+# mongorestore --uri="$SLAMANAGERQUEUEDB_MONGODB_URI" --drop --preserveUUID --gzip --archive="/$directory/$module/go-backup-slamanagerqueuedb-20240424180102"
 # echo "Restore complete!"
 
 # Only keep the most recent files
