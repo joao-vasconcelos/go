@@ -27,6 +27,13 @@ while true; do
   echo ""
   echo ""
 
+  # RUN SLAMANAGERQUEUEDB BACKUP
+  sh slamanagerqueuedb.sh
+
+  echo ""
+  echo ""
+  echo ""
+
   # Log end of program
   echo "Complete! Next run in $frequency seconds :)"
   echo "-------------------------------------------"
