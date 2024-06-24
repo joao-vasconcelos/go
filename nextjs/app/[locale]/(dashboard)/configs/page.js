@@ -51,30 +51,30 @@ export default function Page() {
 		});
 	};
 
-	// const handleSetPatternDirection = async () => {
-	// 	openConfirmModal({
-	// 		centered: true,
-	// 		children: <Text size="h3">Are you sure?</Text>,
-	// 		closeOnClickOutside: true,
-	// 		confirmProps: { color: 'red' },
-	// 		labels: { cancel: 'Cancel', confirm: 'Yes, Set Pattern Direction' },
-	// 		onConfirm: async () => {
-	// 			try {
-	// 				setIsImporting(true);
-	// 				notify('setPatternDirection', 'loading', 'Loading');
-	// 				await API({ method: 'GET', service: 'configs/refactors/setPatternDirection' });
-	// 				notify('setPatternDirection', 'success', 'success');
-	// 				setIsImporting(false);
-	// 			}
-	// 			catch (error) {
-	// 				console.log(error);
-	// 				notify('setPatternDirection', 'error', error.message || 'Error');
-	// 				setIsImporting(false);
-	// 			}
-	// 		},
-	// 		title: <Text size="h2">Set Pattern Direction?</Text>,
-	// 	});
-	// };
+	const handleImportNewStopNames = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Import New Stop Names' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('importNewStopNames', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'configs/imports/stops/new_stop_names' });
+					notify('importNewStopNames', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('importNewStopNames', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Import New Stop Names?</Text>,
+		});
+	};
 
 	// const handleRemoveSpecialCalendars = async () => {
 	// 	openConfirmModal({
@@ -112,12 +112,9 @@ export default function Page() {
 						<Button color="red" loading={isImporting} onClick={handleResetTripAnalysis}>
 							Reset All Trip Analysis
 						</Button>
-						{/* <Button color="red" loading={isImporting} onClick={handleSetPatternDirection}>
-							Set Pattern Direction
-						</Button> */}
-						{/* <Button onClick={handleRemoveSpecialCalendars} color="red" loading={isImporting}>
-							Remove Special Calendars
-						</Button> */}
+						<Button color="red" loading={isImporting} onClick={handleImportNewStopNames}>
+							Import New Stop Names
+						</Button>
 					</SimpleGrid>
 				</AppLayoutSection>
 			</Pannel>
