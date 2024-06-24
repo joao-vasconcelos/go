@@ -49,7 +49,7 @@ export default async function stopsSyncIntermodal() {
 			// '08', // MAFRA
 			'09', // MOITA
 			'10', // MONTIJO
-			// '11', // ODIVELAS
+			'11', // ODIVELAS
 			'12', // OEIRAS
 			'13', // PALMELA
 			'14', // SEIXAL
