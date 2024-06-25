@@ -5,7 +5,7 @@ name: go-local
 volumes:
   offermanagerdbdata:
   slamanagerdbdata:
-  slamanagerqueuedbdata:
+  slamanagerbufferdbdata:
 
 services:
   #
@@ -49,7 +49,7 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  slamanagerqueuedb:
+  slamanagerbufferdb:
     image: mongo
     restart: unless-stopped
     logging:
@@ -59,10 +59,10 @@ services:
     ports:
       - 37013:27017
     volumes:
-      - slamanagerqueuedbdata:/data/db
+      - slamanagerbufferdbdata:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=slamanagerqueuedbuser
-      - MONGO_INITDB_ROOT_PASSWORD=slamanagerqueuedbpassword
+      - MONGO_INITDB_ROOT_USERNAME=slamanagerbufferdbuser
+      - MONGO_INITDB_ROOT_PASSWORD=slamanagerbufferdbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

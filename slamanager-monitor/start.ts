@@ -1,7 +1,7 @@
 /* * */
 
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
-import SLAMANAGERQUEUEDB from '@/services/SLAMANAGERQUEUEDB.js';
+import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
 import TIMETRACKER from '@/services/TIMETRACKER.js';
 import { AnalysisData } from '@/types/analysisData.js';
 
@@ -42,12 +42,12 @@ export default async () => {
 		console.log('→ Connect to databases');
 
 		await SLAMANAGERDB.connect();
-		await SLAMANAGERQUEUEDB.connect();
+		await SLAMANAGERBUFFERDB.connect();
 
 		// 2.
 		// Get all operational days pending analysis
 
-		const tripAnalysisBatch = await SLAMANAGERDB.TripAnalysis.find({ status: 'queued' }).sort({ trip_id: 1 }).limit(ANALYSIS_BATCH_SIZE).toArray();
+		const tripAnalysisBatch = await SLAMANAGERDB.TripAnalysis.find({ status: 'bufferd' }).sort({ trip_id: 1 }).limit(ANALYSIS_BATCH_SIZE).toArray();
 
 		// 3.
 		// Iterate on each day
@@ -66,9 +66,9 @@ export default async () => {
 			// 3.5.2.
 			// Get PCGI Vehicle Events for this trip (from an array of IDs)
 
-			const allPcgiVehicleEventsData = await SLAMANAGERQUEUEDB.QueueData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'vehicle_event' }).toArray();
-			const allPcgiValidationTransactionsData = await SLAMANAGERQUEUEDB.QueueData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'validation_transaction' }).toArray();
-			const allPcgiLocationTransactionsData = await SLAMANAGERQUEUEDB.QueueData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'location_transaction' }).toArray();
+			const allPcgiVehicleEventsData = await SLAMANAGERBUFFERDB.BufferData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'vehicle_event' }).toArray();
+			const allPcgiValidationTransactionsData = await SLAMANAGERBUFFERDB.BufferData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'validation_transaction' }).toArray();
+			const allPcgiLocationTransactionsData = await SLAMANAGERBUFFERDB.BufferData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'location_transaction' }).toArray();
 
 			// 3.5.5.
 			// Build the analysis data, common to all analyzers

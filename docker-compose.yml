@@ -6,7 +6,7 @@ volumes:
   certbotdata:
   offermanagerdbdata:
   slamanagerdbdata:
-  slamanagerqueuedbdata:
+  slamanagerbufferdbdata:
 
 secrets:
   pcgidbkey:
@@ -99,7 +99,7 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  slamanagerqueuedb:
+  slamanagerbufferdb:
     image: mongo
     restart: unless-stopped
     mem_limit: 2g
@@ -108,10 +108,10 @@ services:
         max-size: '1m'
         max-file: '1'
     volumes:
-      - slamanagerqueuedbdata:/data/db
+      - slamanagerbufferdbdata:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=slamanagerqueuedbuser
-      - MONGO_INITDB_ROOT_PASSWORD=slamanagerqueuedbpassword
+      - MONGO_INITDB_ROOT_USERNAME=slamanagerbufferdbuser
+      - MONGO_INITDB_ROOT_PASSWORD=slamanagerbufferdbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -183,8 +183,8 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  slamanager-queuer:
-    image: ghcr.io/joao-vasconcelos/go-slamanager-queuer:production
+  slamanager-buffer:
+    image: ghcr.io/joao-vasconcelos/go-slamanager-buffer:production
     restart: unless-stopped
     mem_limit: 2g
     logging:

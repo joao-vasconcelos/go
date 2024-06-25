@@ -11,6 +11,6 @@ mongorestore --uri="mongodb://slamanagerdbuser:slamanagerdbpassword@slamanagerdb
 echo "Restore 'slamanagerdb' complete!"
 
 # Restore the database from backup
-echo "Starting 'slamanagerqueuedb' restore..."
-mongorestore --uri="mongodb://slamanagerqueuedbuser:slamanagerqueuedbpassword@slamanagerqueuedb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-slamanagerqueuedb-20240625205108"
-echo "Restore 'slamanagerqueuedb' complete!"
+echo "Starting 'slamanagerbufferdb' restore..."
+mongorestore --uri="mongodb://slamanagerbufferdbuser:slamanagerbufferdbpassword@slamanagerbufferdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-slamanagerbufferdb-20240625205108"
+echo "Restore 'slamanagerbufferdb' complete!"

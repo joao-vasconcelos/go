@@ -27,8 +27,8 @@ while true; do
   echo ""
   echo ""
 
-  # RUN SLAMANAGERQUEUEDB BACKUP
-  sh slamanagerqueuedb.sh
+  # RUN SLAMANAGERBUFFERDB BACKUP
+  sh slamanagerbufferdb.sh
 
   echo ""
   echo ""

@@ -1,5 +1,5 @@
 {
-	"name": "@joao-vasconcelos/go-slamanager-queuer",
+	"name": "@joao-vasconcelos/go-slamanager-buffer",
 	"type": "module",
 	"version": "1.0.0",
 	"private": true,

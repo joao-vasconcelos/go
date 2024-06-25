@@ -8,7 +8,7 @@ const MAX_CONNECTION_RETRIES = 1;
 
 /* * */
 
-class SLAMANAGERQUEUEDB {
+class SLAMANAGERBUFFERDB {
 	//
 
 	constructor() {
@@ -26,13 +26,13 @@ class SLAMANAGERQUEUEDB {
 
 	async connect() {
 		try {
-			console.log('→ SLAMANAGERQUEUEDB: New connection request...');
+			console.log('→ SLAMANAGERBUFFERDB: New connection request...');
 
 			//
 			// If another connection request is already in progress, wait for it to complete
 
 			if (this.mongoClientConnecting) {
-				console.log('→ SLAMANAGERQUEUEDB: Waiting for MongoDB Client connection...');
+				console.log('→ SLAMANAGERBUFFERDB: Waiting for MongoDB Client connection...');
 				await this.waitForMongoClientConnection();
 				return;
 			}
@@ -69,7 +69,7 @@ class SLAMANAGERQUEUEDB {
 				mongoClientInstance = global._mongoClientConnectionInstance;
 			}
 			else {
-				mongoClientInstance = await MongoClient.connect(process.env.SLAMANAGERQUEUEDB_MONGODB_URI, mongoClientOptions);
+				mongoClientInstance = await MongoClient.connect(process.env.SLAMANAGERBUFFERDB_MONGODB_URI, mongoClientOptions);
 			}
 
 			//
@@ -80,21 +80,21 @@ class SLAMANAGERQUEUEDB {
 			//
 			// Setup collections
 
-			this.QueueData = productionDatabase.collection('QueueData');
+			this.BufferData = productionDatabase.collection('BufferData');
 
 			//
 			// Setup indexes
 
-			this.QueueData.createIndex({ original_id: 1 });
-			this.QueueData.createIndex({ type: 1 });
-			this.QueueData.createIndex({ agency_id: 1 });
-			this.QueueData.createIndex({ line_id: 1 });
-			this.QueueData.createIndex({ route_id: 1 });
-			this.QueueData.createIndex({ pattern_id: 1 });
-			this.QueueData.createIndex({ trip_id: 1 });
-			this.QueueData.createIndex({ stop_id: 1 });
-			this.QueueData.createIndex({ operational_day: 1 });
-			this.QueueData.createIndex({ operational_day: 1, trip_id: 1 });
+			this.BufferData.createIndex({ original_id: 1 });
+			this.BufferData.createIndex({ type: 1 });
+			this.BufferData.createIndex({ agency_id: 1 });
+			this.BufferData.createIndex({ line_id: 1 });
+			this.BufferData.createIndex({ route_id: 1 });
+			this.BufferData.createIndex({ pattern_id: 1 });
+			this.BufferData.createIndex({ trip_id: 1 });
+			this.BufferData.createIndex({ stop_id: 1 });
+			this.BufferData.createIndex({ operational_day: 1 });
+			this.BufferData.createIndex({ operational_day: 1, trip_id: 1 });
 
 			//
 			// Save the instance in memory
@@ -113,12 +113,12 @@ class SLAMANAGERQUEUEDB {
 		catch (error) {
 			this.mongoClientConnectionRetries++;
 			if (this.mongoClientConnectionRetries < MAX_CONNECTION_RETRIES) {
-				console.error(`✖︎ SLAMANAGERQUEUEDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.mongoClientConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
+				console.error(`✖︎ SLAMANAGERBUFFERDB: Error creating MongoDB Client instance ["${error.message}"]. Retrying (${this.mongoClientConnectionRetries}/${MAX_CONNECTION_RETRIES})...`);
 				await this.reset();
 				await this.connect();
 			}
 			else {
-				console.error('✖︎ SLAMANAGERQUEUEDB: Error creating MongoDB Client instance:', error);
+				console.error('✖︎ SLAMANAGERBUFFERDB: Error creating MongoDB Client instance:', error);
 				await this.reset();
 			}
 		}
@@ -135,7 +135,7 @@ class SLAMANAGERQUEUEDB {
 		this.mongoClientConnecting = false;
 		this.mongoClientConnectionInstance = null;
 		global._mongoClientConnectionInstance = null;
-		console.log('→ SLAMANAGERQUEUEDB: Reset connection.');
+		console.log('→ SLAMANAGERBUFFERDB: Reset connection.');
 	}
 
 	async waitForMongoClientConnection() {
@@ -154,4 +154,4 @@ class SLAMANAGERQUEUEDB {
 
 /* * */
 
-export default new SLAMANAGERQUEUEDB();
+export default new SLAMANAGERBUFFERDB();

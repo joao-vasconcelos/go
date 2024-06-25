@@ -135,8 +135,8 @@ jobs:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  go-slamanager-queuer:
-    name: SLA Manager - queuer (Docker)
+  go-slamanager-buffer:
+    name: SLA Manager - buffer (Docker)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -155,10 +155,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image (SLA Manager - queuer)
+      - name: Build Docker Image (SLA Manager - buffer)
         uses: docker/build-push-action@master
         with:
           push: true
-          context: ./slamanager-queuer
-          file: ./slamanager-queuer/Dockerfile
-          tags: ghcr.io/joao-vasconcelos/go-slamanager-queuer:${{ github.ref_name }}
+          context: ./slamanager-buffer
+          file: ./slamanager-buffer/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go-slamanager-buffer:${{ github.ref_name }}

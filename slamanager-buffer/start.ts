@@ -3,7 +3,7 @@
 import DBWRITER from '@/services/DBWRITER.js';
 import PCGIDB from '@/services/PCGIDB.js';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
-import SLAMANAGERQUEUEDB from '@/services/SLAMANAGERQUEUEDB.js';
+import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
 import TIMETRACKER from '@/services/TIMETRACKER.js';
 import { DateTime } from 'luxon';
 
@@ -29,10 +29,10 @@ export default async () => {
 		console.log('→ Connect to databases');
 
 		await SLAMANAGERDB.connect();
-		await SLAMANAGERQUEUEDB.connect();
+		await SLAMANAGERBUFFERDB.connect();
 		await PCGIDB.connect();
 
-		const queueDataDbWritter = new DBWRITER('QueueData', SLAMANAGERQUEUEDB.QueueData, { batch_size: 10000 });
+		const bufferDataDbWritter = new DBWRITER('BufferData', SLAMANAGERBUFFERDB.BufferData, { batch_size: 10000 });
 
 		// 2.
 		// Get all operational days pending analysis
@@ -99,7 +99,7 @@ export default async () => {
 					type: 'vehicle_event',
 				};
 
-				await queueDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
+				await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
 
 				//
 			}
@@ -137,7 +137,7 @@ export default async () => {
 					type: 'validation_transaction',
 				};
 
-				await queueDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
+				await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
 
 				//
 			}
@@ -175,18 +175,18 @@ export default async () => {
 					type: 'location_transaction',
 				};
 
-				await queueDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
+				await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
 
 				//
 			}
 
 			//
 
-			await queueDataDbWritter.flush();
+			await bufferDataDbWritter.flush();
 
 			//
 
-			await SLAMANAGERDB.TripAnalysis.updateMany({ operational_day: operationalDay, status: 'pending' }, { $set: { status: 'queued' } });
+			await SLAMANAGERDB.TripAnalysis.updateMany({ operational_day: operationalDay, status: 'pending' }, { $set: { status: 'bufferd' } });
 
 			//
 

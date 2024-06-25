@@ -4,7 +4,7 @@
 
   "files.eol": "\n",
 
-  "eslint.workingDirectories": ["./nextjs", "./slamanager-feeder", "./slamanager-monitor", "./slamanager-queuer"],
+  "eslint.workingDirectories": ["./nextjs", "./slamanager-feeder", "./slamanager-monitor", "./slamanager-buffer"],
 
   // Enable the ESlint flat config support
   "eslint.useFlatConfig": true,
