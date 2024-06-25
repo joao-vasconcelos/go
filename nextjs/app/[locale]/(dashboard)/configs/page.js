@@ -51,30 +51,30 @@ export default function Page() {
 		});
 	};
 
-	const handleImportNewStopNames = async () => {
-		openConfirmModal({
-			centered: true,
-			children: <Text size="h3">Are you sure?</Text>,
-			closeOnClickOutside: true,
-			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: 'Yes, Import New Stop Names' },
-			onConfirm: async () => {
-				try {
-					setIsImporting(true);
-					notify('importNewStopNames', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'configs/imports/stops/new_stop_names' });
-					notify('importNewStopNames', 'success', 'success');
-					setIsImporting(false);
-				}
-				catch (error) {
-					console.log(error);
-					notify('importNewStopNames', 'error', error.message || 'Error');
-					setIsImporting(false);
-				}
-			},
-			title: <Text size="h2">Import New Stop Names?</Text>,
-		});
-	};
+	// const handleImportNewStopNames = async () => {
+	// 	openConfirmModal({
+	// 		centered: true,
+	// 		children: <Text size="h3">Are you sure?</Text>,
+	// 		closeOnClickOutside: true,
+	// 		confirmProps: { color: 'red' },
+	// 		labels: { cancel: 'Cancel', confirm: 'Yes, Import New Stop Names' },
+	// 		onConfirm: async () => {
+	// 			try {
+	// 				setIsImporting(true);
+	// 				notify('importNewStopNames', 'loading', 'Loading');
+	// 				await API({ method: 'GET', service: 'configs/imports/stops/new_stop_names' });
+	// 				notify('importNewStopNames', 'success', 'success');
+	// 				setIsImporting(false);
+	// 			}
+	// 			catch (error) {
+	// 				console.log(error);
+	// 				notify('importNewStopNames', 'error', error.message || 'Error');
+	// 				setIsImporting(false);
+	// 			}
+	// 		},
+	// 		title: <Text size="h2">Import New Stop Names?</Text>,
+	// 	});
+	// };
 
 	// const handleRemoveSpecialCalendars = async () => {
 	// 	openConfirmModal({
@@ -107,14 +107,14 @@ export default function Page() {
 		<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]} redirect>
 			<Pannel>
 				<AppLayoutSection>
-					<NoDataLabel text="No operations available" />
+					{/* <NoDataLabel text="No operations available" /> */}
 					<SimpleGrid cols={3}>
 						<Button color="red" loading={isImporting} onClick={handleResetTripAnalysis}>
 							Reset All Trip Analysis
 						</Button>
-						<Button color="red" loading={isImporting} onClick={handleImportNewStopNames}>
+						{/* <Button color="red" loading={isImporting} onClick={handleImportNewStopNames}>
 							Import New Stop Names
-						</Button>
+						</Button> */}
 					</SimpleGrid>
 				</AppLayoutSection>
 			</Pannel>

@@ -11,7 +11,7 @@ import Papa from 'papaparse';
 export default async function handler(req, res) {
 	//
 
-	// throw new Error('Feature is disabled.');
+	throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
