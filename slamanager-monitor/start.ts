@@ -54,7 +54,7 @@ export default async () => {
 		const tripAnalysisBatch = await SLAMANAGERDB.TripAnalysis.find({ operational_day: { $in: bufferedOperationalDays }, status: 'pending' }).sort({ trip_id: 1 }).limit(ANALYSIS_BATCH_SIZE).toArray();
 
 		if (tripAnalysisBatch.length === 0) {
-			LOGGER.error('No trips are pending analysis.');
+			LOGGER.error('No trips are pending analysis for all currently buffered days.');
 		}
 
 		// 4.

@@ -68,7 +68,7 @@ services:
   offermanagerdb:
     image: mongo
     restart: unless-stopped
-    mem_limit: 2g
+    mem_limit: 4g
     logging:
       options:
         max-size: '1m'
@@ -85,7 +85,7 @@ services:
   slamanagerdb:
     image: mongo
     restart: unless-stopped
-    mem_limit: 2g
+    mem_limit: 4g
     logging:
       options:
         max-size: '1m'
@@ -102,7 +102,7 @@ services:
   slamanagerbufferdb:
     image: mongo
     restart: unless-stopped
-    mem_limit: 2g
+    mem_limit: 4g
     logging:
       options:
         max-size: '1m'
