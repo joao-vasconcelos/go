@@ -119,7 +119,7 @@ export default async () => {
 		await SLAMANAGERBUFFERDB.connect();
 		await PCGIDB.connect();
 
-		const bufferDataDbWritter = new DBWRITER('BufferData', SLAMANAGERBUFFERDB.BufferData, { batch_size: 10000 });
+		const bufferDataDbWritter = new DBWRITER('BufferData', SLAMANAGERBUFFERDB.BufferData, { batch_size: 100000 });
 
 		LOGGER.divider();
 

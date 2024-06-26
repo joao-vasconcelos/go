@@ -44,10 +44,18 @@ export default async () => {
 
 		const bufferedOperationalDays = await SLAMANAGERBUFFERDB.OperationalDayStatus.distinct('operational_day', { location_transaction_synced: true, validation_transaction_synced: true, vehicle_event_synced: true });
 
+		if (bufferedOperationalDays.length === 0) {
+			LOGGER.error('No operational days are buffered yet.');
+		}
+
 		// 3.
 		// Get all trips pending analysis that are from the buffered operational days
 
 		const tripAnalysisBatch = await SLAMANAGERDB.TripAnalysis.find({ operational_day: { $in: bufferedOperationalDays }, status: 'pending' }).sort({ trip_id: 1 }).limit(ANALYSIS_BATCH_SIZE).toArray();
+
+		if (tripAnalysisBatch.length === 0) {
+			LOGGER.error('No trips are pending analysis.');
+		}
 
 		// 4.
 		// Iterate on each day
