@@ -15,6 +15,12 @@ const BUFFER_MAX_DATE = '20240613';
 
 /* * */
 
+async function setOperationalDayStatus(operationalDay: string, documentType: string, status: boolean) {
+	await SLAMANAGERBUFFERDB.OperationalDayStatus.updateOne({ operational_day: operationalDay }, { $set: { [`${documentType}_synced`]: status, operational_day: operationalDay } }, { upsert: true });
+}
+
+/* * */
+
 async function syncDocuments(documentType: string, operationalDay: string, pcgiCollection, bufferCollection, pcgiQuery, bufferQuery, pcgiDocumentTransform, dbWriter: DBWRITER) {
 	//
 
@@ -36,10 +42,12 @@ async function syncDocuments(documentType: string, operationalDay: string, pcgiC
 	LOGGER.info(`Found ${bufferCountValue} "${documentType}" documents in SLAMANAGERBUFFERDB for "${operationalDay}" (${bufferCountTimer.get()})`);
 
 	if (pcgiCountValue === bufferCountValue) {
+		await setOperationalDayStatus(operationalDay, documentType, true);
 		LOGGER.success(`All "${documentType}" documents for "${operationalDay}" are already in sync (${syncTimer.get()})`);
 		return;
 	}
 	else {
+		await setOperationalDayStatus(operationalDay, documentType, false);
 		LOGGER.error(`Document count between databases did not match. Starting sync for "${documentType}" documents for "${operationalDay}"...`);
 	}
 
@@ -85,7 +93,9 @@ async function syncDocuments(documentType: string, operationalDay: string, pcgiC
 
 	//
 
-	LOGGER.success(`Synced all "${documentType}" documents from PCGIDB to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${syncTimer.get()})`);
+	await setOperationalDayStatus(operationalDay, documentType, true);
+
+	LOGGER.success(`Synced all "${documentType}" documents between PCGIDB and SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${syncTimer.get()})`);
 
 	//
 }
