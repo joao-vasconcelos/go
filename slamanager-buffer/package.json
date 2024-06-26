@@ -12,6 +12,8 @@
 		"watch": "tsc -w"
 	},
 	"dependencies": {
+		"@helperkits/logger": "20240626.1136.19",
+		"@helperkits/timer": "20240623.52.16",
 		"dotenv": "16.4.5",
 		"luxon": "3.4.4",
 		"mongodb": "6.7.0",
@@ -19,9 +21,9 @@
 		"tunnel-ssh": "5.1.2"
 	},
 	"devDependencies": {
-		"@carrismetropolitana/eslint": "2024.6.1718984990",
+		"@carrismetropolitana/eslint": "20240622.50.2",
 		"@types/luxon": "3.4.2",
-		"@types/node": "20.14.7",
+		"@types/node": "20.14.9",
 		"resolve-tspaths": "0.8.19",
 		"typescript": "5.5.2"
 	}

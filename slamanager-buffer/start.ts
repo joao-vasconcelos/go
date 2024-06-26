@@ -2,31 +2,31 @@
 
 import DBWRITER from '@/services/DBWRITER.js';
 import PCGIDB from '@/services/PCGIDB.js';
-import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
 import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
-import TIMETRACKER from '@/services/TIMETRACKER.js';
+import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
+import LOGGER from '@helperkits/logger';
+import TIMETRACKER from '@helperkits/timer';
 import { DateTime } from 'luxon';
 
 /* * */
 
-export default async () => {
-	//
+const BUFFER_START_DATE = '20240613';
+const BUFFER_END_DATE = '20240613';
 
+/* * */
+
+export default async () => {
 	try {
-		console.log();
-		console.log('------------------------');
-		console.log((new Date()).toISOString());
-		console.log('------------------------');
-		console.log();
+		//
+
+		LOGGER.init();
 
 		const globalTimer = new TIMETRACKER();
-		console.log('Starting...');
 
 		// 1.
 		// Connect to databases
 
-		console.log();
-		console.log('→ Connect to databases');
+		LOGGER.info('Connecting to databases...');
 
 		await SLAMANAGERDB.connect();
 		await SLAMANAGERBUFFERDB.connect();
@@ -35,11 +35,11 @@ export default async () => {
 		const bufferDataDbWritter = new DBWRITER('BufferData', SLAMANAGERBUFFERDB.BufferData, { batch_size: 10000 });
 
 		// 2.
-		// Get all operational days pending analysis
+		// Get all existing operational days, even ones that are already buffered
 
-		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'pending' });
+		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day');
 
-		console.log(`→ Found ${allOperationalDays.length} operational days pending analysis.`);
+		LOGGER.info(`Found ${allOperationalDays.length} operational days. Checking each one...`);
 
 		// 3.
 		// Iterate on each day
@@ -47,10 +47,19 @@ export default async () => {
 		for (const [operationalDayIndex, operationalDay] of allOperationalDays.entries()) {
 			//
 
-			console.log();
-			console.log('----------------------------------------------------------');
-			console.log();
+			LOGGER.divider();
 
+			const operationalDayTimer = new TIMETRACKER();
+
+			// 3.1.
+			// Skip this day if it is outside the allowed buffer range
+
+			if (operationalDay < BUFFER_START_DATE || operationalDay > BUFFER_END_DATE) {
+				LOGGER.error(`✕ [${operationalDayIndex + 1}/${allOperationalDays.length}] Skipping operational_day "${operationalDay}" as it is outside the allowed buffer range (${BUFFER_START_DATE} - ${BUFFER_END_DATE}).`);
+				continue;
+			}
+
+			// 3.2.
 			// Convert operational day into required formats
 
 			const operationalDayStart = DateTime.fromFormat(operationalDay, 'yyyyMMdd').set({ hour: 4, minute: 0, second: 0 });
@@ -62,122 +71,233 @@ export default async () => {
 			const operationalDayStartString = operationalDayStart.toFormat('yyyy-LL-dd\'T\'HH\':\'mm\':\'ss');
 			const operationalDayEndString = operationalDayEnd.toFormat('yyyy-LL-dd\'T\'HH\':\'mm\':\'ss');
 
-			// Request PCGi data for the current operational_day
-
-			const pcgiDbTimer = new TIMETRACKER();
+			// 3.1.
+			// Syncronize BufferData by looking for _ids present in PCGIDB but not in SLAMANAGERBUFFERDB
 
 			//
 			// For Vehicle Events
 
-			console.log();
-			console.log(`→ Fetching PCGI Vehicle Events for "${operationalDay}"...`);
-
-			const pcgiVehicleEventsStream = PCGIDB.VehicleEvents
-				.find({ 'content.entity.vehicle.trip.tripId': { $exists: true }, 'millis': { $gte: operationalDayStartMillis, $lte: operationalDayEndMillis } })
-				.stream();
-
-			let pcgiVehicleEventsCounter = 0;
-
-			for await (const vehicleEventData of pcgiVehicleEventsStream) {
+			try {
 				//
 
-				pcgiVehicleEventsCounter++;
+				LOGGER.info(`Syncing Vehicle Events for "${operationalDay}"...`);
 
-				const parsedTimestamp = DateTime.fromSeconds(vehicleEventData.content.entity[0].vehicle.timestamp).toMillis();
+				const vehicleEventsTimer = new TIMETRACKER();
 
-				const formattedObject = {
-					agency_id: vehicleEventData.content.entity[0].vehicle.agencyId,
-					data: JSON.stringify(vehicleEventData),
-					line_id: vehicleEventData.content.entity[0].vehicle.trip.lineId,
-					operational_day: operationalDay,
-					original_id: String(vehicleEventData._id),
-					pattern_id: vehicleEventData.content.entity[0].vehicle.trip.patternId,
-					route_id: vehicleEventData.content.entity[0].vehicle.trip.routeId,
-					stop_id: vehicleEventData.content.entity[0].vehicle.trip.stopId,
-					timestamp: parsedTimestamp,
-					trip_id: vehicleEventData.content.entity[0].vehicle.trip.tripId,
-					type: 'vehicle_event',
-				};
+				// Fetch all existing Vehicle Event IDs from SLAMANAGERBUFFERDB
 
-				await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
+				const bufferVehicleEventsIdsSet = new Set();
+
+				const bufferVehicleEventsStream = await SLAMANAGERBUFFERDB.BufferData
+					.find({ operational_day: operationalDay, type: 'vehicle_event' })
+					.stream();
+
+				for await (const bufferVehicleEventDocument of bufferVehicleEventsStream) {
+					bufferVehicleEventsIdsSet.add(String(bufferVehicleEventDocument.original_id));
+				}
+
+				LOGGER.info(`Fetched ${bufferVehicleEventsIdsSet.size} Vehicle Event IDs from SLAMANAGERBUFFERDB for "${operationalDay}" (${vehicleEventsTimer.get()})`);
+
+				// Fetch Vehicle Events from PCGIDB
+
+				LOGGER.info(`Fetching PCGIDB Vehicle Events for "${operationalDay}"...`);
+
+				const pcgiVehicleEventsStream = PCGIDB.VehicleEvents
+					.find({ 'content.entity.vehicle.trip.tripId': { $exists: true }, 'millis': { $gte: operationalDayStartMillis, $lte: operationalDayEndMillis } })
+					.stream();
+
+				let pcgiVehicleEventsCounter = 0;
+
+				for await (const vehicleEventData of pcgiVehicleEventsStream) {
+					//
+
+					// Skip if already present in SLAMANAGERBUFFERDB
+
+					if (bufferVehicleEventsIdsSet.has(String(vehicleEventData._id))) {
+						continue;
+					}
+
+					// If not yet present, add it to SLAMANAGERBUFFERDB
+
+					pcgiVehicleEventsCounter++;
+
+					const formattedObject = {
+						agency_id: vehicleEventData.content.entity[0].vehicle.agencyId,
+						data: JSON.stringify(vehicleEventData),
+						line_id: vehicleEventData.content.entity[0].vehicle.trip.lineId,
+						operational_day: operationalDay,
+						original_id: String(vehicleEventData._id),
+						pattern_id: vehicleEventData.content.entity[0].vehicle.trip.patternId,
+						route_id: vehicleEventData.content.entity[0].vehicle.trip.routeId,
+						stop_id: vehicleEventData.content.entity[0].vehicle.trip.stopId,
+						timestamp: DateTime.fromSeconds(vehicleEventData.content.entity[0].vehicle.timestamp).toMillis(),
+						trip_id: vehicleEventData.content.entity[0].vehicle.trip.tripId,
+						type: 'vehicle_event',
+					};
+
+					await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
+
+				//
+				}
+
+				LOGGER.success(`Synced all Vehicle Events from PCGIDB to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${vehicleEventsTimer.get()}) | Added Vehicle Events: ${pcgiVehicleEventsCounter}`);
 
 				//
 			}
+			catch (error) {
+				LOGGER.error(`Error syncing Vehicle Events for "${operationalDay}".`, error);
+			}
+
+			await bufferDataDbWritter.flush();
 
 			//
 			// For Validation Transactions
 
-			console.log();
-			console.log(`→ Fetching PCGI Validation Transactions for "${operationalDay}"...`);
-
-			const pcgiValidationTransactionsStream = PCGIDB.ValidationEntity
-				.find({ 'transaction.transactionDate': { $gte: operationalDayStartString, $lte: operationalDayEndString }, 'transaction.validationStatus': { $in: [0, 8] } })
-				.stream();
-
-			let pcgiValidationTransactionsCounter = 0;
-
-			for await (const validationTransactionData of pcgiValidationTransactionsStream) {
+			try {
 				//
 
-				pcgiValidationTransactionsCounter++;
+				LOGGER.info(`Syncing Validation Transactions for "${operationalDay}"...`);
 
-				const parsedTimestamp = DateTime.fromFormat(validationTransactionData.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis();
+				const validationTransactionsTimer = new TIMETRACKER();
 
-				const formattedObject = {
-					agency_id: validationTransactionData.transaction.operatorLongID,
-					data: JSON.stringify(validationTransactionData),
-					line_id: validationTransactionData.transaction.lineLongId,
-					operational_day: operationalDay,
-					original_id: String(validationTransactionData._id),
-					pattern_id: validationTransactionData.transaction.patternLongId,
-					route_id: validationTransactionData.transaction.routeLongId,
-					stop_id: validationTransactionData.transaction.stopLongID,
-					timestamp: parsedTimestamp,
-					trip_id: validationTransactionData.transaction.journeyID,
-					type: 'validation_transaction',
-				};
+				// Fetch all existing Validation Transactions IDs from SLAMANAGERBUFFERDB
 
-				await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
+				const bufferValidationTransactionsIdsSet = new Set();
+
+				const bufferValidationTransactionsStream = await SLAMANAGERBUFFERDB.BufferData
+					.find({ operational_day: operationalDay, type: 'validation_transaction' })
+					.stream();
+
+				for await (const bufferValidationTransactionDocument of bufferValidationTransactionsStream) {
+					bufferValidationTransactionsIdsSet.add(String(bufferValidationTransactionDocument.original_id));
+				}
+
+				LOGGER.info(`Fetched ${bufferValidationTransactionsIdsSet.size} Validation Transaction IDs from SLAMANAGERBUFFERDB for "${operationalDay}" (${validationTransactionsTimer.get()})`);
+
+				// Fetch Validation Transactions from PCGI
+
+				LOGGER.info(`Fetching PCGI Validation Transactions for "${operationalDay}"...`);
+
+				const pcgiValidationTransactionsStream = PCGIDB.ValidationEntity
+					.find({ 'transaction.transactionDate': { $gte: operationalDayStartString, $lte: operationalDayEndString }, 'transaction.validationStatus': { $in: [0, 8] } })
+					.stream();
+
+				let pcgiValidationTransactionsCounter = 0;
+
+				for await (const validationTransactionData of pcgiValidationTransactionsStream) {
+					//
+
+					// Skip if already present in SLAMANAGERBUFFERDB
+
+					if (bufferValidationTransactionsIdsSet.has(String(validationTransactionData._id))) {
+						continue;
+					}
+
+					// If not yet present, add it to SLAMANAGERBUFFERDB
+
+					pcgiValidationTransactionsCounter++;
+
+					const formattedObject = {
+						agency_id: validationTransactionData.transaction.operatorLongID,
+						data: JSON.stringify(validationTransactionData),
+						line_id: validationTransactionData.transaction.lineLongId,
+						operational_day: operationalDay,
+						original_id: String(validationTransactionData._id),
+						pattern_id: validationTransactionData.transaction.patternLongId,
+						route_id: validationTransactionData.transaction.routeLongId,
+						stop_id: validationTransactionData.transaction.stopLongID,
+						timestamp: DateTime.fromFormat(validationTransactionData.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis(),
+						trip_id: validationTransactionData.transaction.journeyID,
+						type: 'validation_transaction',
+					};
+
+					await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
+
+				//
+				}
+
+				LOGGER.success(`Synced all Validation Transactions from PCGI to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${validationTransactionsTimer.get()}) | Added Validation Transactions: ${pcgiValidationTransactionsCounter}`);
 
 				//
 			}
+			catch (error) {
+				LOGGER.error(`Error syncing Validation Transactions for "${operationalDay}".`, error);
+			}
+
+			await bufferDataDbWritter.flush();
 
 			//
 			// For Location Transactions
 
-			console.log();
-			console.log(`→ Fetching PCGI Location Transactions for "${operationalDay}"...`);
-
-			const pcgiLocationTransactionsStream = PCGIDB.LocationEntity
-				.find({ 'transaction.transactionDate': { $gte: operationalDayStartString, $lte: operationalDayEndString } })
-				.stream();
-
-			let pcgiLocationTransactionsCounter = 0;
-
-			for await (const locationTransactionData of pcgiLocationTransactionsStream) {
+			try {
 				//
 
-				pcgiLocationTransactionsCounter++;
+				LOGGER.info(`Syncing Location Transactions for "${operationalDay}"...`);
 
-				const parsedTimestamp = DateTime.fromFormat(locationTransactionData.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis();
+				const locationTransactionsTimer = new TIMETRACKER();
 
-				const formattedObject = {
-					agency_id: locationTransactionData.transaction.operatorLongID,
-					data: JSON.stringify(locationTransactionData),
-					line_id: locationTransactionData.transaction.lineLongId,
-					operational_day: operationalDay,
-					original_id: String(locationTransactionData._id),
-					pattern_id: locationTransactionData.transaction.patternLongId,
-					route_id: locationTransactionData.transaction.routeLongId,
-					stop_id: locationTransactionData.transaction.stopLongID,
-					timestamp: parsedTimestamp,
-					trip_id: locationTransactionData.transaction.journeyID,
-					type: 'location_transaction',
-				};
+				// Fetch all existing Location Transaction IDs from SLAMANAGERBUFFERDB
 
-				await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
+				const bufferLocationTransactionsIdsSet = new Set();
+
+				const bufferLocationTransactionsStream = await SLAMANAGERBUFFERDB.BufferData
+					.find({ operational_day: operationalDay, type: 'location_transaction' })
+					.stream();
+
+				for await (const bufferLocationTransactionDocument of bufferLocationTransactionsStream) {
+					bufferLocationTransactionsIdsSet.add(String(bufferLocationTransactionDocument.original_id));
+				}
+
+				LOGGER.info(`Fetched ${bufferLocationTransactionsIdsSet.size} Location Transaction IDs from SLAMANAGERBUFFERDB for "${operationalDay}" (${locationTransactionsTimer.get()})`);
+
+				// Fetch Location Transactions from PCGI
+
+				LOGGER.info(`Fetching PCGI Location Transactions for "${operationalDay}"...`);
+
+				const pcgiLocationTransactionsStream = PCGIDB.LocationEntity
+					.find({ 'transaction.transactionDate': { $gte: operationalDayStartString, $lte: operationalDayEndString } })
+					.stream();
+
+				let pcgiLocationTransactionsCounter = 0;
+
+				for await (const locationTransactionData of pcgiLocationTransactionsStream) {
+					//
+
+					// Skip if already present in SLAMANAGERBUFFERDB
+
+					if (bufferLocationTransactionsIdsSet.has(String(locationTransactionData._id))) {
+						continue;
+					}
+
+					// If not yet present, add it to SLAMANAGERBUFFERDB
+
+					pcgiLocationTransactionsCounter++;
+
+					const formattedObject = {
+						agency_id: locationTransactionData.transaction.operatorLongID,
+						data: JSON.stringify(locationTransactionData),
+						line_id: locationTransactionData.transaction.lineLongId,
+						operational_day: operationalDay,
+						original_id: String(locationTransactionData._id),
+						pattern_id: locationTransactionData.transaction.patternLongId,
+						route_id: locationTransactionData.transaction.routeLongId,
+						stop_id: locationTransactionData.transaction.stopLongID,
+						timestamp: DateTime.fromFormat(locationTransactionData.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis(),
+						trip_id: locationTransactionData.transaction.journeyID,
+						type: 'location_transaction',
+					};
+
+					await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
 
 				//
+				}
+
+				LOGGER.success(`Synced all Location Transactions from PCGI to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${locationTransactionsTimer.get()}) | Added Location Transactions: ${pcgiLocationTransactionsCounter}`);
+
+				//
+			}
+			catch (error) {
+				LOGGER.error(`Error syncing Location Transactions for "${operationalDay}".`, error);
 			}
 
 			//
@@ -186,13 +306,11 @@ export default async () => {
 
 			//
 
-			await SLAMANAGERDB.TripAnalysis.updateMany({ operational_day: operationalDay, status: 'pending' }, { $set: { status: 'bufferd' } });
+			// await SLAMANAGERDB.TripAnalysis.updateMany({ operational_day: operationalDay, status: 'pending' }, { $set: { status: 'bufferd' } });
 
 			//
 
-			console.log();
-			console.log(`✓ [${operationalDayIndex + 1}/${allOperationalDays.length}] PCGI Request for operational_day "${operationalDay}" (${pcgiDbTimer.get()}) | VehicleEvents: ${pcgiVehicleEventsCounter} | ValidationTransactions: ${pcgiValidationTransactionsCounter} | LocationTransactions: ${pcgiLocationTransactionsCounter}`);
-			console.log();
+			LOGGER.success(`[${operationalDayIndex + 1}/${allOperationalDays.length}] PCGI Request for operational_day "${operationalDay}" (${operationalDayTimer.get()})`);
 
 			//
 		}

@@ -81,6 +81,7 @@ class SLAMANAGERBUFFERDB {
 			// Setup collections
 
 			this.BufferData = productionDatabase.collection('BufferData');
+			this.BufferOptions = productionDatabase.collection('BufferOptions');
 
 			//
 			// Setup indexes
