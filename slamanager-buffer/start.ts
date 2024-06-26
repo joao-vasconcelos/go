@@ -56,7 +56,7 @@ export default async () => {
 
 			const operationalDayStatus = await SLAMANAGERBUFFERDB.BufferStatus.find({ operational_day: operationalDay }).toArray();
 
-			if (operationalDay < BUFFER_START_DATE || operationalDay > BUFFER_END_DATE || operationalDayStatus[0].status === 'complete') {
+			if (operationalDay < BUFFER_START_DATE || operationalDay > BUFFER_END_DATE || (operationalDayStatus.length > 0 && operationalDayStatus[0]?.status === 'complete')) {
 				LOGGER.success(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Skipping operational_day "${operationalDay}" as it is outside the allowed buffer range (${BUFFER_START_DATE} - ${BUFFER_END_DATE}).`);
 				continue;
 			}
