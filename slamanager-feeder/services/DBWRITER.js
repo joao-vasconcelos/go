@@ -1,6 +1,6 @@
 /* * */
 
-import TIMETRACKER from '@/services/TIMETRACKER.js';
+import TIMETRACKER from '@helperkits/timer';
 
 /* * */
 
