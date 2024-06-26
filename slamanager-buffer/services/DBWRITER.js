@@ -1,6 +1,7 @@
 /* * */
 
-import TIMETRACKER from '@/services/TIMETRACKER.js';
+import LOGGER from '@helperkits/logger';
+import TIMETRACKER from '@helperkits/timer';
 
 /* * */
 
@@ -57,14 +58,14 @@ class DBWRITER {
 
 			await this.DB_COLLECTION.bulkWrite(writeOperations);
 
-			console.log(`→ DBWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | DB Collection: ${this.DB_COLLECTION.collectionName} (${flushTimer.get()})`);
+			LOGGER.info(`DBWRITER [${this.INSTANCE_NAME}]: Flush Request | Length: ${this.CURRENT_BATCH_DATA.length} | DB Collection: ${this.DB_COLLECTION.collectionName} (${flushTimer.get()})`);
 
 			this.CURRENT_BATCH_DATA = [];
 
 			//
 		}
 		catch (error) {
-			console.log(`✖︎ Error at DBWRITER.flush(): ${error.message}`);
+			LOGGER.error(`Error at DBWRITER.flush(): ${error.message}`);
 		}
 	}
 
