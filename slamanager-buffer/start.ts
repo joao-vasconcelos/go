@@ -54,8 +54,10 @@ export default async () => {
 			// 3.1.
 			// Skip this day if it is outside the allowed buffer range
 
-			if (operationalDay < BUFFER_START_DATE || operationalDay > BUFFER_END_DATE) {
-				LOGGER.error(`✕ [${operationalDayIndex + 1}/${allOperationalDays.length}] Skipping operational_day "${operationalDay}" as it is outside the allowed buffer range (${BUFFER_START_DATE} - ${BUFFER_END_DATE}).`);
+			const operationalDayStatus = await SLAMANAGERBUFFERDB.BufferStatus.find({ operational_day: operationalDay }).toArray();
+
+			if (operationalDay < BUFFER_START_DATE || operationalDay > BUFFER_END_DATE || operationalDayStatus[0].status === 'complete') {
+				LOGGER.success(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Skipping operational_day "${operationalDay}" as it is outside the allowed buffer range (${BUFFER_START_DATE} - ${BUFFER_END_DATE}).`);
 				continue;
 			}
 
@@ -306,9 +308,7 @@ export default async () => {
 
 			//
 
-			// await SLAMANAGERDB.TripAnalysis.updateMany({ operational_day: operationalDay, status: 'pending' }, { $set: { status: 'bufferd' } });
-
-			//
+			await SLAMANAGERBUFFERDB.BufferStatus.updateOne({ operational_day: operationalDay }, { $set: { status: 'complete' } });
 
 			LOGGER.success(`[${operationalDayIndex + 1}/${allOperationalDays.length}] PCGI Request for operational_day "${operationalDay}" (${operationalDayTimer.get()})`);
 
