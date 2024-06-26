@@ -3,7 +3,7 @@
 import DBWRITER from '@/services/DBWRITER.js';
 import OFFERMANAGERDB from '@/services/OFFERMANAGERDB.js';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
-import TIMETRACKER from '@/services/TIMETRACKER.js';
+import TIMETRACKER from '@helperkits/timer';
 import crypto from 'crypto';
 import { parse as csvParser } from 'csv-parse';
 import extract from 'extract-zip';
