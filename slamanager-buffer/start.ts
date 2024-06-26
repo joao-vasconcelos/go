@@ -10,8 +10,85 @@ import { DateTime } from 'luxon';
 
 /* * */
 
-const BUFFER_START_DATE = '20240613';
-const BUFFER_END_DATE = '20240613';
+const BUFFER_MIN_DATE = '20240613';
+const BUFFER_MAX_DATE = '20240613';
+
+/* * */
+
+async function syncDocuments(documentType: string, operationalDay: string, pcgiCollection, bufferCollection, pcgiQuery, bufferQuery, pcgiDocumentTransform, dbWriter: DBWRITER) {
+	//
+
+	LOGGER.divider();
+
+	const syncTimer = new TIMETRACKER();
+
+	LOGGER.info(`Syncing "${documentType}" documents for "${operationalDay}"...`);
+
+	//
+	// Count the number of document in each database
+
+	const pcgiCountTimer = new TIMETRACKER();
+	const pcgiCountValue = await pcgiCollection.countDocuments(pcgiQuery);
+	LOGGER.info(`Found ${pcgiCountValue} "${documentType}" documents in PCGIDB for "${operationalDay}" (${pcgiCountTimer.get()})`);
+
+	const bufferCountTimer = new TIMETRACKER();
+	const bufferCountValue = await bufferCollection.countDocuments(bufferQuery);
+	LOGGER.info(`Found ${bufferCountValue} "${documentType}" documents in SLAMANAGERBUFFERDB for "${operationalDay}" (${bufferCountTimer.get()})`);
+
+	if (pcgiCountValue === bufferCountValue) {
+		LOGGER.success(`All "${documentType}" documents for "${operationalDay}" are already in sync (${syncTimer.get()})`);
+		return;
+	}
+	else {
+		LOGGER.error(`Document count between databases did not match. Starting sync for "${documentType}" documents for "${operationalDay}"...`);
+	}
+
+	//
+	// Fetch all existing Document IDs from SLAMANAGERBUFFERDB
+
+	const bufferDocumentsTimer = new TIMETRACKER();
+
+	const bufferDocumentsSet = new Set();
+
+	const bufferDocumentsStream = bufferCollection.find(bufferQuery).stream();
+
+	for await (const bufferDocument of bufferDocumentsStream) {
+		bufferDocumentsSet.add(String(bufferDocument.original_id));
+	}
+
+	LOGGER.info(`Fetched ${bufferDocumentsSet.size} "${documentType}" document IDs in SLAMANAGERBUFFERDB for "${operationalDay}" (${bufferDocumentsTimer.get()})`);
+
+	//
+	// Fetch documents from PCGIDB
+
+	const pcgiDocumentsTimer = new TIMETRACKER();
+
+	const pcgiDocumentsStream = pcgiCollection.find(pcgiQuery).stream();
+
+	let pcgiDocumentsCounter = 0;
+
+	for await (const pcgiDocument of pcgiDocumentsStream) {
+		// Skip document if already present in SLAMANAGERBUFFERDB
+		if (bufferDocumentsSet.has(String(pcgiDocument._id))) {
+			continue;
+		}
+		// If not yet present, add it to SLAMANAGERBUFFERDB
+		pcgiDocumentsCounter++;
+		const formattedObject = pcgiDocumentTransform(pcgiDocument);
+		await dbWriter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
+		//
+	}
+
+	await dbWriter.flush();
+
+	LOGGER.success(`Added ${pcgiDocumentsCounter} "${documentType}" documents from PCGIDB to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${pcgiDocumentsTimer.get()})`);
+
+	//
+
+	LOGGER.success(`Synced all "${documentType}" documents from PCGIDB to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${syncTimer.get()})`);
+
+	//
+}
 
 /* * */
 
@@ -34,6 +111,8 @@ export default async () => {
 
 		const bufferDataDbWritter = new DBWRITER('BufferData', SLAMANAGERBUFFERDB.BufferData, { batch_size: 10000 });
 
+		LOGGER.divider();
+
 		// 2.
 		// Get all existing operational days, even ones that are already buffered
 
@@ -54,11 +133,12 @@ export default async () => {
 			// 3.1.
 			// Skip this day if it is outside the allowed buffer range
 
-			const operationalDayStatus = await SLAMANAGERBUFFERDB.BufferStatus.find({ operational_day: operationalDay }).toArray();
-
-			if (operationalDay < BUFFER_START_DATE || operationalDay > BUFFER_END_DATE || (operationalDayStatus.length > 0 && operationalDayStatus[0]?.status === 'complete')) {
-				LOGGER.success(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Skipping operational_day "${operationalDay}" as it is outside the allowed buffer range (${BUFFER_START_DATE} - ${BUFFER_END_DATE}).`);
+			if (operationalDay < BUFFER_MIN_DATE || operationalDay > BUFFER_MAX_DATE) {
+				LOGGER.success(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Skipping operational_day "${operationalDay}" as it is outside the allowed buffer range (${BUFFER_MIN_DATE} - ${BUFFER_MAX_DATE}).`);
 				continue;
+			}
+			else {
+				LOGGER.info(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Checking sync status for operational_day "${operationalDay}"...`);
 			}
 
 			// 3.2.
@@ -74,75 +154,38 @@ export default async () => {
 			const operationalDayEndString = operationalDayEnd.toFormat('yyyy-LL-dd\'T\'HH\':\'mm\':\'ss');
 
 			// 3.1.
-			// Syncronize BufferData by looking for _ids present in PCGIDB but not in SLAMANAGERBUFFERDB
-
-			//
-			// For Vehicle Events
+			// Syncronize Vehicle Events
 
 			try {
 				//
 
-				LOGGER.info(`Syncing Vehicle Events for "${operationalDay}"...`);
+				const pcgiVehicleEventsQuery = {
+					'content.entity.vehicle.trip.tripId': { $exists: true },
+					'millis': { $gte: operationalDayStartMillis, $lte: operationalDayEndMillis },
+				};
 
-				const vehicleEventsTimer = new TIMETRACKER();
+				const bufferVehicleEventsQuery = {
+					operational_day: operationalDay,
+					type: 'vehicle_event',
+				};
 
-				// Fetch all existing Vehicle Event IDs from SLAMANAGERBUFFERDB
-
-				const bufferVehicleEventsIdsSet = new Set();
-
-				const bufferVehicleEventsStream = await SLAMANAGERBUFFERDB.BufferData
-					.find({ operational_day: operationalDay, type: 'vehicle_event' })
-					.stream();
-
-				for await (const bufferVehicleEventDocument of bufferVehicleEventsStream) {
-					bufferVehicleEventsIdsSet.add(String(bufferVehicleEventDocument.original_id));
-				}
-
-				LOGGER.info(`Fetched ${bufferVehicleEventsIdsSet.size} Vehicle Event IDs from SLAMANAGERBUFFERDB for "${operationalDay}" (${vehicleEventsTimer.get()})`);
-
-				// Fetch Vehicle Events from PCGIDB
-
-				LOGGER.info(`Fetching PCGIDB Vehicle Events for "${operationalDay}"...`);
-
-				const pcgiVehicleEventsStream = PCGIDB.VehicleEvents
-					.find({ 'content.entity.vehicle.trip.tripId': { $exists: true }, 'millis': { $gte: operationalDayStartMillis, $lte: operationalDayEndMillis } })
-					.stream();
-
-				let pcgiVehicleEventsCounter = 0;
-
-				for await (const vehicleEventData of pcgiVehicleEventsStream) {
-					//
-
-					// Skip if already present in SLAMANAGERBUFFERDB
-
-					if (bufferVehicleEventsIdsSet.has(String(vehicleEventData._id))) {
-						continue;
-					}
-
-					// If not yet present, add it to SLAMANAGERBUFFERDB
-
-					pcgiVehicleEventsCounter++;
-
-					const formattedObject = {
-						agency_id: vehicleEventData.content.entity[0].vehicle.agencyId,
-						data: JSON.stringify(vehicleEventData),
-						line_id: vehicleEventData.content.entity[0].vehicle.trip.lineId,
+				const pcgiVehicleEventsDocumentTransform = (pcgiDocument) => {
+					return {
+						agency_id: pcgiDocument.content.entity[0].vehicle.agencyId,
+						data: JSON.stringify(pcgiDocument),
+						line_id: pcgiDocument.content.entity[0].vehicle.trip.lineId,
 						operational_day: operationalDay,
-						original_id: String(vehicleEventData._id),
-						pattern_id: vehicleEventData.content.entity[0].vehicle.trip.patternId,
-						route_id: vehicleEventData.content.entity[0].vehicle.trip.routeId,
-						stop_id: vehicleEventData.content.entity[0].vehicle.trip.stopId,
-						timestamp: DateTime.fromSeconds(vehicleEventData.content.entity[0].vehicle.timestamp).toMillis(),
-						trip_id: vehicleEventData.content.entity[0].vehicle.trip.tripId,
+						original_id: String(pcgiDocument._id),
+						pattern_id: pcgiDocument.content.entity[0].vehicle.trip.patternId,
+						route_id: pcgiDocument.content.entity[0].vehicle.trip.routeId,
+						stop_id: pcgiDocument.content.entity[0].vehicle.trip.stopId,
+						timestamp: DateTime.fromSeconds(pcgiDocument.content.entity[0].vehicle.timestamp).toMillis(),
+						trip_id: pcgiDocument.content.entity[0].vehicle.trip.tripId,
 						type: 'vehicle_event',
 					};
+				};
 
-					await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
-
-				//
-				}
-
-				LOGGER.success(`Synced all Vehicle Events from PCGIDB to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${vehicleEventsTimer.get()}) | Added Vehicle Events: ${pcgiVehicleEventsCounter}`);
+				await syncDocuments('vehicle_event', operationalDay, PCGIDB.VehicleEvents, SLAMANAGERBUFFERDB.BufferData, pcgiVehicleEventsQuery, bufferVehicleEventsQuery, pcgiVehicleEventsDocumentTransform, bufferDataDbWritter);
 
 				//
 			}
@@ -152,73 +195,39 @@ export default async () => {
 
 			await bufferDataDbWritter.flush();
 
-			//
-			// For Validation Transactions
+			// 3.2.
+			// Syncronize Validation Transactions
 
 			try {
 				//
 
-				LOGGER.info(`Syncing Validation Transactions for "${operationalDay}"...`);
+				const pcgiValidationTransactionsQuery = {
+					'transaction.transactionDate': { $gte: operationalDayStartString, $lte: operationalDayEndString },
+					'transaction.validationStatus': { $in: [0, 8] },
+				};
 
-				const validationTransactionsTimer = new TIMETRACKER();
+				const bufferValidationTransactionsQuery = {
+					operational_day: operationalDay,
+					type: 'validation_transaction',
+				};
 
-				// Fetch all existing Validation Transactions IDs from SLAMANAGERBUFFERDB
-
-				const bufferValidationTransactionsIdsSet = new Set();
-
-				const bufferValidationTransactionsStream = await SLAMANAGERBUFFERDB.BufferData
-					.find({ operational_day: operationalDay, type: 'validation_transaction' })
-					.stream();
-
-				for await (const bufferValidationTransactionDocument of bufferValidationTransactionsStream) {
-					bufferValidationTransactionsIdsSet.add(String(bufferValidationTransactionDocument.original_id));
-				}
-
-				LOGGER.info(`Fetched ${bufferValidationTransactionsIdsSet.size} Validation Transaction IDs from SLAMANAGERBUFFERDB for "${operationalDay}" (${validationTransactionsTimer.get()})`);
-
-				// Fetch Validation Transactions from PCGI
-
-				LOGGER.info(`Fetching PCGI Validation Transactions for "${operationalDay}"...`);
-
-				const pcgiValidationTransactionsStream = PCGIDB.ValidationEntity
-					.find({ 'transaction.transactionDate': { $gte: operationalDayStartString, $lte: operationalDayEndString }, 'transaction.validationStatus': { $in: [0, 8] } })
-					.stream();
-
-				let pcgiValidationTransactionsCounter = 0;
-
-				for await (const validationTransactionData of pcgiValidationTransactionsStream) {
-					//
-
-					// Skip if already present in SLAMANAGERBUFFERDB
-
-					if (bufferValidationTransactionsIdsSet.has(String(validationTransactionData._id))) {
-						continue;
-					}
-
-					// If not yet present, add it to SLAMANAGERBUFFERDB
-
-					pcgiValidationTransactionsCounter++;
-
-					const formattedObject = {
-						agency_id: validationTransactionData.transaction.operatorLongID,
-						data: JSON.stringify(validationTransactionData),
-						line_id: validationTransactionData.transaction.lineLongId,
+				const pcgiValidationTransactionsDocumentTransform = (pcgiDocument) => {
+					return {
+						agency_id: pcgiDocument.transaction.operatorLongID,
+						data: JSON.stringify(pcgiDocument),
+						line_id: pcgiDocument.transaction.lineLongId,
 						operational_day: operationalDay,
-						original_id: String(validationTransactionData._id),
-						pattern_id: validationTransactionData.transaction.patternLongId,
-						route_id: validationTransactionData.transaction.routeLongId,
-						stop_id: validationTransactionData.transaction.stopLongID,
-						timestamp: DateTime.fromFormat(validationTransactionData.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis(),
-						trip_id: validationTransactionData.transaction.journeyID,
+						original_id: String(pcgiDocument._id),
+						pattern_id: pcgiDocument.transaction.patternLongId,
+						route_id: pcgiDocument.transaction.routeLongId,
+						stop_id: pcgiDocument.transaction.stopLongID,
+						timestamp: DateTime.fromFormat(pcgiDocument.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis(),
+						trip_id: pcgiDocument.transaction.journeyID,
 						type: 'validation_transaction',
 					};
+				};
 
-					await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
-
-				//
-				}
-
-				LOGGER.success(`Synced all Validation Transactions from PCGI to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${validationTransactionsTimer.get()}) | Added Validation Transactions: ${pcgiValidationTransactionsCounter}`);
+				await syncDocuments('validation_transaction', operationalDay, PCGIDB.ValidationEntity, SLAMANAGERBUFFERDB.BufferData, pcgiValidationTransactionsQuery, bufferValidationTransactionsQuery, pcgiValidationTransactionsDocumentTransform, bufferDataDbWritter);
 
 				//
 			}
@@ -228,73 +237,38 @@ export default async () => {
 
 			await bufferDataDbWritter.flush();
 
-			//
-			// For Location Transactions
+			// 3.3.
+			// Syncronize Location Transactions
 
 			try {
 				//
 
-				LOGGER.info(`Syncing Location Transactions for "${operationalDay}"...`);
+				const pcgiLocationTransactionsQuery = {
+					'transaction.transactionDate': { $gte: operationalDayStartString, $lte: operationalDayEndString },
+				};
 
-				const locationTransactionsTimer = new TIMETRACKER();
+				const bufferLocationTransactionsQuery = {
+					operational_day: operationalDay,
+					type: 'location_transaction',
+				};
 
-				// Fetch all existing Location Transaction IDs from SLAMANAGERBUFFERDB
-
-				const bufferLocationTransactionsIdsSet = new Set();
-
-				const bufferLocationTransactionsStream = await SLAMANAGERBUFFERDB.BufferData
-					.find({ operational_day: operationalDay, type: 'location_transaction' })
-					.stream();
-
-				for await (const bufferLocationTransactionDocument of bufferLocationTransactionsStream) {
-					bufferLocationTransactionsIdsSet.add(String(bufferLocationTransactionDocument.original_id));
-				}
-
-				LOGGER.info(`Fetched ${bufferLocationTransactionsIdsSet.size} Location Transaction IDs from SLAMANAGERBUFFERDB for "${operationalDay}" (${locationTransactionsTimer.get()})`);
-
-				// Fetch Location Transactions from PCGI
-
-				LOGGER.info(`Fetching PCGI Location Transactions for "${operationalDay}"...`);
-
-				const pcgiLocationTransactionsStream = PCGIDB.LocationEntity
-					.find({ 'transaction.transactionDate': { $gte: operationalDayStartString, $lte: operationalDayEndString } })
-					.stream();
-
-				let pcgiLocationTransactionsCounter = 0;
-
-				for await (const locationTransactionData of pcgiLocationTransactionsStream) {
-					//
-
-					// Skip if already present in SLAMANAGERBUFFERDB
-
-					if (bufferLocationTransactionsIdsSet.has(String(locationTransactionData._id))) {
-						continue;
-					}
-
-					// If not yet present, add it to SLAMANAGERBUFFERDB
-
-					pcgiLocationTransactionsCounter++;
-
-					const formattedObject = {
-						agency_id: locationTransactionData.transaction.operatorLongID,
-						data: JSON.stringify(locationTransactionData),
-						line_id: locationTransactionData.transaction.lineLongId,
+				const pcgiLocationTransactionsDocumentTransform = (pcgiDocument) => {
+					return {
+						agency_id: pcgiDocument.transaction.operatorLongID,
+						data: JSON.stringify(pcgiDocument),
+						line_id: pcgiDocument.transaction.lineLongId,
 						operational_day: operationalDay,
-						original_id: String(locationTransactionData._id),
-						pattern_id: locationTransactionData.transaction.patternLongId,
-						route_id: locationTransactionData.transaction.routeLongId,
-						stop_id: locationTransactionData.transaction.stopLongID,
-						timestamp: DateTime.fromFormat(locationTransactionData.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis(),
-						trip_id: locationTransactionData.transaction.journeyID,
+						original_id: String(pcgiDocument._id),
+						pattern_id: pcgiDocument.transaction.patternLongId,
+						route_id: pcgiDocument.transaction.routeLongId,
+						stop_id: pcgiDocument.transaction.stopLongID,
+						timestamp: DateTime.fromFormat(pcgiDocument.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis(),
+						trip_id: pcgiDocument.transaction.journeyID,
 						type: 'location_transaction',
 					};
+				};
 
-					await bufferDataDbWritter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
-
-				//
-				}
-
-				LOGGER.success(`Synced all Location Transactions from PCGI to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${locationTransactionsTimer.get()}) | Added Location Transactions: ${pcgiLocationTransactionsCounter}`);
+				await syncDocuments('location_transaction', operationalDay, PCGIDB.LocationEntity, SLAMANAGERBUFFERDB.BufferData, pcgiLocationTransactionsQuery, bufferLocationTransactionsQuery, pcgiLocationTransactionsDocumentTransform, bufferDataDbWritter);
 
 				//
 			}
@@ -302,15 +276,11 @@ export default async () => {
 				LOGGER.error(`Error syncing Location Transactions for "${operationalDay}".`, error);
 			}
 
-			//
-
 			await bufferDataDbWritter.flush();
 
 			//
 
-			await SLAMANAGERBUFFERDB.BufferStatus.updateOne({ operational_day: operationalDay }, { $set: { status: 'complete' } });
-
-			LOGGER.success(`[${operationalDayIndex + 1}/${allOperationalDays.length}] PCGI Request for operational_day "${operationalDay}" (${operationalDayTimer.get()})`);
+			LOGGER.success(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Buffering complete for operational_day "${operationalDay}" (${operationalDayTimer.get()})`);
 
 			//
 		}

@@ -82,7 +82,7 @@ class SLAMANAGERBUFFERDB {
 			// Setup collections
 
 			this.BufferData = productionDatabase.collection('BufferData');
-			this.BufferStatus = productionDatabase.collection('BufferStatus');
+			this.OperationalDayStatus = productionDatabase.collection('OperationalDayStatus');
 
 			//
 			// Setup indexes
@@ -98,7 +98,7 @@ class SLAMANAGERBUFFERDB {
 			this.BufferData.createIndex({ operational_day: 1 });
 			this.BufferData.createIndex({ operational_day: 1, trip_id: 1 });
 
-			this.BufferStatus.createIndex({ operational_day: 1 }, { unique: true });
+			this.OperationalDayStatus.createIndex({ operational_day: 1 }, { unique: true });
 
 			//
 			// Save the instance in memory
