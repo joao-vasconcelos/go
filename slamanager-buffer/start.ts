@@ -10,8 +10,8 @@ import { DateTime } from 'luxon';
 
 /* * */
 
-const BUFFER_MIN_DATE = '20240613';
-const BUFFER_MAX_DATE = '20240613';
+const BUFFER_MIN_DATE = '20240601';
+const BUFFER_MAX_DATE = '20240630';
 
 /* * */
 
@@ -147,11 +147,22 @@ export default async () => {
 				LOGGER.success(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Skipping operational_day "${operationalDay}" as it is outside the allowed buffer range (${BUFFER_MIN_DATE} - ${BUFFER_MAX_DATE}).`);
 				continue;
 			}
-			else {
-				LOGGER.info(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Checking sync status for operational_day "${operationalDay}"...`);
-			}
 
 			// 3.2.
+			// Skip this day if it is after the current date minus 2 days
+
+			const todayMinusTwoDays = DateTime.now().minus({ days: 2 }).toFormat('yyyyMMdd');
+
+			if (operationalDay > todayMinusTwoDays) {
+				LOGGER.error(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Skipping operational_day "${operationalDay}" as it is after the current date (${todayMinusTwoDays}).`);
+				continue;
+			}
+
+			//
+
+			LOGGER.info(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Checking sync status for operational_day "${operationalDay}"...`);
+
+			// 3.3.
 			// Convert operational day into required formats
 
 			const operationalDayStart = DateTime.fromFormat(operationalDay, 'yyyyMMdd').set({ hour: 4, minute: 0, second: 0 });
@@ -163,7 +174,7 @@ export default async () => {
 			const operationalDayStartString = operationalDayStart.toFormat('yyyy-LL-dd\'T\'HH\':\'mm\':\'ss');
 			const operationalDayEndString = operationalDayEnd.toFormat('yyyy-LL-dd\'T\'HH\':\'mm\':\'ss');
 
-			// 3.1.
+			// 3.4.
 			// Syncronize Vehicle Events
 
 			try {
@@ -205,7 +216,7 @@ export default async () => {
 
 			await bufferDataDbWritter.flush();
 
-			// 3.2.
+			// 3.5.
 			// Syncronize Validation Transactions
 
 			try {
@@ -247,7 +258,7 @@ export default async () => {
 
 			await bufferDataDbWritter.flush();
 
-			// 3.3.
+			// 3.6.
 			// Syncronize Location Transactions
 
 			try {
