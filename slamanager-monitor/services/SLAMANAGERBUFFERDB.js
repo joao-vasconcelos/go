@@ -1,5 +1,6 @@
 /* * */
 
+import LOGGER from '@helperkits/logger';
 import { MongoClient } from 'mongodb';
 
 /* * */
@@ -26,13 +27,13 @@ class SLAMANAGERBUFFERDB {
 
 	async connect() {
 		try {
-			console.log('→ SLAMANAGERBUFFERDB: New connection request...');
+			LOGGER.info('SLAMANAGERBUFFERDB: New connection request...');
 
 			//
 			// If another connection request is already in progress, wait for it to complete
 
 			if (this.mongoClientConnecting) {
-				console.log('→ SLAMANAGERBUFFERDB: Waiting for MongoDB Client connection...');
+				LOGGER.info('SLAMANAGERBUFFERDB: Waiting for MongoDB Client connection...');
 				await this.waitForMongoClientConnection();
 				return;
 			}
@@ -81,11 +82,12 @@ class SLAMANAGERBUFFERDB {
 			// Setup collections
 
 			this.BufferData = productionDatabase.collection('BufferData');
+			this.OperationalDayStatus = productionDatabase.collection('OperationalDayStatus');
 
 			//
 			// Setup indexes
 
-			this.BufferData.createIndex({ original_id: 1 });
+			this.BufferData.createIndex({ original_id: 1 }, { unique: true });
 			this.BufferData.createIndex({ type: 1 });
 			this.BufferData.createIndex({ agency_id: 1 });
 			this.BufferData.createIndex({ line_id: 1 });
@@ -95,6 +97,8 @@ class SLAMANAGERBUFFERDB {
 			this.BufferData.createIndex({ stop_id: 1 });
 			this.BufferData.createIndex({ operational_day: 1 });
 			this.BufferData.createIndex({ operational_day: 1, trip_id: 1 });
+
+			this.OperationalDayStatus.createIndex({ operational_day: 1 }, { unique: true });
 
 			//
 			// Save the instance in memory
@@ -135,7 +139,7 @@ class SLAMANAGERBUFFERDB {
 		this.mongoClientConnecting = false;
 		this.mongoClientConnectionInstance = null;
 		global._mongoClientConnectionInstance = null;
-		console.log('→ SLAMANAGERBUFFERDB: Reset connection.');
+		LOGGER.info('SLAMANAGERBUFFERDB: Reset connection.');
 	}
 
 	async waitForMongoClientConnection() {
