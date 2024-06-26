@@ -1,5 +1,6 @@
 /* * */
 
+import LOGGER from '@helperkits/logger';
 import { MongoClient } from 'mongodb';
 
 /* * */
@@ -26,13 +27,13 @@ class SLAMANAGERDB {
 
 	async connect() {
 		try {
-			console.log('→ SLAMANAGERDB: New connection request...');
+			LOGGER.info('SLAMANAGERDB: New connection request...');
 
 			//
 			// If another connection request is already in progress, wait for it to complete
 
 			if (this.mongoClientConnecting) {
-				console.log('→ SLAMANAGERDB: Waiting for MongoDB Client connection...');
+				LOGGER.info('SLAMANAGERDB: Waiting for MongoDB Client connection...');
 				await this.waitForMongoClientConnection();
 				return;
 			}
@@ -146,7 +147,7 @@ class SLAMANAGERDB {
 		this.mongoClientConnecting = false;
 		this.mongoClientConnectionInstance = null;
 		global._mongoClientConnectionInstance = null;
-		console.log('→ SLAMANAGERDB: Reset connection.');
+		LOGGER.info('SLAMANAGERDB: Reset connection.');
 	}
 
 	async waitForMongoClientConnection() {

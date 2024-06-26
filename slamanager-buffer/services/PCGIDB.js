@@ -1,5 +1,6 @@
 /* * */
 
+import LOGGER from '@helperkits/logger';
 import { readFileSync } from 'fs';
 import { MongoClient, ObjectId } from 'mongodb';
 import { createTunnel } from 'tunnel-ssh';
@@ -32,7 +33,7 @@ class PCGIDB {
 
 	async connect() {
 		try {
-			console.log('PCGIDB: New connection request...');
+			LOGGER.info('PCGIDB: New connection request...');
 
 			//
 			// Establish SSH tunnel
@@ -43,7 +44,7 @@ class PCGIDB {
 			// If another connection request is already in progress, wait for it to complete
 
 			if (this.mongoClientConnecting) {
-				console.log('PCGIDB: Waiting for MongoDB Client connection...');
+				LOGGER.info('PCGIDB: Waiting for MongoDB Client connection...');
 				await this.waitForMongoClientConnection();
 				return;
 			}
@@ -153,7 +154,7 @@ class PCGIDB {
 		this.mongoClientConnectionInstance = null;
 		global._mongoClientConnectionInstance = null;
 		//
-		console.log('PCGIDB: Reset all connections.');
+		LOGGER.info('PCGIDB: Reset all connections.');
 	}
 
 	/* * *
@@ -168,7 +169,7 @@ class PCGIDB {
 		// If another setup request is already in progress, wait for it to complete
 
 		if (this.sshTunnelConnecting) {
-			console.log('PCGIDB: Waiting for SSH Tunnel connection...');
+			LOGGER.info('PCGIDB: Waiting for SSH Tunnel connection...');
 			await this.waitForSshTunnelConnection();
 			return;
 		}
@@ -177,7 +178,7 @@ class PCGIDB {
 		// Check if there is already an active SSH connection
 
 		if (this.sshTunnelConnectionInstance?.listening || global._sshTunnelConnectionInstance?.listening) {
-			console.log('PCGIDB: SSH Tunnel already connected. Skipping...');
+			LOGGER.info('PCGIDB: SSH Tunnel already connected. Skipping...');
 			return;
 		}
 
@@ -192,7 +193,7 @@ class PCGIDB {
 
 		try {
 			//
-			console.log('PCGIDB: Starting SSH Tunnel connection...');
+			LOGGER.info('PCGIDB: Starting SSH Tunnel connection...');
 
 			//
 			// Setup the flag to prevent double connection
@@ -225,7 +226,7 @@ class PCGIDB {
 
 			const [server, _] = await createTunnel(tunnelOptions, serverOptions, sshOptions, forwardOptions);
 
-			console.log(`PCGIDB: Created SSH Tunnel instance on host port ${server.address().port}`);
+			LOGGER.info(`PCGIDB: Created SSH Tunnel instance on host port ${server.address().port}`);
 
 			if (process.env.NODE_ENV === 'development') global._sshTunnelConnectionInstance = server;
 			else this.sshTunnelConnectionInstance = server;
