@@ -1,7 +1,7 @@
 /* * */
 
 import { StopModel } from '@/schemas/Stop/model';
-import { StopPropertyOperationalStatus } from '@/schemas/Stop/options';
+import { StopOptions } from '@/schemas/Stop/options';
 import TIMETRACKER from '@/services/TIMETRACKER';
 import tts from '@carrismetropolitana/tts';
 
@@ -79,6 +79,20 @@ export default async function stopsSyncDatasets() {
 		};
 		//
 		stopData.tts_name = tts.makeText(stopData.name, stopModalConnections).trim();
+		//
+		if (stopData.name_new.length > 0 && stopData.short_name_auto) {
+			// Copy the name first
+			let shortenedStopName = stopData.name_new;
+			// Shorten the stop name
+			StopOptions.name_abbreviations
+				.filter(abbreviation => abbreviation.enabled)
+				.forEach((abbreviation) => {
+					const regexExpression = new RegExp(abbreviation.phrase, 'g');
+					shortenedStopName = shortenedStopName.replace(regexExpression, abbreviation.replacement);
+				});
+			// Save the new name
+			stopData.short_name = shortenedStopName;
+		}
 		//
 		await stopData.save();
 		//
