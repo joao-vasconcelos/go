@@ -12,6 +12,7 @@ import { DateTime } from 'luxon';
 
 const BUFFER_MIN_DATE = '20240601';
 const BUFFER_MAX_DATE = '20240630';
+const BUFFER_DAYS_DELAY = 3;
 
 /* * */
 
@@ -151,7 +152,7 @@ export default async () => {
 			// 3.2.
 			// Skip this day if it is after the current date minus 2 days
 
-			const todayMinusTwoDays = DateTime.now().minus({ days: 2 }).toFormat('yyyyMMdd');
+			const todayMinusTwoDays = DateTime.now().minus({ days: BUFFER_DAYS_DELAY }).toFormat('yyyyMMdd');
 
 			if (operationalDay > todayMinusTwoDays) {
 				LOGGER.error(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Skipping operational_day "${operationalDay}" as it is after the current date (${todayMinusTwoDays}).`);
