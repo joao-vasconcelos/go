@@ -97,6 +97,7 @@ class SLAMANAGERBUFFERDB {
 			this.BufferData.createIndex({ stop_id: 1 });
 			this.BufferData.createIndex({ operational_day: 1 });
 			this.BufferData.createIndex({ operational_day: 1, trip_id: 1 });
+			this.BufferData.createIndex({ operational_day: 1, type: 1 });
 
 			this.OperationalDayStatus.createIndex({ operational_day: 1 }, { unique: true });
 
