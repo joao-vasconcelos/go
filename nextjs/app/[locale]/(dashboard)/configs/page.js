@@ -9,7 +9,7 @@ import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import API from '@/services/API';
 import notify from '@/services/notify';
-import { Button, SimpleGrid } from '@mantine/core';
+import { Button, Divider, SimpleGrid } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
 import { useState } from 'react';
 
@@ -25,31 +25,6 @@ export default function Page() {
 
 	//
 	// D. Handle actiona
-
-	const handleResetTripAnalysis = async () => {
-		openConfirmModal({
-			centered: true,
-			children: <Text size="h3">Are you sure?</Text>,
-			closeOnClickOutside: true,
-			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: 'Yes, Reset All Trip Analysis' },
-			onConfirm: async () => {
-				try {
-					setIsImporting(true);
-					notify('resetAllTripAnalysis', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'configs/refactors/resetAllTripAnalysis' });
-					notify('resetAllTripAnalysis', 'success', 'success');
-					setIsImporting(false);
-				}
-				catch (error) {
-					console.log(error);
-					notify('resetAllTripAnalysis', 'error', error.message || 'Error');
-					setIsImporting(false);
-				}
-			},
-			title: <Text size="h2">Reset All Trip Analysis?</Text>,
-		});
-	};
 
 	// const handleImportNewStopNames = async () => {
 	// 	openConfirmModal({
@@ -76,29 +51,55 @@ export default function Page() {
 	// 	});
 	// };
 
-	// const handleRemoveSpecialCalendars = async () => {
-	// 	openConfirmModal({
-	// 		title: <Text size="h2">Remove Special Calendars?</Text>,
-	// 		centered: true,
-	// 		closeOnClickOutside: true,
-	// 		children: <Text size="h3">Are you sure?</Text>,
-	// 		labels: { confirm: 'Yes, Remove Special Calendars', cancel: 'Cancel' },
-	// 		confirmProps: { color: 'red' },
-	// 		onConfirm: async () => {
-	// 			try {
-	// 				setIsImporting(true);
-	// 				notify('removeSpecialCalendars', 'loading', 'Loading');
-	// 				await API({ service: 'configs/refactors/removeSpecialCalendars', method: 'GET' });
-	// 				notify('removeSpecialCalendars', 'success', 'success');
-	// 				setIsImporting(false);
-	// 			} catch (error) {
-	// 				console.log(error);
-	// 				notify('removeSpecialCalendars', 'error', error.message || 'Error');
-	// 				setIsImporting(false);
-	// 			}
-	// 		},
-	// 	});
-	// };
+	const handleMarkAllTripsAsPendingAnalysis = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Mark All Trips As Pending Analysis' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('markAllTripsAsPendingAnalysis', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'configs/sla/markAllTripsAsPendingAnalysis' });
+					notify('markAllTripsAsPendingAnalysis', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('markAllTripsAsPendingAnalysis', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Mark All Trips As Pending Analysis?</Text>,
+		});
+	};
+
+	const handleMarkAllArchivesAsPendingParse = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Mark All Archives As Pending Parse' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('markAllArchivesAsPendingParse', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'configs/sla/markAllArchivesAsPendingParse' });
+					notify('markAllArchivesAsPendingParse', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('markAllArchivesAsPendingParse', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Mark All Archives As Pending Parse?</Text>,
+		});
+	};
 
 	//
 	// C. Render components
@@ -106,15 +107,25 @@ export default function Page() {
 	return (
 		<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]} redirect>
 			<Pannel>
-				<AppLayoutSection>
-					{/* <NoDataLabel text="No operations available" /> */}
-					<SimpleGrid cols={3}>
-						<Button color="red" loading={isImporting} onClick={handleResetTripAnalysis}>
-							Reset All Trip Analysis
-						</Button>
-						{/* <Button color="red" loading={isImporting} onClick={handleImportNewStopNames}>
+				<AppLayoutSection title="Offer Manager Advanced Operations">
+					<NoDataLabel text="No operations available" />
+					{/* <SimpleGrid cols={3}>
+						<Button color="red" loading={isImporting} onClick={handleImportNewStopNames}>
 							Import New Stop Names
-						</Button> */}
+						</Button>
+					</SimpleGrid> */}
+				</AppLayoutSection>
+
+				<Divider />
+
+				<AppLayoutSection title="SLA Manager Advanced Operations">
+					<SimpleGrid cols={3}>
+						<Button color="red" loading={isImporting} onClick={handleMarkAllTripsAsPendingAnalysis}>
+							Mark all Trips as Pending Analysis
+						</Button>
+						<Button color="red" loading={isImporting} onClick={handleMarkAllArchivesAsPendingParse}>
+							Mark all Archives as Pending Parse
+						</Button>
 					</SimpleGrid>
 				</AppLayoutSection>
 			</Pannel>

@@ -2,7 +2,6 @@
 
 import getSession from '@/authentication/getSession';
 import { ArchiveModel } from '@/schemas/Archive/model';
-import SLAMANAGERDB from '@/services/SLAMANAGERDB';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
@@ -45,21 +44,17 @@ export default async function handler(req, res) {
 	try {
 		//
 
-		await ArchiveModel.updateMany({}, { $set: { status: 'disabled' } });
-
-		await SLAMANAGERDB.connect();
-
-		await SLAMANAGERDB.TripAnalysis.updateMany({}, { $set: { status: 'pending' } });
+		await ArchiveModel.updateMany({}, { $set: { slamanager_feeder_status: 'error' } });
 
 		//
 	}
 	catch (error) {
 		console.log(error);
-		return await res.status(500).json({ message: 'Import Error' });
+		return await res.status(500).json({ message: error.message || 'Error updating documents.' });
 	}
 
 	console.log('Done. Sending response to client...');
-	return await res.status(200).json('Import complete.');
+	return await res.status(200).json('Documents updated.');
 
 	//
 }
