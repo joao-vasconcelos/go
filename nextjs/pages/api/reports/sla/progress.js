@@ -52,8 +52,28 @@ export default async function handler(req, res) {
 
 	try {
 		const totalDocuments = await SLAMANAGERDB.TripAnalysis.countDocuments({});
-		const totalPendingDocuments = await SLAMANAGERDB.TripAnalysis.countDocuments({ status: 'pending' });
-		return await res.send({ _progress: (1 - (totalPendingDocuments / totalDocuments)) * 100, pending: totalPendingDocuments, total: totalDocuments });
+		const totalDocumentsProcessed = await SLAMANAGERDB.TripAnalysis.countDocuments({ status: 'processed' });
+		const totalDocumentsProcessing = await SLAMANAGERDB.TripAnalysis.countDocuments({ status: 'processing' });
+		const totalDocumentsError = await SLAMANAGERDB.TripAnalysis.countDocuments({ status: 'error' });
+		const totalDocumentsPending = await SLAMANAGERDB.TripAnalysis.countDocuments({ status: 'pending' });
+
+		return await res.send({
+			//
+			error: totalDocumentsError,
+			error_percentage: parseFloat(((totalDocumentsError / totalDocuments) * 100).toFixed(2)),
+			//
+			pending: totalDocumentsPending,
+			pending_percentage: parseFloat(((totalDocumentsPending / totalDocuments) * 100).toFixed(2)),
+			//
+			processed: totalDocumentsProcessed,
+			processed_percentage: parseFloat(((totalDocumentsProcessed / totalDocuments) * 100).toFixed(2)),
+			//
+			processing: totalDocumentsProcessing,
+			processing_percentage: parseFloat(((totalDocumentsProcessing / totalDocuments) * 100).toFixed(2)),
+			//
+			total: totalDocuments,
+			total_percentage: 100,
+		});
 	}
 	catch (error) {
 		console.log(error);

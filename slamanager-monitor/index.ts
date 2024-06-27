@@ -6,7 +6,7 @@ import start from './start.js';
 
 /* * */
 
-const RUN_INTERVAL = 10000; // 10 seconds
+const RUN_INTERVAL = 100; // 100 milliseconds
 
 /* * */
 

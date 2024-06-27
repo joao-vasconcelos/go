@@ -9,7 +9,7 @@ import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import API from '@/services/API';
 import notify from '@/services/notify';
-import { Button, Divider, Progress, SimpleGrid } from '@mantine/core';
+import { Button, Divider, Flex, Progress, RingProgress, SimpleGrid, Table, Tooltip } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
 import { useState } from 'react';
 import useSWR from 'swr';
@@ -28,6 +28,8 @@ export default function Page() {
 	// B. Fetch data
 
 	const { data: slaProgressData } = useSWR('/api/reports/sla/progress', { refreshInterval: 1000 });
+
+	console.log('slaProgressData', slaProgressData);
 
 	//
 	// C. Handle actiona
@@ -125,7 +127,32 @@ export default function Page() {
 				<Divider />
 
 				<AppLayoutSection title="SLA Manager Advanced Operations">
-					<Progress value={slaProgressData?._progress || 0} animated />
+					<Table
+						data={{
+							body: [[`${slaProgressData?.total || 0} Trips`, `${slaProgressData?.processed || 0} (${slaProgressData?.processed_percentage || 0}%)`, `${slaProgressData?.processing || 0} (${slaProgressData?.processing_percentage || 0}%)`, `${slaProgressData?.error || 0} (${slaProgressData?.error_percentage || 0}%)`, `${slaProgressData?.pending || 0} (${slaProgressData?.pending_percentage || 0}%)`]],
+							head: ['Total', 'processed', 'processing', 'error', 'pending'] }}
+						withTableBorder
+					/>
+					<Progress.Root size={30}>
+						<Progress.Section color="green" value={slaProgressData?.processed_percentage || 0}>
+							<Progress.Label>{`${slaProgressData?.processed || 0} processed (${slaProgressData?.processed_percentage || 0}%)`}</Progress.Label>
+						</Progress.Section>
+						<Progress.Section color="yellow" value={slaProgressData?.processing_percentage || 0}>
+							<Progress.Label>{`${slaProgressData?.processing || 0} processing (${slaProgressData?.processing_percentage || 0}%)`}</Progress.Label>
+						</Progress.Section>
+						<Progress.Section color="red" value={slaProgressData?.error_percentage || 0}>
+							<Progress.Label>{`${slaProgressData?.error || 0} error (${slaProgressData?.error_percentage || 0}%)`}</Progress.Label>
+						</Progress.Section>
+						<Progress.Section color="blue" value={slaProgressData?.pending_percentage || 0} animated>
+							<Progress.Label>{`${slaProgressData?.pending || 0} pending (${slaProgressData?.pending_percentage || 0}%)`}</Progress.Label>
+						</Progress.Section>
+					</Progress.Root>
+				</AppLayoutSection>
+
+				<Divider />
+
+				<AppLayoutSection>
+
 					<SimpleGrid cols={3}>
 						<Button color="red" loading={isImporting} onClick={handleMarkAllTripsAsPendingAnalysis}>
 							Mark all Trips as Pending Analysis
