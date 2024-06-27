@@ -1,19 +1,22 @@
 {
 	"name": "@joao-vasconcelos/go-slamanager-buffer",
-	"type": "module",
 	"version": "1.0.0",
+	"type": "module",
 	"private": true,
-	"main": "index.js",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": ["dist/"],
 	"scripts": {
-		"start": "tsc && resolve-tspaths && node build/index.js",
+		"start": "tsc && resolve-tspaths && node dist/index.js",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"build": "tsc && resolve-tspaths",
 		"watch": "tsc -w"
 	},
 	"dependencies": {
-		"@helperkits/logger": "20240626.1649.28",
-		"@helperkits/timer": "20240623.52.16",
+		"@helperkits/logger": "20240627.34.42",
+		"@helperkits/timer": "20240627.34.23",
+		"@helperkits/writer": "20240627.34.10",
 		"dotenv": "16.4.5",
 		"luxon": "3.4.4",
 		"mongodb": "6.7.0",

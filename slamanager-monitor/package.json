@@ -1,11 +1,13 @@
 {
 	"name": "@joao-vasconcelos/go-slamanager-monitor",
-	"type": "module",
 	"version": "1.0.0",
+	"type": "module",
 	"private": true,
-	"main": "index.js",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": ["dist/"],
 	"scripts": {
-		"start": "tsc && resolve-tspaths && node build/index.js",
+		"start": "tsc && resolve-tspaths && node dist/index.js",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"build": "tsc && resolve-tspaths",

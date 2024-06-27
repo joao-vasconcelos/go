@@ -13,9 +13,6 @@
 */.next/
 /out/
 
-# production
-/build
-
 # misc
 .DS_Store
 *.pem
@@ -43,5 +40,5 @@ storage
 # Backup files
 go-backup-*
 
-# build
-build/
+# dist
+dist/

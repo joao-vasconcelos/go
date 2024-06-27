@@ -1,11 +1,11 @@
 /* * */
 
-import DBWRITER from '@/services/DBWRITER.js';
 import PCGIDB from '@/services/PCGIDB.js';
 import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
 import LOGGER from '@helperkits/logger';
 import TIMETRACKER from '@helperkits/timer';
+import { MongoDbWriter } from '@helperkits/writer';
 import { DateTime } from 'luxon';
 
 /* * */
@@ -22,7 +22,7 @@ async function setOperationalDayStatus(operationalDay: string, documentType: str
 
 /* * */
 
-async function syncDocuments(documentType: string, operationalDay: string, pcgiCollection, bufferCollection, pcgiQuery, bufferQuery, pcgiDocumentTransform, dbWriter: DBWRITER) {
+async function syncDocuments(documentType: string, operationalDay: string, pcgiCollection, bufferCollection, pcgiQuery, bufferQuery, pcgiDocumentTransform, dbWriter: MongoDbWriter) {
 	//
 
 	LOGGER.divider();
@@ -120,7 +120,7 @@ export default async () => {
 		await SLAMANAGERBUFFERDB.connect();
 		await PCGIDB.connect();
 
-		const bufferDataDbWritter = new DBWRITER('BufferData', SLAMANAGERBUFFERDB.BufferData, { batch_size: 100000 });
+		const bufferDataDbWritter = new MongoDbWriter('BufferData', SLAMANAGERBUFFERDB.BufferData, { batch_size: 100000 });
 
 		LOGGER.divider();
 
