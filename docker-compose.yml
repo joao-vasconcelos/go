@@ -194,4 +194,4 @@ services:
       - .env.production
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 6
