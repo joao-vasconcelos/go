@@ -19,7 +19,7 @@ import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEven
 
 /* * */
 
-const ANALYSIS_BATCH_SIZE = 1000;
+const ANALYSIS_BATCH_SIZE = 500;
 
 /* * */
 
@@ -50,6 +50,8 @@ export default async () => {
 		// 3.
 		// Get all operational days that are already buffered
 
+		const bufferedOperationalDaysTimer = new TIMETRACKER();
+
 		const bufferedOperationalDays = await SLAMANAGERBUFFERDB.OperationalDayStatus.distinct('operational_day', { location_transaction_synced: true, validation_transaction_synced: true, vehicle_event_synced: true });
 
 		if (bufferedOperationalDays.length === 0) {
@@ -58,8 +60,12 @@ export default async () => {
 			return;
 		}
 
+		LOGGER.info(`There are ${bufferedOperationalDays.length} buffered operational days (${bufferedOperationalDaysTimer.get()})`);
+
 		// 4.
 		// Get the first operational day with pending trips
+
+		const selectedOperationalDayTimer = new TIMETRACKER();
 
 		const bufferedOperationalDaysWithPendingTrips = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { operational_day: { $in: bufferedOperationalDays }, status: 'pending' });
 
@@ -71,25 +77,37 @@ export default async () => {
 
 		const selectedBufferedOperationalDay = bufferedOperationalDaysWithPendingTrips[0];
 
+		LOGGER.info(`Selected buffered operational day "${selectedBufferedOperationalDay}" (${selectedOperationalDayTimer.get()})`);
+
 		// 5.
 		// Get all trips pending analysis from the selected buffered operational day
+
+		const tripAnalysisBatchTimer = new TIMETRACKER();
 
 		const tripAnalysisBatch = await SLAMANAGERDB.TripAnalysis.find({ operational_day: selectedBufferedOperationalDay, status: 'pending' }).sort({ trip_id: 1 }).limit(ANALYSIS_BATCH_SIZE).toArray();
 
 		if (tripAnalysisBatch.length === 0) {
-			LOGGER.error(`No trips are pending analysis for selected buffered operational day (${selectedBufferedOperationalDay}).`);
+			LOGGER.error(`No trips are pending analysis for selected buffered operational day "${selectedBufferedOperationalDay}".`);
 			LOGGER.terminate(`Run took ${globalTimer.get()}.`);
 			return;
 		}
 
+		LOGGER.info(`Fetched ${tripAnalysisBatch.length} pending trips for selected operational day "${selectedBufferedOperationalDay}" (${tripAnalysisBatchTimer.get()})`);
+
 		// 6.
 		// Mark all trips in the batch as 'processing' to prevent conflicting analysis by other monitor instances
+
+		const markBatchAsProcessingTimer = new TIMETRACKER();
 
 		const tripAnalysisBatchCodes = tripAnalysisBatch.map(item => item.code);
 		await SLAMANAGERDB.TripAnalysis.updateMany({ code: { $in: tripAnalysisBatchCodes } }, { $set: { status: 'processing' } });
 
+		LOGGER.info(`Marked ${tripAnalysisBatch.length} trips as "processing" (${markBatchAsProcessingTimer.get()})`);
+
 		// 7.
 		// Retrieve associated hashed data for the trips in the batch
+
+		const hashedDataTimer = new TIMETRACKER();
 
 		const tripAnalysisBatchHashedShapeCodes = tripAnalysisBatch.map(item => item.hashed_shape_code);
 		const allHashedShapesData = await SLAMANAGERDB.HashedShape.find({ code: { $in: tripAnalysisBatchHashedShapeCodes } }).toArray();
@@ -99,9 +117,13 @@ export default async () => {
 		const allHashedTripsData = await SLAMANAGERDB.HashedTrip.find({ code: { $in: tripAnalysisBatchHashedTripCodes } }).toArray();
 		const hashedTripsDataMap = new Map(allHashedTripsData.map(item => [item.code, item]));
 
+		LOGGER.info(`Stored ${allHashedShapesData.length} Hashed Shapes and ${allHashedTripsData.length} Hashed Trips into memory (${hashedDataTimer.get()})`);
+
 		// 8.
 		// Retrieve buffer data for the selected operational day and the trips in the batch
 		// and build a hashmap for each buffer data type
+
+		const bufferedDataTimer = new TIMETRACKER();
 
 		const tripAnalysisBatchTripIds = tripAnalysisBatch.map(item => item.trip_id);
 		const allBufferedDataForCurrentBatch = await SLAMANAGERBUFFERDB.BufferData.find({ operational_day: selectedBufferedOperationalDay, trip_id: { $in: tripAnalysisBatchTripIds } }).toArray();
@@ -135,6 +157,8 @@ export default async () => {
 				}
 			}
 		}
+
+		LOGGER.info(`Stored ${allBufferedDataForCurrentBatch.length} buffer documents into memory (${bufferedDataTimer.get()})`);
 
 		// 9.
 		// Analyze each trip in the batch
