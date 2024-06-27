@@ -19,7 +19,7 @@ import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEven
 
 /* * */
 
-const ANALYSIS_BATCH_SIZE = 1000;
+const ANALYSIS_BATCH_SIZE = 5000;
 
 /* * */
 

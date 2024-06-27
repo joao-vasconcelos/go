@@ -166,23 +166,6 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
-  slamanager-monitor:
-    image: ghcr.io/joao-vasconcelos/go-slamanager-monitor:production
-    restart: unless-stopped
-    mem_limit: 2g
-    logging:
-      options:
-        max-size: '1m'
-        max-file: '1'
-    env_file:
-      - .env.production
-    deploy:
-      mode: replicated
-      replicas: 3
-
-  # # # # # # # # # # # # # # # # # # # # #
-  # # # # # # # # # # # # # # # # # # # # #
-
   slamanager-buffer:
     image: ghcr.io/joao-vasconcelos/go-slamanager-buffer:production
     restart: unless-stopped
@@ -195,3 +178,20 @@ services:
       - .env.production
     secrets:
       - pcgidbkey
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  slamanager-monitor:
+    image: ghcr.io/joao-vasconcelos/go-slamanager-monitor:production
+    restart: unless-stopped
+    mem_limit: 1g
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    env_file:
+      - .env.production
+    deploy:
+      mode: replicated
+      replicas: 4
