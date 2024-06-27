@@ -19,7 +19,7 @@ import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEven
 
 /* * */
 
-const ANALYSIS_BATCH_SIZE = 5000;
+const ANALYSIS_BATCH_SIZE = 1000;
 
 /* * */
 
@@ -58,20 +58,26 @@ export default async () => {
 		}
 
 		// 4.
-		// Iterate on each day
+		// Mark all trips in the batch as processing to prevent double analysis by other monitor instances
+
+		const tripAnalysisBatchCodes = tripAnalysisBatch.map(item => item.code);
+		await SLAMANAGERDB.TripAnalysis.updateMany({ code: { $in: tripAnalysisBatchCodes } }, { $set: { status: 'processing' } });
+
+		// 5.
+		// Iterate on each trip
 
 		for (const [tripAnalysisIndex, tripAnalysisData] of tripAnalysisBatch.entries()) {
 			//
 
 			const tripAnalysisTimer = new TIMETRACKER();
 
-			// 4.1.
+			// 5.1.
 			// Get HashedShape and HashedTrip for this trip
 
 			const hashedShapeData = await SLAMANAGERDB.HashedShape.findOne({ code: tripAnalysisData.hashed_shape_code });
 			const hashedTripData = await SLAMANAGERDB.HashedTrip.findOne({ code: tripAnalysisData.hashed_trip_code });
 
-			// 4.2.
+			// 5.2.
 			// Get transactions and events for this trip
 
 			const allLocationTransactionsData = await SLAMANAGERBUFFERDB.BufferData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'location_transaction' }).toArray();
@@ -83,7 +89,7 @@ export default async () => {
 			const allVehicleEventsData = await SLAMANAGERBUFFERDB.BufferData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'vehicle_event' }).toArray();
 			const allVehicleEventsParsed = allVehicleEventsData.map(item => JSON.parse(item.data));
 
-			// 4.3.
+			// 5.3.
 			// Build the analysis data, common to all analyzers
 
 			const analysisData: AnalysisData = {
@@ -94,7 +100,7 @@ export default async () => {
 				vehicle_events: allVehicleEventsParsed,
 			};
 
-			// 4.4.
+			// 5.4.
 			// Run the analyzers
 
 			tripAnalysisData.analysis = [
@@ -121,7 +127,7 @@ export default async () => {
 
 			];
 
-			// 4.5.
+			// 5.5.
 			// Count how many analysis passed and how many failed
 
 			const passAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === 'PASS');
@@ -130,7 +136,7 @@ export default async () => {
 
 			const errorAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === 'ERROR').map(item => item.code);
 
-			// 4.6.
+			// 5.6.
 			// Update trip with analysis result and status
 
 			tripAnalysisData.status = 'processed';
@@ -143,6 +149,12 @@ export default async () => {
 
 			//
 		}
+
+		// 6.
+		// Mark all remaining processing trips in the batch as pending
+		// This ensures that they will be reprocessed in the next run if something went wrong
+
+		await SLAMANAGERDB.TripAnalysis.updateMany({ code: { $in: tripAnalysisBatchCodes }, status: 'processing' }, { $set: { status: 'pending' } });
 
 		//
 
