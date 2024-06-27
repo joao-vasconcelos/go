@@ -54,61 +54,121 @@ export default async () => {
 
 		if (bufferedOperationalDays.length === 0) {
 			LOGGER.error('No operational days are buffered yet.');
+			LOGGER.terminate(`Run took ${globalTimer.get()}.`);
+			return;
 		}
 
 		// 4.
-		// Get all trips pending analysis that are from the buffered operational days
+		// Get the first operational day with pending trips
 
-		const tripAnalysisBatch = await SLAMANAGERDB.TripAnalysis.find({ operational_day: { $in: bufferedOperationalDays }, status: 'pending' }).sort({ trip_id: 1 }).limit(ANALYSIS_BATCH_SIZE).toArray();
+		const bufferedOperationalDaysWithPendingTrips = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { operational_day: { $in: bufferedOperationalDays }, status: 'pending' });
 
-		if (tripAnalysisBatch.length === 0) {
-			LOGGER.error('No trips are pending analysis for all currently buffered days.');
+		if (bufferedOperationalDaysWithPendingTrips.length === 0) {
+			LOGGER.error('There are no pending trips for any buffered operational days.');
+			LOGGER.terminate(`Run took ${globalTimer.get()}.`);
+			return;
 		}
 
+		const selectedBufferedOperationalDay = bufferedOperationalDaysWithPendingTrips[0];
+
 		// 5.
-		// Mark all trips in the batch as processing to prevent double analysis by other monitor instances
+		// Get all trips pending analysis from the selected buffered operational day
+
+		const tripAnalysisBatch = await SLAMANAGERDB.TripAnalysis.find({ operational_day: selectedBufferedOperationalDay, status: 'pending' }).sort({ trip_id: 1 }).limit(ANALYSIS_BATCH_SIZE).toArray();
+
+		if (tripAnalysisBatch.length === 0) {
+			LOGGER.error(`No trips are pending analysis for selected buffered operational day (${selectedBufferedOperationalDay}).`);
+			LOGGER.terminate(`Run took ${globalTimer.get()}.`);
+			return;
+		}
+
+		// 6.
+		// Mark all trips in the batch as 'processing' to prevent conflicting analysis by other monitor instances
 
 		const tripAnalysisBatchCodes = tripAnalysisBatch.map(item => item.code);
 		await SLAMANAGERDB.TripAnalysis.updateMany({ code: { $in: tripAnalysisBatchCodes } }, { $set: { status: 'processing' } });
 
-		// 6.
-		// Iterate on each trip
+		// 7.
+		// Retrieve associated hashed data for the trips in the batch
+
+		const tripAnalysisBatchHashedShapeCodes = tripAnalysisBatch.map(item => item.hashed_shape_code);
+		const allHashedShapesData = await SLAMANAGERDB.HashedShape.find({ code: { $in: tripAnalysisBatchHashedShapeCodes } }).toArray();
+		const hashedShapesDataMap = new Map(allHashedShapesData.map(item => [item.code, item]));
+
+		const tripAnalysisBatchHashedTripCodes = tripAnalysisBatch.map(item => item.hashed_trip_code);
+		const allHashedTripsData = await SLAMANAGERDB.HashedTrip.find({ code: { $in: tripAnalysisBatchHashedTripCodes } }).toArray();
+		const hashedTripsDataMap = new Map(allHashedTripsData.map(item => [item.code, item]));
+
+		// 8.
+		// Retrieve buffer data for the selected operational day and the trips in the batch
+		// and build a hashmap for each buffer data type
+
+		const tripAnalysisBatchTripIds = tripAnalysisBatch.map(item => item.trip_id);
+		const allBufferedDataForCurrentBatch = await SLAMANAGERBUFFERDB.BufferData.find({ operational_day: selectedBufferedOperationalDay, trip_id: { $in: tripAnalysisBatchTripIds } }).toArray();
+
+		const locationTransactionsBufferMap = new Map();
+		const validationTransactionsBufferMap = new Map();
+		const vehicleEventsBufferMap = new Map();
+
+		for (const bufferDocument of allBufferedDataForCurrentBatch) {
+			switch (bufferDocument.type) {
+				case 'location_transaction': {
+					if (!locationTransactionsBufferMap.has(bufferDocument.trip_id)) {
+						locationTransactionsBufferMap.set(bufferDocument.trip_id, []);
+					}
+					locationTransactionsBufferMap.get(bufferDocument.trip_id).push(JSON.parse(bufferDocument.data));
+					break;
+				}
+				case 'validation_transaction': {
+					if (!validationTransactionsBufferMap.has(bufferDocument.trip_id)) {
+						validationTransactionsBufferMap.set(bufferDocument.trip_id, []);
+					}
+					validationTransactionsBufferMap.get(bufferDocument.trip_id).push(JSON.parse(bufferDocument.data));
+					break;
+				}
+				case 'vehicle_event': {
+					if (!vehicleEventsBufferMap.has(bufferDocument.trip_id)) {
+						vehicleEventsBufferMap.set(bufferDocument.trip_id, []);
+					}
+					vehicleEventsBufferMap.get(bufferDocument.trip_id).push(JSON.parse(bufferDocument.data));
+					break;
+				}
+			}
+		}
+
+		// 9.
+		// Analyze each trip in the batch
 
 		for (const [tripAnalysisIndex, tripAnalysisData] of tripAnalysisBatch.entries()) {
 			//
 
 			const tripAnalysisTimer = new TIMETRACKER();
 
-			// 6.1.
+			// 9.1.
 			// Get HashedShape and HashedTrip for this trip
 
-			const hashedShapeData = await SLAMANAGERDB.HashedShape.findOne({ code: tripAnalysisData.hashed_shape_code });
-			const hashedTripData = await SLAMANAGERDB.HashedTrip.findOne({ code: tripAnalysisData.hashed_trip_code });
+			const hashedShapeData = hashedShapesDataMap.get(tripAnalysisData.hashed_shape_code);
+			const hashedTripData = hashedTripsDataMap.get(tripAnalysisData.hashed_trip_code);
 
-			// 6.2.
+			// 9.2.
 			// Get transactions and events for this trip
 
-			const allLocationTransactionsData = await SLAMANAGERBUFFERDB.BufferData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'location_transaction' }).toArray();
-			const allLocationTransactionsParsed = allLocationTransactionsData.map(item => JSON.parse(item.data));
+			const allLocationTransactionsData = locationTransactionsBufferMap.get(tripAnalysisData.trip_id) || [];
+			const allValidationTransactionsData = validationTransactionsBufferMap.get(tripAnalysisData.trip_id) || [];
+			const allVehicleEventsData = vehicleEventsBufferMap.get(tripAnalysisData.trip_id) || [];
 
-			const allValidationTransactionsData = await SLAMANAGERBUFFERDB.BufferData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'validation_transaction' }).toArray();
-			const allValidationTransactionsParsed = allValidationTransactionsData.map(item => JSON.parse(item.data));
-
-			const allVehicleEventsData = await SLAMANAGERBUFFERDB.BufferData.find({ operational_day: tripAnalysisData.operational_day, trip_id: tripAnalysisData.trip_id, type: 'vehicle_event' }).toArray();
-			const allVehicleEventsParsed = allVehicleEventsData.map(item => JSON.parse(item.data));
-
-			// 6.3.
+			// 9.3.
 			// Build the analysis data, common to all analyzers
 
 			const analysisData: AnalysisData = {
 				hashed_shape: hashedShapeData,
 				hashed_trip: hashedTripData,
-				location_transactions: allLocationTransactionsParsed,
-				validation_transactions: allValidationTransactionsParsed,
-				vehicle_events: allVehicleEventsParsed,
+				location_transactions: allLocationTransactionsData,
+				validation_transactions: allValidationTransactionsData,
+				vehicle_events: allVehicleEventsData,
 			};
 
-			// 6.4.
+			// 9.4.
 			// Run the analyzers
 
 			tripAnalysisData.analysis = [
@@ -135,7 +195,7 @@ export default async () => {
 
 			];
 
-			// 6.5.
+			// 9.5.
 			// Count how many analysis passed and how many failed
 
 			const passAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === 'PASS');
@@ -144,7 +204,7 @@ export default async () => {
 
 			const errorAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === 'ERROR').map(item => item.code);
 
-			// 6.6.
+			// 9.6.
 			// Update trip with analysis result and status
 
 			tripAnalysisData.status = 'processed';
@@ -158,7 +218,7 @@ export default async () => {
 			//
 		}
 
-		// 7.
+		// 10.
 		// Mark all remaining processing trips in the batch as pending
 		// This ensures that they will be reprocessed in the next run if something went wrong
 
@@ -166,17 +226,13 @@ export default async () => {
 
 		//
 
-		console.log();
-		console.log('- - - - - - - - - - - - - - - - - - - - -');
-		console.log(`Run took ${globalTimer.get()}.`);
-		console.log('- - - - - - - - - - - - - - - - - - - - -');
-		console.log();
+		LOGGER.terminate(`Run took ${globalTimer.get()}.`);
 
 		//
 	}
 	catch (err) {
-		console.log('An error occurred. Halting execution.', err);
-		console.log('Retrying in 10 seconds...');
+		LOGGER.error('An error occurred. Halting execution.', err);
+		LOGGER.error('Retrying in 10 seconds...');
 		setTimeout(() => {
 			process.exit(0); // End process
 		}, 10000); // after 10 seconds
