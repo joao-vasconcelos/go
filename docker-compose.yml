@@ -20,7 +20,7 @@ services:
 
   watchtower:
     image: containrrr/watchtower
-    mem_limit: 2g
+    mem_limit: 1g
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -36,7 +36,7 @@ services:
   nginx:
     image: nginx:alpine-slim
     restart: unless-stopped
-    mem_limit: 2g
+    mem_limit: 1g
     logging:
       options:
         max-size: '1m'
@@ -56,7 +56,7 @@ services:
   certbot:
     image: certbot/certbot
     restart: unless-stopped
-    mem_limit: 2g
+    mem_limit: 1g
     volumes:
       - ./letsencrypt:/etc/letsencrypt
       - certbotdata:/var/www/certbot
@@ -119,7 +119,7 @@ services:
   backupd:
     image: ghcr.io/joao-vasconcelos/go-backupd:production
     restart: unless-stopped
-    mem_limit: 2g
+    mem_limit: 1g
     logging:
       options:
         max-size: '1m'

@@ -9,9 +9,10 @@ import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import API from '@/services/API';
 import notify from '@/services/notify';
-import { Button, Divider, SimpleGrid } from '@mantine/core';
+import { Button, Divider, Progress, SimpleGrid } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
 import { useState } from 'react';
+import useSWR from 'swr';
 
 /* * */
 
@@ -24,7 +25,12 @@ export default function Page() {
 	const [isImporting, setIsImporting] = useState(false);
 
 	//
-	// D. Handle actiona
+	// B. Fetch data
+
+	const { data: slaProgressData } = useSWR('/api/reports/sla/progress', { refreshInterval: 1000 });
+
+	//
+	// C. Handle actiona
 
 	// const handleImportNewStopNames = async () => {
 	// 	openConfirmModal({
@@ -119,6 +125,7 @@ export default function Page() {
 				<Divider />
 
 				<AppLayoutSection title="SLA Manager Advanced Operations">
+					<Progress value={slaProgressData?._progress || 0} animated />
 					<SimpleGrid cols={3}>
 						<Button color="red" loading={isImporting} onClick={handleMarkAllTripsAsPendingAnalysis}>
 							Mark all Trips as Pending Analysis
@@ -128,6 +135,7 @@ export default function Page() {
 						</Button>
 					</SimpleGrid>
 				</AppLayoutSection>
+
 			</Pannel>
 		</AppAuthenticationCheck>
 	);
