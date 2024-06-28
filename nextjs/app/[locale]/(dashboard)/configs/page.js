@@ -9,9 +9,9 @@ import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import API from '@/services/API';
 import notify from '@/services/notify';
-import { Button, Divider, Flex, Progress, RingProgress, SimpleGrid, Table, Tooltip } from '@mantine/core';
+import { Button, Divider, Progress, SimpleGrid, Table } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 /* * */
@@ -27,9 +27,8 @@ export default function Page() {
 	//
 	// B. Fetch data
 
-	const { data: slaProgressData } = useSWR('/api/reports/sla/progress', { refreshInterval: 1000 });
-
-	console.log('slaProgressData', slaProgressData);
+	const { data: slaProgressSummaryData } = useSWR('/api/sla/progress/summary', { refreshInterval: 1000 });
+	const { data: slaProgressByDayData } = useSWR('/api/sla/progress/by_day', { refreshInterval: 1000 });
 
 	//
 	// C. Handle actiona
@@ -70,7 +69,7 @@ export default function Page() {
 				try {
 					setIsImporting(true);
 					notify('markStuckTripsAsPending', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'configs/sla/markStuckTripsAsPending' });
+					await API({ method: 'GET', service: 'sla/operations/markStuckTripsAsPending' });
 					notify('markStuckTripsAsPending', 'success', 'success');
 					setIsImporting(false);
 				}
@@ -95,7 +94,7 @@ export default function Page() {
 				try {
 					setIsImporting(true);
 					notify('markAllTripsAsPendingAnalysis', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'configs/sla/markAllTripsAsPendingAnalysis' });
+					await API({ method: 'GET', service: 'sla/operations/markAllTripsAsPendingAnalysis' });
 					notify('markAllTripsAsPendingAnalysis', 'success', 'success');
 					setIsImporting(false);
 				}
@@ -120,7 +119,7 @@ export default function Page() {
 				try {
 					setIsImporting(true);
 					notify('markAllArchivesAsPendingParse', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'configs/sla/markAllArchivesAsPendingParse' });
+					await API({ method: 'GET', service: 'sla/operations/markAllArchivesAsPendingParse' });
 					notify('markAllArchivesAsPendingParse', 'success', 'success');
 					setIsImporting(false);
 				}
@@ -135,7 +134,19 @@ export default function Page() {
 	};
 
 	//
-	// C. Render components
+	// C. Transform data
+
+	const progressByDayTableData = useMemo(() => {
+		if (!slaProgressByDayData) return null;
+		const body = slaProgressByDayData
+			.map(item => [item.operational_day || '-', item.total || 0, `${item.processed || 0} (${item.processed_percentage || 0}%)`, `${item.processing || 0} (${item.processing_percentage || 0}%)`, `${item.error || 0} (${item.error_percentage || 0}%)`, `${item.pending || 0} (${item.pending_percentage || 0}%)`])
+			.sort((a, b) => a[0] - b[0]);
+		const head = ['operational_day', 'total', 'processed', 'processing', 'error', 'pending'];
+		return { body, head };
+	}, [slaProgressByDayData]);
+
+	//
+	// D. Render components
 
 	return (
 		<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]} redirect>
@@ -154,24 +165,25 @@ export default function Page() {
 				<AppLayoutSection title="SLA Manager Advanced Operations">
 					<Table
 						data={{
-							body: [[`${slaProgressData?.total || 0} Trips`, `${slaProgressData?.processed || 0} (${slaProgressData?.processed_percentage || 0}%)`, `${slaProgressData?.processing || 0} (${slaProgressData?.processing_percentage || 0}%)`, `${slaProgressData?.error || 0} (${slaProgressData?.error_percentage || 0}%)`, `${slaProgressData?.pending || 0} (${slaProgressData?.pending_percentage || 0}%)`]],
+							body: [[`${slaProgressSummaryData?.total || 0} Trips`, `${slaProgressSummaryData?.processed || 0} (${slaProgressSummaryData?.processed_percentage || 0}%)`, `${slaProgressSummaryData?.processing || 0} (${slaProgressSummaryData?.processing_percentage || 0}%)`, `${slaProgressSummaryData?.error || 0} (${slaProgressSummaryData?.error_percentage || 0}%)`, `${slaProgressSummaryData?.pending || 0} (${slaProgressSummaryData?.pending_percentage || 0}%)`]],
 							head: ['Total', 'processed', 'processing', 'error', 'pending'] }}
 						withTableBorder
 					/>
 					<Progress.Root size={30}>
-						<Progress.Section color="green" value={slaProgressData?.processed_percentage || 0}>
-							<Progress.Label>{`${slaProgressData?.processed || 0} processed (${slaProgressData?.processed_percentage || 0}%)`}</Progress.Label>
+						<Progress.Section color="green" value={slaProgressSummaryData?.processed_percentage || 0}>
+							<Progress.Label>{`${slaProgressSummaryData?.processed || 0} processed (${slaProgressSummaryData?.processed_percentage || 0}%)`}</Progress.Label>
 						</Progress.Section>
-						<Progress.Section color="yellow" value={slaProgressData?.processing_percentage || 0}>
-							<Progress.Label>{`${slaProgressData?.processing || 0} processing (${slaProgressData?.processing_percentage || 0}%)`}</Progress.Label>
+						<Progress.Section color="yellow" value={slaProgressSummaryData?.processing_percentage || 0}>
+							<Progress.Label>{`${slaProgressSummaryData?.processing || 0} processing (${slaProgressSummaryData?.processing_percentage || 0}%)`}</Progress.Label>
 						</Progress.Section>
-						<Progress.Section color="red" value={slaProgressData?.error_percentage || 0}>
-							<Progress.Label>{`${slaProgressData?.error || 0} error (${slaProgressData?.error_percentage || 0}%)`}</Progress.Label>
+						<Progress.Section color="red" value={slaProgressSummaryData?.error_percentage || 0}>
+							<Progress.Label>{`${slaProgressSummaryData?.error || 0} error (${slaProgressSummaryData?.error_percentage || 0}%)`}</Progress.Label>
 						</Progress.Section>
-						<Progress.Section color="blue" value={slaProgressData?.pending_percentage || 0} animated>
-							<Progress.Label>{`${slaProgressData?.pending || 0} pending (${slaProgressData?.pending_percentage || 0}%)`}</Progress.Label>
+						<Progress.Section color="blue" value={slaProgressSummaryData?.pending_percentage || 0} animated>
+							<Progress.Label>{`${slaProgressSummaryData?.pending || 0} pending (${slaProgressSummaryData?.pending_percentage || 0}%)`}</Progress.Label>
 						</Progress.Section>
 					</Progress.Root>
+					<Table data={progressByDayTableData} highlightOnHover withTableBorder />
 				</AppLayoutSection>
 
 				<Divider />
