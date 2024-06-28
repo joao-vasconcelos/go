@@ -1,3 +1,5 @@
+/* eslint-disable no-constant-binary-expression */
+
 /* * */
 
 import { CalendarModel } from '@/schemas/Calendar/model';
@@ -407,8 +409,8 @@ function parseStop(stopData, municipalityData) {
 		stop_desc: '',
 		stop_id: stopData.code,
 		stop_id_stepp: '0',
-		stop_lat: stopData.latitude,
-		stop_lon: stopData.longitude,
+		stop_lat: stopData.latitude.toFixed(6),
+		stop_lon: stopData.longitude.toFixed(6),
 		stop_name: stopData.name,
 		stop_remarks: '',
 		stop_timezone: '',

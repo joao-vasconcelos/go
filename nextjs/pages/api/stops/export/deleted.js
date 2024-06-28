@@ -57,8 +57,8 @@ export default async function handler(req, res) {
 	try {
 		foundDocuments = foundDocuments.map(document => ({
 			stop_id: document.code,
-			stop_lat: document.latitude,
-			stop_lon: document.longitude,
+			stop_lat: document.latitude.toFixed(6),
+			stop_lon: document.longitude.toFixed(6),
 			stop_name: document.name,
 		}));
 	}
