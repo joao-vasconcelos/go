@@ -25,6 +25,7 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 	// B. Fetch data
 
 	const { data: allAgenciesData } = useSWR('/api/agencies');
+	const { data: allAvailableSlaOperationalDaysData } = useSWR('/api/sla/progress/');
 
 	//
 	// C. Transform data
@@ -33,6 +34,10 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 		if (!allAgenciesData) return [];
 		return allAgenciesData.map(agency => ({ label: agency.name || '-', value: agency._id }));
 	}, [allAgenciesData]);
+
+	const excludedDates = (date) => {
+		return false;
+	};
 
 	//
 	// D. Render components
@@ -57,6 +62,7 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 			<Section>
 				<DatePickerInput
 					description={t('form.start_date.description')}
+					excludeDate={excludedDates}
 					label={t('form.start_date.label')}
 					placeholder={t('form.start_date.placeholder')}
 					{...exportsExplorerContext.form_sla_default_v1.getInputProps('start_date')}
@@ -65,6 +71,7 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 				/>
 				<DatePickerInput
 					description={t('form.end_date.description')}
+					excludeDate={excludedDates}
 					label={t('form.end_date.label')}
 					placeholder={t('form.end_date.placeholder')}
 					{...exportsExplorerContext.form_sla_default_v1.getInputProps('end_date')}

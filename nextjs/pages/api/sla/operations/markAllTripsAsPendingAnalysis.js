@@ -46,7 +46,7 @@ export default async function handler(req, res) {
 
 		await SLAMANAGERDB.connect();
 
-		await SLAMANAGERDB.TripAnalysis.updateMany({}, { $set: { status: 'pending' } });
+		await SLAMANAGERDB.TripAnalysis.updateMany({}, { $set: { analysis: [], analysis_timestamp: null, status: 'pending' } });
 
 		//
 	}

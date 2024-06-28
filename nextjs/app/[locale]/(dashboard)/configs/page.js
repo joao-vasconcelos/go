@@ -28,7 +28,7 @@ export default function Page() {
 	// B. Fetch data
 
 	const { data: slaProgressSummaryData } = useSWR('/api/sla/progress/summary', { refreshInterval: 1000 });
-	const { data: slaProgressByDayData } = useSWR('/api/sla/progress/by_day', { refreshInterval: 1000 });
+	const { data: slaProgressByDayData } = useSWR('/api/sla/progress/breakdown_by_operational_day', { refreshInterval: 1000 });
 
 	//
 	// C. Handle actiona

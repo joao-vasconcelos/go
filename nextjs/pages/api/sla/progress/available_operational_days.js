@@ -9,8 +9,6 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
 	//
 
-	// throw new Error('Feature is disabled.');
-
 	// 1.
 	// Setup variables
 
@@ -31,32 +29,38 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'view', fields: [{ key: 'kind', values: ['sla'] }], scope: 'reports' }], request: req, session: sessionData });
 	}
 	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
 
-	// 5.
-	// Connect to mongodb
+	// 4.
+	// Connect to SLAMANAGERDB
 
 	try {
-		//
-
 		await SLAMANAGERDB.connect();
-
-		await SLAMANAGERDB.TripAnalysis.updateMany({ status: 'processing' }, { $set: { analysis: [], analysis_timestamp: null, status: 'pending' } });
-
-		//
 	}
 	catch (error) {
 		console.log(error);
-		return await res.status(500).json({ message: error.message || 'Error updating documents.' });
+		return await res.status(500).json({ message: 'Could not connect to SLAMANAGERDB.' });
 	}
 
-	console.log('Done. Sending response to client...');
-	return await res.status(200).json('Documents updated.');
+	// 5.
+	// Perform database search
+
+	try {
+		// Get all distinct operational days that have have been fully processed
+
+		const breakdownByDay = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'processed' });
+
+		return await res.send(breakdownByDay);
+	}
+	catch (error) {
+		console.log(error);
+		return await res.status(500).json({ message: error.message || 'Cannot list VehicleEvents.' });
+	}
 
 	//
 }

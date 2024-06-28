@@ -43,17 +43,6 @@ export default async function handler(req, res) {
 	}
 
 	// 4.
-	// Sync datasets first
-
-	try {
-		await stopsSyncDatasets();
-	}
-	catch (error) {
-		console.log(error);
-		return await res.status(500).json({ message: 'Sync Datasets Error' });
-	}
-
-	// 5.
 	// Get exported data and transform it into CSV
 
 	try {
