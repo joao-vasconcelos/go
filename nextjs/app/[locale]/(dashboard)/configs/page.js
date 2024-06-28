@@ -59,6 +59,31 @@ export default function Page() {
 	// 	});
 	// };
 
+	const handleMarkStuckTripsAsPending = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Mark Stuck Trips as Pending' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('markStuckTripsAsPending', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'configs/sla/markStuckTripsAsPending' });
+					notify('markStuckTripsAsPending', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('markStuckTripsAsPending', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Mark Stuck Trips as Pending?</Text>,
+		});
+	};
+
 	const handleMarkAllTripsAsPendingAnalysis = async () => {
 		openConfirmModal({
 			centered: true,
@@ -154,11 +179,14 @@ export default function Page() {
 				<AppLayoutSection>
 
 					<SimpleGrid cols={3}>
-						<Button color="red" loading={isImporting} onClick={handleMarkAllTripsAsPendingAnalysis}>
-							Mark all Trips as Pending Analysis
+						<Button color="blue" loading={isImporting} onClick={handleMarkStuckTripsAsPending}>
+							Mark Stuck Trips as Pending
+						</Button>
+						<Button color="orange" loading={isImporting} onClick={handleMarkAllTripsAsPendingAnalysis}>
+							Mark All Trips as Pending Analysis
 						</Button>
 						<Button color="red" loading={isImporting} onClick={handleMarkAllArchivesAsPendingParse}>
-							Mark all Archives as Pending Parse
+							Mark All Archives as Pending Parse
 						</Button>
 					</SimpleGrid>
 				</AppLayoutSection>
