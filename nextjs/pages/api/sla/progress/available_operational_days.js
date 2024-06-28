@@ -53,9 +53,15 @@ export default async function handler(req, res) {
 	try {
 		// Get all distinct operational days that have have been fully processed
 
-		const breakdownByDay = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { status: 'processed' });
+		const fullyProcessedOperationalDays = await SLAMANAGERDB.TripAnalysis.aggregate([
+			{ $group: { _id: '$operational_day', uniqueStatuses: { $addToSet: '$status' } } },
+			{ $match: { uniqueStatuses: { $eq: ['processed'] } } },
+			{ $project: { _id: 0, operational_day: '$_id' } },
+		]).toArray();
 
-		return await res.send(breakdownByDay);
+		const fullyProcessedOperationalDaysString = fullyProcessedOperationalDays.map(item => item.operational_day);
+
+		return await res.send(fullyProcessedOperationalDaysString);
 	}
 	catch (error) {
 		console.log(error);

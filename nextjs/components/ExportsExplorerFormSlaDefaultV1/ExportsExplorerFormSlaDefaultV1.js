@@ -6,6 +6,7 @@ import { Section } from '@/components/Layouts/Layouts';
 import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
 import { Divider, Select } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
+import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 import useSWR from 'swr';
@@ -25,7 +26,7 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 	// B. Fetch data
 
 	const { data: allAgenciesData } = useSWR('/api/agencies');
-	const { data: allAvailableSlaOperationalDaysData } = useSWR('/api/sla/progress/');
+	const { data: allAvailableSlaOperationalDaysData } = useSWR('/api/sla/progress/available_operational_days');
 
 	//
 	// C. Transform data
@@ -36,7 +37,10 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 	}, [allAgenciesData]);
 
 	const excludedDates = (date) => {
-		return false;
+		if (!allAvailableSlaOperationalDaysData || !allAvailableSlaOperationalDaysData.length) return true;
+		const dateString = DateTime.fromJSDate(date).toFormat('yyyyMMdd');
+		const allAvailableSlaOperationalDaysDataSet = new Set(allAvailableSlaOperationalDaysData);
+		return !allAvailableSlaOperationalDaysDataSet.has(dateString);
 	};
 
 	//
