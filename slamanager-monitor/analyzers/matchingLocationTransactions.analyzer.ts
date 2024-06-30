@@ -2,7 +2,8 @@
 
 /* * */
 
-import { AnalysisData } from '@/types/analysisData.js';
+import { AnalysisData } from '@/types/analysisData.type.js';
+import { AnalysisResult, AnalysisResultGrade, AnalysisResultStatus } from '@/types/analysisResult.type.js';
 
 /* * */
 
@@ -14,7 +15,16 @@ import { AnalysisData } from '@/types/analysisData.js';
 
 /* * */
 
-export default (analysisData: AnalysisData) => {
+interface ExtendedAnalysisResult extends AnalysisResult {
+	code: 'MATCHING_LOCATION_TRANSACTIONS'
+	reason: 'ALL_STOPS_HAVE_LOCATION_TRANSACTIONS' | 'MISSING_LOCATION_TRANSACTION_FOR_AT_LEAST_ONE_STOP'
+	unit: null
+	value: null
+};
+
+/* * */
+
+export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 	//
 
 	try {
@@ -54,19 +64,23 @@ export default (analysisData: AnalysisData) => {
 		if (missingStopIds.size > 0) {
 			return {
 				code: 'MATCHING_LOCATION_TRANSACTIONS',
-				status: 'COMPLETE',
-				grade: 'FAIL',
+				status: AnalysisResultStatus.COMPLETE,
+				grade: AnalysisResultGrade.FAIL,
 				reason: 'MISSING_LOCATION_TRANSACTION_FOR_AT_LEAST_ONE_STOP',
 				message: `At least one Stop ID was not found in Location Transactions. Missing Stop IDs: [${Array.from(missingStopIds).join('|')}]`,
+				unit: null,
+				value: null,
 			};
 		}
 
 		return {
 			code: 'MATCHING_LOCATION_TRANSACTIONS',
-			status: 'COMPLETE',
-			grade: 'PASS',
+			status: AnalysisResultStatus.COMPLETE,
+			grade: AnalysisResultGrade.PASS,
 			reason: 'ALL_STOPS_HAVE_LOCATION_TRANSACTIONS',
 			message: `Found ${locationTransactionsStopIds.size} Location Transactions for ${pathStopIds.size} Stop IDs.`,
+			unit: null,
+			value: null,
 		};
 
 		//
@@ -75,10 +89,12 @@ export default (analysisData: AnalysisData) => {
 		console.log(error);
 		return {
 			code: 'MATCHING_LOCATION_TRANSACTIONS',
-			status: 'ERROR',
+			status: AnalysisResultStatus.ERROR,
 			grade: null,
 			reason: null,
 			message: error.message,
+			unit: null,
+			value: null,
 		};
 	}
 

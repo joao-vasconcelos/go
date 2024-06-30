@@ -2,7 +2,8 @@
 
 /* * */
 
-import { AnalysisData } from '@/types/analysisData.js';
+import { AnalysisData } from '@/types/analysisData.type.js';
+import { AnalysisResult, AnalysisResultGrade, AnalysisResultStatus } from '@/types/analysisResult.type.js';
 
 /* * */
 
@@ -14,7 +15,16 @@ import { AnalysisData } from '@/types/analysisData.js';
 
 /* * */
 
-export default (analysisData: AnalysisData) => {
+interface ExtendedAnalysisResult extends AnalysisResult {
+	code: 'AT_MOST_TWO_VEHICLE_IDS'
+	reason: 'FOUND_MORE_THAN_2_VEHICLE_IDS' | 'FOUND_ONE_OR_TWO_VEHICLE_IDS' | 'NO_VEHICLE_ID_FOUND'
+	unit: 'UNIQUE_VEHICLE_IDS' | null
+	value: null | number
+};
+
+/* * */
+
+export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 	//
 
 	try {
@@ -35,29 +45,35 @@ export default (analysisData: AnalysisData) => {
 		if (foundVehicleIds.size === 0) {
 			return {
 				code: 'AT_MOST_TWO_VEHICLE_IDS',
-				status: 'COMPLETE',
-				grade: 'FAIL',
+				status: AnalysisResultStatus.COMPLETE,
+				grade: AnalysisResultGrade.FAIL,
 				reason: 'NO_VEHICLE_ID_FOUND',
 				message: 'No Vehicle IDs found for this trip.',
+				unit: 'UNIQUE_VEHICLE_IDS',
+				value: 0,
 			};
 		}
 
 		if (foundVehicleIds.size > 2) {
 			return {
 				code: 'AT_MOST_TWO_VEHICLE_IDS',
-				status: 'COMPLETE',
-				grade: 'FAIL',
+				status: AnalysisResultStatus.COMPLETE,
+				grade: AnalysisResultGrade.FAIL,
 				reason: 'FOUND_MORE_THAN_2_VEHICLE_IDS',
 				message: `Found ${foundVehicleIds.size} Vehicle IDs for this trip.`,
+				unit: 'UNIQUE_VEHICLE_IDS',
+				value: foundVehicleIds.size,
 			};
 		}
 
 		return {
 			code: 'AT_MOST_TWO_VEHICLE_IDS',
-			status: 'COMPLETE',
-			grade: 'PASS',
+			status: AnalysisResultStatus.COMPLETE,
+			grade: AnalysisResultGrade.PASS,
 			reason: 'FOUND_ONE_OR_TWO_VEHICLE_IDS',
 			message: `Found ${foundVehicleIds.size} Vehicle IDs for this trip.`,
+			unit: 'UNIQUE_VEHICLE_IDS',
+			value: foundVehicleIds.size,
 		};
 
 		//
@@ -66,10 +82,12 @@ export default (analysisData: AnalysisData) => {
 		console.log(error);
 		return {
 			code: 'AT_MOST_TWO_VEHICLE_IDS',
-			status: 'ERROR',
+			status: AnalysisResultStatus.ERROR,
 			grade: null,
 			reason: null,
 			message: error.message,
+			unit: null,
+			value: null,
 		};
 	}
 

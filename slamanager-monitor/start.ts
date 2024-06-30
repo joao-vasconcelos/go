@@ -2,7 +2,7 @@
 
 import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
-import { AnalysisData } from '@/types/analysisData.js';
+import { AnalysisData } from '@/types/analysisData.type.js';
 import LOGGER from '@helperkits/logger';
 import TIMETRACKER from '@helperkits/timer';
 
@@ -10,16 +10,89 @@ import TIMETRACKER from '@helperkits/timer';
 
 import atMostTwoDriverIdsAnalyzer from '@/analyzers/atMostTwoDriverIds.analyzer.js';
 import atMostTwoVehicleIdsAnalyzer from '@/analyzers/atMostTwoVehicleIds.analyzer.js';
+import geoDelayedStartFiveMinutesFirstOutAnalyzer from '@/analyzers/geoDelayedStartFiveMinutesFirstOut.analyzer.js';
+import geoDelayedStartFiveMinutesLastInAnalyzer from '@/analyzers/geoDelayedStartFiveMinutesLastIn.analyzer.js';
+import geoDelayedStartTenMinutesFirstOutAnalyzer from '@/analyzers/geoDelayedStartTenMinutesFirstOut.analyzer.js';
+import geoDelayedStartTenMinutesLastInAnalyzer from '@/analyzers/geoDelayedStartTenMinutesLastIn.analyzer.js';
+import geoDelayedStartThreeMinutesFirstOutAnalyzer from '@/analyzers/geoDelayedStartThreeMinutesFirstOut.analyzer.js';
+import geoDelayedStartThreeMinutesLastInAnalyzer from '@/analyzers/geoDelayedStartThreeMinutesLastIn.analyzer.js';
+import geoEarlyStartFirstOutAnalyzer from '@/analyzers/geoEarlyStartFirstOut.analyzer.js';
+import geoEarlyStartLastInAnalyzer from '@/analyzers/geoEarlyStartLastIn.analyzer.js';
 import lessThanTenVehicleEventsAnalyzer from '@/analyzers/lessThanTenVehicleEvents.analyzer.js';
 import matchingLocationTransactionsAnalyzer from '@/analyzers/matchingLocationTransactions.analyzer.js';
+import simpleDelayedStartFiveMinutesFirstForNextStopAnalyzer from '@/analyzers/simpleDelayedStartFiveMinutesFirstForNextStop.analyzer.js';
+import simpleDelayedStartFiveMinutesLastForFirstStopAnalyzer from '@/analyzers/simpleDelayedStartFiveMinutesLastForFirstStop.analyzer.js';
+import simpleDelayedStartTenMinutesFirstForNextStopAnalyzer from '@/analyzers/simpleDelayedStartTenMinutesFirstForNextStop.analyzer.js';
+import simpleDelayedStartTenMinutesLastForFirstStopAnalyzer from '@/analyzers/simpleDelayedStartTenMinutesLastForFirstStop.analyzer.js';
+import simpleDelayedStartThreeMinutesFirstForNextStopAnalyzer from '@/analyzers/simpleDelayedStartThreeMinutesFirstForNextStop.analyzer.js';
+import simpleDelayedStartThreeMinutesLastForFirstStopAnalyzer from '@/analyzers/simpleDelayedStartThreeMinutesLastForFirstStop.analyzer.js';
+import simpleEarlyStartFirstForNextStopAnalyzer from '@/analyzers/simpleEarlyStartFirstForNextStop.analyzer.js';
+import simpleEarlyStartLastForFirstStopAnalyzer from '@/analyzers/simpleEarlyStartLastForFirstStop.analyzer.js';
 import simpleOneValidationTransactionAnalyzer from '@/analyzers/simpleOneValidationTransaction.analyzer.js';
 import simpleOneVehicleEventOrValidationTransactionAnalyzer from '@/analyzers/simpleOneVehicleEventOrValidationTransaction.analyzer.js';
 import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEvents.analyzer.js';
-// import simpleDelayedStartAnalyzer from '@/analyzers/simpleDelayedStart.analyzer.js';
 
 /* * */
 
 const ANALYSIS_BATCH_SIZE = 750;
+
+/* * */
+
+function runAnalyzers(analysisData: AnalysisData) {
+	return [
+
+		/* * * * */
+
+		simpleOneVehicleEventOrValidationTransactionAnalyzer(analysisData),
+
+		simpleOneValidationTransactionAnalyzer(analysisData),
+
+		simpleThreeVehicleEventsAnalyzer(analysisData),
+
+		lessThanTenVehicleEventsAnalyzer(analysisData),
+
+		atMostTwoDriverIdsAnalyzer(analysisData),
+
+		atMostTwoVehicleIdsAnalyzer(analysisData),
+
+		matchingLocationTransactionsAnalyzer(analysisData),
+
+		geoDelayedStartThreeMinutesLastInAnalyzer(analysisData),
+
+		geoDelayedStartThreeMinutesFirstOutAnalyzer(analysisData),
+
+		geoDelayedStartFiveMinutesLastInAnalyzer(analysisData),
+
+		geoDelayedStartFiveMinutesFirstOutAnalyzer(analysisData),
+
+		geoDelayedStartTenMinutesLastInAnalyzer(analysisData),
+
+		geoDelayedStartTenMinutesFirstOutAnalyzer(analysisData),
+
+		geoEarlyStartLastInAnalyzer(analysisData),
+
+		geoEarlyStartFirstOutAnalyzer(analysisData),
+
+		simpleDelayedStartThreeMinutesLastForFirstStopAnalyzer(analysisData),
+
+		simpleDelayedStartThreeMinutesFirstForNextStopAnalyzer(analysisData),
+
+		simpleDelayedStartFiveMinutesLastForFirstStopAnalyzer(analysisData),
+
+		simpleDelayedStartFiveMinutesFirstForNextStopAnalyzer(analysisData),
+
+		simpleDelayedStartTenMinutesLastForFirstStopAnalyzer(analysisData),
+
+		simpleDelayedStartTenMinutesFirstForNextStopAnalyzer(analysisData),
+
+		simpleEarlyStartFirstForNextStopAnalyzer(analysisData),
+
+		simpleEarlyStartLastForFirstStopAnalyzer(analysisData),
+
+		/* * * * */
+
+	];
+}
 
 /* * */
 
@@ -35,7 +108,7 @@ export default async () => {
 		const randomDelay = Math.floor(Math.random() * 3000);
 		LOGGER.info(`Waiting for random delay of ${randomDelay} ms...`);
 
-		await new Promise(resolve => setTimeout(resolve, randomDelay));
+		// await new Promise(resolve => setTimeout(resolve, randomDelay));
 
 		// 2.
 		// Connect to databases
@@ -188,6 +261,7 @@ export default async () => {
 				hashed_shape: hashedShapeData,
 				hashed_trip: hashedTripData,
 				location_transactions: allLocationTransactionsData,
+				trip_analysis: tripAnalysisData,
 				validation_transactions: allValidationTransactionsData,
 				vehicle_events: allVehicleEventsData,
 			};
@@ -195,29 +269,7 @@ export default async () => {
 			// 9.4.
 			// Run the analyzers
 
-			tripAnalysisData.analysis = [
-
-				/* * * * */
-
-				simpleOneVehicleEventOrValidationTransactionAnalyzer(analysisData),
-
-				simpleOneValidationTransactionAnalyzer(analysisData),
-
-				simpleThreeVehicleEventsAnalyzer(analysisData),
-
-				lessThanTenVehicleEventsAnalyzer(analysisData),
-
-				atMostTwoDriverIdsAnalyzer(analysisData),
-
-				atMostTwoVehicleIdsAnalyzer(analysisData),
-
-				matchingLocationTransactionsAnalyzer(analysisData),
-
-				// simpleDelayedStartAnalyzer(analysisData),
-
-				/* * * * */
-
-			];
+			tripAnalysisData.analysis = runAnalyzers(analysisData);
 
 			// 9.5.
 			// Count how many analysis passed and how many failed
@@ -238,6 +290,8 @@ export default async () => {
 			//
 
 			LOGGER.success(`[${tripAnalysisIndex + 1}/${tripAnalysisBatch.length}] | ${tripAnalysisData.code} (${tripAnalysisTimer.get()}) | PASS: ${passAnalysisCount.length} | FAIL: ${failAnalysisCount.length} | ERROR: ${errorAnalysisCount.length} [${errorAnalysisCount.join('|')}]`);
+
+			await new Promise(resolve => setTimeout(resolve, 1200000));
 
 			//
 		}

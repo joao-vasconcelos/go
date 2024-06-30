@@ -1,6 +1,7 @@
 /* * */
 
-import { AnalysisData } from '@/types/analysisData.js';
+import { AnalysisData } from '@/types/analysisData.type.js';
+import { AnalysisResult, AnalysisResultGrade, AnalysisResultStatus } from '@/types/analysisResult.type.js';
 
 /* * */
 
@@ -12,7 +13,16 @@ import { AnalysisData } from '@/types/analysisData.js';
 
 /* * */
 
-export default (analysisData: AnalysisData) => {
+interface ExtendedAnalysisResult extends AnalysisResult {
+	code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION'
+	reason: 'FOUND_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION' | 'NO_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_FOUND'
+	unit: null
+	value: null
+};
+
+/* * */
+
+export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 	//
 
 	try {
@@ -24,19 +34,23 @@ export default (analysisData: AnalysisData) => {
 		if (analysisData.vehicle_events.length > 0 || analysisData.validation_transactions.length > 0) {
 			return {
 				code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION',
-				grade: 'PASS',
+				grade: AnalysisResultGrade.PASS,
 				message: `Found ${analysisData.vehicle_events.length} Vehicle Events and ${analysisData.validation_transactions.length} Validation Transactions for this trip.`,
 				reason: 'FOUND_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION',
-				status: 'COMPLETE',
+				status: AnalysisResultStatus.COMPLETE,
+				unit: null,
+				value: null,
 			};
 		}
 
 		return {
 			code: 'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION',
-			grade: 'FAIL',
+			grade: AnalysisResultGrade.FAIL,
 			message: 'No Vehicle Events or Validation Transactions found for this trip.',
 			reason: 'NO_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION_FOUND',
-			status: 'COMPLETE',
+			status: AnalysisResultStatus.COMPLETE,
+			unit: null,
+			value: null,
 		};
 
 		//
@@ -48,7 +62,9 @@ export default (analysisData: AnalysisData) => {
 			grade: null,
 			message: error.message,
 			reason: null,
-			status: 'ERROR',
+			status: AnalysisResultStatus.ERROR,
+			unit: null,
+			value: null,
 		};
 	}
 

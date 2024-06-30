@@ -1,6 +1,7 @@
 /* * */
 
-import { AnalysisData } from '@/types/analysisData.js';
+import { AnalysisData } from '@/types/analysisData.type.js';
+import { AnalysisResult, AnalysisResultGrade, AnalysisResultStatus } from '@/types/analysisResult.type.js';
 
 /* * */
 
@@ -14,7 +15,16 @@ import { AnalysisData } from '@/types/analysisData.js';
 
 /* * */
 
-export default (analysisData: AnalysisData) => {
+interface ExtendedAnalysisResult extends AnalysisResult {
+	code: 'SIMPLE_THREE_VEHICLE_EVENTS'
+	reason: 'ALL_STOPS_FOUND' | 'MISSING_FIRST_STOPS' | 'MISSING_LAST_STOPS' | 'MISSING_MIDDLE_STOPS'
+	unit: null
+	value: null
+};
+
+/* * */
+
+export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 	//
 
 	try {
@@ -71,39 +81,47 @@ export default (analysisData: AnalysisData) => {
 		if (!foundFirstStopIds.size) {
 			return {
 				code: 'SIMPLE_THREE_VEHICLE_EVENTS',
-				grade: 'FAIL',
+				grade: AnalysisResultGrade.FAIL,
 				message: `None of the first ${firstStopIds.size} Stop IDs was found. [${Array.from(firstStopIds).join('|')}]`,
 				reason: 'MISSING_FIRST_STOPS',
-				status: 'COMPLETE',
+				status: AnalysisResultStatus.COMPLETE,
+				unit: null,
+				value: null,
 			};
 		}
 
 		if (!foundMiddleStopIds.size) {
 			return {
 				code: 'SIMPLE_THREE_VEHICLE_EVENTS',
-				grade: 'FAIL',
+				grade: AnalysisResultGrade.FAIL,
 				message: `None of the middle ${middleStopIds.size} Stop IDs was found. [${Array.from(middleStopIds).join('|')}]`,
 				reason: 'MISSING_MIDDLE_STOPS',
-				status: 'COMPLETE',
+				status: AnalysisResultStatus.COMPLETE,
+				unit: null,
+				value: null,
 			};
 		}
 
 		if (!foundLastStopIds.size) {
 			return {
 				code: 'SIMPLE_THREE_VEHICLE_EVENTS',
-				grade: 'FAIL',
+				grade: AnalysisResultGrade.FAIL,
 				message: `None of the last ${lastStopIds.size} Stop IDs was found. [${Array.from(lastStopIds).join('|')}]`,
 				reason: 'MISSING_LAST_STOPS',
-				status: 'COMPLETE',
+				status: AnalysisResultStatus.COMPLETE,
+				unit: null,
+				value: null,
 			};
 		}
 
 		return {
 			code: 'SIMPLE_THREE_VEHICLE_EVENTS',
-			grade: 'PASS',
+			grade: AnalysisResultGrade.PASS,
 			message: `Found at least one Stop ID for each section (first|middle|last). First: [${Array.from(foundFirstStopIds).join('|')}] | Middle: [${Array.from(foundMiddleStopIds).join('|')}] | Last: [${Array.from(foundLastStopIds).join('|')}]`,
 			reason: 'ALL_STOPS_FOUND',
-			status: 'COMPLETE',
+			status: AnalysisResultStatus.COMPLETE,
+			unit: null,
+			value: null,
 		};
 
 		//
@@ -115,7 +133,9 @@ export default (analysisData: AnalysisData) => {
 			grade: null,
 			message: error.message,
 			reason: null,
-			status: 'ERROR',
+			status: AnalysisResultStatus.ERROR,
+			unit: null,
+			value: null,
 		};
 	}
 

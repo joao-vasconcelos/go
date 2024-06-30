@@ -1,6 +1,7 @@
 /* * */
 
-import { AnalysisData } from '@/types/analysisData.js';
+import { AnalysisData } from '@/types/analysisData.type.js';
+import { AnalysisResult, AnalysisResultGrade, AnalysisResultStatus } from '@/types/analysisResult.type.js';
 
 /* * */
 
@@ -12,7 +13,16 @@ import { AnalysisData } from '@/types/analysisData.js';
 
 /* * */
 
-export default (analysisData: AnalysisData) => {
+interface ExtendedAnalysisResult extends AnalysisResult {
+	code: 'SIMPLE_ONE_VALIDATION_TRANSACTION'
+	reason: 'FOUND_AT_LEAST_ONE_VALIDATION_TRANSACTION' | 'NO_VALIDATION_TRANSACTION_FOUND'
+	unit: 'VALIDATION_TRANSACTIONS_QTY' | null
+	value: null | number
+};
+
+/* * */
+
+export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 	//
 
 	try {
@@ -24,19 +34,23 @@ export default (analysisData: AnalysisData) => {
 		if (analysisData.validation_transactions.length > 0) {
 			return {
 				code: 'SIMPLE_ONE_VALIDATION_TRANSACTION',
-				grade: 'PASS',
+				grade: AnalysisResultGrade.PASS,
 				message: `Found ${analysisData.validation_transactions.length} Validation Transactions for this trip.`,
 				reason: 'FOUND_AT_LEAST_ONE_VALIDATION_TRANSACTION',
-				status: 'COMPLETE',
+				status: AnalysisResultStatus.COMPLETE,
+				unit: 'VALIDATION_TRANSACTIONS_QTY',
+				value: analysisData.validation_transactions.length,
 			};
 		}
 
 		return {
 			code: 'SIMPLE_ONE_VALIDATION_TRANSACTION',
-			grade: 'FAIL',
+			grade: AnalysisResultGrade.FAIL,
 			message: 'No Validation Transactions found for this trip.',
 			reason: 'NO_VALIDATION_TRANSACTION_FOUND',
-			status: 'COMPLETE',
+			status: AnalysisResultStatus.COMPLETE,
+			unit: 'VALIDATION_TRANSACTIONS_QTY',
+			value: 0,
 		};
 
 		//
@@ -48,7 +62,9 @@ export default (analysisData: AnalysisData) => {
 			grade: null,
 			message: error.message,
 			reason: null,
-			status: 'ERROR',
+			status: AnalysisResultStatus.ERROR,
+			unit: null,
+			value: null,
 		};
 	}
 

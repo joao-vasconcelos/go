@@ -2,7 +2,8 @@
 
 /* * */
 
-import { AnalysisData } from '@/types/analysisData.js';
+import { AnalysisData } from '@/types/analysisData.type.js';
+import { AnalysisResult, AnalysisResultGrade, AnalysisResultStatus } from '@/types/analysisResult.type.js';
 
 /* * */
 
@@ -14,7 +15,16 @@ import { AnalysisData } from '@/types/analysisData.js';
 
 /* * */
 
-export default (analysisData: AnalysisData) => {
+interface ExtendedAnalysisResult extends AnalysisResult {
+	code: 'LESS_THAN_TEN_VEHICLE_EVENTS'
+	reason: 'FOUND_MORE_THAN_10_VEHICLE_EVENTS' | 'FOUND_ONLY_1_VEHICLE_EVENT' | `FOUND_ONLY_${number}_VEHICLE_EVENTS`
+	unit: 'VEHICLE_EVENTS_QTY' | null
+	value: null | number
+};
+
+/* * */
+
+export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 	//
 
 	try {
@@ -26,29 +36,35 @@ export default (analysisData: AnalysisData) => {
 		if (analysisData.vehicle_events.length > 10) {
 			return {
 				code: 'LESS_THAN_TEN_VEHICLE_EVENTS',
-				status: 'COMPLETE',
-				grade: 'PASS',
+				status: AnalysisResultStatus.COMPLETE,
+				grade: AnalysisResultGrade.PASS,
 				reason: 'FOUND_MORE_THAN_10_VEHICLE_EVENTS',
 				message: `Found ${analysisData.vehicle_events.length} Vehicle Events for this trip.`,
+				unit: 'VEHICLE_EVENTS_QTY',
+				value: analysisData.vehicle_events.length,
 			};
 		}
 
 		if (analysisData.vehicle_events.length === 1) {
 			return {
 				code: 'LESS_THAN_TEN_VEHICLE_EVENTS',
-				status: 'COMPLETE',
-				grade: 'FAIL',
+				status: AnalysisResultStatus.COMPLETE,
+				grade: AnalysisResultGrade.FAIL,
 				reason: 'FOUND_ONLY_1_VEHICLE_EVENT',
 				message: `Found ${analysisData.vehicle_events.length} Vehicle Events for this trip.`,
+				unit: 'VEHICLE_EVENTS_QTY',
+				value: analysisData.vehicle_events.length,
 			};
 		}
 
 		return {
 			code: 'LESS_THAN_TEN_VEHICLE_EVENTS',
-			status: 'COMPLETE',
-			grade: 'FAIL',
+			status: AnalysisResultStatus.COMPLETE,
+			grade: AnalysisResultGrade.FAIL,
 			reason: `FOUND_ONLY_${analysisData.vehicle_events.length}_VEHICLE_EVENTS`,
 			message: `Found ${analysisData.vehicle_events.length} Vehicle Events for this trip.`,
+			unit: 'VEHICLE_EVENTS_QTY',
+			value: analysisData.vehicle_events.length,
 		};
 
 		//
@@ -57,10 +73,12 @@ export default (analysisData: AnalysisData) => {
 		console.log(error);
 		return {
 			code: 'LESS_THAN_TEN_VEHICLE_EVENTS',
-			status: 'ERROR',
+			status: AnalysisResultStatus.ERROR,
 			grade: null,
 			reason: null,
 			message: error.message,
+			unit: null,
+			value: null,
 		};
 	}
 
