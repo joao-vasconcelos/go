@@ -62,7 +62,7 @@ async function syncDocuments(documentType: string, operationalDay: string, pcgiC
 	const bufferDocumentsStream = bufferCollection.find(bufferQuery).stream();
 
 	for await (const bufferDocument of bufferDocumentsStream) {
-		bufferDocumentsSet.add(String(bufferDocument.original_id));
+		bufferDocumentsSet.add(String(bufferDocument.pcgi_id));
 	}
 
 	LOGGER.info(`Fetched ${bufferDocumentsSet.size} "${documentType}" document IDs in SLAMANAGERBUFFERDB for "${operationalDay}" (${bufferDocumentsTimer.get()})`);
@@ -84,7 +84,7 @@ async function syncDocuments(documentType: string, operationalDay: string, pcgiC
 		// If not yet present, add it to SLAMANAGERBUFFERDB
 		pcgiDocumentsCounter++;
 		const formattedObject = pcgiDocumentTransform(pcgiDocument);
-		await dbWriter.write(formattedObject, { filter: { original_id: formattedObject.original_id }, upsert: true });
+		await dbWriter.write(formattedObject, { filter: { pcgi_id: formattedObject.pcgi_id }, upsert: true });
 		//
 	}
 
@@ -197,8 +197,9 @@ export default async () => {
 						data: JSON.stringify(pcgiDocument),
 						line_id: pcgiDocument.content.entity[0].vehicle.trip.lineId,
 						operational_day: operationalDay,
-						original_id: String(pcgiDocument._id),
+						original_id: pcgiDocument.content.entity[0]._id,
 						pattern_id: pcgiDocument.content.entity[0].vehicle.trip.patternId,
+						pcgi_id: String(pcgiDocument._id),
 						route_id: pcgiDocument.content.entity[0].vehicle.trip.routeId,
 						stop_id: pcgiDocument.content.entity[0].vehicle.trip.stopId,
 						timestamp: DateTime.fromSeconds(pcgiDocument.content.entity[0].vehicle.timestamp).toMillis(),
@@ -239,8 +240,9 @@ export default async () => {
 						data: JSON.stringify(pcgiDocument),
 						line_id: pcgiDocument.transaction.lineLongId,
 						operational_day: operationalDay,
-						original_id: String(pcgiDocument._id),
+						original_id: pcgiDocument.transaction.transactionId,
 						pattern_id: pcgiDocument.transaction.patternLongId,
+						pcgi_id: String(pcgiDocument._id),
 						route_id: pcgiDocument.transaction.routeLongId,
 						stop_id: pcgiDocument.transaction.stopLongID,
 						timestamp: DateTime.fromFormat(pcgiDocument.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis(),
@@ -280,8 +282,9 @@ export default async () => {
 						data: JSON.stringify(pcgiDocument),
 						line_id: pcgiDocument.transaction.lineLongId,
 						operational_day: operationalDay,
-						original_id: String(pcgiDocument._id),
+						original_id: pcgiDocument.transaction.transactionId,
 						pattern_id: pcgiDocument.transaction.patternLongId,
+						pcgi_id: String(pcgiDocument._id),
 						route_id: pcgiDocument.transaction.routeLongId,
 						stop_id: pcgiDocument.transaction.stopLongID,
 						timestamp: DateTime.fromFormat(pcgiDocument.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis(),
@@ -309,11 +312,7 @@ export default async () => {
 
 		//
 
-		console.log();
-		console.log('- - - - - - - - - - - - - - - - - - - - -');
-		console.log(`Run took ${globalTimer.get()}.`);
-		console.log('- - - - - - - - - - - - - - - - - - - - -');
-		console.log();
+		LOGGER.terminate(`Run took ${globalTimer.get()}.`);
 
 		//
 	}
