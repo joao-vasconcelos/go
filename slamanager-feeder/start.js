@@ -503,29 +503,22 @@ export default async () => {
 							//
 							const tripAnalysisData = {
 								agency_id: routeData.agency_id,
-								//
 								analysis: [],
 								analysis_timestamp: null,
-								//
 								archive_id: archiveData.code,
-								//
 								code: `${archiveData.code}-${routeData.agency_id}-${calendarDate}-${tripData.trip_id}`,
 								hashed_shape_code: hashedShapeData.code,
-								//
 								hashed_trip_code: hashedTripData.code,
 								line_id: routeData.line_id,
 								operational_day: calendarDate,
-								//
 								parse_timestamp: new Date(),
 								pattern_id: tripData.pattern_id,
 								route_id: routeData.route_id,
+								scheduled_start_time: hashedTripData.path[0].departure_time,
 								service_id: tripData.service_id,
-								//
 								status: 'pending',
 								trip_id: tripData.trip_id,
-								//
 								user_notes: '',
-								//
 							};
 							//
 							const tripAnalysisOptions = {

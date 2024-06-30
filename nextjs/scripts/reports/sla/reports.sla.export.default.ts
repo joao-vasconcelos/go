@@ -66,6 +66,8 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			trip_id: tripAnalysisData.trip_id,
 			service_id: tripAnalysisData.service_id,
 			//
+			scheduled_start_time: tripAnalysisData.scheduled_start_time,
+			//
 			user_notes: tripAnalysisData.user_notes,
 			//
 		};
