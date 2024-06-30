@@ -87,7 +87,8 @@ class SLAMANAGERBUFFERDB {
 			//
 			// Setup indexes
 
-			this.BufferData.createIndex({ original_id: 1 }, { unique: true });
+			this.BufferData.createIndex({ pcgi_id: 1 }, { unique: true });
+			this.BufferData.createIndex({ original_id: 1 });
 			this.BufferData.createIndex({ type: 1 });
 			this.BufferData.createIndex({ agency_id: 1 });
 			this.BufferData.createIndex({ line_id: 1 });

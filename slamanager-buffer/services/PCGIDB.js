@@ -224,7 +224,7 @@ class PCGIDB {
 			//
 			// Create the SHH Tunnel connection
 
-			const [server, _] = await createTunnel(tunnelOptions, serverOptions, sshOptions, forwardOptions);
+			const [server] = await createTunnel(tunnelOptions, serverOptions, sshOptions, forwardOptions);
 
 			LOGGER.info(`PCGIDB: Created SSH Tunnel instance on host port ${server.address().port}`);
 
