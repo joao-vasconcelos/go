@@ -514,7 +514,7 @@ export default async () => {
 								parse_timestamp: new Date(),
 								pattern_id: tripData.pattern_id,
 								route_id: routeData.route_id,
-								scheduled_start_time: hashedTripData.path.length > 0 ? hashedTripData.path[0].arrival_time : null,
+								scheduled_start_time: hashedTripData.path?.length > 0 ? hashedTripData.path[0]?.arrival_time : null,
 								service_id: tripData.service_id,
 								status: 'pending',
 								trip_id: tripData.trip_id,
