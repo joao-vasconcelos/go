@@ -3,6 +3,7 @@
 import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
 import { AnalysisData } from '@/types/analysisData.type.js';
+import { AnalysisResultGrade } from '@/types/analysisResult.type.js';
 import LOGGER from '@helperkits/logger';
 import TIMETRACKER from '@helperkits/timer';
 
@@ -108,7 +109,7 @@ export default async () => {
 		const randomDelay = Math.floor(Math.random() * 3000);
 		LOGGER.info(`Waiting for random delay of ${randomDelay} ms...`);
 
-		// await new Promise(resolve => setTimeout(resolve, randomDelay));
+		await new Promise(resolve => setTimeout(resolve, randomDelay));
 
 		// 2.
 		// Connect to databases
@@ -274,11 +275,11 @@ export default async () => {
 			// 9.5.
 			// Count how many analysis passed and how many failed
 
-			const passAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === 'PASS');
+			const passAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === AnalysisResultGrade.PASS);
 
-			const failAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === 'FAIL');
+			const failAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === AnalysisResultGrade.FAIL);
 
-			const errorAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === 'ERROR').map(item => item.code);
+			const errorAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === AnalysisResultGrade.ERROR).map(item => item.code);
 
 			// 9.6.
 			// Update trip with analysis result and status
@@ -290,8 +291,6 @@ export default async () => {
 			//
 
 			LOGGER.success(`[${tripAnalysisIndex + 1}/${tripAnalysisBatch.length}] | ${tripAnalysisData.code} (${tripAnalysisTimer.get()}) | PASS: ${passAnalysisCount.length} | FAIL: ${failAnalysisCount.length} | ERROR: ${errorAnalysisCount.length} [${errorAnalysisCount.join('|')}]`);
-
-			await new Promise(resolve => setTimeout(resolve, 1200000));
 
 			//
 		}

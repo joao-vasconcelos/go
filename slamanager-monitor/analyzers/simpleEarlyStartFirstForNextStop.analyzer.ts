@@ -18,7 +18,7 @@ import { DateTime } from 'luxon';
 
 interface ExtendedAnalysisResult extends AnalysisResult {
 	code: 'SIMPLE_EARLY_START_FIRST_FOR_NEXT_STOP'
-	reason: 'TRIP_STARTED_AT_OR_LATER_THAN_SCHEDULED' | 'TRIP_STARTED_EARLIER_THAN_SCHEDULED'
+	reason: 'NO_EVENT_FOUND_FOR_NEXT_STOP_ID' | 'TRIP_STARTED_AT_OR_LATER_THAN_SCHEDULED' | 'TRIP_STARTED_EARLIER_THAN_SCHEDULED'
 	unit: 'MINUTES_EARLY' | null
 	value: null | number
 };
@@ -89,6 +89,18 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 			}
 		}
 
+		if (!firstEventForNextStopId) {
+			return {
+				code: 'SIMPLE_EARLY_START_FIRST_FOR_NEXT_STOP',
+				grade: AnalysisResultGrade.FAIL,
+				message: 'No event found for the next stop ID after the first stop ID.',
+				reason: 'NO_EVENT_FOUND_FOR_NEXT_STOP_ID',
+				status: AnalysisResultStatus.COMPLETE,
+				unit: null,
+				value: null,
+			};
+		}
+
 		// 6.
 		// Check the timestamp of the event against the expected arrival time of the first stop
 
@@ -128,7 +140,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		console.log(error);
 		return {
 			code: 'SIMPLE_EARLY_START_FIRST_FOR_NEXT_STOP',
-			grade: null,
+			grade: AnalysisResultGrade.ERROR,
 			message: error.message,
 			reason: null,
 			status: AnalysisResultStatus.ERROR,

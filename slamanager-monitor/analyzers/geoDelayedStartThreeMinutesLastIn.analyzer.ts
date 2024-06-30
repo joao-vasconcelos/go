@@ -19,7 +19,7 @@ import { DateTime } from 'luxon';
 
 interface ExtendedAnalysisResult extends AnalysisResult {
 	code: 'GEO_DELAYED_START_THREE_MINUTES_LAST_IN'
-	reason: 'TRIP_STARTED_LESS_THAN_OR_EQUAL_TO_THREE_MINUTES_LATE' | 'TRIP_STARTED_MORE_THAN_THREE_MINUTES_LATE'
+	reason: 'NO_EVENT_INSIDE_GEOFENCE_FOUND' | 'TRIP_STARTED_LESS_THAN_OR_EQUAL_TO_THREE_MINUTES_LATE' | 'TRIP_STARTED_MORE_THAN_THREE_MINUTES_LATE'
 	unit: 'MINUTES_DELAYED' | null
 	value: null | number
 };
@@ -90,6 +90,18 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 			}
 		}
 
+		if (!lastEventInsideGeofence) {
+			return {
+				code: 'GEO_DELAYED_START_THREE_MINUTES_LAST_IN',
+				grade: AnalysisResultGrade.FAIL,
+				message: 'No event was found inside the geofence of the first stop.',
+				reason: 'NO_EVENT_INSIDE_GEOFENCE_FOUND',
+				status: AnalysisResultStatus.COMPLETE,
+				unit: null,
+				value: null,
+			};
+		}
+
 		// 6.
 		// Check the timestamp of the event against the expected arrival time of the first stop
 
@@ -129,7 +141,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		console.log(error);
 		return {
 			code: 'GEO_DELAYED_START_THREE_MINUTES_LAST_IN',
-			grade: null,
+			grade: AnalysisResultGrade.ERROR,
 			message: error.message,
 			reason: null,
 			status: AnalysisResultStatus.ERROR,

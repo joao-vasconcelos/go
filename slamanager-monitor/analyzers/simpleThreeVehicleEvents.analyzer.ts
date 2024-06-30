@@ -130,7 +130,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		console.log(error);
 		return {
 			code: 'SIMPLE_THREE_VEHICLE_EVENTS',
-			grade: null,
+			grade: AnalysisResultGrade.ERROR,
 			message: error.message,
 			reason: null,
 			status: AnalysisResultStatus.ERROR,

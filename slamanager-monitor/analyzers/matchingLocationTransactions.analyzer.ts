@@ -1,5 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
-
 /* * */
 
 import { AnalysisData } from '@/types/analysisData.type.js';
@@ -64,10 +62,10 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		if (missingStopIds.size > 0) {
 			return {
 				code: 'MATCHING_LOCATION_TRANSACTIONS',
-				status: AnalysisResultStatus.COMPLETE,
 				grade: AnalysisResultGrade.FAIL,
-				reason: 'MISSING_LOCATION_TRANSACTION_FOR_AT_LEAST_ONE_STOP',
 				message: `At least one Stop ID was not found in Location Transactions. Missing Stop IDs: [${Array.from(missingStopIds).join('|')}]`,
+				reason: 'MISSING_LOCATION_TRANSACTION_FOR_AT_LEAST_ONE_STOP',
+				status: AnalysisResultStatus.COMPLETE,
 				unit: null,
 				value: null,
 			};
@@ -75,10 +73,10 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 
 		return {
 			code: 'MATCHING_LOCATION_TRANSACTIONS',
-			status: AnalysisResultStatus.COMPLETE,
 			grade: AnalysisResultGrade.PASS,
-			reason: 'ALL_STOPS_HAVE_LOCATION_TRANSACTIONS',
 			message: `Found ${locationTransactionsStopIds.size} Location Transactions for ${pathStopIds.size} Stop IDs.`,
+			reason: 'ALL_STOPS_HAVE_LOCATION_TRANSACTIONS',
+			status: AnalysisResultStatus.COMPLETE,
 			unit: null,
 			value: null,
 		};
@@ -89,10 +87,10 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		console.log(error);
 		return {
 			code: 'MATCHING_LOCATION_TRANSACTIONS',
-			status: AnalysisResultStatus.ERROR,
-			grade: null,
-			reason: null,
+			grade: AnalysisResultGrade.ERROR,
 			message: error.message,
+			reason: null,
+			status: AnalysisResultStatus.ERROR,
 			unit: null,
 			value: null,
 		};

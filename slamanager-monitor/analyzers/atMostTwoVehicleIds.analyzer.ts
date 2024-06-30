@@ -1,5 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
-
 /* * */
 
 import { AnalysisData } from '@/types/analysisData.type.js';
@@ -45,10 +43,10 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		if (foundVehicleIds.size === 0) {
 			return {
 				code: 'AT_MOST_TWO_VEHICLE_IDS',
-				status: AnalysisResultStatus.COMPLETE,
 				grade: AnalysisResultGrade.FAIL,
-				reason: 'NO_VEHICLE_ID_FOUND',
 				message: 'No Vehicle IDs found for this trip.',
+				reason: 'NO_VEHICLE_ID_FOUND',
+				status: AnalysisResultStatus.COMPLETE,
 				unit: 'UNIQUE_VEHICLE_IDS',
 				value: 0,
 			};
@@ -57,10 +55,10 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		if (foundVehicleIds.size > 2) {
 			return {
 				code: 'AT_MOST_TWO_VEHICLE_IDS',
-				status: AnalysisResultStatus.COMPLETE,
 				grade: AnalysisResultGrade.FAIL,
-				reason: 'FOUND_MORE_THAN_2_VEHICLE_IDS',
 				message: `Found ${foundVehicleIds.size} Vehicle IDs for this trip.`,
+				reason: 'FOUND_MORE_THAN_2_VEHICLE_IDS',
+				status: AnalysisResultStatus.COMPLETE,
 				unit: 'UNIQUE_VEHICLE_IDS',
 				value: foundVehicleIds.size,
 			};
@@ -68,10 +66,10 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 
 		return {
 			code: 'AT_MOST_TWO_VEHICLE_IDS',
-			status: AnalysisResultStatus.COMPLETE,
 			grade: AnalysisResultGrade.PASS,
-			reason: 'FOUND_ONE_OR_TWO_VEHICLE_IDS',
 			message: `Found ${foundVehicleIds.size} Vehicle IDs for this trip.`,
+			reason: 'FOUND_ONE_OR_TWO_VEHICLE_IDS',
+			status: AnalysisResultStatus.COMPLETE,
 			unit: 'UNIQUE_VEHICLE_IDS',
 			value: foundVehicleIds.size,
 		};
@@ -82,10 +80,10 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		console.log(error);
 		return {
 			code: 'AT_MOST_TWO_VEHICLE_IDS',
-			status: AnalysisResultStatus.ERROR,
-			grade: null,
-			reason: null,
+			grade: AnalysisResultGrade.ERROR,
 			message: error.message,
+			reason: null,
+			status: AnalysisResultStatus.ERROR,
 			unit: null,
 			value: null,
 		};

@@ -4,7 +4,7 @@
 
 export interface AnalysisResult {
 	code: string
-	grade: AnalysisResultGrade | null
+	grade: AnalysisResultGrade
 	message: null | string
 	reason: null | string
 	status: AnalysisResultStatus
@@ -15,6 +15,7 @@ export interface AnalysisResult {
 /* * */
 
 export enum AnalysisResultGrade {
+	ERROR = 'ERROR',
 	FAIL = 'FAIL',
 	PASS = 'PASS',
 }

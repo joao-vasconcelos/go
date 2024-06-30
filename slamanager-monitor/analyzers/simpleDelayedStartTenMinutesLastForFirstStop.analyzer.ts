@@ -16,7 +16,7 @@ import { DateTime } from 'luxon';
 
 interface ExtendedAnalysisResult extends AnalysisResult {
 	code: 'SIMPLE_DELAYED_START_TEN_MINUTES_LAST_FOR_FIRST_STOP'
-	reason: 'TRIP_STARTED_LESS_THAN_OR_EQUAL_TO_TEN_MINUTES_LATE' | 'TRIP_STARTED_MORE_THAN_TEN_MINUTES_LATE'
+	reason: 'NO_LAST_EVENT_FOR_FIRST_STOP_ID' | 'TRIP_STARTED_LESS_THAN_OR_EQUAL_TO_TEN_MINUTES_LATE' | 'TRIP_STARTED_MORE_THAN_TEN_MINUTES_LATE'
 	unit: 'MINUTES_DELAYED' | null
 	value: null | number
 };
@@ -89,6 +89,18 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 
 		const lastEventForFirstStopId = sortedVehicleEvents[firstEventForNextStopIdIndex - 1];
 
+		if (!lastEventForFirstStopId) {
+			return {
+				code: 'SIMPLE_DELAYED_START_TEN_MINUTES_LAST_FOR_FIRST_STOP',
+				grade: AnalysisResultGrade.FAIL,
+				message: 'No last event for first stop ID found.',
+				reason: 'NO_LAST_EVENT_FOR_FIRST_STOP_ID',
+				status: AnalysisResultStatus.COMPLETE,
+				unit: null,
+				value: null,
+			};
+		}
+
 		// 6.
 		// Check the timestamp of the event against the expected arrival time of the first stop
 
@@ -128,7 +140,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		console.log(error);
 		return {
 			code: 'SIMPLE_DELAYED_START_TEN_MINUTES_LAST_FOR_FIRST_STOP',
-			grade: null,
+			grade: AnalysisResultGrade.ERROR,
 			message: error.message,
 			reason: null,
 			status: AnalysisResultStatus.ERROR,
