@@ -43,7 +43,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 
 	const allTripAnalysisStream = SLAMANAGERDB.TripAnalysis.find({ agency_id: agencyData.code, operational_day: { $gte: exportOptions.start_date, $lte: exportOptions.end_date } }).stream();
 
-	const defaultCsvWriter = new CSVWRITER('reports.sla.dump-default', { batch_size: 1000 });
+	const defaultCsvWriter = new CSVWRITER('reports.sla.dump-default', { batch_size: 10000 });
 
 	const outputFileName = `SLA_${agencyData.code}_${exportOptions.start_date}_${exportOptions.end_date}.csv`;
 
