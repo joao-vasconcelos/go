@@ -41,9 +41,9 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 	// 1.
 	// Get all stops from the database
 
-	const allTripAnalysisStream = await SLAMANAGERDB.TripAnalysis.find({ agency_id: agencyData.code, operational_day: { $gte: exportOptions.start_date, $lte: exportOptions.end_date } }).stream();
+	const allTripAnalysisStream = SLAMANAGERDB.TripAnalysis.find({ agency_id: agencyData.code, operational_day: { $gte: exportOptions.start_date, $lte: exportOptions.end_date } }).stream();
 
-	const defaultCsvWriter = new CSVWRITER('reports.sla.dump-default');
+	const defaultCsvWriter = new CSVWRITER('reports.sla.dump-default', { batch_size: 1000 });
 
 	const outputFileName = `SLA_${agencyData.code}_${exportOptions.start_date}_${exportOptions.end_date}.csv`;
 
@@ -75,6 +75,8 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			tripAnalysisParsed[`${item.code}-grade`] = item.grade;
 			tripAnalysisParsed[`${item.code}-reason`] = item.reason;
 			tripAnalysisParsed[`${item.code}-message`] = item.message;
+			tripAnalysisParsed[`${item.code}-unit`] = item.unit;
+			tripAnalysisParsed[`${item.code}-value`] = item.value;
 		});
 
 		await defaultCsvWriter.write(progress.workdir, outputFileName, tripAnalysisParsed);
