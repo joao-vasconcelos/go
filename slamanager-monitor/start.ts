@@ -3,7 +3,7 @@
 import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
 import { AnalysisData } from '@/types/analysisData.type.js';
-import { AnalysisResultGrade } from '@/types/analysisResult.type.js';
+import { AnalysisResultGrade, AnalysisResultStatus } from '@/types/analysisResult.type.js';
 import LOGGER from '@helperkits/logger';
 import TIMETRACKER from '@helperkits/timer';
 
@@ -279,7 +279,7 @@ export default async () => {
 
 			const failAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === AnalysisResultGrade.FAIL);
 
-			const errorAnalysisCount = tripAnalysisData.analysis.filter(item => item.grade === AnalysisResultGrade.ERROR).map(item => item.code);
+			const errorAnalysisCount = tripAnalysisData.analysis.filter(item => item.status === AnalysisResultStatus.ERROR).map(item => item.code);
 
 			// 9.6.
 			// Update trip with analysis result and status

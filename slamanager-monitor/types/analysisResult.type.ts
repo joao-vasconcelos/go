@@ -15,7 +15,6 @@ export interface AnalysisResult {
 /* * */
 
 export enum AnalysisResultGrade {
-	ERROR = 'ERROR',
 	FAIL = 'FAIL',
 	PASS = 'PASS',
 }

@@ -59,7 +59,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		console.log(error);
 		return {
 			code: 'SIMPLE_ONE_VALIDATION_TRANSACTION',
-			grade: AnalysisResultGrade.ERROR,
+			grade: AnalysisResultGrade.FAIL,
 			message: error.message,
 			reason: null,
 			status: AnalysisResultStatus.ERROR,

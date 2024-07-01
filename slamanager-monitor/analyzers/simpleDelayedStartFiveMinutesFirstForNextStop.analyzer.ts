@@ -19,7 +19,7 @@ import { DateTime } from 'luxon';
 interface ExtendedAnalysisResult extends AnalysisResult {
 	code: 'SIMPLE_DELAYED_START_FIVE_MINUTES_FIRST_FOR_NEXT_STOP'
 	reason: 'NO_EVENT_FOUND_FOR_NEXT_STOP_ID' | 'TRIP_STARTED_LESS_THAN_OR_EQUAL_TO_FIVE_MINUTES_LATE' | 'TRIP_STARTED_MORE_THAN_FIVE_MINUTES_LATE'
-	unit: 'MINUTES_DELAYED' | null
+	unit: 'MINUTES_FROM_SCHEDULED_START_TIME' | null
 	value: null | number
 };
 
@@ -41,7 +41,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		// 2.
 		// Prepare the operational day date for the given trip
 
-		let operationalDayDateTimeObject = DateTime.fromFormat(analysisData.trip_analysis.operational_day, 'yyyyMMdd').startOf('day');
+		let operationalDayDateTimeObject = DateTime.fromFormat(analysisData.trip_analysis.operational_day, 'yyyyMMdd', { zone: 'Europe/Lisbon' }).startOf('day');
 
 		// 3.
 		// Extract the ID and the expected arrival time of the first stop of the trip
@@ -105,7 +105,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		// Check the timestamp of the event against the expected arrival time of the first stop
 
 		const firstEventForNextStopIdTimestamp = firstEventForNextStopId?.content.entity[0].vehicle.timestamp;
-		const firstEventForNextStopIdDateTimeObject = DateTime.fromSeconds(firstEventForNextStopIdTimestamp);
+		const firstEventForNextStopIdDateTimeObject = DateTime.fromSeconds(firstEventForNextStopIdTimestamp, { zone: 'Europe/Lisbon' });
 
 		const delayInMinutes = firstEventForNextStopIdDateTimeObject.diff(expectedArrivalTimeDateTimeObject, 'minutes').minutes;
 
@@ -119,7 +119,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 				message: `Trip start time delay is ${delayInMinutes} minutes.`,
 				reason: 'TRIP_STARTED_LESS_THAN_OR_EQUAL_TO_FIVE_MINUTES_LATE',
 				status: AnalysisResultStatus.COMPLETE,
-				unit: 'MINUTES_DELAYED',
+				unit: 'MINUTES_FROM_SCHEDULED_START_TIME',
 				value: delayInMinutes,
 			};
 		}
@@ -130,7 +130,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 			message: `Trip start time delay is ${delayInMinutes} minutes.`,
 			reason: 'TRIP_STARTED_MORE_THAN_FIVE_MINUTES_LATE',
 			status: AnalysisResultStatus.COMPLETE,
-			unit: 'MINUTES_DELAYED',
+			unit: 'MINUTES_FROM_SCHEDULED_START_TIME',
 			value: delayInMinutes,
 		};
 
@@ -140,7 +140,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		console.log(error);
 		return {
 			code: 'SIMPLE_DELAYED_START_FIVE_MINUTES_FIRST_FOR_NEXT_STOP',
-			grade: AnalysisResultGrade.ERROR,
+			grade: AnalysisResultGrade.FAIL,
 			message: error.message,
 			reason: null,
 			status: AnalysisResultStatus.ERROR,

@@ -20,7 +20,7 @@ import { DateTime } from 'luxon';
 interface ExtendedAnalysisResult extends AnalysisResult {
 	code: 'GEO_EARLY_START_LAST_IN'
 	reason: 'NO_EVENT_INSIDE_GEOFENCE_FOUND' | 'TRIP_STARTED_AT_OR_LATER_THAN_SCHEDULED' | 'TRIP_STARTED_EARLIER_THAN_SCHEDULED'
-	unit: 'MINUTES_EARLY' | null
+	unit: 'MINUTES_FROM_SCHEDULED_START_TIME' | null
 	value: null | number
 };
 
@@ -42,7 +42,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		// 2.
 		// Prepare the operational day date for the given trip
 
-		let operationalDayDateTimeObject = DateTime.fromFormat(analysisData.trip_analysis.operational_day, 'yyyyMMdd').startOf('day');
+		let operationalDayDateTimeObject = DateTime.fromFormat(analysisData.trip_analysis.operational_day, 'yyyyMMdd', { zone: 'Europe/Lisbon' }).startOf('day');
 
 		// 3.
 		// Extract the expected arrival time of the first stop of the trip
@@ -106,7 +106,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		// Check the timestamp of the event against the expected arrival time of the first stop
 
 		const firstEventOutsideGeofenceTimestamp = lastEventInsideGeofence?.content.entity[0].vehicle.timestamp;
-		const firstEventOutsideGeofenceDateTimeObject = DateTime.fromSeconds(firstEventOutsideGeofenceTimestamp);
+		const firstEventOutsideGeofenceDateTimeObject = DateTime.fromSeconds(firstEventOutsideGeofenceTimestamp, { zone: 'Europe/Lisbon' });
 
 		const delayInMinutes = firstEventOutsideGeofenceDateTimeObject.diff(expectedArrivalTimeDateTimeObject, 'minutes').minutes;
 
@@ -120,7 +120,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 				message: `Trip started ${delayInMinutes} minutes earlier than scheduled.`,
 				reason: 'TRIP_STARTED_EARLIER_THAN_SCHEDULED',
 				status: AnalysisResultStatus.COMPLETE,
-				unit: 'MINUTES_EARLY',
+				unit: 'MINUTES_FROM_SCHEDULED_START_TIME',
 				value: delayInMinutes,
 			};
 		}
@@ -131,7 +131,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 			message: `Trip started ${delayInMinutes} minutes after scheduled time.`,
 			reason: 'TRIP_STARTED_AT_OR_LATER_THAN_SCHEDULED',
 			status: AnalysisResultStatus.COMPLETE,
-			unit: 'MINUTES_EARLY',
+			unit: 'MINUTES_FROM_SCHEDULED_START_TIME',
 			value: delayInMinutes,
 		};
 
@@ -141,7 +141,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		console.log(error);
 		return {
 			code: 'GEO_EARLY_START_LAST_IN',
-			grade: AnalysisResultGrade.ERROR,
+			grade: AnalysisResultGrade.FAIL,
 			message: error.message,
 			reason: null,
 			status: AnalysisResultStatus.ERROR,
