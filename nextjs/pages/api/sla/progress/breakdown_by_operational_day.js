@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'view', fields: [{ key: 'kind', values: ['sla'] }], scope: 'reports' }], request: req, session: sessionData });
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
 	}
 	catch (error) {
 		console.log(error);
