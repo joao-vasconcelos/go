@@ -40,6 +40,9 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 		if (!allAvailableSlaOperationalDaysData || !allAvailableSlaOperationalDaysData.length) return true;
 		const dateString = DateTime.fromJSDate(date).toFormat('yyyyMMdd');
 		const allAvailableSlaOperationalDaysDataSet = new Set(allAvailableSlaOperationalDaysData);
+		console.log('date', date);
+		console.log('dateString', dateString);
+		console.log('allAvailableSlaOperationalDaysDataSet', allAvailableSlaOperationalDaysDataSet);
 		return !allAvailableSlaOperationalDaysDataSet.has(dateString);
 	};
 
