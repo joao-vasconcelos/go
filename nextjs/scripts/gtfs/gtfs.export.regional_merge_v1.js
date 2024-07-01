@@ -217,7 +217,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		if (todayDateString > archiveData.end_date) continue;
 
 		// Archive is valid and is the one being used now
-		if (todayDateString > archiveData.start_date && todayDateString < archiveData.end_date) thisIsTheMainArchiveOfThisExport = true;
+		if (todayDateString >= archiveData.start_date && todayDateString <= archiveData.end_date) thisIsTheMainArchiveOfThisExport = true;
 
 		// 5.3.
 		// Skip if this archive has no associated operation plan
