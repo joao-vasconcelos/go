@@ -196,6 +196,7 @@ export default async () => {
 						agency_id: pcgiDocument.content.entity[0].vehicle.agencyId,
 						data: JSON.stringify(pcgiDocument),
 						line_id: pcgiDocument.content.entity[0].vehicle.trip.lineId,
+						odometer: pcgiDocument.content.entity[0].vehicle.position.odometer,
 						operational_day: operationalDay,
 						original_id: pcgiDocument.content.entity[0]._id,
 						pattern_id: pcgiDocument.content.entity[0].vehicle.trip.patternId,
