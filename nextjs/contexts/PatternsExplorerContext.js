@@ -8,7 +8,6 @@ import { useRoutesExplorerContext } from '@/contexts/RoutesExplorerContext';
 import { PatternDefault, PatternPathDefault, PatternScheduleDefault, PatternShapePointDefault } from '@/schemas/Pattern/default';
 import { PatternValidation } from '@/schemas/Pattern/validation';
 import API from '@/services/API';
-import doSearch from '@/services/doSearch';
 import populate from '@/services/populate';
 import { useRouter } from '@/translations/navigation';
 import { useForm, yupResolver } from '@mantine/form';
@@ -51,6 +50,14 @@ const initialPageState = {
 	//
 };
 
+const initialSchedulesSectionState = {
+	//
+	available_calendars: [],
+	//
+	selected_calendar: null,
+	//
+};
+
 /* * */
 
 export function PatternsExplorerContextProvider({ children }) {
@@ -70,6 +77,7 @@ export function PatternsExplorerContextProvider({ children }) {
 
 	const [dataState, setDataState] = useState(initialDataState);
 	const [pageState, setPageState] = useState(initialPageState);
+	const [schedulesSectionState, setSchedulesSectionState] = useState(initialSchedulesSectionState);
 
 	//
 	// C. Setup form
@@ -88,7 +96,6 @@ export function PatternsExplorerContextProvider({ children }) {
 	const { data: sessionData } = useSession();
 	const { data: allZonesData } = useSWR('/api/zones');
 	const { data: allCalendarsData } = useSWR('/api/calendars');
-	const { mutate: parentLineMutate } = useSWR(linesExplorerContext.item_id && `/api/lines/${linesExplorerContext.item_id}`);
 	const { mutate: parentRouteMutate } = useSWR(routesExplorerContext.item_id && `/api/routes/${routesExplorerContext.item_id}`);
 	const { data: itemData, isLoading: itemLoading, mutate: itemMutate } = useSWR(itemId && `/api/patterns/${itemId}`);
 
@@ -166,8 +173,35 @@ export function PatternsExplorerContextProvider({ children }) {
 		// Update form
 		formState.setValues(populated);
 		formState.resetDirty(populated);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		//
 	}, [formState.isDirty(), itemData]);
+
+	useEffect(() => {
+		// Return if no data is available
+		if (!itemData || !formState.values?.schedules || !allCalendarsData) return;
+		// Populate available calendars
+		const tempAvailableCalendars = new Set();
+		// Populate available calendars
+		for (const scheduleData of formState.values.schedules || []) {
+			for (const calendarId of scheduleData.calendars_on || []) {
+				tempAvailableCalendars.add(calendarId);
+			}
+			for (const calendarId of scheduleData.calendars_off || []) {
+				tempAvailableCalendars.add(calendarId);
+			}
+			if (schedulesSectionState.selected_calendar) {
+				tempAvailableCalendars.add(schedulesSectionState.selected_calendar);
+			}
+		}
+		// Filter items based on search query
+		const allAvilableCalendarsDataFormatted = Array.from(tempAvailableCalendars).map((item) => {
+			const calendarData = allCalendarsData.find(calendar => calendar._id === item);
+			return { label: `[${calendarData.code}] ${calendarData.name || '-'}`, value: item };
+		});
+		// Update state
+		setSchedulesSectionState(prev => ({ ...prev, available_calendars: allAvilableCalendarsDataFormatted }));
+		//
+	}, [formState.values.schedules, allCalendarsData]);
 
 	//
 	// F. Setup actions
@@ -182,6 +216,10 @@ export function PatternsExplorerContextProvider({ children }) {
 
 	const updateActiveSection = useCallback((value) => {
 		setPageState(prev => ({ ...prev, active_section: prev.active_section === value ? null : value }));
+	}, []);
+
+	const setSelectedFilterCalendar = useCallback((value) => {
+		setSchedulesSectionState(prev => ({ ...prev, selected_calendar: value }));
 	}, []);
 
 	const validateItem = useCallback(async () => {
@@ -264,6 +302,10 @@ export function PatternsExplorerContextProvider({ children }) {
 			page: pageState,
 			saveItem: saveItem,
 			//
+			schedulesSection: schedulesSectionState,
+			//
+			setSelectedFilterCalendar: setSelectedFilterCalendar,
+			//
 			updateActiveSection: updateActiveSection,
 			//
 			updateSearchQuery: updateSearchQuery,
@@ -271,7 +313,7 @@ export function PatternsExplorerContextProvider({ children }) {
 			validateItem: validateItem,
 			//
 		}),
-		[dataState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, updateActiveSection, validateItem, saveItem, lockItem, deleteItem, closeItem, importPatternFromGtfs],
+		[dataState, pageState, formState, itemId, setSelectedFilterCalendar, itemData, schedulesSectionState, updateSearchQuery, clearSearchQuery, updateActiveSection, validateItem, saveItem, lockItem, deleteItem, closeItem, importPatternFromGtfs],
 	);
 
 	//

@@ -54,6 +54,7 @@ export const PatternPathDefault = {
 /* D. Default Pattern Schedule Values */
 
 export const PatternScheduleDefault = {
+	_id: '',
 	calendar_desc: '',
 	calendars_off: [],
 	calendars_on: [],

@@ -110,3 +110,15 @@
 .hend {
   justify-content: flex-end;
 }
+
+
+/* * */
+/* FILTER BY CALENDAR */
+
+.filterByCalendar {
+	display: flex;
+	flex-direction: row;
+	padding: var(--size-md);
+	width: 100%;
+	background-color: var(--color-gray-1);
+}

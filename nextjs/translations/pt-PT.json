@@ -3784,6 +3784,12 @@
 			"placeholder": "Escolha uma opção...",
 			"nothingFound": "Nenhum Resultado Encontrado"
 		},
+		"filter_by_calendar": {
+			"label": "Filtrar Horários por Calendário",
+			"description": "Visualizar apenas horários que tenham este calendário associado.",
+			"placeholder": "Escolha uma opção...",
+			"nothingFoundMessage": "Nenhum Resultado Encontrado"
+		},
 		"calendars_off": {
 			"header": {
 				"title": "Calendários OFF",

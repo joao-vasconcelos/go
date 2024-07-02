@@ -3,19 +3,21 @@
 /* * */
 
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
+import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import Text from '@/components/Text/Text';
 import { usePatternsExplorerContext } from '@/contexts/PatternsExplorerContext';
 import { PatternScheduleDefault } from '@/schemas/Pattern/default';
-import { ActionIcon, Button, MultiSelect, TextInput, Tooltip } from '@mantine/core';
+import { ActionIcon, Button, MultiSelect, Select, TextInput, Tooltip } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
 import { IconAB2, IconBackspace, IconCalendarCheck, IconCalendarX, IconClockPlay, IconPlus } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
 import styles from './PatternsExplorerIdPageSchedules.module.css';
 
 /* * */
 
-function PatternsExplorerIdPageSchedulesStartTimeColumn({ rowIndex }) {
+function PatternsExplorerIdPageSchedulesStartTimeColumn({ item }) {
 	//
 
 	//
@@ -23,6 +25,8 @@ function PatternsExplorerIdPageSchedulesStartTimeColumn({ rowIndex }) {
 
 	const t = useTranslations('PatternsExplorerIdPageSchedules.start_time');
 	const patternsExplorerContext = usePatternsExplorerContext();
+
+	const rowIndexOfSchedule = patternsExplorerContext.form.values.schedules.findIndex(schedule => schedule._id === item._id);
 
 	//
 	// B. Handle actions
@@ -61,7 +65,7 @@ function PatternsExplorerIdPageSchedulesStartTimeColumn({ rowIndex }) {
 		if (hoursString.length && !minutesString.length) formattedValue = `${hoursString}`;
 		else if (hoursString.length && minutesString.length) formattedValue = `${hoursString}:${minutesString}`;
 		// Save the value to the form
-		patternsExplorerContext.form.setFieldValue(`schedules.${rowIndex}.start_time`, formattedValue);
+		patternsExplorerContext.form.setFieldValue(`schedules.${rowIndexOfSchedule}.start_time`, formattedValue);
 		//
 	};
 
@@ -71,7 +75,7 @@ function PatternsExplorerIdPageSchedulesStartTimeColumn({ rowIndex }) {
 	return (
 		<div className={styles.column}>
 			<Tooltip label={t('description')} position="bottom" withArrow>
-				<TextInput aria-label={t('label')} leftSection={<IconClockPlay size={18} />} placeholder={t('placeholder')} {...patternsExplorerContext.form.getInputProps(`schedules.${rowIndex}.start_time`)} onChange={handleUpdateStartTime} readOnly={patternsExplorerContext.page.is_read_only} w="100%" />
+				<TextInput aria-label={t('label')} leftSection={<IconClockPlay size={18} />} placeholder={t('placeholder')} {...patternsExplorerContext.form.getInputProps(`schedules.${rowIndexOfSchedule}.start_time`)} onChange={handleUpdateStartTime} readOnly={patternsExplorerContext.page.is_read_only} w="100%" />
 			</Tooltip>
 		</div>
 	);
@@ -81,7 +85,7 @@ function PatternsExplorerIdPageSchedulesStartTimeColumn({ rowIndex }) {
 
 /* * */
 
-function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ rowIndex }) {
+function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ item }) {
 	//
 
 	//
@@ -89,6 +93,8 @@ function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ rowIndex }) {
 
 	const t = useTranslations('PatternsExplorerIdPageSchedules.calendars_on');
 	const patternsExplorerContext = usePatternsExplorerContext();
+
+	const rowIndexOfSchedule = patternsExplorerContext.form.values.schedules.findIndex(schedule => schedule._id === item._id);
 
 	//
 	// B. Render components
@@ -99,7 +105,7 @@ function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ rowIndex }) {
 				aria-label={t('label')}
 				nothingFoundMessage={t('nothingFound')}
 				placeholder={t('placeholder')}
-				{...patternsExplorerContext.form.getInputProps(`schedules.${rowIndex}.calendars_on`)}
+				{...patternsExplorerContext.form.getInputProps(`schedules.${rowIndexOfSchedule}.calendars_on`)}
 				data={patternsExplorerContext.data.all_calendars_data}
 				leftSection={<IconCalendarCheck size={20} />}
 				limit={5}
@@ -115,7 +121,7 @@ function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ rowIndex }) {
 
 /* * */
 
-function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ rowIndex }) {
+function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ item }) {
 	//
 
 	//
@@ -123,6 +129,8 @@ function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ rowIndex }) {
 
 	const t = useTranslations('PatternsExplorerIdPageSchedules.calendars_off');
 	const patternsExplorerContext = usePatternsExplorerContext();
+
+	const rowIndexOfSchedule = patternsExplorerContext.form.values.schedules.findIndex(schedule => schedule._id === item._id);
 
 	//
 	// B. Render components
@@ -133,7 +141,7 @@ function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ rowIndex }) {
 				aria-label={t('label')}
 				nothingFoundMessage={t('nothingFound')}
 				placeholder={t('placeholder')}
-				{...patternsExplorerContext.form.getInputProps(`schedules.${rowIndex}.calendars_off`)}
+				{...patternsExplorerContext.form.getInputProps(`schedules.${rowIndexOfSchedule}.calendars_off`)}
 				data={patternsExplorerContext.data.all_calendars_data}
 				leftSection={<IconCalendarX size={20} />}
 				limit={5}
@@ -149,7 +157,7 @@ function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ rowIndex }) {
 
 /* * */
 
-function PatternsExplorerIdPageSchedulesRemoveTripColumn({ rowIndex }) {
+function PatternsExplorerIdPageSchedulesRemoveTripColumn({ item }) {
 	//
 
 	//
@@ -169,7 +177,8 @@ function PatternsExplorerIdPageSchedulesRemoveTripColumn({ rowIndex }) {
 			confirmProps: { color: 'red' },
 			labels: { cancel: t('modal.cancel'), confirm: t('modal.confirm') },
 			onConfirm: async () => {
-				patternsExplorerContext.form.removeListItem('schedules', rowIndex);
+				const rowIndexOfSchedule = patternsExplorerContext.form.values.schedules.findIndex(schedule => schedule._id === item._id);
+				patternsExplorerContext.form.removeListItem('schedules', rowIndexOfSchedule);
 			},
 			title: <Text size="h2">{t('modal.title')}</Text>,
 		});
@@ -195,13 +204,13 @@ function PatternsExplorerIdPageSchedulesRemoveTripColumn({ rowIndex }) {
 
 /* * */
 
-function PatternsExplorerIdPageSchedulesRow({ rowIndex }) {
+function PatternsExplorerIdPageSchedulesRow({ item }) {
 	return (
 		<div className={`${styles.row} ${styles.bodyRow}`}>
-			<PatternsExplorerIdPageSchedulesStartTimeColumn rowIndex={rowIndex} />
-			<PatternsExplorerIdPageSchedulesCalendarsOnColumn rowIndex={rowIndex} />
-			<PatternsExplorerIdPageSchedulesCalendarsOffColumn rowIndex={rowIndex} />
-			<PatternsExplorerIdPageSchedulesRemoveTripColumn rowIndex={rowIndex} />
+			<PatternsExplorerIdPageSchedulesStartTimeColumn item={item} />
+			<PatternsExplorerIdPageSchedulesCalendarsOnColumn item={item} />
+			<PatternsExplorerIdPageSchedulesCalendarsOffColumn item={item} />
+			<PatternsExplorerIdPageSchedulesRemoveTripColumn item={item} />
 		</div>
 	);
 }
@@ -299,6 +308,29 @@ function PatternsExplorerIdPageSchedulesHeader() {
 
 /* * */
 
+function PatternsExplorerIdPageSchedulesFilterByCalendar() {
+	//
+
+	//
+	// A. Setup variables
+
+	const patternsExplorerContext = usePatternsExplorerContext();
+	const t = useTranslations('PatternsExplorerIdPageSchedules.filter_by_calendar');
+
+	//
+	// B. Render components
+
+	return (
+		<div className={styles.filterByCalendar}>
+			<Select data={patternsExplorerContext.schedulesSection.available_calendars} description={t('description')} label={t('label')} nothingFoundMessage={t('nothingFoundMessage')} onChange={patternsExplorerContext.setSelectedFilterCalendar} placeholder={t('placeholder')} w="100%" clearable searchable />
+		</div>
+	);
+
+	//
+}
+
+/* * */
+
 export default function PatternsExplorerIdPageSchedules() {
 	//
 
@@ -308,15 +340,37 @@ export default function PatternsExplorerIdPageSchedules() {
 	const patternsExplorerContext = usePatternsExplorerContext();
 
 	//
-	// B. Render components
+	// B. Transform data
+
+	const visibleCalendars = useMemo(() => {
+		if (!patternsExplorerContext.form?.values?.schedules) return [];
+		if (!patternsExplorerContext.schedulesSection?.selected_calendar) {
+			return patternsExplorerContext.form.values.schedules;
+		};
+		const filteredSchedules = patternsExplorerContext.form.values.schedules.filter((item) => {
+			const hasCalendarsOn = item.calendars_on.includes(patternsExplorerContext.schedulesSection.selected_calendar);
+			const hasCalendarsOff = item.calendars_off.includes(patternsExplorerContext.schedulesSection.selected_calendar);
+			return hasCalendarsOn || hasCalendarsOff;
+		});
+		return filteredSchedules;
+	}, [patternsExplorerContext.form?.values?.schedules, patternsExplorerContext.schedulesSection?.selected_calendar]);
+
+	//
+	// C. Render components
 
 	return (
 		<div className={styles.container}>
+			<PatternsExplorerIdPageSchedulesFilterByCalendar />
 			<PatternsExplorerIdPageSchedulesHeader />
 			<div className={styles.body}>
-				{patternsExplorerContext.form?.values?.schedules?.map((item, index) => <PatternsExplorerIdPageSchedulesRow key={item._id || index} rowIndex={index} />)}
+				{visibleCalendars.length > 0
+					? visibleCalendars.map(item => <PatternsExplorerIdPageSchedulesRow key={item._id} item={item} />)
+					: (
+						<div className={styles.filterByCalendar}>
+							<NoDataLabel />
+						</div>
+					)}
 			</div>
-
 			<div className={styles.footerToolbar}>
 				<PatternsExplorerIdPageSchedulesAddTrip />
 				<PatternsExplorerIdPageSchedulesSortTrips />
