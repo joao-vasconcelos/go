@@ -33,30 +33,30 @@ export default function Page() {
 	//
 	// C. Handle actiona
 
-	// const handleImportNewStopNames = async () => {
-	// 	openConfirmModal({
-	// 		centered: true,
-	// 		children: <Text size="h3">Are you sure?</Text>,
-	// 		closeOnClickOutside: true,
-	// 		confirmProps: { color: 'red' },
-	// 		labels: { cancel: 'Cancel', confirm: 'Yes, Import New Stop Names' },
-	// 		onConfirm: async () => {
-	// 			try {
-	// 				setIsImporting(true);
-	// 				notify('importNewStopNames', 'loading', 'Loading');
-	// 				await API({ method: 'GET', service: 'configs/imports/stops/new_stop_names' });
-	// 				notify('importNewStopNames', 'success', 'success');
-	// 				setIsImporting(false);
-	// 			}
-	// 			catch (error) {
-	// 				console.log(error);
-	// 				notify('importNewStopNames', 'error', error.message || 'Error');
-	// 				setIsImporting(false);
-	// 			}
-	// 		},
-	// 		title: <Text size="h2">Import New Stop Names?</Text>,
-	// 	});
-	// };
+	const handleStandardizeCalendars = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Standardize Calendars' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('standardizeCalendars', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'configs/refactors/standardizeCalendars' });
+					notify('standardizeCalendars', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('standardizeCalendars', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Standardize Calendars?</Text>,
+		});
+	};
 
 	const handleMarkStuckTripsAsPending = async () => {
 		openConfirmModal({
@@ -152,12 +152,12 @@ export default function Page() {
 		<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]} redirect>
 			<Pannel>
 				<AppLayoutSection title="Offer Manager Advanced Operations">
-					<NoDataLabel text="No operations available" />
-					{/* <SimpleGrid cols={3}>
-						<Button color="red" loading={isImporting} onClick={handleImportNewStopNames}>
-							Import New Stop Names
+					{/* <NoDataLabel text="No operations available" /> */}
+					<SimpleGrid cols={3}>
+						<Button color="red" loading={isImporting} onClick={handleStandardizeCalendars}>
+							Standardize Calendars
 						</Button>
-					</SimpleGrid> */}
+					</SimpleGrid>
 				</AppLayoutSection>
 
 				<Divider />

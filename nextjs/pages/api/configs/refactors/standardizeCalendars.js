@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 			//
 
 			// Skip if not A1
-			if (!patternCode.code.startsWith('4')) continue patternsLoop;
+			if (!patternCode.code.startsWith('1')) continue patternsLoop;
 
 			//
 
@@ -79,10 +79,22 @@ export default async function handler(req, res) {
 
 				/* * * * * * * * * */
 
-				if (associatedCalendarCodes.has('51')) {
-					console.log('Found calendar "51"');
-					associatedCalendarCodes.delete('51');
-					associatedCalendarCodes.add('VER_DU');
+				if (associatedCalendarCodes.has('FER_DU_1ASEMSET')) {
+					console.log('Found calendar "FER_DU_1ASEMSET"');
+					associatedCalendarCodes.delete('FER_DU_1ASEMSET');
+					associatedCalendarCodes.add('FER_DU');
+				}
+
+				if (associatedCalendarCodes.has('FER_SAB_1ASEMSET')) {
+					console.log('Found calendar "FER_SAB_1ASEMSET"');
+					associatedCalendarCodes.delete('FER_SAB_1ASEMSET');
+					associatedCalendarCodes.add('FER_SAB');
+				}
+
+				if (associatedCalendarCodes.has('FER_DOM_1ASEMSET')) {
+					console.log('Found calendar "FER_DOM_1ASEMSET"');
+					associatedCalendarCodes.delete('FER_DOM_1ASEMSET');
+					associatedCalendarCodes.add('FER_DOM');
 				}
 
 				/* * * * * * * * * */

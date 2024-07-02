@@ -3,13 +3,13 @@
 # # #
 
 echo "Starting 'offermanagerdb' restore..."
-mongorestore --uri="mongodb://offermanagerdbuser:offermanagerdbpassword@offermanagerdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-offermanagerdb-20240628002033"
+mongorestore --uri="mongodb://offermanagerdbuser:offermanagerdbpassword@offermanagerdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-offermanagerdb-20240702085326"
 echo "Restore 'offermanagerdb' complete!"
 
 # # #
 
 echo "Starting 'slamanagerdb' restore..."
-mongorestore --uri="mongodb://slamanagerdbuser:slamanagerdbpassword@slamanagerdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-slamanagerdb-20240628002039"
+mongorestore --uri="mongodb://slamanagerdbuser:slamanagerdbpassword@slamanagerdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-slamanagerdb-20240702085332"
 echo "Restore 'slamanagerdb' complete!"
 
 # # #

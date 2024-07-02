@@ -201,7 +201,7 @@ export default async () => {
 						pattern_id: pcgiDocument.content.entity[0].vehicle.trip.patternId,
 						pcgi_id: String(pcgiDocument._id),
 						route_id: pcgiDocument.content.entity[0].vehicle.trip.routeId,
-						stop_id: pcgiDocument.content.entity[0].vehicle.trip.stopId,
+						stop_id: pcgiDocument.content.entity[0].vehicle.stopId,
 						timestamp: DateTime.fromSeconds(pcgiDocument.content.entity[0].vehicle.timestamp).toMillis(),
 						trip_id: pcgiDocument.content.entity[0].vehicle.trip.tripId,
 						type: 'vehicle_event',
