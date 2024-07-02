@@ -197,11 +197,11 @@ export function PatternsExplorerContextProvider({ children }) {
 		const allAvilableCalendarsDataFormatted = Array.from(tempAvailableCalendars).map((item) => {
 			const calendarData = allCalendarsData.find(calendar => calendar._id === item);
 			return { label: `[${calendarData.code}] ${calendarData.name || '-'}`, value: item };
-		});
+		}).sort((a, b) => a.label.localeCompare(b.label));
 		// Update state
 		setSchedulesSectionState(prev => ({ ...prev, available_calendars: allAvilableCalendarsDataFormatted }));
 		//
-	}, [formState.values.schedules, allCalendarsData]);
+	}, [formState.values.schedules, allCalendarsData, schedulesSectionState.selected_calendar]);
 
 	//
 	// F. Setup actions
