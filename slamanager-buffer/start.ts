@@ -22,81 +22,157 @@ async function setOperationalDayStatus(operationalDay: string, documentType: str
 
 /* * */
 
+async function fetchDocumentIdsSet(dbCollection, dbQuery, key: string): Promise<Set<string>> {
+	// Initiate a new set to hold the unique document IDs
+	const uniqueDocumentIds = new Set<string>();
+	// Stream the documents from the collection
+	const dbDocumentsStream = dbCollection.find(dbQuery).stream();
+	// Iterate over the stream and add the IDs to the set
+	for await (const dbDocument of dbDocumentsStream) {
+		uniqueDocumentIds.add(String(dbDocument[key]));
+	}
+	// Return the set
+	return uniqueDocumentIds;
+	//
+}
+
+/* * */
+
 async function syncDocuments(documentType: string, operationalDay: string, pcgiCollection, bufferCollection, pcgiQuery, bufferQuery, pcgiDocumentTransform, dbWriter: MongoDbWriter) {
 	//
 
-	LOGGER.divider();
+	LOGGER.spacer(1);
+	LOGGER.title(`Syncing "${documentType}" documents for "${operationalDay}"...`);
 
-	const syncTimer = new TIMETRACKER();
-
-	LOGGER.info(`Syncing "${documentType}" documents for "${operationalDay}"...`);
+	const syncDocumentsTimer = new TIMETRACKER();
 
 	//
-	// Count the number of document in each database
+	// Initiate variables to hold the document IDs from PCGIDB and SLAMANAGERBUFFERDB
+	// These variables are used across the sync process to compare and update the documents
 
-	const pcgiCountTimer = new TIMETRACKER();
-	const pcgiCountValue = await pcgiCollection.countDocuments(pcgiQuery);
-	LOGGER.info(`Found ${pcgiCountValue} "${documentType}" documents in PCGIDB for "${operationalDay}" (${pcgiCountTimer.get()})`);
+	const pcgiDocumentIdsSet = new Set<string>();
+	let bufferDocumentIdsSet = new Set<string>();
 
-	const bufferCountTimer = new TIMETRACKER();
-	const bufferCountValue = await bufferCollection.countDocuments(bufferQuery);
-	LOGGER.info(`Found ${bufferCountValue} "${documentType}" documents in SLAMANAGERBUFFERDB for "${operationalDay}" (${bufferCountTimer.get()})`);
+	//
+	// Count the number of document in each database. If the counts match, skip the sync.
+	// Even though this is not a foolproof method, it is a good first step to avoid unnecessary syncs.
+	// If the match fails, proceed with the sync to ensure all documents are available in BUFFERDB.
+	// Set the status of the operational day to true if the counts match, false if they do not,
+	// as this ensures only days that are fully synced are used in trip analysis.
 
-	if (pcgiCountValue === bufferCountValue) {
-		await setOperationalDayStatus(operationalDay, documentType, true);
-		LOGGER.success(`All "${documentType}" documents for "${operationalDay}" are already in sync (${syncTimer.get()})`);
-		return;
-	}
-	else {
+	try {
+		//
+
+		const pcgiCountTimer = new TIMETRACKER();
+		const pcgiCountValue = await pcgiCollection.countDocuments(pcgiQuery);
+		LOGGER.info(`Found ${pcgiCountValue} "${documentType}" documents in PCGIDB for "${operationalDay}" (${pcgiCountTimer.get()})`);
+
+		const bufferCountTimer = new TIMETRACKER();
+		const bufferCountValue = await bufferCollection.countDocuments(bufferQuery);
+		LOGGER.info(`Found ${bufferCountValue} "${documentType}" documents in SLAMANAGERBUFFERDB for "${operationalDay}" (${bufferCountTimer.get()})`);
+
+		if (pcgiCountValue === bufferCountValue) {
+			await setOperationalDayStatus(operationalDay, documentType, true);
+			LOGGER.success(`All "${documentType}" documents for "${operationalDay}" are already in sync (${syncDocumentsTimer.get()})`);
+			return;
+		}
+
 		await setOperationalDayStatus(operationalDay, documentType, false);
 		LOGGER.error(`Document count between databases did not match. Starting sync for "${documentType}" documents for "${operationalDay}"...`);
-	}
 
-	//
-	// Fetch all existing Document IDs from SLAMANAGERBUFFERDB
-
-	const bufferDocumentsTimer = new TIMETRACKER();
-
-	const bufferDocumentsSet = new Set();
-
-	const bufferDocumentsStream = bufferCollection.find(bufferQuery).stream();
-
-	for await (const bufferDocument of bufferDocumentsStream) {
-		bufferDocumentsSet.add(String(bufferDocument.pcgi_id));
-	}
-
-	LOGGER.info(`Fetched ${bufferDocumentsSet.size} "${documentType}" document IDs in SLAMANAGERBUFFERDB for "${operationalDay}" (${bufferDocumentsTimer.get()})`);
-
-	//
-	// Fetch documents from PCGIDB
-
-	const pcgiDocumentsTimer = new TIMETRACKER();
-
-	const pcgiDocumentsStream = pcgiCollection.find(pcgiQuery).stream();
-
-	let pcgiDocumentsCounter = 0;
-
-	for await (const pcgiDocument of pcgiDocumentsStream) {
-		// Skip document if already present in SLAMANAGERBUFFERDB
-		if (bufferDocumentsSet.has(String(pcgiDocument._id))) {
-			continue;
-		}
-		// If not yet present, add it to SLAMANAGERBUFFERDB
-		pcgiDocumentsCounter++;
-		const formattedObject = pcgiDocumentTransform(pcgiDocument);
-		await dbWriter.write(formattedObject, { filter: { pcgi_id: formattedObject.pcgi_id }, upsert: true });
 		//
 	}
-
-	await dbWriter.flush();
-
-	LOGGER.success(`Added ${pcgiDocumentsCounter} "${documentType}" documents from PCGIDB to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${pcgiDocumentsTimer.get()})`);
+	catch (error) {
+		await setOperationalDayStatus(operationalDay, documentType, false);
+		throw new Error(error);
+	}
 
 	//
+	// Actually sync the documents from PCGIDB to SLAMANAGERBUFFERDB
+	// Fetch a set of document IDs from SLAMANAGERBUFFERDB and compare them with the IDs from PCGIDB
+	// Add the documents from PCGIDB that are not present in SLAMANAGERBUFFERDB
+
+	try {
+		//
+		// Fetch all document IDs from SLAMANAGERBUFFERDB
+
+		const bufferDocumentsTimer = new TIMETRACKER();
+
+		bufferDocumentIdsSet = await fetchDocumentIdsSet(bufferCollection, bufferQuery, 'pcgi_id');
+
+		LOGGER.info(`Fetched ${bufferDocumentIdsSet.size} "${documentType}" document IDs in SLAMANAGERBUFFERDB for "${operationalDay}" (${bufferDocumentsTimer.get()})`);
+
+		//
+		// Fetch all documents from PCGIDB
+
+		const pcgiDocumentsTimer = new TIMETRACKER();
+
+		const pcgiDocumentsStream = pcgiCollection.find(pcgiQuery).stream();
+
+		for await (const pcgiDocument of pcgiDocumentsStream) {
+			pcgiDocumentIdsSet.add(String(pcgiDocument._id));
+			if (bufferDocumentIdsSet.has(String(pcgiDocument._id))) {
+				continue;
+			}
+			const formattedObject = pcgiDocumentTransform(pcgiDocument);
+			await dbWriter.write(formattedObject, { filter: { pcgi_id: formattedObject.pcgi_id }, upsert: true });
+		}
+
+		await dbWriter.flush();
+
+		LOGGER.success(`Added ${pcgiDocumentIdsSet.size} "${documentType}" documents from PCGIDB to SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${pcgiDocumentsTimer.get()})`);
+
+		//
+	}
+	catch (error) {
+		await setOperationalDayStatus(operationalDay, documentType, false);
+		throw new Error(error);
+	}
+
+	//
+	// Remove stale documents from SLAMANAGERBUFFERDB that are no longer present in PCGIDB
+	// To do this, refetch the document IDs from SLAMANAGERBUFFERDB and compare with the IDs from PCGIDB
+	// Create a set of the stale document IDs and delete them from SLAMANAGERBUFFERDB
+
+	try {
+		//
+		// Fetch all document IDs from SLAMANAGERBUFFERDB
+
+		const bufferDocumentsTimer = new TIMETRACKER();
+
+		bufferDocumentIdsSet = await fetchDocumentIdsSet(bufferCollection, bufferQuery, 'pcgi_id');
+
+		LOGGER.info(`Fetched ${bufferDocumentIdsSet.size} "${documentType}" document IDs in SLAMANAGERBUFFERDB for "${operationalDay}" (${bufferDocumentsTimer.get()})`);
+
+		//
+		// Run a comparison between the document IDs from PCGIDB and SLAMANAGERBUFFERDB
+
+		for (const bufferDocumentId of bufferDocumentIdsSet) {
+			if (pcgiDocumentIdsSet.has(bufferDocumentId)) {
+				bufferDocumentIdsSet.delete(bufferDocumentId);
+			}
+		}
+
+		//
+		// Delete the stale documents from SLAMANAGERBUFFERDB
+
+		await bufferCollection.deleteMany({ pcgi_id: { $in: Array.from(bufferDocumentIdsSet) } });
+
+		LOGGER.success(`Deleted ${bufferDocumentIdsSet.size} "${documentType}" documents from SLAMANAGERBUFFERDB that are no longer present in PCGIDB for operational_day "${operationalDay}" (${bufferDocumentsTimer.get()})`);
+
+		//
+	}
+	catch (error) {
+		await setOperationalDayStatus(operationalDay, documentType, false);
+		throw new Error(error);
+	}
+
+	//
+	// After sync is complete, without any errors, set the operational day status to true for this document type
 
 	await setOperationalDayStatus(operationalDay, documentType, true);
 
-	LOGGER.success(`Synced all "${documentType}" documents between PCGIDB and SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${syncTimer.get()})`);
+	LOGGER.success(`Synced all "${documentType}" documents between PCGIDB and SLAMANAGERBUFFERDB for operational_day "${operationalDay}" (${syncDocumentsTimer.get()})`);
 
 	//
 }
@@ -206,6 +282,7 @@ export default async () => {
 						timestamp: DateTime.fromSeconds(pcgiDocument.content.entity[0].vehicle.timestamp).toMillis(),
 						trip_id: pcgiDocument.content.entity[0].vehicle.trip.tripId,
 						type: 'vehicle_event',
+						vehicle_id: pcgiDocument.content.entity[0].vehicle.vehicle._id,
 					};
 				};
 
@@ -306,7 +383,9 @@ export default async () => {
 
 			//
 
+			LOGGER.spacer(1);
 			LOGGER.success(`[${operationalDayIndex + 1}/${allOperationalDays.length}] Buffering complete for operational_day "${operationalDay}" (${operationalDayTimer.get()})`);
+			LOGGER.spacer(1);
 
 			//
 		}

@@ -44,7 +44,7 @@ export default async function handler(req, res) {
 	try {
 		//
 
-		await ArchiveModel.updateMany({}, { $set: { slamanager_feeder_status: 'error' } });
+		await ArchiveModel.updateMany({}, { $set: { slamanager_feeder_status: 'pending' } });
 
 		//
 	}
