@@ -2,6 +2,7 @@
 
 import getSession from '@/authentication/getSession';
 import { ArchiveModel } from '@/schemas/Archive/model';
+import SLAMANAGERDB from '@/services/SLAMANAGERDB';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
@@ -43,6 +44,10 @@ export default async function handler(req, res) {
 
 	try {
 		//
+
+		await SLAMANAGERDB.connect();
+
+		await SLAMANAGERDB.TripAnalysis.deleteMany({});
 
 		await ArchiveModel.updateMany({}, { $set: { slamanager_feeder_status: 'pending' } });
 

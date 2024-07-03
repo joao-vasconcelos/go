@@ -108,28 +108,28 @@ export default function Page() {
 		});
 	};
 
-	const handleMarkAllArchivesAsPendingParse = async () => {
+	const handleDeleteAllTripsAndMarkAllArchivesAdPendingParse = async () => {
 		openConfirmModal({
 			centered: true,
 			children: <Text size="h3">Are you sure?</Text>,
 			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: 'Yes, Mark All Archives As Pending Parse' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Delete All Trips And Mark All Archives As Pending Parse' },
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify('markAllArchivesAsPendingParse', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'sla/operations/markAllArchivesAsPendingParse' });
-					notify('markAllArchivesAsPendingParse', 'success', 'success');
+					notify('deleteAllTripsAndMarkAllArchivesAsPendingParse', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/deleteAllTripsAndMarkAllArchivesAsPendingParse' });
+					notify('deleteAllTripsAndMarkAllArchivesAsPendingParse', 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify('markAllArchivesAsPendingParse', 'error', error.message || 'Error');
+					notify('deleteAllTripsAndMarkAllArchivesAsPendingParse', 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
-			title: <Text size="h2">Mark All Archives As Pending Parse?</Text>,
+			title: <Text size="h2">Delete All Trips And Mark All Archives As Pending Parse?</Text>,
 		});
 	};
 
@@ -197,8 +197,8 @@ export default function Page() {
 						<Button color="orange" loading={isImporting} onClick={handleMarkAllTripsAsPendingAnalysis}>
 							Mark All Trips as Pending Analysis
 						</Button>
-						<Button color="red" loading={isImporting} onClick={handleMarkAllArchivesAsPendingParse}>
-							Mark All Archives as Pending Parse
+						<Button color="red" loading={isImporting} onClick={handleDeleteAllTripsAndMarkAllArchivesAdPendingParse}>
+							Delete All Trips And Mark All Archives As Pending Parse
 						</Button>
 					</SimpleGrid>
 				</AppLayoutSection>
