@@ -11,6 +11,7 @@ import TIMETRACKER from '@helperkits/timer';
 
 import atMostTwoDriverIdsAnalyzer from '@/analyzers/atMostTwoDriverIds.analyzer.js';
 import atMostTwoVehicleIdsAnalyzer from '@/analyzers/atMostTwoVehicleIds.analyzer.js';
+import excessiveVehicleEventDelayAnalyzer from '@/analyzers/excessiveVehicleEventDelay.analyzer.js';
 import geoDelayedStartFiveMinutesFirstOutAnalyzer from '@/analyzers/geoDelayedStartFiveMinutesFirstOut.analyzer.js';
 import geoDelayedStartFiveMinutesLastInAnalyzer from '@/analyzers/geoDelayedStartFiveMinutesLastIn.analyzer.js';
 import geoDelayedStartTenMinutesFirstOutAnalyzer from '@/analyzers/geoDelayedStartTenMinutesFirstOut.analyzer.js';
@@ -44,19 +45,21 @@ function runAnalyzers(analysisData: AnalysisData) {
 
 		/* * * * */
 
-		simpleOneVehicleEventOrValidationTransactionAnalyzer(analysisData),
-
-		simpleOneValidationTransactionAnalyzer(analysisData),
-
-		simpleThreeVehicleEventsAnalyzer(analysisData),
-
-		lessThanTenVehicleEventsAnalyzer(analysisData),
-
 		atMostTwoDriverIdsAnalyzer(analysisData),
 
 		atMostTwoVehicleIdsAnalyzer(analysisData),
 
+		//
+
+		excessiveVehicleEventDelayAnalyzer(analysisData),
+
+		lessThanTenVehicleEventsAnalyzer(analysisData),
+
+		//
+
 		matchingLocationTransactionsAnalyzer(analysisData),
+
+		//
 
 		geoDelayedStartThreeMinutesLastInAnalyzer(analysisData),
 
@@ -74,6 +77,8 @@ function runAnalyzers(analysisData: AnalysisData) {
 
 		geoEarlyStartFirstOutAnalyzer(analysisData),
 
+		//
+
 		simpleDelayedStartThreeMinutesLastForFirstStopAnalyzer(analysisData),
 
 		simpleDelayedStartThreeMinutesFirstForNextStopAnalyzer(analysisData),
@@ -89,6 +94,14 @@ function runAnalyzers(analysisData: AnalysisData) {
 		simpleEarlyStartFirstForNextStopAnalyzer(analysisData),
 
 		simpleEarlyStartLastForFirstStopAnalyzer(analysisData),
+
+		//
+
+		simpleOneVehicleEventOrValidationTransactionAnalyzer(analysisData),
+
+		simpleOneValidationTransactionAnalyzer(analysisData),
+
+		simpleThreeVehicleEventsAnalyzer(analysisData),
 
 		/* * * * */
 
