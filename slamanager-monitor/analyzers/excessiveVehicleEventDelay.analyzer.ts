@@ -39,7 +39,7 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		for (const vehicleEvent of analysisData.vehicle_events) {
 			//
 			const pcgiTimestamp = vehicleEvent.millis;
-			const vehicleTimestamp = vehicleEvent.content.entity[0].vehicle.timestamp + 1000;
+			const vehicleTimestamp = vehicleEvent.content.entity[0].vehicle.timestamp * 1000;
 			//
 			const delayInMilliseconds = pcgiTimestamp - vehicleTimestamp;
 			//
