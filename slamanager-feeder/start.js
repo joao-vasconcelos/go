@@ -108,7 +108,7 @@ export default async () => {
 				// of the plan that was actually active in that period.
 
 				const startDateString = '20240601';
-				const endDateString = '20240630'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
+				const endDateString = '20240703'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
 
 				// 4.4.
 				// Setup a temporary location to extract each GTFS archive
