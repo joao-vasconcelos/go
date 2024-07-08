@@ -422,6 +422,7 @@ function parseStop(stopData, municipalityData) {
 			stop_lon: stopData.longitude.toFixed(6),
 			stop_name: stopData.name,
 			stop_remarks: '',
+			stop_short_name: stopData.short_name,
 			stop_timezone: '',
 			stop_url: '',
 			tariff: '',

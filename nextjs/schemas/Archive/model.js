@@ -38,6 +38,9 @@ export const ArchiveSchema = new mongoose.Schema(
 			ref: 'Media',
 			type: mongoose.Schema.Types.ObjectId,
 		},
+		slamanager_feeder_last_processed_date: {
+			type: String,
+		},
 		slamanager_feeder_status: {
 			type: String,
 		},

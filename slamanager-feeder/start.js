@@ -111,7 +111,7 @@ export default async () => {
 				const startDateString = '20240601';
 				const endDateString = DateTime.now().startOf('day').toFormat('yyyyMMdd');
 
-				if (startDateString > archiveData.end_date || endDateString < archiveData.start_date) {
+				if (startDateString > archiveData.end_date || endDateString < archiveData.start_date || endDateString <= archiveData.slamanager_feeder_last_processed_date) {
 					console.log();
 					console.log(`[${archiveIndex + 1}/${allArchivesData.length}] Skipping archive ${archiveData.code} because startDateString (${startDateString}) > archiveData.end_date (${archiveData.end_date}) or endDateString (${endDateString}) < archiveData.start_date (${archiveData.start_date})`);
 					console.log();
@@ -573,11 +573,11 @@ export default async () => {
 				// If not all dates were processed, mark it as partial.
 
 				if (endDateString < archiveData.end_date) {
-					await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'partial' } });
+					await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_last_processed_date: endDateString, slamanager_feeder_status: 'partial' } });
 					console.log(`✔︎ Marked archive ${archiveData.code} as "partial" because not all dates were processed.`);
 				}
 				else {
-					await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'processed' } });
+					await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_last_processed_date: archiveData.end_date, slamanager_feeder_status: 'processed' } });
 					console.log(`✔︎ Marked archive ${archiveData.code} as "processed".`);
 				}
 
