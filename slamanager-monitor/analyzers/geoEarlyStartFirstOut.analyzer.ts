@@ -76,6 +76,8 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 		// For each point, check if they are inside the geofence or not
 		// Record the last event that is inside the geofence
 
+		let atLeastOneEventWasFoundInsideGeofense = false;
+
 		let lastEventInsideGeofenceIndex = -1;
 
 		for (const [vehicleEventIndex, vehicleEventData] of sortedVehicleEvents.entries()) {
@@ -84,7 +86,11 @@ export default (analysisData: AnalysisData): ExtendedAnalysisResult => {
 			//
 			const vehicleEventIsInsideGefense = turf.booleanPointInPolygon(vehicleEventTurfPoint, firstStopTurfBuffer);
 			//
-			if (!vehicleEventIsInsideGefense) {
+			if (vehicleEventIsInsideGefense) {
+				atLeastOneEventWasFoundInsideGeofense = true;
+			}
+			//
+			if (atLeastOneEventWasFoundInsideGeofense && !vehicleEventIsInsideGefense) {
 				lastEventInsideGeofenceIndex = vehicleEventIndex;
 				break;
 			}
