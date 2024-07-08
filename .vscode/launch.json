@@ -1,0 +1,32 @@
+{
+	"configurations": [
+		{
+			"name": "Start offermanager-dashboard",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "npm run start",
+			"cwd": "${workspaceFolder}/nextjs"
+		},
+		{
+			"name": "Start slamanager-feeder",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "npm run start",
+			"cwd": "${workspaceFolder}/slamanager-feeder"
+		},
+		{
+			"name": "Start slamanager-buffer",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "npm run start",
+			"cwd": "${workspaceFolder}/slamanager-buffer"
+		},
+		{
+			"name": "Start slamanager-monitor",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "npm run start",
+			"cwd": "${workspaceFolder}/slamanager-monitor"
+		}
+	]
+}
