@@ -4787,6 +4787,9 @@
 			"processed": {
 				"label": "Processado"
 			},
+			"partial": {
+				"label": "Processado Parcialmente"
+			},
 			"error": {
 				"label": "Erro"
 			}

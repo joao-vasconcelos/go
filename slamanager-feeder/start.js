@@ -8,6 +8,7 @@ import crypto from 'crypto';
 import { parse as csvParser } from 'csv-parse';
 import extract from 'extract-zip';
 import fs from 'fs';
+import { DateTime } from 'luxon';
 
 /* * */
 
@@ -108,7 +109,14 @@ export default async () => {
 				// of the plan that was actually active in that period.
 
 				const startDateString = '20240601';
-				const endDateString = '20240703'; // DateTime.now().startOf('day').toFormat('yyyyMMdd');
+				const endDateString = DateTime.now().startOf('day').toFormat('yyyyMMdd');
+
+				if (startDateString < archiveData.start_date || endDateString > archiveData.end_date) {
+					console.log();
+					console.log(`[${archiveIndex + 1}/${allArchivesData.length}] Skipping archive ${archiveData.code} because startDateString (${startDateString}) < archiveData.start_date (${archiveData.start_date}) or endDateString (${endDateString}) < archiveData.end_date (${archiveData.end_date})`);
+					console.log();
+					continue;
+				}
 
 				// 4.4.
 				// Setup a temporary location to extract each GTFS archive
@@ -560,9 +568,16 @@ export default async () => {
 					throw new Error('✖︎ Error transforming or saving shapes to database.');
 				}
 
-				//
+				// 4.14.
+				// Mark this archive as processed if everything went well and if the all dates within the archive were processed.
+				// If not all dates were processed, mark it as partial.
 
-				await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'processed' } });
+				if (endDateString > archiveData.end_date) {
+					await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'partial' } });
+				}
+				else {
+					await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'processed' } });
+				}
 
 				parsedArchiveCodes.add(archiveData.code);
 
