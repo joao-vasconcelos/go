@@ -9,6 +9,10 @@
   color: var(--success6);
 }
 
+.partial {
+  color: var(--info6);
+}
+
 .error,
 .unknown {
   color: var(--danger7);

@@ -8,7 +8,6 @@ import ArchivesExplorerListItemHeaderStatus from '@/components/ArchivesExplorerL
 import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
 import { IconArrowRight } from '@tabler/icons-react';
 import { DateTime } from 'luxon';
-import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 import useSWR from 'swr';
 
@@ -22,7 +21,6 @@ export default function ArchivesExplorerListItemHeader() {
 	//
 	// A. Setup variables
 
-	const t = useTranslations('ArchivesExplorerListItemHeader');
 	const archivesExplorerItemContext = useArchivesExplorerItemContext();
 
 	//

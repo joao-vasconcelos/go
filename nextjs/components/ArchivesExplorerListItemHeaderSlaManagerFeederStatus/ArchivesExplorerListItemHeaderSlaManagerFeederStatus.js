@@ -3,7 +3,7 @@
 /* * */
 
 import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
-import { IconClockCog, IconExclamationCircle, IconHelpHexagon, IconRosetteDiscountCheck } from '@tabler/icons-react';
+import { IconClockCog, IconExclamationCircle, IconHelpHexagon, IconProgressCheck, IconRosetteDiscountCheck } from '@tabler/icons-react';
 
 // import { useTranslations } from 'next-intl';
 import styles from './ArchivesExplorerListItemHeaderSlaManagerFeederStatus.module.css';
@@ -27,6 +27,8 @@ export default function ArchivesExplorerListItemHeaderSlaManagerFeederStatus() {
 			return <IconClockCog className={styles.pending} size={20} />;
 		case 'processed':
 			return <IconRosetteDiscountCheck className={styles.processed} size={20} />;
+		case 'partial':
+			return <IconProgressCheck className={styles.partial} size={20} />;
 		case 'error':
 			return <IconExclamationCircle className={styles.error} size={20} />;
 		default:
