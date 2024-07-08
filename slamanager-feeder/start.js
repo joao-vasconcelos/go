@@ -572,11 +572,13 @@ export default async () => {
 				// Mark this archive as processed if everything went well and if the all dates within the archive were processed.
 				// If not all dates were processed, mark it as partial.
 
-				if (endDateString > archiveData.end_date) {
+				if (endDateString < archiveData.end_date) {
 					await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'partial' } });
+					console.log(`✔︎ Marked archive ${archiveData.code} as "partial" because not all dates were processed.`);
 				}
 				else {
 					await OFFERMANAGERDB.Archive.updateOne({ code: archiveData.code }, { $set: { slamanager_feeder_status: 'processed' } });
+					console.log(`✔︎ Marked archive ${archiveData.code} as "processed".`);
 				}
 
 				parsedArchiveCodes.add(archiveData.code);
