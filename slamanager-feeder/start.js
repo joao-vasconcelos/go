@@ -111,9 +111,9 @@ export default async () => {
 				const startDateString = '20240601';
 				const endDateString = DateTime.now().startOf('day').toFormat('yyyyMMdd');
 
-				if (startDateString < archiveData.start_date || endDateString > archiveData.end_date) {
+				if (startDateString > archiveData.end_date || endDateString < archiveData.start_date) {
 					console.log();
-					console.log(`[${archiveIndex + 1}/${allArchivesData.length}] Skipping archive ${archiveData.code} because startDateString (${startDateString}) < archiveData.start_date (${archiveData.start_date}) or endDateString (${endDateString}) < archiveData.end_date (${archiveData.end_date})`);
+					console.log(`[${archiveIndex + 1}/${allArchivesData.length}] Skipping archive ${archiveData.code} because startDateString (${startDateString}) > archiveData.end_date (${archiveData.end_date}) or endDateString (${endDateString}) < archiveData.start_date (${archiveData.start_date})`);
 					console.log();
 					continue;
 				}
