@@ -3920,6 +3920,12 @@
 				"success": "O ficheiro foi gerado com sucesso!",
 				"error": "Ocorreu um erro ao gerar o ficheiro."
 			},
+			"export_lines_by_stop": {
+				"title": "Exportar Linhas por Paragem",
+				"loading": "A gerar ficheiro...",
+				"success": "O ficheiro foi gerado com sucesso!",
+				"error": "Ocorreu um erro ao gerar o ficheiro."
+			},
 			"sync_datasets": {
 				"title": "Sincronizar com os Datasets",
 				"loading": "A sincronizar com os Datasets...",

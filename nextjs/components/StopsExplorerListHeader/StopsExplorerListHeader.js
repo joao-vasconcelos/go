@@ -59,6 +59,12 @@ export default function StopsExplorerListHeader() {
 						</Menu.Item>
 					</AppAuthenticationCheck>
 					<Menu.Divider />
+					<AppAuthenticationCheck permissions={[{ action: 'export', scope: 'stops' }]}>
+						<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={stopsExplorerContext.exportLinesByStop}>
+							{t('operations.export_lines_by_stop.title')}
+						</Menu.Item>
+					</AppAuthenticationCheck>
+					<Menu.Divider />
 					<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]}>
 						<Menu.Item leftSection={<IconRefresh size={20} />} onClick={stopsExplorerContext.syncWithDatasets}>
 							{t('operations.sync_datasets.title')}

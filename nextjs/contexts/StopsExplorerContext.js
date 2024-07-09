@@ -273,6 +273,29 @@ export function StopsExplorerContextProvider({ children }) {
 		}
 	}, []);
 
+	const exportLinesByStop = useCallback(async () => {
+		try {
+			setListState(prev => ({ ...prev, is_loading: true }));
+			setPageState(prev => ({ ...prev, is_loading: true }));
+			const responseBlob = await API({ method: 'GET', operation: 'export/lines_by_stop', parseType: 'blob', service: 'stops' });
+			const objectURL = URL.createObjectURL(responseBlob);
+			// eslint-disable-next-line no-undef
+			const htmlAnchorElement = document.createElement('a');
+			htmlAnchorElement.href = objectURL;
+			htmlAnchorElement.download = 'lines_by_stop.txt';
+			// eslint-disable-next-line no-undef
+			document.body.appendChild(htmlAnchorElement);
+			htmlAnchorElement.click();
+			setListState(prev => ({ ...prev, is_loading: false }));
+			setPageState(prev => ({ ...prev, is_loading: false }));
+		}
+		catch (error) {
+			console.log(error);
+			setListState(prev => ({ ...prev, is_loading: false }));
+			setPageState(prev => ({ ...prev, is_loading: false }));
+		}
+	}, []);
+
 	const syncWithDatasets = useCallback(async () => {
 		try {
 			setListState(prev => ({ ...prev, is_loading: true }));
@@ -355,6 +378,7 @@ export function StopsExplorerContextProvider({ children }) {
 			//
 			exportAsFile: exportAsFile,
 			exportDeletedAsFile: exportDeletedAsFile,
+			exportLinesByStop: exportLinesByStop,
 			form: formState,
 			item_data: itemData,
 			//
@@ -377,7 +401,7 @@ export function StopsExplorerContextProvider({ children }) {
 			validateItem: validateItem,
 			//
 		}),
-		[listState, mapState, pageState, formState, itemId, itemData, updateSearchQuery, clearSearchQuery, exportAsFile, exportDeletedAsFile, syncWithDatasets, syncWithIntermodal, updateMapStyle, validateItem, saveItem, lockItem, closeItem, openInWebsite],
+		[listState, mapState, pageState, formState, itemId, itemData, exportLinesByStop, updateSearchQuery, clearSearchQuery, exportAsFile, exportDeletedAsFile, syncWithDatasets, syncWithIntermodal, updateMapStyle, validateItem, saveItem, lockItem, closeItem, openInWebsite],
 	);
 
 	//
