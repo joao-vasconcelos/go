@@ -17,7 +17,21 @@ const BUFFER_DAYS_DELAY = 2;
 /* * */
 
 async function setOperationalDayStatus(operationalDay: string, documentType: string, status: boolean) {
+	//
+	const setOperationalDayTimer = new TIMETRACKER();
+	// Update the operational day status in the database
 	await SLAMANAGERBUFFERDB.OperationalDayStatus.updateOne({ operational_day: operationalDay }, { $set: { [`${documentType}_synced`]: status, operational_day: operationalDay } }, { upsert: true });
+	//
+	if (status) {
+		// Log sucess if status is true
+		LOGGER.success(`Marked "${documentType}" as "${status}" on operational day "${operationalDay}" (${setOperationalDayTimer.get()})`);
+	}
+	else {
+		// Log error and mark all trip analysis for the current operational day as pending if status is false
+		SLAMANAGERDB.TripAnalysis.updateMany({ operational_day: operationalDay }, { $set: { status: 'pending' } });
+		LOGGER.error(`Marked "${documentType}" as "${status}" on operational day "${operationalDay}", as well as all TripAnalysis for this day (${setOperationalDayTimer.get()})`);
+	}
+	//
 }
 
 /* * */
