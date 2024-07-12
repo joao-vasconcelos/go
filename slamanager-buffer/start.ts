@@ -10,9 +10,9 @@ import { DateTime } from 'luxon';
 
 /* * */
 
-const BUFFER_MIN_DATE = '20240601';
-const BUFFER_MAX_DATE = '20240731';
-const BUFFER_DAYS_DELAY = 2;
+const BUFFER_MIN_DATE = '20240101';
+const BUFFER_MAX_DATE = '20241231';
+const BUFFER_DAYS_DELAY = 1;
 
 /* * */
 

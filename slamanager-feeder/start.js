@@ -108,7 +108,7 @@ export default async () => {
 				// valid on a different month. The validity dates will be used to clip the calendars and only saved the actual part
 				// of the plan that was actually active in that period.
 
-				const startDateString = '20240601';
+				const startDateString = '20240101';
 				const endDateString = DateTime.now().startOf('day').toFormat('yyyyMMdd');
 
 				if (startDateString > archiveData.end_date || endDateString < archiveData.start_date || endDateString <= archiveData.slamanager_feeder_last_processed_date) {
