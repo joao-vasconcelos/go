@@ -215,9 +215,12 @@ export default async () => {
 		LOGGER.divider();
 
 		// 2.
-		// Get all existing operational days, even ones that are already buffered
+		// Get all existing operational days, even ones that are already buffered.
+		// Sort them in descending order to process the most recent days first.
 
 		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day');
+
+		allOperationalDays.sort((a: string, b: string) => b.localeCompare(a));
 
 		LOGGER.info(`Found ${allOperationalDays.length} operational days. Checking each one...`);
 
