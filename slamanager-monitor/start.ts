@@ -36,7 +36,7 @@ import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEven
 
 /* * */
 
-const ANALYSIS_BATCH_SIZE = 750;
+const ANALYSIS_BATCH_SIZE = 1000;
 
 /* * */
 
@@ -155,6 +155,8 @@ export default async () => {
 		const selectedOperationalDayTimer = new TIMETRACKER();
 
 		const bufferedOperationalDaysWithPendingTrips = await SLAMANAGERDB.TripAnalysis.distinct('operational_day', { operational_day: { $in: bufferedOperationalDays }, status: 'pending' });
+
+		bufferedOperationalDaysWithPendingTrips.sort((a: string, b: string) => b.localeCompare(a));
 
 		if (bufferedOperationalDaysWithPendingTrips.length === 0) {
 			LOGGER.error('There are no pending trips for any buffered operational days.');
