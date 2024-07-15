@@ -8,7 +8,7 @@ module="slamanagerdb"
 
 # BACKUP HISTORYS
 # Only keep the 300 most recent files
-files_to_keep=30
+files_to_keep=10
 
 # Backup the database to an archive
 echo "Starting backup for "$module"..."
