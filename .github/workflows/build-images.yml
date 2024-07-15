@@ -21,23 +21,41 @@ jobs:
       packages: write
 
     steps:
+      - name: Set module key
+        run: |
+          echo "MODULE_KEY=backupd" >> $GITHUB_ENV
+
       - name: Checkout repository
         uses: actions/checkout@main
 
+      - name: Calculate module SHA256 hash
+        run: |
+          find "./${{ env.MODULE_KEY }}" -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1 > ${{ env.MODULE_KEY }}.hash
+          echo "SHA256_HASH=$(cat ${{ env.MODULE_KEY }}.hash)" >> $GITHUB_ENV
+
+      - name: Fetch hash cache
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: ${{ env.MODULE_KEY }}.hash
+          key: ${{ github.ref_name }}-${{ env.MODULE_KEY }}-${{ env.SHA256_HASH }}
+
       - name: Login to GitHub Container Registry
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: docker/login-action@master
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image (backupd)
+      - name: Build and Push Docker Image
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: docker/build-push-action@master
         with:
           push: true
-          context: ./backupd
-          file: ./backupd/Dockerfile
-          tags: ghcr.io/joao-vasconcelos/go-backupd:${{ github.ref_name }}
+          context: ./${{ env.MODULE_KEY }}
+          file: ./${{ env.MODULE_KEY }}/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go-${{ env.MODULE_KEY }}:${{ github.ref_name }}
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -52,23 +70,41 @@ jobs:
       packages: write
 
     steps:
+      - name: Set module key
+        run: |
+          echo "MODULE_KEY=nextjs" >> $GITHUB_ENV
+
       - name: Checkout repository
         uses: actions/checkout@main
 
+      - name: Calculate module SHA256 hash
+        run: |
+          find "./${{ env.MODULE_KEY }}" -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1 > ${{ env.MODULE_KEY }}.hash
+          echo "SHA256_HASH=$(cat ${{ env.MODULE_KEY }}.hash)" >> $GITHUB_ENV
+
+      - name: Fetch hash cache
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: ${{ env.MODULE_KEY }}.hash
+          key: ${{ github.ref_name }}-${{ env.MODULE_KEY }}-${{ env.SHA256_HASH }}
+
       - name: Login to GitHub Container Registry
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: docker/login-action@master
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image (NextJS)
+      - name: Build and Push Docker Image
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: docker/build-push-action@master
         with:
           push: true
-          context: ./nextjs
-          file: ./nextjs/Dockerfile
-          tags: ghcr.io/joao-vasconcelos/go-nextjs:${{ github.ref_name }}
+          context: ./${{ env.MODULE_KEY }}
+          file: ./${{ env.MODULE_KEY }}/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go-${{ env.MODULE_KEY }}:${{ github.ref_name }}
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -83,23 +119,41 @@ jobs:
       packages: write
 
     steps:
+      - name: Set module key
+        run: |
+          echo "MODULE_KEY=slamanager-feeder" >> $GITHUB_ENV
+
       - name: Checkout repository
         uses: actions/checkout@main
 
+      - name: Calculate module SHA256 hash
+        run: |
+          find "./${{ env.MODULE_KEY }}" -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1 > ${{ env.MODULE_KEY }}.hash
+          echo "SHA256_HASH=$(cat ${{ env.MODULE_KEY }}.hash)" >> $GITHUB_ENV
+
+      - name: Fetch hash cache
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: ${{ env.MODULE_KEY }}.hash
+          key: ${{ github.ref_name }}-${{ env.MODULE_KEY }}-${{ env.SHA256_HASH }}
+
       - name: Login to GitHub Container Registry
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: docker/login-action@master
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image (SLA Manager - feeder)
+      - name: Build and Push Docker Image
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: docker/build-push-action@master
         with:
           push: true
-          context: ./slamanager-feeder
-          file: ./slamanager-feeder/Dockerfile
-          tags: ghcr.io/joao-vasconcelos/go-slamanager-feeder:${{ github.ref_name }}
+          context: ./${{ env.MODULE_KEY }}
+          file: ./${{ env.MODULE_KEY }}/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go-${{ env.MODULE_KEY }}:${{ github.ref_name }}
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -114,23 +168,41 @@ jobs:
       packages: write
 
     steps:
+      - name: Set module key
+        run: |
+          echo "MODULE_KEY=slamanager-monitor" >> $GITHUB_ENV
+
       - name: Checkout repository
         uses: actions/checkout@main
 
+      - name: Calculate module SHA256 hash
+        run: |
+          find "./${{ env.MODULE_KEY }}" -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1 > ${{ env.MODULE_KEY }}.hash
+          echo "SHA256_HASH=$(cat ${{ env.MODULE_KEY }}.hash)" >> $GITHUB_ENV
+
+      - name: Fetch hash cache
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: ${{ env.MODULE_KEY }}.hash
+          key: ${{ github.ref_name }}-${{ env.MODULE_KEY }}-${{ env.SHA256_HASH }}
+
       - name: Login to GitHub Container Registry
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: docker/login-action@master
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image (SLA Manager - monitor)
+      - name: Build and Push Docker Image
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: docker/build-push-action@master
         with:
           push: true
-          context: ./slamanager-monitor
-          file: ./slamanager-monitor/Dockerfile
-          tags: ghcr.io/joao-vasconcelos/go-slamanager-monitor:${{ github.ref_name }}
+          context: ./${{ env.MODULE_KEY }}
+          file: ./${{ env.MODULE_KEY }}/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go-${{ env.MODULE_KEY }}:${{ github.ref_name }}
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -145,20 +217,38 @@ jobs:
       packages: write
 
     steps:
+      - name: Set module key
+        run: |
+          echo "MODULE_KEY=slamanager-buffer" >> $GITHUB_ENV
+
       - name: Checkout repository
         uses: actions/checkout@main
 
+      - name: Calculate module SHA256 hash
+        run: |
+          find "./${{ env.MODULE_KEY }}" -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1 > ${{ env.MODULE_KEY }}.hash
+          echo "SHA256_HASH=$(cat ${{ env.MODULE_KEY }}.hash)" >> $GITHUB_ENV
+
+      - name: Fetch hash cache
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: ${{ env.MODULE_KEY }}.hash
+          key: ${{ github.ref_name }}-${{ env.MODULE_KEY }}-${{ env.SHA256_HASH }}
+
       - name: Login to GitHub Container Registry
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: docker/login-action@master
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image (SLA Manager - buffer)
+      - name: Build and Push Docker Image
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: docker/build-push-action@master
         with:
           push: true
-          context: ./slamanager-buffer
-          file: ./slamanager-buffer/Dockerfile
-          tags: ghcr.io/joao-vasconcelos/go-slamanager-buffer:${{ github.ref_name }}
+          context: ./${{ env.MODULE_KEY }}
+          file: ./${{ env.MODULE_KEY }}/Dockerfile
+          tags: ghcr.io/joao-vasconcelos/go-${{ env.MODULE_KEY }}:${{ github.ref_name }}
