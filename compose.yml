@@ -20,7 +20,17 @@ services:
 
   watchtower:
     image: containrrr/watchtower
-    mem_limit: 1g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 500mb
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -35,8 +45,13 @@ services:
 
   nginx:
     image: nginx:alpine-slim
-    restart: unless-stopped
-    mem_limit: 1g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 500mb
     logging:
       options:
         max-size: '1m'
@@ -55,8 +70,17 @@ services:
 
   certbot:
     image: certbot/certbot
-    restart: unless-stopped
-    mem_limit: 1g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 500mb
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
     volumes:
       - ./letsencrypt:/etc/letsencrypt
       - certbotdata:/var/www/certbot
@@ -67,8 +91,13 @@ services:
 
   offermanagerdb:
     image: mongo
-    restart: unless-stopped
-    mem_limit: 4g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 2gb
     logging:
       options:
         max-size: '1m'
@@ -84,8 +113,13 @@ services:
 
   slamanagerdb:
     image: mongo
-    restart: unless-stopped
-    mem_limit: 4g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 4gb
     logging:
       options:
         max-size: '1m'
@@ -101,8 +135,13 @@ services:
 
   slamanagerbufferdb:
     image: mongo
-    restart: unless-stopped
-    mem_limit: 4g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 6gb
     logging:
       options:
         max-size: '1m'
@@ -118,8 +157,13 @@ services:
 
   backupd:
     image: ghcr.io/joao-vasconcelos/go-backupd:production
-    restart: unless-stopped
-    mem_limit: 1g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 500mb
     logging:
       options:
         max-size: '1m'
@@ -134,8 +178,13 @@ services:
 
   nextjs:
     image: ghcr.io/joao-vasconcelos/go-nextjs:production
-    restart: unless-stopped
-    mem_limit: 2g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 2gb
     logging:
       options:
         max-size: '1m'
@@ -152,8 +201,13 @@ services:
 
   slamanager-feeder:
     image: ghcr.io/joao-vasconcelos/go-slamanager-feeder:production
-    restart: unless-stopped
-    mem_limit: 2g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 2gb
     logging:
       options:
         max-size: '1m'
@@ -168,8 +222,13 @@ services:
 
   slamanager-buffer:
     image: ghcr.io/joao-vasconcelos/go-slamanager-buffer:production
-    restart: unless-stopped
-    mem_limit: 2g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 2gb
     logging:
       options:
         max-size: '1m'
@@ -184,14 +243,18 @@ services:
 
   slamanager-monitor:
     image: ghcr.io/joao-vasconcelos/go-slamanager-monitor:production
-    restart: unless-stopped
-    mem_limit: 2g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 2gb
+      mode: replicated
+      replicas: 4
     logging:
       options:
         max-size: '1m'
         max-file: '1'
     env_file:
       - .env.production
-    deploy:
-      mode: replicated
-      replicas: 4
