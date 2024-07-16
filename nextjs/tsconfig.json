@@ -3,8 +3,8 @@
     "target": "ES6",
     "baseUrl": ".",
     "rootDir": ".",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "paths": {
       "@/authentication/*": ["authentication/*"],
       "@/styles/*": ["styles/*"],
