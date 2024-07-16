@@ -6,6 +6,12 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
 
+export const config = {
+	maxDuration: 3600,
+};
+
+/* * */
+
 export default async function handler(req, res) {
 	//
 
