@@ -423,9 +423,9 @@ export default function Page() {
 		const body = slaProgressBufferDayData
 			.map(item => [
 				item.operational_day || '-',
-				item.vehicle_event_synced ? 'true' : 'false',
-				item.validation_transaction_synced ? 'true' : 'false',
-				item.location_transaction_synced ? 'true' : 'false',
+				item.vehicle_event_synced ? <span style={{ color: 'green' }}>true</span> : <span style={{ color: 'red' }}>false</span>,
+				item.validation_transaction_synced ? <span style={{ color: 'green' }}>true</span> : <span style={{ color: 'red' }}>false</span>,
+				item.location_transaction_synced ? <span style={{ color: 'green' }}>true</span> : <span style={{ color: 'red' }}>false</span>,
 				<Group>
 					<Button loading={isImporting} onClick={() => handleReprocessDay(item.operational_day)} size="xs">Reprocess Day</Button>
 					<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataVehicleEvents(item.operational_day)} size="xs">Delete Day BufferData VehicleEvents</Button>
