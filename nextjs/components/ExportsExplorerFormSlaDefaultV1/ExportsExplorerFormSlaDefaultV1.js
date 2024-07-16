@@ -3,6 +3,7 @@
 /* * */
 
 import { Section } from '@/components/Layouts/Layouts';
+import Loader from '@/components/Loader/Loader';
 import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
 import { Divider, Select } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
@@ -26,7 +27,7 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 	// B. Fetch data
 
 	const { data: allAgenciesData } = useSWR('/api/agencies');
-	const { data: allAvailableSlaOperationalDaysData } = useSWR('/api/sla/progress/available_operational_days');
+	const { data: allAvailableSlaOperationalDaysData, isLoading: allAvailableSlaOperationalDaysLoading } = useSWR('/api/sla/progress/available_operational_days');
 
 	//
 	// C. Transform data
@@ -70,7 +71,9 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 					label={t('form.start_date.label')}
 					placeholder={t('form.start_date.placeholder')}
 					{...exportsExplorerContext.form_sla_default_v1.getInputProps('start_date')}
+					disabled={allAvailableSlaOperationalDaysLoading}
 					dropdownType="modal"
+					rightSection={allAvailableSlaOperationalDaysLoading ? <Loader size={18} visible /> : null}
 					clearable
 				/>
 				<DatePickerInput
@@ -79,7 +82,9 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 					label={t('form.end_date.label')}
 					placeholder={t('form.end_date.placeholder')}
 					{...exportsExplorerContext.form_sla_default_v1.getInputProps('end_date')}
+					disabled={allAvailableSlaOperationalDaysLoading}
 					dropdownType="modal"
+					rightSection={allAvailableSlaOperationalDaysLoading ? <Loader size={18} visible /> : null}
 					clearable
 				/>
 			</Section>
