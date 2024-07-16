@@ -1268,6 +1268,10 @@
 				"label": "GTFS Unificado (v1)",
 				"description": "For testing."
 			},
+			"sla_debug_v1": {
+				"label": "SLA Debug (v1)",
+				"description": "For testing."
+			},
 			"sla_default_v1": {
 				"label": "SLA Caracterização de Circulações (v1)",
 				"description": "For testing."
@@ -1288,6 +1292,10 @@
 			"regional_merge_v1": {
 				"label": "GTFS Unificado v1",
 				"description": "For A3 and A4."
+			},
+			"sla_debug_v1": {
+				"label": "SLA Debug v1",
+				"description": "For testing"
 			},
 			"sla_default_v1": {
 				"label": "SLA Caracterização Circulações v1",
@@ -1405,6 +1413,26 @@
 			"active_date": {
 				"label": "Data Principal de Exportação",
 				"description": "Os arquivos serão unificados para esta data, rejeitando ou aceitando os serviços de acordo com a sua validade nesta data.",
+				"placeholder": "Escolha uma data..."
+			}
+		}
+	},
+	"ExportsExplorerFormSlaDebugV1": {
+		"operations": {
+			"start": {
+				"label": "Iniciar Exportação"
+			}
+		},
+		"form": {
+			"agencies": {
+				"label": "Selecione um Operador",
+				"description": "Selecione o operador para o qual pretende obter os dados brutos de análise.",
+				"placeholder": "Escolha uma opção...",
+				"nothingFound": "Nenhum Resultado Encontrado"
+			},
+			"debug_date": {
+				"label": "Dia Operacional",
+				"description": "Recolher dados brutos deste dia operacional.",
 				"placeholder": "Escolha uma data..."
 			}
 		}

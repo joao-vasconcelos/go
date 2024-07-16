@@ -49,6 +49,13 @@ export const ExportFormValidationRegionalMergeV1 = yup.object({
 
 /* * */
 
+export const ExportFormValidationSlaDebugV1 = yup.object({
+	agency_id: yup.string(),
+	debug_date: yup.string(),
+});
+
+/* * */
+
 export const ExportFormValidationSlaDefaultV1 = yup.object({
 	agency_id: yup.string(),
 	end_date: yup.string(),

@@ -16,7 +16,7 @@ export const ExportOptions = {
 	* KIND
 	*/
 
-	kind: ['gtfs_v29', 'netex_v1', 'regional_merge_v1', 'sla_default_v1'],
+	kind: ['gtfs_v29', 'netex_v1', 'regional_merge_v1', 'sla_debug_v1', 'sla_default_v1'],
 
 	/*
    * STATUS

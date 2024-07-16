@@ -9,6 +9,7 @@ import { ExportOptions } from '@/schemas/Export/options';
 import gtfsExportReferenceV29 from '@/scripts/gtfs/gtfs.export.reference_v29';
 import gtfsExportRegionalMergeV1 from '@/scripts/gtfs/gtfs.export.regional_merge_v1';
 import netexExportV1 from '@/scripts/netex/netex.export.v1';
+import reportsSlaExportDebugV1 from '@/scripts/reports/sla/reports.sla.export.debug';
 import reportsSlaExportDefaultV1 from '@/scripts/reports/sla/reports.sla.export.default';
 import SMTP from '@/services/SMTP';
 import STORAGE from '@/services/STORAGE';
@@ -74,8 +75,8 @@ export default async function handler(req, res) {
 		// 5.2.
 		// Check permissions based on export kind
 		switch (req.body.kind) {
-		// 5.2.1.
-		// For 'gtfs_v29' the only requirement is the agency_id
+			// 5.2.1.
+			// For 'gtfs_v29' the only requirement is the agency_id
 			case 'gtfs_v29':
 				isAllowed(sessionData, [{ action: 'create', fields: [{ key: 'agency', values: [req.body.agency_id] }], scope: 'exports' }]);
 				break;
@@ -84,11 +85,16 @@ export default async function handler(req, res) {
 			case 'netex_v1':
 				isAllowed(sessionData, [{ action: 'create', fields: [{ key: 'agency', values: [req.body.agency_id] }], scope: 'exports' }]);
 				break;
-				// 5.2.3.
-				// For 'regional_merge_v1' there are no specific requirements
+			// 5.2.3.
+			// For 'regional_merge_v1' there are no specific requirements
 			case 'regional_merge_v1':
 				break;
 			// 5.2.4.
+			// For 'sla_debug_v1' the only requirement is the debug_date
+			case 'sla_debug_v1':
+				isAllowed(sessionData, [{ action: 'create', fields: [{ key: 'agency', values: [req.body.agency_id] }], scope: 'exports' }]);
+				break;
+			// 5.2.5.
 			// For 'sla_default_v1' the only requirement is the agency_id
 			case 'sla_default_v1':
 				isAllowed(sessionData, [{ action: 'create', fields: [{ key: 'agency', values: [req.body.agency_id] }], scope: 'exports' }]);
@@ -166,6 +172,19 @@ export default async function handler(req, res) {
 				break;
 			// 7.2.1.
 			// For GTFS v29 the name consists of the agency code, the version and the export date.
+			case 'sla_debug_v1':
+				try {
+					const agencyData = await AgencyModel.findOne({ _id: { $eq: req.body.agency_id } });
+					if (!agencyData) return await res.status(404).json({ message: 'Could not find requested Agency.' });
+					exportDocument.filename = `SLA_DEBUG_${agencyData.code}_${req.body.debug_date}.zip`;
+					break;
+				}
+				catch (error) {
+					console.log('error5', error);
+					return await res.status(500).json({ message: 'Error fetching Agency data.' });
+				}
+			// 7.2.1.
+			// For GTFS v29 the name consists of the agency code, the version and the export date.
 			case 'sla_default_v1':
 				try {
 					const agencyData = await AgencyModel.findOne({ _id: { $eq: req.body.agency_id } });
@@ -227,6 +246,11 @@ export default async function handler(req, res) {
 			// 8.2.3.
 			case 'regional_merge_v1':
 				await gtfsExportRegionalMergeV1(exportDocument, req.body);
+				await update(exportDocument, { progress_current: 1, progress_total: 2 });
+				break;
+			// 8.2.4.
+			case 'sla_debug_v1':
+				await reportsSlaExportDebugV1(exportDocument, req.body);
 				await update(exportDocument, { progress_current: 1, progress_total: 2 });
 				break;
 			// 8.2.4.

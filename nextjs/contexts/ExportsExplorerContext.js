@@ -2,8 +2,8 @@
 
 /* * */
 
-import { ExportFormDefault, ExportFormDefaultGtfsV29, ExportFormDefaultNetexV1, ExportFormDefaultRegionalMergeV1, ExportFormDefaultSlaDefaultV1 } from '@/schemas/Export/default';
-import { ExportFormValidation, ExportFormValidationGtfsV29, ExportFormValidationNetexV1, ExportFormValidationRegionalMergeV1, ExportFormValidationSlaDefaultV1 } from '@/schemas/Export/validation';
+import { ExportFormDefault, ExportFormDefaultGtfsV29, ExportFormDefaultNetexV1, ExportFormDefaultRegionalMergeV1, ExportFormDefaultSlaDebugV1, ExportFormDefaultSlaDefaultV1 } from '@/schemas/Export/default';
+import { ExportFormValidation, ExportFormValidationGtfsV29, ExportFormValidationNetexV1, ExportFormValidationRegionalMergeV1, ExportFormValidationSlaDebugV1, ExportFormValidationSlaDefaultV1 } from '@/schemas/Export/validation';
 import API from '@/services/API';
 import { useForm, yupResolver } from '@mantine/form';
 import { DateTime } from 'luxon';
@@ -81,6 +81,14 @@ export function ExportsExplorerContextProvider({ children }) {
 		validateInputOnChange: true,
 	});
 
+	const formStateSlaDebugV1 = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: ExportFormDefaultSlaDebugV1,
+		validate: yupResolver(ExportFormValidationSlaDebugV1),
+		validateInputOnBlur: true,
+		validateInputOnChange: true,
+	});
+
 	const formStateSlaDefaultV1 = useForm({
 		clearInputErrorOnChange: true,
 		initialValues: ExportFormDefaultSlaDefaultV1,
@@ -100,6 +108,7 @@ export function ExportsExplorerContextProvider({ children }) {
 	useEffect(() => {
 		setFormState(prev => ({ ...prev, is_valid: true }));
 		if (formStateMain.values.kind === 'regional_merge_v1') formStateMain.setFieldValue('notify_user', false);
+		if (formStateMain.values.kind === 'sla_debug_v1') formStateMain.setFieldValue('notify_user', false);
 		// // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formStateMain.values.kind]);
 
@@ -138,6 +147,13 @@ export function ExportsExplorerContextProvider({ children }) {
 						active_date: DateTime.fromJSDate(formStateRegionalMergeV1.values.active_date).toFormat('yyyyMMdd'),
 					};
 					break;
+				case 'sla_debug_v1':
+					requestBody = {
+						...formStateMainValues,
+						...formStateSlaDebugV1.values,
+						debug_date: DateTime.fromJSDate(formStateSlaDebugV1.values.debug_date).toFormat('yyyyMMdd'),
+					};
+					break;
 				case 'sla_default_v1':
 					requestBody = {
 						...formStateMainValues,
@@ -156,6 +172,7 @@ export function ExportsExplorerContextProvider({ children }) {
 			formStateGtfsV29.setValues(ExportFormDefaultGtfsV29);
 			formStateNetexV1.setValues(ExportFormDefaultNetexV1);
 			formStateRegionalMergeV1.setValues(ExportFormDefaultRegionalMergeV1);
+			formStateSlaDebugV1.setValues(ExportFormDefaultSlaDebugV1);
 			formStateSlaDefaultV1.setValues(ExportFormDefaultSlaDefaultV1);
 			// Update interface
 			setFormState(initialFormState);
@@ -180,12 +197,13 @@ export function ExportsExplorerContextProvider({ children }) {
 			form_main_values: formStateMainValuesState,
 			form_netex_v1: formStateNetexV1,
 			form_regional_merge_v1: formStateRegionalMergeV1,
+			form_sla_debug_v1: formStateSlaDebugV1,
 			form_sla_default_v1: formStateSlaDefaultV1,
 			//
 			startExport: handleStartExport,
 			//
 		}),
-		[formState, formStateGtfsV29, formStateSlaDefaultV1, formStateMain, formStateMainValuesState, formStateNetexV1, formStateRegionalMergeV1, handleStartExport],
+		[formState, formStateGtfsV29, formStateSlaDefaultV1, formStateSlaDebugV1, formStateMain, formStateMainValuesState, formStateNetexV1, formStateRegionalMergeV1, handleStartExport],
 	);
 
 	//

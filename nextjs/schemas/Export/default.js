@@ -54,6 +54,13 @@ export const ExportFormDefaultRegionalMergeV1 = {
 
 /* * */
 
+export const ExportFormDefaultSlaDebugV1 = {
+	agency_id: null,
+	debug_date: null,
+};
+
+/* * */
+
 export const ExportFormDefaultSlaDefaultV1 = {
 	agency_id: null,
 	end_date: null,

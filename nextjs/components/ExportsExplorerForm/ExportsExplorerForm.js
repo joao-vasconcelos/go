@@ -7,6 +7,7 @@ import ExportsExplorerFormGtfsReferenceV29 from '@/components/ExportsExplorerFor
 import ExportsExplorerFormGtfsRegionalMergeV1 from '@/components/ExportsExplorerFormGtfsRegionalMergeV1/ExportsExplorerFormGtfsRegionalMergeV1';
 import ExportsExplorerFormHeader from '@/components/ExportsExplorerFormHeader/ExportsExplorerFormHeader';
 import ExportsExplorerFormIntro from '@/components/ExportsExplorerFormIntro/ExportsExplorerFormIntro';
+import ExportsExplorerFormSlaDebugV1 from '@/components/ExportsExplorerFormSlaDebugV1/ExportsExplorerFormSlaDebugV1';
 import ExportsExplorerFormSlaDefaultV1 from '@/components/ExportsExplorerFormSlaDefaultV1/ExportsExplorerFormSlaDefaultV1';
 import { Section } from '@/components/Layouts/Layouts';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
@@ -60,6 +61,7 @@ export default function ExportsExplorerForm() {
 			{exportsExplorerContext.form_main.values.kind === 'gtfs_v29' && <ExportsExplorerFormGtfsReferenceV29 />}
 			{/* {exportsExplorerContext.form_main.values.kind === 'netex_v1' && <ExportsExplorerFormNetexV1 />} */}
 			{exportsExplorerContext.form_main.values.kind === 'regional_merge_v1' && <ExportsExplorerFormGtfsRegionalMergeV1 />}
+			{exportsExplorerContext.form_main.values.kind === 'sla_debug_v1' && <ExportsExplorerFormSlaDebugV1 />}
 			{exportsExplorerContext.form_main.values.kind === 'sla_default_v1' && <ExportsExplorerFormSlaDefaultV1 />}
 
 			<Divider />

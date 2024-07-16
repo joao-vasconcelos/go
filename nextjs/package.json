@@ -12,6 +12,7 @@
   "dependencies": {
     "@auth/mongodb-adapter": "3.3.0",
     "@carrismetropolitana/tts": "2024.5.1716946783",
+    "@helperkits/writer": "^20240712.25.46",
     "@mantine/charts": "7.10.2",
     "@mantine/code-highlight": "7.10.2",
     "@mantine/core": "7.10.2",
