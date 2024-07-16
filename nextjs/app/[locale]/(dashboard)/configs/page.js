@@ -9,7 +9,7 @@ import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import API from '@/services/API';
 import notify from '@/services/notify';
-import { Button, Divider, Progress, SimpleGrid, Table } from '@mantine/core';
+import { Button, Divider, Group, Progress, SimpleGrid, Table } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
 import { useMemo, useState } from 'react';
 import useSWR from 'swr';
@@ -29,6 +29,7 @@ export default function Page() {
 
 	const { data: slaProgressSummaryData } = useSWR('/api/sla/progress/summary', { refreshInterval: 1000 });
 	const { data: slaProgressByDayData } = useSWR('/api/sla/progress/breakdown_by_operational_day', { refreshInterval: 1000 });
+	const { data: slaProgressBufferDayData } = useSWR('/api/sla/progress/buffer_by_operational_day', { refreshInterval: 1000 });
 
 	//
 	// C. Handle actiona
@@ -208,17 +209,172 @@ export default function Page() {
 		});
 	};
 
+	const handleReprocessDay = async (operationalDay) => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: `Yes, Reprocess Operational Day ${operationalDay}` },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify(`reprocessOperationalDay-${operationalDay}`, 'loading', 'Loading');
+					await API({ method: 'GET', service: `sla/operations/${operationalDay}/reproccessDay` });
+					notify(`reprocessOperationalDay-${operationalDay}`, 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify(`reprocessOperationalDay-${operationalDay}`, 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Reprocess Operational Day {operationalDay}?</Text>,
+		});
+	};
+
+	const handleDeleteDayBufferDataVehicleEvents = async (operationalDay) => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: `Yes, Delete Day BufferData VehicleEvents for ${operationalDay}` },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify(`reprocessOperationalDay-${operationalDay}`, 'loading', 'Loading');
+					await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayBufferDataVehicleEvents` });
+					notify(`reprocessOperationalDay-${operationalDay}`, 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify(`reprocessOperationalDay-${operationalDay}`, 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Delete Day BufferData VehicleEvents for {operationalDay}?</Text>,
+		});
+	};
+
+	const handleDeleteDayBufferDataValidationTransactions = async (operationalDay) => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: `Yes, Delete Day BufferData ValidationTransactions for ${operationalDay}` },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify(`reprocessOperationalDay-${operationalDay}`, 'loading', 'Loading');
+					await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayBufferDataValidationTransactions` });
+					notify(`reprocessOperationalDay-${operationalDay}`, 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify(`reprocessOperationalDay-${operationalDay}`, 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Delete Day BufferData ValidationTransactions for {operationalDay}?</Text>,
+		});
+	};
+
+	const handleDeleteDayBufferDataLocationTransactions = async (operationalDay) => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: `Yes, Delete Day BufferData LocationTransactions for ${operationalDay}` },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify(`reprocessOperationalDay-${operationalDay}`, 'loading', 'Loading');
+					await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayBufferDataLocationTransactions` });
+					notify(`reprocessOperationalDay-${operationalDay}`, 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify(`reprocessOperationalDay-${operationalDay}`, 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Delete Day BufferData LocationTransactions for {operationalDay}?</Text>,
+		});
+	};
+
+	const handleDeleteDayTrips = async (operationalDay) => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: `Yes, Delete Day Trips for ${operationalDay}` },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify(`reprocessOperationalDay-${operationalDay}`, 'loading', 'Loading');
+					await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayTrips` });
+					notify(`reprocessOperationalDay-${operationalDay}`, 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify(`reprocessOperationalDay-${operationalDay}`, 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Delete Day Trips for {operationalDay}?</Text>,
+		});
+	};
+
 	//
 	// C. Transform data
 
 	const progressByDayTableData = useMemo(() => {
 		if (!slaProgressByDayData) return null;
 		const body = slaProgressByDayData
-			.map(item => [item.operational_day || '-', item.total || 0, `${item.processed || 0} (${item.processed_percentage || 0}%)`, `${item.processing || 0} (${item.processing_percentage || 0}%)`, `${item.error || 0} (${item.error_percentage || 0}%)`, `${item.pending || 0} (${item.pending_percentage || 0}%)`])
+			.map(item => [
+				item.operational_day || '-',
+				item.total || 0,
+				`${item.processed || 0} (${item.processed_percentage || 0}%)`,
+				`${item.processing || 0} (${item.processing_percentage || 0}%)`,
+				`${item.error || 0} (${item.error_percentage || 0}%)`,
+				`${item.pending || 0} (${item.pending_percentage || 0}%)`,
+				<Group>
+					<Button color="black" onClick={() => handleDeleteDayTrips(item.operational_day)} size="xs">Delete Day Trips</Button>
+				</Group>,
+			])
 			.sort((a, b) => a[0] - b[0]);
-		const head = ['operational_day', 'total', 'processed', 'processing', 'error', 'pending'];
+		const head = ['operational_day', 'total', 'processed', 'processing', 'error', 'pending', 'operations'];
 		return { body, head };
 	}, [slaProgressByDayData]);
+
+	const progressBufferDaysTableData = useMemo(() => {
+		if (!slaProgressBufferDayData) return null;
+		const body = slaProgressBufferDayData
+			.map(item => [
+				item.operational_day || '-',
+				item.vehicle_event_synced ? 'true' : 'false',
+				item.validation_transaction_synced ? 'true' : 'false',
+				item.location_transaction_synced ? 'true' : 'false',
+				<Group>
+					<Button onClick={() => handleReprocessDay(item.operational_day)} size="xs">Reprocess Day</Button>
+					<Button color="red" onClick={() => handleDeleteDayBufferDataVehicleEvents(item.operational_day)} size="xs">Delete Day BufferData VehicleEvents</Button>
+					<Button color="red" onClick={() => handleDeleteDayBufferDataValidationTransactions(item.operational_day)} size="xs">Delete Day BufferData ValidationTransactions</Button>
+					<Button color="red" onClick={() => handleDeleteDayBufferDataLocationTransactions(item.operational_day)} size="xs">Delete Day BufferData LocationTransactions</Button>
+				</Group>,
+			])
+			.sort((a, b) => a[0] - b[0]);
+		const head = ['operational_day', 'vehicle_events', 'validation_transactions', 'location_transactions'];
+		return { body, head };
+	}, [slaProgressBufferDayData]);
 
 	//
 	// D. Render components
@@ -259,6 +415,7 @@ export default function Page() {
 						</Progress.Section>
 					</Progress.Root>
 					<Table data={progressByDayTableData} highlightOnHover withTableBorder />
+					<Table data={progressBufferDaysTableData} highlightOnHover withTableBorder />
 				</AppLayoutSection>
 
 				<Divider />
