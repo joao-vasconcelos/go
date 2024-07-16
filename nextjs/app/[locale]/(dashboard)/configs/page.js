@@ -27,9 +27,9 @@ export default function Page() {
 	//
 	// B. Fetch data
 
-	const { data: slaProgressSummaryData } = useSWR('/api/sla/progress/summary', { refreshInterval: 10000 });
-	const { data: slaProgressByDayData } = useSWR('/api/sla/progress/breakdown_by_operational_day', { refreshInterval: 10000 });
-	const { data: slaProgressBufferDayData } = useSWR('/api/sla/progress/buffer_by_operational_day', { refreshInterval: 10000 });
+	const { data: slaProgressSummaryData, mutate: slaProgressSummaryMutate } = useSWR('/api/sla/progress/summary', { refreshInterval: 10000 });
+	const { data: slaProgressByDayData, mutate: slaProgressByDayMutate } = useSWR('/api/sla/progress/breakdown_by_operational_day', { refreshInterval: 10000 });
+	const { data: slaProgressBufferDayData, mutate: slaProgressBufferDayMutate } = useSWR('/api/sla/progress/buffer_by_operational_day', { refreshInterval: 10000 });
 
 	//
 	// C. Handle actiona
@@ -71,6 +71,9 @@ export default function Page() {
 					setIsImporting(true);
 					notify('markStuckTripsAsPending', 'loading', 'Loading');
 					await API({ method: 'GET', service: 'sla/operations/markStuckTripsAsPending' });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
 					notify('markStuckTripsAsPending', 'success', 'success');
 					setIsImporting(false);
 				}
@@ -96,6 +99,9 @@ export default function Page() {
 					setIsImporting(true);
 					notify('markAllTripsAsPendingAnalysis', 'loading', 'Loading');
 					await API({ method: 'GET', service: 'sla/operations/markAllTripsAsPendingAnalysis' });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
 					notify('markAllTripsAsPendingAnalysis', 'success', 'success');
 					setIsImporting(false);
 				}
@@ -121,6 +127,9 @@ export default function Page() {
 					setIsImporting(true);
 					notify('deleteAllTripsAndMarkAllArchivesAsPendingParse', 'loading', 'Loading');
 					await API({ method: 'GET', service: 'sla/operations/deleteAllTripsAndMarkAllArchivesAsPendingParse' });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
 					notify('deleteAllTripsAndMarkAllArchivesAsPendingParse', 'success', 'success');
 					setIsImporting(false);
 				}
@@ -146,6 +155,9 @@ export default function Page() {
 					setIsImporting(true);
 					notify('deleteBufferDataVehicleEvents', 'loading', 'Loading');
 					await API({ method: 'GET', service: 'sla/operations/deleteBufferDataVehicleEvents' });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
 					notify('deleteBufferDataVehicleEvents', 'success', 'success');
 					setIsImporting(false);
 				}
@@ -171,6 +183,9 @@ export default function Page() {
 					setIsImporting(true);
 					notify('deleteBufferDataValidationTransactions', 'loading', 'Loading');
 					await API({ method: 'GET', service: 'sla/operations/deleteBufferDataValidationTransactions' });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
 					notify('deleteBufferDataValidationTransactions', 'success', 'success');
 					setIsImporting(false);
 				}
@@ -196,6 +211,9 @@ export default function Page() {
 					setIsImporting(true);
 					notify('deleteBufferDataLocationTransactions', 'loading', 'Loading');
 					await API({ method: 'GET', service: 'sla/operations/deleteBufferDataLocationTransactions' });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
 					notify('deleteBufferDataLocationTransactions', 'success', 'success');
 					setIsImporting(false);
 				}
@@ -209,6 +227,34 @@ export default function Page() {
 		});
 	};
 
+	const handleReprocessTrips = async (operationalDay) => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: `Yes, Reprocess Trips for Operational Day ${operationalDay}` },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify(`reprocessTrips-${operationalDay}`, 'loading', `Reprocessing Trips for Operational Day ${operationalDay}`);
+					await API({ method: 'GET', service: `sla/operations/${operationalDay}/reprocessTrips` });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
+					notify(`reprocessTrips-${operationalDay}`, 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify(`reprocessTrips-${operationalDay}`, 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Reprocess Trips for Operational Day {operationalDay}?</Text>,
+		});
+	};
+
 	const handleReprocessDay = async (operationalDay) => {
 		openConfirmModal({
 			centered: true,
@@ -219,18 +265,21 @@ export default function Page() {
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify(`reprocessOperationalDay-${operationalDay}`, 'loading', 'Loading');
-					await API({ method: 'GET', service: `sla/operations/${operationalDay}/reproccessDay` });
-					notify(`reprocessOperationalDay-${operationalDay}`, 'success', 'success');
+					notify(`reprocessDay-${operationalDay}`, 'loading', `Reprocessing Operational Day ${operationalDay}`);
+					await API({ method: 'GET', service: `sla/operations/${operationalDay}/reprocessDay` });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
+					notify(`reprocessDay-${operationalDay}`, 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify(`reprocessOperationalDay-${operationalDay}`, 'error', error.message || 'Error');
+					notify(`reprocessDay-${operationalDay}`, 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
-			title: <Text size="h2">Reprocess Operational Day {operationalDay}?</Text>,
+			title: <Text size="h2">Reprocess BufferData Operational Day {operationalDay}?</Text>,
 		});
 	};
 
@@ -244,14 +293,17 @@ export default function Page() {
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify(`reprocessOperationalDay-${operationalDay}`, 'loading', 'Loading');
+					notify(`deleteDayBufferDataVehicleEvents-${operationalDay}`, 'loading', `Delete Day BufferData VehicleEvents for ${operationalDay}`);
 					await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayBufferDataVehicleEvents` });
-					notify(`reprocessOperationalDay-${operationalDay}`, 'success', 'success');
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
+					notify(`deleteDayBufferDataVehicleEvents-${operationalDay}`, 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify(`reprocessOperationalDay-${operationalDay}`, 'error', error.message || 'Error');
+					notify(`deleteDayBufferDataVehicleEvents-${operationalDay}`, 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
@@ -269,14 +321,17 @@ export default function Page() {
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify(`reprocessOperationalDay-${operationalDay}`, 'loading', 'Loading');
+					notify(`deleteDayBufferDataValidationTransactions-${operationalDay}`, 'loading', `Delete Day BufferData ValidationTransactions for ${operationalDay}`);
 					await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayBufferDataValidationTransactions` });
-					notify(`reprocessOperationalDay-${operationalDay}`, 'success', 'success');
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
+					notify(`deleteDayBufferDataValidationTransactions-${operationalDay}`, 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify(`reprocessOperationalDay-${operationalDay}`, 'error', error.message || 'Error');
+					notify(`deleteDayBufferDataValidationTransactions-${operationalDay}`, 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
@@ -294,14 +349,17 @@ export default function Page() {
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify(`reprocessOperationalDay-${operationalDay}`, 'loading', 'Loading');
+					notify(`deleteDayBufferDataLocationTransactions-${operationalDay}`, 'loading', `Delete Day BufferData LocationTransactions for ${operationalDay}`);
 					await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayBufferDataLocationTransactions` });
-					notify(`reprocessOperationalDay-${operationalDay}`, 'success', 'success');
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
+					notify(`deleteDayBufferDataLocationTransactions-${operationalDay}`, 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify(`reprocessOperationalDay-${operationalDay}`, 'error', error.message || 'Error');
+					notify(`deleteDayBufferDataLocationTransactions-${operationalDay}`, 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
@@ -315,22 +373,25 @@ export default function Page() {
 			children: <Text size="h3">Are you sure?</Text>,
 			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: `Yes, Delete Day Trips for ${operationalDay}` },
+			labels: { cancel: 'Cancel', confirm: `DANGER! Delete Day Trips for ${operationalDay}` },
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify(`reprocessOperationalDay-${operationalDay}`, 'loading', 'Loading');
-					await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayTrips` });
-					notify(`reprocessOperationalDay-${operationalDay}`, 'success', 'success');
+					notify(`_danger_deleteDayTrips-${operationalDay}`, 'loading', 'Loading');
+					await API({ method: 'GET', service: `sla/operations/${operationalDay}/_danger_deleteDayTrips` });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					slaProgressBufferDayMutate();
+					notify(`_danger_deleteDayTrips-${operationalDay}`, 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify(`reprocessOperationalDay-${operationalDay}`, 'error', error.message || 'Error');
+					notify(`_danger_deleteDayTrips-${operationalDay}`, 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
-			title: <Text size="h2">Delete Day Trips for {operationalDay}?</Text>,
+			title: <Text size="h2">DANGER! Delete Day Trips for {operationalDay}?</Text>,
 		});
 	};
 
@@ -348,6 +409,7 @@ export default function Page() {
 				`${item.error || 0} (${item.error_percentage || 0}%)`,
 				`${item.pending || 0} (${item.pending_percentage || 0}%)`,
 				<Group>
+					<Button loading={isImporting} onClick={() => handleReprocessTrips(item.operational_day)} size="xs">Reprocess Trips</Button>
 					<Button color="black" loading={isImporting} onClick={() => handleDeleteDayTrips(item.operational_day)} size="xs">Delete Day Trips</Button>
 				</Group>,
 			])
