@@ -27,9 +27,9 @@ export default function Page() {
 	//
 	// B. Fetch data
 
-	const { data: slaProgressSummaryData } = useSWR('/api/sla/progress/summary', { refreshInterval: 1000 });
-	const { data: slaProgressByDayData } = useSWR('/api/sla/progress/breakdown_by_operational_day', { refreshInterval: 1000 });
-	const { data: slaProgressBufferDayData } = useSWR('/api/sla/progress/buffer_by_operational_day', { refreshInterval: 1000 });
+	const { data: slaProgressSummaryData } = useSWR('/api/sla/progress/summary', { refreshInterval: 10000 });
+	const { data: slaProgressByDayData } = useSWR('/api/sla/progress/breakdown_by_operational_day', { refreshInterval: 10000 });
+	const { data: slaProgressBufferDayData } = useSWR('/api/sla/progress/buffer_by_operational_day', { refreshInterval: 10000 });
 
 	//
 	// C. Handle actiona
