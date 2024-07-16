@@ -348,7 +348,7 @@ export default function Page() {
 				`${item.error || 0} (${item.error_percentage || 0}%)`,
 				`${item.pending || 0} (${item.pending_percentage || 0}%)`,
 				<Group>
-					<Button color="black" onClick={() => handleDeleteDayTrips(item.operational_day)} size="xs">Delete Day Trips</Button>
+					<Button color="black" loading={isImporting} onClick={() => handleDeleteDayTrips(item.operational_day)} size="xs">Delete Day Trips</Button>
 				</Group>,
 			])
 			.sort((a, b) => a[0] - b[0]);
@@ -365,10 +365,10 @@ export default function Page() {
 				item.validation_transaction_synced ? 'true' : 'false',
 				item.location_transaction_synced ? 'true' : 'false',
 				<Group>
-					<Button onClick={() => handleReprocessDay(item.operational_day)} size="xs">Reprocess Day</Button>
-					<Button color="red" onClick={() => handleDeleteDayBufferDataVehicleEvents(item.operational_day)} size="xs">Delete Day BufferData VehicleEvents</Button>
-					<Button color="red" onClick={() => handleDeleteDayBufferDataValidationTransactions(item.operational_day)} size="xs">Delete Day BufferData ValidationTransactions</Button>
-					<Button color="red" onClick={() => handleDeleteDayBufferDataLocationTransactions(item.operational_day)} size="xs">Delete Day BufferData LocationTransactions</Button>
+					<Button loading={isImporting} onClick={() => handleReprocessDay(item.operational_day)} size="xs">Reprocess Day</Button>
+					<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataVehicleEvents(item.operational_day)} size="xs">Delete Day BufferData VehicleEvents</Button>
+					<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataValidationTransactions(item.operational_day)} size="xs">Delete Day BufferData ValidationTransactions</Button>
+					<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataLocationTransactions(item.operational_day)} size="xs">Delete Day BufferData LocationTransactions</Button>
 				</Group>,
 			])
 			.sort((a, b) => a[0] - b[0]);
