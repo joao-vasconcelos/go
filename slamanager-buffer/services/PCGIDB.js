@@ -77,16 +77,13 @@ class PCGIDB {
 			if (this.mongoClientConnectionInstance && this.mongoClientConnectionInstance.topology && this.mongoClientConnectionInstance.topology.isConnected()) {
 				mongoClientInstance = this.mongoClientConnectionInstance;
 			}
-			else if (global._mongoClientConnectionInstance && global._mongoClientConnectionInstance.topology && global._mongoClientConnectionInstance.topology.isConnected()) {
-				mongoClientInstance = global._mongoClientConnectionInstance;
-			}
 			else {
 				const mongoUser = process.env.PCGIDB_MONGODB_USERNAME;
 				const mongoPass = process.env.PCGIDB_MONGODB_PASSWORD;
 				const mongoLocalHost = '127.0.0.1';
 				const mongoLocalPort = this.sshTunnelConnectionInstance?.address().port || global._sshTunnelConnectionInstance?.address().port;
 				const mongoConnectionString = `mongodb://${mongoUser}:${mongoPass}@${mongoLocalHost}:${mongoLocalPort}/`;
-				mongoClientInstance = await MongoClient.connect(mongoConnectionString, mongoClientOptions);
+				mongoClientInstance = await new MongoClient(mongoConnectionString, mongoClientOptions).connect();
 			}
 
 			//

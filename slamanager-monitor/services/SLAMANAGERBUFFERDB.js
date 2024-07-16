@@ -66,11 +66,8 @@ class SLAMANAGERBUFFERDB {
 			if (this.mongoClientConnectionInstance && this.mongoClientConnectionInstance.topology && this.mongoClientConnectionInstance.topology.isConnected()) {
 				mongoClientInstance = this.mongoClientConnectionInstance;
 			}
-			else if (global._mongoClientConnectionInstance && global._mongoClientConnectionInstance.topology && global._mongoClientConnectionInstance.topology.isConnected()) {
-				mongoClientInstance = global._mongoClientConnectionInstance;
-			}
 			else {
-				mongoClientInstance = await MongoClient.connect(process.env.SLAMANAGERBUFFERDB_MONGODB_URI, mongoClientOptions);
+				mongoClientInstance = await new MongoClient(process.env.SLAMANAGERBUFFERDB_MONGODB_URI, mongoClientOptions).connect();
 			}
 
 			//

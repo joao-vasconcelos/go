@@ -133,6 +133,81 @@ export default function Page() {
 		});
 	};
 
+	const handleDeleteBufferDataVehicleEvents = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Delete Buffer Data Vehicle Events' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('deleteBufferDataVehicleEvents', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/deleteBufferDataVehicleEvents' });
+					notify('deleteBufferDataVehicleEvents', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('deleteBufferDataVehicleEvents', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Delete Buffer Data Vehicle Events?</Text>,
+		});
+	};
+
+	const handleDeleteBufferDataValidationTransactions = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Delete Buffer Data Validation Transactions' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('deleteBufferDataValidationTransactions', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/deleteBufferDataValidationTransactions' });
+					notify('deleteBufferDataValidationTransactions', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('deleteBufferDataValidationTransactions', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Delete Buffer Data Validation Transactions?</Text>,
+		});
+	};
+
+	const handleDeleteBufferDataLocationTransactions = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Delete Buffer Data Location Transactions' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('deleteBufferDataLocationTransactions', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/deleteBufferDataLocationTransactions' });
+					notify('deleteBufferDataLocationTransactions', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('deleteBufferDataLocationTransactions', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Delete Buffer Data Location Transactions?</Text>,
+		});
+	};
+
 	//
 	// C. Transform data
 
@@ -199,6 +274,23 @@ export default function Page() {
 						</Button>
 						<Button color="red" loading={isImporting} onClick={handleDeleteAllTripsAndMarkAllArchivesAdPendingParse}>
 							Delete All Trips And Mark All Archives As Pending Parse
+						</Button>
+					</SimpleGrid>
+				</AppLayoutSection>
+
+				<Divider />
+
+				<AppLayoutSection>
+
+					<SimpleGrid cols={3}>
+						<Button color="grape" loading={isImporting} onClick={handleDeleteBufferDataVehicleEvents}>
+							Delete Buffer Data vehicle_event
+						</Button>
+						<Button color="grape" loading={isImporting} onClick={handleDeleteBufferDataValidationTransactions}>
+							Delete Buffer Data validation_transaction
+						</Button>
+						<Button color="grape" loading={isImporting} onClick={handleDeleteBufferDataLocationTransactions}>
+							Delete Buffer Data location_transaction
 						</Button>
 					</SimpleGrid>
 				</AppLayoutSection>

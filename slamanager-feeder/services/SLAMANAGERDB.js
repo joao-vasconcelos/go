@@ -69,7 +69,7 @@ class SLAMANAGERDB {
 				mongoClientInstance = global._mongoClientConnectionInstance;
 			}
 			else {
-				mongoClientInstance = await MongoClient.connect(process.env.SLAMANAGERDB_MONGODB_URI, mongoClientOptions);
+				mongoClientInstance = await new MongoClient(process.env.SLAMANAGERDB_MONGODB_URI, mongoClientOptions).connect();
 			}
 
 			//
