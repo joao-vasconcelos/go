@@ -352,7 +352,7 @@ export default function Page() {
 				</Group>,
 			])
 			.sort((a, b) => a[0] - b[0]);
-		const head = ['operational_day', 'total', 'processed', 'processing', 'error', 'pending', 'operations'];
+		const head = ['operational_day', 'total', 'processed', 'processing', 'error', 'pending', 'slamanagerdb operations'];
 		return { body, head };
 	}, [slaProgressByDayData]);
 
@@ -372,7 +372,7 @@ export default function Page() {
 				</Group>,
 			])
 			.sort((a, b) => a[0] - b[0]);
-		const head = ['operational_day', 'vehicle_events', 'validation_transactions', 'location_transactions'];
+		const head = ['operational_day', 'vehicle_events', 'validation_transactions', 'location_transactions', 'slamanagerbufferdb operations'];
 		return { body, head };
 	}, [slaProgressBufferDayData]);
 
