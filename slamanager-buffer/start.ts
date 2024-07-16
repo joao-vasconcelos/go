@@ -333,6 +333,7 @@ export default async () => {
 					return {
 						agency_id: pcgiDocument.transaction.operatorLongID,
 						data: JSON.stringify(pcgiDocument),
+						device_id: pcgiDocument.transaction.deviceID,
 						line_id: pcgiDocument.transaction.lineLongID,
 						operational_day: operationalDay,
 						original_id: pcgiDocument.transaction.transactionId,
@@ -343,6 +344,7 @@ export default async () => {
 						timestamp: DateTime.fromFormat(pcgiDocument.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis(),
 						trip_id: pcgiDocument.transaction.journeyID,
 						type: 'validation_transaction',
+						vehicle_id: pcgiDocument.transaction.vehicleID,
 					};
 				};
 
@@ -375,6 +377,7 @@ export default async () => {
 					return {
 						agency_id: pcgiDocument.transaction.operatorLongID,
 						data: JSON.stringify(pcgiDocument),
+						device_id: pcgiDocument.transaction.deviceID,
 						line_id: pcgiDocument.transaction.lineLongID,
 						operational_day: operationalDay,
 						original_id: pcgiDocument.transaction.transactionId,
@@ -385,6 +388,7 @@ export default async () => {
 						timestamp: DateTime.fromFormat(pcgiDocument.transaction.transactionDate, 'yyyy-LL-dd\'T\'HH:mm:ss').toMillis(),
 						trip_id: pcgiDocument.transaction.journeyID,
 						type: 'location_transaction',
+						vehicle_id: pcgiDocument.transaction.vehicleID,
 					};
 				};
 
