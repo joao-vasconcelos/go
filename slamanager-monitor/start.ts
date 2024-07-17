@@ -36,7 +36,7 @@ import simpleThreeVehicleEventsAnalyzer from '@/analyzers/simpleThreeVehicleEven
 
 /* * */
 
-const ANALYSIS_BATCH_SIZE = 1000;
+const ANALYSIS_BATCH_SIZE = 2000;
 
 /* * */
 
@@ -119,10 +119,10 @@ export default async () => {
 		// 1.
 		// Introduce a random delay between 0 and 3 seconds to prevent overlaps with other monitor instances
 
-		const randomDelay = Math.floor(Math.random() * 3000);
-		LOGGER.info(`Waiting for random delay of ${randomDelay} ms...`);
+		// const randomDelay = Math.floor(Math.random() * 3000);
+		// LOGGER.info(`Waiting for random delay of ${randomDelay} ms...`);
 
-		await new Promise(resolve => setTimeout(resolve, randomDelay));
+		// await new Promise(resolve => setTimeout(resolve, randomDelay));
 
 		// 2.
 		// Connect to databases

@@ -249,9 +249,9 @@ services:
         delay: 5s
       resources:
         limits:
-          memory: 2gb
+          memory: 4gb
       mode: replicated
-      replicas: 4
+      replicas: 1
     logging:
       options:
         max-size: '1m'
