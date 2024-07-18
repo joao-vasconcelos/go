@@ -8,7 +8,7 @@ import pg from 'pg';
 const client = new pg.Client({
 	connectionTimeoutMillis: 10000,
 	database: 'networkdb',
-	host: 'networkdb',
+	host: 'slamanagerdb-bridge',
 	password: 'networkdbpassword',
 	user: 'networkdbuser',
 });
