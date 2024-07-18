@@ -18,6 +18,7 @@
 		"@helperkits/timer": "20240627.34.23",
 		"@helperkits/writer": "20240627.34.10",
 		"dotenv": "16.4.5",
+		"pg": "8.12.0",
 		"luxon": "3.4.4",
 		"mongodb": "6.8.0",
 		"redis": "4.6.15",
