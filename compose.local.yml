@@ -6,6 +6,7 @@ volumes:
   offermanagerdbdata:
   slamanagerdbdata:
   slamanagerbufferdbdata:
+  slamanagerbridgedbdata:
 
 services:
   #
@@ -15,7 +16,10 @@ services:
 
   offermanagerdb:
     image: mongo
-    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
     logging:
       options:
         max-size: '1m'
@@ -33,7 +37,10 @@ services:
 
   slamanagerdb:
     image: mongo
-    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
     logging:
       options:
         max-size: '1m'
@@ -51,7 +58,10 @@ services:
 
   slamanagerbufferdb:
     image: mongo
-    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
     logging:
       options:
         max-size: '1m'
@@ -63,6 +73,28 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=slamanagerbufferdbuser
       - MONGO_INITDB_ROOT_PASSWORD=slamanagerbufferdbpassword
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  slamanagerbridgedb:
+    image: postgres:alpine
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    ports:
+      - 37014:5432
+    volumes:
+      - slamanagerbridgedbdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=$SLAMANAGERBRIDGEDB_DB
+      - POSTGRES_USER=$SLAMANAGERBRIDGEDB_USER
+      - POSTGRES_PASSWORD=$SLAMANAGERBRIDGEDB_PASSWORD
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

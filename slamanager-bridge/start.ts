@@ -5,14 +5,6 @@ import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
 import LOGGER from '@helperkits/logger';
 import TIMETRACKER from '@helperkits/timer';
-import { MongoDbWriter } from '@helperkits/writer';
-import { DateTime } from 'luxon';
-
-/* * */
-
-const BUFFER_MIN_DATE = '20240101';
-const BUFFER_MAX_DATE = '20241231';
-const BUFFER_DAYS_DELAY = 1;
 
 /* * */
 
