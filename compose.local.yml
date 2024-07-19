@@ -92,9 +92,9 @@ services:
     volumes:
       - slamanagerbridgedbdata:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=$SLAMANAGERBRIDGEDB_DB
-      - POSTGRES_USER=$SLAMANAGERBRIDGEDB_USER
-      - POSTGRES_PASSWORD=$SLAMANAGERBRIDGEDB_PASSWORD
+      - POSTGRES_DB=slamanagerbridgedb
+      - POSTGRES_USER=slamanagerbridgedbuser
+      - POSTGRES_PASSWORD=slamanagerbridgedbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

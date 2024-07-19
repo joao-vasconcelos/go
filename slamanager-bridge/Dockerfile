@@ -8,6 +8,8 @@ WORKDIR /app
 
 COPY package.json ./
 
+RUN npm update -g npm
+
 RUN npm install && npm cache clean --force
 
 COPY . .
