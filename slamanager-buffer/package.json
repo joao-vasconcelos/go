@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@helperkits/logger": "20240703.1726.24",
 		"@helperkits/timer": "20240627.34.23",
-		"@helperkits/writer": "20240627.34.10",
+		"@helperkits/writer": "20240712.25.46",
 		"dotenv": "16.4.5",
 		"pg": "8.12.0",
 		"luxon": "3.4.4",
@@ -26,7 +26,7 @@
 	"devDependencies": {
 		"@carrismetropolitana/eslint": "20240622.50.2",
 		"@types/luxon": "3.4.2",
-		"@types/node": "20.14.9",
+		"@types/node": "20.14.11",
 		"resolve-tspaths": "0.8.19",
 		"typescript": "5.5.3"
 	}
