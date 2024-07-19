@@ -5,7 +5,9 @@
 	"private": true,
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
-	"files": ["dist/"],
+	"files": [
+		"dist/"
+	],
 	"scripts": {
 		"start": "tsc && resolve-tspaths && node dist/index.js",
 		"lint": "eslint .",
@@ -18,10 +20,9 @@
 		"@helperkits/timer": "20240627.34.23",
 		"@helperkits/writer": "20240627.34.10",
 		"dotenv": "16.4.5",
-		"pg": "8.12.0",
 		"luxon": "3.4.4",
 		"mongodb": "6.8.0",
-		"tunnel-ssh": "5.1.2"
+		"pg": "^8.12.0"
 	},
 	"devDependencies": {
 		"@carrismetropolitana/eslint": "20240622.50.2",

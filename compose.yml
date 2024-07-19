@@ -7,6 +7,7 @@ volumes:
   offermanagerdbdata:
   slamanagerdbdata:
   slamanagerbufferdbdata:
+  slamanagerbridgedbdata:
 
 secrets:
   pcgidbkey:
@@ -155,6 +156,31 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
+  slamanagerbridgedb:
+    image: postgres:alpine
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+      resources:
+        limits:
+          memory: 4gb
+    ports:
+      - 37017:5432
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - slamanagerbridgedbdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=$SLAMANAGERBRIDGEDB_DB
+      - POSTGRES_USER=$SLAMANAGERBRIDGEDB_USER
+      - POSTGRES_PASSWORD=$SLAMANAGERBRIDGEDB_PASSWORD
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
   backupd:
     image: ghcr.io/joao-vasconcelos/go-backupd:production
     deploy:
@@ -171,7 +197,7 @@ services:
     volumes:
       - ./backups/:/backups
     env_file:
-      - .env.production
+      - .env
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -192,7 +218,7 @@ services:
     volumes:
       - ./storage/:/app/storage
     env_file:
-      - .env.production
+      - .env
     secrets:
       - pcgidbkey
 
@@ -215,28 +241,7 @@ services:
     volumes:
       - ./storage/:/app/storage
     env_file:
-      - .env.production
-
-  # # # # # # # # # # # # # # # # # # # # #
-  # # # # # # # # # # # # # # # # # # # # #
-
-  slamanager-buffer:
-    image: ghcr.io/joao-vasconcelos/go-slamanager-buffer:production
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-      resources:
-        limits:
-          memory: 2gb
-    logging:
-      options:
-        max-size: '1m'
-        max-file: '1'
-    env_file:
-      - .env.production
-    secrets:
-      - pcgidbkey
+      - .env
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -257,4 +262,44 @@ services:
         max-size: '1m'
         max-file: '1'
     env_file:
-      - .env.production
+      - .env
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  slamanager-buffer:
+    image: ghcr.io/joao-vasconcelos/go-slamanager-buffer:production
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 2gb
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    env_file:
+      - .env
+    secrets:
+      - pcgidbkey
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  slamanager-bridge:
+    image: ghcr.io/joao-vasconcelos/go-slamanager-bridge:production
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          memory: 2gb
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    env_file:
+      - .env
