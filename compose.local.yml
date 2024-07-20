@@ -89,6 +89,7 @@ services:
         max-file: '1'
     ports:
       - 37014:5432
+      - 5432:5432
     volumes:
       - slamanagerbridgedbdata:/var/lib/postgresql/data
     environment:
@@ -106,3 +107,12 @@ services:
       options:
         max-size: '1m'
         max-file: '1'
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9898:8080

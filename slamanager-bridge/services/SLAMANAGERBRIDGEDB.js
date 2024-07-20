@@ -10,16 +10,11 @@ const client = new pg.Client({
 	database: process.env.SLAMANAGERBRIDGEDB_DB,
 	host: process.env.SLAMANAGERBRIDGEDB_HOST,
 	password: process.env.SLAMANAGERBRIDGEDB_PASSWORD,
+	port: 37014,
 	user: process.env.SLAMANAGERBRIDGEDB_USER,
 });
 
 async function connect() {
-	console.log('------');
-	console.log(process.env.SLAMANAGERBRIDGEDB_DB);
-	console.log(process.env.SLAMANAGERBRIDGEDB_HOST);
-	console.log(process.env.SLAMANAGERBRIDGEDB_USER);
-	console.log(process.env.SLAMANAGERBRIDGEDB_PASSWORD);
-	console.log('------');
 	await client.connect();
 	LOGGER.success('Connected to SLAMANAGERBRIDGEDB');
 }
@@ -31,7 +26,7 @@ async function disconnect() {
 
 /* * */
 
-const networkdb = {
+const slamanagerbridgedb = {
 	client,
 	connect,
 	disconnect,
@@ -39,4 +34,4 @@ const networkdb = {
 
 /* * */
 
-export default networkdb;
+export default slamanagerbridgedb;

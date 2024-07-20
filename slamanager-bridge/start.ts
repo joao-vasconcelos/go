@@ -49,12 +49,12 @@ export default async () => {
 		};
 
 		exampleTripAnalysis.analysis.forEach((item) => {
-			tripAnalysisParsed[`${item.code}-status`] = item.status;
-			tripAnalysisParsed[`${item.code}-grade`] = item.grade;
-			tripAnalysisParsed[`${item.code}-reason`] = item.reason;
-			tripAnalysisParsed[`${item.code}-message`] = item.message;
-			tripAnalysisParsed[`${item.code}-unit`] = item.unit;
-			tripAnalysisParsed[`${item.code}-value`] = item.value;
+			tripAnalysisParsed[`${item.code}_status`] = item.status;
+			tripAnalysisParsed[`${item.code}_grade`] = item.grade;
+			tripAnalysisParsed[`${item.code}_reason`] = item.reason;
+			tripAnalysisParsed[`${item.code}_message`] = item.message;
+			tripAnalysisParsed[`${item.code}_unit`] = item.unit;
+			tripAnalysisParsed[`${item.code}_value`] = item.value;
 		});
 
 		// Get keys from object
