@@ -10,7 +10,7 @@ const client = new pg.Client({
 	database: process.env.SLAMANAGERBRIDGEDB_DB,
 	host: process.env.SLAMANAGERBRIDGEDB_HOST,
 	password: process.env.SLAMANAGERBRIDGEDB_PASSWORD,
-	port: process.env.SLAMANAGERBRIDGEDB_PORT,
+	port: process.env.SLAMANAGERBRIDGEDB_PORT || 5432,
 	user: process.env.SLAMANAGERBRIDGEDB_USER,
 });
 
