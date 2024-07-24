@@ -62,10 +62,12 @@ export default async function handler(req, res) {
 		for (const operationalDay of allOperationalDays) {
 			const statuses = await SLAMANAGERDB.TripAnalysis.distinct('status', { operational_day: operationalDay });
 			const statusesSet = new Set(statuses);
-
-			if ((statusesSet.has('processed') && statusesSet.size > 1) || statusesSet.size === 0) {
-				allOperationalDaysSet.delete(operationalDay);
+			// If the only status found is 'processed', then the operational day is fully processed
+			if ((statusesSet.has('processed') && statusesSet.size === 1)) {
+				continue;
 			}
+			// Remove the day otherwise
+			allOperationalDaysSet.delete(operationalDay);
 		}
 
 		const fullyProcessedOperationalDays = Array.from(allOperationalDaysSet);
