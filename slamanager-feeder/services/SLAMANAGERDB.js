@@ -1,5 +1,6 @@
 /* * */
 
+import LOGGER from '@helperkits/logger';
 import { MongoClient } from 'mongodb';
 
 /* * */
@@ -26,13 +27,13 @@ class SLAMANAGERDB {
 
 	async connect() {
 		try {
-			console.log('→ SLAMANAGERDB: New connection request...');
+			LOGGER.info('SLAMANAGERDB: New connection request...');
 
 			//
 			// If another connection request is already in progress, wait for it to complete
 
 			if (this.mongoClientConnecting) {
-				console.log('→ SLAMANAGERDB: Waiting for MongoDB Client connection...');
+				LOGGER.info('SLAMANAGERDB: Waiting for MongoDB Client connection...');
 				await this.waitForMongoClientConnection();
 				return;
 			}
@@ -64,9 +65,6 @@ class SLAMANAGERDB {
 
 			if (this.mongoClientConnectionInstance && this.mongoClientConnectionInstance.topology && this.mongoClientConnectionInstance.topology.isConnected()) {
 				mongoClientInstance = this.mongoClientConnectionInstance;
-			}
-			else if (global._mongoClientConnectionInstance && global._mongoClientConnectionInstance.topology && global._mongoClientConnectionInstance.topology.isConnected()) {
-				mongoClientInstance = global._mongoClientConnectionInstance;
 			}
 			else {
 				mongoClientInstance = await new MongoClient(process.env.SLAMANAGERDB_MONGODB_URI, mongoClientOptions).connect();
@@ -105,7 +103,9 @@ class SLAMANAGERDB {
 			this.TripAnalysis.createIndex({ agency_id: 1 });
 			this.TripAnalysis.createIndex({ plan_id: 1 });
 			this.TripAnalysis.createIndex({ trip_id: 1 });
+			this.TripAnalysis.createIndex({ status: 1 });
 			this.TripAnalysis.createIndex({ operational_day: 1, trip_id: 1 });
+			this.TripAnalysis.createIndex({ operational_day: 1, status: 1 });
 
 			//
 			// Save the instance in memory
@@ -146,7 +146,7 @@ class SLAMANAGERDB {
 		this.mongoClientConnecting = false;
 		this.mongoClientConnectionInstance = null;
 		global._mongoClientConnectionInstance = null;
-		console.log('→ SLAMANAGERDB: Reset connection.');
+		LOGGER.info('SLAMANAGERDB: Reset connection.');
 	}
 
 	async waitForMongoClientConnection() {

@@ -53,15 +53,24 @@ export default async function handler(req, res) {
 	try {
 		// Get all distinct operational days that have have been fully processed
 
-		const fullyProcessedOperationalDays = await SLAMANAGERDB.TripAnalysis.aggregate([
-			{ $group: { _id: '$operational_day', uniqueStatuses: { $addToSet: '$status' } } },
-			{ $match: { uniqueStatuses: { $eq: ['processed'] } } },
-			{ $project: { _id: 0, operational_day: '$_id' } },
-		]).toArray();
+		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day');
+		const allOperationalDaysSet = new Set(allOperationalDays);
 
-		const fullyProcessedOperationalDaysString = fullyProcessedOperationalDays.map(item => item.operational_day);
+		// For each operational day, check if there are any statuses that are not 'processed'
+		// If there are, remove the operational day from the set
 
-		return await res.send(fullyProcessedOperationalDaysString);
+		for (const operationalDay of allOperationalDays) {
+			const statuses = await SLAMANAGERDB.TripAnalysis.distinct('status', { operational_day: operationalDay });
+			const statusesSet = new Set(statuses);
+
+			if ((statusesSet.has('processed') && statusesSet.size > 1) || statusesSet.size === 0) {
+				allOperationalDaysSet.delete(operationalDay);
+			}
+		}
+
+		const fullyProcessedOperationalDays = Array.from(allOperationalDaysSet);
+
+		return await res.send(fullyProcessedOperationalDays);
 	}
 	catch (error) {
 		console.log(error);
