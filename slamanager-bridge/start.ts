@@ -1,11 +1,11 @@
 /* * */
 
-import { PostgresWriter } from '@/services/PostgresWriter.js';
 import SLAMANAGERBRIDGEDB from '@/services/SLAMANAGERBRIDGEDB.js';
 import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
 import LOGGER from '@helperkits/logger';
 import TIMETRACKER from '@helperkits/timer';
+import { PostgresWriter } from '@helperkits/writer';
 
 /* * */
 
@@ -17,6 +17,11 @@ async function createTableFromExample(tripAnalysisParsed) {
         );
     `;
 	await SLAMANAGERBRIDGEDB.client.query(createTableQuery);
+	//
+	const createTableIndex = `
+        CREATE UNIQUE INDEX IF NOT EXISTS code_idx ON trip_analysis ("code");
+    `;
+	await SLAMANAGERBRIDGEDB.client.query(createTableIndex);
 }
 
 /* * */
@@ -73,7 +78,6 @@ export default async () => {
 		}
 
 		const tripAnalysisParsed = parseTripAnalysis(exampleTripAnalysis);
-		console.log(tripAnalysisParsed);
 		await createTableFromExample(tripAnalysisParsed);
 
 		const allTripAnalyses = await SLAMANAGERDB.TripAnalysis.find();
