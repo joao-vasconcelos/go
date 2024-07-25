@@ -1,5 +1,6 @@
 /* * */
 
+import { PostgresWriter } from '@/services/PostgresWriter.js';
 import SLAMANAGERBRIDGEDB from '@/services/SLAMANAGERBRIDGEDB.js';
 import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
@@ -16,25 +17,6 @@ async function createTableFromExample(tripAnalysisParsed) {
         );
     `;
 	await SLAMANAGERBRIDGEDB.client.query(createTableQuery);
-}
-
-/* * */
-
-async function insertDataInBatches(data, batchSize = 1000) {
-	const keys = Object.keys(data[0]);
-	const valuesPlaceholder = keys.map((_, i) => `$${i + 1}`).join(',');
-
-	const insertQuery = `
-        INSERT INTO trip_analysis (${keys.join(',')})
-        VALUES (${valuesPlaceholder})
-        ON CONFLICT DO NOTHING;
-    `;
-
-	for (let i = 0; i < data.length; i += batchSize) {
-		const batch = data.slice(i, i + batchSize);
-		const values = batch.map(item => keys.map(key => item[key]));
-		await SLAMANAGERBRIDGEDB.client.query(insertQuery, values.flat());
-	}
 }
 
 /* * */
@@ -83,18 +65,21 @@ export default async () => {
 		LOGGER.divider();
 		LOGGER.info('Creating TripAnalysis tables...');
 
+		const dbWriter = new PostgresWriter('TripAnalysis', SLAMANAGERBRIDGEDB.client, 'trip_analysis'); ;
+
 		const exampleTripAnalysis = await SLAMANAGERDB.TripAnalysis.findOne();
 		if (!exampleTripAnalysis) {
 			throw new Error('No example trip analysis found.');
 		}
 
 		const tripAnalysisParsed = parseTripAnalysis(exampleTripAnalysis);
+		console.log(tripAnalysisParsed);
 		await createTableFromExample(tripAnalysisParsed);
 
 		const allTripAnalyses = await SLAMANAGERDB.TripAnalysis.find();
 		for await (const tripAnalysis of allTripAnalyses) {
 			const parsedTripAnalysis = parseTripAnalysis(tripAnalysis);
-			await insertDataInBatches([parsedTripAnalysis]);
+			await dbWriter.write(parsedTripAnalysis);
 		}
 
 		LOGGER.terminate(`Run took ${globalTimer.get()}.`);
