@@ -69,12 +69,11 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 		// If now is before the start date of the operationation if it was this year...
 		if (agencyId === '645d7f204ef63aec14fbf22a') {
 			// If A4 then start the next month until the end of the contract
-			const endOfContractStartDate = DateTime.now().set({ day: 31, month: 12, year: 2029 }).endOf('month');
 			const nextMonthStartDatePlusOneYear = firstDayOfNextMonth.plus({ day: -1, year: 1 }).endOf('month');
 			// Set the corresponding fields
-			exportsExplorerContext.form_gtfs_v29.setFieldValue('calendars_clip_start_date', firstDayOfNextMonth.toJSDate());
-			exportsExplorerContext.form_gtfs_v29.setFieldValue('calendars_clip_end_date', endOfContractStartDate.toJSDate());
 			exportsExplorerContext.form_gtfs_v29.setFieldValue('feed_end_date', nextMonthStartDatePlusOneYear.toJSDate());
+			exportsExplorerContext.form_gtfs_v29.setFieldValue('calendars_clip_start_date', firstDayOfNextMonth.toJSDate());
+			exportsExplorerContext.form_gtfs_v29.setFieldValue('calendars_clip_end_date', nextMonthStartDatePlusOneYear.toJSDate());
 			exportsExplorerContext.form_gtfs_v29.setFieldValue('numeric_calendar_codes', true);
 		}
 		else if (DateTime.now() < operationStartDate.set({ year: DateTime.now().year })) {

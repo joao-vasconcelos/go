@@ -30,8 +30,8 @@ export default async function datesExportDefault() {
 		return {
 			date: item.date,
 			day_type: thisDateDayType,
-			description: '',
 			holiday: item.is_holiday ? '1' : '0',
+			notes: item.notes || '',
 			period: item.period,
 		};
 
