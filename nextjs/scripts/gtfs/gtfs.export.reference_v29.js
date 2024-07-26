@@ -591,7 +591,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 						// 3.3.3.4.1.3.
 						// Prepare the final calendar code and description
 						let resultingCalendarCode = currentCalendarOnCode;
-						let resultingCalendarDescription = calendarOnData.description;
+						let resultingCalendarDescription = calendarOnData.description ? `Apenas ${calendarOnData.description}` : '';
 
 						// 3.3.3.4.1.4.
 						// Transform this calendar dates into a Set for easier manipulation
@@ -634,7 +634,8 @@ export default async function exportGtfsV29(progress, exportOptions) {
 								if (exportOptions.numeric_calendar_codes) resultingCalendarCode = `${resultingCalendarCode}${calendarOffData.numeric_code}`;
 								else resultingCalendarCode = `${resultingCalendarCode}-${calendarOffData.code}`;
 								// Append the description string for this calendar OFF and trim the result
-								resultingCalendarDescription = `${resultingCalendarDescription} ${calendarOffData.description}`;
+								const calendarOffDescription = calendarOffData.description ? `Excepto ${calendarOffData.description}` : '';
+								resultingCalendarDescription = `${resultingCalendarDescription} ${calendarOffDescription}`;
 								resultingCalendarDescription = resultingCalendarDescription.replace(/  +/g, ' ').trim();
 							}
 
