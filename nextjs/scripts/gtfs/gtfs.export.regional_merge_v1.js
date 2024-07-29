@@ -128,7 +128,7 @@ function getFeedInfoData(startDateString, endDateString) {
 	try {
 		return {
 			default_lang: 'en',
-			feed_contact_url: 'https://github.com/carrismetropolitana/gtfs',
+			feed_contact_url: 'https://api.carrismetropolitana.pt/gtfs',
 			feed_end_date: endDateString,
 			feed_lang: 'pt',
 			feed_publisher_name: 'Carris Metropolitana',

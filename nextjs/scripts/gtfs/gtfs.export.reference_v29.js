@@ -140,7 +140,7 @@ function parseFeedInfo(agencyData, options) {
 	try {
 		return {
 			default_lang: 'en',
-			feed_contact_url: 'https://github.com/carrismetropolitana/gtfs',
+			feed_contact_url: 'https://api.carrismetropolitana.pt/gtfs',
 			feed_end_date: options.feed_end_date,
 			feed_lang: 'pt',
 			feed_publisher_name: agencyData.name,
