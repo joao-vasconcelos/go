@@ -31,6 +31,8 @@ export default function Page() {
 	const { data: slaProgressByDayData, mutate: slaProgressByDayMutate } = useSWR('/api/sla/progress/breakdown_by_operational_day', { refreshInterval: 10000 });
 	const { data: slaProgressBufferDayData, mutate: slaProgressBufferDayMutate } = useSWR('/api/sla/progress/buffer_by_operational_day', { refreshInterval: 10000 });
 
+	console.log(slaProgressByDayData);
+
 	//
 	// C. Handle actiona
 

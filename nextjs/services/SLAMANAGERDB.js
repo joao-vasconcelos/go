@@ -103,7 +103,6 @@ class SLAMANAGERDB {
 			this.TripAnalysis.createIndex({ agency_id: 1 });
 			this.TripAnalysis.createIndex({ plan_id: 1 });
 			this.TripAnalysis.createIndex({ trip_id: 1 });
-			this.TripAnalysis.createIndex({ status: 1 });
 			this.TripAnalysis.createIndex({ operational_day: 1, trip_id: 1 });
 			this.TripAnalysis.createIndex({ operational_day: 1, status: 1 });
 

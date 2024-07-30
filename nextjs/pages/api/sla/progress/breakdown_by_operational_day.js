@@ -3,6 +3,7 @@
 import getSession from '@/authentication/getSession';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import TIMETRACKER from '@helperkits/timer';
 
 /* * */
 
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'create', fields: [{ key: 'kind', values: ['sla_default_v1'] }], scope: 'exports' }], request: req, session: sessionData });
 	}
 	catch (error) {
 		console.log(error);
@@ -51,35 +52,30 @@ export default async function handler(req, res) {
 	// Perform database search
 
 	try {
-		const breakdownByDay = await SLAMANAGERDB.TripAnalysis.aggregate([
-			{
-				$group: {
-					_id: '$operational_day',
-					error: { $sum: { $cond: [{ $eq: ['$status', 'error'] }, 1, 0] } },
-					pending: { $sum: { $cond: [{ $eq: ['$status', 'pending'] }, 1, 0] } },
-					processed: { $sum: { $cond: [{ $eq: ['$status', 'processed'] }, 1, 0] } },
-					processing: { $sum: { $cond: [{ $eq: ['$status', 'processing'] }, 1, 0] } },
-					total: { $sum: 1 },
-				},
-			},
-			{
-				$project: {
-					_id: 0,
-					error: 1,
-					error_percentage: { $round: [{ $multiply: [{ $divide: ['$error', '$total'] }, 100] }, 2] },
-					operational_day: '$_id',
-					pending: 1,
-					pending_percentage: { $round: [{ $multiply: [{ $divide: ['$pending', '$total'] }, 100] }, 2] },
-					processed: 1,
-					processed_percentage: { $round: [{ $multiply: [{ $divide: ['$processed', '$total'] }, 100] }, 2] },
-					processing: 1,
-					processing_percentage: { $round: [{ $multiply: [{ $divide: ['$processing', '$total'] }, 100] }, 2] },
-					total: 1,
-				},
-			},
-		]).toArray();
+		// Get all distinct operational days that have have been fully processed
 
-		return await res.send(breakdownByDay);
+		const allOperationalDays = await SLAMANAGERDB.TripAnalysis.distinct('operational_day');
+
+		const allOperationalDaysStatuses = [];
+
+		// For each operational day, check if there are any statuses that are not 'processed'
+		// If there are, remove the operational day from the set
+
+		for (const operationalDay of allOperationalDays) {
+			//
+
+			const countersTimer = new TIMETRACKER();
+
+			const totalCount = await SLAMANAGERDB.TripAnalysis.countDocuments({ operational_day: operationalDay });
+			const errorCount = await SLAMANAGERDB.TripAnalysis.countDocuments({ operational_day: operationalDay, status: 'error' });
+			const pendingCount = await SLAMANAGERDB.TripAnalysis.countDocuments({ operational_day: operationalDay, status: 'pending' });
+			const processedCount = await SLAMANAGERDB.TripAnalysis.countDocuments({ operational_day: operationalDay, status: 'processed' });
+			const processingCount = await SLAMANAGERDB.TripAnalysis.countDocuments({ operational_day: operationalDay, status: 'processing' });
+
+			allOperationalDaysStatuses.push({ _debug_timer: countersTimer.get(), error: errorCount, operational_day: operationalDay, pending: pendingCount, processed: processedCount, processing: processingCount, total: totalCount });
+		}
+
+		return await res.send(allOperationalDaysStatuses);
 	}
 	catch (error) {
 		console.log(error);
