@@ -20,6 +20,7 @@ import geoDelayedStartThreeMinutesFirstOutAnalyzer from '@/analyzers/geoDelayedS
 import geoDelayedStartThreeMinutesLastInAnalyzer from '@/analyzers/geoDelayedStartThreeMinutesLastIn.analyzer.js';
 import geoEarlyStartFirstOutAnalyzer from '@/analyzers/geoEarlyStartFirstOut.analyzer.js';
 import geoEarlyStartLastInAnalyzer from '@/analyzers/geoEarlyStartLastIn.analyzer.js';
+import highestVehicleEventDelayAnalyzer from '@/analyzers/highestVehicleEventDelay.analyzer.js';
 import lessThanTenVehicleEventsAnalyzer from '@/analyzers/lessThanTenVehicleEvents.analyzer.js';
 import matchingLocationTransactionsAnalyzer from '@/analyzers/matchingLocationTransactions.analyzer.js';
 import simpleDelayedStartFiveMinutesFirstForNextStopAnalyzer from '@/analyzers/simpleDelayedStartFiveMinutesFirstForNextStop.analyzer.js';
@@ -52,6 +53,8 @@ function runAnalyzers(analysisData: AnalysisData) {
 		//
 
 		excessiveVehicleEventDelayAnalyzer(analysisData),
+
+		highestVehicleEventDelayAnalyzer(analysisData),
 
 		lessThanTenVehicleEventsAnalyzer(analysisData),
 
