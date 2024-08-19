@@ -123,7 +123,7 @@ export function PatternsExplorerContextProvider({ children }) {
 		if (!allCalendarsData) return;
 		// Filter items based on search query
 		const allCalendarsDataFormatted = allCalendarsData.map((item) => {
-			return { label: `[${item.code}] ${item.name || '-'}`, value: item._id };
+			return { label: `${item.name || '-'} [${item.code}] [${item.numeric_code}]`, value: item._id };
 		});
 		// Update state
 		setDataState(prev => ({ ...prev, all_calendars_data: allCalendarsDataFormatted }));
@@ -196,7 +196,7 @@ export function PatternsExplorerContextProvider({ children }) {
 		// Filter items based on search query
 		const allAvilableCalendarsDataFormatted = Array.from(tempAvailableCalendars).map((item) => {
 			const calendarData = allCalendarsData.find(calendar => calendar._id === item);
-			return { label: `[${calendarData.code}] ${calendarData.name || '-'}`, value: item };
+			return { label: `${calendarData.name || '-'} [${calendarData.code}] [${calendarData.numeric_code}]`, value: item };
 		}).sort((a, b) => a.label.localeCompare(b.label));
 		// Update state
 		setSchedulesSectionState(prev => ({ ...prev, available_calendars: allAvilableCalendarsDataFormatted }));
