@@ -46,7 +46,7 @@ export default async function stopsSyncIntermodal() {
 			'05', // CASCAIS
 			'06', // LISBOA
 			// '07', // LOURES
-			// '08', // MAFRA
+			'08', // MAFRA
 			'09', // MOITA
 			'10', // MONTIJO
 			'11', // ODIVELAS
@@ -55,7 +55,7 @@ export default async function stopsSyncIntermodal() {
 			'14', // SEIXAL
 			'15', // SESIMBRA
 			'16', // SETÚBAL
-			// '17', // SINTRA
+			'17', // SINTRA
 			'18', // VILA FRANCA DE XIRA
 			'19', // OUT AML (MARGEM SUL)
 			'20', // OUT AML (MARGEM NORTE)
@@ -66,8 +66,8 @@ export default async function stopsSyncIntermodal() {
 		// 2.3.
 		// Get this stop from the databse and update its location
 
-		const stopData = await StopModel.findOne({ code: intermodalStopDataOperatorInfo.stop_ref });
-		if (!stopData) continue;
+		const stopData = await StopModel.findOne({ code: intermodalStopDataOperatorInfo.stop_ref, is_locked: false });
+		if (!stopData || stopData.is_locked) continue; // Skip if stop is not found or is locked
 
 		// 2.4.
 		// Update attributes of stop with data from Intermodal API

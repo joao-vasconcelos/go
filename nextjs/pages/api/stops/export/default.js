@@ -2,7 +2,6 @@
 
 import getSession from '@/authentication/getSession';
 import stopsExportDefault from '@/scripts/stops/stops.export.default';
-import stopsSyncDatasets from '@/scripts/stops/stops.sync.datasets';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import Papa from 'papaparse';
 
