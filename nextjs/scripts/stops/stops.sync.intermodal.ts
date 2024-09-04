@@ -45,7 +45,7 @@ export default async function stopsSyncIntermodal() {
 			'04', // BARREIRO
 			'05', // CASCAIS
 			'06', // LISBOA
-			// '07', // LOURES
+			'07', // LOURES
 			'08', // MAFRA
 			'09', // MOITA
 			'10', // MONTIJO
