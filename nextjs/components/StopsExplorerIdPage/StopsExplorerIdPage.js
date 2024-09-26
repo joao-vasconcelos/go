@@ -10,7 +10,7 @@ import StopsExplorerIdPageItemMedia from '@/components/StopsExplorerIdPageItemMe
 import StopsExplorerIdPageMap from '@/components/StopsExplorerIdPageMap/StopsExplorerIdPageMap';
 import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 import { StopOptions } from '@/schemas/Stop/options';
-import { Accordion, ActionIcon, Autocomplete, Divider, MultiSelect, NumberInput, Select, SimpleGrid, Textarea, TextInput, Tooltip } from '@mantine/core';
+import { ActionIcon, Autocomplete, Divider, MultiSelect, NumberInput, Select, SimpleGrid, Textarea, TextInput, Tooltip } from '@mantine/core';
 import { IconAB, IconABOff, IconVolume, IconWorldLatitude, IconWorldLongitude } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';

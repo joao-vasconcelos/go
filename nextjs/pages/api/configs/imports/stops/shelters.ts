@@ -61,8 +61,8 @@ export default async function handler(req, res) {
 		//
 		// Read shelters from CSV
 
-		const sheltersRaw = fs.readFileSync('/Users/joao/Developer/carrismetropolitana/go/nextjs/pages/api/configs/imports/stops/shelters.csv', { encoding: 'utf8' });
-		// const sheltersRaw = fs.readFileSync('/app/pages/api/configs/imports/shelters.csv', { encoding: 'utf8' });
+		// const sheltersRaw = fs.readFileSync('/Users/joao/Developer/carrismetropolitana/go/nextjs/pages/api/configs/imports/stops/shelters.csv', { encoding: 'utf8' });
+		const sheltersRaw = fs.readFileSync('/app/pages/api/configs/imports/stops/shelters.csv', { encoding: 'utf8' });
 		const parsedAllShelters = Papa.parse(sheltersRaw, { delimiter: ',', header: true });
 
 		//
