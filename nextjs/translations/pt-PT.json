@@ -3996,6 +3996,10 @@
 				"title": "Informação Administrativa",
 				"description": "Informações sobre a localização administrativa e responsabilidade de gestão desta paragem."
 			},
+			"shelter": {
+				"title": "Abrigo",
+				"description": "Informações relacionadas com o abrigo."
+			},
 			"infrastructure": {
 				"title": "Infraestrutura",
 				"description": "Informações relacionadas com os equipamentos da paragem e envolvente."
@@ -4115,6 +4119,14 @@
 			"shelter_maintainer": {
 				"label": "Entidade Gestora do Abrigo",
 				"placeholder": "JC Decaux"
+			},
+			"last_shelter_check": {
+				"label": "Última verificação do estado do abrigo",
+				"placeholder": "2024-09-12"
+			},
+			"shelter_installation_date": {
+				"label": "Data de Instalação do Abrigo",
+				"placeholder": "2024-09"
 			},
 			"has_mupi": {
 				"label": "Existe Mupi?",

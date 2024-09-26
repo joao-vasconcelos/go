@@ -10,7 +10,7 @@ import StopsExplorerIdPageItemMedia from '@/components/StopsExplorerIdPageItemMe
 import StopsExplorerIdPageMap from '@/components/StopsExplorerIdPageMap/StopsExplorerIdPageMap';
 import { useStopsExplorerContext } from '@/contexts/StopsExplorerContext';
 import { StopOptions } from '@/schemas/Stop/options';
-import { ActionIcon, Autocomplete, Divider, MultiSelect, NumberInput, Select, SimpleGrid, TextInput, Textarea, Tooltip } from '@mantine/core';
+import { Accordion, ActionIcon, Autocomplete, Divider, MultiSelect, NumberInput, Select, SimpleGrid, Textarea, TextInput, Tooltip } from '@mantine/core';
 import { IconAB, IconABOff, IconVolume, IconWorldLatitude, IconWorldLongitude } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
@@ -232,9 +232,8 @@ export default function StopsExplorerIdPage() {
 
 	const handlePlayPhoneticName = async () => {
 		if (typeof window !== 'undefined') {
-			// eslint-disable-next-line no-undef
 			const synth = window.speechSynthesis;
-			// eslint-disable-next-line no-undef
+
 			const utterance = new SpeechSynthesisUtterance(stopsExplorerContext.form.values.tts_name || '');
 			utterance.lang = 'pt';
 			synth.speak(utterance);
@@ -358,6 +357,53 @@ export default function StopsExplorerIdPage() {
 
 			<Divider />
 
+			<AppLayoutSection description={t('sections.shelter.description')} title={t('sections.shelter.title')}>
+				<SimpleGrid cols={3}>
+					<Select
+						data={hasShelterOptionsData}
+						label={t('form.has_shelter.label')}
+						nothingFoundMessage={t('form.has_shelter.nothingFound')}
+						placeholder={t('form.has_shelter.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('has_shelter')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+						clearable
+						searchable
+					/>
+					<TextInput
+						label={t('form.shelter_code.label')}
+						placeholder={t('form.shelter_code.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('shelter_code')}
+						disabled={!stopsExplorerContext.form.values.has_shelter || stopsExplorerContext.form.values.has_shelter === 'UNKNOWN' || stopsExplorerContext.form.values.has_shelter === 'NO'}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
+					<TextInput
+						label={t('form.shelter_maintainer.label')}
+						placeholder={t('form.shelter_maintainer.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('shelter_maintainer')}
+						disabled={!stopsExplorerContext.form.values.has_shelter || stopsExplorerContext.form.values.has_shelter === 'UNKNOWN' || stopsExplorerContext.form.values.has_shelter === 'NO'}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
+				</SimpleGrid>
+				<SimpleGrid cols={2}>
+					<TextInput
+						label={t('form.last_shelter_check.label')}
+						placeholder={t('form.last_shelter_check.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('last_shelter_check')}
+						disabled={!stopsExplorerContext.form.values.has_shelter || stopsExplorerContext.form.values.has_shelter === 'UNKNOWN' || stopsExplorerContext.form.values.has_shelter === 'NO'}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
+					<TextInput
+						label={t('form.shelter_installation_date.label')}
+						placeholder={t('form.shelter_installation_date.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('shelter_installation_date')}
+						disabled={!stopsExplorerContext.form.values.has_shelter || stopsExplorerContext.form.values.has_shelter === 'UNKNOWN' || stopsExplorerContext.form.values.has_shelter === 'NO'}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
+				</SimpleGrid>
+			</AppLayoutSection>
+
+			<Divider />
+
 			<AppLayoutSection description={t('sections.infrastructure.description')} title={t('sections.infrastructure.title')}>
 				<SimpleGrid cols={3}>
 					<Select
@@ -379,32 +425,6 @@ export default function StopsExplorerIdPage() {
 						readOnly={stopsExplorerContext.page.is_read_only}
 						clearable
 						searchable
-					/>
-					<Select
-						data={hasShelterOptionsData}
-						label={t('form.has_shelter.label')}
-						nothingFoundMessage={t('form.has_shelter.nothingFound')}
-						placeholder={t('form.has_shelter.placeholder')}
-						{...stopsExplorerContext.form.getInputProps('has_shelter')}
-						readOnly={stopsExplorerContext.page.is_read_only}
-						clearable
-						searchable
-					/>
-				</SimpleGrid>
-				<SimpleGrid cols={2}>
-					<TextInput
-						label={t('form.shelter_code.label')}
-						placeholder={t('form.shelter_code.placeholder')}
-						{...stopsExplorerContext.form.getInputProps('shelter_code')}
-						disabled={!stopsExplorerContext.form.values.has_shelter || stopsExplorerContext.form.values.has_shelter === 'UNKNOWN' || stopsExplorerContext.form.values.has_shelter === 'NO'}
-						readOnly={stopsExplorerContext.page.is_read_only}
-					/>
-					<TextInput
-						label={t('form.shelter_maintainer.label')}
-						placeholder={t('form.shelter_maintainer.placeholder')}
-						{...stopsExplorerContext.form.getInputProps('shelter_maintainer')}
-						disabled={!stopsExplorerContext.form.values.has_shelter || stopsExplorerContext.form.values.has_shelter === 'UNKNOWN' || stopsExplorerContext.form.values.has_shelter === 'NO'}
-						readOnly={stopsExplorerContext.page.is_read_only}
 					/>
 				</SimpleGrid>
 				<SimpleGrid cols={3}>

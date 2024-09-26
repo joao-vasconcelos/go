@@ -40,14 +40,21 @@ export const StopDefault = {
 	jurisdiction: '',
 
 	/*
-   * INFRASTRUCTURE
-   */
+     * SHELTER
+     */
 
-	has_pole: StopPropertyHasPole.Unknown,
-	has_cover: StopPropertyHasCover.Unknown,
 	has_shelter: StopPropertyHasShelter.Unknown,
 	shelter_code: '',
 	shelter_maintainer: '',
+	last_shelter_check: '',
+	shelter_installation_date: '',
+
+	/*
+     * INFRASTRUCTURE
+     */
+
+	has_pole: StopPropertyHasPole.Unknown,
+	has_cover: StopPropertyHasCover.Unknown,
 	has_mupi: StopPropertyHasMupi.Unknown,
 	has_bench: StopPropertyHasBench.Unknown,
 	has_trash_bin: StopPropertyHasTrashBin.Unknown,

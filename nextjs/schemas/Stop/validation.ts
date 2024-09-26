@@ -81,13 +81,20 @@ export const StopValidation = yup.object({
 
 	/*
 	 * INFRASTRUCTURE
-   */
+     */
 
-	has_pole: yup.string().max(50),
-	has_cover: yup.string().max(50),
 	has_shelter: yup.string().max(50),
 	shelter_code: yup.string().max(100),
 	shelter_maintainer: yup.string().max(100),
+	last_shelter_check: yup.string().max(100),
+	shelter_installation_date: yup.string().max(100),
+
+	/*
+	 * INFRASTRUCTURE
+     */
+
+	has_pole: yup.string().max(50),
+	has_cover: yup.string().max(50),
 	has_mupi: yup.string().max(50),
 	has_bench: yup.string().max(50),
 	has_trash_bin: yup.string().max(50),

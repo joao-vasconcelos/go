@@ -94,19 +94,9 @@ export const StopSchema = new mongoose.Schema(
 		},
 
 		/*
-     * INFRASTRUCTURE
-     */
+     	 * SHELTER
+		 */
 
-		has_pole: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasPole.Unknown,
-		},
-		has_cover: {
-			type: String,
-			maxlength: 50,
-			default: StopPropertyHasShelter.Unknown,
-		},
 		has_shelter: {
 			type: String,
 			maxlength: 50,
@@ -119,6 +109,29 @@ export const StopSchema = new mongoose.Schema(
 		shelter_maintainer: {
 			type: String,
 			maxlength: 100,
+		},
+		last_shelter_check: {
+			type: String,
+			maxlength: 100,
+		},
+		shelter_installation_date: {
+			type: String,
+			maxlength: 100,
+		},
+
+		/*
+     	 * INFRASTRUCTURE
+		 */
+
+		has_pole: {
+			type: String,
+			maxlength: 50,
+			default: StopPropertyHasPole.Unknown,
+		},
+		has_cover: {
+			type: String,
+			maxlength: 50,
+			default: StopPropertyHasShelter.Unknown,
 		},
 		has_mupi: {
 			type: String,
@@ -160,8 +173,8 @@ export const StopSchema = new mongoose.Schema(
 		},
 
 		/*
-     * PUBLIC INFORMATION
-     */
+         * PUBLIC INFORMATION
+         */
 
 		has_flag: {
 			type: String,
