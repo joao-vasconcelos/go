@@ -42,11 +42,11 @@ function parseTripAnalysis(tripAnalysis) {
 	};
 
 	tripAnalysis.analysis.forEach((item) => {
-		parsed[`${item.code}_status`] = item.status;
+		// parsed[`${item.code}_status`] = item.status;
 		parsed[`${item.code}_grade`] = item.grade;
 		parsed[`${item.code}_reason`] = item.reason;
-		parsed[`${item.code}_message`] = item.message;
-		parsed[`${item.code}_unit`] = item.unit;
+		// parsed[`${item.code}_message`] = item.message;
+		// parsed[`${item.code}_unit`] = item.unit;
 		parsed[`${item.code}_value`] = item.value;
 	});
 
