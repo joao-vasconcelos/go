@@ -11,9 +11,10 @@ import gtfsExportRegionalMergeV1 from '@/scripts/gtfs/gtfs.export.regional_merge
 import netexExportV1 from '@/scripts/netex/netex.export.v1';
 import reportsSlaExportDebugV1 from '@/scripts/reports/sla/reports.sla.export.debug';
 import reportsSlaExportDefaultV1 from '@/scripts/reports/sla/reports.sla.export.default';
+import reportsSlaExportPublishV1 from '@/scripts/reports/sla/reports.sla.export.publish_v1';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import SMTP from '@/services/SMTP';
 import STORAGE from '@/services/STORAGE';
-import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import fs from 'fs';
 import path from 'path';
 import yazl from 'yazl';
@@ -98,6 +99,11 @@ export default async function handler(req, res) {
 			// For 'sla_default_v1' the only requirement is the agency_id
 			case 'sla_default_v1':
 				isAllowed(sessionData, [{ action: 'create', fields: [{ key: 'agency', values: [req.body.agency_id] }], scope: 'exports' }]);
+				break;
+			// 5.2.6.
+			// For 'sla_default_v1' the only requirement is the agency_id
+			case 'sla_publish_v1':
+				isAllowed(sessionData, [{ action: 'create', scope: 'exports' }]);
 				break;
 		}
 	}
@@ -196,6 +202,17 @@ export default async function handler(req, res) {
 					console.log('error5', error);
 					return await res.status(500).json({ message: 'Error fetching Agency data.' });
 				}
+			// 7.2.1.
+			// For GTFS v29 the name consists of the agency code, the version and the export date.
+			case 'sla_publish_v1':
+				try {
+					exportDocument.filename = `SLA_PUBLISH_V1_${req.body.start_date}_${req.body.end_date}.zip`;
+					break;
+				}
+				catch (error) {
+					console.log('error5', error);
+					return await res.status(500).json({ message: 'Error fetching Agency data.' });
+				}
 		}
 
 		// 7.3.
@@ -256,6 +273,11 @@ export default async function handler(req, res) {
 			// 8.2.4.
 			case 'sla_default_v1':
 				await reportsSlaExportDefaultV1(exportDocument, req.body);
+				await update(exportDocument, { progress_current: 1, progress_total: 2 });
+				break;
+			// 8.2.4.
+			case 'sla_publish_v1':
+				await reportsSlaExportPublishV1(exportDocument, req.body);
 				await update(exportDocument, { progress_current: 1, progress_total: 2 });
 				break;
 		}

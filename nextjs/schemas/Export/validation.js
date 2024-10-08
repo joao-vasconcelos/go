@@ -61,3 +61,10 @@ export const ExportFormValidationSlaDefaultV1 = yup.object({
 	end_date: yup.string(),
 	start_date: yup.string(),
 });
+
+/* * */
+
+export const ExportFormValidationSlaPublishV1 = yup.object({
+	end_date: yup.string(),
+	start_date: yup.string(),
+});

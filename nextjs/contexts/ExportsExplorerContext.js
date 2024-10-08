@@ -2,8 +2,8 @@
 
 /* * */
 
-import { ExportFormDefault, ExportFormDefaultGtfsV29, ExportFormDefaultNetexV1, ExportFormDefaultRegionalMergeV1, ExportFormDefaultSlaDebugV1, ExportFormDefaultSlaDefaultV1 } from '@/schemas/Export/default';
-import { ExportFormValidation, ExportFormValidationGtfsV29, ExportFormValidationNetexV1, ExportFormValidationRegionalMergeV1, ExportFormValidationSlaDebugV1, ExportFormValidationSlaDefaultV1 } from '@/schemas/Export/validation';
+import { ExportFormDefault, ExportFormDefaultGtfsV29, ExportFormDefaultNetexV1, ExportFormDefaultRegionalMergeV1, ExportFormDefaultSlaDebugV1, ExportFormDefaultSlaDefaultV1, ExportFormDefaultSlaPublishV1 } from '@/schemas/Export/default';
+import { ExportFormValidation, ExportFormValidationGtfsV29, ExportFormValidationNetexV1, ExportFormValidationRegionalMergeV1, ExportFormValidationSlaDebugV1, ExportFormValidationSlaDefaultV1, ExportFormValidationSlaPublishV1 } from '@/schemas/Export/validation';
 import API from '@/services/API';
 import { useForm, yupResolver } from '@mantine/form';
 import { DateTime } from 'luxon';
@@ -97,6 +97,14 @@ export function ExportsExplorerContextProvider({ children }) {
 		validateInputOnChange: true,
 	});
 
+	const formStateSlaPublishV1 = useForm({
+		clearInputErrorOnChange: true,
+		initialValues: ExportFormDefaultSlaPublishV1,
+		validate: yupResolver(ExportFormValidationSlaPublishV1),
+		validateInputOnBlur: true,
+		validateInputOnChange: true,
+	});
+
 	//
 	// F. Setup actions
 
@@ -162,6 +170,14 @@ export function ExportsExplorerContextProvider({ children }) {
 						start_date: DateTime.fromJSDate(formStateSlaDefaultV1.values.start_date).toFormat('yyyyMMdd'),
 					};
 					break;
+				case 'sla_publish_v1':
+					requestBody = {
+						...formStateMainValues,
+						...formStateSlaPublishV1.values,
+						end_date: DateTime.fromJSDate(formStateSlaPublishV1.values.end_date).toFormat('yyyyMMdd'),
+						start_date: DateTime.fromJSDate(formStateSlaPublishV1.values.start_date).toFormat('yyyyMMdd'),
+					};
+					break;
 			}
 			// Perform the API call
 			await API({ body: requestBody, method: 'POST', operation: 'create', service: 'exports' });
@@ -174,6 +190,7 @@ export function ExportsExplorerContextProvider({ children }) {
 			formStateRegionalMergeV1.setValues(ExportFormDefaultRegionalMergeV1);
 			formStateSlaDebugV1.setValues(ExportFormDefaultSlaDebugV1);
 			formStateSlaDefaultV1.setValues(ExportFormDefaultSlaDefaultV1);
+			formStateSlaPublishV1.setValues(ExportFormDefaultSlaPublishV1);
 			// Update interface
 			setFormState(initialFormState);
 			//
@@ -199,11 +216,12 @@ export function ExportsExplorerContextProvider({ children }) {
 			form_regional_merge_v1: formStateRegionalMergeV1,
 			form_sla_debug_v1: formStateSlaDebugV1,
 			form_sla_default_v1: formStateSlaDefaultV1,
+			form_sla_publish_v1: formStateSlaPublishV1,
 			//
 			startExport: handleStartExport,
 			//
 		}),
-		[formState, formStateGtfsV29, formStateSlaDefaultV1, formStateSlaDebugV1, formStateMain, formStateMainValuesState, formStateNetexV1, formStateRegionalMergeV1, handleStartExport],
+		[formState, formStateGtfsV29, formStateSlaDefaultV1, formStateSlaDebugV1, formStateMain, formStateMainValuesState, formStateNetexV1, formStateRegionalMergeV1, formStateSlaPublishV1, handleStartExport],
 	);
 
 	//

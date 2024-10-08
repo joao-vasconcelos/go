@@ -66,3 +66,10 @@ export const ExportFormDefaultSlaDefaultV1 = {
 	end_date: null,
 	start_date: null,
 };
+
+/* * */
+
+export const ExportFormDefaultSlaPublishV1 = {
+	end_date: null,
+	start_date: null,
+};

@@ -1275,6 +1275,10 @@
 			"sla_default_v1": {
 				"label": "SLA Caracterização de Circulações (v1)",
 				"description": "For testing."
+			},
+			"sla_publish_v1": {
+				"label": "SLA Publish (v1)",
+				"description": "For testing."
 			}
 		}
 	},

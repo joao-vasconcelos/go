@@ -9,6 +9,7 @@ import ExportsExplorerFormHeader from '@/components/ExportsExplorerFormHeader/Ex
 import ExportsExplorerFormIntro from '@/components/ExportsExplorerFormIntro/ExportsExplorerFormIntro';
 import ExportsExplorerFormSlaDebugV1 from '@/components/ExportsExplorerFormSlaDebugV1/ExportsExplorerFormSlaDebugV1';
 import ExportsExplorerFormSlaDefaultV1 from '@/components/ExportsExplorerFormSlaDefaultV1/ExportsExplorerFormSlaDefaultV1';
+import ExportsExplorerFormSlaPublishV1 from '@/components/ExportsExplorerFormSlaPublishV1/ExportsExplorerFormSlaPublishV1';
 import { Section } from '@/components/Layouts/Layouts';
 import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import Pannel from '@/components/Pannel/Pannel';
@@ -63,6 +64,7 @@ export default function ExportsExplorerForm() {
 			{exportsExplorerContext.form_main.values.kind === 'regional_merge_v1' && <ExportsExplorerFormGtfsRegionalMergeV1 />}
 			{exportsExplorerContext.form_main.values.kind === 'sla_debug_v1' && <ExportsExplorerFormSlaDebugV1 />}
 			{exportsExplorerContext.form_main.values.kind === 'sla_default_v1' && <ExportsExplorerFormSlaDefaultV1 />}
+			{exportsExplorerContext.form_main.values.kind === 'sla_publish_v1' && <ExportsExplorerFormSlaPublishV1 />}
 
 			<Divider />
 			<Section>
