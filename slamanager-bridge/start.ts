@@ -80,8 +80,9 @@ export default async () => {
 		const tripAnalysisParsed = parseTripAnalysis(exampleTripAnalysis);
 		await createTableFromExample(tripAnalysisParsed);
 
-		const allTripAnalyses = await SLAMANAGERDB.TripAnalysis.find();
-		for await (const tripAnalysis of allTripAnalyses) {
+		const allTripAnalysesStream = SLAMANAGERDB.TripAnalysis.find().stream();
+		for await (const tripAnalysis of allTripAnalysesStream) {
+			console.log(`Writing trip analysis "${tripAnalysis.code}" ...`);
 			const parsedTripAnalysis = parseTripAnalysis(tripAnalysis);
 			await dbWriter.write(parsedTripAnalysis);
 		}

@@ -303,3 +303,12 @@ services:
         max-file: '1'
     env_file:
       - .env
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9898:8080
