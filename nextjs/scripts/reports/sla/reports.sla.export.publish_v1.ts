@@ -2,7 +2,6 @@
 
 /* * */
 
-import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportModel } from '@/schemas/Export/model';
 import CSVWRITER from '@/services/CSVWRITER';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB';
