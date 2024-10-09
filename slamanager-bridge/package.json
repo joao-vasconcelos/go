@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@helperkits/logger": "20240703.1726.24",
 		"@helperkits/timer": "20240627.34.23",
-		"@helperkits/writer": "20241009.1603.17",
+		"@helperkits/writer": "20241009.1615.4",
 		"dotenv": "16.4.5",
 		"luxon": "3.5.0",
 		"mongodb": "6.9.0",
