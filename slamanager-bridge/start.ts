@@ -70,8 +70,6 @@ export default async () => {
 		LOGGER.divider();
 		LOGGER.info('Creating TripAnalysis tables...');
 
-		const dbWriter = new PostgresWriter('TripAnalysis', SLAMANAGERBRIDGEDB.client, 'trip_analysis'); ;
-
 		const exampleTripAnalysis = await SLAMANAGERDB.TripAnalysis.findOne();
 		if (!exampleTripAnalysis) {
 			throw new Error('No example trip analysis found.');
@@ -84,7 +82,11 @@ export default async () => {
 		for await (const tripAnalysis of allTripAnalysesStream) {
 			console.log(`Writing trip analysis "${tripAnalysis.code}" ...`);
 			const parsedTripAnalysis = parseTripAnalysis(tripAnalysis);
-			await dbWriter.write(parsedTripAnalysis);
+			await SLAMANAGERBRIDGEDB.client.query(`
+				INSERT INTO trip_analysis (${Object.keys(parsedTripAnalysis).join(',')})
+				VALUES (${Object.values(parsedTripAnalysis).map(value => `'${value}'`).join(',')})
+				ON CONFLICT (code) UPDATE SET ${Object.keys(parsedTripAnalysis).map(key => `${key} = EXCLUDED.${key}`).join(',')};
+			`);
 		}
 
 		LOGGER.terminate(`Run took ${globalTimer.get()}.`);
