@@ -85,7 +85,7 @@ export default async () => {
 			await SLAMANAGERBRIDGEDB.client.query(`
 				INSERT INTO trip_analysis (${Object.keys(parsedTripAnalysis).join(',')})
 				VALUES (${Object.values(parsedTripAnalysis).map(value => `'${value}'`).join(',')})
-				ON CONFLICT (code) UPDATE SET ${Object.keys(parsedTripAnalysis).map(key => `${key} = EXCLUDED.${key}`).join(',')};
+				ON CONFLICT (code) DO UPDATE SET ${Object.keys(parsedTripAnalysis).map(key => `${key} = EXCLUDED.${key}`).join(',')};
 			`);
 		}
 
