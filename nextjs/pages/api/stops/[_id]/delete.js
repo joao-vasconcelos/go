@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ method: 'DELETE', permissions: [{ action: 'view', scope: 'stops' }], request: req, session: sessionData });
+		await prepareApiEndpoint({ method: 'DELETE', permissions: [{ action: 'delete', scope: 'stops' }], request: req, session: sessionData });
 	}
 	catch (error) {
 		console.log(error);

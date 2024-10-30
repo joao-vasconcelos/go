@@ -34,31 +34,6 @@ export default function Page() {
 	//
 	// C. Handle actions
 
-	// const handleImportShelters = async () => {
-	// 	openConfirmModal({
-	// 		centered: true,
-	// 		children: <Text size="h3">Are you sure?</Text>,
-	// 		closeOnClickOutside: true,
-	// 		confirmProps: { color: 'red' },
-	// 		labels: { cancel: 'Cancel', confirm: 'Yes, Import Shelters' },
-	// 		onConfirm: async () => {
-	// 			try {
-	// 				setIsImporting(true);
-	// 				notify('importShelters', 'loading', 'Loading');
-	// 				await API({ method: 'GET', service: 'configs/imports/stops/shelters' });
-	// 				notify('importShelters', 'success', 'success');
-	// 				setIsImporting(false);
-	// 			}
-	// 			catch (error) {
-	// 				console.log(error);
-	// 				notify('importShelters', 'error', error.message || 'Error');
-	// 				setIsImporting(false);
-	// 			}
-	// 		},
-	// 		title: <Text size="h2">Import Shelters?</Text>,
-	// 	});
-	// };
-
 	const handleMarkStuckTripsAsPending = async () => {
 		openConfirmModal({
 			centered: true,
@@ -444,16 +419,6 @@ export default function Page() {
 	return (
 		<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]} redirect>
 			<Pannel>
-				<AppLayoutSection title="Offer Manager Advanced Operations">
-					<NoDataLabel text="No operations available" />
-					{/* <SimpleGrid cols={3}>
-						<Button color="red" loading={isImporting} onClick={handleImportShelters}>
-							Import Shelters
-						</Button>
-					</SimpleGrid> */}
-				</AppLayoutSection>
-
-				<Divider />
 
 				<AppLayoutSection title="SLA Manager Advanced Operations">
 					<Table

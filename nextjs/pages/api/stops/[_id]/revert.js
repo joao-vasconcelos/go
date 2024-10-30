@@ -10,8 +10,6 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
 	//
 
-	// throw new Error('Feature is disabled.');
-
 	// 1.
 	// Setup variables
 
@@ -32,28 +30,32 @@ export default async function handler(req, res) {
 	// Prepare endpoint
 
 	try {
-		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'admin', scope: 'configs' }], request: req, session: sessionData });
+		await prepareApiEndpoint({ method: 'GET', permissions: [{ action: 'delete', scope: 'stops' }], request: req, session: sessionData });
 	}
 	catch (error) {
 		console.log(error);
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
 
-	// 5.
-	// Connect to mongodb
+	// 4.
+	// Retrieve requested document from the database
 
 	try {
 		//
 
-		const deletedStopToRevert = await DeletedStopModel.findOne({ code: '162842' }).lean();
+		const deletedStopToRevert = await DeletedStopModel.findOne({ code: req.query._id }).lean();
 
-		const newStop = { ...StopDefault, ...deletedStopToRevert };
+		if (!deletedStopToRevert) return await res.status(404).json({ message: `Deleted Stop with _id "${req.query._id}" not found.` });
 
-		// console.log(newStop);
+		const newStop = { ...StopDefault, ...deletedStopToRevert, code: req.query._id };
+
+		console.log(newStop);
 
 		await StopModel(newStop).save();
 
-		await DeletedStopModel.findOneAndDelete({ code: '162842' });
+		await DeletedStopModel.findOneAndDelete({ code: req.query._id });
+
+		return await res.status(200).send({ message: 'Done' });
 
 		//
 	}
@@ -61,9 +63,6 @@ export default async function handler(req, res) {
 		console.log(error);
 		return await res.status(500).json({ message: 'Delete Error' });
 	}
-
-	console.log('Done. Sending response to client...');
-	return await res.status(200).json('Delete complete.');
 
 	//
 }
