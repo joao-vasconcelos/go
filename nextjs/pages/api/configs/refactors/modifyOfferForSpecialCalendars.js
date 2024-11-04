@@ -10,7 +10,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
 	//
 
-	throw new Error('Feature is disabled.');
+	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 		patternLoop: for (const patternCode of allPatternCodes) {
 			//
 
-			if (!patternCode.code.startsWith('28')) {
+			if (!patternCode.code.startsWith('1')) {
 				continue patternLoop;
 			}
 
@@ -89,17 +89,19 @@ export default async function handler(req, res) {
 
 				// Check if this schedule has the following calendars
 
-				const hasCalendarEscDu = allCalendarsOnData.findIndex(c => c.code === 'ESC_DU') >= 0;
-				const hasCalendarEscSab = allCalendarsOnData.findIndex(c => c.code === 'ESC_SAB') >= 0;
+				const hasCalendarFerDu = allCalendarsOnData.findIndex(c => c.code === 'FER_DU') >= 0;
+				const hasCalendarFerSab = allCalendarsOnData.findIndex(c => c.code === 'FER_SAB') >= 0;
 
 				/* * * * * * * * * */
 
-				if (hasCalendarEscDu && !hasCalendarEscSab) {
-					addedCalendarsOff.add('ESP_SANTOS_DIA');
+				if (hasCalendarFerDu && !hasCalendarFerSab) {
+					addedCalendarsOff.add('ESP_NATAL_VESP');
+					addedCalendarsOff.add('ESP_ANONOVO_VESP');
 				}
 
-				if (hasCalendarEscSab && !hasCalendarEscDu) {
-					addedCalendarsOn.add('ESP_SANTOS_DIA');
+				if (!hasCalendarFerDu && hasCalendarFerSab) {
+					addedCalendarsOn.add('ESP_NATAL_VESP');
+					addedCalendarsOn.add('ESP_ANONOVO_VESP');
 				}
 
 				/* * * * * * * * * */
