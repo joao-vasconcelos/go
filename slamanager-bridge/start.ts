@@ -5,7 +5,6 @@ import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB.js';
 import SLAMANAGERDB from '@/services/SLAMANAGERDB.js';
 import LOGGER from '@helperkits/logger';
 import TIMETRACKER from '@helperkits/timer';
-import { PostgresWriter } from '@helperkits/writer';
 
 /* * */
 
