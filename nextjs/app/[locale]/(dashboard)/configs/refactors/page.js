@@ -50,6 +50,31 @@ export default function Page() {
 		});
 	};
 
+	const handleRemoveSpecialCalendars = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Remove Special Calendars' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('removeSpecialCalendars', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'configs/refactors/removeSpecialCalendars' });
+					notify('removeSpecialCalendars', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('removeSpecialCalendars', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Remove Special Calendars?</Text>,
+		});
+	};
+
 	//
 	// C. Render components
 
@@ -57,10 +82,13 @@ export default function Page() {
 		<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]} redirect>
 			<Pannel>
 
-				<AppLayoutSection title="Offer Stops Advanced Operations">
+				<AppLayoutSection title="Offer Refactors Advanced Operations">
 					<SimpleGrid cols={3}>
 						<Button color="red" loading={isImporting} onClick={handleModifyOfferForSpecialCalendars}>
 							Modify Offer for Special Calendars
+						</Button>
+						<Button color="red" loading={isImporting} onClick={handleRemoveSpecialCalendars}>
+							Remove Special Calendars
 						</Button>
 					</SimpleGrid>
 				</AppLayoutSection>

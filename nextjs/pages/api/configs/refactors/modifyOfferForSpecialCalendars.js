@@ -10,7 +10,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
 	//
 
-	throw new Error('Feature is disabled.');
+	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 		patternLoop: for (const patternCode of allPatternCodes) {
 			//
 
-			if (!patternCode.code.startsWith('1')) {
+			if (!patternCode.code.startsWith('3')) {
 				continue patternLoop;
 			}
 
@@ -65,7 +65,7 @@ export default async function handler(req, res) {
 				//
 
 				// Transform the start time string to integer
-				// const scheduleStartTimeInt = parseInt(scheduleData.start_time.split(':').join(''));
+				const scheduleStartTimeInt = parseInt(scheduleData.start_time.split(':').join(''));
 
 				// Create a temporary variable
 				const addedCalendarsOn = new Set();
@@ -90,18 +90,18 @@ export default async function handler(req, res) {
 				// Check if this schedule has the following calendars
 
 				const hasCalendarFerDu = allCalendarsOnData.findIndex(c => c.code === 'FER_DU') >= 0;
-				const hasCalendarFerSab = allCalendarsOnData.findIndex(c => c.code === 'FER_SAB') >= 0;
+				const hasCalendarFerDom = allCalendarsOnData.findIndex(c => c.code === 'FER_DOM') >= 0;
 
 				/* * * * * * * * * */
 
-				if (hasCalendarFerDu && !hasCalendarFerSab) {
+				if (hasCalendarFerDu && scheduleStartTimeInt >= 2100) {
 					addedCalendarsOff.add('ESP_NATAL_VESP');
 					addedCalendarsOff.add('ESP_ANONOVO_VESP');
 				}
 
-				if (!hasCalendarFerDu && hasCalendarFerSab) {
-					addedCalendarsOn.add('ESP_NATAL_VESP');
-					addedCalendarsOn.add('ESP_ANONOVO_VESP');
+				if (hasCalendarFerDom && scheduleStartTimeInt < 730) {
+					addedCalendarsOff.add('ESP_NATAL_DIA');
+					addedCalendarsOff.add('ESP_ANONOVO_DIA');
 				}
 
 				/* * * * * * * * * */
