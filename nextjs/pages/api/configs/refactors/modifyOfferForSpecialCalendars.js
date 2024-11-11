@@ -10,7 +10,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
 	//
 
-	throw new Error('Feature is disabled.');
+	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 		patternLoop: for (const patternCode of allPatternCodes) {
 			//
 
-			if (!patternCode.code.startsWith('3')) {
+			if (!patternCode.code.startsWith('2')) {
 				continue patternLoop;
 			}
 
@@ -94,12 +94,12 @@ export default async function handler(req, res) {
 
 				/* * * * * * * * * */
 
-				if (hasCalendarFerDu && scheduleStartTimeInt >= 2100) {
+				if (hasCalendarFerDu && scheduleStartTimeInt > 2200) {
 					addedCalendarsOff.add('ESP_NATAL_VESP');
 					addedCalendarsOff.add('ESP_ANONOVO_VESP');
 				}
 
-				if (hasCalendarFerDom && scheduleStartTimeInt < 730) {
+				if (hasCalendarFerDom && scheduleStartTimeInt < 700) {
 					addedCalendarsOff.add('ESP_NATAL_DIA');
 					addedCalendarsOff.add('ESP_ANONOVO_DIA');
 				}
