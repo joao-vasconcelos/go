@@ -152,8 +152,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=slamanagerbufferdbuser
       - MONGO_INITDB_ROOT_PASSWORD=slamanagerbufferdbpassword
-    ports:
-      - 80:27017
+    # ports:
+    #   - 80:27017
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

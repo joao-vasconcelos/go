@@ -10,15 +10,15 @@ module="slamanagerdb"
 # Only keep the 300 most recent files
 files_to_keep=10
 
-# Backup the database to an archive
-echo "Starting backup for "$module"..."
-mongodump --uri="$SLAMANAGERDB_MONGODB_URI" --gzip --archive="/$directory/$module/go-backup-$module-$(date +\%Y\%m\%d\%H\%M\%S)"
-echo "Backup complete!"
+# # Backup the database to an archive
+# echo "Starting backup for "$module"..."
+# mongodump --uri="$SLAMANAGERDB_MONGODB_URI" --gzip --archive="/$directory/$module/go-backup-$module-$(date +\%Y\%m\%d\%H\%M\%S)"
+# echo "Backup complete!"
 
-# Restore the database from backup
-# echo "Starting restore..."
-# mongorestore --uri="$SLAMANAGERDB_MONGODB_URI" --drop --preserveUUID --gzip --archive="/$directory/$module/go-backup-slamanagerdb-20240424180102"
-# echo "Restore complete!"
+Restore the database from backup
+echo "Starting restore..."
+mongorestore --uri="$SLAMANAGERDB_MONGODB_URI" --drop --preserveUUID --gzip --archive="/$directory/$module/go-backup-slamanagerdb-20241115105040"
+echo "Restore complete!"
 
 # Only keep the most recent files
 echo "Preparing to remove older backups. Will only keep the $files_to_keep most recent backup archives."
