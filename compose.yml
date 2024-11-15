@@ -132,8 +132,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=slamanagerdbuser
       - MONGO_INITDB_ROOT_PASSWORD=slamanagerdbpassword
-    ports:
-      - 27018:27017
+    # ports:
+    #   - 27018:27017
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -156,8 +156,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=slamanagerbufferdbuser
       - MONGO_INITDB_ROOT_PASSWORD=slamanagerbufferdbpassword
-    ports:
-      - 27019:27017
+    # ports:
+    #   - 27019:27017
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -172,7 +172,7 @@ services:
         limits:
           memory: 4gb
     ports:
-      - 37017:5432
+      - 27020:5432
     logging:
       options:
         max-size: '1m'
