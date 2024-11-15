@@ -108,6 +108,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=offermanagerdbuser
       - MONGO_INITDB_ROOT_PASSWORD=offermanagerdbpassword
+    # ports:
+    #   - 27017:27017
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -130,6 +132,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=slamanagerdbuser
       - MONGO_INITDB_ROOT_PASSWORD=slamanagerdbpassword
+    ports:
+      - 27018:27017
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -152,8 +156,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=slamanagerbufferdbuser
       - MONGO_INITDB_ROOT_PASSWORD=slamanagerbufferdbpassword
-    # ports:
-    #   - 80:27017
+    ports:
+      - 27019:27017
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
