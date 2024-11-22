@@ -10,7 +10,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
 	//
 
-	throw new Error('Feature is disabled.');
+	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 		patternLoop: for (const patternCode of allPatternCodes) {
 			//
 
-			if (!patternCode.code.startsWith('2')) {
+			if (!patternCode.code.startsWith('4')) {
 				continue patternLoop;
 			}
 
@@ -89,18 +89,29 @@ export default async function handler(req, res) {
 
 				// Check if this schedule has the following calendars
 
-				const hasCalendarFerDu = allCalendarsOnData.findIndex(c => c.code === 'FER_DU') >= 0;
-				const hasCalendarFerDom = allCalendarsOnData.findIndex(c => c.code === 'FER_DOM') >= 0;
+				const hasCalendarNatalVesp = allCalendarsOnData.findIndex(c => c.code === '1' || c.code === '2' || c.code === '3' || c.code === '4' || c.code === '36' || c.code === '77' || c.code === '163' || c.code === '190' || c.code === '184' || c.code === '3' || c.code === '113' || c.code === '40') >= 0;
+				const hasCalendarNatalDia = allCalendarsOnData.findIndex(c => c.code === '1' || c.code === '2' || c.code === '5' || c.code === '109' || c.code === '8' || c.code === '111' || c.code === '183' || c.code === '3' || c.code === '113' || c.code === '115' || c.code === '40') >= 0;
+				const hasCalendarAnoVesp = allCalendarsOnData.findIndex(c => c.code === '1' || c.code === '2' || c.code === '3' || c.code === '4' || c.code === '36' || c.code === '77' || c.code === '163' || c.code === '190' || c.code === '184' || c.code === '3' || c.code === '113' || c.code === '40') >= 0;
+				const hasCalendarAnoDia = allCalendarsOnData.findIndex(c => c.code === '1' || c.code === '2' || c.code === '5' || c.code === '109' || c.code === '8' || c.code === '111' || c.code === '183' || c.code === '3' || c.code === '113' || c.code === '115' || c.code === '40') >= 0;
 
 				/* * * * * * * * * */
 
-				if (hasCalendarFerDu && scheduleStartTimeInt > 2200) {
+				if (hasCalendarNatalVesp && scheduleStartTimeInt > 2100) {
 					addedCalendarsOff.add('ESP_NATAL_VESP');
+				}
+
+				if (hasCalendarNatalDia && scheduleStartTimeInt < 730) {
+					addedCalendarsOff.add('ESP_NATAL_DIA');
+				}
+
+				const exceptionLineIds = ['4512', '4600', '4602', '4604', '4701', '4702', '4705', '4707', '4710', '4715', '4725', '4730'];
+				const patternIsException = exceptionLineIds.includes(patternData.code.substring(0, 4));
+
+				if (hasCalendarAnoVesp && scheduleStartTimeInt > 2200 && !patternIsException) {
 					addedCalendarsOff.add('ESP_ANONOVO_VESP');
 				}
 
-				if (hasCalendarFerDom && scheduleStartTimeInt < 700) {
-					addedCalendarsOff.add('ESP_NATAL_DIA');
+				if (hasCalendarAnoDia && scheduleStartTimeInt < 730) {
 					addedCalendarsOff.add('ESP_ANONOVO_DIA');
 				}
 
