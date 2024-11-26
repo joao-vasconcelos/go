@@ -30,11 +30,11 @@ export const ArchiveSchema = new mongoose.Schema(
 			ref: 'Media',
 			type: mongoose.Schema.Types.ObjectId,
 		},
-		operation_plan: {
+		operation_file: {
 			ref: 'Media',
 			type: mongoose.Schema.Types.ObjectId,
 		},
-		reference_plan: {
+		reference_file: {
 			ref: 'Media',
 			type: mongoose.Schema.Types.ObjectId,
 		},

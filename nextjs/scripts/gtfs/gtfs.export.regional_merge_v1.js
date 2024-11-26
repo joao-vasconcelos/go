@@ -222,12 +222,12 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		// 5.3.
 		// Skip if this archive has no associated operation plan
 
-		if (!archiveData.operation_plan) continue;
+		if (!archiveData.operation_file) continue;
 
 		// 5.4.
 		// Retrieve the associated operation plan, saved as a Media object in STORAGE
 
-		const operationPlanMediaFilePath = await getMediaFilePath(archiveData.operation_plan);
+		const operationPlanMediaFilePath = await getMediaFilePath(archiveData.operation_file);
 		const extractDirPath = `${process.env.APP_TMP_DIR}/extractions/${Math.floor(Math.random() * 1000)}/${exportDocument._id}`;
 
 		// 5.5.

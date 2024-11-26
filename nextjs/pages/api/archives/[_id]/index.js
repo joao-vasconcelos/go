@@ -2,8 +2,8 @@
 
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
-import { ArchiveModel } from '@/schemas/Archive/model';
 import mongodb from '@/services/OFFERMANAGERDB';
+import { plans } from '@tmlmobilidade/services/interfaces';
 
 /* * */
 
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
 	// Fetch the requested document
 
 	try {
-		const foundDocument = await ArchiveModel.findOne({ _id: { $eq: req.query._id } });
+		const foundDocument = await plans.findByCode().findOne({ _id: { $eq: req.query._id } });
 		if (!foundDocument) return await res.status(404).json({ message: `Archive with _id "${req.query._id}" not found.` });
 		return await res.status(200).json(foundDocument);
 	}

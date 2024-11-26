@@ -80,12 +80,12 @@ export function ArchivesExplorerItemContextProvider({ children, itemData, itemId
 		// Merge the data with the default
 		const populated = populate(ArchiveDefault, itemData);
 		// Special case for dates
-		populated.start_date = itemData.start_date ? DateTime.fromFormat(itemData.start_date, 'yyyyMMdd').toJSDate() : null;
-		populated.end_date = itemData.end_date ? DateTime.fromFormat(itemData.end_date, 'yyyyMMdd').toJSDate() : null;
+		populated.valid_from = itemData.valid_from ? DateTime.fromFormat(itemData.valid_from, 'yyyyMMdd').toJSDate() : null;
+		populated.valid_until = itemData.valid_until ? DateTime.fromFormat(itemData.valid_until, 'yyyyMMdd').toJSDate() : null;
 		// Update form
 		formState.setValues(populated);
 		formState.resetDirty(populated);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		//
 	}, [formState.isDirty(), itemData]);
 
 	//
@@ -100,8 +100,8 @@ export function ArchivesExplorerItemContextProvider({ children, itemData, itemId
 			setItemState(prev => ({ ...prev, is_error_saving: false, is_saving: true }));
 			const parsedFormValues = {
 				...formState.values,
-				end_date: formState.values.end_date ? DateTime.fromJSDate(formState.values.end_date).startOf('day').toFormat('yyyyMMdd') : null,
-				start_date: formState.values.start_date ? DateTime.fromJSDate(formState.values.start_date).startOf('day').toFormat('yyyyMMdd') : null,
+				valid_from: formState.values.valid_from ? DateTime.fromJSDate(formState.values.valid_from).startOf('day').toFormat('yyyyMMdd') : null,
+				valid_until: formState.values.valid_until ? DateTime.fromJSDate(formState.values.valid_until).startOf('day').toFormat('yyyyMMdd') : null,
 			};
 			await API({ body: parsedFormValues, method: 'PUT', operation: 'edit', resourceId: itemId, service: 'archives' });
 			allItemsMutate();

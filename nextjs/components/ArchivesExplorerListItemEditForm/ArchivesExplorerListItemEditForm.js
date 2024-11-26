@@ -8,7 +8,7 @@ import AppButtonLock from '@/components/AppButtonLock/AppButtonLock';
 import AutoSave from '@/components/AutoSave/AutoSave';
 import { useArchivesExplorerItemContext } from '@/contexts/ArchivesExplorerItemContext';
 import { ArchiveOptions } from '@/schemas/Archive/options';
-import { Select, SimpleGrid, TextInput } from '@mantine/core';
+import { Select, SimpleGrid } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
@@ -46,10 +46,6 @@ export default function ArchivesExplorerListItemEditForm() {
 		return ArchiveOptions.status.map(item => ({ label: archiveOptionsLabels(`status.${item}.label`), value: item }));
 	}, [archiveOptionsLabels]);
 
-	const allSlaManagerFeederStatusDataFormatted = useMemo(() => {
-		if (!ArchiveOptions.slamanager_feeder_status) return [];
-		return ArchiveOptions.slamanager_feeder_status.map(item => ({ label: archiveOptionsLabels(`slamanager_feeder_status.${item}.label`), value: item }));
-	}, [archiveOptionsLabels]);
 	//
 	// D. Render components
 
@@ -72,20 +68,16 @@ export default function ArchivesExplorerListItemEditForm() {
 				</AppAuthenticationCheck>
 				<AppAuthenticationCheck permissions={[{ action: 'delete', scope: 'archives' }]}>
 					<AppButtonDelete
-						disabled={archivesExplorerItemContext.item.is_read_only || archivesExplorerItemContext.form.values.reference_plan || archivesExplorerItemContext.form.values.offer_plan || archivesExplorerItemContext.form.values.operation_plan || archivesExplorerItemContext.form.values.apex_files}
+						disabled={archivesExplorerItemContext.item.is_read_only || archivesExplorerItemContext.form.values.reference_file || archivesExplorerItemContext.form.values.offer_plan || archivesExplorerItemContext.form.values.operation_file || archivesExplorerItemContext.form.values.apex_files}
 						onClick={archivesExplorerItemContext.deleteItem}
 					/>
 				</AppAuthenticationCheck>
 			</div>
 			<SimpleGrid cols={4}>
-				<Select data={allAgenciesDataFormatted} label={t('form.agency.label')} nothingFoundMessage={t('form.agency.nothingFound')} placeholder={t('form.agency.placeholder')} {...archivesExplorerItemContext.form.getInputProps('agency')} readOnly={archivesExplorerItemContext.item.is_read_only} />
-				<DatePickerInput label={t('form.start_date.label')} placeholder={t('form.start_date.placeholder')} {...archivesExplorerItemContext.form.getInputProps('start_date')} dropdownType="modal" readOnly={archivesExplorerItemContext.item.is_read_only} />
-				<DatePickerInput label={t('form.end_date.label')} placeholder={t('form.end_date.placeholder')} {...archivesExplorerItemContext.form.getInputProps('end_date')} dropdownType="modal" readOnly={archivesExplorerItemContext.item.is_read_only} />
-				<TextInput label={t('form.code.label')} placeholder={t('form.code.placeholder')} {...archivesExplorerItemContext.form.getInputProps('code')} readOnly={archivesExplorerItemContext.item.is_read_only} />
-			</SimpleGrid>
-			<SimpleGrid cols={2}>
+				<Select data={allAgenciesDataFormatted} label={t('form.agency.label')} nothingFoundMessage={t('form.agency.nothingFound')} placeholder={t('form.agency.placeholder')} {...archivesExplorerItemContext.form.getInputProps('agency_id')} readOnly={archivesExplorerItemContext.item.is_read_only} />
+				<DatePickerInput label={t('form.start_date.label')} placeholder={t('form.start_date.placeholder')} {...archivesExplorerItemContext.form.getInputProps('valid_from')} dropdownType="modal" readOnly={archivesExplorerItemContext.item.is_read_only} />
+				<DatePickerInput label={t('form.end_date.label')} placeholder={t('form.end_date.placeholder')} {...archivesExplorerItemContext.form.getInputProps('valid_until')} dropdownType="modal" readOnly={archivesExplorerItemContext.item.is_read_only} />
 				<Select data={allStatusDataFormatted} label={t('form.status.label')} nothingFoundMessage={t('form.status.nothingFound')} placeholder={t('form.status.placeholder')} {...archivesExplorerItemContext.form.getInputProps('status')} readOnly={archivesExplorerItemContext.item.is_read_only} />
-				<Select data={allSlaManagerFeederStatusDataFormatted} label={t('form.slamanager_feeder_status.label')} nothingFoundMessage={t('form.slamanager_feeder_status.nothingFound')} placeholder={t('form.slamanager_feeder_status.placeholder')} {...archivesExplorerItemContext.form.getInputProps('slamanager_feeder_status')} readOnly={archivesExplorerItemContext.item.is_read_only} />
 			</SimpleGrid>
 		</div>
 	);

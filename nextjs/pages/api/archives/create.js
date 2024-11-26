@@ -2,9 +2,8 @@
 
 import getSession from '@/authentication/getSession';
 import { ArchiveDefault } from '@/schemas/Archive/default';
-import { ArchiveModel } from '@/schemas/Archive/model';
-import generator from '@/services/generator';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import { plans } from '@tmlmobilidade/services/interfaces';
 
 /* * */
 
@@ -42,11 +41,7 @@ export default async function handler(req, res) {
 	// Save a new document with default values
 
 	try {
-		const newDocument = { ...ArchiveDefault, code: generator({ length: 5 }) };
-		while (await ArchiveModel.exists({ code: newDocument.code })) {
-			newDocument.code = generator({ length: 5 });
-		}
-		const createdDocument = await ArchiveModel(newDocument).save();
+		const createdDocument = await plans.insertOne(ArchiveDefault);
 		return await res.status(201).json(createdDocument);
 	}
 	catch (error) {

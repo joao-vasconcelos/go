@@ -1,9 +1,8 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import isAllowed from '@/authentication/isAllowed';
-import { ArchiveModel } from '@/schemas/Archive/model';
-import mongodb from '@/services/OFFERMANAGERDB';
+import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import { plans } from '@tmlmobilidade/services/interfaces';
 
 /* * */
 
@@ -16,41 +15,32 @@ export default async function handler(req, res) {
 	let sessionData;
 
 	// 2.
-	// Refuse request if not DELETE
-
-	if (req.method != 'DELETE') {
-		await res.setHeader('Allow', ['DELETE']);
-		return await res.status(405).json({ message: `Method ${req.method} Not Allowed.` });
-	}
-
-	// 3.
-	// Check for correct Authentication and valid Permissions
+	// Get session data
 
 	try {
 		sessionData = await getSession(req, res);
-		isAllowed(sessionData, [{ action: 'delete', scope: 'archives' }]);
 	}
 	catch (error) {
 		console.log(error);
-		return await res.status(401).json({ message: error.message || 'Could not verify Authentication.' });
+		return await res.status(400).json({ message: error.message || 'Could not get Session data. Are you logged in?' });
 	}
 
-	// 4.
-	// Connect to MongoDB
+	// 3.
+	// Prepare endpoint
 
 	try {
-		await mongodb.connect();
+		await prepareApiEndpoint({ method: 'DELETE', permissions: [{ action: 'delete', scope: 'archives' }], request: req, session: sessionData });
 	}
 	catch (error) {
 		console.log(error);
-		return await res.status(500).json({ message: 'MongoDB connection error.' });
+		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
 
 	// 5.
 	// Delete the correct document
 
 	try {
-		const deletedDocument = await ArchiveModel.findOneAndDelete({ _id: { $eq: req.query._id } });
+		const deletedDocument = await plans.deleteById(req.query._id);
 		if (!deletedDocument) return await res.status(404).json({ message: `Archive with _id "${req.query._id}" not found.` });
 		return await res.status(200).send(deletedDocument);
 	}

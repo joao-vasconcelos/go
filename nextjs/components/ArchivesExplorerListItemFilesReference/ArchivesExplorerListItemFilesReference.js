@@ -26,26 +26,26 @@ export default function ArchivesExplorerListItemFilesReference() {
 
 	const handleUploadComplete = (result) => {
 		if (result._id) {
-			archivesExplorerItemContext.form.setFieldValue('reference_plan', result._id);
+			archivesExplorerItemContext.form.setFieldValue('reference_file', result._id);
 		}
 	};
 
 	const handleMediaDelete = () => {
-		archivesExplorerItemContext.form.setFieldValue('reference_plan', null);
+		archivesExplorerItemContext.form.setFieldValue('reference_file', null);
 	};
 
 	//
 	// C. Render components
 
-	if (archivesExplorerItemContext.form.values.reference_plan) {
+	if (archivesExplorerItemContext.form.values.reference_file) {
 		return (
 			<ArchivesExplorerListItemFilesWrapper title={t('title')}>
-				<MediaExplorerMedia key={archivesExplorerItemContext.form.values.reference_plan} mediaId={archivesExplorerItemContext.form.values.reference_plan} onDelete={handleMediaDelete} readOnly={archivesExplorerItemContext.item.is_read_only || !archivesExplorerItemContext.item.is_edit_mode} />
+				<MediaExplorerMedia key={archivesExplorerItemContext.form.values.reference_file} mediaId={archivesExplorerItemContext.form.values.reference_file} onDelete={handleMediaDelete} readOnly={archivesExplorerItemContext.item.is_read_only || !archivesExplorerItemContext.item.is_edit_mode} />
 			</ArchivesExplorerListItemFilesWrapper>
 		);
 	}
 
-	if (!archivesExplorerItemContext.form.values.reference_plan && (archivesExplorerItemContext.item.is_read_only || !archivesExplorerItemContext.item.is_edit_mode)) {
+	if (!archivesExplorerItemContext.form.values.reference_file && (archivesExplorerItemContext.item.is_read_only || !archivesExplorerItemContext.item.is_edit_mode)) {
 		return (
 			<ArchivesExplorerListItemFilesWrapper title={t('title')}>
 				<NoDataLabel />

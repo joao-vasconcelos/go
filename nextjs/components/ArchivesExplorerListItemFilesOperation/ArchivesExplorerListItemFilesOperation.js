@@ -26,26 +26,26 @@ export default function ArchivesExplorerListItemFilesOperation() {
 
 	const handleUploadComplete = (result) => {
 		if (result._id) {
-			archivesExplorerItemContext.form.setFieldValue('operation_plan', result._id);
+			archivesExplorerItemContext.form.setFieldValue('operation_file', result._id);
 		}
 	};
 
 	const handleMediaDelete = () => {
-		archivesExplorerItemContext.form.setFieldValue('operation_plan', null);
+		archivesExplorerItemContext.form.setFieldValue('operation_file', null);
 	};
 
 	//
 	// C. Render components
 
-	if (archivesExplorerItemContext.form.values.operation_plan) {
+	if (archivesExplorerItemContext.form.values.operation_file) {
 		return (
 			<ArchivesExplorerListItemFilesWrapper title={t('title')}>
-				<MediaExplorerMedia key={archivesExplorerItemContext.form.values.operation_plan} mediaId={archivesExplorerItemContext.form.values.operation_plan} onDelete={handleMediaDelete} readOnly={archivesExplorerItemContext.item.is_read_only || !archivesExplorerItemContext.item.is_edit_mode} />
+				<MediaExplorerMedia key={archivesExplorerItemContext.form.values.operation_file} mediaId={archivesExplorerItemContext.form.values.operation_file} onDelete={handleMediaDelete} readOnly={archivesExplorerItemContext.item.is_read_only || !archivesExplorerItemContext.item.is_edit_mode} />
 			</ArchivesExplorerListItemFilesWrapper>
 		);
 	}
 
-	if (!archivesExplorerItemContext.form.values.operation_plan && (archivesExplorerItemContext.item.is_read_only || !archivesExplorerItemContext.item.is_edit_mode)) {
+	if (!archivesExplorerItemContext.form.values.operation_file && (archivesExplorerItemContext.item.is_read_only || !archivesExplorerItemContext.item.is_edit_mode)) {
 		return (
 			<ArchivesExplorerListItemFilesWrapper title={t('title')}>
 				<NoDataLabel />

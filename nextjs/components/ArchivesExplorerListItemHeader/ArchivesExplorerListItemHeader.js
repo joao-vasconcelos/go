@@ -43,8 +43,8 @@ export default function ArchivesExplorerListItemHeader() {
 
 	const agencyDataFormatted = useMemo(() => {
 		if (!allAgenciesData) return '•••';
-		return allAgenciesData.find(item => item._id === archivesExplorerItemContext.item_data.agency)?.name ?? '•••';
-	}, [allAgenciesData, archivesExplorerItemContext.item_data.agency]);
+		return allAgenciesData.find(item => item._id === archivesExplorerItemContext.item_data.agency_id)?.name ?? '•••';
+	}, [allAgenciesData, archivesExplorerItemContext.item_data.agency_id]);
 
 	//
 	// C. Render components
@@ -60,7 +60,7 @@ export default function ArchivesExplorerListItemHeader() {
 				<p className={`${styles.date} ${styles.end}`}>{endDateFormatted}</p>
 			</div>
 			<p className={styles.agencyName}>{agencyDataFormatted}</p>
-			<p className={styles.code}>{archivesExplorerItemContext.item_data.code || '•••'}</p>
+			<p className={styles.code}>{archivesExplorerItemContext.item_data._id || '•••'}</p>
 		</div>
 	);
 

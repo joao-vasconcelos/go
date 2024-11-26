@@ -4,6 +4,7 @@ name: go-local
 
 volumes:
   offermanagerdbdata:
+  archivesdbdata:
   slamanagerdbdata:
   slamanagerbufferdbdata:
   slamanagerbridgedbdata:
@@ -31,6 +32,24 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=offermanagerdbuser
       - MONGO_INITDB_ROOT_PASSWORD=offermanagerdbpassword
+
+  archivesdb:
+    image: mongo
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    ports:
+      - 37015:27017
+    volumes:
+      - archivesdbdata:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=archivesdbuser
+      - MONGO_INITDB_ROOT_PASSWORD=archivesdbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

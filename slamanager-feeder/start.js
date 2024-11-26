@@ -85,7 +85,7 @@ export default async () => {
 				// 4.1.
 				// Skip if this archive has no associated operation plan
 
-				if (!archiveData.operation_plan) continue;
+				if (!archiveData.operation_file) continue;
 
 				// 4.2.
 				// Setup variables to save formatted entities found in this archive
@@ -121,7 +121,7 @@ export default async () => {
 				// 4.4.
 				// Setup a temporary location to extract each GTFS archive
 
-				const archiveFilePath = `${process.env.APP_STORAGE_DIR}/archives/${archiveData.operation_plan.toString()}.zip`;
+				const archiveFilePath = `${process.env.APP_STORAGE_DIR}/archives/${archiveData.operation_file.toString()}.zip`;
 				const extractDirPath = `${process.env.APP_TMP_DIR}/extractions/${Math.floor(Math.random() * 1000)}/${archiveData._id}`;
 
 				// 4.5.
