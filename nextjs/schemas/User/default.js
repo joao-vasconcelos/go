@@ -26,15 +26,6 @@ export const UserDefault = {
 			view: { is_allowed: false },
 		},
 		//
-		archives: {
-			create: { is_allowed: false },
-			delete: { fields: { agency: [] }, is_allowed: false },
-			edit: { fields: { agency: [] }, is_allowed: false },
-			lock: { fields: { agency: [] }, is_allowed: false },
-			navigate: { is_allowed: false },
-			view: { fields: { agency: [] }, is_allowed: false },
-		},
-		//
 		audits: {
 			create: { is_allowed: false },
 			delete: { is_allowed: false },
@@ -120,6 +111,15 @@ export const UserDefault = {
 			lock: { is_allowed: false },
 			navigate: { is_allowed: false },
 			view: { is_allowed: false },
+		},
+		//
+		plans: {
+			create: { is_allowed: false },
+			delete: { fields: { agency: [] }, is_allowed: false },
+			edit: { fields: { agency: [] }, is_allowed: false },
+			lock: { fields: { agency: [] }, is_allowed: false },
+			navigate: { is_allowed: false },
+			view: { fields: { agency: [] }, is_allowed: false },
 		},
 		//
 		reports: {

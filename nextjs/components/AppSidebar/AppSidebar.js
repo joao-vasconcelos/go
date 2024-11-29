@@ -50,7 +50,7 @@ export default function AppSidebar() {
 		{ href: 'calendars', icon: <IconCalendarDue />, label: t('calendars'), permissions: [{ action: 'navigate', scope: 'calendars' }] },
 		{ href: 'lines', icon: <IconArrowLoopRight />, label: t('lines'), permissions: [{ action: 'navigate', scope: 'lines' }] },
 		{ href: 'exports', icon: <IconFileZip />, label: t('exports'), permissions: [{ action: 'navigate', scope: 'exports' }] },
-		{ href: 'archives', icon: <IconLayoutGridAdd />, label: t('archives'), permissions: [{ action: 'navigate', scope: 'archives' }] },
+		{ href: 'plans', icon: <IconLayoutGridAdd />, label: t('plans'), permissions: [{ action: 'navigate', scope: 'plans' }] },
 		{ href: 'municipalities', icon: <IconMapHeart />, label: t('municipalities'), permissions: [{ action: 'navigate', scope: 'municipalities' }] },
 		{ href: 'zones', icon: <IconLayoutCollage />, label: t('zones'), permissions: [{ action: 'navigate', scope: 'zones' }] },
 		{ href: 'fares', icon: <IconTicket />, label: t('fares'), permissions: [{ action: 'navigate', scope: 'fares' }] },

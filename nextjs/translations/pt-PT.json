@@ -153,7 +153,7 @@
 			},
 			"publish_end": {
 				"description": "Opcionalmente agende a arquivação do alerta.",
-				"label": "Data e Hora de Arquivo",
+				"label": "Data e Hora de Plano",
 				"placeholder": "Para a semana"
 			},
 			"publish_start": {
@@ -398,7 +398,6 @@
 	"AppSidebar": {
 		"agencies": "Operadores",
 		"alerts": "Alertas",
-		"archives": "Arquivos",
 		"audits": "Auditorias",
 		"calendars": "Calendários",
 		"configs": "Configurações",
@@ -409,6 +408,7 @@
 		"lines": "Linhas",
 		"media": "Media",
 		"municipalities": "Municípios",
+		"plans": "Planos",
 		"reports": "Relatórios",
 		"stops": "Paragens",
 		"tags": "Etiquetas",
@@ -416,92 +416,6 @@
 		"users": "Utilizadores",
 		"zones": "Zonas"
 	},
-	"ArchiveOptions": {
-		"slamanager_feeder_status": {
-			"error": {
-				"label": "Erro"
-			},
-			"partial": {
-				"label": "Processado Parcialmente"
-			},
-			"pending": {
-				"label": "Em Espera"
-			},
-			"processed": {
-				"label": "Processado"
-			}
-		},
-		"status": {
-			"active": {
-				"label": "Ativo"
-			},
-			"disabled": {
-				"label": "Inativo"
-			}
-		}
-	},
-	"ArchivesExplorerListFooter": {
-		"found_items": "{count, plural, =1 {Encontrado 1 arquivo} other {Encontrados # arquivos}}"
-	},
-	"ArchivesExplorerListHeader": {
-		"operations": {
-			"create": {
-				"error": "Ocorreu um erro ao criar o arquivo.",
-				"loading": "A criar arquivo...",
-				"success": "Foi criado um novo arquivo!",
-				"title": "Criar Novo Arquivo"
-			}
-		}
-	},
-	"ArchivesExplorerListItemEditButton": {
-		"edit": {
-			"label": "Editar"
-		}
-	},
-	"ArchivesExplorerListItemEditForm": {
-		"form": {
-			"agency": {
-				"label": "Operador",
-				"nothingFound": "Nenhum Resultado Encontrado",
-				"placeholder": "Escolha uma opção..."
-			},
-			"code": {
-				"label": "Código do Plano de Operação da PCGI",
-				"placeholder": "et2rdjsywt2..."
-			},
-			"end_date": {
-				"label": "Válido até",
-				"placeholder": "T1"
-			},
-			"slamanager_feeder_status": {
-				"label": "SLA Manager Status",
-				"nothingFound": "Nenhum Resultado Encontrado",
-				"placeholder": "Escolha uma opção..."
-			},
-			"start_date": {
-				"label": "Válido desde",
-				"placeholder": "Tarif 1"
-			},
-			"status": {
-				"label": "Status",
-				"nothingFound": "Nenhum Resultado Encontrado",
-				"placeholder": "Escolha uma opção..."
-			}
-		}
-	},
-	"ArchivesExplorerListItemFilesApex": {
-		"title": "Ficheiros APEX (ITS)"
-	},
-	"ArchivesExplorerListItemFilesOffer": {
-		"title": "Plano de Oferta (Consola)"
-	},
-	"ArchivesExplorerListItemFilesOperation": {
-		"title": "Plano de Operação (Operador)"
-	},
-	"ArchivesExplorerListItemFilesReference": {
-		"title": "Plano de Referência (GO)"
-	},
-	"ArchivesExplorerListItemHeader": {},
 	"AutoSave": {
 		"idle": {
 			"back": {
@@ -859,8 +773,8 @@
 			"title": "Now let it go!"
 		},
 		"idle": {
-			"description": "Please choose only one archive that is no bigger than {max_file_size_value} {max_file_size_unit}.",
-			"title": "Drag here the GTFS archive exported from Remix, or click to select from a folder."
+			"description": "Please choose only one plan that is no bigger than {max_file_size_value} {max_file_size_unit}.",
+			"title": "Drag here the GTFS plan exported from Remix, or click to select from a folder."
 		},
 		"reject": {
 			"description": "Are you sure you have the .zip file exported from Remix?",
@@ -1687,6 +1601,80 @@
 	"PatternsExplorerPattern": {
 		"untitled": "Pattern sem headsign"
 	},
+	"PlanOptions": {
+		"feeder_status": {
+			"error": {
+				"label": "Erro no Processamento"
+			},
+			"processing": {
+				"label": "Em processamento"
+			},
+			"success": {
+				"label": "Processamento Terminado"
+			},
+			"waiting": {
+				"label": "Em espera"
+			}
+		}
+	},
+	"PlansListFooter": {
+		"found_items": "{count, plural, =1 {Encontrado 1 arquivo} other {Encontrados # arquivos}}"
+	},
+	"PlansListHeader": {
+		"operations": {
+			"create": {
+				"error": "Ocorreu um erro ao criar o arquivo.",
+				"loading": "A criar arquivo...",
+				"success": "Foi criado um novo arquivo!",
+				"title": "Criar Novo Plano"
+			}
+		}
+	},
+	"PlansListItemEditButton": {
+		"edit": {
+			"label": "Editar"
+		}
+	},
+	"PlansListItemEditForm": {
+		"form": {
+			"agency": {
+				"label": "Operador",
+				"nothingFound": "Nenhum Resultado Encontrado",
+				"placeholder": "Escolha uma opção..."
+			},
+			"feeder_status": {
+				"label": "Status",
+				"nothingFound": "Nenhum Resultado Encontrado",
+				"placeholder": "Escolha uma opção..."
+			},
+			"is_approved": {
+				"label": "Aprovado",
+				"nothingFound": "Nenhum Resultado Encontrado",
+				"placeholder": "Escolha uma opção..."
+			},
+			"valid_from": {
+				"label": "Válido desde",
+				"placeholder": "Tarif 1"
+			},
+			"valid_until": {
+				"label": "Válido até",
+				"placeholder": "T1"
+			}
+		}
+	},
+	"PlansListItemFilesApex": {
+		"title": "Ficheiros APEX (ITS)"
+	},
+	"PlansListItemFilesOffer": {
+		"title": "Plano de Oferta (Consola)"
+	},
+	"PlansListItemFilesOperation": {
+		"title": "Plano de Operação (Operador)"
+	},
+	"PlansListItemFilesReference": {
+		"title": "Plano de Referência (GO)"
+	},
+	"PlansListItemHeader": {},
 	"ReportOptions": {
 		"kind": {
 			"realtime": {
@@ -3425,10 +3413,6 @@
 			"description": "",
 			"title": "Alertas"
 		},
-		"archives": {
-			"description": "",
-			"title": "Arquivos"
-		},
 		"audits": {
 			"description": "",
 			"title": "Auditorias"
@@ -3468,6 +3452,10 @@
 		"municipalities": {
 			"description": "",
 			"title": "Municípios"
+		},
+		"plans": {
+			"description": "",
+			"title": "Planos"
 		},
 		"reports": {
 			"description": "",
@@ -3549,7 +3537,7 @@
 	"UsersExplorerIdPagePermissionsArchives": {
 		"create": {
 			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Criar Arquivos"
+			"label": "Criar Planos"
 		},
 		"delete": {
 			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
@@ -3560,7 +3548,7 @@
 					"placeholder": "Escolha uma opção..."
 				}
 			},
-			"label": "Eliminar Arquivos"
+			"label": "Eliminar Planos"
 		},
 		"edit": {
 			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
@@ -3571,7 +3559,7 @@
 					"placeholder": "Escolha uma opção..."
 				}
 			},
-			"label": "Editar Arquivos"
+			"label": "Editar Planos"
 		},
 		"lock": {
 			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
@@ -3582,11 +3570,11 @@
 					"placeholder": "Escolha uma opção..."
 				}
 			},
-			"label": "Bloquear Arquivos"
+			"label": "Bloquear Planos"
 		},
 		"navigate": {
 			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Aceder à página dos Arquivos"
+			"label": "Aceder à página dos Planos"
 		},
 		"view": {
 			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
@@ -3597,7 +3585,7 @@
 					"placeholder": "Escolha uma opção..."
 				}
 			},
-			"label": "Ver Arquivos"
+			"label": "Ver Planos"
 		}
 	},
 	"UsersExplorerIdPagePermissionsAudits": {

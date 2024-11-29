@@ -10,7 +10,7 @@ import generator from './generator';
 class STORAGE {
 	//
 
-	allowed_scopes = { alerts: 'alerts', archives: 'archives', exports: 'exports', issues: 'issues', reports: 'reports', stops: 'stops' };
+	allowed_scopes = { alerts: 'alerts', exports: 'exports', issues: 'issues', plans: 'plans', reports: 'reports', stops: 'stops' };
 
 	exists(scope, filename) {
 		const scopeDirPath = this.getScopeDirPath(scope);

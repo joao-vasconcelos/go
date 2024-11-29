@@ -123,9 +123,9 @@ export default function UsersExplorerIdPagePermissions() {
 				</Accordion.Panel>
 			</Accordion.Item>
 
-			<Accordion.Item value="archives">
+			<Accordion.Item value="plans">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection description={t('archives.description')} title={t('archives.title')} />
+					<AppLayoutSection description={t('plans.description')} title={t('plans.title')} />
 				</Accordion.Control>
 				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsArchives />

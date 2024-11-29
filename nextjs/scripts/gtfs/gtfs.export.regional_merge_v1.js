@@ -1,7 +1,7 @@
 /* * */
 
 import { ArchiveModel } from '@/schemas/Archive/model';
-import { ArchiveOptions } from '@/schemas/Archive/options';
+import { PlanOptions } from '@/schemas/Archive/options';
 import { ExportModel } from '@/schemas/Export/model';
 import { MediaModel } from '@/schemas/Media/model';
 import datesExportDefault from '@/scripts/dates/dates.export.default';
@@ -103,7 +103,7 @@ async function getMediaFilePath(mediaId) {
 	//
 	const mediaData = await MediaModel.findOne({ _id: mediaId });
 	//
-	return STORAGE.getFilePath(ArchiveOptions.storage_scope, `${mediaData._id}${mediaData.file_extension.toLowerCase()}`);
+	return STORAGE.getFilePath(PlanOptions.storage_scope, `${mediaData._id}${mediaData.file_extension.toLowerCase()}`);
 	//
 }
 
