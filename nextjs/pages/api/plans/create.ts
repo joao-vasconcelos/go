@@ -1,7 +1,6 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import { MediaModel } from '@/schemas/Media/model';
 import { PlanDefault } from '@/schemas/Plan/default';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { plans } from '@tmlmobilidade/services/interfaces';
