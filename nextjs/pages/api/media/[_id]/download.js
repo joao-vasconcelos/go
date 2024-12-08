@@ -2,8 +2,8 @@
 
 import getSession from '@/authentication/getSession';
 import { MediaModel } from '@/schemas/Media/model';
-import STORAGE from '@/services/STORAGE';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import STORAGE from '@/services/STORAGE';
 import fs from 'fs';
 
 /* * */
@@ -51,8 +51,8 @@ export default async function handler(req, res) {
 
 		// 3.3.
 		// Read the previously zipped archive from the filesystem and pipe it to the response.
-		await res.writeHead(200, { 'Content-Disposition': `attachment; filename=${foundDocument.title}${foundDocument.file_extension}`, 'Content-Type': foundDocument.file_mime_type });
-		fs.createReadStream(STORAGE.getFilePath(foundDocument.storage_scope, `${foundDocument._id}${foundDocument.file_extension}`)).pipe(res);
+		await res.writeHead(200, { 'Content-Disposition': `attachment; filename=${foundDocument.title}${foundDocument.file_extension.toLowerCase()}`, 'Content-Type': foundDocument.file_mime_type });
+		fs.createReadStream(STORAGE.getFilePath(foundDocument.storage_scope, `${foundDocument._id}${foundDocument.file_extension.toLowerCase()}`)).pipe(res);
 
 		//
 	}

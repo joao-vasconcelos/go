@@ -3,8 +3,8 @@
 import getSession from '@/authentication/getSession';
 import { MediaDefault } from '@/schemas/Media/default';
 import { MediaModel } from '@/schemas/Media/model';
-import STORAGE from '@/services/STORAGE';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import STORAGE from '@/services/STORAGE';
 import Formidable from 'formidable';
 
 /* * */
@@ -106,7 +106,7 @@ export default async function handler(req, res) {
 		const createdDocument = await MediaModel(newDocument).save();
 
 		// Save the file to the correct directory
-		STORAGE.moveFile(createdDocument.storage_scope, `${createdDocument._id}${createdDocument.file_extension}`, formFiles.file[0].filepath);
+		STORAGE.moveFile(createdDocument.storage_scope, `${createdDocument._id}${createdDocument.file_extension.toLowerCase()}`, formFiles.file[0].filepath);
 
 		// Return the response to the caller
 		return await res.status(201).json(createdDocument);

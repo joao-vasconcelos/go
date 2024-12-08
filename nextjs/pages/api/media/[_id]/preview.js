@@ -54,7 +54,7 @@ export default async function handler(req, res) {
 		// 3.3.
 		// Read the previously zipped archive from the filesystem and pipe it to the response.
 		await res.writeHead(200, { 'Content-Type': foundDocument.file_mime_type });
-		const fileData = fs.readFileSync(STORAGE.getFilePath(foundDocument.storage_scope, `${foundDocument._id}${foundDocument.file_extension}`));
+		const fileData = fs.readFileSync(STORAGE.getFilePath(foundDocument.storage_scope, `${foundDocument._id}${foundDocument.file_extension.toLowerCase()}`));
 		await res.send(fileData);
 
 		//

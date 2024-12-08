@@ -46,7 +46,7 @@ export default function MediaExplorerMedia({ mediaId, onDelete, readOnly = false
 			const objectURL = URL.createObjectURL(archiveBlob);
 			const downloadAnchor = document.createElement('a');
 			downloadAnchor.href = objectURL;
-			downloadAnchor.download = `${mediaData.title}${mediaData.file_extension}`;
+			downloadAnchor.download = `${mediaData.title}${mediaData.file_extension.toLowerCase()}`;
 			document.body.appendChild(downloadAnchor);
 			downloadAnchor.click();
 			setIsDownloading(false);
