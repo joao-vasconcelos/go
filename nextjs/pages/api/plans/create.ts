@@ -42,9 +42,6 @@ export default async function handler(req, res) {
 	// Save a new document with default values
 
 	try {
-		// one time migration
-		await MediaModel.updateMany({ storage_scope: 'archives' }, { $set: { storage_scope: 'plans' } });
-
 		const createdDocument = await plans.insertOne(PlanDefault);
 		return await res.status(201).json(createdDocument);
 	}
