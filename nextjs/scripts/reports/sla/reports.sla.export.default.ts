@@ -50,7 +50,12 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 	for await (const rideData of allRidesStream) {
 		//
 
-		const rideParsed = { ...rideData };
+		const rideParsed = {
+			...rideData,
+			analysis: undefined,
+			hashed_shape_id: undefined,
+			hashed_trip_id: undefined,
+		};
 
 		rideData.analysis.forEach((item) => {
 			rideParsed[`${item._id}-grade`] = item.grade;
