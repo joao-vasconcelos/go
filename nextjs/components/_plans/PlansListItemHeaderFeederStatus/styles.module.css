@@ -1,0 +1,19 @@
+/* * */
+/* ICON */
+
+.waiting {
+	color: var(--warning6);
+}
+
+.processing {
+	color: var(--info6);
+}
+
+.success {
+	color: var(--success6);
+}
+
+.error,
+.unknown {
+	color: var(--danger7);
+}

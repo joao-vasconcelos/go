@@ -19,10 +19,10 @@ export default async function handler(req, res) {
 		// If the Media is not found send an error back to the client.
 		const foundDocument = await MediaModel.findOne({ _id: req.query._id });
 		if (!foundDocument) return await res.status(404).json({ message: 'Could not find requested Media.' });
-		if (foundDocument.storage_scope !== 'archives') return await res.status(400).json({ message: 'This Media is not a public archive.' });
+		if (foundDocument.storage_scope !== 'plans') return await res.status(400).json({ message: 'This Media is not a public plan.' });
 
 		// 3.3.
-		// Read the archive from the filesystem and pipe it to the response.
+		// Read the plan from the filesystem and pipe it to the response.
 		await res.writeHead(200, { 'Content-Disposition': `attachment; filename=${foundDocument.title}${foundDocument.file_extension}`, 'Content-Type': foundDocument.file_mime_type });
 		fs.createReadStream(STORAGE.getFilePath(foundDocument.storage_scope, `${foundDocument._id}${foundDocument.file_extension}`)).pipe(res);
 

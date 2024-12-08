@@ -23,7 +23,7 @@ class INDEXEDDB {
 				{ keyPath: 'vehicle_id', name: 'vehicle_id', options: { unique: false } },
 				{ keyPath: 'driver_id', name: 'driver_id', options: { unique: false } },
 				{ keyPath: 'operator_event_id', name: 'operator_event_id', options: { unique: false } },
-				{ keyPath: 'operation_plan_id', name: 'operation_plan_id', options: { unique: false } },
+				{ keyPath: 'operation_file_id', name: 'operation_file_id', options: { unique: false } },
 			],
 			name: 'vehicleEvents',
 			options: { keyPath: '_id' },

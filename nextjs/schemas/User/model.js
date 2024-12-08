@@ -41,15 +41,6 @@ export const UserSchema = new mongoose.Schema(
 				view: { is_allowed: { type: Boolean } },
 			},
 			//
-			archives: {
-				create: { is_allowed: { type: Boolean } },
-				delete: { fields: { agency: [{ type: String }] }, is_allowed: { type: Boolean } },
-				edit: { fields: { agency: [{ type: String }] }, is_allowed: { type: Boolean } },
-				lock: { fields: { agency: [{ type: String }] }, is_allowed: { type: Boolean } },
-				navigate: { is_allowed: { type: Boolean } },
-				view: { fields: { agency: [{ type: String }] }, is_allowed: { type: Boolean } },
-			},
-			//
 			audits: {
 				create: { is_allowed: { type: Boolean } },
 				delete: { is_allowed: { type: Boolean } },
@@ -135,6 +126,15 @@ export const UserSchema = new mongoose.Schema(
 				lock: { is_allowed: { type: Boolean } },
 				navigate: { is_allowed: { type: Boolean } },
 				view: { is_allowed: { type: Boolean } },
+			},
+			//
+			plans: {
+				create: { is_allowed: { type: Boolean } },
+				delete: { fields: { agency: [{ type: String }] }, is_allowed: { type: Boolean } },
+				edit: { fields: { agency: [{ type: String }] }, is_allowed: { type: Boolean } },
+				lock: { fields: { agency: [{ type: String }] }, is_allowed: { type: Boolean } },
+				navigate: { is_allowed: { type: Boolean } },
+				view: { fields: { agency: [{ type: String }] }, is_allowed: { type: Boolean } },
 			},
 			//
 			reports: {

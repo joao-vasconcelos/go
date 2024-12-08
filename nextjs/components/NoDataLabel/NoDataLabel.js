@@ -6,7 +6,7 @@ import styles from './NoDataLabel.module.css';
 
 /* * */
 
-export default function NoDataLabel({ fill = false, text }) {
+export default function NoDataLabel({ fill = false, text = '' }) {
 	//
 
 	//
