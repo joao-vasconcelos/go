@@ -1627,6 +1627,12 @@
 				"loading": "A criar arquivo...",
 				"success": "Foi criado um novo arquivo!",
 				"title": "Criar Novo Plano"
+			},
+			"mark-all-as-waiting": {
+				"error": "Ocorreu um erro ao marcas os planos.",
+				"loading": "A marcar todos os planos...",
+				"success": "Todos os planos marcados como em Espera!",
+				"title": "Marcar todos como em Espera"
 			}
 		}
 	},

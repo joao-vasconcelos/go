@@ -38,7 +38,7 @@ export default function AppAuthenticationCheck({ children, permissions = [], red
 	// D. Render components
 
 	if (hasPermission) return children;
-	else return <></>;
+	else return null;
 
 	//
 }

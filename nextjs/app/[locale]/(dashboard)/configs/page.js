@@ -4,7 +4,6 @@
 
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
-import NoDataLabel from '@/components/NoDataLabel/NoDataLabel';
 import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import API from '@/services/API';
