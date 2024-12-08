@@ -41,7 +41,8 @@ export default async function handler(req, res) {
 
 	try {
 		const allDocuments = await plans.all();
-		return await res.status(200).send(allDocuments);
+		const sortedDocuments = allDocuments.sort((a, b) => a.valid_from.localeCompare(b.valid_from)).sort((a, b) => a.agency_id.localeCompare(b.agency_id));
+		return await res.status(200).send(sortedDocuments);
 	}
 	catch (error) {
 		console.log(error);
