@@ -1,8 +1,8 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import SLAMANAGERDB from '@/services/SLAMANAGERDB';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import { rides } from '@tmlmobilidade/services/interfaces';
 
 /* * */
 
@@ -36,26 +36,15 @@ export default async function handler(req, res) {
 		return await res.status(400).json({ message: error.message || 'Could not prepare endpoint.' });
 	}
 
-	// 4.
-	// Connect to SLAMANAGERDB
-
-	try {
-		await SLAMANAGERDB.connect();
-	}
-	catch (error) {
-		console.log(error);
-		return await res.status(500).json({ message: 'Could not connect to SLAMANAGERDB.' });
-	}
-
 	// 5.
 	// Perform database search
 
 	try {
-		const totalDocuments = await SLAMANAGERDB.TripAnalysis.countDocuments({});
-		const totalDocumentsProcessed = await SLAMANAGERDB.TripAnalysis.countDocuments({ status: 'processed' });
-		const totalDocumentsProcessing = await SLAMANAGERDB.TripAnalysis.countDocuments({ status: 'processing' });
-		const totalDocumentsError = await SLAMANAGERDB.TripAnalysis.countDocuments({ status: 'error' });
-		const totalDocumentsPending = await SLAMANAGERDB.TripAnalysis.countDocuments({ status: 'pending' });
+		const totalDocuments = await rides.count({});
+		const totalDocumentsProcessed = await rides.count({ status: 'complete' });
+		const totalDocumentsProcessing = await rides.count({ status: 'processing' });
+		const totalDocumentsError = await rides.count({ status: 'error' });
+		const totalDocumentsPending = await rides.count({ status: 'pending' });
 
 		return await res.send({
 			//

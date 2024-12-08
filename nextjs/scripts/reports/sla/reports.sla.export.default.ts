@@ -1,11 +1,9 @@
-/* eslint-disable perfectionist/sort-objects */
-
 /* * */
 
 import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportModel } from '@/schemas/Export/model';
 import CSVWRITER from '@/services/CSVWRITER';
-import SLAMANAGERDB from '@/services/SLAMANAGERDB';
+import { rides } from '@tmlmobilidade/services/interfaces';
 
 /* * */
 
@@ -24,8 +22,6 @@ async function update(exportDocument, updates) {
 export default async function reportsSlaExportDefault(progress, exportOptions) {
 	//
 
-	await SLAMANAGERDB.connect();
-
 	const agencyData = await AgencyModel.findOne({ _id: { $eq: exportOptions.agency_id } });
 
 	console.log(`* * *`);
@@ -41,7 +37,8 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 	// 1.
 	// Get all stops from the database
 
-	const allTripAnalysisStream = SLAMANAGERDB.TripAnalysis.find({ agency_id: agencyData.code, operational_day: { $gte: exportOptions.start_date, $lte: exportOptions.end_date } }).stream();
+	const ridesCollection = await rides.getCollection();
+	const allRidesStream = ridesCollection.find({ agency_id: agencyData.code, operational_date: { $gte: exportOptions.start_date, $lte: exportOptions.end_date } }).stream();
 
 	const defaultCsvWriter = new CSVWRITER('reports.sla.dump-default', { batch_size: 10000 });
 
@@ -50,38 +47,20 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 	// 3.
 	// Parse each stop and format it according to the GTFS-TML specification
 
-	for await (const tripAnalysisData of allTripAnalysisStream) {
+	for await (const rideData of allRidesStream) {
 		//
 
-		const tripAnalysisParsed = {
-			//
-			code: tripAnalysisData.code,
-			//
-			archive_id: tripAnalysisData.archive_id,
-			agency_id: tripAnalysisData.agency_id,
-			operational_day: tripAnalysisData.operational_day,
-			line_id: tripAnalysisData.line_id,
-			route_id: tripAnalysisData.route_id,
-			pattern_id: tripAnalysisData.pattern_id,
-			trip_id: tripAnalysisData.trip_id,
-			service_id: tripAnalysisData.service_id,
-			//
-			scheduled_start_time: tripAnalysisData.scheduled_start_time,
-			//
-			user_notes: tripAnalysisData.user_notes,
-			//
-		};
+		const rideParsed = { ...rideData };
 
-		tripAnalysisData.analysis.forEach((item) => {
-			tripAnalysisParsed[`${item.code}-status`] = item.status;
-			tripAnalysisParsed[`${item.code}-grade`] = item.grade;
-			tripAnalysisParsed[`${item.code}-reason`] = item.reason;
-			tripAnalysisParsed[`${item.code}-message`] = item.message;
-			tripAnalysisParsed[`${item.code}-unit`] = item.unit;
-			tripAnalysisParsed[`${item.code}-value`] = item.value;
+		rideData.analysis.forEach((item) => {
+			rideParsed[`${item._id}-grade`] = item.grade;
+			rideParsed[`${item._id}-reason`] = item.reason;
+			rideParsed[`${item._id}-message`] = item.message;
+			rideParsed[`${item._id}-unit`] = item.unit;
+			rideParsed[`${item._id}-value`] = item.value;
 		});
 
-		await defaultCsvWriter.write(progress.workdir, outputFileName, tripAnalysisParsed);
+		await defaultCsvWriter.write(progress.workdir, outputFileName, rideParsed);
 
 		//
 	}

@@ -1,8 +1,8 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB';
 
 /* * */
 

@@ -1,9 +1,9 @@
 /* * */
 
-import { ArchiveModel } from '@/schemas/Archive/model';
-import { PlanOptions } from '@/schemas/Archive/options';
+import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportModel } from '@/schemas/Export/model';
 import { MediaModel } from '@/schemas/Media/model';
+import { PlanOptions } from '@/schemas/Plan/options';
 import datesExportDefault from '@/scripts/dates/dates.export.default';
 import faresExportAttributes from '@/scripts/fares/fares.export.attributes';
 import faresExportRules from '@/scripts/fares/fares.export.rules';
@@ -12,6 +12,7 @@ import periodsExportDefault from '@/scripts/periods/periods.export.default';
 import stopsExportDefault from '@/scripts/stops/stops.export.default';
 import CSVWRITER from '@/services/CSVWRITER';
 import STORAGE from '@/services/STORAGE';
+import { plans } from '@tmlmobilidade/services/interfaces';
 import { parse as csvParser } from 'csv-parse';
 import extract from 'extract-zip';
 import fs from 'fs';
@@ -62,7 +63,7 @@ async function update(exportDocument, updates) {
 //
 //
 
-async function parseCsvFile(filePath, rowParser = async () => null) {
+async function parseCsvFile(filePath, rowParser: (data) => Promise<void>) {
 	const parser = csvParser({ bom: true, columns: true, record_delimiter: ['\n', '\r', '\r\n'], skip_empty_lines: true, trim: true });
 	const fileStream = fs.createReadStream(filePath);
 	const stream = fileStream.pipe(parser);
@@ -81,12 +82,12 @@ async function parseCsvFile(filePath, rowParser = async () => null) {
 /* Output the current date and time in the format YYYYMMDDHHMM. */
 /* For example, if the current date is July 3, 2023, at 9:30 AM, the output will be 202307030930. */
 function today() {
-	let currentDate = new Date();
-	let year = currentDate.getFullYear();
-	let month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-	let day = currentDate.getDate().toString().padStart(2, '0');
-	let hours = currentDate.getHours().toString().padStart(2, '0');
-	let minutes = currentDate.getMinutes().toString().padStart(2, '0');
+	const currentDate = new Date();
+	const year = currentDate.getFullYear();
+	const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+	const day = currentDate.getDate().toString().padStart(2, '0');
+	const hours = currentDate.getHours().toString().padStart(2, '0');
+	const minutes = currentDate.getMinutes().toString().padStart(2, '0');
 
 	return year + month + day + hours + minutes;
 }
@@ -185,18 +186,24 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// 4.
 	// Fetch all active archives from the database
 
-	const allArchivesData = await ArchiveModel.find({ status: 'active' }).populate('agency');
+	const allAgenciesData = await AgencyModel.find({});
+	const allPlansData = await plans.findMany({ status: 'active' });
+
+	const allPlansDataPopulated = allPlansData.map((plan) => {
+		const agencyData = allAgenciesData.find(agency => agency.code === plan.agency_id);
+		return { ...plan, agency: agencyData };
+	});
 
 	// 5.
 	// Iterate on all found archives to merge them into a single GTFS file
 
-	for (const [archiveIndex, archiveData] of allArchivesData.entries()) {
+	for (const [planIndex, planData] of allPlansDataPopulated.entries()) {
 		//
 
 		// 5.0.
 		// Update progress
 
-		await update(exportDocument, { progress_current: archiveIndex + 1, progress_total: allArchivesData.length });
+		await update(exportDocument, { progress_current: planIndex + 1, progress_total: allPlansData.length });
 
 		// 5.1.
 		// Setup variables to keep track of referenced entities in this archive
@@ -214,20 +221,20 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		let thisIsTheMainArchiveOfThisExport = false;
 
 		// Skip if the archive is no longer valid
-		if (todayDateString > archiveData.end_date) continue;
+		if (todayDateString > planData.valid_until) continue;
 
 		// Archive is valid and is the one being used now
-		if (todayDateString >= archiveData.start_date && todayDateString <= archiveData.end_date) thisIsTheMainArchiveOfThisExport = true;
+		if (todayDateString >= planData.valid_from && todayDateString <= planData.valid_until) thisIsTheMainArchiveOfThisExport = true;
 
 		// 5.3.
 		// Skip if this archive has no associated operation plan
 
-		if (!archiveData.operation_file) continue;
+		if (!planData.operation_file) continue;
 
 		// 5.4.
 		// Retrieve the associated operation plan, saved as a Media object in STORAGE
 
-		const operationPlanMediaFilePath = await getMediaFilePath(archiveData.operation_file);
+		const operationPlanMediaFilePath = await getMediaFilePath(planData.operation_file);
 		const extractDirPath = `${process.env.APP_TMP_DIR}/extractions/${Math.floor(Math.random() * 1000)}/${exportDocument._id}`;
 
 		// 5.5.
@@ -259,13 +266,13 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				// For the main archive, only the end_date matters
 				if (thisIsTheMainArchiveOfThisExport) {
 					// Skip if this row's date is after the archive's end date
-					if (data.date > archiveData.end_date) return;
+					if (data.date > planData.valid_until) return;
 					//
 				}
 				else {
 					// For all other archives, also look at start_date
 					// Skip if this row's date is before the archive's start date or after the archive's end date
-					if (data.date < archiveData.start_date || data.date > archiveData.end_date) return;
+					if (data.date < planData.valid_from || data.date > planData.valid_until) return;
 					//
 				}
 				// Format the exported row. Be very explicit to ensure the same number and order of columns.
@@ -275,7 +282,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 					exception_type: data.exception_type,
 					holiday: data.holiday,
 					period: data.period,
-					service_id: `${data.service_id}_${archiveData.code}`,
+					service_id: `${data.service_id}_${planData._id}`,
 				};
 					// Include this date in the final export and save a reference to the current service_id
 				await fileWriter.write(exportDocument.workdir, 'calendar_dates.txt', exportedRowData);
@@ -288,7 +295,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 
 			await parseCsvFile(`${extractDirPath}/calendar_dates.txt`, parseEachRow);
 
-			console.log(`> Done with calendar_dates.txt of archive ${archiveData.code}`);
+			console.log(`> Done with calendar_dates.txt of archive ${planData._id}`);
 
 			//
 		}
@@ -319,10 +326,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 					direction_id: data.direction_id,
 					pattern_id: data.pattern_id,
 					route_id: data.route_id,
-					service_id: `${data.service_id}_${archiveData.code}`,
-					shape_id: `${data.shape_id}_${archiveData.code}`,
+					service_id: `${data.service_id}_${planData._id}`,
+					shape_id: `${data.shape_id}_${planData._id}`,
 					trip_headsign: data.trip_headsign,
-					trip_id: `${data.trip_id}_${archiveData.code}`,
+					trip_id: `${data.trip_id}_${planData._id}`,
 				};
 					// Include this trip in the final export
 				await fileWriter.write(exportDocument.workdir, 'trips.txt', exportedRowData);
@@ -338,7 +345,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 
 			await parseCsvFile(`${extractDirPath}/trips.txt`, parseEachRow);
 
-			console.log(`> Done with trips.txt of archive ${archiveData.code}`);
+			console.log(`> Done with trips.txt of archive ${planData._id}`);
 
 			//
 		}
@@ -372,7 +379,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 					stop_id: data.stop_id,
 					stop_sequence: data.stop_sequence,
 					timepoint: data.timepoint,
-					trip_id: `${data.trip_id}_${archiveData.code}`,
+					trip_id: `${data.trip_id}_${planData._id}`,
 				};
 					// Include this trip in the final export and save a reference to the current trip_id
 				await fileWriter.write(exportDocument.workdir, 'stop_times.txt', exportedRowData);
@@ -385,7 +392,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 
 			await parseCsvFile(`${extractDirPath}/stop_times.txt`, parseEachRow);
 
-			console.log(`> Done with stop_times.txt of archive ${archiveData.code}`);
+			console.log(`> Done with stop_times.txt of archive ${planData._id}`);
 
 			//
 		}
@@ -412,7 +419,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				// Format the exported row. Be very explicit to ensure the same number and order of columns.
 				const exportedRowData = {
 					shape_dist_traveled: data.shape_dist_traveled,
-					shape_id: `${data.shape_id}_${archiveData.code}`,
+					shape_id: `${data.shape_id}_${planData._id}`,
 					shape_pt_lat: data.shape_pt_lat,
 					shape_pt_lon: data.shape_pt_lon,
 					shape_pt_sequence: data.shape_pt_sequence,
@@ -427,7 +434,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 
 			await parseCsvFile(`${extractDirPath}/shapes.txt`, parseEachRow);
 
-			console.log(`> Done with shapes.txt of archive ${archiveData.code}`);
+			console.log(`> Done with shapes.txt of archive ${planData._id}`);
 
 			//
 		}
@@ -491,7 +498,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 
 			await parseCsvFile(`${extractDirPath}/routes.txt`, parseEachRow);
 
-			console.log(`> Done with routes.txt of archive ${archiveData.code}`);
+			console.log(`> Done with routes.txt of archive ${planData._id}`);
 
 			//
 		}
@@ -507,15 +514,15 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			//
 
 			const exportedRowData = {
-				archive_end_date: archiveData.end_date,
-				archive_id: archiveData.code,
-				archive_start_date: archiveData.start_date,
-				operator_id: archiveData.agency?.code || 'N/A',
+				archive_end_date: planData.valid_until,
+				archive_id: planData._id,
+				archive_start_date: planData.valid_from,
+				operator_id: planData.agency?.code || 'N/A',
 			};
 
 			await fileWriter.write(exportDocument.workdir, 'archives.txt', exportedRowData);
 
-			console.log(`> Done with archives.txt entry for archive ${archiveData.code}`);
+			console.log(`> Done with archives.txt entry for archive ${planData._id}`);
 
 			//
 		}
@@ -572,8 +579,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// 10.
 	// Export feed_info.txt file
 
-	const lowestArchiveStartDate = allArchivesData.reduce((min, { start_date }) => start_date < min ? start_date : min, allArchivesData[0].start_date);
-	const highestArchiveEndDate = allArchivesData.reduce((max, { end_date }) => end_date > max ? end_date : max, allArchivesData[0].end_date);
+	const lowestArchiveStartDate = allPlansData.reduce((min, { valid_from }) => valid_from < min ? valid_from : min, allPlansData[0].valid_from);
+	const highestArchiveEndDate = allPlansData.reduce((max, { valid_until }) => valid_until > max ? valid_until : max, allPlansData[0].valid_until);
 
 	const feedInfoData = getFeedInfoData(lowestArchiveStartDate, highestArchiveEndDate);
 	await fileWriter.write(exportDocument.workdir, 'feed_info.txt', feedInfoData);
