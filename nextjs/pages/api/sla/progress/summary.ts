@@ -41,21 +41,21 @@ export default async function handler(req, res) {
 
 	try {
 		const totalDocuments = await rides.count({});
-		const totalDocumentsProcessed = await rides.count({ status: 'complete' });
+		const totalDocumentsComplete = await rides.count({ status: 'complete' });
 		const totalDocumentsProcessing = await rides.count({ status: 'processing' });
 		const totalDocumentsError = await rides.count({ status: 'error' });
 		const totalDocumentsPending = await rides.count({ status: 'pending' });
 
 		return await res.send({
 			//
+			complete: totalDocumentsComplete,
+			complete_percentage: parseFloat(((totalDocumentsComplete / totalDocuments) * 100).toFixed(2)),
+			//
 			error: totalDocumentsError,
 			error_percentage: parseFloat(((totalDocumentsError / totalDocuments) * 100).toFixed(2)),
 			//
 			pending: totalDocumentsPending,
 			pending_percentage: parseFloat(((totalDocumentsPending / totalDocuments) * 100).toFixed(2)),
-			//
-			processed: totalDocumentsProcessed,
-			processed_percentage: parseFloat(((totalDocumentsProcessed / totalDocuments) * 100).toFixed(2)),
 			//
 			processing: totalDocumentsProcessing,
 			processing_percentage: parseFloat(((totalDocumentsProcessing / totalDocuments) * 100).toFixed(2)),

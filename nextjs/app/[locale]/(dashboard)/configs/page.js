@@ -27,8 +27,8 @@ export default function Page() {
 	// B. Fetch data
 
 	const { data: slaProgressSummaryData, mutate: slaProgressSummaryMutate } = useSWR('/api/sla/progress/summary', { refreshInterval: 10000 });
-	const { data: slaProgressByDayData, mutate: slaProgressByDayMutate } = useSWR('/api/sla/progress/breakdown_by_operational_day', { refreshInterval: 10000 });
-	const { data: slaProgressBufferDayData, mutate: slaProgressBufferDayMutate } = useSWR('/api/sla/progress/buffer_by_operational_day', { refreshInterval: 10000 });
+	const { data: slaProgressByDayData, mutate: slaProgressByDayMutate } = useSWR('/api/sla/progress/breakdown_by_operational_date', { refreshInterval: 10000 });
+	const { data: slaProgressBufferDayData, mutate: slaProgressBufferDayMutate } = useSWR('/api/sla/progress/buffer_by_operational_date', { refreshInterval: 10000 });
 
 	//
 	// C. Handle actions
@@ -61,27 +61,27 @@ export default function Page() {
 		});
 	};
 
-	const handleMarkAllTripsAsPendingAnalysis = async () => {
+	const handleMarkAllRidesAsPending = async () => {
 		openConfirmModal({
 			centered: true,
 			children: <Text size="h3">Are you sure?</Text>,
 			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: 'Yes, Mark All Trips As Pending Analysis' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Mark All Rides As Pending Analysis' },
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify('markAllTripsAsPendingAnalysis', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'sla/operations/markAllTripsAsPendingAnalysis' });
+					notify('mark-all-rides-as-pending', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/mark-all-rides-as-pending' });
 					slaProgressSummaryMutate();
 					slaProgressByDayMutate();
 					slaProgressBufferDayMutate();
-					notify('markAllTripsAsPendingAnalysis', 'success', 'success');
+					notify('mark-all-rides-as-pending', 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify('markAllTripsAsPendingAnalysis', 'error', error.message || 'Error');
+					notify('mark-all-rides-as-pending', 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
@@ -376,19 +376,19 @@ export default function Page() {
 		if (!slaProgressByDayData) return null;
 		const body = slaProgressByDayData
 			.map(item => [
-				item.operational_day || '-',
+				item.operational_date || '-',
 				item.total || 0,
-				`${item.processed || 0} (${item.processed_percentage || 0}%)`,
+				`${item.complete || 0} (${item.complete_percentage || 0}%)`,
 				`${item.processing || 0} (${item.processing_percentage || 0}%)`,
 				`${item.error || 0} (${item.error_percentage || 0}%)`,
 				`${item.pending || 0} (${item.pending_percentage || 0}%)`,
 				<Group>
-					<Button loading={isImporting} onClick={() => handleReprocessTrips(item.operational_day)} size="xs">Reprocess Trips</Button>
-					<Button color="black" loading={isImporting} onClick={() => handleDeleteDayTrips(item.operational_day)} size="xs">Delete Day Trips</Button>
+					<Button loading={isImporting} onClick={() => handleReprocessTrips(item.operational_date)} size="xs">Reprocess Trips</Button>
+					<Button color="black" loading={isImporting} onClick={() => handleDeleteDayTrips(item.operational_date)} size="xs">Delete Day Trips</Button>
 				</Group>,
 			])
 			.sort((a, b) => a[0] - b[0]);
-		const head = ['operational_day', 'total', 'processed', 'processing', 'error', 'pending', 'slamanagerdb operations'];
+		const head = ['operational_date', 'total', 'complete', 'processing', 'error', 'pending', 'slamanagerdb operations'];
 		return { body, head };
 	}, [slaProgressByDayData]);
 
@@ -396,19 +396,19 @@ export default function Page() {
 		if (!slaProgressBufferDayData) return null;
 		const body = slaProgressBufferDayData
 			.map(item => [
-				item.operational_day || '-',
+				item.operational_date || '-',
 				item.vehicle_event_synced ? <span style={{ color: 'green' }}>true</span> : <span style={{ color: 'red' }}>false</span>,
 				item.validation_transaction_synced ? <span style={{ color: 'green' }}>true</span> : <span style={{ color: 'red' }}>false</span>,
 				item.location_transaction_synced ? <span style={{ color: 'green' }}>true</span> : <span style={{ color: 'red' }}>false</span>,
 				<Group>
-					<Button loading={isImporting} onClick={() => handleReprocessDay(item.operational_day)} size="xs">Reprocess Day</Button>
-					<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataVehicleEvents(item.operational_day)} size="xs">Delete Day BufferData VehicleEvents</Button>
-					<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataValidationTransactions(item.operational_day)} size="xs">Delete Day BufferData ValidationTransactions</Button>
-					<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataLocationTransactions(item.operational_day)} size="xs">Delete Day BufferData LocationTransactions</Button>
+					<Button loading={isImporting} onClick={() => handleReprocessDay(item.operational_date)} size="xs">Reprocess Day</Button>
+					<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataVehicleEvents(item.operational_date)} size="xs">Delete Day BufferData VehicleEvents</Button>
+					<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataValidationTransactions(item.operational_date)} size="xs">Delete Day BufferData ValidationTransactions</Button>
+					<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataLocationTransactions(item.operational_date)} size="xs">Delete Day BufferData LocationTransactions</Button>
 				</Group>,
 			])
 			.sort((a, b) => a[0] - b[0]);
-		const head = ['operational_day', 'vehicle_events', 'validation_transactions', 'location_transactions', 'slamanagerbufferdb operations'];
+		const head = ['operational_date', 'vehicle_events', 'validation_transactions', 'location_transactions', 'slamanagerbufferdb operations'];
 		return { body, head };
 	}, [slaProgressBufferDayData]);
 
@@ -422,13 +422,13 @@ export default function Page() {
 				<AppLayoutSection title="SLA Manager Advanced Operations">
 					<Table
 						data={{
-							body: [[`${slaProgressSummaryData?.total || 0} Trips`, `${slaProgressSummaryData?.processed || 0} (${slaProgressSummaryData?.processed_percentage || 0}%)`, `${slaProgressSummaryData?.processing || 0} (${slaProgressSummaryData?.processing_percentage || 0}%)`, `${slaProgressSummaryData?.error || 0} (${slaProgressSummaryData?.error_percentage || 0}%)`, `${slaProgressSummaryData?.pending || 0} (${slaProgressSummaryData?.pending_percentage || 0}%)`]],
-							head: ['Total', 'processed', 'processing', 'error', 'pending'] }}
+							body: [[`${slaProgressSummaryData?.total || 0} Trips`, `${slaProgressSummaryData?.complete || 0} (${slaProgressSummaryData?.complete_percentage || 0}%)`, `${slaProgressSummaryData?.processing || 0} (${slaProgressSummaryData?.processing_percentage || 0}%)`, `${slaProgressSummaryData?.error || 0} (${slaProgressSummaryData?.error_percentage || 0}%)`, `${slaProgressSummaryData?.pending || 0} (${slaProgressSummaryData?.pending_percentage || 0}%)`]],
+							head: ['Total', 'complete', 'processing', 'error', 'pending'] }}
 						withTableBorder
 					/>
 					<Progress.Root size={30}>
-						<Progress.Section color="green" value={slaProgressSummaryData?.processed_percentage || 0}>
-							<Progress.Label>{`${slaProgressSummaryData?.processed || 0} processed (${slaProgressSummaryData?.processed_percentage || 0}%)`}</Progress.Label>
+						<Progress.Section color="green" value={slaProgressSummaryData?.complete_percentage || 0}>
+							<Progress.Label>{`${slaProgressSummaryData?.complete || 0} complete (${slaProgressSummaryData?.complete_percentage || 0}%)`}</Progress.Label>
 						</Progress.Section>
 						<Progress.Section color="yellow" value={slaProgressSummaryData?.processing_percentage || 0}>
 							<Progress.Label>{`${slaProgressSummaryData?.processing || 0} processing (${slaProgressSummaryData?.processing_percentage || 0}%)`}</Progress.Label>
@@ -452,7 +452,7 @@ export default function Page() {
 						<Button color="blue" loading={isImporting} onClick={handleMarkStuckTripsAsPending}>
 							Mark Stuck Trips as Pending
 						</Button>
-						<Button color="orange" loading={isImporting} onClick={handleMarkAllTripsAsPendingAnalysis}>
+						<Button color="orange" loading={isImporting} onClick={handleMarkAllRidesAsPending}>
 							Mark All Trips as Pending Analysis
 						</Button>
 						<Button color="red" loading={isImporting} onClick={handleDeleteAllTripsAndMarkAllArchivesAdPendingParse}>
