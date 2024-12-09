@@ -1,14 +1,8 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import SLAMANAGERBUFFERDB from '@/services/SLAMANAGERBUFFERDB';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-
-/* * */
-
-export const config = {
-	maxDuration: 3600,
-};
+import { rides } from '@tmlmobilidade/services/interfaces';
 
 /* * */
 
@@ -48,23 +42,13 @@ export default async function handler(req, res) {
 	// Connect to mongodb
 
 	try {
-		//
-
-		await SLAMANAGERBUFFERDB.connect();
-
-		await SLAMANAGERBUFFERDB.BufferData.deleteMany({ operational_day: { $eq: req.query.operational_day }, type: 'validation_transaction' });
-
-		await SLAMANAGERBUFFERDB.OperationalDayStatus.updateOne({ operational_day: { $eq: req.query.operational_day } }, { $set: { validation_transaction_synced: false } });
-
-		//
+		const result = await rides.deleteMany({});
+		return await res.status(200).json(result);
 	}
 	catch (error) {
 		console.log(error);
-		return await res.status(500).json({ message: error.message || 'Error updating documents.' });
+		return await res.status(500).json({ message: error.message || 'Error deleting documents.' });
 	}
-
-	console.log('Done. Sending response to client...');
-	return await res.status(200).json('Documents deleted.');
 
 	//
 }

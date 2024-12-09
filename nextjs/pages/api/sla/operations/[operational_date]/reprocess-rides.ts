@@ -2,14 +2,12 @@
 
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import SLAMANAGERDB from '@/services/SLAMANAGERDB';
+import { rides } from '@tmlmobilidade/services/interfaces';
 
 /* * */
 
 export default async function handler(req, res) {
 	//
-
-	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -42,21 +40,14 @@ export default async function handler(req, res) {
 	// Connect to mongodb
 
 	try {
-		//
-
-		await SLAMANAGERDB.connect();
-
-		await SLAMANAGERDB.TripAnalysis.updateMany({ status: 'processing' }, { $set: { analysis: [], analysis_timestamp: null, status: 'pending' } });
-
-		//
+		const ridesCollection = await rides.getCollection();
+		const result = await ridesCollection.updateMany({ operational_date: { $eq: req.query.operational_date } }, { $set: { status: 'pending' } });
+		return await res.status(200).json(result);
 	}
 	catch (error) {
 		console.log(error);
 		return await res.status(500).json({ message: error.message || 'Error updating documents.' });
 	}
-
-	console.log('Done. Sending response to client...');
-	return await res.status(200).json('Documents updated.');
 
 	//
 }

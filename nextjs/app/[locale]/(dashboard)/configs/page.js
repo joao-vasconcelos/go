@@ -8,7 +8,7 @@ import Pannel from '@/components/Pannel/Pannel';
 import Text from '@/components/Text/Text';
 import API from '@/services/API';
 import notify from '@/services/notify';
-import { Button, Divider, Group, Loader, Progress, SimpleGrid, Table } from '@mantine/core';
+import { Button, Divider, Loader, Progress, SimpleGrid, Table } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
 import { useMemo, useState } from 'react';
 import useSWR from 'swr';
@@ -33,34 +33,6 @@ export default function Page() {
 	//
 	// C. Handle actions
 
-	const handleMarkStuckTripsAsPending = async () => {
-		openConfirmModal({
-			centered: true,
-			children: <Text size="h3">Are you sure?</Text>,
-			closeOnClickOutside: true,
-			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: 'Yes, Mark Stuck Trips as Pending' },
-			onConfirm: async () => {
-				try {
-					setIsImporting(true);
-					notify('markStuckTripsAsPending', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'sla/operations/markStuckTripsAsPending' });
-					slaProgressSummaryMutate();
-					slaProgressByDayMutate();
-					// slaProgressBufferDayMutate();
-					notify('markStuckTripsAsPending', 'success', 'success');
-					setIsImporting(false);
-				}
-				catch (error) {
-					console.log(error);
-					notify('markStuckTripsAsPending', 'error', error.message || 'Error');
-					setIsImporting(false);
-				}
-			},
-			title: <Text size="h2">Mark Stuck Trips as Pending?</Text>,
-		});
-	};
-
 	const handleMarkAllRidesAsPending = async () => {
 		openConfirmModal({
 			centered: true,
@@ -75,7 +47,6 @@ export default function Page() {
 					await API({ method: 'GET', service: 'sla/operations/mark-all-rides-as-pending' });
 					slaProgressSummaryMutate();
 					slaProgressByDayMutate();
-					// slaProgressBufferDayMutate();
 					notify('mark-all-rides-as-pending', 'success', 'success');
 					setIsImporting(false);
 				}
@@ -89,283 +60,57 @@ export default function Page() {
 		});
 	};
 
-	const handleDeleteAllTripsAndMarkAllArchivesAdPendingParse = async () => {
+	const handleDeleteAllRides = async () => {
 		openConfirmModal({
 			centered: true,
 			children: <Text size="h3">Are you sure?</Text>,
 			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: 'Yes, Delete All Trips And Mark All Archives As Pending Parse' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Delete All Rides' },
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify('deleteAllTripsAndMarkAllArchivesAsPendingParse', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'sla/operations/deleteAllTripsAndMarkAllArchivesAsPendingParse' });
+					notify('delete-all-rides', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/delete-all-rides' });
 					slaProgressSummaryMutate();
 					slaProgressByDayMutate();
-					// slaProgressBufferDayMutate();
-					notify('deleteAllTripsAndMarkAllArchivesAsPendingParse', 'success', 'success');
+					notify('delete-all-rides', 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify('deleteAllTripsAndMarkAllArchivesAsPendingParse', 'error', error.message || 'Error');
+					notify('delete-all-rides', 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
-			title: <Text size="h2">Delete All Trips And Mark All Archives As Pending Parse?</Text>,
+			title: <Text size="h2">Delete All Rides?</Text>,
 		});
 	};
 
-	const handleDeleteBufferDataVehicleEvents = async () => {
+	const handleReprocessRides = async (operationalDate) => {
 		openConfirmModal({
 			centered: true,
 			children: <Text size="h3">Are you sure?</Text>,
 			closeOnClickOutside: true,
 			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: 'Yes, Delete Buffer Data Vehicle Events' },
+			labels: { cancel: 'Cancel', confirm: `Yes, Reprocess Rides for Operational Date ${operationalDate}` },
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify('deleteBufferDataVehicleEvents', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'sla/operations/deleteBufferDataVehicleEvents' });
+					notify(`reprocess-rides-${operationalDate}`, 'loading', `Reprocessing Rides for Operational Date ${operationalDate}`);
+					await API({ method: 'GET', service: `sla/operations/${operationalDate}/reprocess-rides` });
 					slaProgressSummaryMutate();
 					slaProgressByDayMutate();
-					// slaProgressBufferDayMutate();
-					notify('deleteBufferDataVehicleEvents', 'success', 'success');
+					notify(`reprocess-rides-${operationalDate}`, 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify('deleteBufferDataVehicleEvents', 'error', error.message || 'Error');
+					notify(`reprocess-rides-${operationalDate}`, 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
-			title: <Text size="h2">Delete Buffer Data Vehicle Events?</Text>,
-		});
-	};
-
-	const handleDeleteBufferDataValidationTransactions = async () => {
-		openConfirmModal({
-			centered: true,
-			children: <Text size="h3">Are you sure?</Text>,
-			closeOnClickOutside: true,
-			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: 'Yes, Delete Buffer Data Validation Transactions' },
-			onConfirm: async () => {
-				try {
-					setIsImporting(true);
-					notify('deleteBufferDataValidationTransactions', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'sla/operations/deleteBufferDataValidationTransactions' });
-					slaProgressSummaryMutate();
-					slaProgressByDayMutate();
-					// slaProgressBufferDayMutate();
-					notify('deleteBufferDataValidationTransactions', 'success', 'success');
-					setIsImporting(false);
-				}
-				catch (error) {
-					console.log(error);
-					notify('deleteBufferDataValidationTransactions', 'error', error.message || 'Error');
-					setIsImporting(false);
-				}
-			},
-			title: <Text size="h2">Delete Buffer Data Validation Transactions?</Text>,
-		});
-	};
-
-	const handleDeleteBufferDataLocationTransactions = async () => {
-		openConfirmModal({
-			centered: true,
-			children: <Text size="h3">Are you sure?</Text>,
-			closeOnClickOutside: true,
-			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: 'Yes, Delete Buffer Data Location Transactions' },
-			onConfirm: async () => {
-				try {
-					setIsImporting(true);
-					notify('deleteBufferDataLocationTransactions', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'sla/operations/deleteBufferDataLocationTransactions' });
-					slaProgressSummaryMutate();
-					slaProgressByDayMutate();
-					// slaProgressBufferDayMutate();
-					notify('deleteBufferDataLocationTransactions', 'success', 'success');
-					setIsImporting(false);
-				}
-				catch (error) {
-					console.log(error);
-					notify('deleteBufferDataLocationTransactions', 'error', error.message || 'Error');
-					setIsImporting(false);
-				}
-			},
-			title: <Text size="h2">Delete Buffer Data Location Transactions?</Text>,
-		});
-	};
-
-	const handleReprocessTrips = async (operationalDay) => {
-		openConfirmModal({
-			centered: true,
-			children: <Text size="h3">Are you sure?</Text>,
-			closeOnClickOutside: true,
-			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: `Yes, Reprocess Trips for Operational Day ${operationalDay}` },
-			onConfirm: async () => {
-				try {
-					setIsImporting(true);
-					notify(`reprocessTrips-${operationalDay}`, 'loading', `Reprocessing Trips for Operational Day ${operationalDay}`);
-					await API({ method: 'GET', service: `sla/operations/${operationalDay}/reprocessTrips` });
-					slaProgressSummaryMutate();
-					slaProgressByDayMutate();
-					// slaProgressBufferDayMutate();
-					notify(`reprocessTrips-${operationalDay}`, 'success', 'success');
-					setIsImporting(false);
-				}
-				catch (error) {
-					console.log(error);
-					notify(`reprocessTrips-${operationalDay}`, 'error', error.message || 'Error');
-					setIsImporting(false);
-				}
-			},
-			title: <Text size="h2">Reprocess Trips for Operational Day {operationalDay}?</Text>,
-		});
-	};
-
-	// const handleReprocessDay = async (operationalDay) => {
-	// 	openConfirmModal({
-	// 		centered: true,
-	// 		children: <Text size="h3">Are you sure?</Text>,
-	// 		closeOnClickOutside: true,
-	// 		confirmProps: { color: 'red' },
-	// 		labels: { cancel: 'Cancel', confirm: `Yes, Reprocess Operational Day ${operationalDay}` },
-	// 		onConfirm: async () => {
-	// 			try {
-	// 				setIsImporting(true);
-	// 				notify(`reprocessDay-${operationalDay}`, 'loading', `Reprocessing Operational Day ${operationalDay}`);
-	// 				await API({ method: 'GET', service: `sla/operations/${operationalDay}/reprocessDay` });
-	// 				slaProgressSummaryMutate();
-	// 				slaProgressByDayMutate();
-	// 				// slaProgressBufferDayMutate();
-	// 				notify(`reprocessDay-${operationalDay}`, 'success', 'success');
-	// 				setIsImporting(false);
-	// 			}
-	// 			catch (error) {
-	// 				console.log(error);
-	// 				notify(`reprocessDay-${operationalDay}`, 'error', error.message || 'Error');
-	// 				setIsImporting(false);
-	// 			}
-	// 		},
-	// 		title: <Text size="h2">Reprocess BufferData Operational Day {operationalDay}?</Text>,
-	// 	});
-	// };
-
-	// const handleDeleteDayBufferDataVehicleEvents = async (operationalDay) => {
-	// 	openConfirmModal({
-	// 		centered: true,
-	// 		children: <Text size="h3">Are you sure?</Text>,
-	// 		closeOnClickOutside: true,
-	// 		confirmProps: { color: 'red' },
-	// 		labels: { cancel: 'Cancel', confirm: `Yes, Delete Day BufferData VehicleEvents for ${operationalDay}` },
-	// 		onConfirm: async () => {
-	// 			try {
-	// 				setIsImporting(true);
-	// 				notify(`deleteDayBufferDataVehicleEvents-${operationalDay}`, 'loading', `Delete Day BufferData VehicleEvents for ${operationalDay}`);
-	// 				await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayBufferDataVehicleEvents` });
-	// 				slaProgressSummaryMutate();
-	// 				slaProgressByDayMutate();
-	// 				// slaProgressBufferDayMutate();
-	// 				notify(`deleteDayBufferDataVehicleEvents-${operationalDay}`, 'success', 'success');
-	// 				setIsImporting(false);
-	// 			}
-	// 			catch (error) {
-	// 				console.log(error);
-	// 				notify(`deleteDayBufferDataVehicleEvents-${operationalDay}`, 'error', error.message || 'Error');
-	// 				setIsImporting(false);
-	// 			}
-	// 		},
-	// 		title: <Text size="h2">Delete Day BufferData VehicleEvents for {operationalDay}?</Text>,
-	// 	});
-	// };
-
-	// const handleDeleteDayBufferDataValidationTransactions = async (operationalDay) => {
-	// 	openConfirmModal({
-	// 		centered: true,
-	// 		children: <Text size="h3">Are you sure?</Text>,
-	// 		closeOnClickOutside: true,
-	// 		confirmProps: { color: 'red' },
-	// 		labels: { cancel: 'Cancel', confirm: `Yes, Delete Day BufferData ValidationTransactions for ${operationalDay}` },
-	// 		onConfirm: async () => {
-	// 			try {
-	// 				setIsImporting(true);
-	// 				notify(`deleteDayBufferDataValidationTransactions-${operationalDay}`, 'loading', `Delete Day BufferData ValidationTransactions for ${operationalDay}`);
-	// 				await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayBufferDataValidationTransactions` });
-	// 				slaProgressSummaryMutate();
-	// 				slaProgressByDayMutate();
-	// 				// slaProgressBufferDayMutate();
-	// 				notify(`deleteDayBufferDataValidationTransactions-${operationalDay}`, 'success', 'success');
-	// 				setIsImporting(false);
-	// 			}
-	// 			catch (error) {
-	// 				console.log(error);
-	// 				notify(`deleteDayBufferDataValidationTransactions-${operationalDay}`, 'error', error.message || 'Error');
-	// 				setIsImporting(false);
-	// 			}
-	// 		},
-	// 		title: <Text size="h2">Delete Day BufferData ValidationTransactions for {operationalDay}?</Text>,
-	// 	});
-	// };
-
-	// const handleDeleteDayBufferDataLocationTransactions = async (operationalDay) => {
-	// 	openConfirmModal({
-	// 		centered: true,
-	// 		children: <Text size="h3">Are you sure?</Text>,
-	// 		closeOnClickOutside: true,
-	// 		confirmProps: { color: 'red' },
-	// 		labels: { cancel: 'Cancel', confirm: `Yes, Delete Day BufferData LocationTransactions for ${operationalDay}` },
-	// 		onConfirm: async () => {
-	// 			try {
-	// 				setIsImporting(true);
-	// 				notify(`deleteDayBufferDataLocationTransactions-${operationalDay}`, 'loading', `Delete Day BufferData LocationTransactions for ${operationalDay}`);
-	// 				await API({ method: 'GET', service: `sla/operations/${operationalDay}/deleteDayBufferDataLocationTransactions` });
-	// 				slaProgressSummaryMutate();
-	// 				slaProgressByDayMutate();
-	// 				// slaProgressBufferDayMutate();
-	// 				notify(`deleteDayBufferDataLocationTransactions-${operationalDay}`, 'success', 'success');
-	// 				setIsImporting(false);
-	// 			}
-	// 			catch (error) {
-	// 				console.log(error);
-	// 				notify(`deleteDayBufferDataLocationTransactions-${operationalDay}`, 'error', error.message || 'Error');
-	// 				setIsImporting(false);
-	// 			}
-	// 		},
-	// 		title: <Text size="h2">Delete Day BufferData LocationTransactions for {operationalDay}?</Text>,
-	// 	});
-	// };
-
-	const handleDeleteDayTrips = async (operationalDay) => {
-		openConfirmModal({
-			centered: true,
-			children: <Text size="h3">Are you sure?</Text>,
-			closeOnClickOutside: true,
-			confirmProps: { color: 'red' },
-			labels: { cancel: 'Cancel', confirm: `DANGER! Delete Day Trips for ${operationalDay}` },
-			onConfirm: async () => {
-				try {
-					setIsImporting(true);
-					notify(`_danger_deleteDayTrips-${operationalDay}`, 'loading', 'Loading');
-					await API({ method: 'GET', service: `sla/operations/${operationalDay}/_danger_deleteDayTrips` });
-					slaProgressSummaryMutate();
-					slaProgressByDayMutate();
-					// slaProgressBufferDayMutate();
-					notify(`_danger_deleteDayTrips-${operationalDay}`, 'success', 'success');
-					setIsImporting(false);
-				}
-				catch (error) {
-					console.log(error);
-					notify(`_danger_deleteDayTrips-${operationalDay}`, 'error', error.message || 'Error');
-					setIsImporting(false);
-				}
-			},
-			title: <Text size="h2">DANGER! Delete Day Trips for {operationalDay}?</Text>,
+			title: <Text size="h2">Reprocess Rides for Operational Date {operationalDate}?</Text>,
 		});
 	};
 
@@ -382,35 +127,12 @@ export default function Page() {
 				`${item.processing || 0} (${item.processing_percentage || 0}%)`,
 				`${item.error || 0} (${item.error_percentage || 0}%)`,
 				`${item.pending || 0} (${item.pending_percentage || 0}%)`,
-				<Group>
-					<Button loading={isImporting} onClick={() => handleReprocessTrips(item.operational_date)} size="xs">Reprocess Trips</Button>
-					<Button color="black" loading={isImporting} onClick={() => handleDeleteDayTrips(item.operational_date)} size="xs">Delete Day Trips</Button>
-				</Group>,
+				<Button loading={isImporting} onClick={() => handleReprocessRides(item.operational_date)} size="xs">Reprocess Rides</Button>,
 			])
 			.sort((a, b) => a[0].localeCompare(b[0]));
-		const head = ['operational_date', 'total', 'complete', 'processing', 'error', 'pending', 'slamanagerdb operations'];
+		const head = ['operational_date', 'total', 'complete', 'processing', 'error', 'pending', 'operations'];
 		return { body, head };
 	}, [slaProgressByDayData]);
-
-	// const progressBufferDaysTableData = useMemo(() => {
-	// 	if (!slaProgressBufferDayData) return null;
-	// 	const body = slaProgressBufferDayData
-	// 		.map(item => [
-	// 			item.operational_date || '-',
-	// 			item.vehicle_event_synced ? <span style={{ color: 'green' }}>true</span> : <span style={{ color: 'red' }}>false</span>,
-	// 			item.validation_transaction_synced ? <span style={{ color: 'green' }}>true</span> : <span style={{ color: 'red' }}>false</span>,
-	// 			item.location_transaction_synced ? <span style={{ color: 'green' }}>true</span> : <span style={{ color: 'red' }}>false</span>,
-	// 			<Group>
-	// 				<Button loading={isImporting} onClick={() => handleReprocessDay(item.operational_date)} size="xs">Reprocess Day</Button>
-	// 				<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataVehicleEvents(item.operational_date)} size="xs">Delete Day BufferData VehicleEvents</Button>
-	// 				<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataValidationTransactions(item.operational_date)} size="xs">Delete Day BufferData ValidationTransactions</Button>
-	// 				<Button color="red" loading={isImporting} onClick={() => handleDeleteDayBufferDataLocationTransactions(item.operational_date)} size="xs">Delete Day BufferData LocationTransactions</Button>
-	// 			</Group>,
-	// 		])
-	// 		.sort((a, b) => a[0] - b[0]);
-	// 	const head = ['operational_date', 'vehicle_events', 'validation_transactions', 'location_transactions', 'slamanagerbufferdb operations'];
-	// 	return { body, head };
-	// }, [slaProgressBufferDayData]);
 
 	//
 	// D. Render components
@@ -440,23 +162,18 @@ export default function Page() {
 							<Progress.Label>{`${slaProgressSummaryData?.pending || 0} pending (${slaProgressSummaryData?.pending_percentage || 0}%)`}</Progress.Label>
 						</Progress.Section>
 					</Progress.Root>
-					{slaProgressByDayLoading ? <Loader /> : <Table data={progressByDayTableData} highlightOnHover withTableBorder />}
-					{/* <Table data={progressBufferDaysTableData} highlightOnHover withTableBorder /> */}
 				</AppLayoutSection>
 
 				<Divider />
 
 				<AppLayoutSection>
 
-					<SimpleGrid cols={3}>
-						<Button color="blue" loading={isImporting} onClick={handleMarkStuckTripsAsPending}>
-							Mark Stuck Trips as Pending
-						</Button>
+					<SimpleGrid cols={2}>
 						<Button color="orange" loading={isImporting} onClick={handleMarkAllRidesAsPending}>
-							Mark All Trips as Pending Analysis
+							Mark All Rides as Pending
 						</Button>
-						<Button color="red" loading={isImporting} onClick={handleDeleteAllTripsAndMarkAllArchivesAdPendingParse}>
-							Delete All Trips And Mark All Archives As Pending Parse
+						<Button color="red" loading={isImporting} onClick={handleDeleteAllRides}>
+							Delete All Rides
 						</Button>
 					</SimpleGrid>
 				</AppLayoutSection>
@@ -464,18 +181,7 @@ export default function Page() {
 				<Divider />
 
 				<AppLayoutSection>
-
-					<SimpleGrid cols={3}>
-						<Button color="grape" loading={isImporting} onClick={handleDeleteBufferDataVehicleEvents}>
-							Delete Buffer Data vehicle_event
-						</Button>
-						<Button color="grape" loading={isImporting} onClick={handleDeleteBufferDataValidationTransactions}>
-							Delete Buffer Data validation_transaction
-						</Button>
-						<Button color="grape" loading={isImporting} onClick={handleDeleteBufferDataLocationTransactions}>
-							Delete Buffer Data location_transaction
-						</Button>
-					</SimpleGrid>
+					{slaProgressByDayLoading ? <Loader /> : <Table data={progressByDayTableData} highlightOnHover withTableBorder />}
 				</AppLayoutSection>
 
 			</Pannel>
