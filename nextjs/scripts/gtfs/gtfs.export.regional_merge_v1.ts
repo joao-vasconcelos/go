@@ -187,12 +187,17 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// Fetch all active archives from the database
 
 	const allAgenciesData = await AgencyModel.find({});
-	const allPlansData = await plans.findMany({ status: 'active' });
+	const allPlansData = await plans.findMany({ is_approved: true });
 
 	const allPlansDataPopulated = allPlansData.map((plan) => {
 		const agencyData = allAgenciesData.find(agency => agency.code === plan.agency_id);
 		return { ...plan, agency: agencyData };
 	});
+
+	//
+	// Skip if no plans were found
+
+	if (!allPlansData.length) return;
 
 	// 5.
 	// Iterate on all found archives to merge them into a single GTFS file
