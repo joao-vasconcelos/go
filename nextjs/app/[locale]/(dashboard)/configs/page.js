@@ -28,7 +28,6 @@ export default function Page() {
 
 	const { data: slaProgressSummaryData, mutate: slaProgressSummaryMutate } = useSWR('/api/sla/progress/summary', { refreshInterval: 10000 });
 	const { data: slaProgressByDayData, isLoading: slaProgressByDayLoading, mutate: slaProgressByDayMutate } = useSWR('/api/sla/progress/breakdown-by-operational-date', { refreshInterval: 10000 });
-	// const { data: slaProgressBufferDayData, mutate: slaProgressBufferDayMutate } = useSWR('/api/sla/progress/buffer_by_operational_date', { refreshInterval: 10000 });
 
 	//
 	// C. Handle actions
@@ -56,7 +55,34 @@ export default function Page() {
 					setIsImporting(false);
 				}
 			},
-			title: <Text size="h2">Mark All Trips As Pending Analysis?</Text>,
+			title: <Text size="h2">Mark All Rides As Pending Analysis?</Text>,
+		});
+	};
+
+	const handleMarkProcessingRidesAsPending = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Mark Processing Rides As Pending Analysis' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('mark-processing-rides-as-pending', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/mark-processing-rides-as-pending' });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					notify('mark-processing-rides-as-pending', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('mark-processing-rides-as-pending', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Mark Processing Rides As Pending Analysis?</Text>,
 		});
 	};
 
@@ -168,11 +194,14 @@ export default function Page() {
 
 				<AppLayoutSection>
 
-					<SimpleGrid cols={2}>
-						<Button color="orange" loading={isImporting} onClick={handleMarkAllRidesAsPending}>
+					<SimpleGrid cols={3}>
+						<Button color="blue" loading={isImporting} onClick={handleMarkProcessingRidesAsPending}>
+							Mark Processing Rides as Pending
+						</Button>
+						<Button color="red" loading={isImporting} onClick={handleMarkAllRidesAsPending}>
 							Mark All Rides as Pending
 						</Button>
-						<Button color="red" loading={isImporting} onClick={handleDeleteAllRides}>
+						<Button color="black" loading={isImporting} onClick={handleDeleteAllRides}>
 							Delete All Rides
 						</Button>
 					</SimpleGrid>
