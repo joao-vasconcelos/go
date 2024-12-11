@@ -1,11 +1,15 @@
 /* * */
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const withNextIntl = require('next-intl/plugin')();
+import createNextIntlPlugin from 'next-intl/plugin';
 
 /* * */
 
-module.exports = withNextIntl({
+const withNextIntl = createNextIntlPlugin();
+
+/* * */
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
 	output: 'standalone',
 	reactStrictMode: true,
 	async redirects() {
@@ -17,4 +21,8 @@ module.exports = withNextIntl({
 			},
 		];
 	},
-});
+};
+
+/* * */
+
+export default withNextIntl(nextConfig);

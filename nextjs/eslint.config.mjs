@@ -9,6 +9,9 @@ export default [
   {
     ignores: [
       '.next/',
+      'public/',
+      'assets/',
+      'public/',
     ],
   },
 ]
