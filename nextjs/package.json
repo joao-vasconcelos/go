@@ -2,7 +2,6 @@
 	"name": "@joao-vasconcelos/go-nextjs",
 	"version": "1.0.0",
 	"private": true,
-	"type": "module",
 	"scripts": {
 		"build": "next build",
 		"dev": "next dev -p 3001",
