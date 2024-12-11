@@ -20,20 +20,6 @@ while true; do
   echo ""
   echo ""
 
-  # RUN SLAMANAGERDB BACKUP
-  sh slamanagerdb.sh
-
-  echo ""
-  echo ""
-  echo ""
-
-  # RUN SLAMANAGERBUFFERDB BACKUP
-#   sh slamanagerbufferdb.sh
-
-  echo ""
-  echo ""
-  echo ""
-
   # Log end of program
   echo "Complete! Next run in $frequency seconds :)"
   echo "-------------------------------------------"

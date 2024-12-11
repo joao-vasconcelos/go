@@ -4,9 +4,6 @@ name: go-local
 
 volumes:
   offermanagerdbdata:
-  slamanagerdbdata:
-  slamanagerbufferdbdata:
-  slamanagerbridgedbdata:
 
 services:
   #
@@ -31,71 +28,6 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=offermanagerdbuser
       - MONGO_INITDB_ROOT_PASSWORD=offermanagerdbpassword
-
-  # # # # # # # # # # # # # # # # # # # # #
-  # # # # # # # # # # # # # # # # # # # # #
-
-  slamanagerdb:
-    image: mongo
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 30s
-    logging:
-      options:
-        max-size: '1m'
-        max-file: '1'
-    ports:
-      - 37012:27017
-    volumes:
-      - slamanagerdbdata:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=slamanagerdbuser
-      - MONGO_INITDB_ROOT_PASSWORD=slamanagerdbpassword
-
-  # # # # # # # # # # # # # # # # # # # # #
-  # # # # # # # # # # # # # # # # # # # # #
-
-  # slamanagerbufferdb:
-  #   image: mongo
-  #   deploy:
-  #     restart_policy:
-  #       condition: on-failure
-  #       delay: 30s
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  #       max-file: '1'
-  #   ports:
-  #     - 37013:27017
-  #   volumes:
-  #     - slamanagerbufferdbdata:/data/db
-  #   environment:
-  #     - MONGO_INITDB_ROOT_USERNAME=slamanagerbufferdbuser
-  #     - MONGO_INITDB_ROOT_PASSWORD=slamanagerbufferdbpassword
-
-  # # # # # # # # # # # # # # # # # # # # #
-  # # # # # # # # # # # # # # # # # # # # #
-
-  # slamanagerbridgedb:
-  #   image: postgres:alpine
-  #   deploy:
-  #     restart_policy:
-  #       condition: on-failure
-  #       delay: 30s
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  #       max-file: '1'
-  #   ports:
-  #     - 37014:5432
-  #     - 5432:5432
-  #   volumes:
-  #     - slamanagerbridgedbdata:/var/lib/postgresql/data
-  #   environment:
-  #     - POSTGRES_DB=slamanagerbridgedb
-  #     - POSTGRES_USER=slamanagerbridgedbuser
-  #     - POSTGRES_PASSWORD=slamanagerbridgedbpassword
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
