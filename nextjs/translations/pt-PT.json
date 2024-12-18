@@ -1662,6 +1662,12 @@
 				"loading": "A marcar todos os planos...",
 				"success": "Todos os planos marcados como em Espera!",
 				"title": "Marcar todos como em Espera"
+			},
+			"mark-approved-as-waiting": {
+				"error": "Ocorreu um erro ao marcas os planos.",
+				"loading": "A marcar planos aprovados...",
+				"success": "Planos aprovados marcados como em Espera!",
+				"title": "Marcar aprovados como em Espera"
 			}
 		}
 	},

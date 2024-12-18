@@ -50,6 +50,22 @@ export function PlansListHeader() {
 		}
 	};
 
+	const handleMarkApprovedAsWaiting = async () => {
+		try {
+			setIsLoading(true);
+			notify('new', 'loading', t('operations.mark-all-as-waiting.loading'));
+			await API({ method: 'GET', operation: 'mark-all-as-waiting', service: 'plans' });
+			allPlansMutate();
+			notify('new', 'success', t('operations.mark-all-as-waiting.success'));
+			setIsLoading(false);
+		}
+		catch (error) {
+			notify('new', 'error', error.message || t('operations.mark-all-as-waiting.error'));
+			setIsLoading(false);
+			console.log(error);
+		}
+	};
+
 	const handleMarkAllAsWaiting = async () => {
 		try {
 			setIsLoading(true);
@@ -80,6 +96,11 @@ export function PlansListHeader() {
 			</AppAuthenticationCheck>
 			<SearchField onChange={plansContext.updateSearchQuery} query={plansContext.list.search_query} />
 			<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]}>
+				<div>
+					<Button color="red" leftSection={<IconPoint size={20} />} loading={allPlansLoading || isLoading} onClick={handleMarkApprovedAsWaiting} variant="light">
+						{t('operations.mark-approved-as-waiting.title')}
+					</Button>
+				</div>
 				<div>
 					<Button color="red" leftSection={<IconPoint size={20} />} loading={allPlansLoading || isLoading} onClick={handleMarkAllAsWaiting} variant="light">
 						{t('operations.mark-all-as-waiting.title')}
