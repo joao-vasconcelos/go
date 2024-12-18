@@ -622,6 +622,31 @@
 			}
 		}
 	},
+	"ExportsExplorerFormSlaPublishV1": {
+		"form": {
+			"agencies": {
+				"description": "Selecione o operador para o qual pretende obter a caracterização de circulações.",
+				"label": "Selecione um Operador",
+				"nothingFound": "Nenhum Resultado Encontrado",
+				"placeholder": "Escolha uma opção..."
+			},
+			"end_date": {
+				"description": "Recolher caracterização até este dia operacional.",
+				"label": "Data de Fim",
+				"placeholder": "Escolha uma data..."
+			},
+			"start_date": {
+				"description": "Recolher caracterização a partir deste dia operacional.",
+				"label": "Data de Início",
+				"placeholder": "Escolha uma data..."
+			}
+		},
+		"operations": {
+			"start": {
+				"label": "Iniciar Exportação"
+			}
+		}
+	},
 	"ExportsExplorerList": {
 		"description": "Aqui encontram-se as últimas exportações iniciadas por todos os utilizadores. As exportações são automaticamente eliminadas ao fim de 4 horas.",
 		"no_data": "Nenhuma Exportação Disponível",
@@ -636,19 +661,23 @@
 			},
 			"netex_v1": {
 				"description": "For testing.",
-				"label": "NETEX v1"
+				"label": "NETEX"
 			},
 			"regional_merge_v1": {
 				"description": "For A3 and A4.",
-				"label": "GTFS Unificado v1"
+				"label": "GTFS Unificado"
 			},
 			"sla_debug_v1": {
 				"description": "For testing",
-				"label": "SLA Debug v1"
+				"label": "SLA Debug"
 			},
 			"sla_default_v1": {
 				"description": "For A3 and A4.",
-				"label": "SLA Caracterização Circulações v1"
+				"label": "SLA Caracterização Circulações"
+			},
+			"sla_publish_v1": {
+				"description": "For testing",
+				"label": "SLA Publish"
 			}
 		},
 		"operations": {

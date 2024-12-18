@@ -43,7 +43,7 @@ export default async function handler(req, res) {
 
 	try {
 		const ridesCollection = await rides.getCollection();
-		const result = await ridesCollection.updateMany({}, { $set: { status: 'complete' } });
+		const result = await ridesCollection.updateMany({ }, { $set: { status: 'pending' } });
 		return await res.status(200).json(result);
 	}
 	catch (error) {

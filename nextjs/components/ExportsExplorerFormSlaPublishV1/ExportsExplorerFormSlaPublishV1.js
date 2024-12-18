@@ -6,8 +6,10 @@ import { Section } from '@/components/Layouts/Layouts';
 import Loader from '@/components/Loader/Loader';
 import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
 import { DatePickerInput } from '@mantine/dates';
+import { OPERATIONAL_DATE_FORMAT } from '@tmlmobilidade/services/types';
 import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 import useSWR from 'swr';
 
 /* * */
@@ -24,16 +26,21 @@ export default function ExportsExplorerFormSlaPublishV1() {
 	//
 	// B. Fetch data
 
-	const { data: allAvailableSlaOperationalDaysData, isLoading: allAvailableSlaOperationalDaysLoading } = useSWR('/api/sla/progress/available_operational_days');
+	const { data: breakdownByOperationalDateData, isLoading: breakdownByOperationalDateLoading } = useSWR('/api/sla/progress/breakdown-by-operational-date');
 
 	//
 	// C. Transform data
 
+	const availableOperationalDates = useMemo(() => {
+		if (!breakdownByOperationalDateData) return null;
+		const onlyCompletedOperationalDates = breakdownByOperationalDateData.filter(item => item.complete === item.total).map(item => item.operational_date);
+		return new Set(onlyCompletedOperationalDates);
+	}, [breakdownByOperationalDateData]);
+
 	const excludedDates = (date) => {
-		if (!allAvailableSlaOperationalDaysData || !allAvailableSlaOperationalDaysData.length) return true;
-		const dateString = DateTime.fromJSDate(date).toFormat('yyyyMMdd');
-		const allAvailableSlaOperationalDaysDataSet = new Set(allAvailableSlaOperationalDaysData);
-		return !allAvailableSlaOperationalDaysDataSet.has(dateString);
+		if (!availableOperationalDates || !breakdownByOperationalDateData || !breakdownByOperationalDateData.length) return true;
+		const dateString = DateTime.fromJSDate(date).toFormat(OPERATIONAL_DATE_FORMAT);
+		return !availableOperationalDates.has(dateString);
 	};
 
 	//
@@ -48,9 +55,9 @@ export default function ExportsExplorerFormSlaPublishV1() {
 					label={t('form.start_date.label')}
 					placeholder={t('form.start_date.placeholder')}
 					{...exportsExplorerContext.form_sla_publish_v1.getInputProps('start_date')}
-					disabled={allAvailableSlaOperationalDaysLoading}
+					disabled={breakdownByOperationalDateLoading}
 					dropdownType="modal"
-					rightSection={allAvailableSlaOperationalDaysLoading ? <Loader size={18} visible /> : null}
+					rightSection={breakdownByOperationalDateLoading ? <Loader size={18} visible /> : null}
 					clearable
 				/>
 				<DatePickerInput
@@ -59,9 +66,9 @@ export default function ExportsExplorerFormSlaPublishV1() {
 					label={t('form.end_date.label')}
 					placeholder={t('form.end_date.placeholder')}
 					{...exportsExplorerContext.form_sla_publish_v1.getInputProps('end_date')}
-					disabled={allAvailableSlaOperationalDaysLoading}
+					disabled={breakdownByOperationalDateLoading}
 					dropdownType="modal"
-					rightSection={allAvailableSlaOperationalDaysLoading ? <Loader size={18} visible /> : null}
+					rightSection={breakdownByOperationalDateLoading ? <Loader size={18} visible /> : null}
 					clearable
 				/>
 			</Section>
