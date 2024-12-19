@@ -86,6 +86,33 @@ export default function Page() {
 		});
 	};
 
+	const handleMarkErrorRidesAsPending = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Mark Error Rides As Pending Analysis' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('mark-error-rides-as-pending', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/mark-error-rides-as-pending' });
+					slaProgressSummaryMutate();
+					slaProgressByDayMutate();
+					notify('mark-error-rides-as-pending', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('mark-error-rides-as-pending', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Mark Error Rides As Pending Analysis?</Text>,
+		});
+	};
+
 	const handleDeleteAllRides = async () => {
 		openConfirmModal({
 			centered: true,
@@ -194,7 +221,10 @@ export default function Page() {
 
 				<AppLayoutSection>
 
-					<SimpleGrid cols={3}>
+					<SimpleGrid cols={4}>
+						<Button color="teal" loading={isImporting} onClick={handleMarkErrorRidesAsPending}>
+							Mark Error Rides as Pending
+						</Button>
 						<Button color="blue" loading={isImporting} onClick={handleMarkProcessingRidesAsPending}>
 							Mark Processing Rides as Pending
 						</Button>
