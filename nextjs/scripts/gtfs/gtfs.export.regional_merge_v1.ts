@@ -522,7 +522,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				archive_end_date: planData.valid_until,
 				archive_id: planData._id,
 				archive_start_date: planData.valid_from,
-				operator_id: planData.agency?.code || 'N/A',
+				operator_id: planData.agency_id || 'N/A',
 			};
 
 			await fileWriter.write(exportDocument.workdir, 'archives.txt', exportedRowData);
