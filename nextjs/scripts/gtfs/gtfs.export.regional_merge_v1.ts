@@ -190,7 +190,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	const allPlansData = await plans.findMany({ is_approved: true });
 
 	const allPlansDataPopulated = allPlansData.map((plan) => {
-		const agencyData = allAgenciesData.find(agency => agency.code === plan.agency_id);
+		const agencyData = allAgenciesData.find(agency => String(agency._id) === plan.agency_id);
 		return { ...plan, agency: agencyData };
 	});
 
@@ -522,7 +522,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				archive_end_date: planData.valid_until,
 				archive_id: planData._id,
 				archive_start_date: planData.valid_from,
-				operator_id: planData.agency_id || 'N/A',
+				operator_id: planData.agency?.code || 'N/A',
 			};
 
 			await fileWriter.write(exportDocument.workdir, 'archives.txt', exportedRowData);
