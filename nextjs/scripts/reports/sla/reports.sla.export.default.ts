@@ -51,10 +51,27 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 		//
 
 		const rideParsed = {
-			...rideData,
-			analysis: undefined,
-			hashed_shape_id: undefined,
-			hashed_trip_id: undefined,
+			agency_id: rideData.agency_id,
+			driver_ids: rideData.driver_ids?.join('-'),
+			end_time_observed: rideData.end_time_observed,
+			end_time_scheduled: rideData.end_time_scheduled,
+			extension_observed: rideData.extension_observed,
+			extension_scheduled: rideData.extension_scheduled,
+			headsign: rideData.headsign,
+			line_id: rideData.line_id,
+			operational_date: rideData.operational_date,
+			passengers_estimated: rideData.passengers_estimated,
+			pattern_id: rideData.pattern_id,
+			plan_id: rideData.plan_id,
+			route_id: rideData.route_id,
+			seen_first_at: rideData.seen_first_at,
+			seen_last_at: rideData.seen_last_at,
+			start_time_observed: rideData.start_time_observed,
+			start_time_scheduled: rideData.start_time_scheduled,
+			status: rideData.status,
+			trip_id: rideData.trip_id,
+			validations_count: rideData.validations_count,
+			vehicle_ids: rideData.vehicle_ids?.join('-'),
 		};
 
 		rideData.analysis.forEach((item) => {
