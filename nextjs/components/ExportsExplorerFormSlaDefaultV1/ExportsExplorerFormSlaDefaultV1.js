@@ -28,7 +28,7 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 	// B. Fetch data
 
 	const { data: allAgenciesData } = useSWR('/api/agencies');
-	const { data: breakdownByOperationalDateData, isLoading: breakdownByOperationalDateLoading } = useSWR('/api/sla/progress/breakdown-by-operational-date');
+	const { data: availableOperationalDatesData, isLoading: availableOperationalDatesLoading } = useSWR('/api/sla/progress/available-operational-dates');
 
 	//
 	// C. Transform data
@@ -39,13 +39,12 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 	}, [allAgenciesData]);
 
 	const availableOperationalDates = useMemo(() => {
-		if (!breakdownByOperationalDateData) return null;
-		const onlyCompletedOperationalDates = breakdownByOperationalDateData.filter(item => item.complete === item.total).map(item => item.operational_date);
-		return new Set(onlyCompletedOperationalDates);
-	}, [breakdownByOperationalDateData]);
+		if (!availableOperationalDatesData) return null;
+		return new Set(availableOperationalDatesData);
+	}, [availableOperationalDatesData]);
 
 	const excludedDates = (date) => {
-		if (!availableOperationalDates || !breakdownByOperationalDateData || !breakdownByOperationalDateData.length) return true;
+		if (!availableOperationalDates || !availableOperationalDatesData || !availableOperationalDatesData.length) return true;
 		const dateString = DateTime.fromJSDate(date).toFormat(OPERATIONAL_DATE_FORMAT);
 		return !availableOperationalDates.has(dateString);
 	};
@@ -77,9 +76,9 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 					label={t('form.start_date.label')}
 					placeholder={t('form.start_date.placeholder')}
 					{...exportsExplorerContext.form_sla_default_v1.getInputProps('start_date')}
-					disabled={breakdownByOperationalDateLoading}
+					disabled={availableOperationalDatesLoading}
 					dropdownType="modal"
-					rightSection={breakdownByOperationalDateLoading ? <Loader size={18} visible /> : null}
+					rightSection={availableOperationalDatesLoading ? <Loader size={18} visible /> : null}
 					clearable
 				/>
 				<DatePickerInput
@@ -88,9 +87,9 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 					label={t('form.end_date.label')}
 					placeholder={t('form.end_date.placeholder')}
 					{...exportsExplorerContext.form_sla_default_v1.getInputProps('end_date')}
-					disabled={breakdownByOperationalDateLoading}
+					disabled={availableOperationalDatesLoading}
 					dropdownType="modal"
-					rightSection={breakdownByOperationalDateLoading ? <Loader size={18} visible /> : null}
+					rightSection={availableOperationalDatesLoading ? <Loader size={18} visible /> : null}
 					clearable
 				/>
 			</Section>

@@ -20,15 +20,9 @@ export function useExportsExplorerContext() {
 
 /* * */
 
-const initialListState = {
-	//
-	is_loading: false,
-	//
-};
-
 const initialFormState = {
-	is_error: false,
 	//
+	is_error: false,
 	is_loading: false,
 	is_read_only: false,
 	is_valid: false,
@@ -44,7 +38,7 @@ export function ExportsExplorerContextProvider({ children }) {
 	// B. Setup state
 
 	const [formState, setFormState] = useState(initialFormState);
-	const [formStateMainValuesState, setFormStateMainValuesState] = useState(ExportFormDefault);
+	const [formStateMainValuesState] = useState(ExportFormDefault);
 
 	//
 	// C. Setup forms

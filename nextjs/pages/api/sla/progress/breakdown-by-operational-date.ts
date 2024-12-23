@@ -46,7 +46,12 @@ export default async function handler(req, res) {
 
 		const ridesCollection = await rides.getCollection();
 
-		const breakdownByOperationalDateAndStatus = await ridesCollection.aggregate([{ $group: { _id: { operational_date: '$operational_date', status: '$status' }, count: { $sum: 1 } } }, { $sort: { '_id.operational_date': 1, '_id.status': 1 } }]).toArray();
+		const breakdownByOperationalDateAndStatus = await ridesCollection
+			.aggregate([
+				{ $group: { _id: { operational_date: '$operational_date', status: '$status' }, count: { $sum: 1 } } },
+				{ $sort: { '_id.operational_date': 1, '_id.status': 1 } },
+			])
+			.toArray();
 
 		const groupedByOperationalDate = {};
 
