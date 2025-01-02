@@ -16,6 +16,13 @@ export default async function notify(identifier, type, title, message) {
 	};
 
 	switch (type) {
+		case 'error':
+			defaultOptions.loading = false;
+			defaultOptions.autoClose = 7000;
+			defaultOptions.color = 'red';
+			notifications.update(defaultOptions);
+			break;
+
 		case 'loading':
 			defaultOptions.loading = true;
 			defaultOptions.autoClose = false;
@@ -28,13 +35,6 @@ export default async function notify(identifier, type, title, message) {
 			defaultOptions.autoClose = 3000;
 			defaultOptions.icon = <IconCheck />;
 			defaultOptions.color = 'green';
-			notifications.update(defaultOptions);
-			break;
-
-		case 'error':
-			defaultOptions.loading = false;
-			defaultOptions.autoClose = 7000;
-			defaultOptions.color = 'red';
 			notifications.update(defaultOptions);
 			break;
 
