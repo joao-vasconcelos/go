@@ -10,6 +10,16 @@ export enum StopPropertyOperationalStatus {
 	Voided = 'VOIDED',
 }
 
+export enum StopPropertyRoadType {
+	ComplementaryItinerary = 'COMPLEMENTARY_ITINERARY',
+	Highway = 'HIGHWAY',
+	MainItinerary = 'MAIN_ITINERARY',
+	NationalRoad = 'NATIONAL_ROAD',
+	RegionalRoad = 'REGIONAL_ROAD',
+	SecondaryRoad = 'SECONDARY_ROAD',
+	Unknown = 'UNKNOWN',
+}
+
 export enum StopPropertyHasPole {
 	Damaged = 'DAMAGED',
 	Missing = 'MISSING',

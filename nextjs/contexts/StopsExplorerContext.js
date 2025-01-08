@@ -100,6 +100,7 @@ export function StopsExplorerContextProvider({ children }) {
 	const { data: itemData, isLoading: itemLoading, mutate: itemMutate } = useSWR(itemId && `/api/stops/${itemId}`);
 	const { data: allAssociatedPatternsData, isLoading: allAssociatedPatternsLoading } = useSWR(itemId && `/api/stops/${itemId}/associatedPatterns`);
 	const { data: apiItemData } = useSWR(itemData && `https://api.carrismetropolitana.pt/stops/${itemData.code}`);
+	const { data: pipsItemData } = useSWR('https://api.cmet.pt/facilities/pips');
 
 	//
 	// E. Transform data
@@ -140,7 +141,8 @@ export function StopsExplorerContextProvider({ children }) {
 		// Stop is deletable if no patterns are associated in GO
 		const hasAssociatedPatternsInGo = allAssociatedPatternsData?.length > 0;
 		const hasAssociatedPatternsInApi = apiItemData?.lines?.length > 0;
-		if (!hasAssociatedPatternsInGo && !hasAssociatedPatternsInApi) {
+		const hasAssociatedPipsInApi = pipsItemData?.some(pip => pip.stop_ids.includes(itemData?.code));
+		if (!hasAssociatedPatternsInGo && !hasAssociatedPatternsInApi && !hasAssociatedPipsInApi) {
 			setPageState(prev => ({ ...prev, is_deletable: true }));
 			return;
 		}
@@ -157,7 +159,8 @@ export function StopsExplorerContextProvider({ children }) {
 		// Check if the use is allowed to edit the stop name
 		const isReadOnlyName = isReadOnly || !isAllowed(sessionData, [{ action: 'edit_name', scope: 'stops' }], { handleError: true });
 		// Check if the use is allowed to edit the stop location
-		const isReadOnlyLocation = isReadOnly || !isAllowed(sessionData, [{ action: 'edit_location', scope: 'stops' }], { handleError: true });
+		const hasAssociatedPipsInApi = pipsItemData?.some(pip => pip.stop_ids.includes(itemData?.code));
+		const isReadOnlyLocation = isReadOnly || hasAssociatedPipsInApi || !isAllowed(sessionData, [{ action: 'edit_location', scope: 'stops' }], { handleError: true });
 		// Check if the use is allowed to edit the stop zones
 		const isReadOnlyZones = isReadOnly || !isAllowed(sessionData, [{ action: 'edit_zones', scope: 'stops' }], { handleError: true });
 		// Update state
@@ -233,11 +236,11 @@ export function StopsExplorerContextProvider({ children }) {
 			setPageState(prev => ({ ...prev, is_loading: true }));
 			const responseBlob = await API({ method: 'GET', operation: 'export/default', parseType: 'blob', service: 'stops' });
 			const objectURL = URL.createObjectURL(responseBlob);
-			// eslint-disable-next-line no-undef
+
 			const htmlAnchorElement = document.createElement('a');
 			htmlAnchorElement.href = objectURL;
 			htmlAnchorElement.download = 'stops.txt';
-			// eslint-disable-next-line no-undef
+
 			document.body.appendChild(htmlAnchorElement);
 			htmlAnchorElement.click();
 			setListState(prev => ({ ...prev, is_loading: false }));
@@ -256,11 +259,11 @@ export function StopsExplorerContextProvider({ children }) {
 			setPageState(prev => ({ ...prev, is_loading: true }));
 			const responseBlob = await API({ method: 'GET', operation: 'export/deleted', parseType: 'blob', service: 'stops' });
 			const objectURL = URL.createObjectURL(responseBlob);
-			// eslint-disable-next-line no-undef
+
 			const htmlAnchorElement = document.createElement('a');
 			htmlAnchorElement.href = objectURL;
 			htmlAnchorElement.download = 'stops_deleted.txt';
-			// eslint-disable-next-line no-undef
+
 			document.body.appendChild(htmlAnchorElement);
 			htmlAnchorElement.click();
 			setListState(prev => ({ ...prev, is_loading: false }));
@@ -279,11 +282,11 @@ export function StopsExplorerContextProvider({ children }) {
 			setPageState(prev => ({ ...prev, is_loading: true }));
 			const responseBlob = await API({ method: 'GET', operation: 'export/lines_by_stop', parseType: 'blob', service: 'stops' });
 			const objectURL = URL.createObjectURL(responseBlob);
-			// eslint-disable-next-line no-undef
+
 			const htmlAnchorElement = document.createElement('a');
 			htmlAnchorElement.href = objectURL;
 			htmlAnchorElement.download = 'lines_by_stop.txt';
-			// eslint-disable-next-line no-undef
+
 			document.body.appendChild(htmlAnchorElement);
 			htmlAnchorElement.click();
 			setListState(prev => ({ ...prev, is_loading: false }));
@@ -364,7 +367,6 @@ export function StopsExplorerContextProvider({ children }) {
 	}, [router]);
 
 	const openInWebsite = useCallback(async () => {
-		// eslint-disable-next-line no-undef
 		window.open(`https://on.carrismetropolitana.pt/stops/${itemData.code}`, '_blank');
 	}, [itemData?.code]);
 

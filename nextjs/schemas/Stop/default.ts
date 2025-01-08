@@ -8,9 +8,7 @@ import { StopPropertyDockingBayType, StopPropertyHasAbusiveParking, StopProperty
 
 export const StopDefault = {
 
-	/*
-   * GENERAL
-   */
+	/* GENERAL */
 
 	code: '',
 	name: '',

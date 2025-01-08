@@ -2,7 +2,7 @@
 
 /* * */
 
-import { StopOptions, StopPropertyDockingBayType, StopPropertyHasAbusiveParking, StopPropertyHasBench, StopPropertyHasCrossing, StopPropertyHasElectricity, StopPropertyHasFlag, StopPropertyHasFlatAccess, StopPropertyHasH2oaSignage, StopPropertyHasLighting, StopPropertyHasMupi, StopPropertyHasNetworkMap, StopPropertyHasPipAudio, StopPropertyHasPipRealtime, StopPropertyHasPipStatic, StopPropertyHasPole, StopPropertyHasSchedules, StopPropertyHasShelter, StopPropertyHasSidewalk, StopPropertyHasTactileAccess, StopPropertyHasTactileSchedules, StopPropertyHasTrashBin, StopPropertyHasWideAccess, StopPropertyOperationalStatus, StopPropertyWheelchairBoarding } from '@/schemas/Stop/options';
+import { StopOptions, StopPropertyDockingBayType, StopPropertyHasAbusiveParking, StopPropertyHasBench, StopPropertyHasCrossing, StopPropertyHasElectricity, StopPropertyHasFlag, StopPropertyHasFlatAccess, StopPropertyHasH2oaSignage, StopPropertyHasLighting, StopPropertyHasMupi, StopPropertyHasNetworkMap, StopPropertyHasPipAudio, StopPropertyHasPipRealtime, StopPropertyHasPipStatic, StopPropertyHasPole, StopPropertyHasSchedules, StopPropertyHasShelter, StopPropertyHasSidewalk, StopPropertyHasTactileAccess, StopPropertyHasTactileSchedules, StopPropertyHasTrashBin, StopPropertyHasWideAccess, StopPropertyOperationalStatus, StopPropertyRoadType, StopPropertyWheelchairBoarding } from '@/schemas/Stop/options';
 import mongoose from 'mongoose';
 
 /* * */
@@ -11,8 +11,8 @@ export const StopSchema = new mongoose.Schema(
 	{
 
 		/*
-     * GENERAL
-     */
+         * GENERAL
+         */
 
 		code: {
 			type: String,
@@ -57,8 +57,8 @@ export const StopSchema = new mongoose.Schema(
 		},
 
 		/*
-		* OPERATION
-		*/
+         * OPERATION
+         */
 
 		operational_status: {
 			type: String,
@@ -73,8 +73,8 @@ export const StopSchema = new mongoose.Schema(
 		],
 
 		/*
-     * ADMINISTRATIVE
-     */
+         * ADMINISTRATIVE
+         */
 
 		municipality: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -92,10 +92,15 @@ export const StopSchema = new mongoose.Schema(
 			type: String,
 			maxlength: 100,
 		},
+		road_type: {
+			type: String,
+			maxlength: 50,
+			default: StopPropertyRoadType.Unknown,
+		},
 
 		/*
-     	 * SHELTER
-		 */
+         * SHELTER
+         */
 
 		has_shelter: {
 			type: String,
@@ -120,8 +125,8 @@ export const StopSchema = new mongoose.Schema(
 		},
 
 		/*
-     	 * INFRASTRUCTURE
-		 */
+         * INFRASTRUCTURE
+         */
 
 		has_pole: {
 			type: String,
@@ -246,8 +251,8 @@ export const StopSchema = new mongoose.Schema(
 		},
 
 		/*
-     * ACCESSIBILITY
-     */
+         * ACCESSIBILITY
+         */
 
 		has_sidewalk: {
 			type: String,
@@ -298,8 +303,8 @@ export const StopSchema = new mongoose.Schema(
 		},
 
 		/*
-     * SERVICES
-     */
+         * SERVICES
+         */
 
 		near_health_clinic: {
 			type: Boolean,
@@ -333,8 +338,8 @@ export const StopSchema = new mongoose.Schema(
 		},
 
 		/*
-     * CONNECTIONS
-     */
+         * CONNECTIONS
+         */
 
 		near_subway: {
 			type: Boolean,
