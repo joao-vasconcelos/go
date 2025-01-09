@@ -51,6 +51,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 		//
 
 		const rideParsed = {
+			_id: rideData._id,
 			agency_id: rideData.agency_id,
 			driver_ids: rideData.driver_ids?.join('-'),
 			end_time_observed: rideData.end_time_observed,
