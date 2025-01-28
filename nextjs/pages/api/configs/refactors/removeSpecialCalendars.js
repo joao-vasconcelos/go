@@ -10,7 +10,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
 	//
 
-	throw new Error('Feature is disabled.');
+	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -48,10 +48,8 @@ export default async function handler(req, res) {
 		const allCalendarCodes = await CalendarModel.find({
 			code: {
 				$in: [
-					'ESP_NATAL_VESP',
-					'ESP_NATAL_DIA',
-					'ESP_ANONOVO_VESP',
-					'ESP_ANONOVO_DIA',
+					'ESP_CARNAVAL_DIA',
+					'ESP_CARNAVAL_FERIAS',
 				],
 			},
 		}, '_id code');
