@@ -3,6 +3,8 @@
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { rides } from '@tmlmobilidade/services/interfaces';
+import { getOperationalDate } from '@tmlmobilidade/services/utils';
+import { DateTime } from 'luxon';
 
 /* * */
 
@@ -42,9 +44,12 @@ export default async function handler(req, res) {
 	try {
 		const ridesCollection = await rides.getCollection();
 
+		const todayOperationalDate = getOperationalDate();
+		const twoMonthsAgoOperationalDate = getOperationalDate(DateTime.now().minus({ months: 2 }).startOf('month').toJSDate());
+
 		const availableOperationalDates = await ridesCollection
 			.aggregate([
-				{ $match: { status: 'complete' } },
+				{ $match: { operational_date: { $gte: twoMonthsAgoOperationalDate, $lte: todayOperationalDate }, status: 'complete' } },
 				{ $group: { _id: '$operational_date' } },
 				{ $sort: { _id: 1 } },
 			])
