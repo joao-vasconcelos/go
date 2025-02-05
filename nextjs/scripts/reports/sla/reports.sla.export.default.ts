@@ -69,7 +69,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			seen_last_at: rideData.seen_last_at,
 			start_time_observed: rideData.start_time_observed,
 			start_time_scheduled: rideData.start_time_scheduled,
-			status: rideData.status,
+			status: rideData.system_status,
 			trip_id: rideData.trip_id,
 			validations_count: rideData.validations_count,
 			vehicle_ids: rideData.vehicle_ids?.join('-'),
