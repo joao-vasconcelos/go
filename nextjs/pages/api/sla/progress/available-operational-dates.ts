@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 
 		const availableOperationalDates = await ridesCollection
 			.aggregate([
-				{ $match: { operational_date: { $gte: twoMonthsAgoOperationalDate, $lte: todayOperationalDate }, status: 'complete' } },
+				{ $match: { operational_date: { $gte: twoMonthsAgoOperationalDate, $lte: todayOperationalDate }, system_status: 'complete' } },
 				{ $group: { _id: '$operational_date' } },
 				{ $sort: { _id: 1 } },
 			])

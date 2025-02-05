@@ -76,7 +76,7 @@ export default async function handler(req, res) {
 
 			const rideStartedBeforeNow = DateTime.fromJSDate(rideData.start_time_scheduled).toMillis() < DateTime.now().toMillis();
 
-			const rideHasBeenProcessed = rideData.status === 'complete' && rideData.analysis.length > 0;
+			const rideHasBeenProcessed = rideData.system_status === 'complete' && rideData.analysis.length > 0;
 
 			if (!rideStartedBeforeNow || !rideHasBeenProcessed) continue;
 

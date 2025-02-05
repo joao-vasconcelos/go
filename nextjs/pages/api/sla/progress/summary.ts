@@ -41,10 +41,10 @@ export default async function handler(req, res) {
 
 	try {
 		const totalDocuments = await rides.count({});
-		const totalDocumentsComplete = await rides.count({ status: 'complete' });
-		const totalDocumentsProcessing = await rides.count({ status: 'processing' });
-		const totalDocumentsError = await rides.count({ status: 'error' });
-		const totalDocumentsPending = await rides.count({ status: 'pending' });
+		const totalDocumentsComplete = await rides.count({ system_status: 'complete' });
+		const totalDocumentsProcessing = await rides.count({ system_status: 'processing' });
+		const totalDocumentsError = await rides.count({ system_status: 'error' });
+		const totalDocumentsPending = await rides.count({ system_status: 'pending' });
 
 		return await res.send({
 			//

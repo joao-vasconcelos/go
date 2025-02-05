@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 	try {
 		const requestedOperationalDate = req.query.operational_date.slice(0, 8);
 		const ridesCollection = await rides.getCollection();
-		const result = await ridesCollection.updateMany({ operational_date: { $eq: requestedOperationalDate } }, { $set: { status: 'pending' } });
+		const result = await ridesCollection.updateMany({ operational_date: { $eq: requestedOperationalDate } }, { $set: { system_status: 'pending' } });
 		return await res.status(200).json(result);
 	}
 	catch (error) {

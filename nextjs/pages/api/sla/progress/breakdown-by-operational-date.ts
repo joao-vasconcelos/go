@@ -48,8 +48,8 @@ export default async function handler(req, res) {
 
 		const breakdownByOperationalDateAndStatus = await ridesCollection
 			.aggregate([
-				{ $group: { _id: { operational_date: '$operational_date', status: '$status' }, count: { $sum: 1 } } },
-				{ $sort: { '_id.operational_date': 1, '_id.status': 1 } },
+				{ $group: { _id: { operational_date: '$operational_date', system_status: '$system_status' }, count: { $sum: 1 } } },
+				{ $sort: { '_id.operational_date': 1, '_id.system_status': 1 } },
 			])
 			.toArray();
 
