@@ -46,8 +46,12 @@ export default async function handler(req, res) {
 
 		const ridesCollection = await rides.getCollection();
 
+		const todayOperationalDate = getOperationalDate();
+		const twoMonthsAgoOperationalDate = getOperationalDate(DateTime.now().minus({ months: 2 }).startOf('month').toJSDate());
+
 		const breakdownByOperationalDateAndStatus = await ridesCollection
 			.aggregate([
+				{ $match: { operational_date: { $gte: twoMonthsAgoOperationalDate, $lte: todayOperationalDate } } },
 				{ $group: { _id: { operational_date: '$operational_date', system_status: '$system_status' }, count: { $sum: 1 } } },
 				{ $sort: { '_id.operational_date': 1, '_id.system_status': 1 } },
 			])
@@ -58,7 +62,7 @@ export default async function handler(req, res) {
 		for (const breakdown of breakdownByOperationalDateAndStatus) {
 			//
 			const operationalDate = breakdown._id.operational_date;
-			const status = breakdown._id.status;
+			const status = breakdown._id.system_status;
 			const count = breakdown.count;
 
 			if (!groupedByOperationalDate[operationalDate]) {
