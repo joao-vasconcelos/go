@@ -15,10 +15,6 @@ import { StopPropertyWheelchairBoarding } from '@/schemas/Stop/options';
 export default async function stopsExportDefault() {
 	//
 
-	LineModel;
-	AgencyModel;
-	MunicipalityModel;
-
 	// 1.
 	// Get all stops from the database
 
@@ -56,15 +52,15 @@ export default async function stopsExportDefault() {
 
 		let wheelchairBoardingFormatted;
 		switch (stopData.wheelchair_boarding) {
-			default:
-			case StopPropertyWheelchairBoarding.Unknown:
-				wheelchairBoardingFormatted = '0';
+			case StopPropertyWheelchairBoarding.No:
+				wheelchairBoardingFormatted = '2';
 				break;
 			case StopPropertyWheelchairBoarding.Yes:
 				wheelchairBoardingFormatted = '1';
 				break;
-			case StopPropertyWheelchairBoarding.No:
-				wheelchairBoardingFormatted = '2';
+			case StopPropertyWheelchairBoarding.Unknown:
+			default:
+				wheelchairBoardingFormatted = '0';
 				break;
 		}
 
@@ -99,7 +95,7 @@ export default async function stopsExportDefault() {
 			platform_code: stopData.platform_code,
 			parent_station: stopData.parent_station,
 			location_type: '0',
-			stop_url: `https://on.carrismetropolitana.pt/stops/${stopData.code}`,
+			stop_url: `https://www.carrismetropolitana.pt/stops/${stopData.code}`,
 			// Infrastructure
 			has_pole: stopData.has_pole,
 			has_cover: stopData.has_cover,

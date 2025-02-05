@@ -12,8 +12,8 @@ import populate from '@/services/populate';
 import { useRouter } from '@/translations/navigation';
 import tts from '@carrismetropolitana/tts';
 import { useForm, yupResolver } from '@mantine/form';
-import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
@@ -367,7 +367,7 @@ export function StopsExplorerContextProvider({ children }) {
 	}, [router]);
 
 	const openInWebsite = useCallback(async () => {
-		window.open(`https://on.carrismetropolitana.pt/stops/${itemData.code}`, '_blank');
+		window.open(`https://www.carrismetropolitana.pt/stops/${itemData.code}`, '_blank');
 	}, [itemData?.code]);
 
 	//

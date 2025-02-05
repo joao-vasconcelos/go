@@ -132,7 +132,7 @@ export default async function handler(req, res) {
 						translation: [
 							{
 								language: 'pt',
-								text: `https://on.carrismetropolitana.pt/alerts/${item.code}`,
+								text: `https://www.carrismetropolitana.pt/alerts/${item.code}`,
 							},
 						],
 					},
@@ -141,11 +141,8 @@ export default async function handler(req, res) {
 			};
 			//
 			switch (item.type) {
-				case 'select_stops':
-					parsedAlert.alert.informedEntity = item.affected_stops.flatMap(({ specific_routes, stop_id }) => {
-						if (!specific_routes?.length) return [{ stop_id: stop_id }];
-						return specific_routes.map(route_id => ({ route_id: route_id, stop_id: stop_id }));
-					});
+				case 'select_agencies':
+					parsedAlert.alert.informedEntity = item.affected_agencies.map(({ agency_id }) => ({ agency_id: agency_id }));
 					break;
 				case 'select_routes':
 					parsedAlert.alert.informedEntity = item.affected_routes.flatMap(({ route_id, specific_stops }) => {
@@ -153,8 +150,11 @@ export default async function handler(req, res) {
 						return specific_stops.map(stop_id => ({ route_id: route_id, stop_id: stop_id }));
 					});
 					break;
-				case 'select_agencies':
-					parsedAlert.alert.informedEntity = item.affected_agencies.map(({ agency_id }) => ({ agency_id: agency_id }));
+				case 'select_stops':
+					parsedAlert.alert.informedEntity = item.affected_stops.flatMap(({ specific_routes, stop_id }) => {
+						if (!specific_routes?.length) return [{ stop_id: stop_id }];
+						return specific_routes.map(route_id => ({ route_id: route_id, stop_id: stop_id }));
+					});
 					break;
 				default:
 					break;
