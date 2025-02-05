@@ -12,7 +12,7 @@ import periodsExportDefault from '@/scripts/periods/periods.export.default';
 import stopsExportDefault from '@/scripts/stops/stops.export.default';
 import CSVWRITER from '@/services/CSVWRITER';
 import STORAGE from '@/services/STORAGE';
-import { plans } from '@tmlmobilidade/services/interfaces';
+import { plans } from '@tmlmobilidade/core/interfaces';
 import { parse as csvParser } from 'csv-parse';
 import extract from 'extract-zip';
 import fs from 'fs';

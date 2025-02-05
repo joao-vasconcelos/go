@@ -7,7 +7,7 @@ import Loader from '@/components/Loader/Loader';
 import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
 import { Divider, Select } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
-import { OPERATIONAL_DATE_FORMAT } from '@tmlmobilidade/services/types';
+import { OPERATIONAL_DATE_FORMAT } from '@tmlmobilidade/core/types';
 import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';

@@ -1,6 +1,6 @@
 /* * */
 
-import { createOperationalDate, CreatePlanDto, OPERATIONAL_DATE_FORMAT } from '@tmlmobilidade/services/types';
+import { createOperationalDate, CreatePlanDto, OPERATIONAL_DATE_FORMAT } from '@tmlmobilidade/core/types';
 import { DateTime } from 'luxon';
 
 /* * */

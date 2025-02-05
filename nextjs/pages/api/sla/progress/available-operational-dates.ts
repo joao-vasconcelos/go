@@ -2,8 +2,8 @@
 
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { rides } from '@tmlmobilidade/services/interfaces';
-import { getOperationalDate } from '@tmlmobilidade/services/utils';
+import { rides } from '@tmlmobilidade/core/interfaces';
+import { getOperationalDate } from '@tmlmobilidade/core/utils';
 import { DateTime } from 'luxon';
 
 /* * */

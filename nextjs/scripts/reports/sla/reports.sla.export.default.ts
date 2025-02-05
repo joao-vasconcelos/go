@@ -3,7 +3,7 @@
 import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportModel } from '@/schemas/Export/model';
 import CSVWRITER from '@/services/CSVWRITER';
-import { rides } from '@tmlmobilidade/services/interfaces';
+import { rides } from '@tmlmobilidade/core/interfaces';
 
 /* * */
 
