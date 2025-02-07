@@ -598,22 +598,33 @@ export default async function exportGtfsV29(progress, exportOptions) {
 						const calendarOnDates = new Set(calendarOnData.dates);
 
 						// 3.3.3.4.1.5.
+						// If set, clip the resulting calendar ON dates to the desired start and end dates
+						if (exportOptions.clip_calendars) {
+							[...calendarOnDates].forEach((currentDate) => {
+								// If the current date is before the start date OR after the end date, then remove it from the set
+								if (currentDate < exportOptions.calendars_clip_start_date || currentDate > exportOptions.calendars_clip_end_date) {
+									calendarOnDates.delete(currentDate);
+								}
+							});
+						}
+
+						// 3.3.3.4.1.6.
 						// Subtract all calendars_off dates from the current calendar ON
 						calendarOffLoop: for (const calendarOffData of scheduleData.calendars_off) {
 							//
-							// 3.3.3.4.1.5.1.
+							// 3.3.3.4.1.6.1.
 							// Check if there is a calendar here
 							if (!calendarOffData) continue calendarOffLoop;
 
-							// 3.3.3.4.1.5.2.
+							// 3.3.3.4.1.6.2.
 							// Skip if this calendar has no dates
 							if (!calendarOffData.dates.length) continue calendarOffLoop;
 
-							// 3.3.3.4.1.5.3.
+							// 3.3.3.4.1.6.3.
 							// Set a flag to indicate if any date was removed or the calendar was untouched
 							let currentCalendarOnWasModified = false;
 
-							// 3.3.3.4.1.5.4.
+							// 3.3.3.4.1.6.4.
 							// Subtract from the current calendar ON all the dates in the current calendar OFF
 							calendarOffData.dates.forEach((dateToBeRemoved) => {
 								// Remove the date from the calendar ON
@@ -622,7 +633,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 								currentCalendarOnWasModified = currentCalendarOnWasModified || dateWasRemoved;
 							});
 
-							// 3.3.3.4.1.5.5.
+							// 3.3.3.4.1.6.5.
 							// if the current calendar ON was modified then append the current calendar OFF code and description to this combination
 							if (currentCalendarOnWasModified) {
 								// Include the OFF flag if this is the first calendar OFF code being appended
@@ -642,20 +653,9 @@ export default async function exportGtfsV29(progress, exportOptions) {
 							// End of calendarOff loop
 						}
 
-						// 3.3.3.4.1.6.
+						// 3.3.3.4.1.7.
 						// Skip if this calendar ends up not being used because it was fully subtracted
 						if (!calendarOnDates.size) continue calendarOnLoop;
-
-						// 3.3.3.4.1.7.
-						// If set, clip the resulting calendar ON dates to the desired start and end dates
-						if (exportOptions.clip_calendars) {
-							[...calendarOnDates].forEach((currentDate) => {
-								// If the current date is before the start date OR after the end date, then remove it from the set
-								if (currentDate < exportOptions.calendars_clip_start_date || currentDate > exportOptions.calendars_clip_end_date) {
-									calendarOnDates.delete(currentDate);
-								}
-							});
-						}
 
 						// 3.3.3.4.1.8.
 						// Skip if this calendar ends up not being used because it was fully clipped
