@@ -12,8 +12,8 @@ import { RouteModel } from '@/schemas/Route/model';
 import { StopModel } from '@/schemas/Stop/model';
 import { TypologyModel } from '@/schemas/Typology/model';
 import { ZoneModel } from '@/schemas/Zone/model';
-import CSVWRITER from '@/services/CSVWRITER';
 import calculateDateDayType from '@/services/calculateDateDayType';
+import CSVWRITER from '@/services/CSVWRITER';
 
 /* * */
 /* EXPORT GTFS V29 */
@@ -247,16 +247,16 @@ function parseFare(agencyData, fareData) {
 /* For a given typology code return the corresponding type key */
 function getLineType(typologyCode) {
 	switch (typologyCode) {
-		case 'PROXIMA':
-			return 1;
-		case 'LONGA':
-			return 2;
-		case 'RAPIDA':
-			return 3;
 		case 'INTER-REG':
 			return 4;
+		case 'LONGA':
+			return 2;
 		case 'MAR':
 			return 5;
+		case 'PROXIMA':
+			return 1;
+		case 'RAPIDA':
+			return 3;
 		default:
 			return 0;
 	}
