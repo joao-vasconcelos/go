@@ -12,6 +12,7 @@ import { openConfirmModal } from '@mantine/modals';
 import { IconAB2, IconBackspace, IconCalendarCheck, IconCalendarX, IconClockPlay, IconPlus } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
+import { ViewportList } from 'react-viewport-list';
 
 import styles from './PatternsExplorerIdPageSchedules.module.css';
 
@@ -364,7 +365,13 @@ export default function PatternsExplorerIdPageSchedules() {
 			<PatternsExplorerIdPageSchedulesHeader />
 			<div className={styles.body}>
 				{visibleCalendars.length > 0
-					? visibleCalendars.map(item => <PatternsExplorerIdPageSchedulesRow key={item._id} item={item} />)
+					? (
+						<ViewportList itemMargin={0} items={visibleCalendars}>
+							{item => (
+								<PatternsExplorerIdPageSchedulesRow key={item._id} item={item} />
+							)}
+						</ViewportList>
+					)
 					: (
 						<div className={styles.filterByCalendar}>
 							<NoDataLabel />
