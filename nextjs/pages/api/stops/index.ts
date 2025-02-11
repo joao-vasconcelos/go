@@ -1,8 +1,8 @@
 /* * */
 
 import getSession from '@/authentication/getSession';
-import { StopModel } from '@/schemas/Stop/model';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import { stops } from '@tmlmobilidade/core/interfaces';
 
 /* * */
 
@@ -37,23 +37,14 @@ export default async function handler(req, res) {
 	}
 
 	// 4.
-	// Ensure latest schema modifications are applied in the database
-
-	try {
-		await StopModel.syncIndexes();
-	}
-	catch (error) {
-		console.log(error);
-		return await res.status(500).json({ message: 'Cannot sync indexes.' });
-	}
-
-	// 5.
 	// List all documents
 
 	try {
-		const allDocuments = await StopModel.find({}, 'code name latitude longitude');
+		const stopsCollection = await stops.getCollection();
+		const allStopsData = await stopsCollection.find({}).toArray();
+		const allStopsDataSimplified = allStopsData.map(stop => ({ _id: stop._id, latitude: stop.latitude, longitude: stop.longitude, name: stop.name }));
 		const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
-		const sortedDocuments = allDocuments.sort((a, b) => collator.compare(a.code, b.code));
+		const sortedDocuments = allStopsDataSimplified.sort((a, b) => collator.compare(a._id, b._id));
 		return await res.status(200).send(sortedDocuments);
 	}
 	catch (error) {
