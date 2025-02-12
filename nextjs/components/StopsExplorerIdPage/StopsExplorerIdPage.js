@@ -494,8 +494,18 @@ export default function StopsExplorerIdPage() {
 					/>
 				</SimpleGrid>
 				<SimpleGrid cols={2}>
-					<TextInput label={t('form.last_infrastructure_maintenance.label')} placeholder={t('form.last_infrastructure_maintenance.placeholder')} {...stopsExplorerContext.form.getInputProps('last_infrastructure_maintenance')} readOnly={stopsExplorerContext.page.is_read_only} />
-					<TextInput label={t('form.last_infrastructure_check.label')} placeholder={t('form.last_infrastructure_check.placeholder')} {...stopsExplorerContext.form.getInputProps('last_infrastructure_check')} readOnly={stopsExplorerContext.page.is_read_only} />
+					<TextInput
+						label={t('form.last_infrastructure_maintenance.label')}
+						placeholder={t('form.last_infrastructure_maintenance.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('last_infrastructure_maintenance')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
+					<TextInput
+						label={t('form.last_infrastructure_check.label')}
+						placeholder={t('form.last_infrastructure_check.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('last_infrastructure_check')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
 				</SimpleGrid>
 			</AppLayoutSection>
 
@@ -513,7 +523,12 @@ export default function StopsExplorerIdPage() {
 						clearable
 						searchable
 					/>
-					<TextInput label={t('form.flag_maintainer.label')} placeholder={t('form.flag_maintainer.placeholder')} {...stopsExplorerContext.form.getInputProps('flag_maintainer')} readOnly={stopsExplorerContext.page.is_read_only} />
+					<TextInput
+						label={t('form.flag_maintainer.label')}
+						placeholder={t('form.flag_maintainer.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('flag_maintainer')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
 				</SimpleGrid>
 				<SimpleGrid cols={1}>
 					<Select
@@ -612,10 +627,30 @@ export default function StopsExplorerIdPage() {
 					/>
 				</SimpleGrid>
 				<SimpleGrid cols={2}>
-					<TextInput label={t('form.last_schedules_maintenance.label')} placeholder={t('form.last_schedules_maintenance.placeholder')} {...stopsExplorerContext.form.getInputProps('last_schedules_maintenance')} readOnly={stopsExplorerContext.page.is_read_only} />
-					<TextInput label={t('form.last_schedules_check.label')} placeholder={t('form.last_schedules_check.placeholder')} {...stopsExplorerContext.form.getInputProps('last_schedules_check')} readOnly={stopsExplorerContext.page.is_read_only} />
-					<TextInput label={t('form.last_flag_maintenance.label')} placeholder={t('form.last_flag_maintenance.placeholder')} {...stopsExplorerContext.form.getInputProps('last_flag_maintenance')} readOnly={stopsExplorerContext.page.is_read_only} />
-					<TextInput label={t('form.last_flag_check.label')} placeholder={t('form.last_flag_check.placeholder')} {...stopsExplorerContext.form.getInputProps('last_flag_check')} readOnly={stopsExplorerContext.page.is_read_only} />
+					<TextInput
+						label={t('form.last_schedules_maintenance.label')}
+						placeholder={t('form.last_schedules_maintenance.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('last_schedules_maintenance')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
+					<TextInput
+						label={t('form.last_schedules_check.label')}
+						placeholder={t('form.last_schedules_check.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('last_schedules_check')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
+					<TextInput
+						label={t('form.last_flag_maintenance.label')}
+						placeholder={t('form.last_flag_maintenance.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('last_flag_maintenance')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
+					<TextInput
+						label={t('form.last_flag_check.label')}
+						placeholder={t('form.last_flag_check.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('last_flag_check')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
 				</SimpleGrid>
 			</AppLayoutSection>
 
@@ -633,7 +668,12 @@ export default function StopsExplorerIdPage() {
 						clearable
 						searchable
 					/>
-					<TextInput label={t('form.sidewalk_type.label')} placeholder={t('form.sidewalk_type.placeholder')} {...stopsExplorerContext.form.getInputProps('sidewalk_type')} readOnly={stopsExplorerContext.page.is_read_only} />
+					<TextInput
+						label={t('form.sidewalk_type.label')}
+						placeholder={t('form.sidewalk_type.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('sidewalk_type')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
 				</SimpleGrid>
 				<SimpleGrid cols={4}>
 					<Select
@@ -700,8 +740,18 @@ export default function StopsExplorerIdPage() {
 					/>
 				</SimpleGrid>
 				<SimpleGrid cols={2}>
-					<TextInput label={t('form.last_accessibility_maintenance.label')} placeholder={t('form.last_accessibility_maintenance.placeholder')} {...stopsExplorerContext.form.getInputProps('last_accessibility_maintenance')} readOnly={stopsExplorerContext.page.is_read_only} />
-					<TextInput label={t('form.last_accessibility_check.label')} placeholder={t('form.last_accessibility_check.placeholder')} {...stopsExplorerContext.form.getInputProps('last_accessibility_check')} readOnly={stopsExplorerContext.page.is_read_only} />
+					<TextInput
+						label={t('form.last_accessibility_maintenance.label')}
+						placeholder={t('form.last_accessibility_maintenance.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('last_accessibility_maintenance')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
+					<TextInput
+						label={t('form.last_accessibility_check.label')}
+						placeholder={t('form.last_accessibility_check.placeholder')}
+						{...stopsExplorerContext.form.getInputProps('last_accessibility_check')}
+						readOnly={stopsExplorerContext.page.is_read_only}
+					/>
 				</SimpleGrid>
 			</AppLayoutSection>
 
@@ -746,7 +796,15 @@ export default function StopsExplorerIdPage() {
 			<Divider />
 
 			<AppLayoutSection description={t('sections.notes.description')} title={t('sections.notes.title')}>
-				<Textarea aria-label={t('form.notes.label')} maxRows={15} minRows={5} placeholder={t('form.notes.placeholder')} autosize {...stopsExplorerContext.form.getInputProps('notes')} readOnly={stopsExplorerContext.page.is_read_only} />
+				<Textarea
+					aria-label={t('form.notes.label')}
+					maxRows={15}
+					minRows={5}
+					placeholder={t('form.notes.placeholder')}
+					autosize
+					{...stopsExplorerContext.form.getInputProps('notes')}
+					readOnly={stopsExplorerContext.page.is_read_only}
+				/>
 			</AppLayoutSection>
 		</Pannel>
 	);

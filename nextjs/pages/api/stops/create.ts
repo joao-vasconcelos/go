@@ -66,7 +66,7 @@ export default async function handler(req, res) {
 	// 6.
 	// Find out to which Zones this stop belongs to
 
-	let zoneIdsForThisStop = [];
+	const zoneIdsForThisStop = [];
 
 	try {
 		const allZones = await ZoneModel.find();
