@@ -66,7 +66,7 @@ export default async function handler(req, res) {
 	// 6.
 	// Find out to which Zones this stop belongs to
 
-	const zoneIdsForThisStop = [];
+	const zoneIdsForThisStop: string[] = [];
 
 	try {
 		const allZones = await ZoneModel.find();
@@ -96,7 +96,7 @@ export default async function handler(req, res) {
 		while (await StopModel.exists({ code: newDocument.code }) || await DeletedStopModel.exists({ code: newDocument.code })) {
 			newDocument.code = `${req.body.municipality.prefix}${generator({ length: 4, type: 'numeric' })}`;
 		}
-		const createdDocument = await StopModel(newDocument).save();
+		const createdDocument = await new StopModel(newDocument).save();
 		return await res.status(201).json(createdDocument);
 	}
 	catch (error) {
