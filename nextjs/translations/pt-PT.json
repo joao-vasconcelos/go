@@ -3071,6 +3071,12 @@
 				"success": "O ficheiro foi gerado com sucesso!",
 				"title": "Exportar deleted_stops.txt"
 			},
+			"export_esri": {
+				"error": "Ocorreu um erro ao gerar o ficheiro.",
+				"loading": "A gerar ficheiro...",
+				"success": "O ficheiro foi gerado com sucesso!",
+				"title": "Exportar para ESRI"
+			},
 			"export_lines_by_stop": {
 				"error": "Ocorreu um erro ao gerar o ficheiro.",
 				"loading": "A gerar ficheiro...",

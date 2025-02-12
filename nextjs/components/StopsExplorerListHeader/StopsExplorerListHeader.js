@@ -63,6 +63,9 @@ export default function StopsExplorerListHeader() {
 						<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={stopsExplorerContext.exportLinesByStop}>
 							{t('operations.export_lines_by_stop.title')}
 						</Menu.Item>
+						<Menu.Item leftSection={<IconFileDownload size={20} />} onClick={stopsExplorerContext.exportEsri}>
+							{t('operations.export_esri.title')}
+						</Menu.Item>
 					</AppAuthenticationCheck>
 					<Menu.Divider />
 					<AppAuthenticationCheck permissions={[{ action: 'admin', scope: 'configs' }]}>

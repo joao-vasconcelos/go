@@ -299,6 +299,29 @@ export function StopsExplorerContextProvider({ children }) {
 		}
 	}, []);
 
+	const exportEsri = useCallback(async () => {
+		try {
+			setListState(prev => ({ ...prev, is_loading: true }));
+			setPageState(prev => ({ ...prev, is_loading: true }));
+			const responseBlob = await API({ method: 'GET', operation: 'export/esri', parseType: 'blob', service: 'stops' });
+			const objectURL = URL.createObjectURL(responseBlob);
+
+			const htmlAnchorElement = document.createElement('a');
+			htmlAnchorElement.href = objectURL;
+			htmlAnchorElement.download = 'esri.txt';
+
+			document.body.appendChild(htmlAnchorElement);
+			htmlAnchorElement.click();
+			setListState(prev => ({ ...prev, is_loading: false }));
+			setPageState(prev => ({ ...prev, is_loading: false }));
+		}
+		catch (error) {
+			console.log(error);
+			setListState(prev => ({ ...prev, is_loading: false }));
+			setPageState(prev => ({ ...prev, is_loading: false }));
+		}
+	}, []);
+
 	const syncWithDatasets = useCallback(async () => {
 		try {
 			setListState(prev => ({ ...prev, is_loading: true }));
@@ -380,6 +403,7 @@ export function StopsExplorerContextProvider({ children }) {
 			//
 			exportAsFile: exportAsFile,
 			exportDeletedAsFile: exportDeletedAsFile,
+			exportEsri: exportEsri,
 			exportLinesByStop: exportLinesByStop,
 			form: formState,
 			item_data: itemData,
