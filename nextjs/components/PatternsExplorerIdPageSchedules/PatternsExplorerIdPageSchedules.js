@@ -18,7 +18,7 @@ import styles from './PatternsExplorerIdPageSchedules.module.css';
 
 /* * */
 
-function PatternsExplorerIdPageSchedulesStartTimeColumn({ item }) {
+function PatternsExplorerIdPageSchedulesStartTimeColumn({ rowIndex }) {
 	//
 
 	//
@@ -26,8 +26,6 @@ function PatternsExplorerIdPageSchedulesStartTimeColumn({ item }) {
 
 	const t = useTranslations('PatternsExplorerIdPageSchedules.start_time');
 	const patternsExplorerContext = usePatternsExplorerContext();
-
-	const rowIndexOfSchedule = patternsExplorerContext.form.values.schedules.findIndex(schedule => schedule._id === item._id);
 
 	//
 	// B. Handle actions
@@ -66,7 +64,7 @@ function PatternsExplorerIdPageSchedulesStartTimeColumn({ item }) {
 		if (hoursString.length && !minutesString.length) formattedValue = `${hoursString}`;
 		else if (hoursString.length && minutesString.length) formattedValue = `${hoursString}:${minutesString}`;
 		// Save the value to the form
-		patternsExplorerContext.form.setFieldValue(`schedules.${rowIndexOfSchedule}.start_time`, formattedValue);
+		patternsExplorerContext.form.setFieldValue(`schedules.${rowIndex}.start_time`, formattedValue);
 		//
 	};
 
@@ -76,7 +74,7 @@ function PatternsExplorerIdPageSchedulesStartTimeColumn({ item }) {
 	return (
 		<div className={styles.column}>
 			<Tooltip label={t('description')} position="bottom" withArrow>
-				<TextInput aria-label={t('label')} leftSection={<IconClockPlay size={18} />} placeholder={t('placeholder')} {...patternsExplorerContext.form.getInputProps(`schedules.${rowIndexOfSchedule}.start_time`)} onChange={handleUpdateStartTime} readOnly={patternsExplorerContext.page.is_read_only} w="100%" />
+				<TextInput aria-label={t('label')} leftSection={<IconClockPlay size={18} />} placeholder={t('placeholder')} {...patternsExplorerContext.form.getInputProps(`schedules.${rowIndex}.start_time`)} onChange={handleUpdateStartTime} readOnly={patternsExplorerContext.page.is_read_only} w="100%" />
 			</Tooltip>
 		</div>
 	);
@@ -86,7 +84,7 @@ function PatternsExplorerIdPageSchedulesStartTimeColumn({ item }) {
 
 /* * */
 
-function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ item }) {
+function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ rowIndex }) {
 	//
 
 	//
@@ -94,8 +92,6 @@ function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ item }) {
 
 	const t = useTranslations('PatternsExplorerIdPageSchedules.calendars_on');
 	const patternsExplorerContext = usePatternsExplorerContext();
-
-	const rowIndexOfSchedule = patternsExplorerContext.form.values.schedules.findIndex(schedule => schedule._id === item._id);
 
 	//
 	// B. Render components
@@ -106,7 +102,7 @@ function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ item }) {
 				aria-label={t('label')}
 				nothingFoundMessage={t('nothingFound')}
 				placeholder={t('placeholder')}
-				{...patternsExplorerContext.form.getInputProps(`schedules.${rowIndexOfSchedule}.calendars_on`)}
+				{...patternsExplorerContext.form.getInputProps(`schedules.${rowIndex}.calendars_on`)}
 				data={patternsExplorerContext.data.all_calendars_data}
 				leftSection={<IconCalendarCheck size={20} />}
 				limit={5}
@@ -122,7 +118,7 @@ function PatternsExplorerIdPageSchedulesCalendarsOnColumn({ item }) {
 
 /* * */
 
-function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ item }) {
+function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ rowIndex }) {
 	//
 
 	//
@@ -130,8 +126,6 @@ function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ item }) {
 
 	const t = useTranslations('PatternsExplorerIdPageSchedules.calendars_off');
 	const patternsExplorerContext = usePatternsExplorerContext();
-
-	const rowIndexOfSchedule = patternsExplorerContext.form.values.schedules.findIndex(schedule => schedule._id === item._id);
 
 	//
 	// B. Render components
@@ -142,7 +136,7 @@ function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ item }) {
 				aria-label={t('label')}
 				nothingFoundMessage={t('nothingFound')}
 				placeholder={t('placeholder')}
-				{...patternsExplorerContext.form.getInputProps(`schedules.${rowIndexOfSchedule}.calendars_off`)}
+				{...patternsExplorerContext.form.getInputProps(`schedules.${rowIndex}.calendars_off`)}
 				data={patternsExplorerContext.data.all_calendars_data}
 				leftSection={<IconCalendarX size={20} />}
 				limit={5}
@@ -158,7 +152,7 @@ function PatternsExplorerIdPageSchedulesCalendarsOffColumn({ item }) {
 
 /* * */
 
-function PatternsExplorerIdPageSchedulesRemoveTripColumn({ item }) {
+function PatternsExplorerIdPageSchedulesRemoveTripColumn({ rowIndex }) {
 	//
 
 	//
@@ -178,8 +172,7 @@ function PatternsExplorerIdPageSchedulesRemoveTripColumn({ item }) {
 			confirmProps: { color: 'red' },
 			labels: { cancel: t('modal.cancel'), confirm: t('modal.confirm') },
 			onConfirm: async () => {
-				const rowIndexOfSchedule = patternsExplorerContext.form.values.schedules.findIndex(schedule => schedule._id === item._id);
-				patternsExplorerContext.form.removeListItem('schedules', rowIndexOfSchedule);
+				patternsExplorerContext.form.removeListItem('schedules', rowIndex);
 			},
 			title: <Text size="h2">{t('modal.title')}</Text>,
 		});
@@ -206,12 +199,29 @@ function PatternsExplorerIdPageSchedulesRemoveTripColumn({ item }) {
 /* * */
 
 function PatternsExplorerIdPageSchedulesRow({ item }) {
+	//
+
+	//
+	// A. Setup variables
+
+	const patternsExplorerContext = usePatternsExplorerContext();
+
+	//
+	// B. Transform data
+
+	const rowIndexOfSchedule = useMemo(() => {
+		return patternsExplorerContext.form.values.schedules.findIndex(schedule => schedule._id === item._id);
+	}, [patternsExplorerContext.form.values.schedules]);
+
+	//
+	// C. Render components
+
 	return (
 		<div className={`${styles.row} ${styles.bodyRow}`}>
-			<PatternsExplorerIdPageSchedulesStartTimeColumn item={item} />
-			<PatternsExplorerIdPageSchedulesCalendarsOnColumn item={item} />
-			<PatternsExplorerIdPageSchedulesCalendarsOffColumn item={item} />
-			<PatternsExplorerIdPageSchedulesRemoveTripColumn item={item} />
+			<PatternsExplorerIdPageSchedulesStartTimeColumn rowIndex={rowIndexOfSchedule} />
+			<PatternsExplorerIdPageSchedulesCalendarsOnColumn rowIndex={rowIndexOfSchedule} />
+			<PatternsExplorerIdPageSchedulesCalendarsOffColumn rowIndex={rowIndexOfSchedule} />
+			<PatternsExplorerIdPageSchedulesRemoveTripColumn rowIndex={rowIndexOfSchedule} />
 		</div>
 	);
 }

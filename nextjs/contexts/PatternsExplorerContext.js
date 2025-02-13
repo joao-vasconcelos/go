@@ -11,8 +11,8 @@ import API from '@/services/API';
 import populate from '@/services/populate';
 import { useRouter } from '@/translations/navigation';
 import { useForm, yupResolver } from '@mantine/form';
-import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
@@ -178,30 +178,36 @@ export function PatternsExplorerContextProvider({ children }) {
 
 	useEffect(() => {
 		// Return if no data is available
-		if (!itemData || !formState.values?.schedules || !allCalendarsData) return;
+		if (!allCalendarsData) return;
+		// if (!itemData || !formState.values?.schedules || !allCalendarsData) return;
 		// Populate available calendars
-		const tempAvailableCalendars = new Set();
+		// const tempAvailableCalendars = new Set();
 		// Populate available calendars
-		for (const scheduleData of formState.values.schedules || []) {
-			for (const calendarId of scheduleData.calendars_on || []) {
-				tempAvailableCalendars.add(calendarId);
-			}
-			for (const calendarId of scheduleData.calendars_off || []) {
-				tempAvailableCalendars.add(calendarId);
-			}
-			if (schedulesSectionState.selected_calendar) {
-				tempAvailableCalendars.add(schedulesSectionState.selected_calendar);
-			}
-		}
+		// for (const scheduleData of formState.values.schedules || []) {
+		// 	for (const calendarId of scheduleData.calendars_on || []) {
+		// 		tempAvailableCalendars.add(calendarId);
+		// 	}
+		// 	for (const calendarId of scheduleData.calendars_off || []) {
+		// 		tempAvailableCalendars.add(calendarId);
+		// 	}
+		// 	if (schedulesSectionState.selected_calendar) {
+		// 		tempAvailableCalendars.add(schedulesSectionState.selected_calendar);
+		// 	}
+		// }
 		// Filter items based on search query
-		const allAvilableCalendarsDataFormatted = Array.from(tempAvailableCalendars).map((item) => {
-			const calendarData = allCalendarsData.find(calendar => calendar._id === item);
-			return { label: `${calendarData.name || '-'} [${calendarData.code}] [${calendarData.numeric_code}]`, value: item };
-		}).sort((a, b) => a.label.localeCompare(b.label));
+		// const allAvilableCalendarsDataFormatted = Array
+		// 	.from(allCalendarsData)
+		const allAvilableCalendarsDataFormatted = allCalendarsData.map((item) => {
+			// const calendarData = allCalendarsData.find(calendar => calendar._id === item);
+			// return { label: `${calendarData.name || '-'} [${calendarData.code}] [${calendarData.numeric_code}]`, value: item };
+			return { label: `${item.name || '-'} [${item.code}] [${item.numeric_code}]`, value: item };
+		})
+			.sort((a, b) => a.label.localeCompare(b.label));
 		// Update state
 		setSchedulesSectionState(prev => ({ ...prev, available_calendars: allAvilableCalendarsDataFormatted }));
 		//
-	}, [formState.values.schedules, allCalendarsData, schedulesSectionState.selected_calendar]);
+	// }, [formState.values.schedules, allCalendarsData, schedulesSectionState.selected_calendar]);
+	}, [allCalendarsData]);
 
 	//
 	// F. Setup actions
