@@ -200,7 +200,7 @@ export function PatternsExplorerContextProvider({ children }) {
 		const allAvilableCalendarsDataFormatted = allCalendarsData.map((item) => {
 			// const calendarData = allCalendarsData.find(calendar => calendar._id === item);
 			// return { label: `${calendarData.name || '-'} [${calendarData.code}] [${calendarData.numeric_code}]`, value: item };
-			return { label: `${item.name || '-'} [${item.code}] [${item.numeric_code}]`, value: item };
+			return { label: `${item.name || '-'} [${item.code}] [${item.numeric_code}]`, value: item._id };
 		})
 			.sort((a, b) => a.label.localeCompare(b.label));
 		// Update state
