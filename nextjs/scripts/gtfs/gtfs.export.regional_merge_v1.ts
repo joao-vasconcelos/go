@@ -378,8 +378,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 				const exportedRowData = {
 					arrival_time: data.arrival_time,
 					departure_time: data.departure_time,
-					drop_off_type: '0', // data.drop_off_type,
-					pickup_type: '0', // data.pickup_type,
+					drop_off_type: data.drop_off_type || '0',
+					pickup_type: data.pickup_type || '0',
 					shape_dist_traveled: data.shape_dist_traveled,
 					stop_id: data.stop_id,
 					stop_sequence: data.stop_sequence,
