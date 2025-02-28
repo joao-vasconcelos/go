@@ -44,10 +44,8 @@ function PatternsExplorerIdPageSchedulesStartTimeColumn({ rowIndex }) {
 		if (hoursString && hoursString.length == 2) {
 			// Format the hours
 			let hoursInt = parseInt(hoursString);
-			// If the hours are bigger than 27, clamp to 27
-			if (hoursInt > 27) hoursString = '27';
 			// If the hours are smaller than 4, clamp to 4
-			else if (hoursInt < 4) hoursString = '04';
+			if (hoursInt < 4) hoursString = '04';
 			// Add the : if hours is in range
 			else hoursString = `${hoursString}`;
 		}
