@@ -33,6 +33,7 @@ export const ExportFormValidationGtfsV29 = yup.object({
 	lines_included: yup.array(yup.string),
 	numeric_calendar_codes: yup.boolean(),
 	stop_sequence_start: yup.number(),
+	stops_export_all: yup.boolean(),
 });
 
 /* * */

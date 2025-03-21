@@ -29,6 +29,7 @@ export const ExportFormDefaultGtfsV29 = {
 	lines_include: [],
 	numeric_calendar_codes: false,
 	stop_sequence_start: 1,
+	stops_export_all: true,
 };
 
 /* * */

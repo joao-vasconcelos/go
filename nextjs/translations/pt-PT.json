@@ -554,6 +554,10 @@
 				"description": "As paragens de um percurso são ordenadas sequencialmente por um número inteiro. É recomendado que se inicie a contagem com o número '1', no entanto é possível alterar (por exemplo para '0') em casos específicos.",
 				"label": "Base de Contagem da Sequência de Paragens",
 				"placeholder": "1"
+			},
+			"stops_export_all": {
+				"description": "Incluir todas as paragens, mesmo que não sejam utilizadas pela rede selecionada.",
+				"label": "Incluir todas as Paragens"
 			}
 		},
 		"operations": {

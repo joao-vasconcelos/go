@@ -853,7 +853,9 @@ export default async function exportGtfsV29(progress, exportOptions) {
 
 	// 4.1.
 	// Fetch the referenced stops and write the stops.txt file
-	const allReferencedStopsData = await StopModel.find({ code: { $in: Array.from(referencedStopCodes) } }).populate('municipality');
+	let allReferencedStopsData = [];
+	if (exportOptions.stops_export_all) allReferencedStopsData = await StopModel.find().populate('municipality');
+	else if (referencedStopCodes.size) allReferencedStopsData = await StopModel.find({ code: { $in: Array.from(referencedStopCodes) } }).populate('municipality');
 
 	// 4.2.
 	// Fetch the referenced stops and write the stops.txt file

@@ -99,8 +99,6 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 		//
 	};
 
-	console.log(exportsExplorerContext.form_gtfs_v29.values.feed_start_date);
-
 	//
 	// E. Render components
 
@@ -145,6 +143,13 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 					clearable
 					searchable
 				/>
+				<Switch
+					description={t('form.stops_export_all.description')}
+					disabled={!exportsExplorerContext.form_gtfs_v29.values.agency_id}
+					label={t('form.stops_export_all.label')}
+					{...exportsExplorerContext.form_gtfs_v29.getInputProps('stops_export_all', { type: 'checkbox' })}
+				/>
+
 			</Section>
 
 			<Divider />
