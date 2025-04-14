@@ -75,6 +75,31 @@ export default function Page() {
 		});
 	};
 
+	const handleSetupZones = async () => {
+		openConfirmModal({
+			centered: true,
+			children: <Text size="h3">Are you sure?</Text>,
+			closeOnClickOutside: true,
+			confirmProps: { color: 'red' },
+			labels: { cancel: 'Cancel', confirm: 'Yes, Setup Zones' },
+			onConfirm: async () => {
+				try {
+					setIsImporting(true);
+					notify('setup-zones', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'configs/refactors/setup-zones' });
+					notify('setup-zones', 'success', 'success');
+					setIsImporting(false);
+				}
+				catch (error) {
+					console.log(error);
+					notify('setup-zones', 'error', error.message || 'Error');
+					setIsImporting(false);
+				}
+			},
+			title: <Text size="h2">Setup Zones?</Text>,
+		});
+	};
+
 	//
 	// C. Render components
 
@@ -89,6 +114,9 @@ export default function Page() {
 						</Button>
 						<Button color="red" loading={isImporting} onClick={handleRemoveSpecialCalendars}>
 							Remove Special Calendars
+						</Button>
+						<Button color="red" loading={isImporting} onClick={handleSetupZones}>
+							Setup Zones
 						</Button>
 					</SimpleGrid>
 				</AppLayoutSection>
