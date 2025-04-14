@@ -66,11 +66,13 @@ export default async function handler(req, res) {
 		}
 
 		// Fetch all Lines from database
-		const allPatternsData = await PatternModel.find().populate('path.zones');
+		const allPatternsCode = await PatternModel.find({}, 'code');
 
 		// For each pattern
-		for (const patternData of allPatternsData) {
+		for (const patternCode of allPatternsCode) {
 			//
+
+			const patternData = await PatternModel.findOne({ code: patternCode.code }).populate('path.zones');
 
 			console.log(`Preparing pattern ${patternData.code} ...`);
 
