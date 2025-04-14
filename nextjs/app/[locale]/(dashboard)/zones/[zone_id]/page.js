@@ -20,9 +20,9 @@ import { useForm, yupResolver } from '@mantine/form';
 import { openConfirmModal } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
 import bbox from '@turf/bbox';
-import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { Layer, Source, useMap } from 'react-map-gl/maplibre';
 import useSWR from 'swr';
@@ -180,8 +180,8 @@ export default function Page() {
 			onConfirm: async () => {
 				try {
 					notify(`${zone_id}-delete_geojson`, 'loading', t('operations.delete_geojson.loading'));
-					form.setFieldValue('geojson', ZoneDefault.geojson);
-					await handleSave();
+					form.setFieldValue('geojson', { ...ZoneDefault.geojson });
+					// await handleSave();
 					setNewGeojson('');
 					notify(`${zone_id}-delete_geojson`, 'success', t('operations.delete_geojson.success'));
 				}
