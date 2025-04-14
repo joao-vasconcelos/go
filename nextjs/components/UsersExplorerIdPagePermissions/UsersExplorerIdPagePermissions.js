@@ -4,7 +4,6 @@
 
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import UsersExplorerIdPagePermissionsAgencies from '@/components/UsersExplorerIdPagePermissionsAgencies/UsersExplorerIdPagePermissionsAgencies';
-import UsersExplorerIdPagePermissionsAlerts from '@/components/UsersExplorerIdPagePermissionsAlerts/UsersExplorerIdPagePermissionsAlerts';
 import UsersExplorerIdPagePermissionsArchives from '@/components/UsersExplorerIdPagePermissionsArchives/UsersExplorerIdPagePermissionsArchives';
 import UsersExplorerIdPagePermissionsAudits from '@/components/UsersExplorerIdPagePermissionsAudits/UsersExplorerIdPagePermissionsAudits';
 import UsersExplorerIdPagePermissionsCalendars from '@/components/UsersExplorerIdPagePermissionsCalendars/UsersExplorerIdPagePermissionsCalendars';
@@ -42,14 +41,6 @@ export default function UsersExplorerIdPagePermissions() {
 
 	return (
 		<Accordion>
-			<Accordion.Item value="alerts">
-				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection description={t('alerts.description')} title={t('alerts.title')} />
-				</Accordion.Control>
-				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
-					<UsersExplorerIdPagePermissionsAlerts />
-				</Accordion.Panel>
-			</Accordion.Item>
 
 			<Accordion.Item value="reports">
 				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>

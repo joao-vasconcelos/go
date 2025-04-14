@@ -4,7 +4,6 @@ import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthe
 import { Link } from '@/translations/navigation';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import {
-	IconAlertTriangle,
 	IconArrowLoopRight,
 	IconBuildingCommunity,
 	IconBusStop,
@@ -24,8 +23,8 @@ import {
 	IconTopologyStar3,
 	IconUsers,
 } from '@tabler/icons-react';
-import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 
 import styles from './AppSidebar.module.css';
 
@@ -41,7 +40,6 @@ export default function AppSidebar() {
 	const t = useTranslations('AppSidebar');
 
 	const links = [
-		{ href: 'alerts', icon: <IconAlertTriangle />, label: t('alerts'), permissions: [{ action: 'navigate', scope: 'alerts' }] },
 		{ href: 'reports', icon: <IconChartPie />, label: t('reports'), permissions: [{ action: 'navigate', scope: 'reports' }] },
 		{ href: 'audits', icon: <IconClipboardText />, label: t('audits'), permissions: [{ action: 'view', scope: 'audits' }] },
 		{ href: 'feedback', icon: <IconMoodSearch />, label: t('feedback'), permissions: [{ action: 'view', scope: 'feedback' }] },

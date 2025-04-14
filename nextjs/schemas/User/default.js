@@ -17,15 +17,6 @@ export const UserDefault = {
 			view: { is_allowed: false },
 		},
 		//
-		alerts: {
-			create: { is_allowed: false },
-			delete: { is_allowed: false },
-			edit: { is_allowed: false },
-			lock: { is_allowed: false },
-			navigate: { is_allowed: false },
-			view: { is_allowed: false },
-		},
-		//
 		audits: {
 			create: { is_allowed: false },
 			delete: { is_allowed: false },
