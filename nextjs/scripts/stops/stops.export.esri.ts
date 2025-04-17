@@ -96,10 +96,10 @@ export default async function stopsExportEsri() {
 			x: stopData.longitude.toFixed(6),
 
 			// Operation
-			stop_area_1: thisStopAgencyCodes.includes('41'),
-			stop_area_2: thisStopAgencyCodes.includes('42'),
-			stop_area_3: thisStopAgencyCodes.includes('43'),
-			stop_area_4: thisStopAgencyCodes.includes('44'),
+			stop_area_1: thisStopAgencyCodes.includes('41') ? '1' : '0',
+			stop_area_2: thisStopAgencyCodes.includes('42') ? '1' : '0',
+			stop_area_3: thisStopAgencyCodes.includes('43') ? '1' : '0',
+			stop_area_4: thisStopAgencyCodes.includes('44') ? '1' : '0',
 
 			// Administrative
 			address: stopData.address,
