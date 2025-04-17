@@ -34,7 +34,25 @@ export default function AutoSave({ closeType = 'close', interval = 2000, isDirty
 	}, [isIdle, isValid, isDirty, !isSaving, !isErrorSaving, onSave]);
 
 	//
-	// B. RETRY (IS SAVING AFTER ERROR)
+	// B. SAVE SHORTCUT
+	// Setup the shortcut to trigger the onSave() function.
+	// On component unmount, remove the shortcut.
+
+	useEffect(() => {
+		const handleKeyDown = (event) => {
+			if (event.key === 's' && (event.ctrlKey || event.metaKey)) {
+				event.preventDefault();
+				if (isValid && isDirty && !isSaving && onSave) {
+					onSave();
+				}
+			}
+		};
+		document.addEventListener('keydown', handleKeyDown);
+		return () => document.removeEventListener('keydown', handleKeyDown);
+	}, [onSave]);
+
+	//
+	// C. RETRY (IS SAVING AFTER ERROR)
 	// If form had an error saving, and the user clicked try again
 	// then show the save button with a loading spinner.
 
@@ -47,7 +65,7 @@ export default function AutoSave({ closeType = 'close', interval = 2000, isDirty
 	}
 
 	//
-	// C. IS ERROR SAVING
+	// D. IS ERROR SAVING
 	// If form had an error saving, the button expands
 	// to make the error clearer. Autosave is disabled.
 
@@ -62,7 +80,7 @@ export default function AutoSave({ closeType = 'close', interval = 2000, isDirty
 	}
 
 	//
-	// D. IS LOADING OR IS SAVING
+	// E. IS LOADING OR IS SAVING
 	// If form is empty and loading the data,
 	// or if the form is saving display a loading spinner.
 	// Read more about the distinction between isLoading and isValidating:
@@ -73,7 +91,7 @@ export default function AutoSave({ closeType = 'close', interval = 2000, isDirty
 	}
 
 	//
-	// E. IS ERROR VALIDATING
+	// F. IS ERROR VALIDATING
 	// If form had an error loading or updating the data,
 	// the button changes to the alert icon but does not expand.
 
@@ -88,7 +106,7 @@ export default function AutoSave({ closeType = 'close', interval = 2000, isDirty
 	}
 
 	//
-	// F. IS DIRTY AND iS INVALID
+	// G. IS DIRTY AND iS INVALID
 	// If the form has changes but is in an invalid state,
 	// both the close and save buttons are disabled.
 
@@ -103,7 +121,7 @@ export default function AutoSave({ closeType = 'close', interval = 2000, isDirty
 	}
 
 	//
-	// G. IS DIRTY AND iS VALID
+	// H. IS DIRTY AND iS VALID
 	// If the form has changes and is valid, the close button is disabled
 	// and the save button is clickable, waiting the autosave interval trigger.
 
@@ -118,7 +136,7 @@ export default function AutoSave({ closeType = 'close', interval = 2000, isDirty
 	}
 
 	//
-	// H. IDLE
+	// I. IDLE
 	// If the form has no unsaved changes, is valid and is not loading,
 	// then the close button is enabled and the save button shows a reassuring icon and message.
 
