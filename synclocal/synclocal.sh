@@ -3,7 +3,7 @@
 # # #
 
 echo "Starting 'offermanagerdb' restore..."
-mongorestore --uri="mongodb://offermanagerdbuser:offermanagerdbpassword@offermanagerdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-offermanagerdb-20250129115917"
+mongorestore --uri="mongodb://offermanagerdbuser:offermanagerdbpassword@offermanagerdb/production?authSource=admin" --drop --preserveUUID --gzip --archive="go-backup-offermanagerdb-20250502010448"
 echo "Restore 'offermanagerdb' complete!"
 
 # # #
