@@ -1,7 +1,7 @@
 /* * */
 
-import { createOperationalDate, CreatePlanDto, OPERATIONAL_DATE_FORMAT } from '@tmlmobilidade/core/types';
-import { DateTime } from 'luxon';
+import { type CreatePlanDto } from '@tmlmobilidade/types';
+import { Dates } from '@tmlmobilidade/utils';
 
 /* * */
 
@@ -12,6 +12,6 @@ export const PlanDefault: CreatePlanDto = {
 	is_locked: false,
 	operation_file: '',
 	reference_file: '',
-	valid_from: createOperationalDate(DateTime.now().toFormat(OPERATIONAL_DATE_FORMAT)),
-	valid_until: createOperationalDate(DateTime.now().toFormat(OPERATIONAL_DATE_FORMAT)),
+	valid_from: Dates.now('Europe/Lisbon').operational_date,
+	valid_until: Dates.now('Europe/Lisbon').operational_date,
 };

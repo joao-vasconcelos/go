@@ -2,8 +2,8 @@
 
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { rides } from '@tmlmobilidade/core/interfaces';
-import { getOperationalDate } from '@tmlmobilidade/core/utils';
+import { rides } from '@tmlmobilidade/interfaces';
+import { Dates } from '@tmlmobilidade/utils';
 
 /* * */
 
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
 	try {
 		const ridesCollection = await rides.getCollection();
 
-		const latestOperationalDate = getOperationalDate();
+		const latestOperationalDate = Dates.now('Europe/Lisbon').operational_date;
 
 		const availableOperationalDates = await ridesCollection
 			.aggregate([

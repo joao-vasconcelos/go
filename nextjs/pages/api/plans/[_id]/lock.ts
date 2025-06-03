@@ -3,7 +3,7 @@
 import getSession from '@/authentication/getSession';
 import isAllowed from '@/authentication/isAllowed';
 import mongodb from '@/services/OFFERMANAGERDB';
-import { plans } from '@tmlmobilidade/core/interfaces';
+import { plans } from '@tmlmobilidade/interfaces';
 
 /* * */
 

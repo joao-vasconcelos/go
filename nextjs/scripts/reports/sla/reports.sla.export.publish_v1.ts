@@ -4,7 +4,7 @@
 
 import { ExportModel } from '@/schemas/Export/model';
 import CSVWRITER from '@/services/CSVWRITER';
-import { rides } from '@tmlmobilidade/core/interfaces';
+import { rides } from '@tmlmobilidade/interfaces';
 
 /* * */
 

@@ -4,7 +4,6 @@ import getSession from '@/authentication/getSession';
 import reportsSlaExportDefault from '@/scripts/reports/sla/reports.sla.export.default';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import fs from 'fs';
-import Papa from 'papaparse';
 
 /* * */
 

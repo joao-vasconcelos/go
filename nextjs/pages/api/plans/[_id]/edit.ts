@@ -2,7 +2,7 @@
 
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { plans } from '@tmlmobilidade/core/interfaces';
+import { plans } from '@tmlmobilidade/interfaces';
 
 /* * */
 

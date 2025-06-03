@@ -2,9 +2,8 @@
 
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { rides } from '@tmlmobilidade/core/interfaces';
-import { getOperationalDate } from '@tmlmobilidade/core/utils';
-import { DateTime } from 'luxon';
+import { rides } from '@tmlmobilidade/interfaces';
+import { Dates } from '@tmlmobilidade/utils';
 
 /* * */
 
@@ -46,8 +45,8 @@ export default async function handler(req, res) {
 
 		const ridesCollection = await rides.getCollection();
 
-		const todayOperationalDate = getOperationalDate();
-		const twoMonthsAgoOperationalDate = getOperationalDate(DateTime.now().minus({ months: 2 }).startOf('month').toJSDate());
+		const todayOperationalDate = Dates.now('Europe/Lisbon').operational_date;
+		const twoMonthsAgoOperationalDate = Dates.now('Europe/Lisbon').minus({ months: 2 }).startOf('month').js_date;
 
 		const breakdownByOperationalDateAndStatus = await ridesCollection
 			.aggregate([
@@ -85,7 +84,7 @@ export default async function handler(req, res) {
 			const processing = breakdown.processing || 0;
 			const total = complete + error + pending + processing;
 
-			const todayOperationalDate = getOperationalDate(DateTime.now());
+			const todayOperationalDate = Dates.now('Europe/Lisbon').operational_date;
 
 			breakdownByOperationalDateAndStatusParsed.push({
 				//

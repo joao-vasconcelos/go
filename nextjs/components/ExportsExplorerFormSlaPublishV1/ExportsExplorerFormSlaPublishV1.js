@@ -6,8 +6,7 @@ import { Section } from '@/components/Layouts/Layouts';
 import Loader from '@/components/Loader/Loader';
 import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
 import { DatePickerInput } from '@mantine/dates';
-import { OPERATIONAL_DATE_FORMAT } from '@tmlmobilidade/core/types';
-import { DateTime } from 'luxon';
+import { Dates } from '@tmlmobilidade/utils';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 import useSWR from 'swr';
@@ -39,7 +38,7 @@ export default function ExportsExplorerFormSlaPublishV1() {
 
 	const excludedDates = (date) => {
 		if (!availableOperationalDates || !breakdownByOperationalDateData || !breakdownByOperationalDateData.length) return true;
-		const dateString = DateTime.fromJSDate(date).toFormat(OPERATIONAL_DATE_FORMAT);
+		const dateString = Dates.fromJSDate(date).operational_date;
 		return !availableOperationalDates.has(dateString);
 	};
 
