@@ -3,6 +3,7 @@
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { rides } from '@tmlmobilidade/interfaces';
+import { Dates } from '@tmlmobilidade/utils';
 
 /* * */
 
@@ -40,12 +41,34 @@ export default async function handler(req, res) {
 	// Perform database search
 
 	try {
-		const totalDocuments = await rides.count({});
-		const totalDocumentsComplete = await rides.count({ system_status: 'complete' });
-		const totalDocumentsProcessing = await rides.count({ system_status: 'processing' });
-		const totalDocumentsError = await rides.count({ system_status: 'error' });
-		const totalDocumentsPending = await rides.count({ system_status: 'pending' });
+		//
 
+		const todayOperationalDate = Dates
+			.now('Europe/Lisbon')
+			.operational_date;
+
+		const startOperationalDate = Dates
+			.now('Europe/Lisbon')
+			.minus({ months: 2 })
+			.startOf('month')
+			.operational_date;
+
+		console.log('Fetching summary of SLA progress...');
+
+		const [
+			totalDocuments,
+			totalDocumentsComplete,
+			totalDocumentsProcessing,
+			totalDocumentsError,
+			totalDocumentsPending,
+		] = await Promise.all([
+			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate } }),
+			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: 'complete' }),
+			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: 'processing' }),
+			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: 'error' }),
+			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: 'pending' }),
+		]);
+		console.log('SLA progress summary fetched successfully.');
 		return await res.send({
 			//
 			complete: totalDocumentsComplete,
