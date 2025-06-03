@@ -9,9 +9,7 @@ import { ExportOptions } from '@/schemas/Export/options';
 import gtfsExportReferenceV29 from '@/scripts/gtfs/gtfs.export.reference_v29';
 import gtfsExportRegionalMergeV1 from '@/scripts/gtfs/gtfs.export.regional_merge_v1';
 import netexExportV1 from '@/scripts/netex/netex.export.v1';
-import reportsSlaExportDebugV1 from '@/scripts/reports/sla/reports.sla.export.debug';
 import reportsSlaExportDefaultV1 from '@/scripts/reports/sla/reports.sla.export.default';
-import reportsSlaExportPublishV1 from '@/scripts/reports/sla/reports.sla.export.publish_v1';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import SMTP from '@/services/SMTP';
 import STORAGE from '@/services/STORAGE';
@@ -266,18 +264,8 @@ export default async function handler(req, res) {
 				await update(exportDocument, { progress_current: 1, progress_total: 2 });
 				break;
 			// 8.2.4.
-			case 'sla_debug_v1':
-				await reportsSlaExportDebugV1(exportDocument, req.body);
-				await update(exportDocument, { progress_current: 1, progress_total: 2 });
-				break;
-			// 8.2.4.
 			case 'sla_default_v1':
 				await reportsSlaExportDefaultV1(exportDocument, req.body);
-				await update(exportDocument, { progress_current: 1, progress_total: 2 });
-				break;
-			// 8.2.4.
-			case 'sla_publish_v1':
-				await reportsSlaExportPublishV1(exportDocument, req.body);
 				await update(exportDocument, { progress_current: 1, progress_total: 2 });
 				break;
 		}
