@@ -268,7 +268,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			'start_time_scheduled': rideData.start_time_scheduled,
 			'status': rideData.system_status,
 			'trip_id': rideData.trip_id,
-			'validations_count': rideData.apex_validations_qty,
+			'validations_count': rideData.passengers_observed,
 			'vehicle_ids': rideData.vehicle_ids?.join('-'),
 
 			'AT_MOST_TWO_DRIVER_IDS-grade': rideData.analysis?.AT_MOST_TWO_DRIVER_IDS?.grade ?? null,
