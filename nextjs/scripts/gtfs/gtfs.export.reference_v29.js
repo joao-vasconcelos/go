@@ -295,7 +295,7 @@ async function parseZoning(agencyData, lineData, patternData, exportOptions) {
 				operator_id: agencyData.code,
 				pattern_id: patternData.code,
 				prepaid_fare: lineData.prepaid_fare?.code || '',
-				prepaid_fare_price: lineData.prepaid_fare?.price || '0',
+				prepaid_fare_price: lineData.prepaid_fare?.price * 100 || '0',
 				stop_id: stopData.code,
 				stop_name: stopData.name || '',
 				stop_sequence: pathIndex + exportOptions.stop_sequence_start,
