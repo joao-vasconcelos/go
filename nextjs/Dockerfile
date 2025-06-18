@@ -33,7 +33,7 @@ WORKDIR /app
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 
-RUN npx @helperkits/bumper bump
+# RUN npx @helperkits/bumper bump
 
 RUN npm run build
 
