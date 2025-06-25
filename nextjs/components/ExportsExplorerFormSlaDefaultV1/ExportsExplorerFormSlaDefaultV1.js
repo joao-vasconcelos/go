@@ -44,7 +44,7 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 
 	const excludedDates = (date) => {
 		if (!availableOperationalDates || !availableOperationalDatesData || !availableOperationalDatesData.length) return true;
-		const dateString = Dates.fromJSDate(date).operational_date;
+		const dateString = Dates.fromJSDate(date).set({ hour: 10 }).operational_date;
 		return !availableOperationalDates.has(dateString);
 	};
 
