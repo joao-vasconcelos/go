@@ -1,9 +1,6 @@
 /* * */
 
-import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportModel } from '@/schemas/Export/model';
-import { MediaModel } from '@/schemas/Media/model';
-import { PlanOptions } from '@/schemas/Plan/options';
 import datesExportDefault from '@/scripts/dates/dates.export.default';
 import faresExportAttributes from '@/scripts/fares/fares.export.attributes';
 import faresExportRules from '@/scripts/fares/fares.export.rules';
@@ -11,8 +8,7 @@ import municipalitiesExportDefault from '@/scripts/municipalities/municipalities
 import periodsExportDefault from '@/scripts/periods/periods.export.default';
 import stopsExportDefault from '@/scripts/stops/stops.export.default';
 import CSVWRITER from '@/services/CSVWRITER';
-import STORAGE from '@/services/STORAGE';
-import { plans } from '@tmlmobilidade/interfaces';
+import { files, plans } from '@tmlmobilidade/interfaces';
 import { parse as csvParser } from 'csv-parse';
 import extract from 'extract-zip';
 import fs from 'fs';
@@ -98,17 +94,6 @@ function today() {
 //
 
 /* * */
-/* PROVIDE TEMP DIRECTORY PATH */
-/* Return the path for the temporary directory based on current environment. */
-async function getMediaFilePath(mediaId) {
-	//
-	const mediaData = await MediaModel.findOne({ _id: mediaId });
-	//
-	return STORAGE.getFilePath(PlanOptions.storage_scope, `${mediaData._id}${mediaData.file_extension.toLowerCase()}`);
-	//
-}
-
-/* * */
 
 function getAgencyData() {
 	return {
@@ -186,13 +171,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// 4.
 	// Fetch all active archives from the database
 
-	const allAgenciesData = await AgencyModel.find({});
 	const allPlansData = await plans.findMany({ is_approved: true });
-
-	const allPlansDataPopulated = allPlansData.map((plan) => {
-		const agencyData = allAgenciesData.find(agency => String(agency._id) === plan.agency_id);
-		return { ...plan, agency: agencyData };
-	});
 
 	//
 	// Skip if no plans were found
@@ -202,7 +181,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// 5.
 	// Iterate on all found archives to merge them into a single GTFS file
 
-	for (const [planIndex, planData] of allPlansDataPopulated.entries()) {
+	for (const [planIndex, planData] of allPlansData.entries()) {
 		//
 
 		// 5.0.
@@ -225,27 +204,39 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 
 		let thisIsTheMainArchiveOfThisExport = false;
 
-		// Skip if the archive is no longer valid
-		if (todayDateString > planData.valid_until) continue;
-
-		// Archive is valid and is the one being used now
-		if (todayDateString >= planData.valid_from && todayDateString <= planData.valid_until) thisIsTheMainArchiveOfThisExport = true;
-
 		// 5.3.
 		// Skip if this archive has no associated operation plan
 
-		if (!planData.operation_file) continue;
+		if (!planData.operation_file_id || !planData.gtfs_feed_info?.feed_start_date || !planData.gtfs_feed_info?.feed_end_date) continue;
 
-		// 5.4.
-		// Retrieve the associated operation plan, saved as a Media object in STORAGE
+		// Skip if the archive is no longer valid
+		if (todayDateString > planData.gtfs_feed_info.feed_end_date) continue;
 
-		const operationPlanMediaFilePath = await getMediaFilePath(planData.operation_file);
-		const extractDirPath = `${process.env.APP_TMP_DIR}/extractions/${Math.floor(Math.random() * 1000)}/${exportDocument._id}`;
+		// Archive is valid and is the one being used now
+		if (todayDateString >= planData.gtfs_feed_info.feed_start_date && todayDateString <= planData.gtfs_feed_info.feed_end_date) thisIsTheMainArchiveOfThisExport = true;
+
+		//
+		// Get the associated Operation GTFS archive URL,
+		// and try to download, save and unzip it.
+
+		const workdirPath = `${process.env.APP_TMP_DIR}/extractions/${Math.floor(Math.random() * 1000)}`;
+		const downloadFilePath = `${workdirPath}/${planData.operation_file_id}.zip`;
+		const extractDirPath = `${workdirPath}/${exportDocument._id}`;
+
+		const operationFileData = await files.findById(planData.operation_file_id);
+		if (!operationFileData || !operationFileData.url) {
+			console.error(`No operation file found for plan "${planData._id}".`);
+			process.exit(1);
+		}
+
+		const downloadResponse = await fetch(operationFileData.url);
+		const downloadArrayBuffer = await downloadResponse.arrayBuffer();
+		fs.writeFileSync(downloadFilePath, Buffer.from(downloadArrayBuffer));
 
 		// 5.5.
 		// Unzip the associated operation plan
 
-		await unzipFile(operationPlanMediaFilePath, extractDirPath);
+		await unzipFile(downloadFilePath, extractDirPath);
 
 		// 5.6.
 		// The order in which files are merged matters.
@@ -268,16 +259,18 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 
 			const parseEachRow = async (data) => {
 				//
+				if (!planData.gtfs_feed_info.feed_end_date || !planData.gtfs_feed_info.feed_start_date) return;
+				//
 				// For the main archive, only the end_date matters
 				if (thisIsTheMainArchiveOfThisExport) {
 					// Skip if this row's date is after the archive's end date
-					if (data.date > planData.valid_until) return;
+					if (data.date > planData.gtfs_feed_info.feed_end_date) return;
 					//
 				}
 				else {
 					// For all other archives, also look at start_date
 					// Skip if this row's date is before the archive's start date or after the archive's end date
-					if (data.date < planData.valid_from || data.date > planData.valid_until) return;
+					if (data.date < planData.gtfs_feed_info.feed_start_date || data.date > planData.gtfs_feed_info.feed_end_date) return;
 					//
 				}
 				// Format the exported row. Be very explicit to ensure the same number and order of columns.
@@ -519,10 +512,10 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 			//
 
 			const exportedRowData = {
-				archive_end_date: planData.valid_until,
+				archive_end_date: planData.gtfs_feed_info.feed_end_date,
 				archive_id: planData._id,
-				archive_start_date: planData.valid_from,
-				operator_id: planData.agency?.code || 'N/A',
+				archive_start_date: planData.gtfs_feed_info.feed_start_date,
+				operator_id: planData.gtfs_agency?.agency_id ?? 'N/A',
 			};
 
 			await fileWriter.write(exportDocument.workdir, 'archives.txt', exportedRowData);
@@ -584,8 +577,21 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// 10.
 	// Export feed_info.txt file
 
-	const lowestArchiveStartDate = allPlansData.reduce((min, { valid_from }) => valid_from < min ? valid_from : min, allPlansData[0].valid_from);
-	const highestArchiveEndDate = allPlansData.reduce((max, { valid_until }) => valid_until > max ? valid_until : max, allPlansData[0].valid_until);
+	const lowestArchiveStartDate = allPlansData.reduce(
+		(min, { gtfs_feed_info }) => {
+			const startDate = gtfs_feed_info?.feed_start_date ?? '';
+			return startDate < min ? startDate : min;
+		},
+		allPlansData[0].gtfs_feed_info?.feed_start_date ?? '',
+	);
+
+	const highestArchiveEndDate = allPlansData.reduce(
+		(max, { gtfs_feed_info }) => {
+			const endDate = gtfs_feed_info.feed_end_date ?? '';
+			return endDate > max ? endDate : max;
+		},
+		allPlansData[0].gtfs_feed_info.feed_end_date ?? '',
+	);
 
 	const feedInfoData = getFeedInfoData(lowestArchiveStartDate, highestArchiveEndDate);
 	await fileWriter.write(exportDocument.workdir, 'feed_info.txt', feedInfoData);

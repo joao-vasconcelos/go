@@ -3,6 +3,7 @@
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { rides } from '@tmlmobilidade/interfaces';
+import { ProcessingStatus } from '@tmlmobilidade/types';
 
 /* * */
 
@@ -43,7 +44,7 @@ export default async function handler(req, res) {
 
 	try {
 		const ridesCollection = await rides.getCollection();
-		const result = await ridesCollection.updateMany({ system_status: 'processing' }, { $set: { system_status: 'pending' } });
+		const result = await ridesCollection.updateMany({ system_status: ProcessingStatus.Processing }, { $set: { system_status: ProcessingStatus.Waiting } });
 		return await res.status(200).json(result);
 	}
 	catch (error) {
