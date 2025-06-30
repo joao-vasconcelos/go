@@ -87,9 +87,9 @@ export default async function handler(req, res) {
 
 			const complete = breakdown.complete || 0;
 			const error = breakdown.error || 0;
-			const pending = breakdown.pending || 0;
+			const waiting = breakdown.waiting || 0;
 			const processing = breakdown.processing || 0;
-			const total = complete + error + pending + processing;
+			const total = complete + error + waiting + processing;
 
 			const todayOperationalDate = Dates.now('Europe/Lisbon').operational_date;
 
@@ -103,8 +103,8 @@ export default async function handler(req, res) {
 				//
 				operational_date: operationalDate === todayOperationalDate ? `${operationalDate} (Today)` : operationalDate,
 				//
-				pending,
-				pending_percentage: parseFloat(((pending / total) * 100).toFixed(2)),
+				waiting,
+				waiting_percentage: parseFloat(((waiting / total) * 100).toFixed(2)),
 				//
 				processing,
 				processing_percentage: parseFloat(((processing / total) * 100).toFixed(2)),

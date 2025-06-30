@@ -42,16 +42,16 @@ export default function Page() {
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify('mark-all-rides-as-pending', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'sla/operations/mark-all-rides-as-pending' });
+					notify('mark-all-rides-as-waiting', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/mark-all-rides-as-waiting' });
 					slaProgressSummaryMutate();
 					slaProgressByDayMutate();
-					notify('mark-all-rides-as-pending', 'success', 'success');
+					notify('mark-all-rides-as-waiting', 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify('mark-all-rides-as-pending', 'error', error.message || 'Error');
+					notify('mark-all-rides-as-waiting', 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
@@ -69,16 +69,16 @@ export default function Page() {
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify('mark-processing-rides-as-pending', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'sla/operations/mark-processing-rides-as-pending' });
+					notify('mark-processing-rides-as-waiting', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/mark-processing-rides-as-waiting' });
 					slaProgressSummaryMutate();
 					slaProgressByDayMutate();
-					notify('mark-processing-rides-as-pending', 'success', 'success');
+					notify('mark-processing-rides-as-waiting', 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify('mark-processing-rides-as-pending', 'error', error.message || 'Error');
+					notify('mark-processing-rides-as-waiting', 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
@@ -96,16 +96,16 @@ export default function Page() {
 			onConfirm: async () => {
 				try {
 					setIsImporting(true);
-					notify('mark-error-rides-as-pending', 'loading', 'Loading');
-					await API({ method: 'GET', service: 'sla/operations/mark-error-rides-as-pending' });
+					notify('mark-error-rides-as-waiting', 'loading', 'Loading');
+					await API({ method: 'GET', service: 'sla/operations/mark-error-rides-as-waiting' });
 					slaProgressSummaryMutate();
 					slaProgressByDayMutate();
-					notify('mark-error-rides-as-pending', 'success', 'success');
+					notify('mark-error-rides-as-waiting', 'success', 'success');
 					setIsImporting(false);
 				}
 				catch (error) {
 					console.log(error);
-					notify('mark-error-rides-as-pending', 'error', error.message || 'Error');
+					notify('mark-error-rides-as-waiting', 'error', error.message || 'Error');
 					setIsImporting(false);
 				}
 			},
@@ -179,11 +179,11 @@ export default function Page() {
 				`${item.complete || 0} (${item.complete_percentage || 0}%)`,
 				`${item.processing || 0} (${item.processing_percentage || 0}%)`,
 				`${item.error || 0} (${item.error_percentage || 0}%)`,
-				`${item.pending || 0} (${item.pending_percentage || 0}%)`,
+				`${item.waiting || 0} (${item.waiting_percentage || 0}%)`,
 				<Button loading={isImporting} onClick={() => handleReprocessRides(item.operational_date)} size="xs">Reprocess Rides</Button>,
 			])
 			.sort((a, b) => a[0].localeCompare(b[0]));
-		const head = ['operational_date', 'total', 'complete', 'processing', 'error', 'pending', 'operations'];
+		const head = ['operational_date', 'total', 'complete', 'processing', 'error', 'waiting', 'operations'];
 		return { body, head };
 	}, [slaProgressByDayData]);
 
@@ -197,8 +197,8 @@ export default function Page() {
 				<AppLayoutSection title="SLA Manager Advanced Operations">
 					<Table
 						data={{
-							body: [[`${slaProgressSummaryData?.total || 0} Trips`, `${slaProgressSummaryData?.complete || 0} (${slaProgressSummaryData?.complete_percentage || 0}%)`, `${slaProgressSummaryData?.processing || 0} (${slaProgressSummaryData?.processing_percentage || 0}%)`, `${slaProgressSummaryData?.error || 0} (${slaProgressSummaryData?.error_percentage || 0}%)`, `${slaProgressSummaryData?.pending || 0} (${slaProgressSummaryData?.pending_percentage || 0}%)`]],
-							head: ['Total', 'complete', 'processing', 'error', 'pending'] }}
+							body: [[`${slaProgressSummaryData?.total || 0} Trips`, `${slaProgressSummaryData?.complete || 0} (${slaProgressSummaryData?.complete_percentage || 0}%)`, `${slaProgressSummaryData?.processing || 0} (${slaProgressSummaryData?.processing_percentage || 0}%)`, `${slaProgressSummaryData?.error || 0} (${slaProgressSummaryData?.error_percentage || 0}%)`, `${slaProgressSummaryData?.waiting || 0} (${slaProgressSummaryData?.waiting_percentage || 0}%)`]],
+							head: ['Total', 'complete', 'processing', 'error', 'waiting'] }}
 						withTableBorder
 					/>
 					<Progress.Root size={30}>
@@ -211,8 +211,8 @@ export default function Page() {
 						<Progress.Section color="red" value={slaProgressSummaryData?.error_percentage || 0}>
 							<Progress.Label>{`${slaProgressSummaryData?.error || 0} error (${slaProgressSummaryData?.error_percentage || 0}%)`}</Progress.Label>
 						</Progress.Section>
-						<Progress.Section color="blue" value={slaProgressSummaryData?.pending_percentage || 0} animated>
-							<Progress.Label>{`${slaProgressSummaryData?.pending || 0} pending (${slaProgressSummaryData?.pending_percentage || 0}%)`}</Progress.Label>
+						<Progress.Section color="blue" value={slaProgressSummaryData?.waiting_percentage || 0} animated>
+							<Progress.Label>{`${slaProgressSummaryData?.waiting || 0} waiting (${slaProgressSummaryData?.waiting_percentage || 0}%)`}</Progress.Label>
 						</Progress.Section>
 					</Progress.Root>
 				</AppLayoutSection>

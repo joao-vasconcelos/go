@@ -61,7 +61,7 @@ export default async function handler(req, res) {
 			totalDocumentsComplete,
 			totalDocumentsProcessing,
 			totalDocumentsError,
-			totalDocumentsPending,
+			totalDocumentsWaiting,
 		] = await Promise.all([
 			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate } }),
 			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: ProcessingStatus.Complete }),
@@ -78,8 +78,8 @@ export default async function handler(req, res) {
 			error: totalDocumentsError,
 			error_percentage: parseFloat(((totalDocumentsError / totalDocuments) * 100).toFixed(2)),
 			//
-			pending: totalDocumentsPending,
-			pending_percentage: parseFloat(((totalDocumentsPending / totalDocuments) * 100).toFixed(2)),
+			waiting: totalDocumentsWaiting,
+			waiting_percentage: parseFloat(((totalDocumentsWaiting / totalDocuments) * 100).toFixed(2)),
 			//
 			processing: totalDocumentsProcessing,
 			processing_percentage: parseFloat(((totalDocumentsProcessing / totalDocuments) * 100).toFixed(2)),
