@@ -10,13 +10,11 @@ import {
 	IconCalendarDue,
 	IconChartArcs,
 	IconChartPie,
-	IconClipboardText,
 	IconDatabaseCog,
 	IconFile3d,
 	IconFileZip,
 	IconLayoutCollage,
 	IconMapHeart,
-	IconMoodSearch,
 	IconTag,
 	IconTicket,
 	IconTopologyStar3,
@@ -40,8 +38,6 @@ export default function AppSidebar() {
 
 	const links = [
 		{ href: 'reports', icon: <IconChartPie />, label: t('reports'), permissions: [{ action: 'navigate', scope: 'reports' }] },
-		{ href: 'audits', icon: <IconClipboardText />, label: t('audits'), permissions: [{ action: 'view', scope: 'audits' }] },
-		{ href: 'feedback', icon: <IconMoodSearch />, label: t('feedback'), permissions: [{ action: 'view', scope: 'feedback' }] },
 		{ href: 'issues', icon: <IconChartArcs />, label: t('issues'), permissions: [{ action: 'navigate', scope: 'issues' }] },
 		{ href: 'stops', icon: <IconBusStop />, label: t('stops'), permissions: [{ action: 'navigate', scope: 'stops' }] },
 		{ href: 'calendars', icon: <IconCalendarDue />, label: t('calendars'), permissions: [{ action: 'navigate', scope: 'calendars' }] },
