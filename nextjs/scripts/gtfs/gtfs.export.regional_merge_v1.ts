@@ -223,6 +223,9 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 		const downloadFilePath = `${workdirPath}/${planData.operation_file_id}.zip`;
 		const extractDirPath = `${workdirPath}/${exportDocument._id}`;
 
+		fs.rmSync(workdirPath, { force: true, recursive: true });
+		fs.mkdirSync(workdirPath, { recursive: true });
+
 		const operationFileData = await files.findById(planData.operation_file_id);
 		if (!operationFileData || !operationFileData.url) {
 			console.error(`No operation file found for plan "${planData._id}".`);
