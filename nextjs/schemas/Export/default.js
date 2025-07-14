@@ -13,7 +13,7 @@ export const ExportDefault = {
 
 export const ExportFormDefault = {
 	kind: null,
-	notify_user: true,
+	notify_user: false,
 };
 
 /* * */
