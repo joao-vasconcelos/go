@@ -153,6 +153,7 @@ services:
       - .env
     secrets:
       - pcgidbkey
+      - oci-private-key
 
   # # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # # #
