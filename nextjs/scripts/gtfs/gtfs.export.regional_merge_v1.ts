@@ -171,7 +171,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 	// 4.
 	// Fetch all active archives from the database
 
-	const allPlansData = await plans.findMany({ is_approved: true });
+	const allPlansData = await plans.all();
 
 	//
 	// Skip if no plans were found
