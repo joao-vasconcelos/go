@@ -9,6 +9,8 @@ volumes:
 secrets:
   pcgidbkey:
     file: PCGIDB.key
+  oci-private-key:
+    file: oci-private-key.pem
 
 services:
   #
