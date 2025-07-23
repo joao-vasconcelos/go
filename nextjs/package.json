@@ -27,6 +27,7 @@
 		"@streamparser/json": "0.0.22",
 		"@tabler/icons-react": "3.34.1",
 		"@tmlmobilidade/interfaces": "20250723.1825.5",
+		"@tmlmobilidade/lib": "20250723.1825.5",
 		"@tmlmobilidade/types": "20250723.1825.5",
 		"@turf/turf": "7.2.0",
 		"JSONStream": "1.3.5",

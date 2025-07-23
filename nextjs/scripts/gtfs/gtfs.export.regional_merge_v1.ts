@@ -285,7 +285,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 					period: data.period,
 					service_id: `${data.service_id}_${planData._id}`,
 				};
-					// Include this date in the final export and save a reference to the current service_id
+				// Include this date in the final export and save a reference to the current service_id
 				await fileWriter.write(exportDocument.workdir, 'calendar_dates.txt', exportedRowData);
 				referencedCalendarDates.add(data.service_id);
 				//
