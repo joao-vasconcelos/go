@@ -3,7 +3,6 @@
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { rides } from '@tmlmobilidade/interfaces';
-import { ProcessingStatus } from '@tmlmobilidade/types';
 import { Dates } from '@tmlmobilidade/utils';
 
 /* * */
@@ -64,10 +63,10 @@ export default async function handler(req, res) {
 			totalDocumentsWaiting,
 		] = await Promise.all([
 			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate } }),
-			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: ProcessingStatus.Complete }),
-			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: ProcessingStatus.Processing }),
-			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: ProcessingStatus.Error }),
-			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: ProcessingStatus.Waiting }),
+			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: 'complete' }),
+			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: 'processing' }),
+			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: 'error' }),
+			rides.count({ operational_date: { $gte: startOperationalDate, $lte: todayOperationalDate }, system_status: 'waiting' }),
 		]);
 		console.log('SLA progress summary fetched successfully.');
 		return await res.send({
