@@ -322,7 +322,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			'ONTIME_START-value': rideData.analysis?.EXPECTED_START_TIME?.value ?? null,
 
 			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-grade': rideData.analysis?.SIMPLE_ONE_VEHICLE_EVENT_OR_APEX_VALIDATION?.grade ?? null,
-			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-message': rideData.analysis ? `Found ${rideData.analysis?.EXPECTED_VEHICLE_EVENT_QTY.found_qty} Vehicle Events and ${rideData.analysis?.SIMPLE_ONE_APEX_VALIDATION.value} Validation Transactions for this trip.` : null,
+			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-message': rideData.analysis ? `Found ${rideData.analysis?.EXPECTED_VEHICLE_EVENT_QTY.found_qty ?? 0} Vehicle Events and ${rideData.analysis?.SIMPLE_ONE_APEX_VALIDATION.value ?? 0} Validation Transactions for this trip.` : null,
 			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-reason': rideData.analysis?.SIMPLE_ONE_VEHICLE_EVENT_OR_APEX_VALIDATION?.reason ?? null,
 			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-unit': null,
 			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-value': null,
