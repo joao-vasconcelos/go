@@ -7,7 +7,7 @@ import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportModel } from '@/schemas/Export/model';
 import CSVWRITER from '@/services/CSVWRITER';
 import { rides } from '@tmlmobilidade/interfaces';
-import { Ride } from '@tmlmobilidade/types';
+import { type Ride } from '@tmlmobilidade/types';
 
 /* * */
 
@@ -32,7 +32,7 @@ interface RideReport {
 	'extension_observed': null | number
 	'extension_scheduled': number
 	'headsign': string
-	'line_id': string
+	'line_id': number
 	'operational_date': string
 	'passengers_estimated': null | number
 	'pattern_id': string
@@ -47,23 +47,23 @@ interface RideReport {
 	'validations_count': null | number
 	'vehicle_ids': string
 
-	'AT_MOST_TWO_DRIVER_IDS-grade': (NonNullable<Ride['analysis']>['AT_MOST_TWO_DRIVER_IDS']['grade']) | null
-	'AT_MOST_TWO_DRIVER_IDS-message': (NonNullable<Ride['analysis']>['AT_MOST_TWO_DRIVER_IDS']['message']) | null
-	'AT_MOST_TWO_DRIVER_IDS-reason': (NonNullable<Ride['analysis']>['AT_MOST_TWO_DRIVER_IDS']['reason']) | null
+	'AT_MOST_TWO_DRIVER_IDS-grade': (NonNullable<Ride['analysis']>['EXPECTED_DRIVER_ID_QTY']['grade']) | null
+	'AT_MOST_TWO_DRIVER_IDS-message': null
+	'AT_MOST_TWO_DRIVER_IDS-reason': (NonNullable<Ride['analysis']>['EXPECTED_DRIVER_ID_QTY']['reason']) | null
 	'AT_MOST_TWO_DRIVER_IDS-unit': null
-	'AT_MOST_TWO_DRIVER_IDS-value': (NonNullable<Ride['analysis']>['AT_MOST_TWO_DRIVER_IDS']['value']) | null
+	'AT_MOST_TWO_DRIVER_IDS-value': (NonNullable<Ride['analysis']>['EXPECTED_DRIVER_ID_QTY']['value']) | null
 
-	'AT_MOST_TWO_VEHICLE_IDS-grade': (NonNullable<Ride['analysis']>['AT_MOST_TWO_VEHICLE_IDS']['grade']) | null
-	'AT_MOST_TWO_VEHICLE_IDS-message': (NonNullable<Ride['analysis']>['AT_MOST_TWO_VEHICLE_IDS']['message']) | null
-	'AT_MOST_TWO_VEHICLE_IDS-reason': (NonNullable<Ride['analysis']>['AT_MOST_TWO_VEHICLE_IDS']['reason']) | null
+	'AT_MOST_TWO_VEHICLE_IDS-grade': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_ID_QTY']['grade']) | null
+	'AT_MOST_TWO_VEHICLE_IDS-message': null
+	'AT_MOST_TWO_VEHICLE_IDS-reason': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_ID_QTY']['reason']) | null
 	'AT_MOST_TWO_VEHICLE_IDS-unit': null
-	'AT_MOST_TWO_VEHICLE_IDS-value': (NonNullable<Ride['analysis']>['AT_MOST_TWO_VEHICLE_IDS']['value']) | null
+	'AT_MOST_TWO_VEHICLE_IDS-value': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_ID_QTY']['value']) | null
 
-	'EXCESSIVE_VEHICLE_EVENT_DELAY-grade': (NonNullable<Ride['analysis']>['EXCESSIVE_VEHICLE_EVENT_DELAY']['grade']) | null
-	'EXCESSIVE_VEHICLE_EVENT_DELAY-message': (NonNullable<Ride['analysis']>['EXCESSIVE_VEHICLE_EVENT_DELAY']['message']) | null
-	'EXCESSIVE_VEHICLE_EVENT_DELAY-reason': (NonNullable<Ride['analysis']>['EXCESSIVE_VEHICLE_EVENT_DELAY']['reason']) | null
+	'EXCESSIVE_VEHICLE_EVENT_DELAY-grade': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_EVENT_DELAY']['grade']) | null
+	'EXCESSIVE_VEHICLE_EVENT_DELAY-message': null
+	'EXCESSIVE_VEHICLE_EVENT_DELAY-reason': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_EVENT_DELAY']['reason']) | null
 	'EXCESSIVE_VEHICLE_EVENT_DELAY-unit': null
-	'EXCESSIVE_VEHICLE_EVENT_DELAY-value': (NonNullable<Ride['analysis']>['EXCESSIVE_VEHICLE_EVENT_DELAY']['value']) | null
+	'EXCESSIVE_VEHICLE_EVENT_DELAY-value': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_EVENT_DELAY']['value']) | null
 
 	'HIGHEST_VEHICLE_EVENT_DELAY-grade': null
 	'HIGHEST_VEHICLE_EVENT_DELAY-message': null
@@ -71,53 +71,53 @@ interface RideReport {
 	'HIGHEST_VEHICLE_EVENT_DELAY-unit': null
 	'HIGHEST_VEHICLE_EVENT_DELAY-value': null
 
-	'LESS_THAN_TEN_VEHICLE_EVENTS-grade': (NonNullable<Ride['analysis']>['LESS_THAN_TEN_VEHICLE_EVENTS']['grade']) | null
-	'LESS_THAN_TEN_VEHICLE_EVENTS-message': (NonNullable<Ride['analysis']>['LESS_THAN_TEN_VEHICLE_EVENTS']['message']) | null
-	'LESS_THAN_TEN_VEHICLE_EVENTS-reason': (NonNullable<Ride['analysis']>['LESS_THAN_TEN_VEHICLE_EVENTS']['reason']) | null
+	'LESS_THAN_TEN_VEHICLE_EVENTS-grade': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_EVENT_QTY']['grade']) | null
+	'LESS_THAN_TEN_VEHICLE_EVENTS-message': null
+	'LESS_THAN_TEN_VEHICLE_EVENTS-reason': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_EVENT_QTY']['reason']) | null
 	'LESS_THAN_TEN_VEHICLE_EVENTS-unit': null
-	'LESS_THAN_TEN_VEHICLE_EVENTS-value': (NonNullable<Ride['analysis']>['LESS_THAN_TEN_VEHICLE_EVENTS']['value']) | null
+	'LESS_THAN_TEN_VEHICLE_EVENTS-value': null
 
-	'AVG_INTERVAL_VEHICLE_EVENTS-grade': (NonNullable<Ride['analysis']>['AVG_INTERVAL_VEHICLE_EVENTS']['grade']) | null
-	'AVG_INTERVAL_VEHICLE_EVENTS-message': (NonNullable<Ride['analysis']>['AVG_INTERVAL_VEHICLE_EVENTS']['message']) | null
-	'AVG_INTERVAL_VEHICLE_EVENTS-reason': (NonNullable<Ride['analysis']>['AVG_INTERVAL_VEHICLE_EVENTS']['reason']) | null
+	'AVG_INTERVAL_VEHICLE_EVENTS-grade': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_EVENT_INTERVAL']['grade']) | null
+	'AVG_INTERVAL_VEHICLE_EVENTS-message': null
+	'AVG_INTERVAL_VEHICLE_EVENTS-reason': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_EVENT_INTERVAL']['reason']) | null
 	'AVG_INTERVAL_VEHICLE_EVENTS-unit': null
-	'AVG_INTERVAL_VEHICLE_EVENTS-value': (NonNullable<Ride['analysis']>['AVG_INTERVAL_VEHICLE_EVENTS']['value']) | null
+	'AVG_INTERVAL_VEHICLE_EVENTS-value': (NonNullable<Ride['analysis']>['EXPECTED_VEHICLE_EVENT_INTERVAL']['value']) | null
 
-	'MATCHING_LOCATION_TRANSACTIONS-grade': (NonNullable<Ride['analysis']>['MATCHING_LOCATION_TRANSACTIONS']['grade']) | null
-	'MATCHING_LOCATION_TRANSACTIONS-message': (NonNullable<Ride['analysis']>['MATCHING_LOCATION_TRANSACTIONS']['message']) | null
-	'MATCHING_LOCATION_TRANSACTIONS-reason': (NonNullable<Ride['analysis']>['MATCHING_LOCATION_TRANSACTIONS']['reason']) | null
+	'MATCHING_LOCATION_TRANSACTIONS-grade': (NonNullable<Ride['analysis']>['MATCHING_APEX_LOCATIONS']['grade']) | null
+	'MATCHING_LOCATION_TRANSACTIONS-message': null
+	'MATCHING_LOCATION_TRANSACTIONS-reason': (NonNullable<Ride['analysis']>['MATCHING_APEX_LOCATIONS']['reason']) | null
 	'MATCHING_LOCATION_TRANSACTIONS-unit': null
-	'MATCHING_LOCATION_TRANSACTIONS-value': (NonNullable<Ride['analysis']>['MATCHING_LOCATION_TRANSACTIONS']['value']) | null
+	'MATCHING_LOCATION_TRANSACTIONS-value': null
 
-	'ONTIME_START-grade': (NonNullable<Ride['analysis']>['ONTIME_START']['grade']) | null
-	'ONTIME_START-message': (NonNullable<Ride['analysis']>['ONTIME_START']['message']) | null
-	'ONTIME_START-reason': (NonNullable<Ride['analysis']>['ONTIME_START']['reason']) | null
+	'ONTIME_START-grade': (NonNullable<Ride['analysis']>['EXPECTED_START_TIME']['grade']) | null
+	'ONTIME_START-message': null
+	'ONTIME_START-reason': (NonNullable<Ride['analysis']>['EXPECTED_START_TIME']['reason']) | null
 	'ONTIME_START-unit': null
-	'ONTIME_START-value': (NonNullable<Ride['analysis']>['ONTIME_START']['value']) | null
+	'ONTIME_START-value': (NonNullable<Ride['analysis']>['EXPECTED_START_TIME']['value']) | null
 
-	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-grade': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION']['grade']) | null
-	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-message': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION']['message']) | null
-	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-reason': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION']['reason']) | null
+	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-grade': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VEHICLE_EVENT_OR_APEX_VALIDATION']['grade']) | null
+	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-message': null
+	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-reason': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VEHICLE_EVENT_OR_APEX_VALIDATION']['reason']) | null
 	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-unit': null
-	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-value': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION']['value']) | null
+	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-value': null
 
-	'SIMPLE_ONE_VALIDATION_TRANSACTION-grade': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VALIDATION_TRANSACTION']['grade']) | null
-	'SIMPLE_ONE_VALIDATION_TRANSACTION-message': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VALIDATION_TRANSACTION']['message']) | null
-	'SIMPLE_ONE_VALIDATION_TRANSACTION-reason': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VALIDATION_TRANSACTION']['reason']) | null
+	'SIMPLE_ONE_VALIDATION_TRANSACTION-grade': (NonNullable<Ride['analysis']>['SIMPLE_ONE_APEX_VALIDATION']['grade']) | null
+	'SIMPLE_ONE_VALIDATION_TRANSACTION-message': null
+	'SIMPLE_ONE_VALIDATION_TRANSACTION-reason': (NonNullable<Ride['analysis']>['SIMPLE_ONE_APEX_VALIDATION']['reason']) | null
 	'SIMPLE_ONE_VALIDATION_TRANSACTION-unit': null
-	'SIMPLE_ONE_VALIDATION_TRANSACTION-value': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VALIDATION_TRANSACTION']['value']) | null
+	'SIMPLE_ONE_VALIDATION_TRANSACTION-value': (NonNullable<Ride['analysis']>['SIMPLE_ONE_APEX_VALIDATION']['value']) | null
 
 	'SIMPLE_THREE_VEHICLE_EVENTS-grade': (NonNullable<Ride['analysis']>['SIMPLE_THREE_VEHICLE_EVENTS']['grade']) | null
-	'SIMPLE_THREE_VEHICLE_EVENTS-message': (NonNullable<Ride['analysis']>['SIMPLE_THREE_VEHICLE_EVENTS']['message']) | null
+	'SIMPLE_THREE_VEHICLE_EVENTS-message': null
 	'SIMPLE_THREE_VEHICLE_EVENTS-reason': (NonNullable<Ride['analysis']>['SIMPLE_THREE_VEHICLE_EVENTS']['reason']) | null
 	'SIMPLE_THREE_VEHICLE_EVENTS-unit': null
-	'SIMPLE_THREE_VEHICLE_EVENTS-value': (NonNullable<Ride['analysis']>['SIMPLE_THREE_VEHICLE_EVENTS']['value']) | null
+	'SIMPLE_THREE_VEHICLE_EVENTS-value': null
 
-	'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-grade': (NonNullable<Ride['analysis']>['AT_LEAST_ONE_EVENT_ON_FIRST_STOP']['grade']) | null
-	'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-message': (NonNullable<Ride['analysis']>['AT_LEAST_ONE_EVENT_ON_FIRST_STOP']['message']) | null
-	'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-reason': (NonNullable<Ride['analysis']>['AT_LEAST_ONE_EVENT_ON_FIRST_STOP']['reason']) | null
+	'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-grade': (NonNullable<Ride['analysis']>['AT_LEAST_ONE_VEHICLE_EVENT_ON_FIRST_STOP']['grade']) | null
+	'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-message': null
+	'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-reason': (NonNullable<Ride['analysis']>['AT_LEAST_ONE_VEHICLE_EVENT_ON_FIRST_STOP']['reason']) | null
 	'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-unit': null
-	'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-value': (NonNullable<Ride['analysis']>['AT_LEAST_ONE_EVENT_ON_FIRST_STOP']['value']) | null
+	'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-value': (NonNullable<Ride['analysis']>['AT_LEAST_ONE_VEHICLE_EVENT_ON_FIRST_STOP']['value']) | null
 
 	// 'TRANSACTION_SEQUENTIALITY-grade': (NonNullable<Ride['analysis']>['TRANSACTION_SEQUENTIALITY']['grade']) | null
 	// 'TRANSACTION_SEQUENTIALITY-message': (NonNullable<Ride['analysis']>['TRANSACTION_SEQUENTIALITY']['message']) | null
@@ -243,8 +243,10 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 	// 3.
 	// Parse each stop and format it according to the GTFS-TML specification
 
-	for await (const rideData of allRidesStream) {
+	for await (const currentRide of allRidesStream) {
 		//
+
+		const rideData: Ride = currentRide;
 
 		const rideParsed: RideReport = {
 
@@ -271,23 +273,23 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			'validations_count': rideData.passengers_observed,
 			'vehicle_ids': rideData.vehicle_ids?.join('-'),
 
-			'AT_MOST_TWO_DRIVER_IDS-grade': rideData.analysis?.AT_MOST_TWO_DRIVER_IDS?.grade ?? null,
-			'AT_MOST_TWO_DRIVER_IDS-message': rideData.analysis?.AT_MOST_TWO_DRIVER_IDS?.message ?? null,
-			'AT_MOST_TWO_DRIVER_IDS-reason': rideData.analysis?.AT_MOST_TWO_DRIVER_IDS?.reason ?? null,
+			'AT_MOST_TWO_DRIVER_IDS-grade': rideData.analysis?.EXPECTED_DRIVER_ID_QTY?.grade ?? null,
+			'AT_MOST_TWO_DRIVER_IDS-message': null,
+			'AT_MOST_TWO_DRIVER_IDS-reason': rideData.analysis?.EXPECTED_DRIVER_ID_QTY?.reason ?? null,
 			'AT_MOST_TWO_DRIVER_IDS-unit': null,
-			'AT_MOST_TWO_DRIVER_IDS-value': rideData.analysis?.AT_MOST_TWO_DRIVER_IDS?.value ?? null,
+			'AT_MOST_TWO_DRIVER_IDS-value': rideData.analysis?.EXPECTED_DRIVER_ID_QTY?.value ?? null,
 
-			'AT_MOST_TWO_VEHICLE_IDS-grade': rideData.analysis?.AT_MOST_TWO_VEHICLE_IDS?.grade ?? null,
-			'AT_MOST_TWO_VEHICLE_IDS-message': rideData.analysis?.AT_MOST_TWO_VEHICLE_IDS?.message ?? null,
-			'AT_MOST_TWO_VEHICLE_IDS-reason': rideData.analysis?.AT_MOST_TWO_VEHICLE_IDS?.reason ?? null,
+			'AT_MOST_TWO_VEHICLE_IDS-grade': rideData.analysis?.EXPECTED_VEHICLE_ID_QTY?.grade ?? null,
+			'AT_MOST_TWO_VEHICLE_IDS-message': null,
+			'AT_MOST_TWO_VEHICLE_IDS-reason': rideData.analysis?.EXPECTED_VEHICLE_ID_QTY?.reason ?? null,
 			'AT_MOST_TWO_VEHICLE_IDS-unit': null,
-			'AT_MOST_TWO_VEHICLE_IDS-value': rideData.analysis?.AT_MOST_TWO_VEHICLE_IDS?.value ?? null,
+			'AT_MOST_TWO_VEHICLE_IDS-value': rideData.analysis?.EXPECTED_VEHICLE_ID_QTY?.value ?? null,
 
-			'EXCESSIVE_VEHICLE_EVENT_DELAY-grade': rideData.analysis?.EXCESSIVE_VEHICLE_EVENT_DELAY?.grade ?? null,
-			'EXCESSIVE_VEHICLE_EVENT_DELAY-message': rideData.analysis?.EXCESSIVE_VEHICLE_EVENT_DELAY?.message ?? null,
-			'EXCESSIVE_VEHICLE_EVENT_DELAY-reason': rideData.analysis?.EXCESSIVE_VEHICLE_EVENT_DELAY?.reason ?? null,
+			'EXCESSIVE_VEHICLE_EVENT_DELAY-grade': rideData.analysis?.EXPECTED_VEHICLE_EVENT_DELAY?.grade ?? null,
+			'EXCESSIVE_VEHICLE_EVENT_DELAY-message': null,
+			'EXCESSIVE_VEHICLE_EVENT_DELAY-reason': rideData.analysis?.EXPECTED_VEHICLE_EVENT_DELAY?.reason ?? null,
 			'EXCESSIVE_VEHICLE_EVENT_DELAY-unit': null,
-			'EXCESSIVE_VEHICLE_EVENT_DELAY-value': rideData.analysis?.EXCESSIVE_VEHICLE_EVENT_DELAY?.value ?? null,
+			'EXCESSIVE_VEHICLE_EVENT_DELAY-value': rideData.analysis?.EXPECTED_VEHICLE_EVENT_DELAY?.value ?? null,
 
 			'HIGHEST_VEHICLE_EVENT_DELAY-grade': null,
 			'HIGHEST_VEHICLE_EVENT_DELAY-message': null,
@@ -295,53 +297,53 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			'HIGHEST_VEHICLE_EVENT_DELAY-unit': null,
 			'HIGHEST_VEHICLE_EVENT_DELAY-value': null,
 
-			'LESS_THAN_TEN_VEHICLE_EVENTS-grade': rideData.analysis?.LESS_THAN_TEN_VEHICLE_EVENTS?.grade ?? null,
-			'LESS_THAN_TEN_VEHICLE_EVENTS-message': rideData.analysis?.LESS_THAN_TEN_VEHICLE_EVENTS?.message ?? null,
-			'LESS_THAN_TEN_VEHICLE_EVENTS-reason': rideData.analysis?.LESS_THAN_TEN_VEHICLE_EVENTS?.reason ?? null,
+			'LESS_THAN_TEN_VEHICLE_EVENTS-grade': rideData.analysis?.EXPECTED_VEHICLE_EVENT_QTY?.grade ?? null,
+			'LESS_THAN_TEN_VEHICLE_EVENTS-message': null,
+			'LESS_THAN_TEN_VEHICLE_EVENTS-reason': rideData.analysis?.EXPECTED_VEHICLE_EVENT_QTY?.reason ?? null,
 			'LESS_THAN_TEN_VEHICLE_EVENTS-unit': null,
-			'LESS_THAN_TEN_VEHICLE_EVENTS-value': rideData.analysis?.LESS_THAN_TEN_VEHICLE_EVENTS?.value ?? null,
+			'LESS_THAN_TEN_VEHICLE_EVENTS-value': null,
 
-			'AVG_INTERVAL_VEHICLE_EVENTS-grade': rideData.analysis?.AVG_INTERVAL_VEHICLE_EVENTS?.grade ?? null,
-			'AVG_INTERVAL_VEHICLE_EVENTS-message': rideData.analysis?.AVG_INTERVAL_VEHICLE_EVENTS?.message ?? null,
-			'AVG_INTERVAL_VEHICLE_EVENTS-reason': rideData.analysis?.AVG_INTERVAL_VEHICLE_EVENTS?.reason ?? null,
+			'AVG_INTERVAL_VEHICLE_EVENTS-grade': rideData.analysis?.EXPECTED_VEHICLE_EVENT_INTERVAL?.grade ?? null,
+			'AVG_INTERVAL_VEHICLE_EVENTS-message': null,
+			'AVG_INTERVAL_VEHICLE_EVENTS-reason': rideData.analysis?.EXPECTED_VEHICLE_EVENT_INTERVAL?.reason ?? null,
 			'AVG_INTERVAL_VEHICLE_EVENTS-unit': null,
-			'AVG_INTERVAL_VEHICLE_EVENTS-value': rideData.analysis?.AVG_INTERVAL_VEHICLE_EVENTS?.value ?? null,
+			'AVG_INTERVAL_VEHICLE_EVENTS-value': rideData.analysis?.EXPECTED_VEHICLE_EVENT_INTERVAL?.value ?? null,
 
-			'MATCHING_LOCATION_TRANSACTIONS-grade': rideData.analysis?.MATCHING_LOCATION_TRANSACTIONS?.grade ?? null,
-			'MATCHING_LOCATION_TRANSACTIONS-message': rideData.analysis?.MATCHING_LOCATION_TRANSACTIONS?.message ?? null,
-			'MATCHING_LOCATION_TRANSACTIONS-reason': rideData.analysis?.MATCHING_LOCATION_TRANSACTIONS?.reason ?? null,
+			'MATCHING_LOCATION_TRANSACTIONS-grade': rideData.analysis?.MATCHING_APEX_LOCATIONS?.grade ?? null,
+			'MATCHING_LOCATION_TRANSACTIONS-message': null,
+			'MATCHING_LOCATION_TRANSACTIONS-reason': rideData.analysis?.MATCHING_APEX_LOCATIONS?.reason ?? null,
 			'MATCHING_LOCATION_TRANSACTIONS-unit': null,
-			'MATCHING_LOCATION_TRANSACTIONS-value': rideData.analysis?.MATCHING_LOCATION_TRANSACTIONS?.value ?? null,
+			'MATCHING_LOCATION_TRANSACTIONS-value': null,
 
-			'ONTIME_START-grade': rideData.analysis?.ONTIME_START?.grade ?? null,
-			'ONTIME_START-message': rideData.analysis?.ONTIME_START?.message ?? null,
-			'ONTIME_START-reason': rideData.analysis?.ONTIME_START?.reason ?? null,
+			'ONTIME_START-grade': rideData.analysis?.EXPECTED_START_TIME?.grade ?? null,
+			'ONTIME_START-message': null,
+			'ONTIME_START-reason': rideData.analysis?.EXPECTED_START_TIME?.reason ?? null,
 			'ONTIME_START-unit': null,
-			'ONTIME_START-value': rideData.analysis?.ONTIME_START?.value ?? null,
+			'ONTIME_START-value': rideData.analysis?.EXPECTED_START_TIME?.value ?? null,
 
-			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-grade': rideData.analysis?.SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION?.grade ?? null,
-			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-message': rideData.analysis?.SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION?.message ?? null,
-			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-reason': rideData.analysis?.SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION?.reason ?? null,
+			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-grade': rideData.analysis?.SIMPLE_ONE_VEHICLE_EVENT_OR_APEX_VALIDATION?.grade ?? null,
+			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-message': null,
+			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-reason': rideData.analysis?.SIMPLE_ONE_VEHICLE_EVENT_OR_APEX_VALIDATION?.reason ?? null,
 			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-unit': null,
-			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-value': rideData.analysis?.SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION?.value ?? null,
+			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-value': null,
 
-			'SIMPLE_ONE_VALIDATION_TRANSACTION-grade': rideData.analysis?.SIMPLE_ONE_VALIDATION_TRANSACTION?.grade ?? null,
-			'SIMPLE_ONE_VALIDATION_TRANSACTION-message': rideData.analysis?.SIMPLE_ONE_VALIDATION_TRANSACTION?.message ?? null,
-			'SIMPLE_ONE_VALIDATION_TRANSACTION-reason': rideData.analysis?.SIMPLE_ONE_VALIDATION_TRANSACTION?.reason ?? null,
+			'SIMPLE_ONE_VALIDATION_TRANSACTION-grade': rideData.analysis?.SIMPLE_ONE_APEX_VALIDATION?.grade ?? null,
+			'SIMPLE_ONE_VALIDATION_TRANSACTION-message': null,
+			'SIMPLE_ONE_VALIDATION_TRANSACTION-reason': rideData.analysis?.SIMPLE_ONE_APEX_VALIDATION?.reason ?? null,
 			'SIMPLE_ONE_VALIDATION_TRANSACTION-unit': null,
-			'SIMPLE_ONE_VALIDATION_TRANSACTION-value': rideData.analysis?.SIMPLE_ONE_VALIDATION_TRANSACTION?.value ?? null,
+			'SIMPLE_ONE_VALIDATION_TRANSACTION-value': rideData.analysis?.SIMPLE_ONE_APEX_VALIDATION?.value ?? null,
 
 			'SIMPLE_THREE_VEHICLE_EVENTS-grade': rideData.analysis?.SIMPLE_THREE_VEHICLE_EVENTS?.grade ?? null,
-			'SIMPLE_THREE_VEHICLE_EVENTS-message': rideData.analysis?.SIMPLE_THREE_VEHICLE_EVENTS?.message ?? null,
+			'SIMPLE_THREE_VEHICLE_EVENTS-message': null,
 			'SIMPLE_THREE_VEHICLE_EVENTS-reason': rideData.analysis?.SIMPLE_THREE_VEHICLE_EVENTS?.reason ?? null,
 			'SIMPLE_THREE_VEHICLE_EVENTS-unit': null,
-			'SIMPLE_THREE_VEHICLE_EVENTS-value': rideData.analysis?.SIMPLE_THREE_VEHICLE_EVENTS?.value ?? null,
+			'SIMPLE_THREE_VEHICLE_EVENTS-value': null,
 
-			'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-grade': rideData.analysis?.AT_LEAST_ONE_EVENT_ON_FIRST_STOP?.grade ?? null,
-			'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-message': rideData.analysis?.AT_LEAST_ONE_EVENT_ON_FIRST_STOP?.message ?? null,
-			'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-reason': rideData.analysis?.AT_LEAST_ONE_EVENT_ON_FIRST_STOP?.reason ?? null,
+			'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-grade': rideData.analysis?.AT_LEAST_ONE_VEHICLE_EVENT_ON_FIRST_STOP?.grade ?? null,
+			'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-message': null,
+			'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-reason': rideData.analysis?.AT_LEAST_ONE_VEHICLE_EVENT_ON_FIRST_STOP?.reason ?? null,
 			'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-unit': null,
-			'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-value': rideData.analysis?.AT_LEAST_ONE_EVENT_ON_FIRST_STOP?.value ?? null,
+			'AT_LEAST_ONE_EVENT_ON_FIRST_STOP-value': rideData.analysis?.AT_LEAST_ONE_VEHICLE_EVENT_ON_FIRST_STOP?.value ?? null,
 
 			// 'TRANSACTION_SEQUENTIALITY-grade': rideData.analysis?.TRANSACTION_SEQUENTIALITY?.grade ?? null,
 			// 'TRANSACTION_SEQUENTIALITY-message': rideData.analysis?.TRANSACTION_SEQUENTIALITY?.message ?? null,
