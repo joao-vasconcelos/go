@@ -96,7 +96,7 @@ interface RideReport {
 	'ONTIME_START-value': (NonNullable<Ride['analysis']>['EXPECTED_START_TIME']['value']) | null
 
 	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-grade': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VEHICLE_EVENT_OR_APEX_VALIDATION']['grade']) | null
-	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-message': null | string
+	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-message': null
 	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-reason': (NonNullable<Ride['analysis']>['SIMPLE_ONE_VEHICLE_EVENT_OR_APEX_VALIDATION']['reason']) | null
 	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-unit': null
 	'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-value': null
@@ -108,7 +108,7 @@ interface RideReport {
 	'SIMPLE_ONE_VALIDATION_TRANSACTION-value': (NonNullable<Ride['analysis']>['SIMPLE_ONE_APEX_VALIDATION']['value']) | null
 
 	'SIMPLE_THREE_VEHICLE_EVENTS-grade': (NonNullable<Ride['analysis']>['SIMPLE_THREE_VEHICLE_EVENTS']['grade']) | null
-	'SIMPLE_THREE_VEHICLE_EVENTS-message': null
+	'SIMPLE_THREE_VEHICLE_EVENTS-message': null | string
 	'SIMPLE_THREE_VEHICLE_EVENTS-reason': (NonNullable<Ride['analysis']>['SIMPLE_THREE_VEHICLE_EVENTS']['reason']) | null
 	'SIMPLE_THREE_VEHICLE_EVENTS-unit': null
 	'SIMPLE_THREE_VEHICLE_EVENTS-value': null
@@ -322,7 +322,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			'ONTIME_START-value': rideData.analysis?.EXPECTED_START_TIME?.value ?? null,
 
 			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-grade': rideData.analysis?.SIMPLE_ONE_VEHICLE_EVENT_OR_APEX_VALIDATION?.grade ?? null,
-			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-message': rideData.analysis ? `Found ${rideData.analysis?.EXPECTED_VEHICLE_EVENT_QTY.found_qty ?? 0} Vehicle Events and ${rideData.analysis?.SIMPLE_ONE_APEX_VALIDATION.value ?? 0} Validation Transactions for this trip.` : null,
+			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-message': null,
 			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-reason': rideData.analysis?.SIMPLE_ONE_VEHICLE_EVENT_OR_APEX_VALIDATION?.reason ?? null,
 			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-unit': null,
 			'SIMPLE_ONE_VEHICLE_EVENT_OR_VALIDATION_TRANSACTION-value': null,
@@ -334,7 +334,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			'SIMPLE_ONE_VALIDATION_TRANSACTION-value': rideData.analysis?.SIMPLE_ONE_APEX_VALIDATION?.value ?? null,
 
 			'SIMPLE_THREE_VEHICLE_EVENTS-grade': rideData.analysis?.SIMPLE_THREE_VEHICLE_EVENTS?.grade ?? null,
-			'SIMPLE_THREE_VEHICLE_EVENTS-message': null,
+			'SIMPLE_THREE_VEHICLE_EVENTS-message': rideData.analysis?.SIMPLE_THREE_VEHICLE_EVENTS?.reason === 'ALL_STOPS_FOUND' ? `Found at least one Stop ID for each section (first|middle|last). First: [${(rideData.analysis.SIMPLE_THREE_VEHICLE_EVENTS.stop_ids_first ?? []).join('|')}] | Middle: [${(rideData.analysis.SIMPLE_THREE_VEHICLE_EVENTS.stop_ids_middle ?? []).join('|')}] | Last: [${(rideData.analysis.SIMPLE_THREE_VEHICLE_EVENTS.stop_ids_last ?? []).join('|')}]` : rideData.analysis?.SIMPLE_THREE_VEHICLE_EVENTS?.reason === 'MISSING_FIRST_STOPS' ? `None of the first ${(rideData.analysis.SIMPLE_THREE_VEHICLE_EVENTS.stop_ids_first ?? []).length} Stop IDs was found. [${((rideData.analysis.SIMPLE_THREE_VEHICLE_EVENTS.stop_ids_first ?? [])).join('|')}]` : rideData.analysis?.SIMPLE_THREE_VEHICLE_EVENTS?.reason === 'MISSING_MIDDLE_STOPS' ? `None of the middle ${(rideData.analysis.SIMPLE_THREE_VEHICLE_EVENTS.stop_ids_middle ?? []).length} Stop IDs was found. [${(rideData.analysis.SIMPLE_THREE_VEHICLE_EVENTS.stop_ids_middle ?? []).join('|')}]` : rideData.analysis?.SIMPLE_THREE_VEHICLE_EVENTS?.reason === 'MISSING_LAST_STOPS' ? `None of the last ${(rideData.analysis.SIMPLE_THREE_VEHICLE_EVENTS.stop_ids_last ?? []).length} Stop IDs was found. [${(rideData.analysis.SIMPLE_THREE_VEHICLE_EVENTS.stop_ids_last ?? []).join('|')}]` : null,
 			'SIMPLE_THREE_VEHICLE_EVENTS-reason': rideData.analysis?.SIMPLE_THREE_VEHICLE_EVENTS?.reason ?? null,
 			'SIMPLE_THREE_VEHICLE_EVENTS-unit': null,
 			'SIMPLE_THREE_VEHICLE_EVENTS-value': null,
