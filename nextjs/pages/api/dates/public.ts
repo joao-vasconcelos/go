@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 				.toFormat('c'); // ISO weekday number (1 = Monday, 7 = Sunday)
 			return {
 				date: doc.date,
-				day_type: doc.holiday === '1' ? '3' : weekday === '6' ? '2' : weekday === '7' ? '3' : '1',
+				day_type: doc.is_holiday ? '3' : weekday === '6' ? '2' : weekday === '7' ? '3' : '1',
 				holiday: doc.is_holiday ? '1' : '0',
 				notes: doc.notes || '',
 				period: doc.period,
