@@ -43,6 +43,7 @@ export const PatternValidation = yup.object({
 				default_velocity: yup.number().integer().required(),
 				distance_delta: yup.number().required(),
 				stop: yup.string().required(),
+				timepoint: yup.boolean(),
 				zones: yup.array(yup.string()),
 			}),
 		)

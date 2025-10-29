@@ -6,6 +6,10 @@ import * as yup from 'yup';
 
 export const DateValidation = yup.object({
 	date: yup.string().max(8),
+	holiday_name: yup
+		.string()
+		.max(5000)
+		.transform(value => value.replace(/  +/g, ' ').trim()),
 	is_holiday: yup.boolean().default(false),
 	notes: yup
 		.string()

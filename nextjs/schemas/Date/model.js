@@ -11,6 +11,10 @@ export const DateSchema = new mongoose.Schema(
 			type: String,
 			unique: true,
 		},
+		holiday_name: {
+			maxlength: 5000,
+			type: String,
+		},
 		is_holiday: {
 			default: false,
 			type: Boolean,

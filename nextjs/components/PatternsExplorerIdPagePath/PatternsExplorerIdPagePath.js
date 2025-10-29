@@ -8,7 +8,7 @@ import { usePatternsExplorerContext } from '@/contexts/PatternsExplorerContext';
 import calculateTravelTime from '@/services/calculateTravelTime';
 import formatSecondsToTime from '@/services/formatSecondsToTime';
 import { ActionIcon, Checkbox, MultiSelect, NumberInput, TextInput, Tooltip } from '@mantine/core';
-import { IconArrowBarToDown, IconArrowBarUp, IconSortAscendingNumbers } from '@tabler/icons-react';
+import { IconArrowBarToDown, IconArrowBarUp, IconClock, IconSortAscendingNumbers } from '@tabler/icons-react';
 import { IconArrowAutofitContent, IconClockHour4, IconClockPause, IconEqual, IconPlayerTrackNext, IconRotate2, IconTicket, IconX } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
@@ -80,6 +80,31 @@ function PatternsExplorerIdPagePathStopColumn({ rowIndex }) {
 					</div>
 				)
 				: <Loader size={20} visible />}
+		</div>
+	);
+
+	//
+}
+
+/* * */
+
+function PatternsExplorerIdPagePathTimepointColumn({ rowIndex }) {
+	//
+
+	//
+	// A. Setup variables
+
+	const t = useTranslations('PatternsExplorerIdPagePath.timepoint');
+	const patternsExplorerContext = usePatternsExplorerContext();
+
+	//
+	// B. Render components
+
+	return (
+		<div className={`${styles.column} ${styles.hcenter}`}>
+			<Tooltip label={t('description')} position="bottom" withArrow>
+				<Checkbox size="sm" {...patternsExplorerContext.form.getInputProps(`path.${rowIndex}.timepoint`, { type: 'checkbox' })} disabled={patternsExplorerContext.page.is_read_only} />
+			</Tooltip>
 		</div>
 	);
 
@@ -372,6 +397,7 @@ function PatternsExplorerIdPagePathRow({ rowIndex }) {
 		<div className={`${styles.row} ${styles.bodyRow}`}>
 			<PatternsExplorerIdPagePathIndexColumn rowIndex={rowIndex} />
 			<PatternsExplorerIdPagePathStopColumn rowIndex={rowIndex} />
+			<PatternsExplorerIdPagePathTimepointColumn rowIndex={rowIndex} />
 			<PatternsExplorerIdPagePathAllowPickupColumn rowIndex={rowIndex} />
 			<PatternsExplorerIdPagePathAllowDropoffColumn rowIndex={rowIndex} />
 			<PatternsExplorerIdPagePathDistanceDeltaColumn rowIndex={rowIndex} />
@@ -407,6 +433,11 @@ function PatternsExplorerIdPagePathHeader() {
 			</div>
 			<div className={styles.column} style={{ paddingLeft: 10 }}>
 				{t('stop.label')}
+			</div>
+			<div className={`${styles.column} ${styles.hcenter}`}>
+				<Tooltip label={t('timepoint.label')} withArrow>
+					<IconClock size={20} />
+				</Tooltip>
 			</div>
 			<div className={`${styles.column} ${styles.hcenter}`}>
 				<Tooltip label={t('allow_pickup.label')} withArrow>
@@ -463,6 +494,7 @@ function PatternsExplorerIdPagePathFooter() {
 
 	return (
 		<div className={`${styles.row} ${styles.headerRow}`}>
+			<div className={styles.column} />
 			<div className={styles.column} />
 			<div className={styles.column} />
 			<div className={styles.column} />

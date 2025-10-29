@@ -47,6 +47,7 @@ export const PatternPathDefault = {
 	default_velocity: 20,
 	distance_delta: 0,
 	stop: null,
+	timepoint: false,
 	zones: [],
 };
 
