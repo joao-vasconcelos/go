@@ -10,8 +10,10 @@ interface DateObj {
 	date: OperationalDate
 	day_type: '1' | '2' | '3'
 	holiday: '0' | '1'
+	holiday_name: string
 	notes: string
 	period: '1' | '2' | '3'
+	weekday: string
 }
 
 /* * */
@@ -33,8 +35,10 @@ export default async function handler(req, res) {
 				date: doc.date,
 				day_type: doc.is_holiday ? '3' : weekday === '6' ? '2' : weekday === '7' ? '3' : '1',
 				holiday: doc.is_holiday ? '1' : '0',
-				notes: doc.notes || '',
+				holiday_name: doc.holiday_name || '',
+				notes: doc.holiday_name || '', // doc.notes || '',
 				period: doc.period,
+				weekday: weekday,
 			};
 		});
 

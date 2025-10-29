@@ -39,7 +39,7 @@ export default function HCalendarToggle({ activeDates = [], date, dateObj, onTog
 				<SimpleGrid cols={1}>
 					<Text size="h4">Periodo: {dateObj.period}</Text>
 					<Text size="h4">day_type: {dateObj.day_type}</Text>
-					<Text size="h4">is Holiday: {dateObj.is_holiday ? 'true' : 'false'}</Text>
+					<Text size="h4">is Holiday: {dateObj.is_holiday ? 'true' : 'false'} {dateObj.holiday_name}</Text>
 					<Text size="h4">Notas sobre esta Data: {dateObj.notes}</Text>
 				</SimpleGrid>
 			</Modal>

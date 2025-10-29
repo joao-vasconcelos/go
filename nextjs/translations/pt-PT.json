@@ -4462,24 +4462,28 @@
 	"configs": {},
 	"dates": {
 		"form": {
+			"holiday_name": {
+				"label": "Nome do Feriado",
+				"placeholder": "Dia de..."
+			},
 			"is_holiday": {
-				"description": "Enable to set each date as Holiday.",
-				"label": "Is Holiday"
+				"description": "Indica se este dia é um feriado ou não.",
+				"label": "É Feriado"
 			},
 			"multiple": {
-				"title": "Single Dates"
+				"title": "Datas Únicas"
 			},
 			"notes": {
-				"label": "Notes for this Date",
-				"placeholder": "On this day..."
+				"label": "Notas para esta Data",
+				"placeholder": "Neste dia ocorreu..."
 			},
 			"period": {
-				"label": "Period",
+				"label": "Período",
 				"nothingFound": "Nenhum Resultado Encontrado",
 				"placeholder": "Escolha uma opção..."
 			},
 			"range": {
-				"title": "Date Range"
+				"title": "Intervalo de Datas"
 			}
 		},
 		"operations": {

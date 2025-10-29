@@ -12,9 +12,10 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import useSWR from 'swr';
 
+import styles from './HCalendarPeriodCard.module.css';
+
 import API from '../../services/API';
 import Text from '../Text/Text';
-import styles from './HCalendarPeriodCard.module.css';
 
 export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
 	//
@@ -101,6 +102,7 @@ export default function HCalendarPeriodCard({ date, dateObj, readOnly }) {
 						/>
 						<Text size="h4">day_type: {dateObj.day_type}</Text>
 						<Switch description="is_holiday or not" label="is_holiday" {...form.getInputProps('is_holiday', { type: 'checkbox' })} />
+						<Textarea label={t('form.holiday_name.label')} minRows={5} placeholder={t('form.holiday_name.placeholder')} {...form.getInputProps('holiday_name')} readOnly={readOnly} />
 						<Textarea label={t('form.notes.label')} minRows={5} placeholder={t('form.notes.placeholder')} {...form.getInputProps('notes')} readOnly={readOnly} />
 						<AppAuthenticationCheck permissions={[{ action: 'edit_dates', scope: 'calendars' }]}>
 							<SimpleGrid cols={2}>
