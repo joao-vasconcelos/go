@@ -4,7 +4,7 @@ import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthe
 import { OneFullColumn } from '@/components/Layouts/Layouts';
 import ReportsExplorerItem from '@/components/ReportsExplorerItem/ReportsExplorerItem';
 import { ReportOptions } from '@/schemas/Report/options';
-import { IconArrowsShuffle, IconCoinEuro, IconFlagQuestion } from '@tabler/icons-react';
+import { IconArrowsShuffle } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 
 import styles from './ReportsExplorer.module.css';
@@ -24,8 +24,6 @@ export default function ReportsExplorer() {
 
 	const reportIcons = {
 		realtime: <IconArrowsShuffle size={50} />,
-		revenue: <IconCoinEuro size={50} />,
-		sla: <IconFlagQuestion size={50} />,
 	};
 
 	//
