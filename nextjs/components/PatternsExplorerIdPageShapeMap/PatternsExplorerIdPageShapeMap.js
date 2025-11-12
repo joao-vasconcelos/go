@@ -21,7 +21,7 @@ export default function PatternsExplorerIdPageShapeMap() {
 	//
 	// A. Setup variables
 
-	const linessExplorerContext = useLinesExplorerContext();
+	const linesExplorerContext = useLinesExplorerContext();
 	const patternsExplorerContext = usePatternsExplorerContext();
 
 	const { patternShapeMap } = useMap();
@@ -36,8 +36,11 @@ export default function PatternsExplorerIdPageShapeMap() {
 
 	const { data: allZonesData } = useSWR('/api/zones');
 	const { data: allStopsData } = useSWR('/api/stops');
-	const { data: typologyData } = useSWR(linessExplorerContext.item_data && linessExplorerContext.item_data.typology && `/api/typologies/${linessExplorerContext.item_data.typology}`);
+	const { data: typologyData } = useSWR(linesExplorerContext.item_data && linesExplorerContext.item_data.typology && `/api/typologies/${linesExplorerContext.item_data.typology}`);
 	const { data: patternStopsData } = useSWR(patternsExplorerContext.item_id && `/api/patterns/${patternsExplorerContext.item_id}/stops`);
+
+	console.log('patternStopsData', patternStopsData);
+
 	//
 	// C. Transform data
 
@@ -80,7 +83,7 @@ export default function PatternsExplorerIdPageShapeMap() {
 					},
 					properties: {
 						_id: pathSequence.stop?._id,
-						code: pathSequence.stop?.code,
+						code: pathSequence.stop?._id,
 						index: pathSequenceIndex + 1,
 						latitude: pathSequence.stop?.latitude,
 						longitude: pathSequence.stop?.longitude,
@@ -174,22 +177,19 @@ export default function PatternsExplorerIdPageShapeMap() {
 					</>
 				)}
 			>
-				{allZonesMapData && showAllZonesOnMap
-				&& (
+				{allZonesMapData && showAllZonesOnMap && (
 					<Source data={allZonesMapData} id="all-zones" type="geojson">
 						<Layer id="all-zones-polygons" layout={{}} paint={{ 'fill-color': ['get', 'fill_color'], 'fill-opacity': ['get', 'fill_opacity'] }} source="all-zones" type="fill" />
 						<Layer id="all-zones-borders" layout={{}} paint={{ 'line-color': ['get', 'border_color'], 'line-opacity': ['get', 'border_opacity'], 'line-width': ['get', 'border_width'] }} source="all-zones" type="line" />
 						<Layer id="all-zones-labels" layout={{ 'text-anchor': 'center', 'text-field': ['get', 'name'], 'text-offset': [0, 0], 'text-size': 14 }} source="all-zones" type="symbol" />
 					</Source>
 				)}
-				{allStopsMapData && showAllStopsOnMap
-				&& (
+				{allStopsMapData && showAllStopsOnMap && (
 					<Source data={allStopsMapData} id="all-stops" type="geojson">
 						<Layer id="all-stops" paint={{ 'circle-color': 'rgba(255,220,0,0.75)', 'circle-radius': 2, 'circle-stroke-color': 'rgba(0,0,0,0.5)', 'circle-stroke-width': 1 }} source="all-stops" type="circle" />
 					</Source>
 				)}
-				{patternsExplorerContext.form.values?.shape?.geojson
-				&& (
+				{patternsExplorerContext.form.values?.shape?.geojson && (
 					<Source data={patternsExplorerContext.form.values.shape.geojson} id="pattern-shape" type="geojson">
 						<Layer
 							id="pattern-shape-direction"
@@ -227,8 +227,7 @@ export default function PatternsExplorerIdPageShapeMap() {
 						/>
 					</Source>
 				)}
-				{patternStopsMapData
-				&& (
+				{patternStopsMapData && (
 					<Source data={patternStopsMapData} id="pattern-stops" type="geojson">
 						<Layer id="pattern-stops-circle" paint={{ 'circle-color': '#ffdd01', 'circle-radius': 8, 'circle-stroke-color': '#000000', 'circle-stroke-width': 1 }} source="pattern-stops" type="circle" />
 						<Layer id="pattern-stops-labels" layout={{ 'text-anchor': 'center', 'text-field': ['get', 'index'], 'text-offset': [0, 0], 'text-size': 10 }} source="pattern-stops" type="symbol" />

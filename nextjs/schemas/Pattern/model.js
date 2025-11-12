@@ -58,6 +58,10 @@ export const PatternSchema = new mongoose.Schema(
 				distance_delta: {
 					type: Number,
 				},
+				stop: {
+					ref: 'Stop',
+					type: mongoose.Schema.Types.ObjectId,
+				},
 				stop_id: {
 					type: String,
 				},

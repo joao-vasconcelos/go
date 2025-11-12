@@ -3,6 +3,8 @@
 import getSession from '@/authentication/getSession';
 import { PatternModel } from '@/schemas/Pattern/model';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import { stops } from '@tmlmobilidade/interfaces';
+import path from 'path';
 
 /* * */
 
@@ -40,9 +42,15 @@ export default async function handler(req, res) {
 	// Fetch the requested document
 
 	try {
-		const foundDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } });
+		const foundDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } }).lean();
 		if (!foundDocument) return await res.status(404).json({ message: `Pattern with _id "${req.query._id}" not found.` });
-		return await res.status(200).json(foundDocument);
+		const preparedPath = [];
+		for (const pathItem of foundDocument.path) {
+			console.log(pathItem);
+			const stopData = await stops.findById(pathItem.stop_id);
+			preparedPath.push({ ...pathItem, stop: stopData || null });
+		}
+		return await res.status(200).json({ ...foundDocument, path: preparedPath });
 	}
 	catch (error) {
 		console.log(error);

@@ -39,7 +39,7 @@ function PatternsExplorerIdPagePathStopColumn({ rowIndex }) {
 	//
 	// B. Fetch data
 
-	const { data: stopData } = useSWR(patternsExplorerContext.form.values.path[rowIndex]?.stop && `/api/stops/${patternsExplorerContext.form.values.path[rowIndex].stop}`);
+	const { data: stopData } = useSWR(patternsExplorerContext.form.values.path[rowIndex]?.stop_id && `/api/stops/${patternsExplorerContext.form.values.path[rowIndex].stop_id}`);
 	const { data: municipalityData } = useSWR(stopData && `/api/municipalities/${stopData.municipality}`);
 
 	//
@@ -350,7 +350,7 @@ function PatternsExplorerIdPagePathZonesColumn({ rowIndex }) {
 	//
 	// B. Fetch data
 
-	const { data: stopData, isLoading: stopLoading } = useSWR(patternsExplorerContext.form.values.path[rowIndex]?.stop && `/api/stops/${patternsExplorerContext.form.values.path[rowIndex].stop}`);
+	const { data: stopData, isLoading: stopLoading } = useSWR(patternsExplorerContext.form.values.path[rowIndex]?.stop_id && `/api/stops/${patternsExplorerContext.form.values.path[rowIndex].stop_id}`);
 
 	//
 	// C. Handle actions
