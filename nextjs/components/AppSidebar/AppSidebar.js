@@ -3,23 +3,7 @@
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import { Link } from '@/translations/navigation';
 import { ActionIcon, Tooltip } from '@mantine/core';
-import {
-	IconArrowLoopRight,
-	IconBuildingCommunity,
-	IconBusStop,
-	IconCalendarDue,
-	IconChartArcs,
-	IconChartPie,
-	IconDatabaseCog,
-	IconFile3d,
-	IconFileZip,
-	IconLayoutCollage,
-	IconMapHeart,
-	IconTag,
-	IconTicket,
-	IconTopologyStar3,
-	IconUsers,
-} from '@tabler/icons-react';
+import { IconArrowLoopRight, IconBuildingCommunity, IconBusStop, IconCalendarDue, IconChartPie, IconDatabaseCog, IconFile3d, IconFileZip, IconLayoutCollage, IconMapHeart, IconTicket, IconTopologyStar3, IconUsers } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 
@@ -38,7 +22,6 @@ export default function AppSidebar() {
 
 	const links = [
 		{ href: 'reports', icon: <IconChartPie />, label: t('reports'), permissions: [{ action: 'navigate', scope: 'reports' }] },
-		{ href: 'issues', icon: <IconChartArcs />, label: t('issues'), permissions: [{ action: 'navigate', scope: 'issues' }] },
 		{ href: 'stops', icon: <IconBusStop />, label: t('stops'), permissions: [{ action: 'navigate', scope: 'stops' }] },
 		{ href: 'calendars', icon: <IconCalendarDue />, label: t('calendars'), permissions: [{ action: 'navigate', scope: 'calendars' }] },
 		{ href: 'lines', icon: <IconArrowLoopRight />, label: t('lines'), permissions: [{ action: 'navigate', scope: 'lines' }] },
@@ -48,7 +31,6 @@ export default function AppSidebar() {
 		{ href: 'fares', icon: <IconTicket />, label: t('fares'), permissions: [{ action: 'navigate', scope: 'fares' }] },
 		{ href: 'typologies', icon: <IconTopologyStar3 />, label: t('typologies'), permissions: [{ action: 'navigate', scope: 'typologies' }] },
 		{ href: 'agencies', icon: <IconBuildingCommunity />, label: t('agencies'), permissions: [{ action: 'navigate', scope: 'agencies' }] },
-		{ href: 'tags', icon: <IconTag />, label: t('tags'), permissions: [{ action: 'navigate', scope: 'tags' }] },
 		{ href: 'media', icon: <IconFile3d />, label: t('media'), permissions: [{ action: 'navigate', scope: 'media' }] },
 		{ href: 'users', icon: <IconUsers />, label: t('users'), permissions: [{ action: 'navigate', scope: 'users' }] },
 		{ href: 'configs', icon: <IconDatabaseCog />, label: t('configs'), permissions: [{ action: 'admin', scope: 'configs' }] },
