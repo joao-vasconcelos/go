@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* * */
 
 import { AgencyModel } from '@/schemas/Agency/model';
@@ -14,6 +15,8 @@ import { TypologyModel } from '@/schemas/Typology/model';
 import { ZoneModel } from '@/schemas/Zone/model';
 import calculateDateDayType from '@/services/calculateDateDayType';
 import CSVWRITER from '@/services/CSVWRITER';
+import { stops } from '@tmlmobilidade/interfaces';
+import { Stop } from '@tmlmobilidade/types';
 
 /* * */
 /* EXPORT GTFS V29 */
@@ -50,6 +53,7 @@ async function update(exportDocument, updates) {
 function incrementTime(timeString, increment) {
 	try {
 		// Parse the time string into hours, minutes, and seconds
+		// eslint-disable-next-line prefer-const
 		let [hours, minutes, seconds] = timeString.split(':').map(Number);
 		// Handle case where seconds is undefined
 		if (!seconds) seconds = 0;
@@ -91,12 +95,12 @@ function padZero(num) {
 /* Output the current date and time in the format YYYYMMDDHHMM. */
 /* For example, if the current date is July 3, 2023, at 9:30 AM, the output will be 202307030930. */
 function today() {
-	let currentDate = new Date();
-	let year = currentDate.getFullYear();
-	let month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-	let day = currentDate.getDate().toString().padStart(2, '0');
-	let hours = currentDate.getHours().toString().padStart(2, '0');
-	let minutes = currentDate.getMinutes().toString().padStart(2, '0');
+	const currentDate = new Date();
+	const year = currentDate.getFullYear();
+	const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+	const day = currentDate.getDate().toString().padStart(2, '0');
+	const hours = currentDate.getHours().toString().padStart(2, '0');
+	const minutes = currentDate.getMinutes().toString().padStart(2, '0');
 
 	return year + month + day + hours + minutes;
 }
@@ -272,7 +276,7 @@ function getLineType(typologyCode) {
 /* Build a zoning object entry */
 async function parseZoning(agencyData, lineData, patternData, exportOptions) {
 	try {
-		const parsedZoning = [];
+		const parsedZoning: any[] = [];
 		for (const [pathIndex, pathData] of patternData.path.entries()) {
 			// Skip if this pathStop has no associated stop
 			if (!pathData.stop) continue;
@@ -280,10 +284,10 @@ async function parseZoning(agencyData, lineData, patternData, exportOptions) {
 			const stopData = await StopModel.findOne({ _id: pathData.stop }, 'code name zones');
 			const allZonesData = await ZoneModel.find({ _id: pathData.zones }, 'code name');
 			// Prepare zones in the file format
-			let formattedZoneNames = allZonesData.map(zone => zone.name).join('|');
-			let formattedZoneCodes = allZonesData.map(zone => zone.code).join('|');
+			const formattedZoneNames = allZonesData.map(zone => zone.name).join('|');
+			const formattedZoneCodes = allZonesData.map(zone => zone.code).join('|');
 			// Prepare fares in the file format
-			let formattedOnboardFares = lineData.onboard_fares.map(onboardFare => onboardFare.code).join('|');
+			const formattedOnboardFares = lineData.onboard_fares.map(onboardFare => onboardFare.code).join('|');
 			// Write the afetacao.txt entry for this path
 			parsedZoning.push({
 				accepted_zone_codes: formattedZoneCodes,
@@ -321,7 +325,7 @@ async function parseZoning(agencyData, lineData, patternData, exportOptions) {
 /* Build a shape object entry */
 function parseShape(gtfsShapeId, shapeData) {
 	try {
-		const parsedShape = [];
+		const parsedShape: any[] = [];
 		for (const shapePoint of shapeData.points) {
 			// Prepare variables
 			const shapePtLat = shapePoint.shape_pt_lat.toFixed(6);
@@ -355,7 +359,7 @@ function parseShape(gtfsShapeId, shapeData) {
 async function parseCalendar(calendarCode, calendarDates) {
 	try {
 		// Initiate an new variable
-		const parsedCalendar = [];
+		const parsedCalendar: any[] = [];
 		// For each date in the calendar
 		for (const calendarDate of calendarDates) {
 			// Get Date document for this calendar date
@@ -393,7 +397,7 @@ async function parseCalendar(calendarCode, calendarDates) {
 /* * */
 /* PARSE STOP */
 /* Build a trip object entry */
-function parseStop(stopData, municipalityData) {
+function parseStop(stopData: Stop) {
 	try {
 		return {
 			bench: '',
@@ -402,21 +406,21 @@ function parseStop(stopData, municipalityData) {
 			exit_restriction: '',
 			level_id: '',
 			location_type: '',
-			municipality: municipalityData.code || '',
+			municipality: stopData.municipality_id,
 			network_map: '',
 			observations: '',
 			parent_station: '',
 			platform_code: '',
 			preservation_state: '',
 			real_time_information: '',
-			region: municipalityData.region || '',
+			region: stopData.district_id,
 			schedule: '',
 			shelter: '',
 			signalling: '',
 			slot: '',
-			stop_code: stopData.code,
+			stop_code: stopData._id,
 			stop_desc: '',
-			stop_id: stopData.code,
+			stop_id: stopData._id,
 			stop_id_stepp: '0',
 			stop_lat: stopData.latitude.toFixed(6),
 			stop_lon: stopData.longitude.toFixed(6),
@@ -432,8 +436,8 @@ function parseStop(stopData, municipalityData) {
 		};
 	}
 	catch (error) {
-		console.log(`Error at parseStop(${stopData}, ${municipalityData})`, error);
-		throw new Error(`Error at parseStop(${stopData}, ${municipalityData})`);
+		console.log(`Error at parseStop(${stopData})`, error);
+		throw new Error(`Error at parseStop(${stopData})`);
 	}
 }
 
@@ -477,7 +481,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 	// to initiate these variables outside all loops that hold the _ids
 	// of the objects that are referenced in the other objects (trips, patterns)
 	const referencedFareCodes = new Set();
-	const referencedStopCodes = new Set();
+	const referencedStopCodes = new Set<string>();
 	const referencedCalendarCodes = new Set();
 
 	// 1.
@@ -493,7 +497,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 	// Retrieve only the lines that match the requested export options,
 	// or all of them for the given agency if 'lines_include' and 'lines_exclude' are empty.
 
-	const linesFilterParams = { agency: agencyData._id };
+	const linesFilterParams: any = { agency: agencyData._id };
 
 	if (exportOptions.lines_include.length) linesFilterParams._id = { $in: exportOptions.lines_include };
 	else if (exportOptions.lines_exclude.length) linesFilterParams._id = { $nin: exportOptions.lines_exclude };
@@ -519,7 +523,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 		// 3.2.
 		// Get typology associated with this line
 		const typologyData = lineData.typology; // await TypologyModel.findOne({ _id: lineData.typology });
-		if (!typologyData) throw new Error({ code: 5102, references: { line_code: lineData.code }, short_message: 'Typology not found.' });
+		if (!typologyData) throw new Error(String({ code: 5102, references: { line_code: lineData.code }, short_message: 'Typology not found.' }));
 
 		// 3.3.
 		// Loop on all the routes for this line
@@ -527,7 +531,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 			//
 			// 3.3.0.
 			// Fetch route from database
-			const routeData = await RouteModel.findOne({ _id: routeId }).populate({ path: 'patterns', populate: { path: 'schedules.calendars_on schedules.calendars_off path.stop' } });
+			const routeData = await RouteModel.findOne({ _id: routeId }).populate({ path: 'patterns', populate: { path: 'schedules.calendars_on schedules.calendars_off' } });
 			if (!routeData) continue routeLoop; // throw new Error({ code: 5201, short_message: 'Route not found.', references: { line_code: lineData.code } });
 
 			// 3.3.1.
@@ -600,7 +604,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 						// 3.3.3.4.1.5.
 						// If set, clip the resulting calendar ON dates to the desired start and end dates
 						if (exportOptions.clip_calendars) {
-							[...calendarOnDates].forEach((currentDate) => {
+							[...calendarOnDates].forEach((currentDate: string) => {
 								// If the current date is before the start date OR after the end date, then remove it from the set
 								if (currentDate < exportOptions.calendars_clip_start_date || currentDate > exportOptions.calendars_clip_end_date) {
 									calendarOnDates.delete(currentDate);
@@ -696,7 +700,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 						// 3.3.3.4.1.14.
 						// In order to only write valid stop_times entries,
 						// hold them in a variable outside the path loop and write them all at once
-						const parsedStopTimes = [];
+						const parsedStopTimes: any[] = [];
 
 						// 3.3.3.4.1.15.
 						// Iterate on all the calendars associated with this schedule
@@ -709,15 +713,11 @@ export default async function exportGtfsV29(progress, exportOptions) {
 
 							// 3.3.3.4.1.15.1.
 							// Skip to the next pattern if this pathStop has no associated stop
-							if (!pathData.stop) continue pathLoop; // throw new Error({ code: 5301, short_message: 'Path without defined stop.', references: { pattern_code: patternData.code } });
-
-							// 3.3.3.4.1.15.2.
-							// Check if there is a stop here. Exit the loop early if not found.
-							if (!pathData.stop) break pathLoop; // throw new Error({ code: 5302, short_message: 'Stop not found with _id on path.', references: { pattern_code: patternData.code } });
+							if (!pathData.stop_id) continue pathLoop; // throw new Error({ code: 5301, short_message: 'Path without defined stop.', references: { pattern_code: patternData.code } });
 
 							// 3.3.3.4.1.15.3.
 							// Append the stop codes for this path to the scoped variable
-							referencedStopCodes.add(pathData.stop.code);
+							referencedStopCodes.add(pathData.stop_id);
 
 							// 3.3.3.4.1.15.4.
 							// Increment the arrival_time for this stop with the travel time for this path segment
@@ -750,7 +750,7 @@ export default async function exportGtfsV29(progress, exportOptions) {
 								drop_off_type: pathData.allow_drop_off ? 0 : 1,
 								pickup_type: pathData.allow_pickup ? 0 : 1,
 								shape_dist_traveled: currentShapeDistTraveled,
-								stop_id: pathData.stop.code,
+								stop_id: pathData.stop_id,
 								stop_sequence: currentStopSequence,
 								timepoint: 1,
 								trip_id: thisTripCode,
@@ -853,14 +853,14 @@ export default async function exportGtfsV29(progress, exportOptions) {
 
 	// 4.1.
 	// Fetch the referenced stops and write the stops.txt file
-	let allReferencedStopsData = [];
-	if (exportOptions.stops_export_all) allReferencedStopsData = await StopModel.find().populate('municipality');
-	else if (referencedStopCodes.size) allReferencedStopsData = await StopModel.find({ code: { $in: Array.from(referencedStopCodes) } }).populate('municipality');
+	let allReferencedStopsData: Stop[] = [];
+	if (exportOptions.stops_export_all) allReferencedStopsData = await stops.findMany();
+	else if (referencedStopCodes.size) allReferencedStopsData = await stops.findMany({ _id: { $in: Array.from(referencedStopCodes) } });
 
 	// 4.2.
 	// Fetch the referenced stops and write the stops.txt file
 	for (const stopData of allReferencedStopsData) {
-		const parsedStop = parseStop(stopData, stopData.municipality);
+		const parsedStop = parseStop(stopData);
 		await stopsCsvWriter.write(progress.workdir, 'stops.txt', parsedStop);
 	}
 

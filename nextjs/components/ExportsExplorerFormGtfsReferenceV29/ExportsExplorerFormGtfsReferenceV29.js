@@ -189,8 +189,7 @@ export default function ExportsExplorerFormGtfsReferenceV29() {
 						disabled={!exportsExplorerContext.form_gtfs_v29.values.agency_id || !exportsExplorerContext.form_gtfs_v29.values.feed_start_date || !exportsExplorerContext.form_gtfs_v29.values.feed_end_date}
 					/>
 				</SimpleGrid>
-				{exportsExplorerContext.form_gtfs_v29.values.clip_calendars
-				&& (
+				{exportsExplorerContext.form_gtfs_v29.values.clip_calendars && (
 					<SimpleGrid cols={2}>
 						<DatePickerInput
 							description={t('form.calendars_clip_start_date.description')}
