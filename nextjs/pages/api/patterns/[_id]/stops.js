@@ -4,7 +4,6 @@ import getSession from '@/authentication/getSession';
 import { PatternModel } from '@/schemas/Pattern/model';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { stops } from '@tmlmobilidade/interfaces';
-import path from 'path';
 
 /* * */
 
@@ -46,7 +45,6 @@ export default async function handler(req, res) {
 		if (!foundDocument) return await res.status(404).json({ message: `Pattern with _id "${req.query._id}" not found.` });
 		const preparedPath = [];
 		for (const pathItem of foundDocument.path) {
-			console.log(pathItem);
 			const stopData = await stops.findById(pathItem.stop_id);
 			preparedPath.push({ ...pathItem, stop: stopData || null });
 		}

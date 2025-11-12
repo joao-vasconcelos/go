@@ -3,7 +3,7 @@
 import AppAuthenticationCheck from '@/components/AppAuthenticationCheck/AppAuthenticationCheck';
 import { Link } from '@/translations/navigation';
 import { ActionIcon, Tooltip } from '@mantine/core';
-import { IconArrowLoopRight, IconBuildingCommunity, IconBusStop, IconCalendarDue, IconChartPie, IconDatabaseCog, IconFile3d, IconFileZip, IconLayoutCollage, IconMapHeart, IconTicket, IconTopologyStar3, IconUsers } from '@tabler/icons-react';
+import { IconArrowLoopRight, IconBuildingCommunity, IconBusStop, IconCalendarDue, IconChartPie, IconDatabaseCog, IconFile3d, IconFileZip, IconLayoutCollage, IconMapHeart, IconSparkles, IconTicket, IconTopologyStar3, IconUsers } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 
@@ -21,8 +21,11 @@ export default function AppSidebar() {
 	const t = useTranslations('AppSidebar');
 
 	const links = [
+		// External link to GO v2
+		{ href: 'https://go.tmlmobilidade.pt', icon: <IconSparkles />, label: t('go_v2'), permissions: [], type: 'external' },
+		{ href: 'https://go.tmlmobilidade.pt/stops', icon: <IconBusStop />, label: t('stops'), permissions: [{ action: 'navigate', scope: 'stops' }], type: 'external' },
+		// Internal links
 		{ href: 'reports', icon: <IconChartPie />, label: t('reports'), permissions: [{ action: 'navigate', scope: 'reports' }] },
-		{ href: 'stops', icon: <IconBusStop />, label: t('stops'), permissions: [{ action: 'navigate', scope: 'stops' }] },
 		{ href: 'calendars', icon: <IconCalendarDue />, label: t('calendars'), permissions: [{ action: 'navigate', scope: 'calendars' }] },
 		{ href: 'lines', icon: <IconArrowLoopRight />, label: t('lines'), permissions: [{ action: 'navigate', scope: 'lines' }] },
 		{ href: 'exports', icon: <IconFileZip />, label: t('exports'), permissions: [{ action: 'navigate', scope: 'exports' }] },
@@ -57,19 +60,17 @@ export default function AppSidebar() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.navWrapper}>
-				{links.map((item) => {
-					return (
-						<AppAuthenticationCheck key={item.href} permissions={item.permissions}>
-							<Tooltip label={item.label} position="right">
-								<Link href={`/${item.href}`} scroll={false}>
-									<ActionIcon className={`${styles.navButton} ${isActivePage(item.href) && styles.selected}`} color="gray" size="xl">
-										{item.icon}
-									</ActionIcon>
-								</Link>
-							</Tooltip>
-						</AppAuthenticationCheck>
-					);
-				})}
+				{links.map(item => (
+					<AppAuthenticationCheck key={item.href} permissions={item.permissions}>
+						<Tooltip label={item.label} position="right">
+							<Link href={item.type === 'external' ? item.href : `/${item.href}`} scroll={false} target={item.type === 'external' ? '_blank' : undefined}>
+								<ActionIcon className={`${styles.navButton} ${isActivePage(item.href) && styles.selected}`} color="gray" size="xl">
+									{item.icon}
+								</ActionIcon>
+							</Link>
+						</Tooltip>
+					</AppAuthenticationCheck>
+				))}
 			</div>
 		</div>
 	);

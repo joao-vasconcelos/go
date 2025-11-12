@@ -39,8 +39,6 @@ export default function PatternsExplorerIdPageShapeMap() {
 	const { data: typologyData } = useSWR(linesExplorerContext.item_data && linesExplorerContext.item_data.typology && `/api/typologies/${linesExplorerContext.item_data.typology}`);
 	const { data: patternStopsData } = useSWR(patternsExplorerContext.item_id && `/api/patterns/${patternsExplorerContext.item_id}/stops`);
 
-	console.log('patternStopsData', patternStopsData);
-
 	//
 	// C. Transform data
 
