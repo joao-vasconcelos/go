@@ -2,7 +2,6 @@
 
 import getSession from '@/authentication/getSession';
 import { PatternModel } from '@/schemas/Pattern/model';
-import { StopModel } from '@/schemas/Stop/model';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 
 /* * */
@@ -41,7 +40,7 @@ export default async function handler(req, res) {
 	// Fetch the requested document
 
 	try {
-		const foundDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } }).populate('path.stop');
+		const foundDocument = await PatternModel.findOne({ _id: { $eq: req.query._id } });
 		if (!foundDocument) return await res.status(404).json({ message: `Pattern with _id "${req.query._id}" not found.` });
 		return await res.status(200).json(foundDocument);
 	}

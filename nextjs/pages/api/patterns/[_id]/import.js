@@ -3,9 +3,9 @@
 import getSession from '@/authentication/getSession';
 import { PatternPathDefault, PatternShapeDefault } from '@/schemas/Pattern/default';
 import { PatternModel } from '@/schemas/Pattern/model';
-import { StopModel } from '@/schemas/Stop/model';
 import calculateTravelTime from '@/services/calculateTravelTime';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
+import { stops } from '@tmlmobilidade/interfaces';
 import * as turf from '@turf/turf';
 
 /* * */
@@ -111,11 +111,12 @@ export default async function handler(req, res) {
 		// Iterate on each path stop
 		for (const [pathIndex, pathItem] of req.body.path.entries()) {
 			// Get _id of associated Stop document
-			const associatedStopDocument = await StopModel.findOne({ code: pathItem.stop_id.trim() });
+			const associatedStopDocument = await stops.findById(pathItem.stop_id.trim());
+			// const associatedStopDocument = await StopModel.findOne({ code: pathItem.stop_id.trim() });
 			// Throw an error if no stop is found
 			if (!associatedStopDocument) throw Error(`The stop "${pathItem.stop_id}" does not exist in GO.`);
 			// Get original path stop from non-modified document
-			const originalPathStop = patternDocument.path.find(item => item.stop?.id === associatedStopDocument?.id);
+			const originalPathStop = patternDocument.path.find(item => item.stop_id === associatedStopDocument._id);
 			// Calculate distance delta
 			const distanceDelta = pathIndex === 0 ? 0 : parseInt(pathItem.shape_dist_traveled) - prevDistance;
 			prevDistance = parseInt(pathItem.shape_dist_traveled);
@@ -133,7 +134,7 @@ export default async function handler(req, res) {
 				// Replace defaults with original data, if path stop is available; otherwise use presets or defaults
 				default_velocity: originalPathStop?.default_velocity || patternDocument.presets.velocity || PatternPathDefault.default_velocity,
 				distance_delta: distanceDelta,
-				stop: associatedStopDocument._id,
+				stop_id: associatedStopDocument._id,
 				zones: originalPathStop?.zones || associatedStopDocument.zones,
 			});
 		}
