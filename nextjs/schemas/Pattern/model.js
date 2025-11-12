@@ -62,6 +62,9 @@ export const PatternSchema = new mongoose.Schema(
 					ref: 'Stop',
 					type: mongoose.Schema.Types.ObjectId,
 				},
+				stop_id: {
+					type: String,
+				},
 				timepoint: {
 					type: Boolean,
 				},
