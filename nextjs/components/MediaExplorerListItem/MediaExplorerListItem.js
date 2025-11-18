@@ -3,7 +3,6 @@
 /* * */
 
 import BaseListItem from '@/components/BaseListItem/BaseListItem';
-import TagsExplorerTag from '@/components/TagsExplorerTag/TagsExplorerTag';
 import { useRouter } from '@/translations/navigation';
 import { useParams } from 'next/navigation';
 
@@ -31,7 +30,7 @@ export default function MediaExplorerListItem({ item }) {
 
 	return (
 		<BaseListItem isSelected={tag_id === item._id} onClick={handleClick} withChevron>
-			<TagsExplorerTag tagId={item._id} withHoverCard={false} />
+			<p>{item._id}</p>
 		</BaseListItem>
 	);
 
