@@ -332,7 +332,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 					trip_headsign: data.trip_headsign,
 					trip_id: `${data.trip_id}_${planData._id}`,
 				};
-					// Include this trip in the final export
+				// Include this trip in the final export
 				await fileWriter.write(exportDocument.workdir, 'trips.txt', exportedRowData);
 				// Save a reference to the current trip_id, shape_id and route_id
 				referencedTrips.add(data.trip_id);
@@ -382,7 +382,7 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 					timepoint: data.timepoint,
 					trip_id: `${data.trip_id}_${planData._id}`,
 				};
-					// Include this trip in the final export and save a reference to the current trip_id
+				// Include this trip in the final export and save a reference to the current trip_id
 				await fileWriter.write(exportDocument.workdir, 'stop_times.txt', exportedRowData);
 				referencedStops.add(data.stop_id);
 				//
@@ -484,8 +484,8 @@ export default async function exportGtfsRegionalMergeV1(exportDocument, exportOp
 					route_type: data.route_type,
 					school: data.school,
 				};
-					// Save or replace this route if this is the main export,
-					// or save it if this route was not yet found in previous archives.
+				// Save or replace this route if this is the main export,
+				// or save it if this route was not yet found in previous archives.
 				if (thisIsTheMainArchiveOfThisExport || !routesMarkedForFinalExport.has(data.route_id)) {
 					// Mark this route for export
 					routesMarkedForFinalExport.set(data.route_id, exportedRowData);
