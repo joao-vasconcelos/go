@@ -38,12 +38,12 @@ export default async function faresExportAttributes(options: FaresExportAttribut
 
 		let thisFarePaymentMethod = '';
 		switch (item.payment_method) {
-			default:
-			case '0': // ONBOARD
-				thisFarePaymentMethod = '0';
-				break;
 			case '1': // PREPAID
 				thisFarePaymentMethod = '1';
+				break;
+			case '0': // ONBOARD
+			default:
+				thisFarePaymentMethod = '0';
 				break;
 		}
 
@@ -58,8 +58,8 @@ export default async function faresExportAttributes(options: FaresExportAttribut
 			case '2': // Riders may transfer twice.
 				thisFareTransfers = '2';
 				break;
-			default:
 			case 'unlimited': // empty - Unlimited transfers are permitted.
+			default:
 				thisFareTransfers = '';
 				break;
 		}
