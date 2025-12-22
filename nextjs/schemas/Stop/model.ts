@@ -403,6 +403,8 @@ export const StopSchema = new mongoose.Schema(
 
 export const StopModel = mongoose?.models?.Stop || mongoose.model('Stop', StopSchema);
 
+export type StopModelDocument = mongoose.InferSchemaType<typeof StopSchema>;
+
 /* * */
 
 export const DeletedStopSchema = new mongoose.Schema({

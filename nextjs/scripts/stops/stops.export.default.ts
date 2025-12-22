@@ -18,6 +18,10 @@ export default async function stopsExportDefault() {
 	// 1.
 	// Get all stops from the database
 
+	await LineModel.syncIndexes();
+	await AgencyModel.syncIndexes();
+	await MunicipalityModel.syncIndexes();
+
 	const allStopsData = await StopModel.find().populate('municipality', 'code name district region').lean();
 
 	// 2.
