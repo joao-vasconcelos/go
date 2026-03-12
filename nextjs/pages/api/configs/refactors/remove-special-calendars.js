@@ -10,7 +10,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
 	//
 
-	throw new Error('Feature is disabled.');
+	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -52,6 +52,9 @@ export default async function handler(req, res) {
 					'ESP_NATAL_DIA',
 					'ESP_ANONOVO_VESP',
 					'ESP_ANONOVO_DIA',
+					'ESP_SANTOS_VESP',
+					'ESP_SANTOS_DIA',
+					'ESP_CARNAVAL_DIA',
 				],
 			},
 		}, '_id code');
@@ -66,7 +69,7 @@ export default async function handler(req, res) {
 		for (const patternCode of allPatternCodesWithSpecialCalendars) {
 			//
 
-			if (patternCode.code.startsWith('1')) continue;
+			// if (patternCode.code.startsWith('1')) continue;
 			// if (patternCode.code.startsWith('2')) continue;
 			// if (patternCode.code.startsWith('3')) continue;
 			// if (patternCode.code.startsWith('4')) continue;
