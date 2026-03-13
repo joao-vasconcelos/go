@@ -23,9 +23,9 @@ import { ActionIcon, Button, Divider, NumberInput, SimpleGrid, TextInput, Toolti
 import { useForm, yupResolver } from '@mantine/form';
 import { openConfirmModal } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
-import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import useSWR from 'swr';
 
@@ -91,7 +91,8 @@ export default function Page() {
 	const handleSave = async () => {
 		try {
 			setIsSaving(true);
-			await API({ body: form.values, method: 'PUT', operation: 'edit', resourceId: calendar_id, service: 'calendars' });
+			const filteredDates = form.values.dates.filter(date => date.length === 6);
+			await API({ body: { ...form.values, dates: filteredDates }, method: 'PUT', operation: 'edit', resourceId: calendar_id, service: 'calendars' });
 			calendarMutate();
 			allCalendarsMutate();
 			form.resetDirty();

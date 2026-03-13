@@ -103,6 +103,7 @@ export default async function handler(req, res) {
 	// Update the requested document
 
 	try {
+		req.body.dates = req.body.dates.filter(date => date.length === 8);
 		const editedDocument = await CalendarModel.replaceOne({ _id: { $eq: req.query._id } }, req.body, { new: true });
 		if (!editedDocument) return await res.status(404).json({ message: `Calendar with _id "${req.query._id}" not found.` });
 		return await res.status(200).json(editedDocument);
