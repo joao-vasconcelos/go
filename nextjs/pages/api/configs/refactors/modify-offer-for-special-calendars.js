@@ -10,7 +10,7 @@ import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 export default async function handler(req, res) {
 	//
 
-	throw new Error('Feature is disabled.');
+	// throw new Error('Feature is disabled.');
 
 	// 1.
 	// Setup variables
@@ -52,8 +52,8 @@ export default async function handler(req, res) {
 			//
 
 			if (patternCode.code.startsWith('1')) continue patternLoop;
-			// if (patternCode.code.startsWith('2')) continue patternLoop;
-			// if (patternCode.code.startsWith('3')) continue patternLoop;
+			if (patternCode.code.startsWith('2')) continue patternLoop;
+			if (patternCode.code.startsWith('3')) continue patternLoop;
 			// if (patternCode.code.startsWith('4')) continue patternLoop;
 
 			//
@@ -92,34 +92,21 @@ export default async function handler(req, res) {
 
 				/* * * * * * * * * */
 
-				const has24Dec = allCalendarsOnData.some(c => c.dates.includes('20251224'));
+				// const has24Dec = allCalendarsOnData.some(c => c.dates.includes('20251224'));
 
-				if (has24Dec && scheduleStartTimeInt > 2100) {
-					addedCalendarsOff.add('ESP_NATAL_VESP');
-				}
+				const hasAnyCalendarMatch = allCalendarsOnData.filter(c => [
+					'28', // 28
+					'100', // 100
+					'ESC_DU', // 1.1 // 15
+					'ESC_QUA', // 1.4
+					'ESC_QUI', // 1,5
+					'ESC_SEG', // 1.2
+					'ESC_SEX', // 1.6
+					'ESC_TER', // 1.3
+				].includes(c.code)).length > 0;
 
-				//
-
-				const has25Dec = allCalendarsOnData.some(c => c.dates.includes('20251225'));
-
-				if (has25Dec && scheduleStartTimeInt < 730) {
-					addedCalendarsOff.add('ESP_NATAL_DIA');
-				}
-
-				//
-
-				const has31Dec = allCalendarsOnData.some(c => c.dates.includes('20251231'));
-
-				if (has31Dec && scheduleStartTimeInt > 2200) {
-					addedCalendarsOff.add('ESP_ANONOVO_VESP');
-				}
-
-				//
-
-				const has1Jan = allCalendarsOnData.some(c => c.dates.includes('20260101'));
-
-				if (has1Jan && scheduleStartTimeInt < 730) {
-					addedCalendarsOff.add('ESP_ANONOVO_DIA');
+				if (hasAnyCalendarMatch) {
+					addedCalendarsOff.add('ESP_PASCOA_DU');
 				}
 
 				/* * * * * * * * * */
