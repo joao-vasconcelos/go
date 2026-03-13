@@ -26,6 +26,7 @@
 		"@mantine/notifications": "7.16.3",
 		"@streamparser/json": "0.0.22",
 		"@tabler/icons-react": "3.35.0",
+		"@tmlmobilidade/dates": "20260309.2221.31",
 		"@tmlmobilidade/interfaces": "20260309.2221.31",
 		"@tmlmobilidade/lib": "20251103.1255.55",
 		"@tmlmobilidade/types": "20260309.2221.31",

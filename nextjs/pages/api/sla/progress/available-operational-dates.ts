@@ -3,7 +3,7 @@
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
 import { rides } from '@tmlmobilidade/interfaces';
-import { Dates } from '@tmlmobilidade/utils';
+import { Dates } from '@tmlmobilidade/dates';
 
 /* * */
 
