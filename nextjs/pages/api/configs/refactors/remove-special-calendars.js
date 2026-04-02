@@ -71,8 +71,8 @@ export default async function handler(req, res) {
 
 			if (patternCode.code.startsWith('1')) continue;
 			if (patternCode.code.startsWith('2')) continue;
-			// if (patternCode.code.startsWith('3')) continue;
-			if (patternCode.code.startsWith('4')) continue;
+			if (patternCode.code.startsWith('3')) continue;
+			// if (patternCode.code.startsWith('4')) continue;
 
 			//
 
