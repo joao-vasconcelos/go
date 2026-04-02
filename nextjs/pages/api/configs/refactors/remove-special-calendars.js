@@ -61,10 +61,14 @@ export default async function handler(req, res) {
 
 		const allCalendarIdsToRemove = new Set(allCalendarCodes.map(item => String(item._id)));
 
+		console.log('All calendar IDs to remove:', allCalendarIdsToRemove);
+
 		const allPatternCodesWithSpecialCalendarsOn = await PatternModel.find({ 'schedules.calendars_on': { $in: Array.from(allCalendarIdsToRemove) } }, '_id code');
 		const allPatternCodesWithSpecialCalendarsOff = await PatternModel.find({ 'schedules.calendars_off': { $in: Array.from(allCalendarIdsToRemove) } }, '_id code');
 
 		const allPatternCodesWithSpecialCalendars = [...allPatternCodesWithSpecialCalendarsOn, ...allPatternCodesWithSpecialCalendarsOff];
+
+		console.log('All pattern codes with special calendars:', allPatternCodesWithSpecialCalendars.map(item => item.code));
 
 		for (const patternCode of allPatternCodesWithSpecialCalendars) {
 			//
