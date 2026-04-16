@@ -5,12 +5,10 @@
 import { AppLayoutSection } from '@/components/AppLayoutSection/AppLayoutSection';
 import UsersExplorerIdPagePermissionsAgencies from '@/components/UsersExplorerIdPagePermissionsAgencies/UsersExplorerIdPagePermissionsAgencies';
 import UsersExplorerIdPagePermissionsArchives from '@/components/UsersExplorerIdPagePermissionsArchives/UsersExplorerIdPagePermissionsArchives';
-import UsersExplorerIdPagePermissionsAudits from '@/components/UsersExplorerIdPagePermissionsAudits/UsersExplorerIdPagePermissionsAudits';
 import UsersExplorerIdPagePermissionsCalendars from '@/components/UsersExplorerIdPagePermissionsCalendars/UsersExplorerIdPagePermissionsCalendars';
 import UsersExplorerIdPagePermissionsConfigs from '@/components/UsersExplorerIdPagePermissionsConfigs/UsersExplorerIdPagePermissionsConfigs';
 import UsersExplorerIdPagePermissionsExports from '@/components/UsersExplorerIdPagePermissionsExports/UsersExplorerIdPagePermissionsExports';
 import UsersExplorerIdPagePermissionsFares from '@/components/UsersExplorerIdPagePermissionsFares/UsersExplorerIdPagePermissionsFares';
-import UsersExplorerIdPagePermissionsFeedback from '@/components/UsersExplorerIdPagePermissionsFeedback/UsersExplorerIdPagePermissionsFeedback';
 import UsersExplorerIdPagePermissionsIssues from '@/components/UsersExplorerIdPagePermissionsIssues/UsersExplorerIdPagePermissionsIssues';
 import UsersExplorerIdPagePermissionsLines from '@/components/UsersExplorerIdPagePermissionsLines/UsersExplorerIdPagePermissionsLines';
 import UsersExplorerIdPagePermissionsMedia from '@/components/UsersExplorerIdPagePermissionsMedia/UsersExplorerIdPagePermissionsMedia';
@@ -48,24 +46,6 @@ export default function UsersExplorerIdPagePermissions() {
 				</Accordion.Control>
 				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsReports />
-				</Accordion.Panel>
-			</Accordion.Item>
-
-			<Accordion.Item value="audits">
-				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection description={t('audits.description')} title={t('audits.title')} />
-				</Accordion.Control>
-				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
-					<UsersExplorerIdPagePermissionsAudits />
-				</Accordion.Panel>
-			</Accordion.Item>
-
-			<Accordion.Item value="feedback">
-				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection description={t('feedback.description')} title={t('feedback.title')} />
-				</Accordion.Control>
-				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
-					<UsersExplorerIdPagePermissionsFeedback />
 				</Accordion.Panel>
 			</Accordion.Item>
 
