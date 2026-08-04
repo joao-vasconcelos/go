@@ -7,7 +7,6 @@ import { ExportDefault } from '@/schemas/Export/default';
 import { ExportModel } from '@/schemas/Export/model';
 import { ExportOptions } from '@/schemas/Export/options';
 import gtfsExportReferenceV29 from '@/scripts/gtfs/gtfs.export.reference_v29';
-import gtfsExportRegionalMergeV1 from '@/scripts/gtfs/gtfs.export.regional_merge_v1';
 import netexExportV1 from '@/scripts/netex/netex.export.v1';
 import reportsSlaExportDefaultV1 from '@/scripts/reports/sla/reports.sla.export.default';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
@@ -256,11 +255,6 @@ export default async function handler(req, res) {
 			// 8.2.2.
 			case 'netex_v1':
 				await netexExportV1(exportDocument, req.body);
-				await update(exportDocument, { progress_current: 1, progress_total: 2 });
-				break;
-			// 8.2.3.
-			case 'regional_merge_v1':
-				await gtfsExportRegionalMergeV1(exportDocument, req.body);
 				await update(exportDocument, { progress_current: 1, progress_total: 2 });
 				break;
 			// 8.2.4.
