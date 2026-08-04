@@ -1,8 +1,8 @@
 /* * */
 
 import { DateModel } from '@/schemas/Date/model';
-import { type OperationalDate } from '@tmlmobilidade/types';
 import { Dates } from '@tmlmobilidade/dates';
+import { type OperationalDate } from '@tmlmobilidade/types';
 
 /* * */
 
