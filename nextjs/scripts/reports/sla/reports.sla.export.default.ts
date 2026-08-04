@@ -258,7 +258,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 			'extension_observed': rideData.extension_observed,
 			'extension_scheduled': rideData.extension_scheduled,
 			'headsign': rideData.headsign,
-			'line_id': rideData.line_id,
+			'line_id': Number(rideData.line_id),
 			'operational_date': rideData.operational_date,
 			'passengers_estimated': rideData.passengers_estimated,
 			'pattern_id': rideData.pattern_id,
