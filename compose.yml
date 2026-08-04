@@ -11,6 +11,8 @@ secrets:
     file: PCGIDB.key
   oci-private-key:
     file: oci-private-key.pem
+  go-tunnel-ssh-key:
+    file: go-tunnel-ssh-key.key
 
 services:
   #
@@ -154,6 +156,7 @@ services:
     secrets:
       - pcgidbkey
       - oci-private-key
+      - go-tunnel-ssh-key
 
   # # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # # #

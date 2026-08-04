@@ -2,8 +2,8 @@
 
 import getSession from '@/authentication/getSession';
 import prepareApiEndpoint from '@/services/prepareApiEndpoint';
-import { rides } from '@tmlmobilidade/interfaces';
 import { Dates } from '@tmlmobilidade/dates';
+import { goDb } from '@tmlmobilidade/go-interfaces-godb';
 
 /* * */
 
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 	// Perform database search
 
 	try {
-		const ridesCollection = await rides.getCollection();
+		const ridesCollection = await goDb.operation.rides.getCollection();
 
 		const latestOperationalDate = Dates.now('Europe/Lisbon').operational_date;
 

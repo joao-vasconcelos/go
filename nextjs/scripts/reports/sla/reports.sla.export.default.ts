@@ -6,7 +6,7 @@
 import { AgencyModel } from '@/schemas/Agency/model';
 import { ExportModel } from '@/schemas/Export/model';
 import CSVWRITER from '@/services/CSVWRITER';
-import { rides } from '@tmlmobilidade/interfaces';
+import { goDb } from '@tmlmobilidade/go-interfaces-godb';
 import { type Ride } from '@tmlmobilidade/types';
 
 /* * */
@@ -233,7 +233,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 	// 1.
 	// Get all stops from the database
 
-	const ridesCollection = await rides.getCollection();
+	const ridesCollection = await goDb.operation.rides.getCollection();
 	const allRidesStream = ridesCollection.find({ agency_id: agencyData.code, operational_date: { $gte: exportOptions.start_date, $lte: exportOptions.end_date } }).stream();
 
 	const defaultCsvWriter = new CSVWRITER('reports.sla.dump-default', { batch_size: 10000 });
