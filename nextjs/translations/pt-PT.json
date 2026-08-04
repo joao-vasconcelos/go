@@ -3851,32 +3851,6 @@
 			"label": "Ver Feedback"
 		}
 	},
-	"UsersExplorerIdPagePermissionsIssues": {
-		"create": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Criar Issues"
-		},
-		"delete": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Eliminar Issues"
-		},
-		"edit": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Editar Issues"
-		},
-		"lock": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Bloquear Issues"
-		},
-		"navigate": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Aceder à página das Issues"
-		},
-		"view": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Ver Issues"
-		}
-	},
 	"UsersExplorerIdPagePermissionsLines": {
 		"create": {
 			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",

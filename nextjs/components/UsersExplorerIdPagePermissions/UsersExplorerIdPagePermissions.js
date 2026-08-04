@@ -9,7 +9,6 @@ import UsersExplorerIdPagePermissionsCalendars from '@/components/UsersExplorerI
 import UsersExplorerIdPagePermissionsConfigs from '@/components/UsersExplorerIdPagePermissionsConfigs/UsersExplorerIdPagePermissionsConfigs';
 import UsersExplorerIdPagePermissionsExports from '@/components/UsersExplorerIdPagePermissionsExports/UsersExplorerIdPagePermissionsExports';
 import UsersExplorerIdPagePermissionsFares from '@/components/UsersExplorerIdPagePermissionsFares/UsersExplorerIdPagePermissionsFares';
-import UsersExplorerIdPagePermissionsIssues from '@/components/UsersExplorerIdPagePermissionsIssues/UsersExplorerIdPagePermissionsIssues';
 import UsersExplorerIdPagePermissionsLines from '@/components/UsersExplorerIdPagePermissionsLines/UsersExplorerIdPagePermissionsLines';
 import UsersExplorerIdPagePermissionsMedia from '@/components/UsersExplorerIdPagePermissionsMedia/UsersExplorerIdPagePermissionsMedia';
 import UsersExplorerIdPagePermissionsMunicipalities from '@/components/UsersExplorerIdPagePermissionsMunicipalities/UsersExplorerIdPagePermissionsMunicipalities';
@@ -46,15 +45,6 @@ export default function UsersExplorerIdPagePermissions() {
 				</Accordion.Control>
 				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsReports />
-				</Accordion.Panel>
-			</Accordion.Item>
-
-			<Accordion.Item value="issues">
-				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection description={t('issues.description')} title={t('issues.title')} />
-				</Accordion.Control>
-				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
-					<UsersExplorerIdPagePermissionsIssues />
 				</Accordion.Panel>
 			</Accordion.Item>
 
