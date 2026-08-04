@@ -4042,32 +4042,6 @@
 			"label": "Ver Paragens"
 		}
 	},
-	"UsersExplorerIdPagePermissionsTags": {
-		"create": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Criar Etiquetas"
-		},
-		"delete": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Eliminar Etiquetas"
-		},
-		"edit": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Editar Etiquetas"
-		},
-		"lock": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Bloquear Etiquetas"
-		},
-		"navigate": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Aceder à página das Etiquetas"
-		},
-		"view": {
-			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",
-			"label": "Ver Etiquetas"
-		}
-	},
 	"UsersExplorerIdPagePermissionsTypologies": {
 		"create": {
 			"description": "Dolore officia dolore aliqua laboris est pariatur non cupidatat sit qui cupidatat adipisicing nulla.",

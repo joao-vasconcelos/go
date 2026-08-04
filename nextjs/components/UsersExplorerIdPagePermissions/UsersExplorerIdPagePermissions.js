@@ -14,7 +14,6 @@ import UsersExplorerIdPagePermissionsMedia from '@/components/UsersExplorerIdPag
 import UsersExplorerIdPagePermissionsMunicipalities from '@/components/UsersExplorerIdPagePermissionsMunicipalities/UsersExplorerIdPagePermissionsMunicipalities';
 import UsersExplorerIdPagePermissionsReports from '@/components/UsersExplorerIdPagePermissionsReports/UsersExplorerIdPagePermissionsReports';
 import UsersExplorerIdPagePermissionsStops from '@/components/UsersExplorerIdPagePermissionsStops/UsersExplorerIdPagePermissionsStops';
-import UsersExplorerIdPagePermissionsTags from '@/components/UsersExplorerIdPagePermissionsTags/UsersExplorerIdPagePermissionsTags';
 import UsersExplorerIdPagePermissionsTypologies from '@/components/UsersExplorerIdPagePermissionsTypologies/UsersExplorerIdPagePermissionsTypologies';
 import UsersExplorerIdPagePermissionsUsers from '@/components/UsersExplorerIdPagePermissionsUsers/UsersExplorerIdPagePermissionsUsers';
 import UsersExplorerIdPagePermissionsZones from '@/components/UsersExplorerIdPagePermissionsZones/UsersExplorerIdPagePermissionsZones';
@@ -135,15 +134,6 @@ export default function UsersExplorerIdPagePermissions() {
 				</Accordion.Control>
 				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
 					<UsersExplorerIdPagePermissionsAgencies />
-				</Accordion.Panel>
-			</Accordion.Item>
-
-			<Accordion.Item value="tags">
-				<Accordion.Control classNames={{ control: styles.accordionControl, label: styles.accordionLabel }}>
-					<AppLayoutSection description={t('tags.description')} title={t('tags.title')} />
-				</Accordion.Control>
-				<Accordion.Panel classNames={{ content: styles.accordionContent, panel: styles.accordionPanel }}>
-					<UsersExplorerIdPagePermissionsTags />
 				</Accordion.Panel>
 			</Accordion.Item>
 
