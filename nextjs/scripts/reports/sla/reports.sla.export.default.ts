@@ -230,11 +230,18 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 	// Update progress
 	await update(progress, { progress_current: 1, progress_total: 2 });
 
+	let agencyIdMap: string;
+	if (agencyData.code === '41') agencyIdMap = 'LA77N';
+	else if (agencyData.code === '42') agencyIdMap = 'BNA17';
+	else if (agencyData.code === '43') agencyIdMap = 'YA15B';
+	else if (agencyData.code === '44') agencyIdMap = 'A2L1N';
+	else throw new Error(`Invalid agency code: ${agencyData.code}`);
+
 	// 1.
 	// Get all stops from the database
 
 	const ridesCollection = await goDb.operation.rides.getCollection();
-	const allRidesStream = ridesCollection.find({ agency_id: agencyData.code, operational_date: { $gte: exportOptions.start_date, $lte: exportOptions.end_date } }).stream();
+	const allRidesStream = ridesCollection.find({ agency_id: agencyIdMap, operational_date: { $gte: exportOptions.start_date, $lte: exportOptions.end_date } }).stream();
 
 	const defaultCsvWriter = new CSVWRITER('reports.sla.dump-default', { batch_size: 10000 });
 
@@ -251,7 +258,7 @@ export default async function reportsSlaExportDefault(progress, exportOptions) {
 		const rideParsed: RideReport = {
 
 			'_id': rideData._id,
-			'agency_id': rideData.agency_id,
+			'agency_id': rideData.agency_code,
 			'driver_ids': rideData.driver_ids?.join('-'),
 			'end_time_observed': rideData.end_time_observed,
 			'end_time_scheduled': rideData.end_time_scheduled,
