@@ -3,11 +3,9 @@
 /* * */
 
 import { Section } from '@/components/Layouts/Layouts';
-import Loader from '@/components/Loader/Loader';
 import { useExportsExplorerContext } from '@/contexts/ExportsExplorerContext';
 import { Divider, Select } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
-import { Dates } from '@tmlmobilidade/dates';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 import useSWR from 'swr';
@@ -27,7 +25,6 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 	// B. Fetch data
 
 	const { data: allAgenciesData } = useSWR('/api/agencies');
-	const { data: availableOperationalDatesData, isLoading: availableOperationalDatesLoading } = useSWR('/api/sla/progress/available-operational-dates');
 
 	//
 	// C. Transform data
@@ -36,17 +33,6 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 		if (!allAgenciesData) return [];
 		return allAgenciesData.map(agency => ({ label: agency.name || '-', value: agency._id }));
 	}, [allAgenciesData]);
-
-	const availableOperationalDates = useMemo(() => {
-		if (!availableOperationalDatesData) return null;
-		return new Set(availableOperationalDatesData);
-	}, [availableOperationalDatesData]);
-
-	const excludedDates = (date) => {
-		if (!availableOperationalDates || !availableOperationalDatesData || !availableOperationalDatesData.length) return true;
-		const dateString = Dates.fromJSDate(date).set({ hour: 10 }).operational_date;
-		return !availableOperationalDates.has(dateString);
-	};
 
 	//
 	// D. Render components
@@ -71,24 +57,18 @@ export default function ExportsExplorerFormSlaDefaultV1() {
 			<Section>
 				<DatePickerInput
 					description={t('form.start_date.description')}
-					excludeDate={excludedDates}
 					label={t('form.start_date.label')}
 					placeholder={t('form.start_date.placeholder')}
 					{...exportsExplorerContext.form_sla_default_v1.getInputProps('start_date')}
-					disabled={availableOperationalDatesLoading}
 					dropdownType="modal"
-					rightSection={availableOperationalDatesLoading ? <Loader size={18} visible /> : null}
 					clearable
 				/>
 				<DatePickerInput
 					description={t('form.end_date.description')}
-					excludeDate={excludedDates}
 					label={t('form.end_date.label')}
 					placeholder={t('form.end_date.placeholder')}
 					{...exportsExplorerContext.form_sla_default_v1.getInputProps('end_date')}
-					disabled={availableOperationalDatesLoading}
 					dropdownType="modal"
-					rightSection={availableOperationalDatesLoading ? <Loader size={18} visible /> : null}
 					clearable
 				/>
 			</Section>
