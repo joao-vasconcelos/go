@@ -5,8 +5,8 @@
 import { CMLogo } from '@/components/AppLogos/AppLogos';
 import Loader from '@/components/Loader/Loader';
 import { useRouter } from '@/translations/navigation';
-import { useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 import appBackground from 'public/background.jpg';
 import { useEffect } from 'react';
 
@@ -47,6 +47,7 @@ export default function AppAuthentication({ children }) {
 				<div className={styles.logoWrapper}>
 					<CMLogo />
 				</div>
+				<p>Provavelmente queres aceder ao GO por aqui: <a href="https://go.tmlmobilidade.pt" target="_blank">go.tmlmobilidade.pt</a></p>
 				<div className={styles.formWrapper}>{status === 'unauthenticated' ? children : <Loader fill visible />}</div>
 			</div>
 		</div>
