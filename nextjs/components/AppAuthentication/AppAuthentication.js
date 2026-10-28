@@ -47,7 +47,10 @@ export default function AppAuthentication({ children }) {
 				<div className={styles.logoWrapper}>
 					<CMLogo />
 				</div>
-				<p>Provavelmente queres aceder ao GO por aqui: <a href="https://go.tmlmobilidade.pt" target="_blank">go.tmlmobilidade.pt</a></p>
+				<div className={styles.linkWrapper}>
+					<p>Provavelmente queres aceder ao GO por aqui:</p>
+					<a href="https://go.tmlmobilidade.pt" target="_blank">go.tmlmobilidade.pt</a>
+				</div>
 				<div className={styles.formWrapper}>{status === 'unauthenticated' ? children : <Loader fill visible />}</div>
 			</div>
 		</div>
